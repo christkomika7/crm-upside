@@ -1,9 +1,12 @@
 import { cors } from "@elysiajs/cors";
-import { env } from "bun";
 
+const allowedOrigins = [
+    "http://localhost:5173",
+    "https://crm.upside-gabon.com"
+];
 
 export const corsPlugin = cors({
-    origin: env.CLIENT_URL!,
+    origin: allowedOrigins,
     methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
     credentials: true,
     allowedHeaders: ["Content-Type", "Authorization"],
