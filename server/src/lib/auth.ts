@@ -41,7 +41,7 @@ export const auth = betterAuth({
         cookiePrefix: "upside",
         crossSubDomainCookies: {
             enabled: true,
-            domain: "crm.upside-gabon.com",
+            domain: "upside-gabon.com",
         }
     },
     plugins: [
