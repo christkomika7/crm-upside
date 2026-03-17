@@ -1,0 +1,333 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+generator prismabox {
+  provider                    = "prismabox"
+  typeboxImportDependencyName = "elysia"
+  typeboxImportVariableName   = "t"
+  inputModel                  = true
+  output                      = "../src/generated/prismabox"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+enum Role {
+  ADMIN
+  USER
+}
+
+enum DeletionType {
+  OWNER
+  BUILDING
+  TENANT
+  UNIT
+  RENTAL
+  RESERVATION
+  PROPERTY_MANAGEMENT
+  INVOICING
+  QUOTE
+  CONTRACT
+  CHECK_IN
+  APPOINTMENT
+  SERVICE_PROVIDER
+  COMMUNICATION
+}
+
+model User {
+  id            String    @id @default(cuid())
+  email         String    @unique
+  createdAt     DateTime  @default(now())
+  firstname     String    @default("")
+  lastname      String    @default("")
+  name          String
+  role          Role      @default(USER)
+  emailVerified Boolean   @default(false)
+  image         String?
+  updatedAt     DateTime  @updatedAt
+  sessions      Session[]
+  accounts      Account[]
+
+  permission Permission?
+  deletions  Deletion[]
+
+  @@map("user")
+}
+
+model Permission {
+  id     String @id @default(cuid())
+  userId String @unique
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  permissions Json
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("permission")
+}
+
+model Tax {
+  id    String @id @default(cuid())
+  name  String
+  value String
+
+  @@map("tax")
+}
+
+model Note {
+  id      String @id @default(cuid())
+  invoice String
+  quote   String
+
+  @@map("note")
+}
+
+model Reference {
+  id        String @id @default(cuid())
+  owner     String
+  building  String
+  unit      String
+  rental    String
+  invoicing String
+  contract  String
+  checkIn   String
+
+  @@map("reference")
+}
+
+model Appearence {
+  id   String @id @default(cuid())
+  logo String
+
+  @@map("appearence")
+}
+
+model Building {
+  id               String   @id @default(cuid())
+  reference        Int      @default(autoincrement())
+  name             String
+  location         String
+  constructionDate DateTime
+  door             Int
+  parkingPrice     Decimal  @default(0) @db.Decimal(15, 2)
+  security         Boolean  @default(false)
+  camera           Boolean  @default(false)
+  elevator         Boolean  @default(false)
+  parking          Boolean  @default(false)
+  pool             Boolean  @default(false)
+  generator        Boolean  @default(false)
+  waterBorehole    Boolean  @default(false)
+  gym              Boolean  @default(false)
+  garden           Boolean  @default(false)
+  status           String[]
+  map              String
+  photos           String[]
+  deeds            String[]
+  documents        String[]
+
+  isDeleting Boolean @default(false)
+
+  lotTypes LotType[]
+  units    Unit[]
+  owners   Owner[]
+  rentals  Rental[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("building")
+}
+
+model Unit {
+  id           String   @id @default(cuid())
+  reference    Int      @default(autoincrement())
+  rentalStatus String
+  surface      String
+  rooms        String
+  rent         Decimal
+  furnished    String
+  wifi         Boolean
+  water        Boolean
+  electricity  Boolean
+  tv           Boolean
+  charges      Decimal
+  documents    String[]
+
+  isDeleting Boolean @default(false)
+
+  rentals Rental[]
+
+  building   Building @relation(fields: [buildingId], references: [id])
+  buildingId String
+
+  typeId String
+  type   Type   @relation(fields: [typeId], references: [id])
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("unit")
+}
+
+model LotType {
+  id   String @id @default(cuid())
+  name String @unique
+
+  building Building[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("lot_type")
+}
+
+model Type {
+  id   String @id @default(cuid())
+  name String @unique
+
+  unit Unit[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("type")
+}
+
+model Owner {
+  id         String @id @default(cuid())
+  reference  Int    @default(autoincrement())
+  firstname  String
+  lastname   String
+  company    String
+  phone      String
+  email      String
+  address    String
+  actionnary String
+
+  isDeleting Boolean @default(false)
+
+  buildings Building[]
+
+  bankInfo  String
+  documents String[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("owner")
+}
+
+model Tenant {
+  id            String   @id @default(cuid())
+  firstname     String
+  lastname      String
+  company       String
+  phone         String
+  email         String
+  address       String
+  maritalStatus String?
+  income        Decimal  @default(0) @db.Decimal(15, 2)
+  bankInfo      String
+  paymentMode   String
+  documents     String[]
+
+  isDeleting Boolean @default(false)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  rentals   Rental[]
+
+  @@map("tenant")
+}
+
+model Rental {
+  id        String @id @default(cuid())
+  reference Int    @default(autoincrement())
+
+  tenantId String
+  tenant   Tenant @relation(fields: [tenantId], references: [id])
+
+  buildingId String
+  building   Building @relation(fields: [buildingId], references: [id])
+
+  unitId String
+  unit   Unit   @relation(fields: [unitId], references: [id])
+
+  isDeleting Boolean @default(false)
+
+  price Decimal  @default(0) @db.Decimal(15, 2)
+  start DateTime
+  end   DateTime
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("rental")
+}
+
+model Deletion {
+  id         String       @id @default(cuid())
+  type       DeletionType
+  recordId   String       @unique
+  isValidate Boolean      @default(false)
+
+  userId String
+  user   User   @relation(fields: [userId], references: [id], onDelete: Restrict)
+
+  updatedAt DateTime @updatedAt
+  createdAt DateTime @default(now())
+
+  @@map("deletion")
+}
+
+model Session {
+  id        String   @id
+  expiresAt DateTime
+  token     String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  ipAddress String?
+  userAgent String?
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([token])
+  @@index([userId])
+  @@map("session")
+}
+
+model Account {
+  id                    String    @id
+  accountId             String
+  providerId            String
+  userId                String
+  user                  User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  accessToken           String?
+  refreshToken          String?
+  idToken               String?
+  accessTokenExpiresAt  DateTime?
+  refreshTokenExpiresAt DateTime?
+  scope                 String?
+  password              String?
+  createdAt             DateTime  @default(now())
+  updatedAt             DateTime  @updatedAt
+
+  @@index([userId])
+  @@map("account")
+}
+
+model Verification {
+  id         String   @id
+  identifier String
+  value      String
+  expiresAt  DateTime
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  @@index([identifier])
+  @@map("verification")
+}
