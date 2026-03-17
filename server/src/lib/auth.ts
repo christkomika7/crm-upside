@@ -61,7 +61,7 @@ export const auth = betterAuth({
             };
         }),
     ],
-    trustedOrigins: [process.env.CLIENT_UR! || "http://localhost:5173"],
+    trustedOrigins: ["https://crm.upside-gabon.com/", "http://localhost:5173"],
 });
 
 
