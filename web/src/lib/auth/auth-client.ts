@@ -7,6 +7,6 @@ export const authClient = createAuthClient({
     baseURL: import.meta.env.BUN_PUBLIC_API_URL || SERVER_HOST,
     plugins: [
         customSessionClient<Auth>()
-    ]
+    ],
 });
 
