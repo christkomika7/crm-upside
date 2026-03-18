@@ -11,9 +11,7 @@ export default {
         lotType: t.Transform(t.String())
             .Decode((value) => JSON.parse(value))
             .Encode((value) => JSON.stringify(value)),
-        door: t.Transform(t.String())
-            .Decode((value) => Number(value))
-            .Encode((value) => value.toString()),
+        door: t.String(),
         elevator: t.Transform(t.String())
             .Decode((value) => JSON.parse(value))
             .Encode((value) => JSON.stringify(value)),
@@ -42,7 +40,9 @@ export default {
             .Decode((value) => JSON.parse(value))
             .Encode((value) => JSON.stringify(value)),
         parkingPrice: t.String(),
-        status: t.String(),
+        status: t.Transform(t.String())
+            .Decode((value) => JSON.parse(value))
+            .Encode((value) => JSON.stringify(value)),
         map: t.String(),
         photos: t.Optional(t.Union([t.Files(), t.Array(t.Files())])),
         deeds: t.Optional(t.Union([t.Files(), t.Array(t.Files())])),

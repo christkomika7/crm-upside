@@ -3,24 +3,64 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "
 import { Input } from "@/components/ui/input";
 import { Spinner } from "@/components/ui/spinner";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useState } from "react"
 import { useForm } from "react-hook-form";
 import { DatePicker } from "@/components/ui/date-picker";
 import { reservationSchema, type ReservationSchemaType } from "@/lib/zod/reservations";
+import { useMutation, useQuery } from "@tanstack/react-query";
+import { apiFetch, crudService } from "@/lib/api";
+import type { Unit } from "@/types/unit";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { toast } from "sonner";
+import { queryClient } from "@/lib/query-client";
 
 
 export default function CreateReservation() {
-    const [isLoading, setIsLoading] = useState(false);
+    const { isPending: isGettingUnits, data: units } = useQuery({
+        queryKey: ["units"],
+        queryFn: () => apiFetch<Unit[]>("/unit/"),
+        select: (data) => data.map((unit) => ({
+            value: unit.id,
+            label: unit.type.name,
+        })),
+    });
+
+    const mutation = useMutation({
+        mutationFn: (data: ReservationSchemaType) =>
+            crudService.post<ReservationSchemaType, any>("/reservation/", data),
+        onSuccess() {
+            toast.success("Reservation créé avec succès");
+            queryClient.invalidateQueries({ queryKey: ["reservations"] });
+            form.reset({
+                name: "",
+                unit: "",
+                contact: "",
+                start: undefined,
+                end: undefined,
+                price: "",
+            });
+        },
+        onError: (error: Error) => {
+            console.error("Erreur:", error.message);
+            toast.error(error.message);
+        },
+    });
 
     const form = useForm<ReservationSchemaType>({
         resolver: zodResolver(reservationSchema),
+        defaultValues: {
+            name: "",
+            unit: "",
+            contact: "",
+            start: undefined,
+            end: undefined,
+            price: "",
+        }
     });
 
     async function submit(formData: ReservationSchemaType) {
         const { success, data } = reservationSchema.safeParse(formData);
         if (success) {
-            setIsLoading(true);
-            console.log({ data });
+            mutation.mutate(data)
         }
     }
 
@@ -35,7 +75,7 @@ export default function CreateReservation() {
                     <div className="grid grid-cols-3 gap-4">
                         <FormField
                             control={form.control}
-                            name="prospect"
+                            name="name"
                             render={({ field }) => (
                                 <FormItem >
                                     <FormLabel className="text-neutral-600">Nom du prospect</FormLabel>
@@ -43,9 +83,45 @@ export default function CreateReservation() {
                                         <Input
                                             placeholder="Entrer le nom du prospect"
                                             value={field.value}
-                                            aria-invalid={!!form.formState.errors.prospect}
+                                            aria-invalid={!!form.formState.errors.name}
                                             onChange={field.onChange}
                                         />
+                                    </FormControl>
+                                    <FormMessage />
+                                </FormItem>
+                            )}
+                        />
+                        <FormField
+                            control={form.control}
+                            name="unit"
+                            render={({ field }) => (
+                                <FormItem >
+                                    <FormLabel className="text-neutral-600">Unité</FormLabel>
+                                    <FormControl>
+                                        <Select
+                                            onValueChange={field.onChange}
+                                            value={field.value} >
+                                            <SelectTrigger className="w-full" aria-invalid={!!form.formState.errors.unit}>
+                                                <SelectValue placeholder="" />
+                                            </SelectTrigger>
+                                            <SelectContent position="popper" align="end">
+                                                {isGettingUnits ? (
+                                                    <div className="flex justify-center items-center">
+                                                        <Spinner />
+                                                    </div>
+                                                ) : units && units.length > 0 ? (
+                                                    units.map((unit) => (
+                                                        <SelectItem key={unit.value} value={unit.value}>
+                                                            {unit.label}
+                                                        </SelectItem>
+                                                    ))
+                                                ) : (
+                                                    <SelectItem value="none" disabled>
+                                                        Aucune unité disponible
+                                                    </SelectItem>
+                                                )}
+                                            </SelectContent>
+                                        </Select>
                                     </FormControl>
                                     <FormMessage />
                                 </FormItem>
@@ -71,12 +147,12 @@ export default function CreateReservation() {
                         />
                         <FormField
                             control={form.control}
-                            name="startDate"
+                            name="start"
                             render={({ field }) => (
                                 <FormItem >
                                     <FormLabel className="text-neutral-600">Date du début</FormLabel>
                                     <FormControl>
-                                        <DatePicker date={field.value} setDate={field.onChange} error={!!form.formState.errors.startDate} hasIcon={true} />
+                                        <DatePicker date={field.value} setDate={field.onChange} error={!!form.formState.errors.start} hasIcon={true} />
                                     </FormControl>
                                     <FormMessage />
                                 </FormItem>
@@ -84,12 +160,12 @@ export default function CreateReservation() {
                         />
                         <FormField
                             control={form.control}
-                            name="endDate"
+                            name="end"
                             render={({ field }) => (
                                 <FormItem >
                                     <FormLabel className="text-neutral-600">Date de fin</FormLabel>
                                     <FormControl>
-                                        <DatePicker date={field.value} setDate={field.onChange} error={!!form.formState.errors.endDate} hasIcon={true} />
+                                        <DatePicker date={field.value} setDate={field.onChange} error={!!form.formState.errors.end} hasIcon={true} />
                                     </FormControl>
                                     <FormMessage />
                                 </FormItem>
@@ -97,7 +173,7 @@ export default function CreateReservation() {
                         />
                         <FormField
                             control={form.control}
-                            name="deposit"
+                            name="price"
                             render={({ field }) => (
                                 <FormItem >
                                     <FormLabel className="text-neutral-600">Prix</FormLabel>
@@ -106,7 +182,7 @@ export default function CreateReservation() {
                                             type="number"
                                             placeholder="Entrer le prix"
                                             value={field.value}
-                                            aria-invalid={!!form.formState.errors.deposit}
+                                            aria-invalid={!!form.formState.errors.price}
                                             onChange={field.onChange}
                                         />
                                     </FormControl>
@@ -118,8 +194,8 @@ export default function CreateReservation() {
                     </div>
 
                     <div className="flex justify-center">
-                        <Button type="submit" variant="action" className="max-w-xl h-11">
-                            {isLoading ? (
+                        <Button disabled={mutation.isPending} type="submit" variant="action" className="max-w-xl h-11">
+                            {mutation.isPending ? (
                                 <span className="flex justify-center items-center">
                                     <Spinner />
                                 </span>

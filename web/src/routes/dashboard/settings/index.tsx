@@ -1,5 +1,6 @@
 import Appearance from '@/components/dashboard/settings/appearance'
 import DefaultText from '@/components/dashboard/settings/default-text'
+import ManageDeletion from '@/components/dashboard/settings/manage-deletion'
 import ReferenceText from '@/components/dashboard/settings/reference-text'
 import Taxes from '@/components/dashboard/settings/taxes'
 import UserManagement from '@/components/dashboard/settings/user-management'
@@ -31,5 +32,6 @@ function RouteComponent() {
     <ReferenceText />
     <Taxes />
     <UserManagement />
+    <ManageDeletion />
   </div>
 }

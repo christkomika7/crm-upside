@@ -67,6 +67,7 @@ export const RentalRelations = t.Object(
         deeds: t.Array(t.String(), { additionalProperties: false }),
         documents: t.Array(t.String(), { additionalProperties: false }),
         isDeleting: t.Boolean(),
+        ownerId: __nullable__(t.String()),
         createdAt: t.Date(),
         updatedAt: t.Date(),
       },

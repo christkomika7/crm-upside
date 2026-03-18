@@ -64,6 +64,7 @@ export const ModelName = {
   Owner: 'Owner',
   Tenant: 'Tenant',
   Rental: 'Rental',
+  Reservation: 'Reservation',
   Deletion: 'Deletion',
   Session: 'Session',
   Account: 'Account',
@@ -176,6 +177,7 @@ export const BuildingScalarFieldEnum = {
   deeds: 'deeds',
   documents: 'documents',
   isDeleting: 'isDeleting',
+  ownerId: 'ownerId',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const
@@ -285,11 +287,27 @@ export const RentalScalarFieldEnum = {
 export type RentalScalarFieldEnum = (typeof RentalScalarFieldEnum)[keyof typeof RentalScalarFieldEnum]
 
 
+export const ReservationScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  contact: 'contact',
+  start: 'start',
+  end: 'end',
+  price: 'price',
+  isDeleting: 'isDeleting',
+  unitId: 'unitId',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type ReservationScalarFieldEnum = (typeof ReservationScalarFieldEnum)[keyof typeof ReservationScalarFieldEnum]
+
+
 export const DeletionScalarFieldEnum = {
   id: 'id',
   type: 'type',
   recordId: 'recordId',
-  isValidate: 'isValidate',
+  state: 'state',
   userId: 'userId',
   updatedAt: 'updatedAt',
   createdAt: 'createdAt'

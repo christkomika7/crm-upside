@@ -10,7 +10,6 @@ export const rentalSchema = z.object({
 }).refine((data) => data.start.getTime() >= data.end.getDate(), {
     path: ['end'],
     error: "La date de fin doit être superieur à la date de début"
-}
-);
+});
 
 export type RentalSchemaType = z.infer<typeof rentalSchema>;

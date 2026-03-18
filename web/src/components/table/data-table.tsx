@@ -33,6 +33,7 @@ import {
 import { PAGE_SIZE } from "@/lib/constant";
 import PaginationInfo from "./pagination-info";
 import { Spinner } from "../ui/spinner";
+import { cn } from "@/lib/utils";
 
 
 type DataTableProps = {
@@ -185,8 +186,11 @@ export default function DataTable({ data = [], columns, filters, isLoading, sort
                                     table.getRowModel().rows?.map((row) => (
                                         <TableRow
                                             key={row.id}
-                                            className="h-11 border-neutral-100"
                                             data-state={row.getIsSelected() && "selected"}
+                                            className={
+                                                cn("h-11 border-neutral-100",
+                                                    { "bg-red-100/60! ": row.original.isDeleting }
+                                                )}
                                         >
                                             {row.getVisibleCells().map((cell) => (
                                                 <TableCell

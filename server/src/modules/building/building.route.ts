@@ -8,6 +8,8 @@ import { Decimal } from "decimal.js"
 import requestType from "./type";
 import { safeSignedUrls } from "../../lib/utils";
 
+
+
 export const buildingRoutes = new Elysia({ prefix: "/building" })
     .use(authPlugin)
     .get("/", async ({ permission, status, server }) => {
@@ -108,7 +110,7 @@ export const buildingRoutes = new Elysia({ prefix: "/building" })
 
     }, { auth: true, params: requestType.params })
     .post("/", async ({ body, permission, status }) => {
-        if (!canAccess(permission, "settings", "create")) {
+        if (!canAccess(permission, "buildings", "create")) {
             return status(403, { message: "Accès refusé" });
         }
 
@@ -214,8 +216,6 @@ export const buildingRoutes = new Elysia({ prefix: "/building" })
             let deeds: string[] = [];
             let documents: string[] = [];
 
-            console.log({ data })
-
             try {
                 photos = await uploadFiles(uploadedKeys, data.photos);
                 deeds = await uploadFiles(uploadedKeys, data.deeds);
@@ -288,33 +288,45 @@ export const buildingRoutes = new Elysia({ prefix: "/building" })
 
 
     }, { auth: true, body: requestType.body, params: requestType.params })
-    .delete("/:id", async ({ params, permission, status }) => {
+    .delete("/:id", async ({ params, permission, status, user }) => {
         if (!canAccess(permission, "buildings", "update")) {
             return status(403, { message: "Accès refusé" });
         }
         const id = params.id;
-        const building = await prisma.building.delete({
+        const building = await prisma.building.findUnique({
             where: { id },
+            include: {
+                units: true,
+                owner: true,
+                rentals: true,
+            }
         });
 
-        if (building.photos) {
-            await Promise.all(building.photos.map(async (key) => {
-                await deleteFile(key)
-            }))
-        }
+        if (!building) return status(400, { message: "Aucun bàtiment trouvée." });
 
-        if (building.deeds) {
-            await Promise.all(building.deeds.map(async (key) => {
-                await deleteFile(key)
-            }))
-        }
+        if (building.units.length > 0) return status(400, { message: "Des unitées sont reliées à ce bâtiment." });
+        if (building.owner) return status(400, { message: `Ce bâtiment est reliés au propriétaire ${building.owner.firstname} ${building.owner.lastname} .` });
+        if (building.units.length > 0) return status(400, { message: "Des locations sont reliées à ce bâtiment." });
 
-        if (building.documents) {
-            await Promise.all(building.documents.map(async (key) => {
-                await deleteFile(key)
-            }))
-        }
+        await prisma.$transaction([
+            prisma.deletion.create({
+                data: {
+                    recordId: building.id,
+                    type: "BUILDING",
+                    state: "WAIT",
+                    user: {
+                        connect: { id: user.id }
+                    }
+                }
+            }),
+            prisma.building.update({
+                where: { id: building.id },
+                data: {
+                    isDeleting: true
+                }
+            })
+        ]);
 
-        return { message: "Bâtiment supprimé avec succès" };
+        return status(200, { message: `Le bàtiment ${building.name} est en attente de suppression.` });
     }, { auth: true })
 

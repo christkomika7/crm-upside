@@ -36,8 +36,7 @@ export function formatDateToString(date: Date) {
     return date.toLocaleDateString("fr-FR", {
         day: "2-digit",
         month: "short",
-        year: "2-digit",
-
+        year: "numeric",
     })
 }
 

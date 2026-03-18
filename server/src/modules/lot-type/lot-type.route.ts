@@ -111,10 +111,23 @@ export const lotTypeRoutes = new Elysia({ prefix: "/lot-type" })
             return status(400, { message: "Aucun identifiant trouvé" });
         }
 
-        return await prisma.lotType.delete({
+        const lotType = await prisma.lotType.findUnique({
+            where: { id: params.id },
+            include: {
+                building: true
+            }
+        });
+
+        if (!lotType) return status(400, { message: "Aucune donnée trouvée." })
+
+        if (lotType.building.length > 0) return status(400, { message: "Des bâtiments sont reliés à ce type de lot." });
+
+        await prisma.lotType.delete({
             where: {
                 id: params.id,
             }
-        })
+        });
+
+        return status(200)
 
     }, { auth: true, params: t.Object({ id: t.String() }) })

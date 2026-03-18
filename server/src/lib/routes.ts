@@ -12,6 +12,7 @@ import { tenantRoutes } from "../modules/tenant/tenant.route";
 import { rentalRoutes } from "../modules/rental/rental.route";
 import { referenceRoutes } from "../modules/reference/reference.route";
 import { deletionRoutes } from "../modules/deletion/deletion.route";
+import { reservationRoutes } from "../modules/reservation/reservation.route";
 
 export const route = new Elysia()
     .use(userRoutes)
@@ -26,3 +27,5 @@ export const route = new Elysia()
     .use(unitRoutes)
     .use(tenantRoutes)
     .use(rentalRoutes)
+    .use(reservationRoutes)
+    .use(deletionRoutes)

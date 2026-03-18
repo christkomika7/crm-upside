@@ -36,7 +36,6 @@ export async function apiClient<TRequest = unknown, TResponse = unknown>(
     { method = "GET", body, headers }: ApiOptions<TRequest> = {}
 ): Promise<ApiResponse<TResponse>> {
     const isFormData = body instanceof FormData;
-
     const response = await fetch(`${BASE_URL}${path}`, {
         method,
         credentials: "include",
@@ -54,7 +53,6 @@ export async function apiClient<TRequest = unknown, TResponse = unknown>(
     const result = await response.json().catch(() => null);
 
     if (!response.ok) {
-        console.log({ result })
         throw new Error(result?.message || "Une erreur est survenue");
     }
 

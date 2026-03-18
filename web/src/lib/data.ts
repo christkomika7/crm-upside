@@ -1,4 +1,5 @@
 import type { CardBalanceProps } from "@/components/card/card-balance";
+import type { DeletionKey, DeletionType } from "@/types/deletion";
 
 export const balances: CardBalanceProps[] = [
     {
@@ -85,3 +86,21 @@ export const paymentMode = [
     { value: "cheque", label: "Chèque" },
     { value: "virement", label: "Virement" },
 ]
+
+
+export const deletionLabels: Record<DeletionKey, string> = {
+    OWNER: "Propriétaire",
+    BUILDING: "Bâtiment",
+    TENANT: "Locataire",
+    UNIT: "Unité",
+    RENTAL: "Location",
+    RESERVATION: "Réservation",
+    PROPERTY_MANAGEMENT: "Gestion immobilière",
+    INVOICING: "Facturation",
+    QUOTE: "Devis",
+    CONTRACT: "Contrat",
+    CHECK_IN: "Check-in",
+    APPOINTMENT: "Rendez-vous",
+    SERVICE_PROVIDER: "Prestataire",
+    COMMUNICATION: "Communication",
+}

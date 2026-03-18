@@ -252,6 +252,13 @@ export type EnumDeletionTypeFilter<$PrismaModel = never> = {
   not?: Prisma.NestedEnumDeletionTypeFilter<$PrismaModel> | $Enums.DeletionType
 }
 
+export type EnumDeletionStateFilter<$PrismaModel = never> = {
+  equals?: $Enums.DeletionState | Prisma.EnumDeletionStateFieldRefInput<$PrismaModel>
+  in?: $Enums.DeletionState[] | Prisma.ListEnumDeletionStateFieldRefInput<$PrismaModel>
+  notIn?: $Enums.DeletionState[] | Prisma.ListEnumDeletionStateFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumDeletionStateFilter<$PrismaModel> | $Enums.DeletionState
+}
+
 export type EnumDeletionTypeWithAggregatesFilter<$PrismaModel = never> = {
   equals?: $Enums.DeletionType | Prisma.EnumDeletionTypeFieldRefInput<$PrismaModel>
   in?: $Enums.DeletionType[] | Prisma.ListEnumDeletionTypeFieldRefInput<$PrismaModel>
@@ -260,6 +267,16 @@ export type EnumDeletionTypeWithAggregatesFilter<$PrismaModel = never> = {
   _count?: Prisma.NestedIntFilter<$PrismaModel>
   _min?: Prisma.NestedEnumDeletionTypeFilter<$PrismaModel>
   _max?: Prisma.NestedEnumDeletionTypeFilter<$PrismaModel>
+}
+
+export type EnumDeletionStateWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.DeletionState | Prisma.EnumDeletionStateFieldRefInput<$PrismaModel>
+  in?: $Enums.DeletionState[] | Prisma.ListEnumDeletionStateFieldRefInput<$PrismaModel>
+  notIn?: $Enums.DeletionState[] | Prisma.ListEnumDeletionStateFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumDeletionStateWithAggregatesFilter<$PrismaModel> | $Enums.DeletionState
+  _count?: Prisma.NestedIntFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumDeletionStateFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumDeletionStateFilter<$PrismaModel>
 }
 
 export type DateTimeNullableFilter<$PrismaModel = never> = {
@@ -511,6 +528,13 @@ export type NestedEnumDeletionTypeFilter<$PrismaModel = never> = {
   not?: Prisma.NestedEnumDeletionTypeFilter<$PrismaModel> | $Enums.DeletionType
 }
 
+export type NestedEnumDeletionStateFilter<$PrismaModel = never> = {
+  equals?: $Enums.DeletionState | Prisma.EnumDeletionStateFieldRefInput<$PrismaModel>
+  in?: $Enums.DeletionState[] | Prisma.ListEnumDeletionStateFieldRefInput<$PrismaModel>
+  notIn?: $Enums.DeletionState[] | Prisma.ListEnumDeletionStateFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumDeletionStateFilter<$PrismaModel> | $Enums.DeletionState
+}
+
 export type NestedEnumDeletionTypeWithAggregatesFilter<$PrismaModel = never> = {
   equals?: $Enums.DeletionType | Prisma.EnumDeletionTypeFieldRefInput<$PrismaModel>
   in?: $Enums.DeletionType[] | Prisma.ListEnumDeletionTypeFieldRefInput<$PrismaModel>
@@ -519,6 +543,16 @@ export type NestedEnumDeletionTypeWithAggregatesFilter<$PrismaModel = never> = {
   _count?: Prisma.NestedIntFilter<$PrismaModel>
   _min?: Prisma.NestedEnumDeletionTypeFilter<$PrismaModel>
   _max?: Prisma.NestedEnumDeletionTypeFilter<$PrismaModel>
+}
+
+export type NestedEnumDeletionStateWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.DeletionState | Prisma.EnumDeletionStateFieldRefInput<$PrismaModel>
+  in?: $Enums.DeletionState[] | Prisma.ListEnumDeletionStateFieldRefInput<$PrismaModel>
+  notIn?: $Enums.DeletionState[] | Prisma.ListEnumDeletionStateFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumDeletionStateWithAggregatesFilter<$PrismaModel> | $Enums.DeletionState
+  _count?: Prisma.NestedIntFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumDeletionStateFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumDeletionStateFilter<$PrismaModel>
 }
 
 export type NestedDateTimeNullableFilter<$PrismaModel = never> = {

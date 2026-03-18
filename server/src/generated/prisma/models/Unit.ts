@@ -327,6 +327,7 @@ export type UnitWhereInput = {
   rentals?: Prisma.RentalListRelationFilter
   building?: Prisma.XOR<Prisma.BuildingScalarRelationFilter, Prisma.BuildingWhereInput>
   type?: Prisma.XOR<Prisma.TypeScalarRelationFilter, Prisma.TypeWhereInput>
+  reservations?: Prisma.ReservationListRelationFilter
 }
 
 export type UnitOrderByWithRelationInput = {
@@ -351,6 +352,7 @@ export type UnitOrderByWithRelationInput = {
   rentals?: Prisma.RentalOrderByRelationAggregateInput
   building?: Prisma.BuildingOrderByWithRelationInput
   type?: Prisma.TypeOrderByWithRelationInput
+  reservations?: Prisma.ReservationOrderByRelationAggregateInput
 }
 
 export type UnitWhereUniqueInput = Prisma.AtLeast<{
@@ -378,6 +380,7 @@ export type UnitWhereUniqueInput = Prisma.AtLeast<{
   rentals?: Prisma.RentalListRelationFilter
   building?: Prisma.XOR<Prisma.BuildingScalarRelationFilter, Prisma.BuildingWhereInput>
   type?: Prisma.XOR<Prisma.TypeScalarRelationFilter, Prisma.TypeWhereInput>
+  reservations?: Prisma.ReservationListRelationFilter
 }, "id">
 
 export type UnitOrderByWithAggregationInput = {
@@ -450,6 +453,7 @@ export type UnitCreateInput = {
   rentals?: Prisma.RentalCreateNestedManyWithoutUnitInput
   building: Prisma.BuildingCreateNestedOneWithoutUnitsInput
   type: Prisma.TypeCreateNestedOneWithoutUnitInput
+  reservations?: Prisma.ReservationCreateNestedManyWithoutUnitInput
 }
 
 export type UnitUncheckedCreateInput = {
@@ -472,6 +476,7 @@ export type UnitUncheckedCreateInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   rentals?: Prisma.RentalUncheckedCreateNestedManyWithoutUnitInput
+  reservations?: Prisma.ReservationUncheckedCreateNestedManyWithoutUnitInput
 }
 
 export type UnitUpdateInput = {
@@ -494,6 +499,7 @@ export type UnitUpdateInput = {
   rentals?: Prisma.RentalUpdateManyWithoutUnitNestedInput
   building?: Prisma.BuildingUpdateOneRequiredWithoutUnitsNestedInput
   type?: Prisma.TypeUpdateOneRequiredWithoutUnitNestedInput
+  reservations?: Prisma.ReservationUpdateManyWithoutUnitNestedInput
 }
 
 export type UnitUncheckedUpdateInput = {
@@ -516,6 +522,7 @@ export type UnitUncheckedUpdateInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   rentals?: Prisma.RentalUncheckedUpdateManyWithoutUnitNestedInput
+  reservations?: Prisma.ReservationUncheckedUpdateManyWithoutUnitNestedInput
 }
 
 export type UnitCreateManyInput = {
@@ -774,6 +781,20 @@ export type UnitUpdateOneRequiredWithoutRentalsNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.UnitUpdateToOneWithWhereWithoutRentalsInput, Prisma.UnitUpdateWithoutRentalsInput>, Prisma.UnitUncheckedUpdateWithoutRentalsInput>
 }
 
+export type UnitCreateNestedOneWithoutReservationsInput = {
+  create?: Prisma.XOR<Prisma.UnitCreateWithoutReservationsInput, Prisma.UnitUncheckedCreateWithoutReservationsInput>
+  connectOrCreate?: Prisma.UnitCreateOrConnectWithoutReservationsInput
+  connect?: Prisma.UnitWhereUniqueInput
+}
+
+export type UnitUpdateOneRequiredWithoutReservationsNestedInput = {
+  create?: Prisma.XOR<Prisma.UnitCreateWithoutReservationsInput, Prisma.UnitUncheckedCreateWithoutReservationsInput>
+  connectOrCreate?: Prisma.UnitCreateOrConnectWithoutReservationsInput
+  upsert?: Prisma.UnitUpsertWithoutReservationsInput
+  connect?: Prisma.UnitWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UnitUpdateToOneWithWhereWithoutReservationsInput, Prisma.UnitUpdateWithoutReservationsInput>, Prisma.UnitUncheckedUpdateWithoutReservationsInput>
+}
+
 export type UnitCreateWithoutBuildingInput = {
   id?: string
   reference?: number
@@ -793,6 +814,7 @@ export type UnitCreateWithoutBuildingInput = {
   updatedAt?: Date | string
   rentals?: Prisma.RentalCreateNestedManyWithoutUnitInput
   type: Prisma.TypeCreateNestedOneWithoutUnitInput
+  reservations?: Prisma.ReservationCreateNestedManyWithoutUnitInput
 }
 
 export type UnitUncheckedCreateWithoutBuildingInput = {
@@ -814,6 +836,7 @@ export type UnitUncheckedCreateWithoutBuildingInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   rentals?: Prisma.RentalUncheckedCreateNestedManyWithoutUnitInput
+  reservations?: Prisma.ReservationUncheckedCreateNestedManyWithoutUnitInput
 }
 
 export type UnitCreateOrConnectWithoutBuildingInput = {
@@ -885,6 +908,7 @@ export type UnitCreateWithoutTypeInput = {
   updatedAt?: Date | string
   rentals?: Prisma.RentalCreateNestedManyWithoutUnitInput
   building: Prisma.BuildingCreateNestedOneWithoutUnitsInput
+  reservations?: Prisma.ReservationCreateNestedManyWithoutUnitInput
 }
 
 export type UnitUncheckedCreateWithoutTypeInput = {
@@ -906,6 +930,7 @@ export type UnitUncheckedCreateWithoutTypeInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   rentals?: Prisma.RentalUncheckedCreateNestedManyWithoutUnitInput
+  reservations?: Prisma.ReservationUncheckedCreateNestedManyWithoutUnitInput
 }
 
 export type UnitCreateOrConnectWithoutTypeInput = {
@@ -953,6 +978,7 @@ export type UnitCreateWithoutRentalsInput = {
   updatedAt?: Date | string
   building: Prisma.BuildingCreateNestedOneWithoutUnitsInput
   type: Prisma.TypeCreateNestedOneWithoutUnitInput
+  reservations?: Prisma.ReservationCreateNestedManyWithoutUnitInput
 }
 
 export type UnitUncheckedCreateWithoutRentalsInput = {
@@ -974,6 +1000,7 @@ export type UnitUncheckedCreateWithoutRentalsInput = {
   typeId: string
   createdAt?: Date | string
   updatedAt?: Date | string
+  reservations?: Prisma.ReservationUncheckedCreateNestedManyWithoutUnitInput
 }
 
 export type UnitCreateOrConnectWithoutRentalsInput = {
@@ -1011,6 +1038,7 @@ export type UnitUpdateWithoutRentalsInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   building?: Prisma.BuildingUpdateOneRequiredWithoutUnitsNestedInput
   type?: Prisma.TypeUpdateOneRequiredWithoutUnitNestedInput
+  reservations?: Prisma.ReservationUpdateManyWithoutUnitNestedInput
 }
 
 export type UnitUncheckedUpdateWithoutRentalsInput = {
@@ -1032,6 +1060,111 @@ export type UnitUncheckedUpdateWithoutRentalsInput = {
   typeId?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  reservations?: Prisma.ReservationUncheckedUpdateManyWithoutUnitNestedInput
+}
+
+export type UnitCreateWithoutReservationsInput = {
+  id?: string
+  reference?: number
+  rentalStatus: string
+  surface: string
+  rooms: string
+  rent: runtime.Decimal | runtime.DecimalJsLike | number | string
+  furnished: string
+  wifi: boolean
+  water: boolean
+  electricity: boolean
+  tv: boolean
+  charges: runtime.Decimal | runtime.DecimalJsLike | number | string
+  documents?: Prisma.UnitCreatedocumentsInput | string[]
+  isDeleting?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  rentals?: Prisma.RentalCreateNestedManyWithoutUnitInput
+  building: Prisma.BuildingCreateNestedOneWithoutUnitsInput
+  type: Prisma.TypeCreateNestedOneWithoutUnitInput
+}
+
+export type UnitUncheckedCreateWithoutReservationsInput = {
+  id?: string
+  reference?: number
+  rentalStatus: string
+  surface: string
+  rooms: string
+  rent: runtime.Decimal | runtime.DecimalJsLike | number | string
+  furnished: string
+  wifi: boolean
+  water: boolean
+  electricity: boolean
+  tv: boolean
+  charges: runtime.Decimal | runtime.DecimalJsLike | number | string
+  documents?: Prisma.UnitCreatedocumentsInput | string[]
+  isDeleting?: boolean
+  buildingId: string
+  typeId: string
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  rentals?: Prisma.RentalUncheckedCreateNestedManyWithoutUnitInput
+}
+
+export type UnitCreateOrConnectWithoutReservationsInput = {
+  where: Prisma.UnitWhereUniqueInput
+  create: Prisma.XOR<Prisma.UnitCreateWithoutReservationsInput, Prisma.UnitUncheckedCreateWithoutReservationsInput>
+}
+
+export type UnitUpsertWithoutReservationsInput = {
+  update: Prisma.XOR<Prisma.UnitUpdateWithoutReservationsInput, Prisma.UnitUncheckedUpdateWithoutReservationsInput>
+  create: Prisma.XOR<Prisma.UnitCreateWithoutReservationsInput, Prisma.UnitUncheckedCreateWithoutReservationsInput>
+  where?: Prisma.UnitWhereInput
+}
+
+export type UnitUpdateToOneWithWhereWithoutReservationsInput = {
+  where?: Prisma.UnitWhereInput
+  data: Prisma.XOR<Prisma.UnitUpdateWithoutReservationsInput, Prisma.UnitUncheckedUpdateWithoutReservationsInput>
+}
+
+export type UnitUpdateWithoutReservationsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  reference?: Prisma.IntFieldUpdateOperationsInput | number
+  rentalStatus?: Prisma.StringFieldUpdateOperationsInput | string
+  surface?: Prisma.StringFieldUpdateOperationsInput | string
+  rooms?: Prisma.StringFieldUpdateOperationsInput | string
+  rent?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  furnished?: Prisma.StringFieldUpdateOperationsInput | string
+  wifi?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  water?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  electricity?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  tv?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  charges?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  documents?: Prisma.UnitUpdatedocumentsInput | string[]
+  isDeleting?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  rentals?: Prisma.RentalUpdateManyWithoutUnitNestedInput
+  building?: Prisma.BuildingUpdateOneRequiredWithoutUnitsNestedInput
+  type?: Prisma.TypeUpdateOneRequiredWithoutUnitNestedInput
+}
+
+export type UnitUncheckedUpdateWithoutReservationsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  reference?: Prisma.IntFieldUpdateOperationsInput | number
+  rentalStatus?: Prisma.StringFieldUpdateOperationsInput | string
+  surface?: Prisma.StringFieldUpdateOperationsInput | string
+  rooms?: Prisma.StringFieldUpdateOperationsInput | string
+  rent?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  furnished?: Prisma.StringFieldUpdateOperationsInput | string
+  wifi?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  water?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  electricity?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  tv?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  charges?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  documents?: Prisma.UnitUpdatedocumentsInput | string[]
+  isDeleting?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  buildingId?: Prisma.StringFieldUpdateOperationsInput | string
+  typeId?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  rentals?: Prisma.RentalUncheckedUpdateManyWithoutUnitNestedInput
 }
 
 export type UnitCreateManyBuildingInput = {
@@ -1073,6 +1206,7 @@ export type UnitUpdateWithoutBuildingInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   rentals?: Prisma.RentalUpdateManyWithoutUnitNestedInput
   type?: Prisma.TypeUpdateOneRequiredWithoutUnitNestedInput
+  reservations?: Prisma.ReservationUpdateManyWithoutUnitNestedInput
 }
 
 export type UnitUncheckedUpdateWithoutBuildingInput = {
@@ -1094,6 +1228,7 @@ export type UnitUncheckedUpdateWithoutBuildingInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   rentals?: Prisma.RentalUncheckedUpdateManyWithoutUnitNestedInput
+  reservations?: Prisma.ReservationUncheckedUpdateManyWithoutUnitNestedInput
 }
 
 export type UnitUncheckedUpdateManyWithoutBuildingInput = {
@@ -1155,6 +1290,7 @@ export type UnitUpdateWithoutTypeInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   rentals?: Prisma.RentalUpdateManyWithoutUnitNestedInput
   building?: Prisma.BuildingUpdateOneRequiredWithoutUnitsNestedInput
+  reservations?: Prisma.ReservationUpdateManyWithoutUnitNestedInput
 }
 
 export type UnitUncheckedUpdateWithoutTypeInput = {
@@ -1176,6 +1312,7 @@ export type UnitUncheckedUpdateWithoutTypeInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   rentals?: Prisma.RentalUncheckedUpdateManyWithoutUnitNestedInput
+  reservations?: Prisma.ReservationUncheckedUpdateManyWithoutUnitNestedInput
 }
 
 export type UnitUncheckedUpdateManyWithoutTypeInput = {
@@ -1205,10 +1342,12 @@ export type UnitUncheckedUpdateManyWithoutTypeInput = {
 
 export type UnitCountOutputType = {
   rentals: number
+  reservations: number
 }
 
 export type UnitCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   rentals?: boolean | UnitCountOutputTypeCountRentalsArgs
+  reservations?: boolean | UnitCountOutputTypeCountReservationsArgs
 }
 
 /**
@@ -1226,6 +1365,13 @@ export type UnitCountOutputTypeDefaultArgs<ExtArgs extends runtime.Types.Extensi
  */
 export type UnitCountOutputTypeCountRentalsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   where?: Prisma.RentalWhereInput
+}
+
+/**
+ * UnitCountOutputType without action
+ */
+export type UnitCountOutputTypeCountReservationsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.ReservationWhereInput
 }
 
 
@@ -1251,6 +1397,7 @@ export type UnitSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   rentals?: boolean | Prisma.Unit$rentalsArgs<ExtArgs>
   building?: boolean | Prisma.BuildingDefaultArgs<ExtArgs>
   type?: boolean | Prisma.TypeDefaultArgs<ExtArgs>
+  reservations?: boolean | Prisma.Unit$reservationsArgs<ExtArgs>
   _count?: boolean | Prisma.UnitCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["unit"]>
 
@@ -1326,6 +1473,7 @@ export type UnitInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = 
   rentals?: boolean | Prisma.Unit$rentalsArgs<ExtArgs>
   building?: boolean | Prisma.BuildingDefaultArgs<ExtArgs>
   type?: boolean | Prisma.TypeDefaultArgs<ExtArgs>
+  reservations?: boolean | Prisma.Unit$reservationsArgs<ExtArgs>
   _count?: boolean | Prisma.UnitCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type UnitIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1343,6 +1491,7 @@ export type $UnitPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
     rentals: Prisma.$RentalPayload<ExtArgs>[]
     building: Prisma.$BuildingPayload<ExtArgs>
     type: Prisma.$TypePayload<ExtArgs>
+    reservations: Prisma.$ReservationPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -1760,6 +1909,7 @@ export interface Prisma__UnitClient<T, Null = never, ExtArgs extends runtime.Typ
   rentals<T extends Prisma.Unit$rentalsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Unit$rentalsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$RentalPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   building<T extends Prisma.BuildingDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.BuildingDefaultArgs<ExtArgs>>): Prisma.Prisma__BuildingClient<runtime.Types.Result.GetResult<Prisma.$BuildingPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   type<T extends Prisma.TypeDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.TypeDefaultArgs<ExtArgs>>): Prisma.Prisma__TypeClient<runtime.Types.Result.GetResult<Prisma.$TypePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+  reservations<T extends Prisma.Unit$reservationsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Unit$reservationsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ReservationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -2229,6 +2379,30 @@ export type Unit$rentalsArgs<ExtArgs extends runtime.Types.Extensions.InternalAr
   take?: number
   skip?: number
   distinct?: Prisma.RentalScalarFieldEnum | Prisma.RentalScalarFieldEnum[]
+}
+
+/**
+ * Unit.reservations
+ */
+export type Unit$reservationsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Reservation
+   */
+  select?: Prisma.ReservationSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Reservation
+   */
+  omit?: Prisma.ReservationOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.ReservationInclude<ExtArgs> | null
+  where?: Prisma.ReservationWhereInput
+  orderBy?: Prisma.ReservationOrderByWithRelationInput | Prisma.ReservationOrderByWithRelationInput[]
+  cursor?: Prisma.ReservationWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.ReservationScalarFieldEnum | Prisma.ReservationScalarFieldEnum[]
 }
 
 /**

@@ -17,6 +17,15 @@ export const Role = {
 export type Role = (typeof Role)[keyof typeof Role]
 
 
+export const DeletionState = {
+  NOTHING: 'NOTHING',
+  WAIT: 'WAIT',
+  TERMINED: 'TERMINED'
+} as const
+
+export type DeletionState = (typeof DeletionState)[keyof typeof DeletionState]
+
+
 export const DeletionType = {
   OWNER: 'OWNER',
   BUILDING: 'BUILDING',

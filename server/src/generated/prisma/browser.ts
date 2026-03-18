@@ -83,6 +83,11 @@ export type Tenant = Prisma.TenantModel
  */
 export type Rental = Prisma.RentalModel
 /**
+ * Model Reservation
+ * 
+ */
+export type Reservation = Prisma.ReservationModel
+/**
  * Model Deletion
  * 
  */

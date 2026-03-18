@@ -28,6 +28,7 @@ export const BuildingPlain = t.Object(
     deeds: t.Array(t.String(), { additionalProperties: false }),
     documents: t.Array(t.String(), { additionalProperties: false }),
     isDeleting: t.Boolean(),
+    ownerId: __nullable__(t.String()),
     createdAt: t.Date(),
     updatedAt: t.Date(),
   },
@@ -74,7 +75,26 @@ export const BuildingRelations = t.Object(
       ),
       { additionalProperties: false },
     ),
-    owners: t.Array(
+    rentals: t.Array(
+      t.Object(
+        {
+          id: t.String(),
+          reference: t.Integer(),
+          tenantId: t.String(),
+          buildingId: t.String(),
+          unitId: t.String(),
+          isDeleting: t.Boolean(),
+          price: t.Number(),
+          start: t.Date(),
+          end: t.Date(),
+          createdAt: t.Date(),
+          updatedAt: t.Date(),
+        },
+        { additionalProperties: false },
+      ),
+      { additionalProperties: false },
+    ),
+    owner: __nullable__(
       t.Object(
         {
           id: t.String(),
@@ -94,26 +114,6 @@ export const BuildingRelations = t.Object(
         },
         { additionalProperties: false },
       ),
-      { additionalProperties: false },
-    ),
-    rentals: t.Array(
-      t.Object(
-        {
-          id: t.String(),
-          reference: t.Integer(),
-          tenantId: t.String(),
-          buildingId: t.String(),
-          unitId: t.String(),
-          isDeleting: t.Boolean(),
-          price: t.Number(),
-          start: t.Date(),
-          end: t.Date(),
-          createdAt: t.Date(),
-          updatedAt: t.Date(),
-        },
-        { additionalProperties: false },
-      ),
-      { additionalProperties: false },
     ),
   },
   { additionalProperties: false },
@@ -207,7 +207,7 @@ export const BuildingRelationsInputCreate = t.Object(
         { additionalProperties: false },
       ),
     ),
-    owners: t.Optional(
+    rentals: t.Optional(
       t.Object(
         {
           connect: t.Array(
@@ -223,16 +223,13 @@ export const BuildingRelationsInputCreate = t.Object(
         { additionalProperties: false },
       ),
     ),
-    rentals: t.Optional(
+    owner: t.Optional(
       t.Object(
         {
-          connect: t.Array(
-            t.Object(
-              {
-                id: t.String({ additionalProperties: false }),
-              },
-              { additionalProperties: false },
-            ),
+          connect: t.Object(
+            {
+              id: t.String({ additionalProperties: false }),
+            },
             { additionalProperties: false },
           ),
         },
@@ -296,7 +293,7 @@ export const BuildingRelationsInputUpdate = t.Partial(
           { additionalProperties: false },
         ),
       ),
-      owners: t.Partial(
+      rentals: t.Partial(
         t.Object(
           {
             connect: t.Array(
@@ -321,27 +318,16 @@ export const BuildingRelationsInputUpdate = t.Partial(
           { additionalProperties: false },
         ),
       ),
-      rentals: t.Partial(
+      owner: t.Partial(
         t.Object(
           {
-            connect: t.Array(
-              t.Object(
-                {
-                  id: t.String({ additionalProperties: false }),
-                },
-                { additionalProperties: false },
-              ),
+            connect: t.Object(
+              {
+                id: t.String({ additionalProperties: false }),
+              },
               { additionalProperties: false },
             ),
-            disconnect: t.Array(
-              t.Object(
-                {
-                  id: t.String({ additionalProperties: false }),
-                },
-                { additionalProperties: false },
-              ),
-              { additionalProperties: false },
-            ),
+            disconnect: t.Boolean(),
           },
           { additionalProperties: false },
         ),
@@ -381,6 +367,7 @@ export const BuildingWhere = t.Partial(
           deeds: t.Array(t.String(), { additionalProperties: false }),
           documents: t.Array(t.String(), { additionalProperties: false }),
           isDeleting: t.Boolean(),
+          ownerId: t.String(),
           createdAt: t.Date(),
           updatedAt: t.Date(),
         },
@@ -440,6 +427,7 @@ export const BuildingWhereUnique = t.Recursive(
               deeds: t.Array(t.String(), { additionalProperties: false }),
               documents: t.Array(t.String(), { additionalProperties: false }),
               isDeleting: t.Boolean(),
+              ownerId: t.String(),
               createdAt: t.Date(),
               updatedAt: t.Date(),
             },
@@ -479,8 +467,9 @@ export const BuildingSelect = t.Partial(
       isDeleting: t.Boolean(),
       lotTypes: t.Boolean(),
       units: t.Boolean(),
-      owners: t.Boolean(),
       rentals: t.Boolean(),
+      ownerId: t.Boolean(),
+      owner: t.Boolean(),
       createdAt: t.Boolean(),
       updatedAt: t.Boolean(),
       _count: t.Boolean(),
@@ -494,8 +483,8 @@ export const BuildingInclude = t.Partial(
     {
       lotTypes: t.Boolean(),
       units: t.Boolean(),
-      owners: t.Boolean(),
       rentals: t.Boolean(),
+      owner: t.Boolean(),
       _count: t.Boolean(),
     },
     { additionalProperties: false },
@@ -569,6 +558,9 @@ export const BuildingOrderBy = t.Partial(
         additionalProperties: false,
       }),
       isDeleting: t.Union([t.Literal("asc"), t.Literal("desc")], {
+        additionalProperties: false,
+      }),
+      ownerId: t.Union([t.Literal("asc"), t.Literal("desc")], {
         additionalProperties: false,
       }),
       createdAt: t.Union([t.Literal("asc"), t.Literal("desc")], {

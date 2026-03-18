@@ -20,6 +20,12 @@ enum Role {
   USER
 }
 
+enum DeletionState {
+  NOTHING
+  WAIT
+  TERMINED
+}
+
 enum DeletionType {
   OWNER
   BUILDING
@@ -133,8 +139,10 @@ model Building {
 
   lotTypes LotType[]
   units    Unit[]
-  owners   Owner[]
   rentals  Rental[]
+
+  ownerId String?
+  owner   Owner?  @relation(fields: [ownerId], references: [id])
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -167,8 +175,9 @@ model Unit {
   typeId String
   type   Type   @relation(fields: [typeId], references: [id])
 
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @updatedAt
+  reservations Reservation[]
 
   @@map("unit")
 }
@@ -269,11 +278,29 @@ model Rental {
   @@map("rental")
 }
 
+model Reservation {
+  id         String   @id @default(cuid())
+  name       String
+  contact    String
+  start      DateTime
+  end        DateTime
+  price      Decimal  @default(0) @db.Decimal(15, 2)
+  isDeleting Boolean  @default(false)
+
+  unitId String
+  unit   Unit   @relation(fields: [unitId], references: [id])
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("reservation")
+}
+
 model Deletion {
-  id         String       @id @default(cuid())
-  type       DeletionType
-  recordId   String       @unique
-  isValidate Boolean      @default(false)
+  id       String        @id @default(cuid())
+  type     DeletionType
+  recordId String        @unique
+  state    DeletionState @default(NOTHING)
 
   userId String
   user   User   @relation(fields: [userId], references: [id], onDelete: Restrict)

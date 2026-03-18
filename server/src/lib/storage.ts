@@ -61,8 +61,6 @@ export function uploadFiles(uploadedKeys: string[], files?: File[]) {
                 const extension = file.name.split('.').pop();
                 const key = `${randomUUID()}.${extension}`;
 
-                console.log({ key })
-
                 await uploadFile(key, buffer, file.type);
                 uploadedKeys.push(key);
 

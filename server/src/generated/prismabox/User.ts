@@ -97,7 +97,10 @@ export const UserRelations = t.Object(
             { additionalProperties: false },
           ),
           recordId: t.String(),
-          isValidate: t.Boolean(),
+          state: t.Union(
+            [t.Literal("NOTHING"), t.Literal("WAIT"), t.Literal("TERMINED")],
+            { additionalProperties: false },
+          ),
           userId: t.String(),
           updatedAt: t.Date(),
           createdAt: t.Date(),

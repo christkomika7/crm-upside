@@ -26,6 +26,7 @@ export default function EditRental({ id }: EditRentalProps) {
 
     const [buildingId, setBuildingId] = useState("");
     const [units, setUnits] = useState<Unit[]>([]);
+    const [pendingUnitId, setPendingUnitId] = useState<string | null>(null);
 
     const { isPending: isGettingBuilding, data: buildings } = useQuery({
         queryKey: ["buildings"],
@@ -84,41 +85,42 @@ export default function EditRental({ id }: EditRentalProps) {
     });
 
     useEffect(() => {
-        if (rental) {
+        if (rental && !firstLoad.current) {
             form.reset({
                 price: rental.price,
                 start: new Date(rental.start),
                 end: new Date(rental.end),
                 building: rental.buildingId,
                 tenant: rental.tenantId,
-                unit: String(rental.unitId)
+                unit: ""
             });
-            mutate(rental.buildingId, {
-                onSuccess() {
-                    if (!firstLoad.current && rental) {
-                        form.setValue("unit", rental.id);
-                        firstLoad.current = true;
-                    }
-                }
-            });
+            setPendingUnitId(String(rental.unitId));
+            mutate(rental.buildingId);
+            firstLoad.current = true;
         }
-    }, [rental])
+    }, [rental]);
+
+    useEffect(() => {
+        if (pendingUnitId && units.length > 0) {
+            form.setValue("unit", pendingUnitId, { shouldValidate: true });
+            setPendingUnitId(null);
+        }
+    }, [units, pendingUnitId]);
 
     const handleUnits = useCallback(() => {
         if (buildingId) {
             mutate(buildingId);
         }
-    }, [buildingId])
-
+    }, [buildingId]);
 
     useEffect(() => {
-        handleUnits()
-    }, [handleUnits])
+        handleUnits();
+    }, [handleUnits]);
 
     async function submit(formData: RentalSchemaType) {
         const { success, data } = rentalSchema.safeParse(formData);
         if (success && rental?.id) {
-            mutation.mutate({ rentalId: rental.id, data })
+            mutation.mutate({ rentalId: rental.id, data });
         }
     }
 
@@ -138,10 +140,10 @@ export default function EditRental({ id }: EditRentalProps) {
                             control={form.control}
                             name="tenant"
                             render={({ field }) => (
-                                <FormItem >
+                                <FormItem>
                                     <FormLabel className="text-neutral-600">Nom du locataire</FormLabel>
                                     <FormControl>
-                                        <Select onValueChange={e => field.onChange(e)} value={field.value} >
+                                        <Select onValueChange={e => field.onChange(e)} value={field.value}>
                                             <SelectTrigger className="w-full" aria-invalid={!!form.formState.errors.tenant}>
                                                 <SelectValue placeholder="" />
                                             </SelectTrigger>
@@ -172,7 +174,7 @@ export default function EditRental({ id }: EditRentalProps) {
                             control={form.control}
                             name="building"
                             render={({ field }) => (
-                                <FormItem >
+                                <FormItem>
                                     <FormLabel className="text-neutral-600">Nom du propriétaire</FormLabel>
                                     <FormControl>
                                         <Select
@@ -180,7 +182,7 @@ export default function EditRental({ id }: EditRentalProps) {
                                                 field.onChange(e);
                                                 setBuildingId(e);
                                             }}
-                                            value={field.value} >
+                                            value={field.value}>
                                             <SelectTrigger className="w-full" aria-invalid={!!form.formState.errors.building}>
                                                 <SelectValue placeholder="" />
                                             </SelectTrigger>
@@ -211,10 +213,10 @@ export default function EditRental({ id }: EditRentalProps) {
                             control={form.control}
                             name="unit"
                             render={({ field }) => (
-                                <FormItem >
-                                    <FormLabel className="text-neutral-600">Unité {JSON.stringify(field.value)}</FormLabel>
+                                <FormItem>
+                                    <FormLabel className="text-neutral-600">Unité</FormLabel>
                                     <FormControl>
-                                        <Select onValueChange={e => field.onChange(e)} value={field.value} >
+                                        <Select onValueChange={e => field.onChange(e)} value={field.value}>
                                             <SelectTrigger className="w-full" aria-invalid={!!form.formState.errors.unit}>
                                                 <SelectValue placeholder="" />
                                             </SelectTrigger>
@@ -245,7 +247,7 @@ export default function EditRental({ id }: EditRentalProps) {
                             control={form.control}
                             name="price"
                             render={({ field }) => (
-                                <FormItem >
+                                <FormItem>
                                     <FormLabel className="text-neutral-600">Prix</FormLabel>
                                     <FormControl>
                                         <Input
@@ -264,7 +266,7 @@ export default function EditRental({ id }: EditRentalProps) {
                             control={form.control}
                             name="start"
                             render={({ field }) => (
-                                <FormItem >
+                                <FormItem>
                                     <FormLabel className="text-neutral-600">Date du début</FormLabel>
                                     <FormControl>
                                         <DatePicker date={field.value} setDate={field.onChange} error={!!form.formState.errors.start} hasIcon={true} />
@@ -277,7 +279,7 @@ export default function EditRental({ id }: EditRentalProps) {
                             control={form.control}
                             name="end"
                             render={({ field }) => (
-                                <FormItem >
+                                <FormItem>
                                     <FormLabel className="text-neutral-600">Date de fin</FormLabel>
                                     <FormControl>
                                         <DatePicker date={field.value} setDate={field.onChange} error={!!form.formState.errors.end} hasIcon={true} />

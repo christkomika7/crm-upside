@@ -28,7 +28,7 @@ export type DeletionMinAggregateOutputType = {
   id: string | null
   type: $Enums.DeletionType | null
   recordId: string | null
-  isValidate: boolean | null
+  state: $Enums.DeletionState | null
   userId: string | null
   updatedAt: Date | null
   createdAt: Date | null
@@ -38,7 +38,7 @@ export type DeletionMaxAggregateOutputType = {
   id: string | null
   type: $Enums.DeletionType | null
   recordId: string | null
-  isValidate: boolean | null
+  state: $Enums.DeletionState | null
   userId: string | null
   updatedAt: Date | null
   createdAt: Date | null
@@ -48,7 +48,7 @@ export type DeletionCountAggregateOutputType = {
   id: number
   type: number
   recordId: number
-  isValidate: number
+  state: number
   userId: number
   updatedAt: number
   createdAt: number
@@ -60,7 +60,7 @@ export type DeletionMinAggregateInputType = {
   id?: true
   type?: true
   recordId?: true
-  isValidate?: true
+  state?: true
   userId?: true
   updatedAt?: true
   createdAt?: true
@@ -70,7 +70,7 @@ export type DeletionMaxAggregateInputType = {
   id?: true
   type?: true
   recordId?: true
-  isValidate?: true
+  state?: true
   userId?: true
   updatedAt?: true
   createdAt?: true
@@ -80,7 +80,7 @@ export type DeletionCountAggregateInputType = {
   id?: true
   type?: true
   recordId?: true
-  isValidate?: true
+  state?: true
   userId?: true
   updatedAt?: true
   createdAt?: true
@@ -163,7 +163,7 @@ export type DeletionGroupByOutputType = {
   id: string
   type: $Enums.DeletionType
   recordId: string
-  isValidate: boolean
+  state: $Enums.DeletionState
   userId: string
   updatedAt: Date
   createdAt: Date
@@ -194,7 +194,7 @@ export type DeletionWhereInput = {
   id?: Prisma.StringFilter<"Deletion"> | string
   type?: Prisma.EnumDeletionTypeFilter<"Deletion"> | $Enums.DeletionType
   recordId?: Prisma.StringFilter<"Deletion"> | string
-  isValidate?: Prisma.BoolFilter<"Deletion"> | boolean
+  state?: Prisma.EnumDeletionStateFilter<"Deletion"> | $Enums.DeletionState
   userId?: Prisma.StringFilter<"Deletion"> | string
   updatedAt?: Prisma.DateTimeFilter<"Deletion"> | Date | string
   createdAt?: Prisma.DateTimeFilter<"Deletion"> | Date | string
@@ -205,7 +205,7 @@ export type DeletionOrderByWithRelationInput = {
   id?: Prisma.SortOrder
   type?: Prisma.SortOrder
   recordId?: Prisma.SortOrder
-  isValidate?: Prisma.SortOrder
+  state?: Prisma.SortOrder
   userId?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
@@ -219,7 +219,7 @@ export type DeletionWhereUniqueInput = Prisma.AtLeast<{
   OR?: Prisma.DeletionWhereInput[]
   NOT?: Prisma.DeletionWhereInput | Prisma.DeletionWhereInput[]
   type?: Prisma.EnumDeletionTypeFilter<"Deletion"> | $Enums.DeletionType
-  isValidate?: Prisma.BoolFilter<"Deletion"> | boolean
+  state?: Prisma.EnumDeletionStateFilter<"Deletion"> | $Enums.DeletionState
   userId?: Prisma.StringFilter<"Deletion"> | string
   updatedAt?: Prisma.DateTimeFilter<"Deletion"> | Date | string
   createdAt?: Prisma.DateTimeFilter<"Deletion"> | Date | string
@@ -230,7 +230,7 @@ export type DeletionOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
   type?: Prisma.SortOrder
   recordId?: Prisma.SortOrder
-  isValidate?: Prisma.SortOrder
+  state?: Prisma.SortOrder
   userId?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
@@ -246,7 +246,7 @@ export type DeletionScalarWhereWithAggregatesInput = {
   id?: Prisma.StringWithAggregatesFilter<"Deletion"> | string
   type?: Prisma.EnumDeletionTypeWithAggregatesFilter<"Deletion"> | $Enums.DeletionType
   recordId?: Prisma.StringWithAggregatesFilter<"Deletion"> | string
-  isValidate?: Prisma.BoolWithAggregatesFilter<"Deletion"> | boolean
+  state?: Prisma.EnumDeletionStateWithAggregatesFilter<"Deletion"> | $Enums.DeletionState
   userId?: Prisma.StringWithAggregatesFilter<"Deletion"> | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"Deletion"> | Date | string
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"Deletion"> | Date | string
@@ -256,7 +256,7 @@ export type DeletionCreateInput = {
   id?: string
   type: $Enums.DeletionType
   recordId: string
-  isValidate?: boolean
+  state?: $Enums.DeletionState
   updatedAt?: Date | string
   createdAt?: Date | string
   user: Prisma.UserCreateNestedOneWithoutDeletionsInput
@@ -266,7 +266,7 @@ export type DeletionUncheckedCreateInput = {
   id?: string
   type: $Enums.DeletionType
   recordId: string
-  isValidate?: boolean
+  state?: $Enums.DeletionState
   userId: string
   updatedAt?: Date | string
   createdAt?: Date | string
@@ -276,7 +276,7 @@ export type DeletionUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   type?: Prisma.EnumDeletionTypeFieldUpdateOperationsInput | $Enums.DeletionType
   recordId?: Prisma.StringFieldUpdateOperationsInput | string
-  isValidate?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  state?: Prisma.EnumDeletionStateFieldUpdateOperationsInput | $Enums.DeletionState
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   user?: Prisma.UserUpdateOneRequiredWithoutDeletionsNestedInput
@@ -286,7 +286,7 @@ export type DeletionUncheckedUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   type?: Prisma.EnumDeletionTypeFieldUpdateOperationsInput | $Enums.DeletionType
   recordId?: Prisma.StringFieldUpdateOperationsInput | string
-  isValidate?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  state?: Prisma.EnumDeletionStateFieldUpdateOperationsInput | $Enums.DeletionState
   userId?: Prisma.StringFieldUpdateOperationsInput | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -296,7 +296,7 @@ export type DeletionCreateManyInput = {
   id?: string
   type: $Enums.DeletionType
   recordId: string
-  isValidate?: boolean
+  state?: $Enums.DeletionState
   userId: string
   updatedAt?: Date | string
   createdAt?: Date | string
@@ -306,7 +306,7 @@ export type DeletionUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   type?: Prisma.EnumDeletionTypeFieldUpdateOperationsInput | $Enums.DeletionType
   recordId?: Prisma.StringFieldUpdateOperationsInput | string
-  isValidate?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  state?: Prisma.EnumDeletionStateFieldUpdateOperationsInput | $Enums.DeletionState
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -315,7 +315,7 @@ export type DeletionUncheckedUpdateManyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   type?: Prisma.EnumDeletionTypeFieldUpdateOperationsInput | $Enums.DeletionType
   recordId?: Prisma.StringFieldUpdateOperationsInput | string
-  isValidate?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  state?: Prisma.EnumDeletionStateFieldUpdateOperationsInput | $Enums.DeletionState
   userId?: Prisma.StringFieldUpdateOperationsInput | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -335,7 +335,7 @@ export type DeletionCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
   type?: Prisma.SortOrder
   recordId?: Prisma.SortOrder
-  isValidate?: Prisma.SortOrder
+  state?: Prisma.SortOrder
   userId?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
@@ -345,7 +345,7 @@ export type DeletionMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
   type?: Prisma.SortOrder
   recordId?: Prisma.SortOrder
-  isValidate?: Prisma.SortOrder
+  state?: Prisma.SortOrder
   userId?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
@@ -355,7 +355,7 @@ export type DeletionMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
   type?: Prisma.SortOrder
   recordId?: Prisma.SortOrder
-  isValidate?: Prisma.SortOrder
+  state?: Prisma.SortOrder
   userId?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
@@ -407,11 +407,15 @@ export type EnumDeletionTypeFieldUpdateOperationsInput = {
   set?: $Enums.DeletionType
 }
 
+export type EnumDeletionStateFieldUpdateOperationsInput = {
+  set?: $Enums.DeletionState
+}
+
 export type DeletionCreateWithoutUserInput = {
   id?: string
   type: $Enums.DeletionType
   recordId: string
-  isValidate?: boolean
+  state?: $Enums.DeletionState
   updatedAt?: Date | string
   createdAt?: Date | string
 }
@@ -420,7 +424,7 @@ export type DeletionUncheckedCreateWithoutUserInput = {
   id?: string
   type: $Enums.DeletionType
   recordId: string
-  isValidate?: boolean
+  state?: $Enums.DeletionState
   updatedAt?: Date | string
   createdAt?: Date | string
 }
@@ -458,7 +462,7 @@ export type DeletionScalarWhereInput = {
   id?: Prisma.StringFilter<"Deletion"> | string
   type?: Prisma.EnumDeletionTypeFilter<"Deletion"> | $Enums.DeletionType
   recordId?: Prisma.StringFilter<"Deletion"> | string
-  isValidate?: Prisma.BoolFilter<"Deletion"> | boolean
+  state?: Prisma.EnumDeletionStateFilter<"Deletion"> | $Enums.DeletionState
   userId?: Prisma.StringFilter<"Deletion"> | string
   updatedAt?: Prisma.DateTimeFilter<"Deletion"> | Date | string
   createdAt?: Prisma.DateTimeFilter<"Deletion"> | Date | string
@@ -468,7 +472,7 @@ export type DeletionCreateManyUserInput = {
   id?: string
   type: $Enums.DeletionType
   recordId: string
-  isValidate?: boolean
+  state?: $Enums.DeletionState
   updatedAt?: Date | string
   createdAt?: Date | string
 }
@@ -477,7 +481,7 @@ export type DeletionUpdateWithoutUserInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   type?: Prisma.EnumDeletionTypeFieldUpdateOperationsInput | $Enums.DeletionType
   recordId?: Prisma.StringFieldUpdateOperationsInput | string
-  isValidate?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  state?: Prisma.EnumDeletionStateFieldUpdateOperationsInput | $Enums.DeletionState
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -486,7 +490,7 @@ export type DeletionUncheckedUpdateWithoutUserInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   type?: Prisma.EnumDeletionTypeFieldUpdateOperationsInput | $Enums.DeletionType
   recordId?: Prisma.StringFieldUpdateOperationsInput | string
-  isValidate?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  state?: Prisma.EnumDeletionStateFieldUpdateOperationsInput | $Enums.DeletionState
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -495,7 +499,7 @@ export type DeletionUncheckedUpdateManyWithoutUserInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   type?: Prisma.EnumDeletionTypeFieldUpdateOperationsInput | $Enums.DeletionType
   recordId?: Prisma.StringFieldUpdateOperationsInput | string
-  isValidate?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  state?: Prisma.EnumDeletionStateFieldUpdateOperationsInput | $Enums.DeletionState
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -506,7 +510,7 @@ export type DeletionSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs
   id?: boolean
   type?: boolean
   recordId?: boolean
-  isValidate?: boolean
+  state?: boolean
   userId?: boolean
   updatedAt?: boolean
   createdAt?: boolean
@@ -517,7 +521,7 @@ export type DeletionSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Exte
   id?: boolean
   type?: boolean
   recordId?: boolean
-  isValidate?: boolean
+  state?: boolean
   userId?: boolean
   updatedAt?: boolean
   createdAt?: boolean
@@ -528,7 +532,7 @@ export type DeletionSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Exte
   id?: boolean
   type?: boolean
   recordId?: boolean
-  isValidate?: boolean
+  state?: boolean
   userId?: boolean
   updatedAt?: boolean
   createdAt?: boolean
@@ -539,13 +543,13 @@ export type DeletionSelectScalar = {
   id?: boolean
   type?: boolean
   recordId?: boolean
-  isValidate?: boolean
+  state?: boolean
   userId?: boolean
   updatedAt?: boolean
   createdAt?: boolean
 }
 
-export type DeletionOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "type" | "recordId" | "isValidate" | "userId" | "updatedAt" | "createdAt", ExtArgs["result"]["deletion"]>
+export type DeletionOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "type" | "recordId" | "state" | "userId" | "updatedAt" | "createdAt", ExtArgs["result"]["deletion"]>
 export type DeletionInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }
@@ -565,7 +569,7 @@ export type $DeletionPayload<ExtArgs extends runtime.Types.Extensions.InternalAr
     id: string
     type: $Enums.DeletionType
     recordId: string
-    isValidate: boolean
+    state: $Enums.DeletionState
     userId: string
     updatedAt: Date
     createdAt: Date
@@ -996,7 +1000,7 @@ export interface DeletionFieldRefs {
   readonly id: Prisma.FieldRef<"Deletion", 'String'>
   readonly type: Prisma.FieldRef<"Deletion", 'DeletionType'>
   readonly recordId: Prisma.FieldRef<"Deletion", 'String'>
-  readonly isValidate: Prisma.FieldRef<"Deletion", 'Boolean'>
+  readonly state: Prisma.FieldRef<"Deletion", 'DeletionState'>
   readonly userId: Prisma.FieldRef<"Deletion", 'String'>
   readonly updatedAt: Prisma.FieldRef<"Deletion", 'DateTime'>
   readonly createdAt: Prisma.FieldRef<"Deletion", 'DateTime'>

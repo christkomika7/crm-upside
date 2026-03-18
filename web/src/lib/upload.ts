@@ -1,5 +1,4 @@
 export async function urlToFile(url: string,): Promise<File> {
-    console.log({ url })
     const res = await fetch(url);
 
     if (!res.ok) {

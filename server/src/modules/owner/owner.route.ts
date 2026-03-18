@@ -157,7 +157,6 @@ export const ownerRoutes = new Elysia({ prefix: "/owner" })
             return status(403, { message: "Accès refusé" });
         }
 
-        console.log({ body })
         const id = params.id;
 
         const owner = await prisma.owner.findUnique({

@@ -383,7 +383,7 @@ export type OwnerCreateInput = {
   documents?: Prisma.OwnerCreatedocumentsInput | string[]
   createdAt?: Date | string
   updatedAt?: Date | string
-  buildings?: Prisma.BuildingCreateNestedManyWithoutOwnersInput
+  buildings?: Prisma.BuildingCreateNestedManyWithoutOwnerInput
 }
 
 export type OwnerUncheckedCreateInput = {
@@ -401,7 +401,7 @@ export type OwnerUncheckedCreateInput = {
   documents?: Prisma.OwnerCreatedocumentsInput | string[]
   createdAt?: Date | string
   updatedAt?: Date | string
-  buildings?: Prisma.BuildingUncheckedCreateNestedManyWithoutOwnersInput
+  buildings?: Prisma.BuildingUncheckedCreateNestedManyWithoutOwnerInput
 }
 
 export type OwnerUpdateInput = {
@@ -419,7 +419,7 @@ export type OwnerUpdateInput = {
   documents?: Prisma.OwnerUpdatedocumentsInput | string[]
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  buildings?: Prisma.BuildingUpdateManyWithoutOwnersNestedInput
+  buildings?: Prisma.BuildingUpdateManyWithoutOwnerNestedInput
 }
 
 export type OwnerUncheckedUpdateInput = {
@@ -437,7 +437,7 @@ export type OwnerUncheckedUpdateInput = {
   documents?: Prisma.OwnerUpdatedocumentsInput | string[]
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  buildings?: Prisma.BuildingUncheckedUpdateManyWithoutOwnersNestedInput
+  buildings?: Prisma.BuildingUncheckedUpdateManyWithoutOwnerNestedInput
 }
 
 export type OwnerCreateManyInput = {
@@ -491,14 +491,9 @@ export type OwnerUncheckedUpdateManyInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
-export type OwnerListRelationFilter = {
-  every?: Prisma.OwnerWhereInput
-  some?: Prisma.OwnerWhereInput
-  none?: Prisma.OwnerWhereInput
-}
-
-export type OwnerOrderByRelationAggregateInput = {
-  _count?: Prisma.SortOrder
+export type OwnerNullableScalarRelationFilter = {
+  is?: Prisma.OwnerWhereInput | null
+  isNot?: Prisma.OwnerWhereInput | null
 }
 
 export type OwnerCountOrderByAggregateInput = {
@@ -558,42 +553,20 @@ export type OwnerSumOrderByAggregateInput = {
   reference?: Prisma.SortOrder
 }
 
-export type OwnerCreateNestedManyWithoutBuildingsInput = {
-  create?: Prisma.XOR<Prisma.OwnerCreateWithoutBuildingsInput, Prisma.OwnerUncheckedCreateWithoutBuildingsInput> | Prisma.OwnerCreateWithoutBuildingsInput[] | Prisma.OwnerUncheckedCreateWithoutBuildingsInput[]
-  connectOrCreate?: Prisma.OwnerCreateOrConnectWithoutBuildingsInput | Prisma.OwnerCreateOrConnectWithoutBuildingsInput[]
-  connect?: Prisma.OwnerWhereUniqueInput | Prisma.OwnerWhereUniqueInput[]
+export type OwnerCreateNestedOneWithoutBuildingsInput = {
+  create?: Prisma.XOR<Prisma.OwnerCreateWithoutBuildingsInput, Prisma.OwnerUncheckedCreateWithoutBuildingsInput>
+  connectOrCreate?: Prisma.OwnerCreateOrConnectWithoutBuildingsInput
+  connect?: Prisma.OwnerWhereUniqueInput
 }
 
-export type OwnerUncheckedCreateNestedManyWithoutBuildingsInput = {
-  create?: Prisma.XOR<Prisma.OwnerCreateWithoutBuildingsInput, Prisma.OwnerUncheckedCreateWithoutBuildingsInput> | Prisma.OwnerCreateWithoutBuildingsInput[] | Prisma.OwnerUncheckedCreateWithoutBuildingsInput[]
-  connectOrCreate?: Prisma.OwnerCreateOrConnectWithoutBuildingsInput | Prisma.OwnerCreateOrConnectWithoutBuildingsInput[]
-  connect?: Prisma.OwnerWhereUniqueInput | Prisma.OwnerWhereUniqueInput[]
-}
-
-export type OwnerUpdateManyWithoutBuildingsNestedInput = {
-  create?: Prisma.XOR<Prisma.OwnerCreateWithoutBuildingsInput, Prisma.OwnerUncheckedCreateWithoutBuildingsInput> | Prisma.OwnerCreateWithoutBuildingsInput[] | Prisma.OwnerUncheckedCreateWithoutBuildingsInput[]
-  connectOrCreate?: Prisma.OwnerCreateOrConnectWithoutBuildingsInput | Prisma.OwnerCreateOrConnectWithoutBuildingsInput[]
-  upsert?: Prisma.OwnerUpsertWithWhereUniqueWithoutBuildingsInput | Prisma.OwnerUpsertWithWhereUniqueWithoutBuildingsInput[]
-  set?: Prisma.OwnerWhereUniqueInput | Prisma.OwnerWhereUniqueInput[]
-  disconnect?: Prisma.OwnerWhereUniqueInput | Prisma.OwnerWhereUniqueInput[]
-  delete?: Prisma.OwnerWhereUniqueInput | Prisma.OwnerWhereUniqueInput[]
-  connect?: Prisma.OwnerWhereUniqueInput | Prisma.OwnerWhereUniqueInput[]
-  update?: Prisma.OwnerUpdateWithWhereUniqueWithoutBuildingsInput | Prisma.OwnerUpdateWithWhereUniqueWithoutBuildingsInput[]
-  updateMany?: Prisma.OwnerUpdateManyWithWhereWithoutBuildingsInput | Prisma.OwnerUpdateManyWithWhereWithoutBuildingsInput[]
-  deleteMany?: Prisma.OwnerScalarWhereInput | Prisma.OwnerScalarWhereInput[]
-}
-
-export type OwnerUncheckedUpdateManyWithoutBuildingsNestedInput = {
-  create?: Prisma.XOR<Prisma.OwnerCreateWithoutBuildingsInput, Prisma.OwnerUncheckedCreateWithoutBuildingsInput> | Prisma.OwnerCreateWithoutBuildingsInput[] | Prisma.OwnerUncheckedCreateWithoutBuildingsInput[]
-  connectOrCreate?: Prisma.OwnerCreateOrConnectWithoutBuildingsInput | Prisma.OwnerCreateOrConnectWithoutBuildingsInput[]
-  upsert?: Prisma.OwnerUpsertWithWhereUniqueWithoutBuildingsInput | Prisma.OwnerUpsertWithWhereUniqueWithoutBuildingsInput[]
-  set?: Prisma.OwnerWhereUniqueInput | Prisma.OwnerWhereUniqueInput[]
-  disconnect?: Prisma.OwnerWhereUniqueInput | Prisma.OwnerWhereUniqueInput[]
-  delete?: Prisma.OwnerWhereUniqueInput | Prisma.OwnerWhereUniqueInput[]
-  connect?: Prisma.OwnerWhereUniqueInput | Prisma.OwnerWhereUniqueInput[]
-  update?: Prisma.OwnerUpdateWithWhereUniqueWithoutBuildingsInput | Prisma.OwnerUpdateWithWhereUniqueWithoutBuildingsInput[]
-  updateMany?: Prisma.OwnerUpdateManyWithWhereWithoutBuildingsInput | Prisma.OwnerUpdateManyWithWhereWithoutBuildingsInput[]
-  deleteMany?: Prisma.OwnerScalarWhereInput | Prisma.OwnerScalarWhereInput[]
+export type OwnerUpdateOneWithoutBuildingsNestedInput = {
+  create?: Prisma.XOR<Prisma.OwnerCreateWithoutBuildingsInput, Prisma.OwnerUncheckedCreateWithoutBuildingsInput>
+  connectOrCreate?: Prisma.OwnerCreateOrConnectWithoutBuildingsInput
+  upsert?: Prisma.OwnerUpsertWithoutBuildingsInput
+  disconnect?: Prisma.OwnerWhereInput | boolean
+  delete?: Prisma.OwnerWhereInput | boolean
+  connect?: Prisma.OwnerWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.OwnerUpdateToOneWithWhereWithoutBuildingsInput, Prisma.OwnerUpdateWithoutBuildingsInput>, Prisma.OwnerUncheckedUpdateWithoutBuildingsInput>
 }
 
 export type OwnerCreatedocumentsInput = {
@@ -644,40 +617,15 @@ export type OwnerCreateOrConnectWithoutBuildingsInput = {
   create: Prisma.XOR<Prisma.OwnerCreateWithoutBuildingsInput, Prisma.OwnerUncheckedCreateWithoutBuildingsInput>
 }
 
-export type OwnerUpsertWithWhereUniqueWithoutBuildingsInput = {
-  where: Prisma.OwnerWhereUniqueInput
+export type OwnerUpsertWithoutBuildingsInput = {
   update: Prisma.XOR<Prisma.OwnerUpdateWithoutBuildingsInput, Prisma.OwnerUncheckedUpdateWithoutBuildingsInput>
   create: Prisma.XOR<Prisma.OwnerCreateWithoutBuildingsInput, Prisma.OwnerUncheckedCreateWithoutBuildingsInput>
+  where?: Prisma.OwnerWhereInput
 }
 
-export type OwnerUpdateWithWhereUniqueWithoutBuildingsInput = {
-  where: Prisma.OwnerWhereUniqueInput
+export type OwnerUpdateToOneWithWhereWithoutBuildingsInput = {
+  where?: Prisma.OwnerWhereInput
   data: Prisma.XOR<Prisma.OwnerUpdateWithoutBuildingsInput, Prisma.OwnerUncheckedUpdateWithoutBuildingsInput>
-}
-
-export type OwnerUpdateManyWithWhereWithoutBuildingsInput = {
-  where: Prisma.OwnerScalarWhereInput
-  data: Prisma.XOR<Prisma.OwnerUpdateManyMutationInput, Prisma.OwnerUncheckedUpdateManyWithoutBuildingsInput>
-}
-
-export type OwnerScalarWhereInput = {
-  AND?: Prisma.OwnerScalarWhereInput | Prisma.OwnerScalarWhereInput[]
-  OR?: Prisma.OwnerScalarWhereInput[]
-  NOT?: Prisma.OwnerScalarWhereInput | Prisma.OwnerScalarWhereInput[]
-  id?: Prisma.StringFilter<"Owner"> | string
-  reference?: Prisma.IntFilter<"Owner"> | number
-  firstname?: Prisma.StringFilter<"Owner"> | string
-  lastname?: Prisma.StringFilter<"Owner"> | string
-  company?: Prisma.StringFilter<"Owner"> | string
-  phone?: Prisma.StringFilter<"Owner"> | string
-  email?: Prisma.StringFilter<"Owner"> | string
-  address?: Prisma.StringFilter<"Owner"> | string
-  actionnary?: Prisma.StringFilter<"Owner"> | string
-  isDeleting?: Prisma.BoolFilter<"Owner"> | boolean
-  bankInfo?: Prisma.StringFilter<"Owner"> | string
-  documents?: Prisma.StringNullableListFilter<"Owner">
-  createdAt?: Prisma.DateTimeFilter<"Owner"> | Date | string
-  updatedAt?: Prisma.DateTimeFilter<"Owner"> | Date | string
 }
 
 export type OwnerUpdateWithoutBuildingsInput = {
@@ -698,23 +646,6 @@ export type OwnerUpdateWithoutBuildingsInput = {
 }
 
 export type OwnerUncheckedUpdateWithoutBuildingsInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  reference?: Prisma.IntFieldUpdateOperationsInput | number
-  firstname?: Prisma.StringFieldUpdateOperationsInput | string
-  lastname?: Prisma.StringFieldUpdateOperationsInput | string
-  company?: Prisma.StringFieldUpdateOperationsInput | string
-  phone?: Prisma.StringFieldUpdateOperationsInput | string
-  email?: Prisma.StringFieldUpdateOperationsInput | string
-  address?: Prisma.StringFieldUpdateOperationsInput | string
-  actionnary?: Prisma.StringFieldUpdateOperationsInput | string
-  isDeleting?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  bankInfo?: Prisma.StringFieldUpdateOperationsInput | string
-  documents?: Prisma.OwnerUpdatedocumentsInput | string[]
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-}
-
-export type OwnerUncheckedUpdateManyWithoutBuildingsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   reference?: Prisma.IntFieldUpdateOperationsInput | number
   firstname?: Prisma.StringFieldUpdateOperationsInput | string

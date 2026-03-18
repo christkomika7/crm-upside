@@ -26,6 +26,7 @@ export type Building = {
     deeds: string[];
     documents: string[];
     lotTypes: LotType[];
+    isDeleting: boolean;
     createdAt: Date;
     updatedAt: Date;
 }

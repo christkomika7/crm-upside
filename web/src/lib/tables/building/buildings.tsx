@@ -10,6 +10,7 @@ import { crudService } from "@/lib/api";
 import { toast } from "sonner";
 import { queryClient } from "@/lib/query-client";
 import { Spinner } from "@/components/ui/spinner";
+import { Activity } from "react";
 
 
 export const columns: ColumnDef<Building>[] = [
@@ -138,9 +139,10 @@ export const columns: ColumnDef<Building>[] = [
             const removeBuilding = useMutation({
                 mutationFn: ({ buildingId }: { buildingId: string }) =>
                     crudService.delete(`/building/${buildingId}`),
-                onSuccess() {
-                    toast.success("Bâtiment supprimée avec succès");
+                onSuccess(data) {
+                    toast.success(data.message);
                     queryClient.invalidateQueries({ queryKey: ["buildings"] });
+                    queryClient.invalidateQueries({ queryKey: ["deletions"] });
                 },
                 onError: (error: Error) => {
                     console.error("Erreur:", error.message);
@@ -150,15 +152,17 @@ export const columns: ColumnDef<Building>[] = [
 
             return (
                 <div className="flex gap-x-2">
-                    <Link to='/dashboard/buildings/edit-building/$id' params={{ id: `edit_building-${row.original.id}` }} >
-                        <Button variant="secondary" className="size-7.5 rounded-lg"><Edit3Icon className="size-3.5" /></Button>
-                    </Link>
-                    <Link to='/dashboard/buildings/$id' params={{ id: `view_building-${row.original.id}` }} >
-                        <Button variant="secondary" className="size-7.5 rounded-lg"><EyeIcon className="size-3.5" /></Button>
-                    </Link>
-                    <Button onClick={() => removeBuilding.mutate({ buildingId: row.original.id })} variant="destructive" className="size-7.5 rounded-lg bg-red-400">
-                        {removeBuilding.isPending ? <Spinner className="text-white size-3.5" /> : <Trash2Icon className="size-3.5" />}
-                    </Button>
+                    <Activity mode={row.original.isDeleting ? "hidden" : 'visible'}>
+                        <Link to='/dashboard/buildings/edit-building/$id' params={{ id: `edit_building-${row.original.id}` }} >
+                            <Button variant="secondary" className="size-7.5 rounded-lg"><Edit3Icon className="size-3.5" /></Button>
+                        </Link>
+                        <Link to='/dashboard/buildings/$id' params={{ id: `view_building-${row.original.id}` }} >
+                            <Button variant="secondary" className="size-7.5 rounded-lg"><EyeIcon className="size-3.5" /></Button>
+                        </Link>
+                        <Button onClick={() => removeBuilding.mutate({ buildingId: row.original.id })} variant="destructive" className="size-7.5 rounded-lg bg-red-400">
+                            {removeBuilding.isPending ? <Spinner className="text-white size-3.5" /> : <Trash2Icon className="size-3.5" />}
+                        </Button>
+                    </Activity>
                 </div>
             )
         },

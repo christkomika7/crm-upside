@@ -1,34 +1,17 @@
 import { Button } from "@/components/ui/button";
+import { Spinner } from "@/components/ui/spinner";
+import { crudService } from "@/lib/api";
+import { queryClient } from "@/lib/query-client";
+import type { ReservationTab } from "@/types/reservation";
+import { useMutation } from "@tanstack/react-query";
 import { Link } from "@tanstack/react-router";
 import type { ColumnDef } from "@tanstack/react-table";
 import { ArrowUpDownIcon, Edit3Icon, EyeIcon, Trash2Icon } from "lucide-react";
+import { toast } from "sonner";
 
-type KeyType = 'id' | 'prospect' | 'unit' | 'startDate' | 'rent' | 'charges' | 'createdAt';
-
-export const data: Record<KeyType, string | string[] | number | Date>[] = [
+export const columns: ColumnDef<ReservationTab>[] = [
     {
-        id: "bdjn9dnjd",
-        prospect: "John Doe",
-        unit: "B-301",
-        startDate: new Date("2025-12-12"),
-        rent: "$7,000",
-        charges: "$7,000",
-        createdAt: new Date("2023-01-15")
-    },
-    {
-        id: "bdjn9dnjd",
-        prospect: "John Mark",
-        unit: "B-303",
-        startDate: new Date("2025-10-12"),
-        rent: "$12,000",
-        charges: "$70,000",
-        createdAt: new Date("2023-02-15")
-    },
-]
-
-export const columns: ColumnDef<Record<KeyType, string | number | Date | string[]>>[] = [
-    {
-        accessorKey: "prospect",
+        accessorKey: "name",
         header: ({ column }) => {
             return (
                 <Button
@@ -42,7 +25,7 @@ export const columns: ColumnDef<Record<KeyType, string | number | Date | string[
             )
         },
         cell: ({ row }) => (
-            <div className="capitalize">{row.getValue("prospect")}</div>
+            <div className="capitalize">{row.getValue("name")}</div>
         ),
     },
     {
@@ -64,7 +47,7 @@ export const columns: ColumnDef<Record<KeyType, string | number | Date | string[
         ),
     },
     {
-        accessorKey: "startDate",
+        accessorKey: "start",
         header: ({ column }) => {
             return (
                 <Button
@@ -78,11 +61,28 @@ export const columns: ColumnDef<Record<KeyType, string | number | Date | string[
             )
         },
         cell: ({ row }) => {
-            const date = new Date(row.original.startDate as Date).toLocaleDateString("fr-FR", {
-                day: '2-digit',
-                month: "short",
-                year: "2-digit"
-            });
+            const date = row.original.start
+            return (
+                <div className="capitalize">{date}</div>
+            )
+        },
+    },
+    {
+        accessorKey: "end",
+        header: ({ column }) => {
+            return (
+                <Button
+                    variant="ghost"
+                    className="text-sm! font-medium cursor-pointer text-left pl-0!"
+                    onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+                >
+                    Date de fin
+                    <ArrowUpDownIcon className="size-3.5 text-neutral-500" />
+                </Button>
+            )
+        },
+        cell: ({ row }) => {
+            const date = row.original.end
             return (
                 <div className="capitalize">{date}</div>
             )
@@ -129,7 +129,19 @@ export const columns: ColumnDef<Record<KeyType, string | number | Date | string[
         header: "Action",
         enableHiding: false,
         cell: ({ row }) => {
-            // const router = useRouter();
+            const removeReservation = useMutation({
+                mutationFn: ({ reservationId }: { reservationId: string }) =>
+                    crudService.delete(`/reservation/${reservationId}`),
+                onSuccess(data) {
+                    toast.success(data.message);
+                    queryClient.invalidateQueries({ queryKey: ["reservations"] });
+                    queryClient.invalidateQueries({ queryKey: ["deletions"] });
+                },
+                onError: (error: Error) => {
+                    console.error("Erreur:", error.message);
+                    toast.error(error.message);
+                },
+            });
             return (
                 <div className="flex gap-x-2">
                     <Link to='/dashboard/reservations/edit-reservation/$id' params={{ id: `edit_reservation-${row.original.id}` }} >
@@ -138,7 +150,9 @@ export const columns: ColumnDef<Record<KeyType, string | number | Date | string[
                     <Link to='/dashboard/reservations/$id' params={{ id: `view_reservation-${row.original.id}` }} >
                         <Button variant="secondary" className="size-7.5 rounded-lg"><EyeIcon className="size-3.5" /></Button>
                     </Link>
-                    <Button variant="destructive" className="size-7.5 rounded-lg bg-red-400"><Trash2Icon className="size-3.5" /></Button>
+                    <Button onClick={() => removeReservation.mutate({ reservationId: row.original.id })} variant="destructive" className="size-7.5 rounded-lg bg-red-400">
+                        {removeReservation.isPending ? <Spinner className="text-white size-3.5" /> : <Trash2Icon className="size-3.5" />}
+                    </Button>
                 </div>
             )
         },

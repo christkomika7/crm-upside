@@ -1,4 +1,5 @@
 export * from "./Role";
+export * from "./DeletionState";
 export * from "./DeletionType";
 export * from "./User";
 export * from "./Permission";
@@ -13,6 +14,7 @@ export * from "./Type";
 export * from "./Owner";
 export * from "./Tenant";
 export * from "./Rental";
+export * from "./Reservation";
 export * from "./Deletion";
 export * from "./Session";
 export * from "./Account";

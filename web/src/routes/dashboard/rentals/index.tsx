@@ -17,9 +17,8 @@ function RouteComponent() {
     queryFn: () => apiFetch<Rental[]>("/rental"),
   });
 
-  console.log({ rentals })
   return <div className='space-y-6'>
-    <ActionHeader title='Ongoing rental' url='/dashboard/rentals/new-rental' type='url' />
+    <ActionHeader title='Nouvelle location' url='/dashboard/rentals/new-rental' type='url' />
     <RentalCards />
     <DataTable data={rentals || []} columns={columns} filters={['']} sort='tenant' isLoading={isPending} />
   </div>

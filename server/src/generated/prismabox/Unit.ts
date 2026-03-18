@@ -73,6 +73,7 @@ export const UnitRelations = t.Object(
         deeds: t.Array(t.String(), { additionalProperties: false }),
         documents: t.Array(t.String(), { additionalProperties: false }),
         isDeleting: t.Boolean(),
+        ownerId: __nullable__(t.String()),
         createdAt: t.Date(),
         updatedAt: t.Date(),
       },
@@ -85,6 +86,24 @@ export const UnitRelations = t.Object(
         createdAt: t.Date(),
         updatedAt: t.Date(),
       },
+      { additionalProperties: false },
+    ),
+    reservations: t.Array(
+      t.Object(
+        {
+          id: t.String(),
+          name: t.String(),
+          contact: t.String(),
+          start: t.Date(),
+          end: t.Date(),
+          price: t.Number(),
+          isDeleting: t.Boolean(),
+          unitId: t.String(),
+          createdAt: t.Date(),
+          updatedAt: t.Date(),
+        },
+        { additionalProperties: false },
+      ),
       { additionalProperties: false },
     ),
   },
@@ -169,6 +188,22 @@ export const UnitRelationsInputCreate = t.Object(
       },
       { additionalProperties: false },
     ),
+    reservations: t.Optional(
+      t.Object(
+        {
+          connect: t.Array(
+            t.Object(
+              {
+                id: t.String({ additionalProperties: false }),
+              },
+              { additionalProperties: false },
+            ),
+            { additionalProperties: false },
+          ),
+        },
+        { additionalProperties: false },
+      ),
+    ),
   },
   { additionalProperties: false },
 );
@@ -222,6 +257,31 @@ export const UnitRelationsInputUpdate = t.Partial(
           ),
         },
         { additionalProperties: false },
+      ),
+      reservations: t.Partial(
+        t.Object(
+          {
+            connect: t.Array(
+              t.Object(
+                {
+                  id: t.String({ additionalProperties: false }),
+                },
+                { additionalProperties: false },
+              ),
+              { additionalProperties: false },
+            ),
+            disconnect: t.Array(
+              t.Object(
+                {
+                  id: t.String({ additionalProperties: false }),
+                },
+                { additionalProperties: false },
+              ),
+              { additionalProperties: false },
+            ),
+          },
+          { additionalProperties: false },
+        ),
       ),
     },
     { additionalProperties: false },
@@ -341,6 +401,7 @@ export const UnitSelect = t.Partial(
       type: t.Boolean(),
       createdAt: t.Boolean(),
       updatedAt: t.Boolean(),
+      reservations: t.Boolean(),
       _count: t.Boolean(),
     },
     { additionalProperties: false },
@@ -353,6 +414,7 @@ export const UnitInclude = t.Partial(
       rentals: t.Boolean(),
       building: t.Boolean(),
       type: t.Boolean(),
+      reservations: t.Boolean(),
       _count: t.Boolean(),
     },
     { additionalProperties: false },

@@ -27,7 +27,10 @@ export const DeletionPlain = t.Object(
       { additionalProperties: false },
     ),
     recordId: t.String(),
-    isValidate: t.Boolean(),
+    state: t.Union(
+      [t.Literal("NOTHING"), t.Literal("WAIT"), t.Literal("TERMINED")],
+      { additionalProperties: false },
+    ),
     userId: t.String(),
     updatedAt: t.Date(),
     createdAt: t.Date(),
@@ -79,7 +82,12 @@ export const DeletionPlainInputCreate = t.Object(
       ],
       { additionalProperties: false },
     ),
-    isValidate: t.Optional(t.Boolean()),
+    state: t.Optional(
+      t.Union(
+        [t.Literal("NOTHING"), t.Literal("WAIT"), t.Literal("TERMINED")],
+        { additionalProperties: false },
+      ),
+    ),
   },
   { additionalProperties: false },
 );
@@ -107,7 +115,12 @@ export const DeletionPlainInputUpdate = t.Object(
         { additionalProperties: false },
       ),
     ),
-    isValidate: t.Optional(t.Boolean()),
+    state: t.Optional(
+      t.Union(
+        [t.Literal("NOTHING"), t.Literal("WAIT"), t.Literal("TERMINED")],
+        { additionalProperties: false },
+      ),
+    ),
   },
   { additionalProperties: false },
 );
@@ -177,7 +190,10 @@ export const DeletionWhere = t.Partial(
             { additionalProperties: false },
           ),
           recordId: t.String(),
-          isValidate: t.Boolean(),
+          state: t.Union(
+            [t.Literal("NOTHING"), t.Literal("WAIT"), t.Literal("TERMINED")],
+            { additionalProperties: false },
+          ),
           userId: t.String(),
           updatedAt: t.Date(),
           createdAt: t.Date(),
@@ -241,7 +257,14 @@ export const DeletionWhereUnique = t.Recursive(
                 { additionalProperties: false },
               ),
               recordId: t.String(),
-              isValidate: t.Boolean(),
+              state: t.Union(
+                [
+                  t.Literal("NOTHING"),
+                  t.Literal("WAIT"),
+                  t.Literal("TERMINED"),
+                ],
+                { additionalProperties: false },
+              ),
               userId: t.String(),
               updatedAt: t.Date(),
               createdAt: t.Date(),
@@ -261,7 +284,7 @@ export const DeletionSelect = t.Partial(
       id: t.Boolean(),
       type: t.Boolean(),
       recordId: t.Boolean(),
-      isValidate: t.Boolean(),
+      state: t.Boolean(),
       userId: t.Boolean(),
       user: t.Boolean(),
       updatedAt: t.Boolean(),
@@ -274,7 +297,12 @@ export const DeletionSelect = t.Partial(
 
 export const DeletionInclude = t.Partial(
   t.Object(
-    { type: t.Boolean(), user: t.Boolean(), _count: t.Boolean() },
+    {
+      type: t.Boolean(),
+      state: t.Boolean(),
+      user: t.Boolean(),
+      _count: t.Boolean(),
+    },
     { additionalProperties: false },
   ),
 );
@@ -286,9 +314,6 @@ export const DeletionOrderBy = t.Partial(
         additionalProperties: false,
       }),
       recordId: t.Union([t.Literal("asc"), t.Literal("desc")], {
-        additionalProperties: false,
-      }),
-      isValidate: t.Union([t.Literal("asc"), t.Literal("desc")], {
         additionalProperties: false,
       }),
       userId: t.Union([t.Literal("asc"), t.Literal("desc")], {
