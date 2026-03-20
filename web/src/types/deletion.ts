@@ -6,6 +6,7 @@ export const DeletionType = {
     RENTAL: "RENTAL",
     RESERVATION: "RESERVATION",
     PROPERTY_MANAGEMENT: "PROPERTY_MANAGEMENT",
+    PRODUCT_SERVICE: "PRODUCT_SERVICE",
     INVOICING: "INVOICING",
     QUOTE: "QUOTE",
     CONTRACT: "CONTRACT",
@@ -24,6 +25,7 @@ export type Deletion = {
     name: string;
     date: string;
     actionBy: string;
+    type: DeletionKey;
 }
 
 export type DeletionAction = "CANCEL" | "DELETE"

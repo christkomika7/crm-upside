@@ -112,6 +112,21 @@ export type Rental = Prisma.RentalModel
  */
 export type Reservation = Prisma.ReservationModel
 /**
+ * Model PropertyManagement
+ * 
+ */
+export type PropertyManagement = Prisma.PropertyManagementModel
+/**
+ * Model ProductService
+ * 
+ */
+export type ProductService = Prisma.ProductServiceModel
+/**
+ * Model PersonalService
+ * 
+ */
+export type PersonalService = Prisma.PersonalServiceModel
+/**
  * Model Deletion
  * 
  */

@@ -34,6 +34,7 @@ enum DeletionType {
   RENTAL
   RESERVATION
   PROPERTY_MANAGEMENT
+  PRODUCT_SERVICE
   INVOICING
   QUOTE
   CONTRACT
@@ -144,8 +145,9 @@ model Building {
   ownerId String?
   owner   Owner?  @relation(fields: [ownerId], references: [id])
 
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  createdAt           DateTime             @default(now())
+  updatedAt           DateTime             @updatedAt
+  propertyManagements PropertyManagement[]
 
   @@map("building")
 }
@@ -175,9 +177,10 @@ model Unit {
   typeId String
   type   Type   @relation(fields: [typeId], references: [id])
 
-  createdAt    DateTime      @default(now())
-  updatedAt    DateTime      @updatedAt
-  reservations Reservation[]
+  createdAt           DateTime             @default(now())
+  updatedAt           DateTime             @updatedAt
+  reservations        Reservation[]
+  propertyManagements PropertyManagement[]
 
   @@map("unit")
 }
@@ -294,6 +297,53 @@ model Reservation {
   updatedAt DateTime @updatedAt
 
   @@map("reservation")
+}
+
+model PropertyManagement {
+  id String @id @default(cuid())
+
+  buildingId String
+  building   Building @relation(fields: [buildingId], references: [id])
+
+  unitId String
+  unit   Unit   @relation(fields: [unitId], references: [id])
+
+  administrativeManagement Boolean           @default(false)
+  technicalManagement      Boolean           @default(false)
+  services                 PersonalService[]
+
+  start        DateTime
+  end          DateTime
+  observations String?
+  active       Boolean  @default(false)
+  isDeleting   Boolean  @default(false)
+
+  createdAt DateTime @default(now())
+
+  @@map("property_management")
+}
+
+model ProductService {
+  id          String  @id @default(cuid())
+  reference   String  @unique
+  description String
+  hasTax      Boolean @default(false)
+  price       Decimal @default(0) @db.Decimal(15, 2)
+  isDeleting  Boolean @default(false)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("product_service")
+}
+
+model PersonalService {
+  id   String @id @default(cuid())
+  name String @unique
+
+  propertyManagements PropertyManagement[]
+
+  @@map("personal_service")
 }
 
 model Deletion {

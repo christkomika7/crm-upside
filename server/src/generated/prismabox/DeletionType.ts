@@ -13,6 +13,7 @@ export const DeletionType = t.Union(
     t.Literal("RENTAL"),
     t.Literal("RESERVATION"),
     t.Literal("PROPERTY_MANAGEMENT"),
+    t.Literal("PRODUCT_SERVICE"),
     t.Literal("INVOICING"),
     t.Literal("QUOTE"),
     t.Literal("CONTRACT"),

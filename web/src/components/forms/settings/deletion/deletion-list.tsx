@@ -14,8 +14,9 @@ export default function DeletionList() {
 
   const { isPending, data } = useQuery<Deletion[]>({
     queryKey: ["deletions", type],
+    enabled: !!type,
     queryFn: () => apiFetch<Deletion[]>(`/deletion/by?type=${type}`),
-
+    staleTime: 0,
   });
 
   return (
@@ -31,7 +32,7 @@ export default function DeletionList() {
               <TabsTrigger
                 key={t}
                 value={t}
-                className="flex-shrink-0 bg-background p-4 text-base font-medium 
+                className="shrink-0 bg-background p-4 text-base font-medium 
                 data-[state=active]:border-primary 
                 dark:data-[state=active]:border-primary 
                 h-full rounded-none border-0 border-b-2 border-transparent 

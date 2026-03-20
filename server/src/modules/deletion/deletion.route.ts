@@ -36,6 +36,7 @@ export const deletionRoutes = new Elysia({ prefix: "/deletion" })
 
                     buildingDeltion.push({
                         id: deletion.id,
+                        type: deletion.type,
                         reference: `${building.reference}`,
                         name: building.name,
                         date: formatDateToString(deletion.createdAt),
@@ -49,7 +50,7 @@ export const deletionRoutes = new Elysia({ prefix: "/deletion" })
             case "RENTAL":
             case "RESERVATION":
                 const reservationParsed = [];
-                let index = 0;
+                let reservationIndex = 0;
                 for (const deletion of deletions) {
                     const reservation = await prisma.reservation.findUnique({
                         where: { id: deletion.recordId }
@@ -59,7 +60,8 @@ export const deletionRoutes = new Elysia({ prefix: "/deletion" })
 
                     reservationParsed.push({
                         id: deletion.id,
-                        reference: `${index + 1}`,
+                        reference: `${reservationIndex + 1}`,
+                        type: deletion.type,
                         name: reservation.name,
                         date: formatDateToString(deletion.createdAt),
                         actionBy: user.name
@@ -67,6 +69,48 @@ export const deletionRoutes = new Elysia({ prefix: "/deletion" })
                 }
                 return reservationParsed;
             case "PROPERTY_MANAGEMENT":
+                const propertyManagementParsed = [];
+                let propertyManagementIndex = 0;
+                for (const deletion of deletions) {
+                    const propertyManagement = await prisma.propertyManagement.findUnique({
+                        where: { id: deletion.recordId },
+                        include: {
+                            unit: true,
+                            building: true
+                        }
+                    });
+
+                    if (!propertyManagement) return status(400, { message: "Aucune gestion de propriété trouvée." });
+
+                    propertyManagementParsed.push({
+                        id: deletion.id,
+                        reference: `${propertyManagementIndex + 1}`,
+                        type: deletion.type,
+                        name: propertyManagement.building.name + " - " + propertyManagement.unit.reference,
+                        date: formatDateToString(deletion.createdAt),
+                        actionBy: user.name
+                    });
+                }
+                return propertyManagementParsed;
+            case "PRODUCT_SERVICE":
+                const productServiceParsed = [];
+                for (const deletion of deletions) {
+                    const productService = await prisma.productService.findUnique({
+                        where: { id: deletion.recordId },
+                    });
+
+                    if (!productService) return status(400, { message: "Aucun service ou produit trouvé." });
+
+                    productServiceParsed.push({
+                        id: deletion.id,
+                        reference: productService.reference,
+                        type: deletion.type,
+                        name: "-",
+                        date: formatDateToString(deletion.createdAt),
+                        actionBy: user.name
+                    });
+                }
+                return productServiceParsed;
             case "INVOICING":
             case "QUOTE":
             case "CONTRACT":
@@ -125,6 +169,31 @@ export const deletionRoutes = new Elysia({ prefix: "/deletion" })
                         case "RENTAL":
                         case "RESERVATION":
                         case "PROPERTY_MANAGEMENT":
+                            await prisma.$transaction([
+                                prisma.propertyManagement.update({
+                                    where: { id: deletion.recordId },
+                                    data: {
+                                        isDeleting: false
+                                    }
+                                }),
+                                prisma.deletion.delete({
+                                    where: { id: deletion.id }
+                                })
+                            ]);
+                            return status(200, { message: `La suppression de la gestion de propriété a été annulé avec succès.` });
+                        case "PRODUCT_SERVICE":
+                            const [productService] = await prisma.$transaction([
+                                prisma.productService.update({
+                                    where: { id: deletion.recordId },
+                                    data: {
+                                        isDeleting: false
+                                    }
+                                }),
+                                prisma.deletion.delete({
+                                    where: { id: deletion.id }
+                                })
+                            ]);
+                            return status(200, { message: `La suppression du service ou produit ${productService.reference} a été annulé avec succès.` });
                         case "INVOICING":
                         case "QUOTE":
                         case "CONTRACT":
@@ -205,6 +274,49 @@ export const deletionRoutes = new Elysia({ prefix: "/deletion" })
 
                             return status(200, { message: `La réservation de ${reservation.name} a été supprimé avec succès.` });
                         case "PROPERTY_MANAGEMENT":
+                            const propertyManagement = await prisma.propertyManagement.findUnique({
+                                where: { id: deletion.recordId },
+                                include: {
+                                    unit: true,
+                                    building: true
+                                }
+                            });
+
+                            if (!propertyManagement) return status(400, { message: "Aucune gestion de propriété trouvée." })
+
+                            await prisma.$transaction([
+                                prisma.deletion.update({
+                                    where: {
+                                        id: deletion.id
+                                    },
+                                    data: {
+                                        state: "TERMINED"
+                                    }
+                                }),
+                                prisma.propertyManagement.delete({ where: { id: propertyManagement.id } })
+                            ])
+
+                            return status(200, { message: `La gestion de propriété de ${propertyManagement.building.name} a été supprimé avec succès.` });
+                        case "PRODUCT_SERVICE":
+                            const productService = await prisma.productService.findUnique({
+                                where: { id: deletion.recordId },
+                            });
+
+                            if (!productService) return status(400, { message: "Aucun service ou produit trouvé." })
+
+                            await prisma.$transaction([
+                                prisma.deletion.update({
+                                    where: {
+                                        id: deletion.id
+                                    },
+                                    data: {
+                                        state: "TERMINED"
+                                    }
+                                }),
+                                prisma.productService.delete({ where: { id: productService.id } })
+                            ])
+
+                            return status(200, { message: `Le service ou produit ${productService.reference} a été supprimé avec succès.` });
                         case "INVOICING":
                         case "QUOTE":
                         case "CONTRACT":

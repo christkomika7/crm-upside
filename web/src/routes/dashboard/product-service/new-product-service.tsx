@@ -1,0 +1,16 @@
+import CreateProductService from '@/components/forms/product-service/create'
+import ActionHeader from '@/components/header/action-header'
+import { createFileRoute } from '@tanstack/react-router'
+
+export const Route = createFileRoute(
+    '/dashboard/product-service/new-product-service',
+)({
+    component: RouteComponent,
+})
+
+function RouteComponent() {
+    return <div className='space-y-6'>
+        <ActionHeader />
+        <CreateProductService />
+    </div>
+}

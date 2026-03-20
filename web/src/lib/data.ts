@@ -96,6 +96,7 @@ export const deletionLabels: Record<DeletionKey, string> = {
     RENTAL: "Location",
     RESERVATION: "Réservation",
     PROPERTY_MANAGEMENT: "Gestion immobilière",
+    PRODUCT_SERVICE: "Produit | Service",
     INVOICING: "Facturation",
     QUOTE: "Devis",
     CONTRACT: "Contrat",

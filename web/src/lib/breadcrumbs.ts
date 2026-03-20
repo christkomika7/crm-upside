@@ -6,7 +6,9 @@ export type BreadcrumbKey =
     "rentals" | "new-rental" | "edit_rental" | "view_rental" |
     "reservations" | "new-reservation" | "edit_reservation" | "view_reservation" |
     "property-management" | "new-property" | "edit_property" | "view_property" |
+    "product-service" | "new-product-service" | "edit_product-service" | "view_product-service" |
     "invoices" | "new-invoice" | "edit_invoice" | "view_invoice" |
+    "quotes" | "new-quote" | "edit_quote" | "view_quote" |
     "contracts" | "new-contract" | "edit_contract" | "view_contract" |
     "reports" | "new-report" | "edit_report" | "view_report" |
     "accounting" | "new-accounting" | "edit_accounting" | "view_accounting" |
@@ -62,11 +64,23 @@ export const breadcrumbs: Record<BreadcrumbKey, string> = {
     'edit_property': "Modification du bien",
     'view_property': "Profil du bien",
 
+    // Product | Service
+    'product-service': "Gestion des produits | services",
+    'new-product-service': "Nouveau produit | service",
+    'edit_product-service': "Modification du produit | service",
+    'view_product-service': "Profil du produit | service",
+
     // Invoices
     'invoices': "Gestion des factures",
     'new-invoice': "Nouvelle facture",
     'edit_invoice': "Modification de la facture",
     'view_invoice': "Information sur la facture",
+
+    // Quotes
+    'quotes': "Gestion des devis",
+    'new-quote': "Nouveau devis",
+    'edit_quote': "Modification du devis",
+    'view_quote': "Information sur le devis",
 
     // Contracts
     'contracts': "Contracts/Mandates",

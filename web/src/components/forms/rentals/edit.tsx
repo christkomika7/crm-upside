@@ -3,7 +3,7 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "
 import { Input } from "@/components/ui/input";
 import { Spinner } from "@/components/ui/spinner";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Activity, useCallback, useEffect, useRef, useState } from "react"
+import { Activity, useEffect, useState } from "react"
 import { useForm } from "react-hook-form";
 import { rentalSchema, type RentalSchemaType } from "@/lib/zod/rentals";
 import { DatePicker } from "@/components/ui/date-picker";
@@ -22,11 +22,7 @@ type EditRentalProps = {
 }
 
 export default function EditRental({ id }: EditRentalProps) {
-    const firstLoad = useRef(false);
-
     const [buildingId, setBuildingId] = useState("");
-    const [units, setUnits] = useState<Unit[]>([]);
-    const [pendingUnitId, setPendingUnitId] = useState<string | null>(null);
 
     const { isPending: isGettingBuilding, data: buildings } = useQuery({
         queryKey: ["buildings"],
@@ -46,12 +42,20 @@ export default function EditRental({ id }: EditRentalProps) {
         })),
     });
 
-    const { isPending: isGettingUnit, mutate } = useMutation({
-        mutationFn: (buildingId: string) =>
-            crudService.get<Unit[]>(`/unit/by?id=${buildingId}`),
-        onSuccess(data) {
-            setUnits(data.data);
+    const { isPending: isGettingUnits, data: units = [] } = useQuery({
+        queryKey: ["units", buildingId],
+        queryFn: () => {
+            if (!buildingId || buildingId.trim() === "") {
+                return Promise.resolve([]);
+            }
+            return apiFetch<Unit[]>(`/unit/by?id=${buildingId}`);
         },
+        enabled: typeof buildingId === "string" && buildingId.trim() !== "",
+        select: (data) =>
+            data.map((unit) => ({
+                value: unit.id,
+                label: unit.type.name,
+            })),
     });
 
     const { isPending: isGettingRental, data: rental } = useQuery<Rental>({
@@ -85,7 +89,7 @@ export default function EditRental({ id }: EditRentalProps) {
     });
 
     useEffect(() => {
-        if (rental && !firstLoad.current) {
+        if (rental) {
             form.reset({
                 price: rental.price,
                 start: new Date(rental.start),
@@ -94,28 +98,18 @@ export default function EditRental({ id }: EditRentalProps) {
                 tenant: rental.tenantId,
                 unit: ""
             });
-            setPendingUnitId(String(rental.unitId));
-            mutate(rental.buildingId);
-            firstLoad.current = true;
+            setBuildingId(rental.buildingId);
         }
     }, [rental]);
 
     useEffect(() => {
-        if (pendingUnitId && units.length > 0) {
-            form.setValue("unit", pendingUnitId, { shouldValidate: true });
-            setPendingUnitId(null);
+        if (units.length > 0 && rental?.unitId && !form.getValues("unit")) {
+            form.setValue("unit", rental.unitId, { shouldValidate: true });
         }
-    }, [units, pendingUnitId]);
+    }, [units, rental]);
 
-    const handleUnits = useCallback(() => {
-        if (buildingId) {
-            mutate(buildingId);
-        }
-    }, [buildingId]);
 
-    useEffect(() => {
-        handleUnits();
-    }, [handleUnits]);
+
 
     async function submit(formData: RentalSchemaType) {
         const { success, data } = rentalSchema.safeParse(formData);
@@ -216,19 +210,19 @@ export default function EditRental({ id }: EditRentalProps) {
                                 <FormItem>
                                     <FormLabel className="text-neutral-600">Unité</FormLabel>
                                     <FormControl>
-                                        <Select onValueChange={e => field.onChange(e)} value={field.value}>
+                                        <Select onValueChange={e => field.onChange(e)} value={field.value} disabled={!buildingId}>
                                             <SelectTrigger className="w-full" aria-invalid={!!form.formState.errors.unit}>
                                                 <SelectValue placeholder="" />
                                             </SelectTrigger>
                                             <SelectContent position="popper" align="end">
-                                                {isGettingUnit ? (
+                                                {isGettingUnits ? (
                                                     <div className="flex justify-center items-center">
                                                         <Spinner />
                                                     </div>
                                                 ) : units && units.length > 0 ? (
                                                     units.map((unit) => (
-                                                        <SelectItem key={unit.id} value={unit.id}>
-                                                            {unit.type.name}
+                                                        <SelectItem key={unit.value} value={unit.value}>
+                                                            {unit.label}
                                                         </SelectItem>
                                                     ))
                                                 ) : (

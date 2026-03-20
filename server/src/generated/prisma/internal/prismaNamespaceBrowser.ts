@@ -65,6 +65,9 @@ export const ModelName = {
   Tenant: 'Tenant',
   Rental: 'Rental',
   Reservation: 'Reservation',
+  PropertyManagement: 'PropertyManagement',
+  ProductService: 'ProductService',
+  PersonalService: 'PersonalService',
   Deletion: 'Deletion',
   Session: 'Session',
   Account: 'Account',
@@ -301,6 +304,45 @@ export const ReservationScalarFieldEnum = {
 } as const
 
 export type ReservationScalarFieldEnum = (typeof ReservationScalarFieldEnum)[keyof typeof ReservationScalarFieldEnum]
+
+
+export const PropertyManagementScalarFieldEnum = {
+  id: 'id',
+  buildingId: 'buildingId',
+  unitId: 'unitId',
+  administrativeManagement: 'administrativeManagement',
+  technicalManagement: 'technicalManagement',
+  start: 'start',
+  end: 'end',
+  observations: 'observations',
+  active: 'active',
+  isDeleting: 'isDeleting',
+  createdAt: 'createdAt'
+} as const
+
+export type PropertyManagementScalarFieldEnum = (typeof PropertyManagementScalarFieldEnum)[keyof typeof PropertyManagementScalarFieldEnum]
+
+
+export const ProductServiceScalarFieldEnum = {
+  id: 'id',
+  reference: 'reference',
+  description: 'description',
+  hasTax: 'hasTax',
+  price: 'price',
+  isDeleting: 'isDeleting',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type ProductServiceScalarFieldEnum = (typeof ProductServiceScalarFieldEnum)[keyof typeof ProductServiceScalarFieldEnum]
+
+
+export const PersonalServiceScalarFieldEnum = {
+  id: 'id',
+  name: 'name'
+} as const
+
+export type PersonalServiceScalarFieldEnum = (typeof PersonalServiceScalarFieldEnum)[keyof typeof PersonalServiceScalarFieldEnum]
 
 
 export const DeletionScalarFieldEnum = {

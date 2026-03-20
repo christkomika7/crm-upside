@@ -92,11 +92,31 @@ export const columns: ColumnDef<Deletion>[] = [
             const action = useMutation({
                 mutationFn: ({ deletionId, data }: { deletionId: string, data: DeletionAction }) =>
                     crudService.put(`/deletion/${deletionId}`, data),
-                onSuccess(data) {
+                async onSuccess(data) {
                     toast.success(data.message);
-                    queryClient.invalidateQueries({ queryKey: ["deletions"] });
-                    queryClient.invalidateQueries({ queryKey: ["buildings"] })
 
+                    const typeQueryKeyMap: Record<string, string> = {
+                        OWNER: "owners",
+                        TENANT: "tenants",
+                        UNIT: "units",
+                        RENTAL: "rentals",
+                        RESERVATION: "reservations",
+                        BUILDING: "buildings",
+                        PROPERTY_MANAGEMENT: "property-managements",
+                        INVOICING: "invoicings",
+                        QUOTE: "quotes",
+                        CONTRACT: "contracts",
+                    };
+
+                    const relatedQueryKey = typeQueryKeyMap[row.original.type];
+
+                    await Promise.all([
+                        ...(relatedQueryKey
+                            ? [queryClient.invalidateQueries({ queryKey: [relatedQueryKey] })]
+                            : []
+                        ),
+                        queryClient.invalidateQueries({ queryKey: ["deletions"] }),
+                    ]);
                 },
                 onError: (error: Error) => {
                     toast.error(error.message);

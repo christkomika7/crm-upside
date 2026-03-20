@@ -1,33 +1,17 @@
 import { Button } from "@/components/ui/button";
-import ManagementStatus, { type ManagementStatusKey } from "@/components/ui/management-status";
+import PropertiesStatus from "@/components/ui/properties-status";
+import { Spinner } from "@/components/ui/spinner";
+import { crudService } from "@/lib/api";
+import { queryClient } from "@/lib/query-client";
+import type { PropertyManagementTab } from "@/types/property-management";
+import { useMutation } from "@tanstack/react-query";
 import { Link } from "@tanstack/react-router";
 import type { ColumnDef } from "@tanstack/react-table";
 import { ArrowUpDownIcon, Edit3Icon, EyeIcon, Trash2Icon } from "lucide-react";
+import { toast } from "sonner";
 
-type KeyType = 'id' | 'building' | 'unit' | 'type' | 'services' | "commission" | 'createdAt';
 
-export const data: Record<KeyType, string | string[] | number | Date>[] = [
-    {
-        id: "bdjn9dnjd",
-        building: "John Doe",
-        unit: "B-301",
-        type: "yes",
-        services: ["pool", "garden"],
-        commission: "10%",
-        createdAt: new Date("2023-01-15")
-    },
-    {
-        id: "bdjn9dnjd",
-        building: "John Mark",
-        unit: "B-303",
-        type: "no",
-        services: ["gym", "pool"],
-        commission: "30%",
-        createdAt: new Date("2023-02-15")
-    },
-]
-
-export const columns: ColumnDef<Record<KeyType, string | number | Date | string[]>>[] = [
+export const columns: ColumnDef<PropertyManagementTab>[] = [
     {
         accessorKey: "building",
         header: ({ column }) => {
@@ -65,7 +49,7 @@ export const columns: ColumnDef<Record<KeyType, string | number | Date | string[
         ),
     },
     {
-        accessorKey: "type",
+        accessorKey: "managment",
         header: ({ column }) => {
             return (
                 <Button
@@ -79,7 +63,7 @@ export const columns: ColumnDef<Record<KeyType, string | number | Date | string[
             )
         },
         cell: ({ row }) => (
-            <div className="capitalize">{row.original.type === "yes" ? "Oui" : "Non"}</div>
+            <div className="capitalize">{row.original.management}</div>
         ),
     },
     {
@@ -97,14 +81,13 @@ export const columns: ColumnDef<Record<KeyType, string | number | Date | string[
             )
         },
         cell: ({ row }) => {
-            const services: string[] = row.getValue("services");
+            const properties: string[] = row.getValue("services");
             return (
-
-                <div className="capitalize flex gap-x-2">{
-                    services.map((service, index) => (
-                        <ManagementStatus key={index} value={service as ManagementStatusKey} />
-                    ))
-                }</div>
+                <div className="flex flex-wrap gap-2 max-w-[300px]">
+                    {properties.map((property, index) => (
+                        <PropertiesStatus key={index} value={property} index={index} />
+                    ))}
+                </div>
             )
         }
     },
@@ -131,7 +114,19 @@ export const columns: ColumnDef<Record<KeyType, string | number | Date | string[
         header: "Action",
         enableHiding: false,
         cell: ({ row }) => {
-            // const router = useRouter();
+            const removePropertyManagement = useMutation({
+                mutationFn: ({ propertyManagementId }: { propertyManagementId: string }) =>
+                    crudService.delete(`/property-management/${propertyManagementId}`),
+                onSuccess(data) {
+                    toast.success(data.message);
+                    queryClient.invalidateQueries({ queryKey: ["property-managements"] });
+                    queryClient.invalidateQueries({ queryKey: ["deletions"] });
+                },
+                onError: (error: Error) => {
+                    console.error("Erreur:", error.message);
+                    toast.error(error.message);
+                },
+            });
             return (
                 <div className="flex gap-x-2">
                     <Link to='/dashboard/property-management/edit-property/$id' params={{ id: `edit_property-${row.original.id}` }} >
@@ -140,7 +135,9 @@ export const columns: ColumnDef<Record<KeyType, string | number | Date | string[
                     <Link to='/dashboard/property-management/$id' params={{ id: `view_property-${row.original.id}` }} >
                         <Button variant="secondary" className="size-7.5 rounded-lg"><EyeIcon className="size-3.5" /></Button>
                     </Link>
-                    <Button variant="destructive" className="size-7.5 rounded-lg bg-red-400"><Trash2Icon className="size-3.5" /></Button>
+                    <Button onClick={() => removePropertyManagement.mutate({ propertyManagementId: row.original.id })} variant="destructive" className="size-7.5 rounded-lg bg-red-400">
+                        {removePropertyManagement.isPending ? <Spinner className="text-white size-3.5" /> : <Trash2Icon className="size-3.5" />}
+                    </Button>
                 </div>
             )
         },

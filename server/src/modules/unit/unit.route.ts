@@ -54,7 +54,6 @@ export const unitRoutes = new Elysia({ prefix: "/unit" })
         if (!canAccess(permission, "units", "read")) {
             return status(403, { message: "Accès refusé" });
         }
-
         const units = await prisma.unit.findMany({
             where: {
                 buildingId: query.id
@@ -62,9 +61,8 @@ export const unitRoutes = new Elysia({ prefix: "/unit" })
             include: { type: true, building: true },
             orderBy: { createdAt: "desc" },
         });
-        return {
-            data: units
-        }
+
+        return units
     }, {
         auth: true,
         query: requestType.query

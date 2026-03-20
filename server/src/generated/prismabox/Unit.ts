@@ -106,6 +106,25 @@ export const UnitRelations = t.Object(
       ),
       { additionalProperties: false },
     ),
+    propertyManagements: t.Array(
+      t.Object(
+        {
+          id: t.String(),
+          buildingId: t.String(),
+          unitId: t.String(),
+          administrativeManagement: t.Boolean(),
+          technicalManagement: t.Boolean(),
+          start: t.Date(),
+          end: t.Date(),
+          observations: __nullable__(t.String()),
+          active: t.Boolean(),
+          isDeleting: t.Boolean(),
+          createdAt: t.Date(),
+        },
+        { additionalProperties: false },
+      ),
+      { additionalProperties: false },
+    ),
   },
   { additionalProperties: false },
 );
@@ -204,6 +223,22 @@ export const UnitRelationsInputCreate = t.Object(
         { additionalProperties: false },
       ),
     ),
+    propertyManagements: t.Optional(
+      t.Object(
+        {
+          connect: t.Array(
+            t.Object(
+              {
+                id: t.String({ additionalProperties: false }),
+              },
+              { additionalProperties: false },
+            ),
+            { additionalProperties: false },
+          ),
+        },
+        { additionalProperties: false },
+      ),
+    ),
   },
   { additionalProperties: false },
 );
@@ -259,6 +294,31 @@ export const UnitRelationsInputUpdate = t.Partial(
         { additionalProperties: false },
       ),
       reservations: t.Partial(
+        t.Object(
+          {
+            connect: t.Array(
+              t.Object(
+                {
+                  id: t.String({ additionalProperties: false }),
+                },
+                { additionalProperties: false },
+              ),
+              { additionalProperties: false },
+            ),
+            disconnect: t.Array(
+              t.Object(
+                {
+                  id: t.String({ additionalProperties: false }),
+                },
+                { additionalProperties: false },
+              ),
+              { additionalProperties: false },
+            ),
+          },
+          { additionalProperties: false },
+        ),
+      ),
+      propertyManagements: t.Partial(
         t.Object(
           {
             connect: t.Array(
@@ -402,6 +462,7 @@ export const UnitSelect = t.Partial(
       createdAt: t.Boolean(),
       updatedAt: t.Boolean(),
       reservations: t.Boolean(),
+      propertyManagements: t.Boolean(),
       _count: t.Boolean(),
     },
     { additionalProperties: false },
@@ -415,6 +476,7 @@ export const UnitInclude = t.Partial(
       building: t.Boolean(),
       type: t.Boolean(),
       reservations: t.Boolean(),
+      propertyManagements: t.Boolean(),
       _count: t.Boolean(),
     },
     { additionalProperties: false },

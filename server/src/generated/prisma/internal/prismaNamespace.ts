@@ -398,6 +398,9 @@ export const ModelName = {
   Tenant: 'Tenant',
   Rental: 'Rental',
   Reservation: 'Reservation',
+  PropertyManagement: 'PropertyManagement',
+  ProductService: 'ProductService',
+  PersonalService: 'PersonalService',
   Deletion: 'Deletion',
   Session: 'Session',
   Account: 'Account',
@@ -417,7 +420,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "user" | "permission" | "tax" | "note" | "reference" | "appearence" | "building" | "unit" | "lotType" | "type" | "owner" | "tenant" | "rental" | "reservation" | "deletion" | "session" | "account" | "verification"
+    modelProps: "user" | "permission" | "tax" | "note" | "reference" | "appearence" | "building" | "unit" | "lotType" | "type" | "owner" | "tenant" | "rental" | "reservation" | "propertyManagement" | "productService" | "personalService" | "deletion" | "session" | "account" | "verification"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -1457,6 +1460,228 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
+    PropertyManagement: {
+      payload: Prisma.$PropertyManagementPayload<ExtArgs>
+      fields: Prisma.PropertyManagementFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.PropertyManagementFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PropertyManagementPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.PropertyManagementFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PropertyManagementPayload>
+        }
+        findFirst: {
+          args: Prisma.PropertyManagementFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PropertyManagementPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.PropertyManagementFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PropertyManagementPayload>
+        }
+        findMany: {
+          args: Prisma.PropertyManagementFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PropertyManagementPayload>[]
+        }
+        create: {
+          args: Prisma.PropertyManagementCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PropertyManagementPayload>
+        }
+        createMany: {
+          args: Prisma.PropertyManagementCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.PropertyManagementCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PropertyManagementPayload>[]
+        }
+        delete: {
+          args: Prisma.PropertyManagementDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PropertyManagementPayload>
+        }
+        update: {
+          args: Prisma.PropertyManagementUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PropertyManagementPayload>
+        }
+        deleteMany: {
+          args: Prisma.PropertyManagementDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.PropertyManagementUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.PropertyManagementUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PropertyManagementPayload>[]
+        }
+        upsert: {
+          args: Prisma.PropertyManagementUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PropertyManagementPayload>
+        }
+        aggregate: {
+          args: Prisma.PropertyManagementAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregatePropertyManagement>
+        }
+        groupBy: {
+          args: Prisma.PropertyManagementGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.PropertyManagementGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.PropertyManagementCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.PropertyManagementCountAggregateOutputType> | number
+        }
+      }
+    }
+    ProductService: {
+      payload: Prisma.$ProductServicePayload<ExtArgs>
+      fields: Prisma.ProductServiceFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.ProductServiceFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ProductServicePayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.ProductServiceFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ProductServicePayload>
+        }
+        findFirst: {
+          args: Prisma.ProductServiceFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ProductServicePayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.ProductServiceFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ProductServicePayload>
+        }
+        findMany: {
+          args: Prisma.ProductServiceFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ProductServicePayload>[]
+        }
+        create: {
+          args: Prisma.ProductServiceCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ProductServicePayload>
+        }
+        createMany: {
+          args: Prisma.ProductServiceCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.ProductServiceCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ProductServicePayload>[]
+        }
+        delete: {
+          args: Prisma.ProductServiceDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ProductServicePayload>
+        }
+        update: {
+          args: Prisma.ProductServiceUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ProductServicePayload>
+        }
+        deleteMany: {
+          args: Prisma.ProductServiceDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.ProductServiceUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.ProductServiceUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ProductServicePayload>[]
+        }
+        upsert: {
+          args: Prisma.ProductServiceUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ProductServicePayload>
+        }
+        aggregate: {
+          args: Prisma.ProductServiceAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateProductService>
+        }
+        groupBy: {
+          args: Prisma.ProductServiceGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.ProductServiceGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.ProductServiceCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.ProductServiceCountAggregateOutputType> | number
+        }
+      }
+    }
+    PersonalService: {
+      payload: Prisma.$PersonalServicePayload<ExtArgs>
+      fields: Prisma.PersonalServiceFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.PersonalServiceFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PersonalServicePayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.PersonalServiceFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PersonalServicePayload>
+        }
+        findFirst: {
+          args: Prisma.PersonalServiceFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PersonalServicePayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.PersonalServiceFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PersonalServicePayload>
+        }
+        findMany: {
+          args: Prisma.PersonalServiceFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PersonalServicePayload>[]
+        }
+        create: {
+          args: Prisma.PersonalServiceCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PersonalServicePayload>
+        }
+        createMany: {
+          args: Prisma.PersonalServiceCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.PersonalServiceCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PersonalServicePayload>[]
+        }
+        delete: {
+          args: Prisma.PersonalServiceDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PersonalServicePayload>
+        }
+        update: {
+          args: Prisma.PersonalServiceUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PersonalServicePayload>
+        }
+        deleteMany: {
+          args: Prisma.PersonalServiceDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.PersonalServiceUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.PersonalServiceUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PersonalServicePayload>[]
+        }
+        upsert: {
+          args: Prisma.PersonalServiceUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PersonalServicePayload>
+        }
+        aggregate: {
+          args: Prisma.PersonalServiceAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregatePersonalService>
+        }
+        groupBy: {
+          args: Prisma.PersonalServiceGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.PersonalServiceGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.PersonalServiceCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.PersonalServiceCountAggregateOutputType> | number
+        }
+      }
+    }
     Deletion: {
       payload: Prisma.$DeletionPayload<ExtArgs>
       fields: Prisma.DeletionFieldRefs
@@ -2008,6 +2233,45 @@ export const ReservationScalarFieldEnum = {
 export type ReservationScalarFieldEnum = (typeof ReservationScalarFieldEnum)[keyof typeof ReservationScalarFieldEnum]
 
 
+export const PropertyManagementScalarFieldEnum = {
+  id: 'id',
+  buildingId: 'buildingId',
+  unitId: 'unitId',
+  administrativeManagement: 'administrativeManagement',
+  technicalManagement: 'technicalManagement',
+  start: 'start',
+  end: 'end',
+  observations: 'observations',
+  active: 'active',
+  isDeleting: 'isDeleting',
+  createdAt: 'createdAt'
+} as const
+
+export type PropertyManagementScalarFieldEnum = (typeof PropertyManagementScalarFieldEnum)[keyof typeof PropertyManagementScalarFieldEnum]
+
+
+export const ProductServiceScalarFieldEnum = {
+  id: 'id',
+  reference: 'reference',
+  description: 'description',
+  hasTax: 'hasTax',
+  price: 'price',
+  isDeleting: 'isDeleting',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type ProductServiceScalarFieldEnum = (typeof ProductServiceScalarFieldEnum)[keyof typeof ProductServiceScalarFieldEnum]
+
+
+export const PersonalServiceScalarFieldEnum = {
+  id: 'id',
+  name: 'name'
+} as const
+
+export type PersonalServiceScalarFieldEnum = (typeof PersonalServiceScalarFieldEnum)[keyof typeof PersonalServiceScalarFieldEnum]
+
+
 export const DeletionScalarFieldEnum = {
   id: 'id',
   type: 'type',
@@ -2353,6 +2617,9 @@ export type GlobalOmitConfig = {
   tenant?: Prisma.TenantOmit
   rental?: Prisma.RentalOmit
   reservation?: Prisma.ReservationOmit
+  propertyManagement?: Prisma.PropertyManagementOmit
+  productService?: Prisma.ProductServiceOmit
+  personalService?: Prisma.PersonalServiceOmit
   deletion?: Prisma.DeletionOmit
   session?: Prisma.SessionOmit
   account?: Prisma.AccountOmit

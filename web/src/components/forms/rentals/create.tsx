@@ -14,12 +14,11 @@ import type { Building } from "@/types/building";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import type { Tenant } from "@/types/tenant";
 import type { Unit } from "@/types/unit";
-import { useCallback, useEffect, useState } from "react";
+import { useState } from "react";
 
 
 export default function CreateRental() {
     const [buildingId, setBuildingId] = useState("");
-    const [units, setUnits] = useState<Unit[]>([]);
 
     const { isPending: isGettingBuilding, data: buildings } = useQuery({
         queryKey: ["buildings"],
@@ -39,14 +38,21 @@ export default function CreateRental() {
         })),
     });
 
-    const { isPending: isGettingUnit, mutate } = useMutation({
-        mutationFn: (buildingId: string) =>
-            crudService.get<Unit[]>(`/unit/by?id=${buildingId}`),
-        onSuccess(data) {
-            setUnits(data.data);
+    const { isPending: isGettingUnits, data: units = [] } = useQuery({
+        queryKey: ["units", buildingId],
+        queryFn: () => {
+            if (!buildingId || buildingId.trim() === "") {
+                return Promise.resolve([]);
+            }
+            return apiFetch<Unit[]>(`/unit/by?id=${buildingId}`);
         },
+        enabled: typeof buildingId === "string" && buildingId.trim() !== "",
+        select: (data) =>
+            data.map((unit) => ({
+                value: unit.id,
+                label: unit.type.name,
+            })),
     });
-
 
     const mutation = useMutation({
         mutationFn: (data: RentalSchemaType) =>
@@ -81,18 +87,6 @@ export default function CreateRental() {
             tenant: ""
         }
     });
-
-
-    const handleUnits = useCallback(() => {
-        if (buildingId) {
-            mutate(buildingId);
-        }
-    }, [buildingId])
-
-
-    useEffect(() => {
-        handleUnits()
-    }, [handleUnits])
 
     async function submit(formData: RentalSchemaType) {
         const { success, data } = rentalSchema.safeParse(formData);
@@ -190,19 +184,19 @@ export default function CreateRental() {
                                 <FormItem >
                                     <FormLabel className="text-neutral-600">Unité</FormLabel>
                                     <FormControl>
-                                        <Select onValueChange={e => field.onChange(e)} value={field.value} >
+                                        <Select onValueChange={e => field.onChange(e)} value={field.value} disabled={!buildingId} >
                                             <SelectTrigger className="w-full" aria-invalid={!!form.formState.errors.unit}>
                                                 <SelectValue placeholder="" />
                                             </SelectTrigger>
                                             <SelectContent position="popper" align="end">
-                                                {isGettingUnit ? (
+                                                {isGettingUnits ? (
                                                     <div className="flex justify-center items-center">
                                                         <Spinner />
                                                     </div>
                                                 ) : units && units.length > 0 ? (
                                                     units.map((unit) => (
-                                                        <SelectItem key={unit.id} value={unit.id}>
-                                                            {unit.type.name}
+                                                        <SelectItem key={unit.value} value={unit.value}>
+                                                            {unit.label}
                                                         </SelectItem>
                                                     ))
                                                 ) : (

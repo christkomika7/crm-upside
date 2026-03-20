@@ -160,7 +160,6 @@ export const userRoutes = new Elysia({ prefix: "/users" })
         }
         const id = params.id;
         const { success, data } = emailSchema.safeParse(body);
-        console.log({ success, data, body })
         if (!success) {
             return status(400, { message: "Email invalide" });
         }

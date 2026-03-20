@@ -1,0 +1,384 @@
+import { Button } from "@/components/ui/button";
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
+import { Spinner } from "@/components/ui/spinner";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
+import { DatePicker } from "@/components/ui/date-picker";
+import { useMutation, useQuery } from "@tanstack/react-query";
+import { apiFetch, crudService } from "@/lib/api";
+import type { Unit } from "@/types/unit";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { toast } from "sonner";
+import { queryClient } from "@/lib/query-client";
+import type { Building } from "@/types/building";
+import { Activity, useEffect, useState } from "react";
+import { propertyManagementSchema, type PropertyManagementSchemaType } from "@/lib/zod/property-management";
+import { Checkbox } from "@/components/ui/checkbox";
+import { Label } from "@/components/ui/label";
+import { cn } from "@/lib/utils";
+import MultipleSelector from "@/components/ui/mullti-select";
+import type { PersonalService } from "@/types/personal-service";
+import Modal from "@/components/modal/modal";
+import PersonalServiceModal from "@/components/modal/personal-service";
+import { Textarea } from "@/components/ui/textarea";
+import { Switch } from "@/components/ui/switch";
+import type { PropertyManagement } from "@/types/property-management";
+
+type EditPropertyManagementProps = {
+    id: string;
+}
+
+export default function EditPropertyManagement({ id }: EditPropertyManagementProps) {
+    const [open, setOpen] = useState<boolean>(false);
+    const [buildindId, setBuildingId] = useState<string>("");
+
+
+    const { isPending: isGettingPropertyManagement, data: propertyManagement } = useQuery({
+        queryKey: ["property-management", id],
+        queryFn: () => apiFetch<PropertyManagement>(`/property-management/${id}`),
+    });
+
+
+    const { isPending, data: personalServiceOptions } = useQuery({
+        queryKey: ["personal-services"],
+        queryFn: () => apiFetch<PersonalService[]>("/personal-service/"),
+        select: (data) => data.map((personalService) => ({
+            value: personalService.id,
+            label: personalService.name,
+        })),
+    });
+
+    const { isPending: isGettingBuildings, data: buildings } = useQuery({
+        queryKey: ["buildings"],
+        queryFn: () => apiFetch<Building[]>("/building/"),
+        select: (data) => data.map((building) => ({
+            value: building.id,
+            label: building.name,
+        })),
+    });
+
+    const { isPending: isGettingUnits, data: units = [] } = useQuery({
+        queryKey: ["units", buildindId],
+        queryFn: () => {
+            if (!buildindId || buildindId.trim() === "") {
+                return Promise.resolve([]);
+            }
+            return apiFetch<Unit[]>(`/unit/by?id=${buildindId}`);
+        },
+        enabled: typeof buildindId === "string" && buildindId.trim() !== "",
+        select: (data) =>
+            data.map((unit) => ({
+                value: unit.id,
+                label: unit.type.name,
+            })),
+    });
+
+    const mutation = useMutation({
+        mutationFn: ({ propertyManagementId, data }: { data: PropertyManagementSchemaType, propertyManagementId: string }) =>
+            crudService.put<PropertyManagementSchemaType, any>(`/property-management/${propertyManagementId}`, data),
+        onSuccess() {
+            toast.success("Gestion de propriété modifié avec succès");
+            queryClient.invalidateQueries({ queryKey: ["property-managements"] });
+        },
+        onError: (error: Error) => {
+            console.error("Erreur:", error.message);
+            toast.error(error.message);
+        },
+    });
+
+    const form = useForm<PropertyManagementSchemaType>({
+        resolver: zodResolver(propertyManagementSchema),
+        defaultValues: {
+            building: "",
+            unit: "",
+            administrativeManagement: false,
+            technicalManagement: false,
+            services: [],
+            start: undefined,
+            end: undefined,
+            active: false,
+            observation: ""
+        }
+    });
+
+    useEffect(() => {
+        if (propertyManagement) {
+            form.reset({
+                building: propertyManagement.buildingId,
+                unit: "",
+                administrativeManagement: propertyManagement.administrativeManagement,
+                technicalManagement: propertyManagement.technicalManagement,
+                services: propertyManagement.services.map((service) => service.id),
+                start: new Date(propertyManagement.start),
+                end: new Date(propertyManagement.end),
+                active: propertyManagement.active,
+                observation: propertyManagement.observations,
+            });
+            setBuildingId(propertyManagement.buildingId);
+        }
+    }, [propertyManagement]);
+
+    useEffect(() => {
+        if (units.length > 0 && propertyManagement?.unitId && !form.getValues("unit")) {
+            form.setValue("unit", propertyManagement.unitId, { shouldValidate: true });
+        }
+    }, [units, propertyManagement]);
+
+    async function submit(formData: PropertyManagementSchemaType) {
+        const { success, data } = propertyManagementSchema.safeParse(formData);
+        if (success && propertyManagement?.id) {
+            mutation.mutate({ propertyManagementId: propertyManagement.id, data })
+        }
+    }
+
+    return (
+        <div className="bg-white rounded-md space-y-4 p-4">
+            <h2 className="font-medium">Informations de la reservation</h2>
+            <Activity mode={isGettingPropertyManagement ? 'visible' : "hidden"}>
+                <Spinner />
+            </Activity>
+            <Form {...form}>
+                <form
+                    onSubmit={form.handleSubmit(submit)}
+                    className="space-y-4.5 w-full"
+                >
+                    <div className="grid grid-cols-3 gap-4">
+                        <FormField
+                            control={form.control}
+                            name="building"
+                            render={({ field }) => (
+                                <FormItem >
+                                    <FormLabel className="text-neutral-600">Bâtiment</FormLabel>
+                                    <FormControl>
+                                        <Select
+                                            onValueChange={(e) => {
+                                                field.onChange(e);
+                                                setBuildingId(e);
+                                            }}
+                                            value={field.value} >
+                                            <SelectTrigger className="w-full" aria-invalid={!!form.formState.errors.building}>
+                                                <SelectValue placeholder="" />
+                                            </SelectTrigger>
+                                            <SelectContent position="popper" align="end">
+                                                {isGettingBuildings ? (
+                                                    <div className="flex justify-center items-center">
+                                                        <Spinner />
+                                                    </div>
+                                                ) : buildings && buildings.length > 0 ? (
+                                                    buildings.map((building) => (
+                                                        <SelectItem key={building.value} value={building.value}>
+                                                            {building.label}
+                                                        </SelectItem>
+                                                    ))
+                                                ) : (
+                                                    <SelectItem value="none" disabled>
+                                                        Aucun bâtiment disponible
+                                                    </SelectItem>
+                                                )}
+                                            </SelectContent>
+                                        </Select>
+                                    </FormControl>
+                                    <FormMessage />
+                                </FormItem>
+                            )}
+                        />
+                        <FormField
+                            control={form.control}
+                            name="unit"
+                            render={({ field }) => (
+                                <FormItem>
+                                    <FormLabel className="text-neutral-600">Unité</FormLabel>
+                                    <FormControl>
+                                        <Select
+                                            onValueChange={field.onChange}
+                                            value={field.value}
+                                            disabled={!buildindId && units.length === 0}
+                                        >
+                                            <SelectTrigger className="w-full" aria-invalid={!!form.formState.errors.unit}>
+                                                <SelectValue placeholder="" />
+                                            </SelectTrigger>
+                                            <SelectContent position="popper" align="end">
+                                                {isGettingUnits ? (
+                                                    <div className="flex justify-center items-center">
+                                                        <Spinner />
+                                                    </div>
+                                                ) : units && units.length > 0 ? (
+                                                    units.map((unit) => (
+                                                        <SelectItem key={unit.value} value={unit.value}>
+                                                            {unit.label}
+                                                        </SelectItem>
+                                                    ))
+                                                ) : (
+                                                    <SelectItem value="none" disabled>
+                                                        Aucune unité disponible
+                                                    </SelectItem>
+                                                )}
+                                            </SelectContent>
+                                        </Select>
+                                    </FormControl>
+                                    <FormMessage />
+                                </FormItem>
+                            )}
+                        />
+                        <div className="flex flex-col">
+                            <Label className="text-neutral-600 mb-0.5 relative -top-0.5 text-sm font-medium p-0">Type de gestion confiée</Label>
+                            <div className="grid grid-cols-2 gap-2">
+                                <FormField
+                                    control={form.control}
+                                    name="administrativeManagement"
+                                    render={({ field }) => (
+                                        <FormItem className={cn("flex flex-row gap-x-2 justify-between items-center px-3 h-10 border-border border rounded-md", {
+                                            "bg-emerald-50 border-emerald-background ring-emerald-background/50 ring-[3px]": field.value,
+                                            "border-destructive ring-[3px] ring-destructive/20": form.formState.errors.administrativeManagement
+                                        })}>
+                                            <FormLabel className="text-neutral-600! w-full h-full ">Gestion administrative</FormLabel>
+                                            <FormControl>
+                                                <Checkbox checked={field.value} onCheckedChange={field.onChange} className="border-border!" />
+                                            </FormControl>
+                                        </FormItem>
+                                    )}
+                                />
+                                <FormField
+                                    control={form.control}
+                                    name="technicalManagement"
+                                    render={({ field }) => (
+                                        <FormItem className={cn("flex flex-row gap-x-2 justify-between items-center px-3 h-10 border-border border rounded-md", {
+                                            "bg-emerald-50 border-emerald-background ring-emerald-background/50 ring-[3px]": field.value,
+                                            "border-destructive ring-[3px] ring-destructive/20": form.formState.errors.administrativeManagement
+
+                                        })}>
+                                            <FormLabel className="text-neutral-600">Gestion technique</FormLabel>
+                                            <FormControl>
+                                                <Checkbox checked={field.value} onCheckedChange={field.onChange} />
+                                            </FormControl>
+                                        </FormItem>
+                                    )}
+                                />
+                            </div>
+
+                            {form.formState.errors.administrativeManagement && (
+                                <p className="text-sm text-destructive mt-1">
+                                    {form.formState.errors.administrativeManagement.message}
+                                </p>
+                            )}
+                        </div>
+                    </div>
+                    <div className="grid grid-cols-4 gap-4">
+                        <FormField
+                            control={form.control}
+                            name="services"
+                            render={({ field }) => (
+                                <FormItem >
+                                    <FormLabel className="text-neutral-600">Prestations / équipements pris en charge</FormLabel>
+                                    <FormControl>
+                                        <MultipleSelector
+                                            commandProps={{
+                                                label: 'Selection des prestations / équipements pris en charge'
+                                            }}
+                                            value={
+                                                field.value?.map((item: string) => ({
+                                                    value: item,
+                                                    label: item,
+                                                })) ?? []
+                                            }
+                                            isGettingData={isPending}
+                                            onChange={(options) => {
+                                                field.onChange(options.map((opt) => opt.value))
+                                            }}
+                                            defaultOptions={personalServiceOptions ?? []}
+                                            placeholder='Selectionnez des services personnels'
+                                            hideClearAllButton={false}
+                                            hidePlaceholderWhenSelected
+                                            emptyIndicator={<p className='text-center text-sm'>Aucun service personnel sélectionné</p>}
+                                            className='w-full'
+                                            hasAction={true}
+                                            setModal={setOpen}
+                                        />
+                                    </FormControl>
+                                    <FormMessage />
+                                </FormItem>
+                            )}
+                        />
+                        <FormField
+                            control={form.control}
+                            name="start"
+                            render={({ field }) => (
+                                <FormItem >
+                                    <FormLabel className="text-neutral-600">Début du mandat</FormLabel>
+                                    <FormControl>
+                                        <DatePicker date={field.value} setDate={field.onChange} error={!!form.formState.errors.start} hasIcon={true} />
+                                    </FormControl>
+                                    <FormMessage />
+                                </FormItem>
+                            )}
+                        />
+                        <FormField
+                            control={form.control}
+                            name="end"
+                            render={({ field }) => (
+                                <FormItem >
+                                    <FormLabel className="text-neutral-600">Fin du mandat</FormLabel>
+                                    <FormControl>
+                                        <DatePicker date={field.value} setDate={field.onChange} error={!!form.formState.errors.end} hasIcon={true} />
+                                    </FormControl>
+                                    <FormMessage />
+                                </FormItem>
+                            )}
+                        />
+                        <div className="flex flex-col">
+                            <Label className="text-neutral-600 mb-0.5 relative -top-0.5 text-sm font-medium p-0">Mandat</Label>
+                            <FormField
+                                control={form.control}
+                                name="active"
+                                render={({ field }) => (
+                                    <FormItem className={cn("flex flex-row gap-x-2 justify-between items-center px-3 h-10 border-border border rounded-md", {
+                                        "bg-emerald-50 border-emerald-background ring-emerald-background/50 ring-[3px]": field.value
+                                    })} >
+                                        <FormLabel className="text-neutral-600 w-full h-full">Etat du mandat</FormLabel>
+                                        <FormControl>
+                                            <Switch checked={field.value} onCheckedChange={field.onChange} />
+                                        </FormControl>
+                                        <FormMessage />
+                                    </FormItem>
+                                )}
+                            />
+                        </div>
+                    </div>
+                    <FormField
+                        control={form.control}
+                        name="observation"
+                        render={({ field }) => (
+                            <FormItem >
+                                <FormLabel className="text-neutral-600"> Observations / remarques</FormLabel>
+                                <FormControl>
+                                    <Textarea
+                                        value={field.value}
+                                        onChange={field.onChange}
+                                        aria-invalid={!!form.formState.errors.observation}
+                                        placeholder='Note'
+                                    />
+                                </FormControl>
+                                <FormMessage />
+                            </FormItem>
+                        )}
+                    />
+
+                    <div className="flex justify-center">
+                        <Button disabled={mutation.isPending} type="submit" variant="action" className="max-w-xl h-11">
+                            {mutation.isPending ? (
+                                <span className="flex justify-center items-center">
+                                    <Spinner />
+                                </span>
+                            ) : (
+                                "Modifier"
+                            )}
+                        </Button>
+                    </div>
+                </form>
+            </Form>
+            <Modal open={open} setOpen={setOpen} title='Gestion des prestations / équipements'>
+                <PersonalServiceModal />
+            </Modal>
+        </div >
+    )
+}
