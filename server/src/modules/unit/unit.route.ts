@@ -4,9 +4,10 @@ import { prisma } from "../../lib/prisma";
 import { canAccess } from "../auth/permission";
 import { deleteFile, getSignedFileUrl, uploadFiles } from "../../lib/storage";
 import { getUnitAmenities, safeSignedUrls } from "../../lib/utils";
-import requestType from "./type";
+import request from "./type";
 import Decimal from "decimal.js";
 import { unitSchema } from "../../lib/zod/units";
+import { Prisma } from "../../generated/prisma/client";
 
 export const unitRoutes = new Elysia({ prefix: "/unit" })
     .use(authPlugin)
@@ -17,13 +18,26 @@ export const unitRoutes = new Elysia({ prefix: "/unit" })
         }
 
         const units = await prisma.unit.findMany({
-            include: { type: true, building: true },
+            include: {
+                type: true,
+                building: {
+                    include: {
+                        owner: true,
+                    }
+                },
+                rentals: {
+                    include: {
+                        tenant: true
+                    }
+                }
+            },
             orderBy: { createdAt: "desc" },
         });
 
         const unitsWithSignedUrl = await Promise.all(
             units.map(async (unit) => {
                 const documents = await safeSignedUrls(unit.documents);
+                const tenant = unit.rentals.find((rental) => rental.unitId === unit.id)?.tenant;
 
                 if (documents.error) {
                     server?.publish("storage-error",
@@ -34,8 +48,8 @@ export const unitRoutes = new Elysia({ prefix: "/unit" })
                 return {
                     ...unit,
                     building: unit.building.name,
-                    owner: "-",
-                    tenant: "-",
+                    owner: unit.building.owner ? `${unit.building.owner.firstname} ${unit.building.owner.lastname}` : "-",
+                    tenant: tenant ? `${tenant.firstname} ${tenant.lastname}` : "-",
                     status: "-",
                     rent: new Decimal(unit.rent).plus(unit.charges),
                     service: getUnitAmenities(unit),
@@ -45,6 +59,42 @@ export const unitRoutes = new Elysia({ prefix: "/unit" })
         );
 
         return unitsWithSignedUrl;
+
+    }, {
+        auth: true,
+    })
+    .get("/valid", async ({ permission, status, server }) => {
+        if (!canAccess(permission, "units", "read")) {
+            return status(403, { message: "Accès refusé" });
+        }
+
+        const now = new Date();
+
+        const units = await prisma.unit.findMany({
+            where: {
+                OR: [
+                    {
+                        rentals: {
+                            none: {},
+                        },
+                    },
+                    {
+                        rentals: {
+                            some: {
+                                end: {
+                                    lt: now,
+                                },
+                            },
+                        },
+                    },
+                ],
+            },
+            select: {
+                id: true,
+                reference: true,
+            },
+        });
+        return units;
 
     }, {
         auth: true,
@@ -65,7 +115,7 @@ export const unitRoutes = new Elysia({ prefix: "/unit" })
         return units
     }, {
         auth: true,
-        query: requestType.query
+        query: request.query
     })
     .get("/:id", async ({ params, permission, status, server }) => {
 
@@ -117,27 +167,29 @@ export const unitRoutes = new Elysia({ prefix: "/unit" })
             documents: documents.urls
         };
 
-    }, { auth: true, params: requestType.params })
+    }, { auth: true, params: request.params })
     .post("/", async ({ body, permission, status }) => {
         if (!canAccess(permission, "units", "create")) {
             return status(403, { message: "Accès refusé" });
         }
 
-        const parsedBody = {
-            ...body,
-            wifi: JSON.parse(body.wifi),
-            water: JSON.parse(body.water),
-            electricity: JSON.parse(body.electricity),
-            tv: JSON.parse(body.tv),
-        }
-
         const uploadedKeys: string[] = [];
 
         try {
-            const { success, data } = unitSchema.safeParse(parsedBody);
+            const { success, data } = unitSchema.safeParse(body);
 
             if (!success) {
                 return status(400, { message: "Unité invalide" });
+            }
+
+            const existingUnit = await prisma.unit.findUnique({
+                where: { reference: data.reference },
+            });
+
+            if (existingUnit) {
+                return status(400, {
+                    message: `L'unité ${data.reference} existe déjà`,
+                });
             }
 
             let documents: string[] = [];
@@ -161,6 +213,7 @@ export const unitRoutes = new Elysia({ prefix: "/unit" })
                             id: data.building
                         }
                     },
+                    reference: data.reference,
                     rentalStatus: data.rentalStatus,
                     surface: data.surface,
                     rooms: data.rooms,
@@ -190,6 +243,14 @@ export const unitRoutes = new Elysia({ prefix: "/unit" })
                 })
             );
 
+            if (error instanceof Prisma.PrismaClientKnownRequestError) {
+                if (error.code === "P2002") {
+                    return status(400, {
+                        message: "Cette référence existe déjà"
+                    });
+                }
+            }
+
             return status(500, {
                 message: "Erreur lors de la création du bâtiment",
             });
@@ -197,21 +258,13 @@ export const unitRoutes = new Elysia({ prefix: "/unit" })
     },
         {
             auth: true,
-            body: requestType.body
+            body: request.body
         })
     .put("/:id", async ({ params, body, permission, status }) => {
         if (!canAccess(permission, "units", "update")) {
             return status(403, { message: "Accès refusé" });
         }
         const id = params.id;
-
-        const parsedBody = {
-            ...body,
-            wifi: JSON.parse(body.wifi),
-            water: JSON.parse(body.water),
-            electricity: JSON.parse(body.electricity),
-            tv: JSON.parse(body.tv),
-        }
 
         const unit = await prisma.unit.findUnique({
             where: { id },
@@ -226,10 +279,23 @@ export const unitRoutes = new Elysia({ prefix: "/unit" })
         const uploadedKeys: string[] = [];
 
         try {
-            const { success, data } = unitSchema.safeParse(parsedBody);
+            const { success, data } = unitSchema.safeParse(body);
 
             if (!success) {
                 return status(400, { message: "Unité invalide" });
+            }
+
+            const existingUnit = await prisma.unit.findFirst({
+                where: {
+                    reference: data.reference,
+                    NOT: { id: params.id }
+                }
+            });
+
+            if (existingUnit) {
+                return status(400, {
+                    message: `L'unité ${data.reference} existe déjà`
+                });
             }
 
             let documents: string[] = [];
@@ -256,6 +322,7 @@ export const unitRoutes = new Elysia({ prefix: "/unit" })
                             id: data.building
                         }
                     },
+                    reference: data.reference,
                     rentalStatus: data.rentalStatus,
                     surface: data.surface,
                     rooms: data.rooms,
@@ -295,6 +362,14 @@ export const unitRoutes = new Elysia({ prefix: "/unit" })
                 })
             );
 
+            if (error instanceof Prisma.PrismaClientKnownRequestError) {
+                if (error.code === "P2002") {
+                    return status(400, {
+                        message: "Cette référence existe déjà"
+                    });
+                }
+            }
+
             return status(500, {
                 message: "Erreur lors de la modification du bâtiment",
             });
@@ -302,23 +377,44 @@ export const unitRoutes = new Elysia({ prefix: "/unit" })
 
 
 
-    }, { auth: true, body: requestType.body, params: requestType.params })
-    .delete("/:id", async ({ params, permission, status }) => {
+    }, { auth: true, body: request.body, params: request.params })
+    .delete("/:id", async ({ params, permission, status, user }) => {
         if (!canAccess(permission, "units", "update")) {
             return status(403, { message: "Accès refusé" });
         }
         const id = params.id;
-        const unit = await prisma.unit.delete({
+        const unit = await prisma.unit.findUnique({
             where: { id },
+            include: {
+                rentals: true,
+                reservations: true,
+                propertyManagements: true
+            }
         });
 
+        if (!unit) return status(400, { message: "Aucune unité trouvée." });
 
-        if (unit.documents) {
-            await Promise.all(unit.documents.map(async (key) => {
-                await deleteFile(key)
-            }))
-        }
+        if (unit.rentals.length > 0 || unit.reservations.length > 0 || unit.propertyManagements.length > 0) return status(400, { message: "L'unité est déjà louée, réservée ou gérée." });
 
-        return { message: "Unité supprimé avec succès" };
-    }, { auth: true })
+        await prisma.$transaction([
+            prisma.deletion.create({
+                data: {
+                    recordId: unit.id,
+                    type: "UNIT",
+                    state: "WAIT",
+                    user: {
+                        connect: { id: user.id }
+                    }
+                }
+            }),
+            prisma.unit.update({
+                where: { id: unit.id },
+                data: {
+                    isDeleting: true
+                }
+            })
+        ]);
+
+        return status(200, { message: `La suppression de l'unité ${unit.reference} est en attente de suppression.` });
+    }, { auth: true, params: request.params })
 

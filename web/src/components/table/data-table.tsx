@@ -51,8 +51,6 @@ export default function DataTable({ data = [], columns, filters, isLoading, sort
     const [search, setSearch] = useState("");
     const [sorting, setSorting] = useState<SortingState>([]);
 
-    console.log({ data })
-
     const [pagination, setPagination] = useState({
         pageIndex: 0,
         pageSize: PAGE_SIZE,

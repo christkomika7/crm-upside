@@ -7,7 +7,7 @@ import { __nullable__ } from "./__nullable__";
 export const BuildingPlain = t.Object(
   {
     id: t.String(),
-    reference: t.Integer(),
+    reference: t.String(),
     name: t.String(),
     location: t.String(),
     constructionDate: t.Date(),
@@ -53,7 +53,7 @@ export const BuildingRelations = t.Object(
       t.Object(
         {
           id: t.String(),
-          reference: t.Integer(),
+          reference: t.String(),
           rentalStatus: t.String(),
           surface: t.String(),
           rooms: t.String(),
@@ -75,30 +75,11 @@ export const BuildingRelations = t.Object(
       ),
       { additionalProperties: false },
     ),
-    rentals: t.Array(
-      t.Object(
-        {
-          id: t.String(),
-          reference: t.Integer(),
-          tenantId: t.String(),
-          buildingId: t.String(),
-          unitId: t.String(),
-          isDeleting: t.Boolean(),
-          price: t.Number(),
-          start: t.Date(),
-          end: t.Date(),
-          createdAt: t.Date(),
-          updatedAt: t.Date(),
-        },
-        { additionalProperties: false },
-      ),
-      { additionalProperties: false },
-    ),
     owner: __nullable__(
       t.Object(
         {
           id: t.String(),
-          reference: t.Integer(),
+          reference: t.String(),
           firstname: t.String(),
           lastname: t.String(),
           company: t.String(),
@@ -140,7 +121,7 @@ export const BuildingRelations = t.Object(
 
 export const BuildingPlainInputCreate = t.Object(
   {
-    reference: t.Optional(t.Integer()),
+    reference: t.String(),
     name: t.String(),
     location: t.String(),
     constructionDate: t.Date(),
@@ -167,7 +148,7 @@ export const BuildingPlainInputCreate = t.Object(
 
 export const BuildingPlainInputUpdate = t.Object(
   {
-    reference: t.Optional(t.Integer()),
+    reference: t.Optional(t.String()),
     name: t.Optional(t.String()),
     location: t.Optional(t.String()),
     constructionDate: t.Optional(t.Date()),
@@ -211,22 +192,6 @@ export const BuildingRelationsInputCreate = t.Object(
       ),
     ),
     units: t.Optional(
-      t.Object(
-        {
-          connect: t.Array(
-            t.Object(
-              {
-                id: t.String({ additionalProperties: false }),
-              },
-              { additionalProperties: false },
-            ),
-            { additionalProperties: false },
-          ),
-        },
-        { additionalProperties: false },
-      ),
-    ),
-    rentals: t.Optional(
       t.Object(
         {
           connect: t.Array(
@@ -328,31 +293,6 @@ export const BuildingRelationsInputUpdate = t.Partial(
           { additionalProperties: false },
         ),
       ),
-      rentals: t.Partial(
-        t.Object(
-          {
-            connect: t.Array(
-              t.Object(
-                {
-                  id: t.String({ additionalProperties: false }),
-                },
-                { additionalProperties: false },
-              ),
-              { additionalProperties: false },
-            ),
-            disconnect: t.Array(
-              t.Object(
-                {
-                  id: t.String({ additionalProperties: false }),
-                },
-                { additionalProperties: false },
-              ),
-              { additionalProperties: false },
-            ),
-          },
-          { additionalProperties: false },
-        ),
-      ),
       owner: t.Partial(
         t.Object(
           {
@@ -406,7 +346,7 @@ export const BuildingWhere = t.Partial(
           NOT: t.Union([Self, t.Array(Self, { additionalProperties: false })]),
           OR: t.Array(Self, { additionalProperties: false }),
           id: t.String(),
-          reference: t.Integer(),
+          reference: t.String(),
           name: t.String(),
           location: t.String(),
           constructionDate: t.Date(),
@@ -442,12 +382,16 @@ export const BuildingWhereUnique = t.Recursive(
     t.Intersect(
       [
         t.Partial(
-          t.Object({ id: t.String() }, { additionalProperties: false }),
+          t.Object(
+            { id: t.String(), reference: t.String() },
+            { additionalProperties: false },
+          ),
           { additionalProperties: false },
         ),
-        t.Union([t.Object({ id: t.String() })], {
-          additionalProperties: false,
-        }),
+        t.Union(
+          [t.Object({ id: t.String() }), t.Object({ reference: t.String() })],
+          { additionalProperties: false },
+        ),
         t.Partial(
           t.Object({
             AND: t.Union([
@@ -466,7 +410,7 @@ export const BuildingWhereUnique = t.Recursive(
           t.Object(
             {
               id: t.String(),
-              reference: t.Integer(),
+              reference: t.String(),
               name: t.String(),
               location: t.String(),
               constructionDate: t.Date(),
@@ -527,7 +471,6 @@ export const BuildingSelect = t.Partial(
       isDeleting: t.Boolean(),
       lotTypes: t.Boolean(),
       units: t.Boolean(),
-      rentals: t.Boolean(),
       ownerId: t.Boolean(),
       owner: t.Boolean(),
       createdAt: t.Boolean(),
@@ -544,7 +487,6 @@ export const BuildingInclude = t.Partial(
     {
       lotTypes: t.Boolean(),
       units: t.Boolean(),
-      rentals: t.Boolean(),
       owner: t.Boolean(),
       propertyManagements: t.Boolean(),
       _count: t.Boolean(),

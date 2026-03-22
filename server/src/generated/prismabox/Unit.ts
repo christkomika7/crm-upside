@@ -7,7 +7,7 @@ import { __nullable__ } from "./__nullable__";
 export const UnitPlain = t.Object(
   {
     id: t.String(),
-    reference: t.Integer(),
+    reference: t.String(),
     rentalStatus: t.String(),
     surface: t.String(),
     rooms: t.String(),
@@ -34,9 +34,7 @@ export const UnitRelations = t.Object(
       t.Object(
         {
           id: t.String(),
-          reference: t.Integer(),
           tenantId: t.String(),
-          buildingId: t.String(),
           unitId: t.String(),
           isDeleting: t.Boolean(),
           price: t.Number(),
@@ -52,7 +50,7 @@ export const UnitRelations = t.Object(
     building: t.Object(
       {
         id: t.String(),
-        reference: t.Integer(),
+        reference: t.String(),
         name: t.String(),
         location: t.String(),
         constructionDate: t.Date(),
@@ -131,7 +129,7 @@ export const UnitRelations = t.Object(
 
 export const UnitPlainInputCreate = t.Object(
   {
-    reference: t.Optional(t.Integer()),
+    reference: t.String(),
     rentalStatus: t.String(),
     surface: t.String(),
     rooms: t.String(),
@@ -150,7 +148,7 @@ export const UnitPlainInputCreate = t.Object(
 
 export const UnitPlainInputUpdate = t.Object(
   {
-    reference: t.Optional(t.Integer()),
+    reference: t.Optional(t.String()),
     rentalStatus: t.Optional(t.String()),
     surface: t.Optional(t.String()),
     rooms: t.Optional(t.String()),
@@ -357,7 +355,7 @@ export const UnitWhere = t.Partial(
           NOT: t.Union([Self, t.Array(Self, { additionalProperties: false })]),
           OR: t.Array(Self, { additionalProperties: false }),
           id: t.String(),
-          reference: t.Integer(),
+          reference: t.String(),
           rentalStatus: t.String(),
           surface: t.String(),
           rooms: t.String(),
@@ -386,12 +384,16 @@ export const UnitWhereUnique = t.Recursive(
     t.Intersect(
       [
         t.Partial(
-          t.Object({ id: t.String() }, { additionalProperties: false }),
+          t.Object(
+            { id: t.String(), reference: t.String() },
+            { additionalProperties: false },
+          ),
           { additionalProperties: false },
         ),
-        t.Union([t.Object({ id: t.String() })], {
-          additionalProperties: false,
-        }),
+        t.Union(
+          [t.Object({ id: t.String() }), t.Object({ reference: t.String() })],
+          { additionalProperties: false },
+        ),
         t.Partial(
           t.Object({
             AND: t.Union([
@@ -410,7 +412,7 @@ export const UnitWhereUnique = t.Recursive(
           t.Object(
             {
               id: t.String(),
-              reference: t.Integer(),
+              reference: t.String(),
               rentalStatus: t.String(),
               surface: t.String(),
               rooms: t.String(),
@@ -459,10 +461,10 @@ export const UnitSelect = t.Partial(
       buildingId: t.Boolean(),
       typeId: t.Boolean(),
       type: t.Boolean(),
-      createdAt: t.Boolean(),
-      updatedAt: t.Boolean(),
       reservations: t.Boolean(),
       propertyManagements: t.Boolean(),
+      createdAt: t.Boolean(),
+      updatedAt: t.Boolean(),
       _count: t.Boolean(),
     },
     { additionalProperties: false },

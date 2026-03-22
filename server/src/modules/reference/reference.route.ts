@@ -1,4 +1,4 @@
-import { Elysia, t } from "elysia";
+import { Elysia } from "elysia";
 import { authPlugin } from "../auth/auth";
 import { prisma } from "../../lib/prisma";
 import { canAccess } from "../auth/permission";
@@ -19,8 +19,7 @@ export const referenceRoutes = new Elysia({ prefix: "/reference" })
             return status(403, { message: "Accès refusé" });
         }
 
-
-        const { success, data, error } = referenceSchema.safeParse(body);
+        const { success, data } = referenceSchema.safeParse(body);
 
         if (!success) {
             return status(400, { message: "Les donnes de références sont invalides." });
@@ -31,13 +30,8 @@ export const referenceRoutes = new Elysia({ prefix: "/reference" })
         if (!reference) {
             await prisma.reference.create({
                 data: {
-                    owner: data?.owner || "",
-                    building: data.building || "",
-                    unit: data.unit || "",
-                    rental: data.rental || "",
-                    invoicing: data.invoicing || "",
-                    contract: data.contract || "",
-                    checkIn: data.checkIn || "",
+                    invoice: data.invoice || "",
+                    quote: data.quote || "",
                 }
             });
 
@@ -50,13 +44,8 @@ export const referenceRoutes = new Elysia({ prefix: "/reference" })
                 id: reference?.id,
             },
             data: {
-                owner: data.owner,
-                building: data.building,
-                unit: data.unit,
-                rental: data.rental,
-                invoicing: data.invoicing,
-                contract: data.contract,
-                checkIn: data.checkIn,
+                invoice: data.invoice,
+                quote: data.quote,
             }
         });
 

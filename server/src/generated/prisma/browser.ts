@@ -98,6 +98,26 @@ export type PropertyManagement = Prisma.PropertyManagementModel
  */
 export type ProductService = Prisma.ProductServiceModel
 /**
+ * Model Item
+ * 
+ */
+export type Item = Prisma.ItemModel
+/**
+ * Model Invoice
+ * 
+ */
+export type Invoice = Prisma.InvoiceModel
+/**
+ * Model Quote
+ * 
+ */
+export type Quote = Prisma.QuoteModel
+/**
+ * Model Payment
+ * 
+ */
+export type Payment = Prisma.PaymentModel
+/**
  * Model PersonalService
  * 
  */

@@ -27,20 +27,18 @@ export type AggregateUnit = {
 }
 
 export type UnitAvgAggregateOutputType = {
-  reference: number | null
   rent: runtime.Decimal | null
   charges: runtime.Decimal | null
 }
 
 export type UnitSumAggregateOutputType = {
-  reference: number | null
   rent: runtime.Decimal | null
   charges: runtime.Decimal | null
 }
 
 export type UnitMinAggregateOutputType = {
   id: string | null
-  reference: number | null
+  reference: string | null
   rentalStatus: string | null
   surface: string | null
   rooms: string | null
@@ -60,7 +58,7 @@ export type UnitMinAggregateOutputType = {
 
 export type UnitMaxAggregateOutputType = {
   id: string | null
-  reference: number | null
+  reference: string | null
   rentalStatus: string | null
   surface: string | null
   rooms: string | null
@@ -102,13 +100,11 @@ export type UnitCountAggregateOutputType = {
 
 
 export type UnitAvgAggregateInputType = {
-  reference?: true
   rent?: true
   charges?: true
 }
 
 export type UnitSumAggregateInputType = {
-  reference?: true
   rent?: true
   charges?: true
 }
@@ -263,7 +259,7 @@ export type UnitGroupByArgs<ExtArgs extends runtime.Types.Extensions.InternalArg
 
 export type UnitGroupByOutputType = {
   id: string
-  reference: number
+  reference: string
   rentalStatus: string
   surface: string
   rooms: string
@@ -307,7 +303,7 @@ export type UnitWhereInput = {
   OR?: Prisma.UnitWhereInput[]
   NOT?: Prisma.UnitWhereInput | Prisma.UnitWhereInput[]
   id?: Prisma.StringFilter<"Unit"> | string
-  reference?: Prisma.IntFilter<"Unit"> | number
+  reference?: Prisma.StringFilter<"Unit"> | string
   rentalStatus?: Prisma.StringFilter<"Unit"> | string
   surface?: Prisma.StringFilter<"Unit"> | string
   rooms?: Prisma.StringFilter<"Unit"> | string
@@ -359,10 +355,10 @@ export type UnitOrderByWithRelationInput = {
 
 export type UnitWhereUniqueInput = Prisma.AtLeast<{
   id?: string
+  reference?: string
   AND?: Prisma.UnitWhereInput | Prisma.UnitWhereInput[]
   OR?: Prisma.UnitWhereInput[]
   NOT?: Prisma.UnitWhereInput | Prisma.UnitWhereInput[]
-  reference?: Prisma.IntFilter<"Unit"> | number
   rentalStatus?: Prisma.StringFilter<"Unit"> | string
   surface?: Prisma.StringFilter<"Unit"> | string
   rooms?: Prisma.StringFilter<"Unit"> | string
@@ -384,7 +380,7 @@ export type UnitWhereUniqueInput = Prisma.AtLeast<{
   type?: Prisma.XOR<Prisma.TypeScalarRelationFilter, Prisma.TypeWhereInput>
   reservations?: Prisma.ReservationListRelationFilter
   propertyManagements?: Prisma.PropertyManagementListRelationFilter
-}, "id">
+}, "id" | "reference">
 
 export type UnitOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
@@ -417,7 +413,7 @@ export type UnitScalarWhereWithAggregatesInput = {
   OR?: Prisma.UnitScalarWhereWithAggregatesInput[]
   NOT?: Prisma.UnitScalarWhereWithAggregatesInput | Prisma.UnitScalarWhereWithAggregatesInput[]
   id?: Prisma.StringWithAggregatesFilter<"Unit"> | string
-  reference?: Prisma.IntWithAggregatesFilter<"Unit"> | number
+  reference?: Prisma.StringWithAggregatesFilter<"Unit"> | string
   rentalStatus?: Prisma.StringWithAggregatesFilter<"Unit"> | string
   surface?: Prisma.StringWithAggregatesFilter<"Unit"> | string
   rooms?: Prisma.StringWithAggregatesFilter<"Unit"> | string
@@ -438,7 +434,7 @@ export type UnitScalarWhereWithAggregatesInput = {
 
 export type UnitCreateInput = {
   id?: string
-  reference?: number
+  reference: string
   rentalStatus: string
   surface: string
   rooms: string
@@ -462,7 +458,7 @@ export type UnitCreateInput = {
 
 export type UnitUncheckedCreateInput = {
   id?: string
-  reference?: number
+  reference: string
   rentalStatus: string
   surface: string
   rooms: string
@@ -486,7 +482,7 @@ export type UnitUncheckedCreateInput = {
 
 export type UnitUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  reference?: Prisma.IntFieldUpdateOperationsInput | number
+  reference?: Prisma.StringFieldUpdateOperationsInput | string
   rentalStatus?: Prisma.StringFieldUpdateOperationsInput | string
   surface?: Prisma.StringFieldUpdateOperationsInput | string
   rooms?: Prisma.StringFieldUpdateOperationsInput | string
@@ -510,7 +506,7 @@ export type UnitUpdateInput = {
 
 export type UnitUncheckedUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  reference?: Prisma.IntFieldUpdateOperationsInput | number
+  reference?: Prisma.StringFieldUpdateOperationsInput | string
   rentalStatus?: Prisma.StringFieldUpdateOperationsInput | string
   surface?: Prisma.StringFieldUpdateOperationsInput | string
   rooms?: Prisma.StringFieldUpdateOperationsInput | string
@@ -534,7 +530,7 @@ export type UnitUncheckedUpdateInput = {
 
 export type UnitCreateManyInput = {
   id?: string
-  reference?: number
+  reference: string
   rentalStatus: string
   surface: string
   rooms: string
@@ -555,7 +551,7 @@ export type UnitCreateManyInput = {
 
 export type UnitUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  reference?: Prisma.IntFieldUpdateOperationsInput | number
+  reference?: Prisma.StringFieldUpdateOperationsInput | string
   rentalStatus?: Prisma.StringFieldUpdateOperationsInput | string
   surface?: Prisma.StringFieldUpdateOperationsInput | string
   rooms?: Prisma.StringFieldUpdateOperationsInput | string
@@ -574,7 +570,7 @@ export type UnitUpdateManyMutationInput = {
 
 export type UnitUncheckedUpdateManyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  reference?: Prisma.IntFieldUpdateOperationsInput | number
+  reference?: Prisma.StringFieldUpdateOperationsInput | string
   rentalStatus?: Prisma.StringFieldUpdateOperationsInput | string
   surface?: Prisma.StringFieldUpdateOperationsInput | string
   rooms?: Prisma.StringFieldUpdateOperationsInput | string
@@ -625,7 +621,6 @@ export type UnitCountOrderByAggregateInput = {
 }
 
 export type UnitAvgOrderByAggregateInput = {
-  reference?: Prisma.SortOrder
   rent?: Prisma.SortOrder
   charges?: Prisma.SortOrder
 }
@@ -671,7 +666,6 @@ export type UnitMinOrderByAggregateInput = {
 }
 
 export type UnitSumOrderByAggregateInput = {
-  reference?: Prisma.SortOrder
   rent?: Prisma.SortOrder
   charges?: Prisma.SortOrder
 }
@@ -818,7 +812,7 @@ export type UnitUpdateOneRequiredWithoutPropertyManagementsNestedInput = {
 
 export type UnitCreateWithoutBuildingInput = {
   id?: string
-  reference?: number
+  reference: string
   rentalStatus: string
   surface: string
   rooms: string
@@ -841,7 +835,7 @@ export type UnitCreateWithoutBuildingInput = {
 
 export type UnitUncheckedCreateWithoutBuildingInput = {
   id?: string
-  reference?: number
+  reference: string
   rentalStatus: string
   surface: string
   rooms: string
@@ -893,7 +887,7 @@ export type UnitScalarWhereInput = {
   OR?: Prisma.UnitScalarWhereInput[]
   NOT?: Prisma.UnitScalarWhereInput | Prisma.UnitScalarWhereInput[]
   id?: Prisma.StringFilter<"Unit"> | string
-  reference?: Prisma.IntFilter<"Unit"> | number
+  reference?: Prisma.StringFilter<"Unit"> | string
   rentalStatus?: Prisma.StringFilter<"Unit"> | string
   surface?: Prisma.StringFilter<"Unit"> | string
   rooms?: Prisma.StringFilter<"Unit"> | string
@@ -914,7 +908,7 @@ export type UnitScalarWhereInput = {
 
 export type UnitCreateWithoutTypeInput = {
   id?: string
-  reference?: number
+  reference: string
   rentalStatus: string
   surface: string
   rooms: string
@@ -937,7 +931,7 @@ export type UnitCreateWithoutTypeInput = {
 
 export type UnitUncheckedCreateWithoutTypeInput = {
   id?: string
-  reference?: number
+  reference: string
   rentalStatus: string
   surface: string
   rooms: string
@@ -986,7 +980,7 @@ export type UnitUpdateManyWithWhereWithoutTypeInput = {
 
 export type UnitCreateWithoutRentalsInput = {
   id?: string
-  reference?: number
+  reference: string
   rentalStatus: string
   surface: string
   rooms: string
@@ -1009,7 +1003,7 @@ export type UnitCreateWithoutRentalsInput = {
 
 export type UnitUncheckedCreateWithoutRentalsInput = {
   id?: string
-  reference?: number
+  reference: string
   rentalStatus: string
   surface: string
   rooms: string
@@ -1048,7 +1042,7 @@ export type UnitUpdateToOneWithWhereWithoutRentalsInput = {
 
 export type UnitUpdateWithoutRentalsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  reference?: Prisma.IntFieldUpdateOperationsInput | number
+  reference?: Prisma.StringFieldUpdateOperationsInput | string
   rentalStatus?: Prisma.StringFieldUpdateOperationsInput | string
   surface?: Prisma.StringFieldUpdateOperationsInput | string
   rooms?: Prisma.StringFieldUpdateOperationsInput | string
@@ -1071,7 +1065,7 @@ export type UnitUpdateWithoutRentalsInput = {
 
 export type UnitUncheckedUpdateWithoutRentalsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  reference?: Prisma.IntFieldUpdateOperationsInput | number
+  reference?: Prisma.StringFieldUpdateOperationsInput | string
   rentalStatus?: Prisma.StringFieldUpdateOperationsInput | string
   surface?: Prisma.StringFieldUpdateOperationsInput | string
   rooms?: Prisma.StringFieldUpdateOperationsInput | string
@@ -1094,7 +1088,7 @@ export type UnitUncheckedUpdateWithoutRentalsInput = {
 
 export type UnitCreateWithoutReservationsInput = {
   id?: string
-  reference?: number
+  reference: string
   rentalStatus: string
   surface: string
   rooms: string
@@ -1117,7 +1111,7 @@ export type UnitCreateWithoutReservationsInput = {
 
 export type UnitUncheckedCreateWithoutReservationsInput = {
   id?: string
-  reference?: number
+  reference: string
   rentalStatus: string
   surface: string
   rooms: string
@@ -1156,7 +1150,7 @@ export type UnitUpdateToOneWithWhereWithoutReservationsInput = {
 
 export type UnitUpdateWithoutReservationsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  reference?: Prisma.IntFieldUpdateOperationsInput | number
+  reference?: Prisma.StringFieldUpdateOperationsInput | string
   rentalStatus?: Prisma.StringFieldUpdateOperationsInput | string
   surface?: Prisma.StringFieldUpdateOperationsInput | string
   rooms?: Prisma.StringFieldUpdateOperationsInput | string
@@ -1179,7 +1173,7 @@ export type UnitUpdateWithoutReservationsInput = {
 
 export type UnitUncheckedUpdateWithoutReservationsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  reference?: Prisma.IntFieldUpdateOperationsInput | number
+  reference?: Prisma.StringFieldUpdateOperationsInput | string
   rentalStatus?: Prisma.StringFieldUpdateOperationsInput | string
   surface?: Prisma.StringFieldUpdateOperationsInput | string
   rooms?: Prisma.StringFieldUpdateOperationsInput | string
@@ -1202,7 +1196,7 @@ export type UnitUncheckedUpdateWithoutReservationsInput = {
 
 export type UnitCreateWithoutPropertyManagementsInput = {
   id?: string
-  reference?: number
+  reference: string
   rentalStatus: string
   surface: string
   rooms: string
@@ -1225,7 +1219,7 @@ export type UnitCreateWithoutPropertyManagementsInput = {
 
 export type UnitUncheckedCreateWithoutPropertyManagementsInput = {
   id?: string
-  reference?: number
+  reference: string
   rentalStatus: string
   surface: string
   rooms: string
@@ -1264,7 +1258,7 @@ export type UnitUpdateToOneWithWhereWithoutPropertyManagementsInput = {
 
 export type UnitUpdateWithoutPropertyManagementsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  reference?: Prisma.IntFieldUpdateOperationsInput | number
+  reference?: Prisma.StringFieldUpdateOperationsInput | string
   rentalStatus?: Prisma.StringFieldUpdateOperationsInput | string
   surface?: Prisma.StringFieldUpdateOperationsInput | string
   rooms?: Prisma.StringFieldUpdateOperationsInput | string
@@ -1287,7 +1281,7 @@ export type UnitUpdateWithoutPropertyManagementsInput = {
 
 export type UnitUncheckedUpdateWithoutPropertyManagementsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  reference?: Prisma.IntFieldUpdateOperationsInput | number
+  reference?: Prisma.StringFieldUpdateOperationsInput | string
   rentalStatus?: Prisma.StringFieldUpdateOperationsInput | string
   surface?: Prisma.StringFieldUpdateOperationsInput | string
   rooms?: Prisma.StringFieldUpdateOperationsInput | string
@@ -1310,7 +1304,7 @@ export type UnitUncheckedUpdateWithoutPropertyManagementsInput = {
 
 export type UnitCreateManyBuildingInput = {
   id?: string
-  reference?: number
+  reference: string
   rentalStatus: string
   surface: string
   rooms: string
@@ -1330,7 +1324,7 @@ export type UnitCreateManyBuildingInput = {
 
 export type UnitUpdateWithoutBuildingInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  reference?: Prisma.IntFieldUpdateOperationsInput | number
+  reference?: Prisma.StringFieldUpdateOperationsInput | string
   rentalStatus?: Prisma.StringFieldUpdateOperationsInput | string
   surface?: Prisma.StringFieldUpdateOperationsInput | string
   rooms?: Prisma.StringFieldUpdateOperationsInput | string
@@ -1353,7 +1347,7 @@ export type UnitUpdateWithoutBuildingInput = {
 
 export type UnitUncheckedUpdateWithoutBuildingInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  reference?: Prisma.IntFieldUpdateOperationsInput | number
+  reference?: Prisma.StringFieldUpdateOperationsInput | string
   rentalStatus?: Prisma.StringFieldUpdateOperationsInput | string
   surface?: Prisma.StringFieldUpdateOperationsInput | string
   rooms?: Prisma.StringFieldUpdateOperationsInput | string
@@ -1376,7 +1370,7 @@ export type UnitUncheckedUpdateWithoutBuildingInput = {
 
 export type UnitUncheckedUpdateManyWithoutBuildingInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  reference?: Prisma.IntFieldUpdateOperationsInput | number
+  reference?: Prisma.StringFieldUpdateOperationsInput | string
   rentalStatus?: Prisma.StringFieldUpdateOperationsInput | string
   surface?: Prisma.StringFieldUpdateOperationsInput | string
   rooms?: Prisma.StringFieldUpdateOperationsInput | string
@@ -1396,7 +1390,7 @@ export type UnitUncheckedUpdateManyWithoutBuildingInput = {
 
 export type UnitCreateManyTypeInput = {
   id?: string
-  reference?: number
+  reference: string
   rentalStatus: string
   surface: string
   rooms: string
@@ -1416,7 +1410,7 @@ export type UnitCreateManyTypeInput = {
 
 export type UnitUpdateWithoutTypeInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  reference?: Prisma.IntFieldUpdateOperationsInput | number
+  reference?: Prisma.StringFieldUpdateOperationsInput | string
   rentalStatus?: Prisma.StringFieldUpdateOperationsInput | string
   surface?: Prisma.StringFieldUpdateOperationsInput | string
   rooms?: Prisma.StringFieldUpdateOperationsInput | string
@@ -1439,7 +1433,7 @@ export type UnitUpdateWithoutTypeInput = {
 
 export type UnitUncheckedUpdateWithoutTypeInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  reference?: Prisma.IntFieldUpdateOperationsInput | number
+  reference?: Prisma.StringFieldUpdateOperationsInput | string
   rentalStatus?: Prisma.StringFieldUpdateOperationsInput | string
   surface?: Prisma.StringFieldUpdateOperationsInput | string
   rooms?: Prisma.StringFieldUpdateOperationsInput | string
@@ -1462,7 +1456,7 @@ export type UnitUncheckedUpdateWithoutTypeInput = {
 
 export type UnitUncheckedUpdateManyWithoutTypeInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  reference?: Prisma.IntFieldUpdateOperationsInput | number
+  reference?: Prisma.StringFieldUpdateOperationsInput | string
   rentalStatus?: Prisma.StringFieldUpdateOperationsInput | string
   surface?: Prisma.StringFieldUpdateOperationsInput | string
   rooms?: Prisma.StringFieldUpdateOperationsInput | string
@@ -1652,7 +1646,7 @@ export type $UnitPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
-    reference: number
+    reference: string
     rentalStatus: string
     surface: string
     rooms: string
@@ -2098,7 +2092,7 @@ export interface Prisma__UnitClient<T, Null = never, ExtArgs extends runtime.Typ
  */
 export interface UnitFieldRefs {
   readonly id: Prisma.FieldRef<"Unit", 'String'>
-  readonly reference: Prisma.FieldRef<"Unit", 'Int'>
+  readonly reference: Prisma.FieldRef<"Unit", 'String'>
   readonly rentalStatus: Prisma.FieldRef<"Unit", 'String'>
   readonly surface: Prisma.FieldRef<"Unit", 'String'>
   readonly rooms: Prisma.FieldRef<"Unit", 'String'>

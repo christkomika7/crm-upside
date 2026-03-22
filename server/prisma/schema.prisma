@@ -26,6 +26,12 @@ enum DeletionState {
   TERMINED
 }
 
+enum PaymentType {
+  CASH
+  CHECK
+  BANK
+}
+
 enum DeletionType {
   OWNER
   BUILDING
@@ -42,6 +48,16 @@ enum DeletionType {
   APPOINTMENT
   SERVICE_PROVIDER
   COMMUNICATION
+}
+
+enum RecordType {
+  OWNER
+  TENANT
+}
+
+enum DiscountType {
+  PURCENT
+  MONEY
 }
 
 model User {
@@ -94,14 +110,9 @@ model Note {
 }
 
 model Reference {
-  id        String @id @default(cuid())
-  owner     String
-  building  String
-  unit      String
-  rental    String
-  invoicing String
-  contract  String
-  checkIn   String
+  id      String @id @default(cuid())
+  invoice String
+  quote   String
 
   @@map("reference")
 }
@@ -115,7 +126,7 @@ model Appearence {
 
 model Building {
   id               String   @id @default(cuid())
-  reference        Int      @default(autoincrement())
+  reference        String   @unique
   name             String
   location         String
   constructionDate DateTime
@@ -140,7 +151,6 @@ model Building {
 
   lotTypes LotType[]
   units    Unit[]
-  rentals  Rental[]
 
   ownerId String?
   owner   Owner?  @relation(fields: [ownerId], references: [id])
@@ -154,7 +164,7 @@ model Building {
 
 model Unit {
   id           String   @id @default(cuid())
-  reference    Int      @default(autoincrement())
+  reference    String   @unique
   rentalStatus String
   surface      String
   rooms        String
@@ -177,10 +187,11 @@ model Unit {
   typeId String
   type   Type   @relation(fields: [typeId], references: [id])
 
-  createdAt           DateTime             @default(now())
-  updatedAt           DateTime             @updatedAt
   reservations        Reservation[]
   propertyManagements PropertyManagement[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
   @@map("unit")
 }
@@ -211,7 +222,7 @@ model Type {
 
 model Owner {
   id         String @id @default(cuid())
-  reference  Int    @default(autoincrement())
+  reference  String @unique
   firstname  String
   lastname   String
   company    String
@@ -227,8 +238,10 @@ model Owner {
   bankInfo  String
   documents String[]
 
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  invoices  Invoice[]
+  quotes    Quote[]
 
   @@map("owner")
 }
@@ -249,22 +262,20 @@ model Tenant {
 
   isDeleting Boolean @default(false)
 
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
   rentals   Rental[]
+  invoices  Invoice[]
+  quotes    Quote[]
 
   @@map("tenant")
 }
 
 model Rental {
-  id        String @id @default(cuid())
-  reference Int    @default(autoincrement())
+  id String @id @default(cuid())
 
   tenantId String
   tenant   Tenant @relation(fields: [tenantId], references: [id])
-
-  buildingId String
-  building   Building @relation(fields: [buildingId], references: [id])
 
   unitId String
   unit   Unit   @relation(fields: [unitId], references: [id])
@@ -333,8 +344,90 @@ model ProductService {
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+  items     Item[]
 
   @@map("product_service")
+}
+
+model Item {
+  id               String         @id @default(cuid())
+  quantity         Int?
+  productServiceId String
+  productService   ProductService @relation(fields: [productServiceId], references: [id])
+  price            Decimal        @default(0) @db.Decimal(15, 2)
+
+  invoiceId String
+  invoice   Invoice @relation(fields: [invoiceId], references: [id])
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  quote     Quote?   @relation(fields: [quoteId], references: [id])
+  quoteId   String?
+}
+
+model Invoice {
+  id           String       @id @default(cuid())
+  reference    Int          @default(autoincrement())
+  price        Decimal      @default(0) @db.Decimal(15, 2)
+  discount     Decimal      @default(0) @db.Decimal(15, 2)
+  discountType DiscountType @default(PURCENT)
+  hasTax       Boolean      @default(false)
+  updatedTax   String?
+  type         RecordType
+  ownerId      String?
+  owner        Owner?       @relation(fields: [ownerId], references: [id])
+
+  tenantId String?
+  tenant   Tenant? @relation(fields: [tenantId], references: [id])
+  items    Item[]
+
+  note String?
+
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  payments  Payment[]
+
+  @@map("invoice")
+}
+
+model Quote {
+  id           String       @id @default(cuid())
+  reference    String       @unique
+  price        Decimal      @default(0) @db.Decimal(15, 2)
+  discount     Decimal      @default(0) @db.Decimal(15, 2)
+  discountType DiscountType @default(PURCENT)
+  hasTax       Boolean      @default(false)
+  updatedTax   String?
+  type         RecordType
+  ownerId      String?
+  owner        Owner?       @relation(fields: [ownerId], references: [id])
+
+  tenantId String?
+  tenant   Tenant? @relation(fields: [tenantId], references: [id])
+  items    Item[]
+
+  note String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("quote")
+}
+
+model Payment {
+  id        String      @id @default(cuid())
+  reference String      @unique
+  amount    Decimal     @default(0) @db.Decimal(15, 2)
+  type      PaymentType
+  date      DateTime    @default(now())
+
+  invoiceId String
+  invoice   Invoice @relation(fields: [invoiceId], references: [id])
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("payment")
 }
 
 model PersonalService {

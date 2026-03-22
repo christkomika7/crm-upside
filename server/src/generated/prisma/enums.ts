@@ -26,6 +26,15 @@ export const DeletionState = {
 export type DeletionState = (typeof DeletionState)[keyof typeof DeletionState]
 
 
+export const PaymentType = {
+  CASH: 'CASH',
+  CHECK: 'CHECK',
+  BANK: 'BANK'
+} as const
+
+export type PaymentType = (typeof PaymentType)[keyof typeof PaymentType]
+
+
 export const DeletionType = {
   OWNER: 'OWNER',
   BUILDING: 'BUILDING',
@@ -45,3 +54,19 @@ export const DeletionType = {
 } as const
 
 export type DeletionType = (typeof DeletionType)[keyof typeof DeletionType]
+
+
+export const RecordType = {
+  OWNER: 'OWNER',
+  TENANT: 'TENANT'
+} as const
+
+export type RecordType = (typeof RecordType)[keyof typeof RecordType]
+
+
+export const DiscountType = {
+  PURCENT: 'PURCENT',
+  MONEY: 'MONEY'
+} as const
+
+export type DiscountType = (typeof DiscountType)[keyof typeof DiscountType]

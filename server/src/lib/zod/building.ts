@@ -3,6 +3,7 @@ import { ALLOWED_IMAGES, ALLOWED_TYPES, MAX_FILE_SIZE } from "../constant";
 
 export const buildingSchema = z.object({
     name: z.string({ error: "Le nom est requis." }),
+    reference: z.string({ error: "La référence est requise." }),
     location: z.string({ error: "L'adresse est requis." }),
     constructionDate: z.date({ error: "La date de construction est requise." }),
     lotType: z.array(z.string({ error: "Le type de lot est requis." })).min(1, { message: "Minimum un type de lot est requis." }),
@@ -17,7 +18,7 @@ export const buildingSchema = z.object({
     waterBorehole: z.boolean(),
     gym: z.boolean(),
     garden: z.boolean(),
-    status: z.array(z.string({ error: "La gestion du status est requise." })).min(1, { message: "Minimum un statut est requis." }),
+    status: z.array(z.string()).min(1, { error: "Veuillez sélectionner au moins un statut" }),
     map: z.string({ error: "La map est requise." }),
     photos: z.array(
         z

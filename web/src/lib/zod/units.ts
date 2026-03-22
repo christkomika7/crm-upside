@@ -3,6 +3,7 @@ import { ALLOWED_TYPES, MAX_FILE_SIZE } from "../constant";
 
 export const unitSchema = z.object({
     type: z.string({ error: "Le type est requis." }),
+    reference: z.string({ error: "La référence est requise." }),
     building: z.string({ error: "Veuillez selectionner le bâtiment" }),
     rentalStatus: z.string({ error: "Le statut de la location est requis." }),
     surface: z.string({ error: "La surface est requise." }),

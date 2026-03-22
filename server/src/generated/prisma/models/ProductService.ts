@@ -240,6 +240,7 @@ export type ProductServiceWhereInput = {
   isDeleting?: Prisma.BoolFilter<"ProductService"> | boolean
   createdAt?: Prisma.DateTimeFilter<"ProductService"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"ProductService"> | Date | string
+  items?: Prisma.ItemListRelationFilter
 }
 
 export type ProductServiceOrderByWithRelationInput = {
@@ -251,6 +252,7 @@ export type ProductServiceOrderByWithRelationInput = {
   isDeleting?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  items?: Prisma.ItemOrderByRelationAggregateInput
 }
 
 export type ProductServiceWhereUniqueInput = Prisma.AtLeast<{
@@ -265,6 +267,7 @@ export type ProductServiceWhereUniqueInput = Prisma.AtLeast<{
   isDeleting?: Prisma.BoolFilter<"ProductService"> | boolean
   createdAt?: Prisma.DateTimeFilter<"ProductService"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"ProductService"> | Date | string
+  items?: Prisma.ItemListRelationFilter
 }, "id" | "reference">
 
 export type ProductServiceOrderByWithAggregationInput = {
@@ -306,6 +309,7 @@ export type ProductServiceCreateInput = {
   isDeleting?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
+  items?: Prisma.ItemCreateNestedManyWithoutProductServiceInput
 }
 
 export type ProductServiceUncheckedCreateInput = {
@@ -317,6 +321,7 @@ export type ProductServiceUncheckedCreateInput = {
   isDeleting?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
+  items?: Prisma.ItemUncheckedCreateNestedManyWithoutProductServiceInput
 }
 
 export type ProductServiceUpdateInput = {
@@ -328,6 +333,7 @@ export type ProductServiceUpdateInput = {
   isDeleting?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  items?: Prisma.ItemUpdateManyWithoutProductServiceNestedInput
 }
 
 export type ProductServiceUncheckedUpdateInput = {
@@ -339,6 +345,7 @@ export type ProductServiceUncheckedUpdateInput = {
   isDeleting?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  items?: Prisma.ItemUncheckedUpdateManyWithoutProductServiceNestedInput
 }
 
 export type ProductServiceCreateManyInput = {
@@ -415,6 +422,114 @@ export type ProductServiceSumOrderByAggregateInput = {
   price?: Prisma.SortOrder
 }
 
+export type ProductServiceScalarRelationFilter = {
+  is?: Prisma.ProductServiceWhereInput
+  isNot?: Prisma.ProductServiceWhereInput
+}
+
+export type ProductServiceCreateNestedOneWithoutItemsInput = {
+  create?: Prisma.XOR<Prisma.ProductServiceCreateWithoutItemsInput, Prisma.ProductServiceUncheckedCreateWithoutItemsInput>
+  connectOrCreate?: Prisma.ProductServiceCreateOrConnectWithoutItemsInput
+  connect?: Prisma.ProductServiceWhereUniqueInput
+}
+
+export type ProductServiceUpdateOneRequiredWithoutItemsNestedInput = {
+  create?: Prisma.XOR<Prisma.ProductServiceCreateWithoutItemsInput, Prisma.ProductServiceUncheckedCreateWithoutItemsInput>
+  connectOrCreate?: Prisma.ProductServiceCreateOrConnectWithoutItemsInput
+  upsert?: Prisma.ProductServiceUpsertWithoutItemsInput
+  connect?: Prisma.ProductServiceWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.ProductServiceUpdateToOneWithWhereWithoutItemsInput, Prisma.ProductServiceUpdateWithoutItemsInput>, Prisma.ProductServiceUncheckedUpdateWithoutItemsInput>
+}
+
+export type ProductServiceCreateWithoutItemsInput = {
+  id?: string
+  reference: string
+  description: string
+  hasTax?: boolean
+  price?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  isDeleting?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
+}
+
+export type ProductServiceUncheckedCreateWithoutItemsInput = {
+  id?: string
+  reference: string
+  description: string
+  hasTax?: boolean
+  price?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  isDeleting?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
+}
+
+export type ProductServiceCreateOrConnectWithoutItemsInput = {
+  where: Prisma.ProductServiceWhereUniqueInput
+  create: Prisma.XOR<Prisma.ProductServiceCreateWithoutItemsInput, Prisma.ProductServiceUncheckedCreateWithoutItemsInput>
+}
+
+export type ProductServiceUpsertWithoutItemsInput = {
+  update: Prisma.XOR<Prisma.ProductServiceUpdateWithoutItemsInput, Prisma.ProductServiceUncheckedUpdateWithoutItemsInput>
+  create: Prisma.XOR<Prisma.ProductServiceCreateWithoutItemsInput, Prisma.ProductServiceUncheckedCreateWithoutItemsInput>
+  where?: Prisma.ProductServiceWhereInput
+}
+
+export type ProductServiceUpdateToOneWithWhereWithoutItemsInput = {
+  where?: Prisma.ProductServiceWhereInput
+  data: Prisma.XOR<Prisma.ProductServiceUpdateWithoutItemsInput, Prisma.ProductServiceUncheckedUpdateWithoutItemsInput>
+}
+
+export type ProductServiceUpdateWithoutItemsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  reference?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.StringFieldUpdateOperationsInput | string
+  hasTax?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  price?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  isDeleting?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+}
+
+export type ProductServiceUncheckedUpdateWithoutItemsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  reference?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.StringFieldUpdateOperationsInput | string
+  hasTax?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  price?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  isDeleting?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+}
+
+
+/**
+ * Count Type ProductServiceCountOutputType
+ */
+
+export type ProductServiceCountOutputType = {
+  items: number
+}
+
+export type ProductServiceCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  items?: boolean | ProductServiceCountOutputTypeCountItemsArgs
+}
+
+/**
+ * ProductServiceCountOutputType without action
+ */
+export type ProductServiceCountOutputTypeDefaultArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the ProductServiceCountOutputType
+   */
+  select?: Prisma.ProductServiceCountOutputTypeSelect<ExtArgs> | null
+}
+
+/**
+ * ProductServiceCountOutputType without action
+ */
+export type ProductServiceCountOutputTypeCountItemsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.ItemWhereInput
+}
 
 
 export type ProductServiceSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -426,6 +541,8 @@ export type ProductServiceSelect<ExtArgs extends runtime.Types.Extensions.Intern
   isDeleting?: boolean
   createdAt?: boolean
   updatedAt?: boolean
+  items?: boolean | Prisma.ProductService$itemsArgs<ExtArgs>
+  _count?: boolean | Prisma.ProductServiceCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["productService"]>
 
 export type ProductServiceSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -462,10 +579,18 @@ export type ProductServiceSelectScalar = {
 }
 
 export type ProductServiceOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "reference" | "description" | "hasTax" | "price" | "isDeleting" | "createdAt" | "updatedAt", ExtArgs["result"]["productService"]>
+export type ProductServiceInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  items?: boolean | Prisma.ProductService$itemsArgs<ExtArgs>
+  _count?: boolean | Prisma.ProductServiceCountOutputTypeDefaultArgs<ExtArgs>
+}
+export type ProductServiceIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
+export type ProductServiceIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
 
 export type $ProductServicePayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "ProductService"
-  objects: {}
+  objects: {
+    items: Prisma.$ItemPayload<ExtArgs>[]
+  }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
     reference: string
@@ -869,6 +994,7 @@ readonly fields: ProductServiceFieldRefs;
  */
 export interface Prisma__ProductServiceClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
+  items<T extends Prisma.ProductService$itemsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.ProductService$itemsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ItemPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -923,6 +1049,10 @@ export type ProductServiceFindUniqueArgs<ExtArgs extends runtime.Types.Extension
    */
   omit?: Prisma.ProductServiceOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.ProductServiceInclude<ExtArgs> | null
+  /**
    * Filter, which ProductService to fetch.
    */
   where: Prisma.ProductServiceWhereUniqueInput
@@ -941,6 +1071,10 @@ export type ProductServiceFindUniqueOrThrowArgs<ExtArgs extends runtime.Types.Ex
    */
   omit?: Prisma.ProductServiceOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.ProductServiceInclude<ExtArgs> | null
+  /**
    * Filter, which ProductService to fetch.
    */
   where: Prisma.ProductServiceWhereUniqueInput
@@ -958,6 +1092,10 @@ export type ProductServiceFindFirstArgs<ExtArgs extends runtime.Types.Extensions
    * Omit specific fields from the ProductService
    */
   omit?: Prisma.ProductServiceOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.ProductServiceInclude<ExtArgs> | null
   /**
    * Filter, which ProductService to fetch.
    */
@@ -1007,6 +1145,10 @@ export type ProductServiceFindFirstOrThrowArgs<ExtArgs extends runtime.Types.Ext
    */
   omit?: Prisma.ProductServiceOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.ProductServiceInclude<ExtArgs> | null
+  /**
    * Filter, which ProductService to fetch.
    */
   where?: Prisma.ProductServiceWhereInput
@@ -1054,6 +1196,10 @@ export type ProductServiceFindManyArgs<ExtArgs extends runtime.Types.Extensions.
    * Omit specific fields from the ProductService
    */
   omit?: Prisma.ProductServiceOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.ProductServiceInclude<ExtArgs> | null
   /**
    * Filter, which ProductServices to fetch.
    */
@@ -1103,6 +1249,10 @@ export type ProductServiceCreateArgs<ExtArgs extends runtime.Types.Extensions.In
    */
   omit?: Prisma.ProductServiceOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.ProductServiceInclude<ExtArgs> | null
+  /**
    * The data needed to create a ProductService.
    */
   data: Prisma.XOR<Prisma.ProductServiceCreateInput, Prisma.ProductServiceUncheckedCreateInput>
@@ -1150,6 +1300,10 @@ export type ProductServiceUpdateArgs<ExtArgs extends runtime.Types.Extensions.In
    * Omit specific fields from the ProductService
    */
   omit?: Prisma.ProductServiceOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.ProductServiceInclude<ExtArgs> | null
   /**
    * The data needed to update a ProductService.
    */
@@ -1217,6 +1371,10 @@ export type ProductServiceUpsertArgs<ExtArgs extends runtime.Types.Extensions.In
    */
   omit?: Prisma.ProductServiceOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.ProductServiceInclude<ExtArgs> | null
+  /**
    * The filter to search for the ProductService to update in case it exists.
    */
   where: Prisma.ProductServiceWhereUniqueInput
@@ -1243,6 +1401,10 @@ export type ProductServiceDeleteArgs<ExtArgs extends runtime.Types.Extensions.In
    */
   omit?: Prisma.ProductServiceOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.ProductServiceInclude<ExtArgs> | null
+  /**
    * Filter which ProductService to delete.
    */
   where: Prisma.ProductServiceWhereUniqueInput
@@ -1263,6 +1425,30 @@ export type ProductServiceDeleteManyArgs<ExtArgs extends runtime.Types.Extension
 }
 
 /**
+ * ProductService.items
+ */
+export type ProductService$itemsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Item
+   */
+  select?: Prisma.ItemSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Item
+   */
+  omit?: Prisma.ItemOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.ItemInclude<ExtArgs> | null
+  where?: Prisma.ItemWhereInput
+  orderBy?: Prisma.ItemOrderByWithRelationInput | Prisma.ItemOrderByWithRelationInput[]
+  cursor?: Prisma.ItemWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.ItemScalarFieldEnum | Prisma.ItemScalarFieldEnum[]
+}
+
+/**
  * ProductService without action
  */
 export type ProductServiceDefaultArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1274,4 +1460,8 @@ export type ProductServiceDefaultArgs<ExtArgs extends runtime.Types.Extensions.I
    * Omit specific fields from the ProductService
    */
   omit?: Prisma.ProductServiceOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.ProductServiceInclude<ExtArgs> | null
 }

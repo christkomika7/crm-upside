@@ -7,7 +7,7 @@ import { safeSignedUrls } from "../../lib/utils";
 import { tenantSchema } from "../../lib/zod/tenants";
 
 import Decimal from "decimal.js";
-import requestType from "./type";
+import request from "./type";
 
 export const tenantRoutes = new Elysia({ prefix: "/tenant" })
     .use(authPlugin)
@@ -76,7 +76,7 @@ export const tenantRoutes = new Elysia({ prefix: "/tenant" })
             documents: documents.urls
         };
 
-    }, { auth: true, params: requestType.params })
+    }, { auth: true, params: request.params })
     .post("/", async ({ body, permission, status }) => {
         if (!canAccess(permission, "tenants", "create")) {
             return status(403, { message: "Accès refusé" });
@@ -138,7 +138,7 @@ export const tenantRoutes = new Elysia({ prefix: "/tenant" })
     },
         {
             auth: true,
-            body: requestType.body
+            body: request.body
         })
     .put("/:id", async ({ params, body, permission, status }) => {
         if (!canAccess(permission, "tenants", "update")) {
@@ -226,23 +226,37 @@ export const tenantRoutes = new Elysia({ prefix: "/tenant" })
 
 
 
-    }, { auth: true, body: requestType.body, params: requestType.params })
-    .delete("/:id", async ({ params, permission, status }) => {
+    }, { auth: true, body: request.body, params: request.params })
+    .delete("/:id", async ({ params, permission, status, user }) => {
         if (!canAccess(permission, "tenants", "update")) {
             return status(403, { message: "Accès refusé" });
         }
         const id = params.id;
-        const tenant = await prisma.tenant.delete({
-            where: { id },
+        const tenant = await prisma.tenant.findUnique({
+            where: { id }
         });
 
+        if (!tenant) return status(400, { message: "Aucun locataire trouvée." });
 
-        if (tenant.documents) {
-            await Promise.all(tenant.documents.map(async (key) => {
-                await deleteFile(key)
-            }))
-        }
+        await prisma.$transaction([
+            prisma.deletion.create({
+                data: {
+                    recordId: tenant.id,
+                    type: "TENANT",
+                    state: "WAIT",
+                    user: {
+                        connect: { id: user.id }
+                    }
+                }
+            }),
+            prisma.tenant.update({
+                where: { id: tenant.id },
+                data: {
+                    isDeleting: true
+                }
+            })
+        ]);
 
-        return { message: "Locataire supprimé avec succès" };
-    }, { auth: true })
+        return status(200, { message: `La suppression du locataire ${tenant.firstname} ${tenant.lastname} est en attente de suppression.` });
+    }, { auth: true, params: request.params })
 

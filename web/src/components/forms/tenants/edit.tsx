@@ -22,6 +22,7 @@ import { toast } from "sonner";
 import { queryClient } from "@/lib/query-client";
 import { paymentMode } from "@/lib/data";
 import { Textarea } from "@/components/ui/textarea";
+import RequiredLabel from "@/components/ui/required-label";
 
 
 type EditTenantProps = {
@@ -133,7 +134,7 @@ export default function EditTenant({ id }: EditTenantProps) {
                             name="firstname"
                             render={({ field }) => (
                                 <FormItem >
-                                    <FormLabel className="text-neutral-600">Prénom</FormLabel>
+                                    <FormLabel className="text-neutral-600">Prénom<RequiredLabel /> </FormLabel>
                                     <FormControl>
                                         <Input
                                             placeholder="Entrer le prénom"
@@ -151,7 +152,7 @@ export default function EditTenant({ id }: EditTenantProps) {
                             name="lastname"
                             render={({ field }) => (
                                 <FormItem >
-                                    <FormLabel className="text-neutral-600">Nom</FormLabel>
+                                    <FormLabel className="text-neutral-600">Nom<RequiredLabel /> </FormLabel>
                                     <FormControl>
                                         <Input
                                             placeholder="Entrer le nom"
@@ -169,7 +170,7 @@ export default function EditTenant({ id }: EditTenantProps) {
                             name="company"
                             render={({ field }) => (
                                 <FormItem >
-                                    <FormLabel className="text-neutral-600">Entreprise</FormLabel>
+                                    <FormLabel className="text-neutral-600">Entreprise<RequiredLabel /> </FormLabel>
                                     <FormControl>
                                         <Input
                                             placeholder="Entrer le nom de l'enterprise"
@@ -187,7 +188,7 @@ export default function EditTenant({ id }: EditTenantProps) {
                             name="phone"
                             render={({ field }) => (
                                 <FormItem >
-                                    <FormLabel className="text-neutral-600">Numéro de téléphone</FormLabel>
+                                    <FormLabel className="text-neutral-600">Numéro de téléphone<RequiredLabel /> </FormLabel>
                                     <FormControl>
                                         <Input
                                             placeholder="Entrer le numéro de téléphone"
@@ -205,7 +206,7 @@ export default function EditTenant({ id }: EditTenantProps) {
                             name="email"
                             render={({ field }) => (
                                 <FormItem >
-                                    <FormLabel className="text-neutral-600">Adresse email</FormLabel>
+                                    <FormLabel className="text-neutral-600">Adresse email<RequiredLabel /> </FormLabel>
                                     <FormControl>
                                         <Input
                                             placeholder="Entrer l'adresse email"
@@ -223,7 +224,7 @@ export default function EditTenant({ id }: EditTenantProps) {
                             name="address"
                             render={({ field }) => (
                                 <FormItem >
-                                    <FormLabel className="text-neutral-600">Adresse</FormLabel>
+                                    <FormLabel className="text-neutral-600">Adresse<RequiredLabel /> </FormLabel>
                                     <FormControl>
                                         <Input
                                             placeholder="Entrer l'adresse"
@@ -241,7 +242,7 @@ export default function EditTenant({ id }: EditTenantProps) {
                             name="income"
                             render={({ field }) => (
                                 <FormItem >
-                                    <FormLabel className="text-neutral-600">Revenu</FormLabel>
+                                    <FormLabel className="text-neutral-600">Revenu<RequiredLabel /> </FormLabel>
                                     <FormControl>
                                         <Input
                                             placeholder="Entrer le revenu"
@@ -260,7 +261,7 @@ export default function EditTenant({ id }: EditTenantProps) {
                             name="maritalStatus"
                             render={({ field }) => (
                                 <FormItem >
-                                    <FormLabel className="text-neutral-600">Situation familliale</FormLabel>
+                                    <FormLabel className="text-neutral-600">Situation familliale<RequiredLabel /> </FormLabel>
                                     <FormControl>
                                         <Input
                                             placeholder="Veuillez saisir la situation familliale"
@@ -278,7 +279,7 @@ export default function EditTenant({ id }: EditTenantProps) {
                             name="paymentMode"
                             render={({ field }) => (
                                 <FormItem >
-                                    <FormLabel className="text-neutral-600">Mode de paiement</FormLabel>
+                                    <FormLabel className="text-neutral-600">Mode de paiement<RequiredLabel /> </FormLabel>
                                     <FormControl>
                                         <Select onValueChange={field.onChange} value={field.value} >
                                             <SelectTrigger className="w-full" aria-invalid={!!form.formState.errors.paymentMode}>
@@ -303,7 +304,7 @@ export default function EditTenant({ id }: EditTenantProps) {
                         name="bankInfo"
                         render={({ field }) => (
                             <FormItem >
-                                <FormLabel className="text-neutral-600">Informations bancaires</FormLabel>
+                                <FormLabel className="text-neutral-600">Informations bancaires<RequiredLabel /> </FormLabel>
                                 <FormControl>
                                     <Textarea
                                         placeholder="Veuillez saisir les informations bancaires"

@@ -4,8 +4,9 @@ import { prisma } from "../../lib/prisma";
 import { canAccess } from "../auth/permission";
 import { deleteFile, uploadFiles } from "../../lib/storage";
 import { safeSignedUrls } from "../../lib/utils";
-import requestType from "./type";
+import request from "./type";
 import { ownerSchema } from "../../lib/zod/owners";
+import { Prisma } from "../../generated/prisma/client";
 
 export const ownerRoutes = new Elysia({ prefix: "/owner" })
     .use(authPlugin)
@@ -87,7 +88,7 @@ export const ownerRoutes = new Elysia({ prefix: "/owner" })
             documents: documents.urls
         };
 
-    }, { auth: true, params: requestType.params })
+    }, { auth: true, params: request.params })
     .post("/", async ({ body, permission, status }) => {
         if (!canAccess(permission, "owners", "create")) {
             return status(403, { message: "Accès refusé" });
@@ -102,6 +103,16 @@ export const ownerRoutes = new Elysia({ prefix: "/owner" })
                 return status(400, { message: "Les informations du propriétaire sont invalide" });
             }
 
+            const existingOwner = await prisma.owner.findUnique({
+                where: { reference: data.reference },
+            });
+
+            if (existingOwner) {
+                return status(400, {
+                    message: `La référence ${data.reference} est déjà utilisée.`,
+                });
+            }
+
             let documents: string[] = [];
 
             try {
@@ -113,6 +124,7 @@ export const ownerRoutes = new Elysia({ prefix: "/owner" })
 
             await prisma.owner.create({
                 data: {
+                    reference: data.reference,
                     firstname: data.firstname,
                     lastname: data.lastname,
                     company: data.company,
@@ -143,6 +155,14 @@ export const ownerRoutes = new Elysia({ prefix: "/owner" })
                 })
             );
 
+            if (error instanceof Prisma.PrismaClientKnownRequestError) {
+                if (error.code === "P2002") {
+                    return status(400, {
+                        message: "Cette référence existe déjà"
+                    });
+                }
+            }
+
             return status(500, {
                 message: "Erreur lors de la création du propriétaire",
             });
@@ -150,7 +170,7 @@ export const ownerRoutes = new Elysia({ prefix: "/owner" })
     },
         {
             auth: true,
-            body: requestType.body
+            body: request.body
         })
     .put("/:id", async ({ params, body, permission, status }) => {
         if (!canAccess(permission, "owners", "update")) {
@@ -162,6 +182,7 @@ export const ownerRoutes = new Elysia({ prefix: "/owner" })
         const owner = await prisma.owner.findUnique({
             where: { id },
         });
+
 
         if (!owner) {
             return status(404, { message: "Propriétaire non trouvé" });
@@ -178,6 +199,20 @@ export const ownerRoutes = new Elysia({ prefix: "/owner" })
                 return status(400, { message: "Les informations du propriétaire sont invalide" });
             }
 
+            const existingOwner = await prisma.owner.findFirst({
+                where: {
+                    reference: data.reference,
+                    NOT: { id: params.id }
+                }
+            });
+
+            if (existingOwner) {
+                return status(400, {
+                    message: `La référence ${data.reference} est déjà utilisée.`
+                });
+            }
+
+
             let documents: string[] = [];
 
             try {
@@ -192,6 +227,7 @@ export const ownerRoutes = new Elysia({ prefix: "/owner" })
                     id: params.id
                 },
                 data: {
+                    reference: data.reference,
                     firstname: data.firstname,
                     lastname: data.lastname,
                     company: data.company,
@@ -220,7 +256,6 @@ export const ownerRoutes = new Elysia({ prefix: "/owner" })
             return status(201, { message: "Propriétaire modifié avec succès" });
 
         } catch (error) {
-            console.error(error);
 
             await Promise.all(
                 uploadedKeys.map(async (key) => {
@@ -232,30 +267,50 @@ export const ownerRoutes = new Elysia({ prefix: "/owner" })
                 })
             );
 
+            if (error instanceof Prisma.PrismaClientKnownRequestError) {
+                if (error.code === "P2002") {
+                    return status(400, {
+                        message: "Cette référence existe déjà"
+                    });
+                }
+            }
+
             return status(500, {
                 message: "Erreur lors de la modification du propriétaire",
             });
         }
-
-
-
-    }, { auth: true, body: requestType.body, params: requestType.params })
-    .delete("/:id", async ({ params, permission, status }) => {
+    }, { auth: true, body: request.body, params: request.params })
+    .delete("/:id", async ({ params, permission, user, status }) => {
         if (!canAccess(permission, "owners", "update")) {
             return status(403, { message: "Accès refusé" });
         }
+
         const id = params.id;
-        const owner = await prisma.owner.delete({
+        const owner = await prisma.owner.findUnique({
             where: { id },
         });
 
+        if (!owner) return status(400, { message: "Aucun propriétaire trouvé." });
 
-        if (owner.documents) {
-            await Promise.all(owner.documents.map(async (key) => {
-                await deleteFile(key)
-            }))
-        }
+        await prisma.$transaction([
+            prisma.deletion.create({
+                data: {
+                    recordId: owner.id,
+                    type: "OWNER",
+                    state: "WAIT",
+                    user: {
+                        connect: { id: user.id }
+                    }
+                }
+            }),
+            prisma.owner.update({
+                where: { id: owner.id },
+                data: {
+                    isDeleting: true
+                }
+            })
+        ]);
 
-        return { message: "Propriétaire supprimé avec succès" };
-    }, { auth: true })
+        return status(200, { message: `La suppression du propriétaire ${owner.firstname} ${owner.lastname} est en attente de validation.` });
+    }, { auth: true, params: request.params })
 

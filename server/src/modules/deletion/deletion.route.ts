@@ -45,9 +45,85 @@ export const deletionRoutes = new Elysia({ prefix: "/deletion" })
                 }
                 return buildingDeltion;
             case "OWNER":
+                const ownerParsed = [];
+                for (const deletion of deletions) {
+                    const owner = await prisma.owner.findUnique({
+                        where: { id: deletion.recordId }
+                    });
+
+                    if (!owner) return status(400, { message: "Aucun propriétaire trouvé." });
+
+                    ownerParsed.push({
+                        id: deletion.id,
+                        type: deletion.type,
+                        reference: owner.reference,
+                        name: `${owner.firstname} ${owner.lastname}`,
+                        date: formatDateToString(deletion.createdAt),
+                        actionBy: user.name
+                    });
+                }
+                return ownerParsed;
             case "TENANT":
+                const tenantParsed = [];
+                let tenantIndex = 0;
+                for (const deletion of deletions) {
+                    const tenant = await prisma.tenant.findUnique({
+                        where: { id: deletion.recordId }
+                    });
+
+                    if (!tenant) return status(400, { message: "Aucun locataire trouvé." });
+
+                    tenantParsed.push({
+                        id: deletion.id,
+                        reference: `${tenantIndex + 1}`,
+                        type: deletion.type,
+                        name: `${tenant.firstname} ${tenant.lastname}`,
+                        date: formatDateToString(deletion.createdAt),
+                        actionBy: user.name
+                    });
+                }
+                return tenantParsed;
             case "UNIT":
+                const unitParsed = [];
+                for (const deletion of deletions) {
+                    const unit = await prisma.unit.findUnique({
+                        where: { id: deletion.recordId },
+                        include: { type: true }
+                    });
+
+                    if (!unit) return status(400, { message: "Aucune unitée trouvée." });
+
+                    unitParsed.push({
+                        id: deletion.id,
+                        reference: unit.reference,
+                        type: deletion.type,
+                        name: unit.type.name,
+                        date: formatDateToString(deletion.createdAt),
+                        actionBy: user.name
+                    });
+                }
+                return unitParsed;
             case "RENTAL":
+                const rentalParsed = [];
+                let index = 0;
+                for (const deletion of deletions) {
+                    const rental = await prisma.rental.findUnique({
+                        where: { id: deletion.recordId },
+                        include: { unit: true }
+                    });
+
+                    if (!rental) return status(400, { message: "Aucune location trouvée." });
+
+                    rentalParsed.push({
+                        id: deletion.id,
+                        reference: index++,
+                        type: deletion.type,
+                        name: `Location unitée ${rental.unit.reference}`,
+                        date: formatDateToString(deletion.createdAt),
+                        actionBy: user.name
+                    });
+                }
+                return rentalParsed;
             case "RESERVATION":
                 const reservationParsed = [];
                 let reservationIndex = 0;
@@ -56,7 +132,7 @@ export const deletionRoutes = new Elysia({ prefix: "/deletion" })
                         where: { id: deletion.recordId }
                     });
 
-                    if (!reservation) return status(400, { message: "Aucun réservation trouvée." });
+                    if (!reservation) return status(400, { message: "Aucune réservation trouvée." });
 
                     reservationParsed.push({
                         id: deletion.id,
@@ -148,7 +224,6 @@ export const deletionRoutes = new Elysia({ prefix: "/deletion" })
                             state: "NOTHING"
                         }
                     });
-
                     switch (deletion.type) {
                         case "BUILDING":
                             const [building] = await prisma.$transaction([
@@ -164,10 +239,71 @@ export const deletionRoutes = new Elysia({ prefix: "/deletion" })
                             ]);
                             return status(200, { message: `La suppression du bâtiment ${building.name} a été annulé avec succès.` });
                         case "OWNER":
+                            const [owner] = await prisma.$transaction([
+                                prisma.owner.update({
+                                    where: { id: deletion.recordId },
+                                    data: {
+                                        isDeleting: false
+                                    }
+                                }),
+                                prisma.deletion.delete({
+                                    where: { id: deletion.id }
+                                })
+                            ]);
+                            return status(200, { message: `La suppression du propriétaire ${owner.firstname} ${owner.lastname} a été annulé avec succès.` });
                         case "TENANT":
+                            const [tenant] = await prisma.$transaction([
+                                prisma.tenant.update({
+                                    where: { id: deletion.recordId },
+                                    data: {
+                                        isDeleting: false
+                                    }
+                                }),
+                                prisma.deletion.delete({
+                                    where: { id: deletion.id }
+                                })
+                            ]);
+                            return status(200, { message: `La suppression du locataire ${tenant.firstname} ${tenant.lastname} a été annulé avec succès.` });
                         case "UNIT":
+                            const [unit] = await prisma.$transaction([
+                                prisma.unit.update({
+                                    where: { id: deletion.recordId },
+                                    data: {
+                                        isDeleting: false
+                                    }
+                                }),
+                                prisma.deletion.delete({
+                                    where: { id: deletion.id }
+                                })
+                            ]);
+                            return status(200, { message: `La suppression de l'unité ${unit.reference} a été annulé avec succès.` });
                         case "RENTAL":
+                            const [rental] = await prisma.$transaction([
+                                prisma.rental.update({
+                                    where: { id: deletion.recordId },
+                                    data: {
+                                        isDeleting: false
+                                    },
+                                    include: { unit: true }
+                                }),
+                                prisma.deletion.delete({
+                                    where: { id: deletion.id }
+                                })
+                            ]);
+                            return status(200, { message: `La suppression de la location de l'unité ${rental.unit.reference}  a été annulé avec succès.` });
                         case "RESERVATION":
+                            const [reservation] = await prisma.$transaction([
+                                prisma.reservation.update({
+                                    where: { id: deletion.recordId },
+                                    data: {
+                                        isDeleting: false
+                                    }
+                                }),
+                                prisma.deletion.delete({
+                                    where: { id: deletion.id }
+                                })
+                            ]);
+                            return status(200, { message: `La suppression de la reservation ${reservation.name} a été annulé avec succès.` });
                         case "PROPERTY_MANAGEMENT":
                             await prisma.$transaction([
                                 prisma.propertyManagement.update({
@@ -249,9 +385,107 @@ export const deletionRoutes = new Elysia({ prefix: "/deletion" })
 
                             return status(200, { message: `Le bâtiment ${building.name} a été supprimé avec succès.` });
                         case "OWNER":
+                            const owner = await prisma.owner.findUnique({
+                                where: { id: deletion.recordId },
+                            });
+
+                            if (!owner) return status(400, { message: "Aucun propriétaire trouvé." })
+
+                            await prisma.$transaction([
+                                prisma.deletion.update({
+                                    where: {
+                                        id: deletion.id
+                                    },
+                                    data: {
+                                        state: "TERMINED"
+                                    }
+                                }),
+                                prisma.owner.delete({ where: { id: owner.id } })
+                            ])
+
+
+                            if (owner.documents) {
+                                await Promise.all(owner.documents.map(async (key) => {
+                                    await deleteFile(key)
+                                }))
+                            }
+
+                            return status(200, { message: `Le propriétaire ${owner.firstname} ${owner.lastname} a été supprimé avec succès.` });
                         case "TENANT":
+                            const tenant = await prisma.tenant.findUnique({
+                                where: { id: deletion.recordId },
+                            });
+
+                            if (!tenant) return status(400, { message: "Aucun locataire trouvé." })
+
+                            await prisma.$transaction([
+                                prisma.deletion.update({
+                                    where: {
+                                        id: deletion.id
+                                    },
+                                    data: {
+                                        state: "TERMINED"
+                                    }
+                                }),
+                                prisma.tenant.delete({ where: { id: tenant.id } })
+                            ])
+
+
+                            if (tenant.documents) {
+                                await Promise.all(tenant.documents.map(async (key) => {
+                                    await deleteFile(key)
+                                }))
+                            }
+
+                            return status(200, { message: `Le locataire ${tenant.firstname} ${tenant.lastname} a été supprimé avec succès.` });
                         case "UNIT":
+                            const unit = await prisma.unit.findUnique({
+                                where: { id: deletion.recordId },
+                            });
+
+                            if (!unit) return status(400, { message: "Aucune unité trouvée." })
+
+                            await prisma.$transaction([
+                                prisma.deletion.update({
+                                    where: {
+                                        id: deletion.id
+                                    },
+                                    data: {
+                                        state: "TERMINED"
+                                    }
+                                }),
+                                prisma.unit.delete({ where: { id: unit.id } })
+                            ])
+
+
+                            if (unit.documents) {
+                                await Promise.all(unit.documents.map(async (key) => {
+                                    await deleteFile(key)
+                                }))
+                            }
+
+                            return status(200, { message: `L'unité ${unit.reference} a été supprimé avec succès.` });
                         case "RENTAL":
+                            const rental = await prisma.rental.findUnique({
+                                where: { id: deletion.recordId },
+                                include: { unit: true }
+                            });
+
+                            if (!rental) return status(400, { message: "Aucune location trouvée." })
+
+                            await prisma.$transaction([
+                                prisma.deletion.update({
+                                    where: {
+                                        id: deletion.id
+                                    },
+                                    data: {
+                                        state: "TERMINED"
+                                    }
+                                }),
+                                prisma.rental.delete({ where: { id: rental.id } })
+                            ])
+
+                            return status(200, { message: `La location de l'unité ${rental.unit.reference} a été supprimé avec succès.` });
                         case "RESERVATION":
                             const reservation = await prisma.reservation.findUnique({
                                 where: { id: deletion.recordId },
@@ -331,8 +565,6 @@ export const deletionRoutes = new Elysia({ prefix: "/deletion" })
                     return status(500, "Une erreur est survenu lors de la suppression.")
 
                 }
-
-
             default:
                 return status(400, "Le type d'action est invalide.");
 

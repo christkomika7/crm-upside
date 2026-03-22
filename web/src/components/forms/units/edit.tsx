@@ -26,6 +26,7 @@ import { toast } from "sonner";
 import { queryClient } from "@/lib/query-client";
 import type { UnitClient, Unit } from "@/types/unit";
 import { urlToFile } from "@/lib/upload";
+import RequiredLabel from "@/components/ui/required-label";
 
 
 type EditUnitProps = {
@@ -34,11 +35,13 @@ type EditUnitProps = {
 
 
 export default function EditUnit({ id }: EditUnitProps) {
+    const [formKey, setFormKey] = useState(0);
     const [open, setOpen] = useState(false);
 
     const form = useForm<UnitSchemaType>({
         resolver: zodResolver(unitSchema),
         defaultValues: {
+            reference: "",
             type: "",
             building: "",
             rentalStatus: "",
@@ -54,7 +57,6 @@ export default function EditUnit({ id }: EditUnitProps) {
             documents: [],
         }
     });
-
     const { isPending: isGettingType, data: typeOptions } = useQuery({
         queryKey: ["types"],
         queryFn: () => apiFetch<Type[]>("/type/"),
@@ -62,25 +64,29 @@ export default function EditUnit({ id }: EditUnitProps) {
             value: type.id,
             label: type.name,
         })),
+        placeholderData: (prev) => prev,
     });
 
     const { isPending: isGettingBuilding, data: buildingOptions } = useQuery({
         queryKey: ["buildings"],
         queryFn: () => apiFetch<Building[]>("/building/"),
+        placeholderData: (prev) => prev,
     });
 
     const { isPending: isLoadingUnit, data: unit } = useQuery<UnitClient>({
         queryKey: ["unit", id],
+        enabled: !!id,
         queryFn: async () => {
             const data = await apiFetch<Unit>(`/unit/${id}`);
             return {
                 ...data,
-
                 documents: data.documents?.length
                     ? await Promise.all(data.documents.map((url) => urlToFile(url)))
                     : [],
             };
         },
+        refetchOnMount: true,
+        staleTime: 0,
     });
 
     const mutation = useMutation({
@@ -96,12 +102,12 @@ export default function EditUnit({ id }: EditUnitProps) {
         },
     });
 
-
     useEffect(() => {
-        if (unit) {
+        if (unit && typeOptions && buildingOptions) {
             form.reset({
                 type: unit.typeId,
                 building: unit.buildingId,
+                reference: unit.reference,
                 rentalStatus: unit.rentalStatus,
                 surface: unit.surface,
                 rooms: unit.rooms,
@@ -113,11 +119,10 @@ export default function EditUnit({ id }: EditUnitProps) {
                 tv: unit.tv,
                 charges: unit.charges,
                 documents: unit.documents,
-            })
+            });
+            setFormKey(prev => prev + 1);
         }
-
-
-    }, [unit])
+    }, [unit, typeOptions, buildingOptions]);
 
     async function submit(formData: UnitSchemaType) {
         const { success, data } = unitSchema.safeParse({
@@ -127,6 +132,7 @@ export default function EditUnit({ id }: EditUnitProps) {
             const form = new FormData();
 
             form.append("type", data.type);
+            form.append("reference", data.reference);
             form.append("building", data.building);
             form.append("rentalStatus", data.rentalStatus);
             form.append("surface", data.surface);
@@ -155,16 +161,30 @@ export default function EditUnit({ id }: EditUnitProps) {
             </Activity>
             <Form {...form}>
                 <form
+                    key={formKey}
                     onSubmit={form.handleSubmit(submit)}
                     className="space-y-4.5 w-full"
                 >
                     <div className="grid grid-cols-3 gap-4">
                         <FormField
                             control={form.control}
+                            name="reference"
+                            render={({ field }) => (
+                                <FormItem >
+                                    <FormLabel className="text-neutral-600">Référence<RequiredLabel /></FormLabel>
+                                    <FormControl>
+                                        <Input placeholder="" {...field} />
+                                    </FormControl>
+                                    <FormMessage />
+                                </FormItem>
+                            )}
+                        />
+                        <FormField
+                            control={form.control}
                             name="type"
                             render={({ field }) => (
                                 <FormItem >
-                                    <FormLabel className="text-neutral-600">Type</FormLabel>
+                                    <FormLabel className="text-neutral-600">Type<RequiredLabel /></FormLabel>
                                     <FormControl>
                                         <div className="flex gap-x-2">
                                             <Select onValueChange={e => field.onChange(e)} value={field.value} >
@@ -203,7 +223,7 @@ export default function EditUnit({ id }: EditUnitProps) {
                             name="building"
                             render={({ field }) => (
                                 <FormItem >
-                                    <FormLabel className="text-neutral-600">Bâtiment</FormLabel>
+                                    <FormLabel className="text-neutral-600">Bâtiment<RequiredLabel /></FormLabel>
                                     <FormControl>
                                         <Select onValueChange={e => field.onChange(e)} value={field.value} >
                                             <SelectTrigger className="w-full" aria-invalid={!!form.formState.errors.building}>
@@ -237,7 +257,7 @@ export default function EditUnit({ id }: EditUnitProps) {
                             name="rentalStatus"
                             render={({ field }) => (
                                 <FormItem >
-                                    <FormLabel className="text-neutral-600">Statut de location</FormLabel>
+                                    <FormLabel className="text-neutral-600">Statut de location<RequiredLabel /></FormLabel>
                                     <FormControl>
                                         <Select onValueChange={field.onChange} value={field.value} >
                                             <SelectTrigger className="w-full" aria-invalid={!!form.formState.errors.rentalStatus}>
@@ -258,7 +278,7 @@ export default function EditUnit({ id }: EditUnitProps) {
                             name="surface"
                             render={({ field }) => (
                                 <FormItem >
-                                    <FormLabel className="text-neutral-600">Surface</FormLabel>
+                                    <FormLabel className="text-neutral-600">Surface<RequiredLabel /></FormLabel>
                                     <FormControl>
                                         <Input
                                             placeholder="Entrer la valeur de la surface"
@@ -276,7 +296,7 @@ export default function EditUnit({ id }: EditUnitProps) {
                             name="rooms"
                             render={({ field }) => (
                                 <FormItem >
-                                    <FormLabel className="text-neutral-600">Nombre de chambre</FormLabel>
+                                    <FormLabel className="text-neutral-600">Nombre de chambre<RequiredLabel /></FormLabel>
                                     <FormControl>
                                         <Input
                                             type="number"
@@ -295,7 +315,7 @@ export default function EditUnit({ id }: EditUnitProps) {
                             name="rent"
                             render={({ field }) => (
                                 <FormItem >
-                                    <FormLabel className="text-neutral-600">Prix de location</FormLabel>
+                                    <FormLabel className="text-neutral-600">Prix de location<RequiredLabel /></FormLabel>
                                     <FormControl>
                                         <Input
                                             placeholder="Entrer le prix de la location"
@@ -313,7 +333,7 @@ export default function EditUnit({ id }: EditUnitProps) {
                             name="furnished"
                             render={({ field }) => (
                                 <FormItem >
-                                    <FormLabel className="text-neutral-600">Meublé</FormLabel>
+                                    <FormLabel className="text-neutral-600">Meublé<RequiredLabel /></FormLabel>
                                     <FormControl>
                                         <Select onValueChange={e => field.onChange(e)} value={field.value} >
                                             <SelectTrigger className="w-full" aria-invalid={!!form.formState.errors.furnished}>
@@ -421,7 +441,7 @@ export default function EditUnit({ id }: EditUnitProps) {
                             name="charges"
                             render={({ field }) => (
                                 <FormItem >
-                                    <FormLabel className="text-neutral-600">Prix des charges</FormLabel>
+                                    <FormLabel className="text-neutral-600">Prix des charges<RequiredLabel /></FormLabel>
                                     <FormControl>
                                         <Input
                                             type="number"
@@ -456,7 +476,7 @@ export default function EditUnit({ id }: EditUnitProps) {
                                     <Spinner />
                                 </span>
                             ) : (
-                                "Enregistrer"
+                                "Modifier"
                             )}
                         </Button>
                     </div>

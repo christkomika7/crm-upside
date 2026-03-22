@@ -20,13 +20,8 @@ export const noteSchema = z.object({
 });
 
 export const referenceSchema = z.object({
-    owner: z.string().optional(),
-    building: z.string().optional(),
-    unit: z.string().optional(),
-    rental: z.string().optional(),
-    invoicing: z.string().optional(),
-    contract: z.string().optional(),
-    checkIn: z.string().optional(),
+    invoice: z.string().optional(),
+    quote: z.string().optional(),
 });
 
 export type ReferenceSchemaType = z.infer<typeof referenceSchema>;

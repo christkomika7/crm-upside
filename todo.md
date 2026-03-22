@@ -25,3 +25,6 @@
 # Owner statement
 - Generer un pdf
 
+# Revoir les deletes
+- Au niveau des données connectées
+

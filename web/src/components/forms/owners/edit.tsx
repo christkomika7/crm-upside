@@ -16,6 +16,7 @@ import { toast } from "sonner";
 import { queryClient } from "@/lib/query-client";
 import MultipleSelector from "@/components/ui/mullti-select";
 import { Textarea } from "@/components/ui/textarea";
+import RequiredLabel from "@/components/ui/required-label";
 
 
 type EditOwnersProps = {
@@ -25,19 +26,23 @@ type EditOwnersProps = {
 export default function EditOwners({ id }: EditOwnersProps) {
 
     const { isPending, data: buildings } = useQuery({
-        queryKey: ["buildings"],
-        queryFn: () => apiFetch<Building[]>("/building"),
-        select: (data) => data.map((building) => ({
-            value: building.id,
-            label: building.name,
-        })),
+        queryKey: ["owner-buildings", id],
+        enabled: !!id,
+        queryFn: () =>
+            apiFetch<Building[]>(`/building/available-for-owner/${id}`),
+        select: (data) =>
+            data.map((building) => ({
+                value: building.id,
+                label: building.name,
+            })),
+        staleTime: 0,
+
     });
 
     const { isPending: isLoadingOwner, data: owner } = useQuery<OwnerClient>({
         queryKey: ["owner", id],
         queryFn: async () => {
             const data = await apiFetch<Owner>(`/owner/${id}`);
-            console.log({ data })
             return {
                 ...data,
                 documents: data.documents?.length
@@ -63,12 +68,14 @@ export default function EditOwners({ id }: EditOwnersProps) {
     const form = useForm<OwnerSchemaType>({
         resolver: zodResolver(ownerSchema),
         defaultValues: {
+            reference: "",
             firstname: "",
             lastname: "",
             company: "",
             phone: "",
             email: "",
             address: "",
+            actionnary: "",
             buildings: [],
             bankInfo: "",
             documents: [],
@@ -79,6 +86,7 @@ export default function EditOwners({ id }: EditOwnersProps) {
         if (owner) {
             console.log({ owner })
             form.reset({
+                reference: owner.reference,
                 firstname: owner.firstname,
                 lastname: owner.lastname,
                 company: owner.company,
@@ -101,6 +109,7 @@ export default function EditOwners({ id }: EditOwnersProps) {
             const form = new FormData();
 
             form.append("buildings", JSON.stringify(data.buildings));
+            form.append("reference", data.reference);
             form.append("firstname", data.firstname);
             form.append("lastname", data.lastname);
             form.append("company", data.company);
@@ -133,10 +142,28 @@ export default function EditOwners({ id }: EditOwnersProps) {
                     <div className="grid grid-cols-3 gap-4">
                         <FormField
                             control={form.control}
+                            name="reference"
+                            render={({ field }) => (
+                                <FormItem >
+                                    <FormLabel className="text-neutral-600">Référence<RequiredLabel /> </FormLabel>
+                                    <FormControl>
+                                        <Input
+                                            placeholder="Entrer la référence"
+                                            value={field.value}
+                                            aria-invalid={!!form.formState.errors.reference}
+                                            onChange={field.onChange}
+                                        />
+                                    </FormControl>
+                                    <FormMessage />
+                                </FormItem>
+                            )}
+                        />
+                        <FormField
+                            control={form.control}
                             name="firstname"
                             render={({ field }) => (
                                 <FormItem >
-                                    <FormLabel className="text-neutral-600">Prénom</FormLabel>
+                                    <FormLabel className="text-neutral-600">Prénom<RequiredLabel /></FormLabel>
                                     <FormControl>
                                         <Input
                                             placeholder="Entrer le  prénom"
@@ -154,7 +181,7 @@ export default function EditOwners({ id }: EditOwnersProps) {
                             name="lastname"
                             render={({ field }) => (
                                 <FormItem >
-                                    <FormLabel className="text-neutral-600">Nom</FormLabel>
+                                    <FormLabel className="text-neutral-600">Nom<RequiredLabel /></FormLabel>
                                     <FormControl>
                                         <Input
                                             placeholder="Entrer le  nom"
@@ -172,7 +199,7 @@ export default function EditOwners({ id }: EditOwnersProps) {
                             name="company"
                             render={({ field }) => (
                                 <FormItem >
-                                    <FormLabel className="text-neutral-600">Entreprise</FormLabel>
+                                    <FormLabel className="text-neutral-600">Entreprise<RequiredLabel /></FormLabel>
                                     <FormControl>
                                         <Input
                                             placeholder="Entrer le nom de l'enterprise"
@@ -190,7 +217,7 @@ export default function EditOwners({ id }: EditOwnersProps) {
                             name="phone"
                             render={({ field }) => (
                                 <FormItem >
-                                    <FormLabel className="text-neutral-600">Numéro de téléphone</FormLabel>
+                                    <FormLabel className="text-neutral-600">Numéro de téléphone<RequiredLabel /></FormLabel>
                                     <FormControl>
                                         <Input
                                             placeholder="Entrer le numéro de téléphone"
@@ -208,7 +235,7 @@ export default function EditOwners({ id }: EditOwnersProps) {
                             name="email"
                             render={({ field }) => (
                                 <FormItem >
-                                    <FormLabel className="text-neutral-600">Adresse email</FormLabel>
+                                    <FormLabel className="text-neutral-600">Adresse email<RequiredLabel /></FormLabel>
                                     <FormControl>
                                         <Input
                                             placeholder="Entrer l'adresse email"
@@ -226,7 +253,7 @@ export default function EditOwners({ id }: EditOwnersProps) {
                             name="address"
                             render={({ field }) => (
                                 <FormItem >
-                                    <FormLabel className="text-neutral-600">Adresse</FormLabel>
+                                    <FormLabel className="text-neutral-600">Adresse<RequiredLabel /></FormLabel>
                                     <FormControl>
                                         <Input
                                             placeholder="Entrer l'adresse"
@@ -244,7 +271,7 @@ export default function EditOwners({ id }: EditOwnersProps) {
                             name="actionnary"
                             render={({ field }) => (
                                 <FormItem >
-                                    <FormLabel className="text-neutral-600">Actionnaire</FormLabel>
+                                    <FormLabel className="text-neutral-600">Actionnaire<RequiredLabel /></FormLabel>
                                     <FormControl>
                                         <Input
                                             placeholder="Entrer l'actionnaire (séparer par des points-virgules)"
@@ -262,7 +289,7 @@ export default function EditOwners({ id }: EditOwnersProps) {
                             name="buildings"
                             render={({ field }) => (
                                 <FormItem >
-                                    <FormLabel className="text-neutral-600">Propriétés associées</FormLabel>
+                                    <FormLabel className="text-neutral-600">Propriétés associées<RequiredLabel /></FormLabel>
                                     <FormControl>
                                         <MultipleSelector
                                             commandProps={{
@@ -296,7 +323,7 @@ export default function EditOwners({ id }: EditOwnersProps) {
                         name="bankInfo"
                         render={({ field }) => (
                             <FormItem >
-                                <FormLabel className="text-neutral-600">Informations bancaires</FormLabel>
+                                <FormLabel className="text-neutral-600">Informations bancaires<RequiredLabel /></FormLabel>
                                 <FormControl>
                                     <Textarea
                                         placeholder="Entrez les informations bancaires"

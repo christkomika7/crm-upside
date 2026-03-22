@@ -7,7 +7,7 @@ import { __nullable__ } from "./__nullable__";
 export const OwnerPlain = t.Object(
   {
     id: t.String(),
-    reference: t.Integer(),
+    reference: t.String(),
     firstname: t.String(),
     lastname: t.String(),
     company: t.String(),
@@ -30,7 +30,7 @@ export const OwnerRelations = t.Object(
       t.Object(
         {
           id: t.String(),
-          reference: t.Integer(),
+          reference: t.String(),
           name: t.String(),
           location: t.String(),
           constructionDate: t.Date(),
@@ -59,13 +59,63 @@ export const OwnerRelations = t.Object(
       ),
       { additionalProperties: false },
     ),
+    invoices: t.Array(
+      t.Object(
+        {
+          id: t.String(),
+          reference: t.Integer(),
+          price: t.Number(),
+          discount: t.Number(),
+          discountType: t.Union([t.Literal("PURCENT"), t.Literal("MONEY")], {
+            additionalProperties: false,
+          }),
+          hasTax: t.Boolean(),
+          updatedTax: __nullable__(t.String()),
+          type: t.Union([t.Literal("OWNER"), t.Literal("TENANT")], {
+            additionalProperties: false,
+          }),
+          ownerId: __nullable__(t.String()),
+          tenantId: __nullable__(t.String()),
+          note: __nullable__(t.String()),
+          createdAt: t.Date(),
+          updatedAt: t.Date(),
+        },
+        { additionalProperties: false },
+      ),
+      { additionalProperties: false },
+    ),
+    quotes: t.Array(
+      t.Object(
+        {
+          id: t.String(),
+          reference: t.String(),
+          price: t.Number(),
+          discount: t.Number(),
+          discountType: t.Union([t.Literal("PURCENT"), t.Literal("MONEY")], {
+            additionalProperties: false,
+          }),
+          hasTax: t.Boolean(),
+          updatedTax: __nullable__(t.String()),
+          type: t.Union([t.Literal("OWNER"), t.Literal("TENANT")], {
+            additionalProperties: false,
+          }),
+          ownerId: __nullable__(t.String()),
+          tenantId: __nullable__(t.String()),
+          note: __nullable__(t.String()),
+          createdAt: t.Date(),
+          updatedAt: t.Date(),
+        },
+        { additionalProperties: false },
+      ),
+      { additionalProperties: false },
+    ),
   },
   { additionalProperties: false },
 );
 
 export const OwnerPlainInputCreate = t.Object(
   {
-    reference: t.Optional(t.Integer()),
+    reference: t.String(),
     firstname: t.String(),
     lastname: t.String(),
     company: t.String(),
@@ -82,7 +132,7 @@ export const OwnerPlainInputCreate = t.Object(
 
 export const OwnerPlainInputUpdate = t.Object(
   {
-    reference: t.Optional(t.Integer()),
+    reference: t.Optional(t.String()),
     firstname: t.Optional(t.String()),
     lastname: t.Optional(t.String()),
     company: t.Optional(t.String()),
@@ -100,6 +150,38 @@ export const OwnerPlainInputUpdate = t.Object(
 export const OwnerRelationsInputCreate = t.Object(
   {
     buildings: t.Optional(
+      t.Object(
+        {
+          connect: t.Array(
+            t.Object(
+              {
+                id: t.String({ additionalProperties: false }),
+              },
+              { additionalProperties: false },
+            ),
+            { additionalProperties: false },
+          ),
+        },
+        { additionalProperties: false },
+      ),
+    ),
+    invoices: t.Optional(
+      t.Object(
+        {
+          connect: t.Array(
+            t.Object(
+              {
+                id: t.String({ additionalProperties: false }),
+              },
+              { additionalProperties: false },
+            ),
+            { additionalProperties: false },
+          ),
+        },
+        { additionalProperties: false },
+      ),
+    ),
+    quotes: t.Optional(
       t.Object(
         {
           connect: t.Array(
@@ -147,6 +229,56 @@ export const OwnerRelationsInputUpdate = t.Partial(
           { additionalProperties: false },
         ),
       ),
+      invoices: t.Partial(
+        t.Object(
+          {
+            connect: t.Array(
+              t.Object(
+                {
+                  id: t.String({ additionalProperties: false }),
+                },
+                { additionalProperties: false },
+              ),
+              { additionalProperties: false },
+            ),
+            disconnect: t.Array(
+              t.Object(
+                {
+                  id: t.String({ additionalProperties: false }),
+                },
+                { additionalProperties: false },
+              ),
+              { additionalProperties: false },
+            ),
+          },
+          { additionalProperties: false },
+        ),
+      ),
+      quotes: t.Partial(
+        t.Object(
+          {
+            connect: t.Array(
+              t.Object(
+                {
+                  id: t.String({ additionalProperties: false }),
+                },
+                { additionalProperties: false },
+              ),
+              { additionalProperties: false },
+            ),
+            disconnect: t.Array(
+              t.Object(
+                {
+                  id: t.String({ additionalProperties: false }),
+                },
+                { additionalProperties: false },
+              ),
+              { additionalProperties: false },
+            ),
+          },
+          { additionalProperties: false },
+        ),
+      ),
     },
     { additionalProperties: false },
   ),
@@ -161,7 +293,7 @@ export const OwnerWhere = t.Partial(
           NOT: t.Union([Self, t.Array(Self, { additionalProperties: false })]),
           OR: t.Array(Self, { additionalProperties: false }),
           id: t.String(),
-          reference: t.Integer(),
+          reference: t.String(),
           firstname: t.String(),
           lastname: t.String(),
           company: t.String(),
@@ -186,12 +318,16 @@ export const OwnerWhereUnique = t.Recursive(
     t.Intersect(
       [
         t.Partial(
-          t.Object({ id: t.String() }, { additionalProperties: false }),
+          t.Object(
+            { id: t.String(), reference: t.String() },
+            { additionalProperties: false },
+          ),
           { additionalProperties: false },
         ),
-        t.Union([t.Object({ id: t.String() })], {
-          additionalProperties: false,
-        }),
+        t.Union(
+          [t.Object({ id: t.String() }), t.Object({ reference: t.String() })],
+          { additionalProperties: false },
+        ),
         t.Partial(
           t.Object({
             AND: t.Union([
@@ -210,7 +346,7 @@ export const OwnerWhereUnique = t.Recursive(
           t.Object(
             {
               id: t.String(),
-              reference: t.Integer(),
+              reference: t.String(),
               firstname: t.String(),
               lastname: t.String(),
               company: t.String(),
@@ -251,6 +387,8 @@ export const OwnerSelect = t.Partial(
       documents: t.Boolean(),
       createdAt: t.Boolean(),
       updatedAt: t.Boolean(),
+      invoices: t.Boolean(),
+      quotes: t.Boolean(),
       _count: t.Boolean(),
     },
     { additionalProperties: false },
@@ -259,7 +397,12 @@ export const OwnerSelect = t.Partial(
 
 export const OwnerInclude = t.Partial(
   t.Object(
-    { buildings: t.Boolean(), _count: t.Boolean() },
+    {
+      buildings: t.Boolean(),
+      invoices: t.Boolean(),
+      quotes: t.Boolean(),
+      _count: t.Boolean(),
+    },
     { additionalProperties: false },
   ),
 );

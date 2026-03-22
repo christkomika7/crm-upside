@@ -26,7 +26,7 @@ export const PropertyManagementRelations = t.Object(
     building: t.Object(
       {
         id: t.String(),
-        reference: t.Integer(),
+        reference: t.String(),
         name: t.String(),
         location: t.String(),
         constructionDate: t.Date(),
@@ -56,7 +56,7 @@ export const PropertyManagementRelations = t.Object(
     unit: t.Object(
       {
         id: t.String(),
-        reference: t.Integer(),
+        reference: t.String(),
         rentalStatus: t.String(),
         surface: t.String(),
         rooms: t.String(),

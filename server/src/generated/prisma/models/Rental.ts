@@ -27,20 +27,16 @@ export type AggregateRental = {
 }
 
 export type RentalAvgAggregateOutputType = {
-  reference: number | null
   price: runtime.Decimal | null
 }
 
 export type RentalSumAggregateOutputType = {
-  reference: number | null
   price: runtime.Decimal | null
 }
 
 export type RentalMinAggregateOutputType = {
   id: string | null
-  reference: number | null
   tenantId: string | null
-  buildingId: string | null
   unitId: string | null
   isDeleting: boolean | null
   price: runtime.Decimal | null
@@ -52,9 +48,7 @@ export type RentalMinAggregateOutputType = {
 
 export type RentalMaxAggregateOutputType = {
   id: string | null
-  reference: number | null
   tenantId: string | null
-  buildingId: string | null
   unitId: string | null
   isDeleting: boolean | null
   price: runtime.Decimal | null
@@ -66,9 +60,7 @@ export type RentalMaxAggregateOutputType = {
 
 export type RentalCountAggregateOutputType = {
   id: number
-  reference: number
   tenantId: number
-  buildingId: number
   unitId: number
   isDeleting: number
   price: number
@@ -81,20 +73,16 @@ export type RentalCountAggregateOutputType = {
 
 
 export type RentalAvgAggregateInputType = {
-  reference?: true
   price?: true
 }
 
 export type RentalSumAggregateInputType = {
-  reference?: true
   price?: true
 }
 
 export type RentalMinAggregateInputType = {
   id?: true
-  reference?: true
   tenantId?: true
-  buildingId?: true
   unitId?: true
   isDeleting?: true
   price?: true
@@ -106,9 +94,7 @@ export type RentalMinAggregateInputType = {
 
 export type RentalMaxAggregateInputType = {
   id?: true
-  reference?: true
   tenantId?: true
-  buildingId?: true
   unitId?: true
   isDeleting?: true
   price?: true
@@ -120,9 +106,7 @@ export type RentalMaxAggregateInputType = {
 
 export type RentalCountAggregateInputType = {
   id?: true
-  reference?: true
   tenantId?: true
-  buildingId?: true
   unitId?: true
   isDeleting?: true
   price?: true
@@ -221,9 +205,7 @@ export type RentalGroupByArgs<ExtArgs extends runtime.Types.Extensions.InternalA
 
 export type RentalGroupByOutputType = {
   id: string
-  reference: number
   tenantId: string
-  buildingId: string
   unitId: string
   isDeleting: boolean
   price: runtime.Decimal
@@ -258,9 +240,7 @@ export type RentalWhereInput = {
   OR?: Prisma.RentalWhereInput[]
   NOT?: Prisma.RentalWhereInput | Prisma.RentalWhereInput[]
   id?: Prisma.StringFilter<"Rental"> | string
-  reference?: Prisma.IntFilter<"Rental"> | number
   tenantId?: Prisma.StringFilter<"Rental"> | string
-  buildingId?: Prisma.StringFilter<"Rental"> | string
   unitId?: Prisma.StringFilter<"Rental"> | string
   isDeleting?: Prisma.BoolFilter<"Rental"> | boolean
   price?: Prisma.DecimalFilter<"Rental"> | runtime.Decimal | runtime.DecimalJsLike | number | string
@@ -269,15 +249,12 @@ export type RentalWhereInput = {
   createdAt?: Prisma.DateTimeFilter<"Rental"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Rental"> | Date | string
   tenant?: Prisma.XOR<Prisma.TenantScalarRelationFilter, Prisma.TenantWhereInput>
-  building?: Prisma.XOR<Prisma.BuildingScalarRelationFilter, Prisma.BuildingWhereInput>
   unit?: Prisma.XOR<Prisma.UnitScalarRelationFilter, Prisma.UnitWhereInput>
 }
 
 export type RentalOrderByWithRelationInput = {
   id?: Prisma.SortOrder
-  reference?: Prisma.SortOrder
   tenantId?: Prisma.SortOrder
-  buildingId?: Prisma.SortOrder
   unitId?: Prisma.SortOrder
   isDeleting?: Prisma.SortOrder
   price?: Prisma.SortOrder
@@ -286,7 +263,6 @@ export type RentalOrderByWithRelationInput = {
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   tenant?: Prisma.TenantOrderByWithRelationInput
-  building?: Prisma.BuildingOrderByWithRelationInput
   unit?: Prisma.UnitOrderByWithRelationInput
 }
 
@@ -295,9 +271,7 @@ export type RentalWhereUniqueInput = Prisma.AtLeast<{
   AND?: Prisma.RentalWhereInput | Prisma.RentalWhereInput[]
   OR?: Prisma.RentalWhereInput[]
   NOT?: Prisma.RentalWhereInput | Prisma.RentalWhereInput[]
-  reference?: Prisma.IntFilter<"Rental"> | number
   tenantId?: Prisma.StringFilter<"Rental"> | string
-  buildingId?: Prisma.StringFilter<"Rental"> | string
   unitId?: Prisma.StringFilter<"Rental"> | string
   isDeleting?: Prisma.BoolFilter<"Rental"> | boolean
   price?: Prisma.DecimalFilter<"Rental"> | runtime.Decimal | runtime.DecimalJsLike | number | string
@@ -306,15 +280,12 @@ export type RentalWhereUniqueInput = Prisma.AtLeast<{
   createdAt?: Prisma.DateTimeFilter<"Rental"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Rental"> | Date | string
   tenant?: Prisma.XOR<Prisma.TenantScalarRelationFilter, Prisma.TenantWhereInput>
-  building?: Prisma.XOR<Prisma.BuildingScalarRelationFilter, Prisma.BuildingWhereInput>
   unit?: Prisma.XOR<Prisma.UnitScalarRelationFilter, Prisma.UnitWhereInput>
 }, "id">
 
 export type RentalOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
-  reference?: Prisma.SortOrder
   tenantId?: Prisma.SortOrder
-  buildingId?: Prisma.SortOrder
   unitId?: Prisma.SortOrder
   isDeleting?: Prisma.SortOrder
   price?: Prisma.SortOrder
@@ -334,9 +305,7 @@ export type RentalScalarWhereWithAggregatesInput = {
   OR?: Prisma.RentalScalarWhereWithAggregatesInput[]
   NOT?: Prisma.RentalScalarWhereWithAggregatesInput | Prisma.RentalScalarWhereWithAggregatesInput[]
   id?: Prisma.StringWithAggregatesFilter<"Rental"> | string
-  reference?: Prisma.IntWithAggregatesFilter<"Rental"> | number
   tenantId?: Prisma.StringWithAggregatesFilter<"Rental"> | string
-  buildingId?: Prisma.StringWithAggregatesFilter<"Rental"> | string
   unitId?: Prisma.StringWithAggregatesFilter<"Rental"> | string
   isDeleting?: Prisma.BoolWithAggregatesFilter<"Rental"> | boolean
   price?: Prisma.DecimalWithAggregatesFilter<"Rental"> | runtime.Decimal | runtime.DecimalJsLike | number | string
@@ -348,7 +317,6 @@ export type RentalScalarWhereWithAggregatesInput = {
 
 export type RentalCreateInput = {
   id?: string
-  reference?: number
   isDeleting?: boolean
   price?: runtime.Decimal | runtime.DecimalJsLike | number | string
   start: Date | string
@@ -356,15 +324,12 @@ export type RentalCreateInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   tenant: Prisma.TenantCreateNestedOneWithoutRentalsInput
-  building: Prisma.BuildingCreateNestedOneWithoutRentalsInput
   unit: Prisma.UnitCreateNestedOneWithoutRentalsInput
 }
 
 export type RentalUncheckedCreateInput = {
   id?: string
-  reference?: number
   tenantId: string
-  buildingId: string
   unitId: string
   isDeleting?: boolean
   price?: runtime.Decimal | runtime.DecimalJsLike | number | string
@@ -376,7 +341,6 @@ export type RentalUncheckedCreateInput = {
 
 export type RentalUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  reference?: Prisma.IntFieldUpdateOperationsInput | number
   isDeleting?: Prisma.BoolFieldUpdateOperationsInput | boolean
   price?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   start?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -384,15 +348,12 @@ export type RentalUpdateInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   tenant?: Prisma.TenantUpdateOneRequiredWithoutRentalsNestedInput
-  building?: Prisma.BuildingUpdateOneRequiredWithoutRentalsNestedInput
   unit?: Prisma.UnitUpdateOneRequiredWithoutRentalsNestedInput
 }
 
 export type RentalUncheckedUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  reference?: Prisma.IntFieldUpdateOperationsInput | number
   tenantId?: Prisma.StringFieldUpdateOperationsInput | string
-  buildingId?: Prisma.StringFieldUpdateOperationsInput | string
   unitId?: Prisma.StringFieldUpdateOperationsInput | string
   isDeleting?: Prisma.BoolFieldUpdateOperationsInput | boolean
   price?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
@@ -404,9 +365,7 @@ export type RentalUncheckedUpdateInput = {
 
 export type RentalCreateManyInput = {
   id?: string
-  reference?: number
   tenantId: string
-  buildingId: string
   unitId: string
   isDeleting?: boolean
   price?: runtime.Decimal | runtime.DecimalJsLike | number | string
@@ -418,7 +377,6 @@ export type RentalCreateManyInput = {
 
 export type RentalUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  reference?: Prisma.IntFieldUpdateOperationsInput | number
   isDeleting?: Prisma.BoolFieldUpdateOperationsInput | boolean
   price?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   start?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -429,9 +387,7 @@ export type RentalUpdateManyMutationInput = {
 
 export type RentalUncheckedUpdateManyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  reference?: Prisma.IntFieldUpdateOperationsInput | number
   tenantId?: Prisma.StringFieldUpdateOperationsInput | string
-  buildingId?: Prisma.StringFieldUpdateOperationsInput | string
   unitId?: Prisma.StringFieldUpdateOperationsInput | string
   isDeleting?: Prisma.BoolFieldUpdateOperationsInput | boolean
   price?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
@@ -453,9 +409,7 @@ export type RentalOrderByRelationAggregateInput = {
 
 export type RentalCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
-  reference?: Prisma.SortOrder
   tenantId?: Prisma.SortOrder
-  buildingId?: Prisma.SortOrder
   unitId?: Prisma.SortOrder
   isDeleting?: Prisma.SortOrder
   price?: Prisma.SortOrder
@@ -466,15 +420,12 @@ export type RentalCountOrderByAggregateInput = {
 }
 
 export type RentalAvgOrderByAggregateInput = {
-  reference?: Prisma.SortOrder
   price?: Prisma.SortOrder
 }
 
 export type RentalMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
-  reference?: Prisma.SortOrder
   tenantId?: Prisma.SortOrder
-  buildingId?: Prisma.SortOrder
   unitId?: Prisma.SortOrder
   isDeleting?: Prisma.SortOrder
   price?: Prisma.SortOrder
@@ -486,9 +437,7 @@ export type RentalMaxOrderByAggregateInput = {
 
 export type RentalMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
-  reference?: Prisma.SortOrder
   tenantId?: Prisma.SortOrder
-  buildingId?: Prisma.SortOrder
   unitId?: Prisma.SortOrder
   isDeleting?: Prisma.SortOrder
   price?: Prisma.SortOrder
@@ -499,50 +448,7 @@ export type RentalMinOrderByAggregateInput = {
 }
 
 export type RentalSumOrderByAggregateInput = {
-  reference?: Prisma.SortOrder
   price?: Prisma.SortOrder
-}
-
-export type RentalCreateNestedManyWithoutBuildingInput = {
-  create?: Prisma.XOR<Prisma.RentalCreateWithoutBuildingInput, Prisma.RentalUncheckedCreateWithoutBuildingInput> | Prisma.RentalCreateWithoutBuildingInput[] | Prisma.RentalUncheckedCreateWithoutBuildingInput[]
-  connectOrCreate?: Prisma.RentalCreateOrConnectWithoutBuildingInput | Prisma.RentalCreateOrConnectWithoutBuildingInput[]
-  createMany?: Prisma.RentalCreateManyBuildingInputEnvelope
-  connect?: Prisma.RentalWhereUniqueInput | Prisma.RentalWhereUniqueInput[]
-}
-
-export type RentalUncheckedCreateNestedManyWithoutBuildingInput = {
-  create?: Prisma.XOR<Prisma.RentalCreateWithoutBuildingInput, Prisma.RentalUncheckedCreateWithoutBuildingInput> | Prisma.RentalCreateWithoutBuildingInput[] | Prisma.RentalUncheckedCreateWithoutBuildingInput[]
-  connectOrCreate?: Prisma.RentalCreateOrConnectWithoutBuildingInput | Prisma.RentalCreateOrConnectWithoutBuildingInput[]
-  createMany?: Prisma.RentalCreateManyBuildingInputEnvelope
-  connect?: Prisma.RentalWhereUniqueInput | Prisma.RentalWhereUniqueInput[]
-}
-
-export type RentalUpdateManyWithoutBuildingNestedInput = {
-  create?: Prisma.XOR<Prisma.RentalCreateWithoutBuildingInput, Prisma.RentalUncheckedCreateWithoutBuildingInput> | Prisma.RentalCreateWithoutBuildingInput[] | Prisma.RentalUncheckedCreateWithoutBuildingInput[]
-  connectOrCreate?: Prisma.RentalCreateOrConnectWithoutBuildingInput | Prisma.RentalCreateOrConnectWithoutBuildingInput[]
-  upsert?: Prisma.RentalUpsertWithWhereUniqueWithoutBuildingInput | Prisma.RentalUpsertWithWhereUniqueWithoutBuildingInput[]
-  createMany?: Prisma.RentalCreateManyBuildingInputEnvelope
-  set?: Prisma.RentalWhereUniqueInput | Prisma.RentalWhereUniqueInput[]
-  disconnect?: Prisma.RentalWhereUniqueInput | Prisma.RentalWhereUniqueInput[]
-  delete?: Prisma.RentalWhereUniqueInput | Prisma.RentalWhereUniqueInput[]
-  connect?: Prisma.RentalWhereUniqueInput | Prisma.RentalWhereUniqueInput[]
-  update?: Prisma.RentalUpdateWithWhereUniqueWithoutBuildingInput | Prisma.RentalUpdateWithWhereUniqueWithoutBuildingInput[]
-  updateMany?: Prisma.RentalUpdateManyWithWhereWithoutBuildingInput | Prisma.RentalUpdateManyWithWhereWithoutBuildingInput[]
-  deleteMany?: Prisma.RentalScalarWhereInput | Prisma.RentalScalarWhereInput[]
-}
-
-export type RentalUncheckedUpdateManyWithoutBuildingNestedInput = {
-  create?: Prisma.XOR<Prisma.RentalCreateWithoutBuildingInput, Prisma.RentalUncheckedCreateWithoutBuildingInput> | Prisma.RentalCreateWithoutBuildingInput[] | Prisma.RentalUncheckedCreateWithoutBuildingInput[]
-  connectOrCreate?: Prisma.RentalCreateOrConnectWithoutBuildingInput | Prisma.RentalCreateOrConnectWithoutBuildingInput[]
-  upsert?: Prisma.RentalUpsertWithWhereUniqueWithoutBuildingInput | Prisma.RentalUpsertWithWhereUniqueWithoutBuildingInput[]
-  createMany?: Prisma.RentalCreateManyBuildingInputEnvelope
-  set?: Prisma.RentalWhereUniqueInput | Prisma.RentalWhereUniqueInput[]
-  disconnect?: Prisma.RentalWhereUniqueInput | Prisma.RentalWhereUniqueInput[]
-  delete?: Prisma.RentalWhereUniqueInput | Prisma.RentalWhereUniqueInput[]
-  connect?: Prisma.RentalWhereUniqueInput | Prisma.RentalWhereUniqueInput[]
-  update?: Prisma.RentalUpdateWithWhereUniqueWithoutBuildingInput | Prisma.RentalUpdateWithWhereUniqueWithoutBuildingInput[]
-  updateMany?: Prisma.RentalUpdateManyWithWhereWithoutBuildingInput | Prisma.RentalUpdateManyWithWhereWithoutBuildingInput[]
-  deleteMany?: Prisma.RentalScalarWhereInput | Prisma.RentalScalarWhereInput[]
 }
 
 export type RentalCreateNestedManyWithoutUnitInput = {
@@ -629,78 +535,8 @@ export type RentalUncheckedUpdateManyWithoutTenantNestedInput = {
   deleteMany?: Prisma.RentalScalarWhereInput | Prisma.RentalScalarWhereInput[]
 }
 
-export type RentalCreateWithoutBuildingInput = {
-  id?: string
-  reference?: number
-  isDeleting?: boolean
-  price?: runtime.Decimal | runtime.DecimalJsLike | number | string
-  start: Date | string
-  end: Date | string
-  createdAt?: Date | string
-  updatedAt?: Date | string
-  tenant: Prisma.TenantCreateNestedOneWithoutRentalsInput
-  unit: Prisma.UnitCreateNestedOneWithoutRentalsInput
-}
-
-export type RentalUncheckedCreateWithoutBuildingInput = {
-  id?: string
-  reference?: number
-  tenantId: string
-  unitId: string
-  isDeleting?: boolean
-  price?: runtime.Decimal | runtime.DecimalJsLike | number | string
-  start: Date | string
-  end: Date | string
-  createdAt?: Date | string
-  updatedAt?: Date | string
-}
-
-export type RentalCreateOrConnectWithoutBuildingInput = {
-  where: Prisma.RentalWhereUniqueInput
-  create: Prisma.XOR<Prisma.RentalCreateWithoutBuildingInput, Prisma.RentalUncheckedCreateWithoutBuildingInput>
-}
-
-export type RentalCreateManyBuildingInputEnvelope = {
-  data: Prisma.RentalCreateManyBuildingInput | Prisma.RentalCreateManyBuildingInput[]
-  skipDuplicates?: boolean
-}
-
-export type RentalUpsertWithWhereUniqueWithoutBuildingInput = {
-  where: Prisma.RentalWhereUniqueInput
-  update: Prisma.XOR<Prisma.RentalUpdateWithoutBuildingInput, Prisma.RentalUncheckedUpdateWithoutBuildingInput>
-  create: Prisma.XOR<Prisma.RentalCreateWithoutBuildingInput, Prisma.RentalUncheckedCreateWithoutBuildingInput>
-}
-
-export type RentalUpdateWithWhereUniqueWithoutBuildingInput = {
-  where: Prisma.RentalWhereUniqueInput
-  data: Prisma.XOR<Prisma.RentalUpdateWithoutBuildingInput, Prisma.RentalUncheckedUpdateWithoutBuildingInput>
-}
-
-export type RentalUpdateManyWithWhereWithoutBuildingInput = {
-  where: Prisma.RentalScalarWhereInput
-  data: Prisma.XOR<Prisma.RentalUpdateManyMutationInput, Prisma.RentalUncheckedUpdateManyWithoutBuildingInput>
-}
-
-export type RentalScalarWhereInput = {
-  AND?: Prisma.RentalScalarWhereInput | Prisma.RentalScalarWhereInput[]
-  OR?: Prisma.RentalScalarWhereInput[]
-  NOT?: Prisma.RentalScalarWhereInput | Prisma.RentalScalarWhereInput[]
-  id?: Prisma.StringFilter<"Rental"> | string
-  reference?: Prisma.IntFilter<"Rental"> | number
-  tenantId?: Prisma.StringFilter<"Rental"> | string
-  buildingId?: Prisma.StringFilter<"Rental"> | string
-  unitId?: Prisma.StringFilter<"Rental"> | string
-  isDeleting?: Prisma.BoolFilter<"Rental"> | boolean
-  price?: Prisma.DecimalFilter<"Rental"> | runtime.Decimal | runtime.DecimalJsLike | number | string
-  start?: Prisma.DateTimeFilter<"Rental"> | Date | string
-  end?: Prisma.DateTimeFilter<"Rental"> | Date | string
-  createdAt?: Prisma.DateTimeFilter<"Rental"> | Date | string
-  updatedAt?: Prisma.DateTimeFilter<"Rental"> | Date | string
-}
-
 export type RentalCreateWithoutUnitInput = {
   id?: string
-  reference?: number
   isDeleting?: boolean
   price?: runtime.Decimal | runtime.DecimalJsLike | number | string
   start: Date | string
@@ -708,14 +544,11 @@ export type RentalCreateWithoutUnitInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   tenant: Prisma.TenantCreateNestedOneWithoutRentalsInput
-  building: Prisma.BuildingCreateNestedOneWithoutRentalsInput
 }
 
 export type RentalUncheckedCreateWithoutUnitInput = {
   id?: string
-  reference?: number
   tenantId: string
-  buildingId: string
   isDeleting?: boolean
   price?: runtime.Decimal | runtime.DecimalJsLike | number | string
   start: Date | string
@@ -750,23 +583,34 @@ export type RentalUpdateManyWithWhereWithoutUnitInput = {
   data: Prisma.XOR<Prisma.RentalUpdateManyMutationInput, Prisma.RentalUncheckedUpdateManyWithoutUnitInput>
 }
 
+export type RentalScalarWhereInput = {
+  AND?: Prisma.RentalScalarWhereInput | Prisma.RentalScalarWhereInput[]
+  OR?: Prisma.RentalScalarWhereInput[]
+  NOT?: Prisma.RentalScalarWhereInput | Prisma.RentalScalarWhereInput[]
+  id?: Prisma.StringFilter<"Rental"> | string
+  tenantId?: Prisma.StringFilter<"Rental"> | string
+  unitId?: Prisma.StringFilter<"Rental"> | string
+  isDeleting?: Prisma.BoolFilter<"Rental"> | boolean
+  price?: Prisma.DecimalFilter<"Rental"> | runtime.Decimal | runtime.DecimalJsLike | number | string
+  start?: Prisma.DateTimeFilter<"Rental"> | Date | string
+  end?: Prisma.DateTimeFilter<"Rental"> | Date | string
+  createdAt?: Prisma.DateTimeFilter<"Rental"> | Date | string
+  updatedAt?: Prisma.DateTimeFilter<"Rental"> | Date | string
+}
+
 export type RentalCreateWithoutTenantInput = {
   id?: string
-  reference?: number
   isDeleting?: boolean
   price?: runtime.Decimal | runtime.DecimalJsLike | number | string
   start: Date | string
   end: Date | string
   createdAt?: Date | string
   updatedAt?: Date | string
-  building: Prisma.BuildingCreateNestedOneWithoutRentalsInput
   unit: Prisma.UnitCreateNestedOneWithoutRentalsInput
 }
 
 export type RentalUncheckedCreateWithoutTenantInput = {
   id?: string
-  reference?: number
-  buildingId: string
   unitId: string
   isDeleting?: boolean
   price?: runtime.Decimal | runtime.DecimalJsLike | number | string
@@ -802,63 +646,9 @@ export type RentalUpdateManyWithWhereWithoutTenantInput = {
   data: Prisma.XOR<Prisma.RentalUpdateManyMutationInput, Prisma.RentalUncheckedUpdateManyWithoutTenantInput>
 }
 
-export type RentalCreateManyBuildingInput = {
-  id?: string
-  reference?: number
-  tenantId: string
-  unitId: string
-  isDeleting?: boolean
-  price?: runtime.Decimal | runtime.DecimalJsLike | number | string
-  start: Date | string
-  end: Date | string
-  createdAt?: Date | string
-  updatedAt?: Date | string
-}
-
-export type RentalUpdateWithoutBuildingInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  reference?: Prisma.IntFieldUpdateOperationsInput | number
-  isDeleting?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  price?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  start?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  end?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  tenant?: Prisma.TenantUpdateOneRequiredWithoutRentalsNestedInput
-  unit?: Prisma.UnitUpdateOneRequiredWithoutRentalsNestedInput
-}
-
-export type RentalUncheckedUpdateWithoutBuildingInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  reference?: Prisma.IntFieldUpdateOperationsInput | number
-  tenantId?: Prisma.StringFieldUpdateOperationsInput | string
-  unitId?: Prisma.StringFieldUpdateOperationsInput | string
-  isDeleting?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  price?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  start?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  end?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-}
-
-export type RentalUncheckedUpdateManyWithoutBuildingInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  reference?: Prisma.IntFieldUpdateOperationsInput | number
-  tenantId?: Prisma.StringFieldUpdateOperationsInput | string
-  unitId?: Prisma.StringFieldUpdateOperationsInput | string
-  isDeleting?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  price?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  start?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  end?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-}
-
 export type RentalCreateManyUnitInput = {
   id?: string
-  reference?: number
   tenantId: string
-  buildingId: string
   isDeleting?: boolean
   price?: runtime.Decimal | runtime.DecimalJsLike | number | string
   start: Date | string
@@ -869,7 +659,6 @@ export type RentalCreateManyUnitInput = {
 
 export type RentalUpdateWithoutUnitInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  reference?: Prisma.IntFieldUpdateOperationsInput | number
   isDeleting?: Prisma.BoolFieldUpdateOperationsInput | boolean
   price?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   start?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -877,14 +666,11 @@ export type RentalUpdateWithoutUnitInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   tenant?: Prisma.TenantUpdateOneRequiredWithoutRentalsNestedInput
-  building?: Prisma.BuildingUpdateOneRequiredWithoutRentalsNestedInput
 }
 
 export type RentalUncheckedUpdateWithoutUnitInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  reference?: Prisma.IntFieldUpdateOperationsInput | number
   tenantId?: Prisma.StringFieldUpdateOperationsInput | string
-  buildingId?: Prisma.StringFieldUpdateOperationsInput | string
   isDeleting?: Prisma.BoolFieldUpdateOperationsInput | boolean
   price?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   start?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -895,9 +681,7 @@ export type RentalUncheckedUpdateWithoutUnitInput = {
 
 export type RentalUncheckedUpdateManyWithoutUnitInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  reference?: Prisma.IntFieldUpdateOperationsInput | number
   tenantId?: Prisma.StringFieldUpdateOperationsInput | string
-  buildingId?: Prisma.StringFieldUpdateOperationsInput | string
   isDeleting?: Prisma.BoolFieldUpdateOperationsInput | boolean
   price?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   start?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -908,8 +692,6 @@ export type RentalUncheckedUpdateManyWithoutUnitInput = {
 
 export type RentalCreateManyTenantInput = {
   id?: string
-  reference?: number
-  buildingId: string
   unitId: string
   isDeleting?: boolean
   price?: runtime.Decimal | runtime.DecimalJsLike | number | string
@@ -921,21 +703,17 @@ export type RentalCreateManyTenantInput = {
 
 export type RentalUpdateWithoutTenantInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  reference?: Prisma.IntFieldUpdateOperationsInput | number
   isDeleting?: Prisma.BoolFieldUpdateOperationsInput | boolean
   price?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   start?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   end?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  building?: Prisma.BuildingUpdateOneRequiredWithoutRentalsNestedInput
   unit?: Prisma.UnitUpdateOneRequiredWithoutRentalsNestedInput
 }
 
 export type RentalUncheckedUpdateWithoutTenantInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  reference?: Prisma.IntFieldUpdateOperationsInput | number
-  buildingId?: Prisma.StringFieldUpdateOperationsInput | string
   unitId?: Prisma.StringFieldUpdateOperationsInput | string
   isDeleting?: Prisma.BoolFieldUpdateOperationsInput | boolean
   price?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
@@ -947,8 +725,6 @@ export type RentalUncheckedUpdateWithoutTenantInput = {
 
 export type RentalUncheckedUpdateManyWithoutTenantInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  reference?: Prisma.IntFieldUpdateOperationsInput | number
-  buildingId?: Prisma.StringFieldUpdateOperationsInput | string
   unitId?: Prisma.StringFieldUpdateOperationsInput | string
   isDeleting?: Prisma.BoolFieldUpdateOperationsInput | boolean
   price?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
@@ -962,9 +738,7 @@ export type RentalUncheckedUpdateManyWithoutTenantInput = {
 
 export type RentalSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
-  reference?: boolean
   tenantId?: boolean
-  buildingId?: boolean
   unitId?: boolean
   isDeleting?: boolean
   price?: boolean
@@ -973,15 +747,12 @@ export type RentalSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs =
   createdAt?: boolean
   updatedAt?: boolean
   tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
-  building?: boolean | Prisma.BuildingDefaultArgs<ExtArgs>
   unit?: boolean | Prisma.UnitDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["rental"]>
 
 export type RentalSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
-  reference?: boolean
   tenantId?: boolean
-  buildingId?: boolean
   unitId?: boolean
   isDeleting?: boolean
   price?: boolean
@@ -990,15 +761,12 @@ export type RentalSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extens
   createdAt?: boolean
   updatedAt?: boolean
   tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
-  building?: boolean | Prisma.BuildingDefaultArgs<ExtArgs>
   unit?: boolean | Prisma.UnitDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["rental"]>
 
 export type RentalSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
-  reference?: boolean
   tenantId?: boolean
-  buildingId?: boolean
   unitId?: boolean
   isDeleting?: boolean
   price?: boolean
@@ -1007,15 +775,12 @@ export type RentalSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extens
   createdAt?: boolean
   updatedAt?: boolean
   tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
-  building?: boolean | Prisma.BuildingDefaultArgs<ExtArgs>
   unit?: boolean | Prisma.UnitDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["rental"]>
 
 export type RentalSelectScalar = {
   id?: boolean
-  reference?: boolean
   tenantId?: boolean
-  buildingId?: boolean
   unitId?: boolean
   isDeleting?: boolean
   price?: boolean
@@ -1025,20 +790,17 @@ export type RentalSelectScalar = {
   updatedAt?: boolean
 }
 
-export type RentalOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "reference" | "tenantId" | "buildingId" | "unitId" | "isDeleting" | "price" | "start" | "end" | "createdAt" | "updatedAt", ExtArgs["result"]["rental"]>
+export type RentalOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "tenantId" | "unitId" | "isDeleting" | "price" | "start" | "end" | "createdAt" | "updatedAt", ExtArgs["result"]["rental"]>
 export type RentalInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
-  building?: boolean | Prisma.BuildingDefaultArgs<ExtArgs>
   unit?: boolean | Prisma.UnitDefaultArgs<ExtArgs>
 }
 export type RentalIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
-  building?: boolean | Prisma.BuildingDefaultArgs<ExtArgs>
   unit?: boolean | Prisma.UnitDefaultArgs<ExtArgs>
 }
 export type RentalIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
-  building?: boolean | Prisma.BuildingDefaultArgs<ExtArgs>
   unit?: boolean | Prisma.UnitDefaultArgs<ExtArgs>
 }
 
@@ -1046,14 +808,11 @@ export type $RentalPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs
   name: "Rental"
   objects: {
     tenant: Prisma.$TenantPayload<ExtArgs>
-    building: Prisma.$BuildingPayload<ExtArgs>
     unit: Prisma.$UnitPayload<ExtArgs>
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
-    reference: number
     tenantId: string
-    buildingId: string
     unitId: string
     isDeleting: boolean
     price: runtime.Decimal
@@ -1456,7 +1215,6 @@ readonly fields: RentalFieldRefs;
 export interface Prisma__RentalClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
   tenant<T extends Prisma.TenantDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.TenantDefaultArgs<ExtArgs>>): Prisma.Prisma__TenantClient<runtime.Types.Result.GetResult<Prisma.$TenantPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
-  building<T extends Prisma.BuildingDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.BuildingDefaultArgs<ExtArgs>>): Prisma.Prisma__BuildingClient<runtime.Types.Result.GetResult<Prisma.$BuildingPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   unit<T extends Prisma.UnitDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.UnitDefaultArgs<ExtArgs>>): Prisma.Prisma__UnitClient<runtime.Types.Result.GetResult<Prisma.$UnitPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
@@ -1488,9 +1246,7 @@ export interface Prisma__RentalClient<T, Null = never, ExtArgs extends runtime.T
  */
 export interface RentalFieldRefs {
   readonly id: Prisma.FieldRef<"Rental", 'String'>
-  readonly reference: Prisma.FieldRef<"Rental", 'Int'>
   readonly tenantId: Prisma.FieldRef<"Rental", 'String'>
-  readonly buildingId: Prisma.FieldRef<"Rental", 'String'>
   readonly unitId: Prisma.FieldRef<"Rental", 'String'>
   readonly isDeleting: Prisma.FieldRef<"Rental", 'Boolean'>
   readonly price: Prisma.FieldRef<"Rental", 'Decimal'>

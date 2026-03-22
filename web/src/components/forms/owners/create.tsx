@@ -13,12 +13,13 @@ import type { Building } from "@/types/building";
 import MultipleSelector from "@/components/ui/mullti-select";
 import { toast } from "sonner";
 import { queryClient } from "@/lib/query-client";
+import RequiredLabel from "@/components/ui/required-label";
 
 
 export default function CreateOwners() {
     const { isPending, data: buildings } = useQuery({
         queryKey: ["buildings"],
-        queryFn: () => apiFetch<Building[]>("/building/"),
+        queryFn: () => apiFetch<Building[]>("/building/without-owner"),
         select: (data) => data.map((building) => ({
             value: building.id,
             label: building.name,
@@ -33,6 +34,7 @@ export default function CreateOwners() {
             queryClient.invalidateQueries({ queryKey: ["owners"] });
             form.reset({
                 buildings: [],
+                reference: "",
                 firstname: "",
                 lastname: "",
                 company: "",
@@ -62,6 +64,7 @@ export default function CreateOwners() {
 
             form.append("buildings", JSON.stringify(data.buildings));
             form.append("firstname", data.firstname);
+            form.append("reference", data.reference);
             form.append("lastname", data.lastname);
             form.append("company", data.company);
             form.append("phone", data.phone);
@@ -90,10 +93,28 @@ export default function CreateOwners() {
                     <div className="grid grid-cols-3 gap-4">
                         <FormField
                             control={form.control}
+                            name="reference"
+                            render={({ field }) => (
+                                <FormItem >
+                                    <FormLabel className="text-neutral-600">Référence<RequiredLabel /></FormLabel>
+                                    <FormControl>
+                                        <Input
+                                            placeholder="Entrer la référence"
+                                            value={field.value}
+                                            aria-invalid={!!form.formState.errors.reference}
+                                            onChange={field.onChange}
+                                        />
+                                    </FormControl>
+                                    <FormMessage />
+                                </FormItem>
+                            )}
+                        />
+                        <FormField
+                            control={form.control}
                             name="firstname"
                             render={({ field }) => (
                                 <FormItem >
-                                    <FormLabel className="text-neutral-600">Prénom</FormLabel>
+                                    <FormLabel className="text-neutral-600">Prénom<RequiredLabel /></FormLabel>
                                     <FormControl>
                                         <Input
                                             placeholder="Entrer le  prénom"
@@ -111,7 +132,7 @@ export default function CreateOwners() {
                             name="lastname"
                             render={({ field }) => (
                                 <FormItem >
-                                    <FormLabel className="text-neutral-600">Nom</FormLabel>
+                                    <FormLabel className="text-neutral-600">Nom<RequiredLabel /></FormLabel>
                                     <FormControl>
                                         <Input
                                             placeholder="Entrer le  nom"
@@ -129,7 +150,7 @@ export default function CreateOwners() {
                             name="company"
                             render={({ field }) => (
                                 <FormItem >
-                                    <FormLabel className="text-neutral-600">Entreprise</FormLabel>
+                                    <FormLabel className="text-neutral-600">Entreprise<RequiredLabel /></FormLabel>
                                     <FormControl>
                                         <Input
                                             placeholder="Entrer le nom de l'enterprise"
@@ -147,7 +168,7 @@ export default function CreateOwners() {
                             name="phone"
                             render={({ field }) => (
                                 <FormItem >
-                                    <FormLabel className="text-neutral-600">Numéro de téléphone</FormLabel>
+                                    <FormLabel className="text-neutral-600">Numéro de téléphone<RequiredLabel /></FormLabel>
                                     <FormControl>
                                         <Input
                                             placeholder="Entrer le numéro de téléphone"
@@ -165,7 +186,7 @@ export default function CreateOwners() {
                             name="email"
                             render={({ field }) => (
                                 <FormItem >
-                                    <FormLabel className="text-neutral-600">Adresse email</FormLabel>
+                                    <FormLabel className="text-neutral-600">Adresse email<RequiredLabel /></FormLabel>
                                     <FormControl>
                                         <Input
                                             placeholder="Entrer l'adresse email"
@@ -183,7 +204,7 @@ export default function CreateOwners() {
                             name="address"
                             render={({ field }) => (
                                 <FormItem >
-                                    <FormLabel className="text-neutral-600">Adresse</FormLabel>
+                                    <FormLabel className="text-neutral-600">Adresse<RequiredLabel /></FormLabel>
                                     <FormControl>
                                         <Input
                                             placeholder="Entrer l'adresse"
@@ -201,7 +222,7 @@ export default function CreateOwners() {
                             name="actionnary"
                             render={({ field }) => (
                                 <FormItem >
-                                    <FormLabel className="text-neutral-600">Actionnaire</FormLabel>
+                                    <FormLabel className="text-neutral-600">Actionnaire<RequiredLabel /></FormLabel>
                                     <FormControl>
                                         <Input
                                             placeholder="Entrer l'actionnaire (séparer par des points-virgules)"
@@ -219,7 +240,7 @@ export default function CreateOwners() {
                             name="buildings"
                             render={({ field }) => (
                                 <FormItem >
-                                    <FormLabel className="text-neutral-600">Propriétés associées</FormLabel>
+                                    <FormLabel className="text-neutral-600">Propriétés associées<RequiredLabel /></FormLabel>
                                     <FormControl>
                                         <MultipleSelector
                                             commandProps={{
@@ -253,7 +274,7 @@ export default function CreateOwners() {
                         name="bankInfo"
                         render={({ field }) => (
                             <FormItem >
-                                <FormLabel className="text-neutral-600">Informations bancaires</FormLabel>
+                                <FormLabel className="text-neutral-600">Informations bancaires<RequiredLabel /></FormLabel>
                                 <FormControl>
                                     <Textarea
                                         placeholder="Entrez les informations bancaires"

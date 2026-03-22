@@ -3,7 +3,7 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "
 import { Input } from "@/components/ui/input";
 import { Spinner } from "@/components/ui/spinner";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Activity, useEffect, useState } from "react"
+import { Activity, useEffect } from "react"
 import { useForm } from "react-hook-form";
 import { rentalSchema, type RentalSchemaType } from "@/lib/zod/rentals";
 import { DatePicker } from "@/components/ui/date-picker";
@@ -11,28 +11,17 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import type { Unit } from "@/types/unit";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { apiFetch, crudService } from "@/lib/api";
-import type { Building } from "@/types/building";
 import type { Tenant } from "@/types/tenant";
 import { toast } from "sonner";
 import { queryClient } from "@/lib/query-client";
 import type { Rental } from "@/types/rental";
+import RequiredLabel from "@/components/ui/required-label";
 
 type EditRentalProps = {
     id: string;
 }
 
 export default function EditRental({ id }: EditRentalProps) {
-    const [buildingId, setBuildingId] = useState("");
-
-    const { isPending: isGettingBuilding, data: buildings } = useQuery({
-        queryKey: ["buildings"],
-        queryFn: () => apiFetch<Building[]>("/building/"),
-        select: (data) => data.map((building) => ({
-            value: building.id,
-            label: building.name,
-        })),
-    });
-
     const { isPending: isGettingTenant, data: tenants } = useQuery({
         queryKey: ["tenants"],
         queryFn: () => apiFetch<Tenant[]>("/tenant/"),
@@ -43,18 +32,12 @@ export default function EditRental({ id }: EditRentalProps) {
     });
 
     const { isPending: isGettingUnits, data: units = [] } = useQuery({
-        queryKey: ["units", buildingId],
-        queryFn: () => {
-            if (!buildingId || buildingId.trim() === "") {
-                return Promise.resolve([]);
-            }
-            return apiFetch<Unit[]>(`/unit/by?id=${buildingId}`);
-        },
-        enabled: typeof buildingId === "string" && buildingId.trim() !== "",
+        queryKey: ["units"],
+        queryFn: () => apiFetch<Unit[]>(`/unit/valid/`),
         select: (data) =>
             data.map((unit) => ({
                 value: unit.id,
-                label: unit.type.name,
+                label: unit.reference,
             })),
     });
 
@@ -83,7 +66,6 @@ export default function EditRental({ id }: EditRentalProps) {
             start: undefined,
             end: undefined,
             unit: "",
-            building: "",
             tenant: ""
         }
     });
@@ -94,11 +76,9 @@ export default function EditRental({ id }: EditRentalProps) {
                 price: rental.price,
                 start: new Date(rental.start),
                 end: new Date(rental.end),
-                building: rental.buildingId,
                 tenant: rental.tenantId,
                 unit: ""
             });
-            setBuildingId(rental.buildingId);
         }
     }, [rental]);
 
@@ -126,6 +106,7 @@ export default function EditRental({ id }: EditRentalProps) {
             </Activity>
             <Form {...form}>
                 <form
+                    key={id}
                     onSubmit={form.handleSubmit(submit)}
                     className="space-y-4.5 w-full"
                 >
@@ -135,7 +116,7 @@ export default function EditRental({ id }: EditRentalProps) {
                             name="tenant"
                             render={({ field }) => (
                                 <FormItem>
-                                    <FormLabel className="text-neutral-600">Nom du locataire</FormLabel>
+                                    <FormLabel className="text-neutral-600">Nom du locataire<RequiredLabel /></FormLabel>
                                     <FormControl>
                                         <Select onValueChange={e => field.onChange(e)} value={field.value}>
                                             <SelectTrigger className="w-full" aria-invalid={!!form.formState.errors.tenant}>
@@ -166,51 +147,12 @@ export default function EditRental({ id }: EditRentalProps) {
                         />
                         <FormField
                             control={form.control}
-                            name="building"
-                            render={({ field }) => (
-                                <FormItem>
-                                    <FormLabel className="text-neutral-600">Nom du propriétaire</FormLabel>
-                                    <FormControl>
-                                        <Select
-                                            onValueChange={e => {
-                                                field.onChange(e);
-                                                setBuildingId(e);
-                                            }}
-                                            value={field.value}>
-                                            <SelectTrigger className="w-full" aria-invalid={!!form.formState.errors.building}>
-                                                <SelectValue placeholder="" />
-                                            </SelectTrigger>
-                                            <SelectContent position="popper" align="end">
-                                                {isGettingBuilding ? (
-                                                    <div className="flex justify-center items-center">
-                                                        <Spinner />
-                                                    </div>
-                                                ) : buildings && buildings.length > 0 ? (
-                                                    buildings.map((building) => (
-                                                        <SelectItem key={building.value} value={building.value}>
-                                                            {building.label}
-                                                        </SelectItem>
-                                                    ))
-                                                ) : (
-                                                    <SelectItem value="none" disabled>
-                                                        Aucun bâtiment disponible
-                                                    </SelectItem>
-                                                )}
-                                            </SelectContent>
-                                        </Select>
-                                    </FormControl>
-                                    <FormMessage />
-                                </FormItem>
-                            )}
-                        />
-                        <FormField
-                            control={form.control}
                             name="unit"
                             render={({ field }) => (
                                 <FormItem>
-                                    <FormLabel className="text-neutral-600">Unité</FormLabel>
+                                    <FormLabel className="text-neutral-600">Unité<RequiredLabel /></FormLabel>
                                     <FormControl>
-                                        <Select onValueChange={e => field.onChange(e)} value={field.value} disabled={!buildingId}>
+                                        <Select onValueChange={e => field.onChange(e)} value={field.value}>
                                             <SelectTrigger className="w-full" aria-invalid={!!form.formState.errors.unit}>
                                                 <SelectValue placeholder="" />
                                             </SelectTrigger>
@@ -242,7 +184,7 @@ export default function EditRental({ id }: EditRentalProps) {
                             name="price"
                             render={({ field }) => (
                                 <FormItem>
-                                    <FormLabel className="text-neutral-600">Prix</FormLabel>
+                                    <FormLabel className="text-neutral-600">Prix<RequiredLabel /></FormLabel>
                                     <FormControl>
                                         <Input
                                             type="number"
@@ -261,7 +203,7 @@ export default function EditRental({ id }: EditRentalProps) {
                             name="start"
                             render={({ field }) => (
                                 <FormItem>
-                                    <FormLabel className="text-neutral-600">Date du début</FormLabel>
+                                    <FormLabel className="text-neutral-600">Date du début<RequiredLabel /></FormLabel>
                                     <FormControl>
                                         <DatePicker date={field.value} setDate={field.onChange} error={!!form.formState.errors.start} hasIcon={true} />
                                     </FormControl>
@@ -274,7 +216,7 @@ export default function EditRental({ id }: EditRentalProps) {
                             name="end"
                             render={({ field }) => (
                                 <FormItem>
-                                    <FormLabel className="text-neutral-600">Date de fin</FormLabel>
+                                    <FormLabel className="text-neutral-600">Date de fin<RequiredLabel /></FormLabel>
                                     <FormControl>
                                         <DatePicker date={field.value} setDate={field.onChange} error={!!form.formState.errors.end} hasIcon={true} />
                                     </FormControl>

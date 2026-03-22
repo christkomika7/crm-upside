@@ -5,10 +5,9 @@ import { canAccess } from "../auth/permission";
 import { deleteFile, getSignedFileUrl, uploadFiles } from "../../lib/storage";
 import { buildingSchema } from "../../lib/zod/building";
 import { Decimal } from "decimal.js"
-import requestType from "./type";
+import request from "./type";
 import { safeSignedUrls } from "../../lib/utils";
-
-
+import { Prisma } from "../../generated/prisma/client";
 
 export const buildingRoutes = new Elysia({ prefix: "/building" })
     .use(authPlugin)
@@ -19,7 +18,7 @@ export const buildingRoutes = new Elysia({ prefix: "/building" })
         }
 
         const buildings = await prisma.building.findMany({
-            include: { lotTypes: true },
+            include: { lotTypes: true, owner: true, units: true },
             orderBy: { createdAt: "desc" },
         });
 
@@ -40,8 +39,8 @@ export const buildingRoutes = new Elysia({ prefix: "/building" })
 
                 return {
                     ...building,
-                    owner: "-",
-                    unit: "-",
+                    owner: building.owner ? `${building.owner?.firstname} ${building.owner?.lastname}` : "-",
+                    unit: building.units.length,
                     occupancy: "-",
                     photos: photos.urls,
                     deeds: deeds.urls,
@@ -55,6 +54,44 @@ export const buildingRoutes = new Elysia({ prefix: "/building" })
     }, {
         auth: true,
     })
+    .get("/without-owner", async ({ permission, status, server }) => {
+
+        if (!canAccess(permission, "buildings", "read")) {
+            return status(403, { message: "Accès refusé" });
+        }
+
+        const buildings = await prisma.building.findMany({
+            where: {
+                ownerId: null,
+            },
+            select: { id: true, name: true }
+        });
+
+        return buildings;
+
+    }, {
+        auth: true,
+    })
+    .get("/available-for-owner/:ownerId", async ({ params, permission, status }) => {
+
+        if (!canAccess(permission, "buildings", "read")) {
+            return status(403, { message: "Accès refusé" });
+        }
+
+        const { ownerId } = params;
+
+        const buildings = await prisma.building.findMany({
+            where: {
+                OR: [
+                    { ownerId: null },
+                    { ownerId: ownerId },
+                ],
+            },
+            select: { id: true, name: true }
+        });
+
+        return buildings;
+    }, { auth: true, params: request.paramOwnerId })
     .get("/:id", async ({ params, permission, status, server }) => {
 
         if (!canAccess(permission, "buildings", "read")) {
@@ -108,7 +145,7 @@ export const buildingRoutes = new Elysia({ prefix: "/building" })
             documents: documents.urls
         };
 
-    }, { auth: true, params: requestType.params })
+    }, { auth: true, params: request.paramId })
     .post("/", async ({ body, permission, status }) => {
         if (!canAccess(permission, "buildings", "create")) {
             return status(403, { message: "Accès refusé" });
@@ -121,6 +158,16 @@ export const buildingRoutes = new Elysia({ prefix: "/building" })
 
             if (!success) {
                 return status(400, { message: "Bâtiment invalide" });
+            }
+
+            const existingBuilding = await prisma.building.findUnique({
+                where: { reference: data.reference },
+            });
+
+            if (existingBuilding) {
+                return status(400, {
+                    message: `La référence ${data.reference} est déjà utilisée.`
+                });
             }
 
             let photos: string[] = [];
@@ -139,6 +186,7 @@ export const buildingRoutes = new Elysia({ prefix: "/building" })
             await prisma.building.create({
                 data: {
                     name: data.name,
+                    reference: data.reference,
                     location: data.location,
                     constructionDate: data.constructionDate,
                     door: Number(data.door),
@@ -178,6 +226,14 @@ export const buildingRoutes = new Elysia({ prefix: "/building" })
                 })
             );
 
+            if (error instanceof Prisma.PrismaClientKnownRequestError) {
+                if (error.code === "P2002") {
+                    return status(400, {
+                        message: "Cette référence existe déjà"
+                    });
+                }
+            }
+
             return status(500, {
                 message: "Erreur lors de la création du bâtiment",
             });
@@ -185,7 +241,7 @@ export const buildingRoutes = new Elysia({ prefix: "/building" })
     },
         {
             auth: true,
-            body: requestType.body
+            body: request.body
         })
     .put("/:id", async ({ params, body, permission, status }) => {
         if (!canAccess(permission, "buildings", "update")) {
@@ -212,6 +268,19 @@ export const buildingRoutes = new Elysia({ prefix: "/building" })
                 return status(400, { message: "Bâtiment invalide" });
             }
 
+            const existingBuilding = await prisma.building.findFirst({
+                where: {
+                    reference: data.reference,
+                    NOT: { id: params.id }
+                }
+            });
+
+            if (existingBuilding) {
+                return status(400, {
+                    message: `La référence ${data.reference} est déjà utilisée.`
+                });
+            }
+
             let photos: string[] = [];
             let deeds: string[] = [];
             let documents: string[] = [];
@@ -231,6 +300,7 @@ export const buildingRoutes = new Elysia({ prefix: "/building" })
                 },
                 data: {
                     name: data.name,
+                    reference: data.reference,
                     location: data.location,
                     constructionDate: data.constructionDate,
                     door: Number(data.door),
@@ -280,6 +350,14 @@ export const buildingRoutes = new Elysia({ prefix: "/building" })
                 })
             );
 
+            if (error instanceof Prisma.PrismaClientKnownRequestError) {
+                if (error.code === "P2002") {
+                    return status(400, {
+                        message: "Cette référence existe déjà"
+                    });
+                }
+            }
+
             return status(500, {
                 message: "Erreur lors de la modification du bâtiment",
             });
@@ -287,7 +365,7 @@ export const buildingRoutes = new Elysia({ prefix: "/building" })
 
 
 
-    }, { auth: true, body: requestType.body, params: requestType.params })
+    }, { auth: true, body: request.body, params: request.paramId })
     .delete("/:id", async ({ params, permission, status, user }) => {
         if (!canAccess(permission, "buildings", "update")) {
             return status(403, { message: "Accès refusé" });
@@ -298,7 +376,6 @@ export const buildingRoutes = new Elysia({ prefix: "/building" })
             include: {
                 units: true,
                 owner: true,
-                rentals: true,
             }
         });
 
@@ -306,7 +383,6 @@ export const buildingRoutes = new Elysia({ prefix: "/building" })
 
         if (building.units.length > 0) return status(400, { message: "Des unitées sont reliées à ce bâtiment." });
         if (building.owner) return status(400, { message: `Ce bâtiment est reliés au propriétaire ${building.owner.firstname} ${building.owner.lastname} .` });
-        if (building.units.length > 0) return status(400, { message: "Des locations sont reliées à ce bâtiment." });
 
         await prisma.$transaction([
             prisma.deletion.create({
@@ -327,6 +403,6 @@ export const buildingRoutes = new Elysia({ prefix: "/building" })
             })
         ]);
 
-        return status(200, { message: `Le bàtiment ${building.name} est en attente de suppression.` });
-    }, { auth: true })
+        return status(200, { message: `La suppression de ${building.name} est en attente de validation.` });
+    }, { auth: true, params: request.paramId })
 

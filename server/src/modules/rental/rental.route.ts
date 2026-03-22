@@ -3,8 +3,9 @@ import { authPlugin } from "../auth/auth";
 import { prisma } from "../../lib/prisma";
 import { canAccess } from "../auth/permission";
 import { duration, formatDateToString } from "../../lib/utils";
-import requestType from "./type";
+import request from "./type";
 import { rentalSchema } from "../../lib/zod/rentals";
+import Decimal from "decimal.js";
 
 export const rentalRoutes = new Elysia({ prefix: "/rental" })
     .use(authPlugin)
@@ -17,7 +18,15 @@ export const rentalRoutes = new Elysia({ prefix: "/rental" })
         const rentals = await prisma.rental.findMany({
             include: {
                 tenant: true,
-                unit: true
+                unit: {
+                    include: {
+                        building: {
+                            include: {
+                                owner: true
+                            }
+                        }
+                    }
+                }
             },
             orderBy: { createdAt: "desc" },
         });
@@ -26,14 +35,15 @@ export const rentalRoutes = new Elysia({ prefix: "/rental" })
             rentals.map(async (rental) => {
                 return {
                     ...rental,
+                    reference: rental.unit.building.owner ? `${rental.unit.building.owner.firstname} ${rental.unit.building.owner.lastname}` : "-",
                     unit: rental.unit.reference,
-                    tenant: `${rental.tenant.firstname} ${rental.tenant.firstname}`,
+                    tenant: `${rental.tenant.firstname} ${rental.tenant.lastname}`,
                     type: rental.unit.furnished,
                     start: formatDateToString(rental.start),
                     duration: duration(rental.start, rental.end),
                     rentPrice: rental.price,
                     charges: rental.unit.charges,
-                    desposit: "-"
+                    desposit: new Decimal(rental.price).plus(rental.unit.charges).toString()
                 };
             })
         );
@@ -58,7 +68,7 @@ export const rentalRoutes = new Elysia({ prefix: "/rental" })
 
         return rental
 
-    }, { auth: true, params: requestType.params })
+    }, { auth: true, params: request.params })
     .post("/", async ({ body, permission, status }) => {
         if (!canAccess(permission, "rentals", "create")) {
             return status(403, { message: "Accès refusé" });
@@ -81,11 +91,6 @@ export const rentalRoutes = new Elysia({ prefix: "/rental" })
                             id: data.tenant
                         }
                     },
-                    building: {
-                        connect: {
-                            id: data.building
-                        }
-                    },
                     unit: {
                         connect: {
                             id: data.unit
@@ -106,7 +111,7 @@ export const rentalRoutes = new Elysia({ prefix: "/rental" })
     },
         {
             auth: true,
-            body: requestType.body
+            body: request.body
         })
     .put("/:id", async ({ params, body, permission, status }) => {
         if (!canAccess(permission, "rentals", "update")) {
@@ -144,11 +149,6 @@ export const rentalRoutes = new Elysia({ prefix: "/rental" })
                             id: data.tenant
                         }
                     },
-                    building: {
-                        connect: {
-                            id: data.building
-                        }
-                    },
                     unit: {
                         connect: {
                             id: data.unit
@@ -169,17 +169,40 @@ export const rentalRoutes = new Elysia({ prefix: "/rental" })
 
 
 
-    }, { auth: true, body: requestType.body, params: requestType.params })
-    .delete("/:id", async ({ params, permission, status }) => {
+    }, { auth: true, body: request.body, params: request.params })
+    .delete("/:id", async ({ params, permission, status, user }) => {
         if (!canAccess(permission, "rentals", "update")) {
             return status(403, { message: "Accès refusé" });
         }
         const id = params.id;
-        await prisma.rental.delete({
+        const rental = await prisma.rental.findUnique({
             where: { id },
+            include: {
+                unit: true,
+            }
         });
 
+        if (!rental) return status(400, { message: "Aucune location trouvée." });
 
-        return { message: "Location supprimée avec succès" };
-    }, { auth: true })
+        await prisma.$transaction([
+            prisma.deletion.create({
+                data: {
+                    recordId: rental.id,
+                    type: "RENTAL",
+                    state: "WAIT",
+                    user: {
+                        connect: { id: user.id }
+                    }
+                }
+            }),
+            prisma.rental.update({
+                where: { id: rental.id },
+                data: {
+                    isDeleting: true
+                }
+            })
+        ]);
+
+        return status(200, { message: `La suppression de la location de l'unité ${rental.unit.reference} est en attente de validation.` });
+    }, { auth: true, params: request.params })
 

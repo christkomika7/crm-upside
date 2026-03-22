@@ -180,6 +180,6 @@ export const reservationRoutes = new Elysia({ prefix: "/reservation" })
             })
         ]);
 
-        return status(200, { message: `La réservation de ${reservation.name} est en attente de suppression.` });
+        return status(200, { message: `La suppression de la réservation de ${reservation.name} est en attente de suppression.` });
     }, { auth: true, params: request.params })
 

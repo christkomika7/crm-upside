@@ -24,7 +24,7 @@ import type { Building } from "@/types/building";
 import { LayersPlusIcon } from "lucide-react";
 import Modal from "@/components/modal/modal";
 import TypeModal from "@/components/modal/type";
-
+import RequiredLabel from "@/components/ui/required-label";
 
 export default function CreateUnit() {
     const [open, setOpen] = useState(false);
@@ -33,6 +33,7 @@ export default function CreateUnit() {
         resolver: zodResolver(unitSchema),
         defaultValues: {
             type: "",
+            reference: "",
             building: "",
             rentalStatus: "",
             surface: "",
@@ -71,6 +72,7 @@ export default function CreateUnit() {
             queryClient.invalidateQueries({ queryKey: ["units"] });
             form.reset({
                 type: "",
+                reference: "",
                 building: "",
                 rentalStatus: "",
                 surface: "",
@@ -99,6 +101,7 @@ export default function CreateUnit() {
             const form = new FormData();
 
             form.append("type", data.type);
+            form.append("reference", data.reference);
             form.append("building", data.building);
             form.append("rentalStatus", data.rentalStatus);
             form.append("surface", data.surface);
@@ -131,10 +134,23 @@ export default function CreateUnit() {
                     <div className="grid grid-cols-3 gap-4">
                         <FormField
                             control={form.control}
+                            name="reference"
+                            render={({ field }) => (
+                                <FormItem >
+                                    <FormLabel className="text-neutral-600">Référence<RequiredLabel /></FormLabel>
+                                    <FormControl>
+                                        <Input placeholder="" {...field} />
+                                    </FormControl>
+                                    <FormMessage />
+                                </FormItem>
+                            )}
+                        />
+                        <FormField
+                            control={form.control}
                             name="type"
                             render={({ field }) => (
                                 <FormItem >
-                                    <FormLabel className="text-neutral-600">Type</FormLabel>
+                                    <FormLabel className="text-neutral-600">Type<RequiredLabel /></FormLabel>
                                     <FormControl>
                                         <div className="flex gap-x-2">
                                             <Select onValueChange={e => field.onChange(e)} value={field.value} >
@@ -173,7 +189,7 @@ export default function CreateUnit() {
                             name="building"
                             render={({ field }) => (
                                 <FormItem >
-                                    <FormLabel className="text-neutral-600">Bâtiment</FormLabel>
+                                    <FormLabel className="text-neutral-600">Bâtiment<RequiredLabel /></FormLabel>
                                     <FormControl>
                                         <Select onValueChange={e => field.onChange(e)} value={field.value} >
                                             <SelectTrigger className="w-full" aria-invalid={!!form.formState.errors.building}>
@@ -207,7 +223,7 @@ export default function CreateUnit() {
                             name="rentalStatus"
                             render={({ field }) => (
                                 <FormItem >
-                                    <FormLabel className="text-neutral-600">Statut de location</FormLabel>
+                                    <FormLabel className="text-neutral-600">Statut de location<RequiredLabel /></FormLabel>
                                     <FormControl>
                                         <Select onValueChange={field.onChange} value={field.value} >
                                             <SelectTrigger className="w-full" aria-invalid={!!form.formState.errors.rentalStatus}>
@@ -228,7 +244,7 @@ export default function CreateUnit() {
                             name="surface"
                             render={({ field }) => (
                                 <FormItem >
-                                    <FormLabel className="text-neutral-600">Surface</FormLabel>
+                                    <FormLabel className="text-neutral-600">Surface<RequiredLabel /></FormLabel>
                                     <FormControl>
                                         <Input
                                             placeholder="Entrer la valeur de la surface"
@@ -246,7 +262,7 @@ export default function CreateUnit() {
                             name="rooms"
                             render={({ field }) => (
                                 <FormItem >
-                                    <FormLabel className="text-neutral-600">Nombre de chambre</FormLabel>
+                                    <FormLabel className="text-neutral-600">Nombre de chambre<RequiredLabel /></FormLabel>
                                     <FormControl>
                                         <Input
                                             type="number"
@@ -265,7 +281,7 @@ export default function CreateUnit() {
                             name="rent"
                             render={({ field }) => (
                                 <FormItem >
-                                    <FormLabel className="text-neutral-600">Prix de location</FormLabel>
+                                    <FormLabel className="text-neutral-600">Prix de location<RequiredLabel /></FormLabel>
                                     <FormControl>
                                         <Input
                                             placeholder="Entrer le prix de la location"
@@ -283,7 +299,7 @@ export default function CreateUnit() {
                             name="furnished"
                             render={({ field }) => (
                                 <FormItem >
-                                    <FormLabel className="text-neutral-600">Meublé</FormLabel>
+                                    <FormLabel className="text-neutral-600">Meublé<RequiredLabel /></FormLabel>
                                     <FormControl>
                                         <Select onValueChange={e => field.onChange(e)} value={field.value} >
                                             <SelectTrigger className="w-full" aria-invalid={!!form.formState.errors.furnished}>
@@ -391,7 +407,7 @@ export default function CreateUnit() {
                             name="charges"
                             render={({ field }) => (
                                 <FormItem >
-                                    <FormLabel className="text-neutral-600">Prix des charges</FormLabel>
+                                    <FormLabel className="text-neutral-600">Prix des charges<RequiredLabel /></FormLabel>
                                     <FormControl>
                                         <Input
                                             type="number"

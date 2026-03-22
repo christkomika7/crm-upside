@@ -31,14 +31,62 @@ export const TenantRelations = t.Object(
       t.Object(
         {
           id: t.String(),
-          reference: t.Integer(),
           tenantId: t.String(),
-          buildingId: t.String(),
           unitId: t.String(),
           isDeleting: t.Boolean(),
           price: t.Number(),
           start: t.Date(),
           end: t.Date(),
+          createdAt: t.Date(),
+          updatedAt: t.Date(),
+        },
+        { additionalProperties: false },
+      ),
+      { additionalProperties: false },
+    ),
+    invoices: t.Array(
+      t.Object(
+        {
+          id: t.String(),
+          reference: t.Integer(),
+          price: t.Number(),
+          discount: t.Number(),
+          discountType: t.Union([t.Literal("PURCENT"), t.Literal("MONEY")], {
+            additionalProperties: false,
+          }),
+          hasTax: t.Boolean(),
+          updatedTax: __nullable__(t.String()),
+          type: t.Union([t.Literal("OWNER"), t.Literal("TENANT")], {
+            additionalProperties: false,
+          }),
+          ownerId: __nullable__(t.String()),
+          tenantId: __nullable__(t.String()),
+          note: __nullable__(t.String()),
+          createdAt: t.Date(),
+          updatedAt: t.Date(),
+        },
+        { additionalProperties: false },
+      ),
+      { additionalProperties: false },
+    ),
+    quotes: t.Array(
+      t.Object(
+        {
+          id: t.String(),
+          reference: t.String(),
+          price: t.Number(),
+          discount: t.Number(),
+          discountType: t.Union([t.Literal("PURCENT"), t.Literal("MONEY")], {
+            additionalProperties: false,
+          }),
+          hasTax: t.Boolean(),
+          updatedTax: __nullable__(t.String()),
+          type: t.Union([t.Literal("OWNER"), t.Literal("TENANT")], {
+            additionalProperties: false,
+          }),
+          ownerId: __nullable__(t.String()),
+          tenantId: __nullable__(t.String()),
+          note: __nullable__(t.String()),
           createdAt: t.Date(),
           updatedAt: t.Date(),
         },
@@ -104,6 +152,38 @@ export const TenantRelationsInputCreate = t.Object(
         { additionalProperties: false },
       ),
     ),
+    invoices: t.Optional(
+      t.Object(
+        {
+          connect: t.Array(
+            t.Object(
+              {
+                id: t.String({ additionalProperties: false }),
+              },
+              { additionalProperties: false },
+            ),
+            { additionalProperties: false },
+          ),
+        },
+        { additionalProperties: false },
+      ),
+    ),
+    quotes: t.Optional(
+      t.Object(
+        {
+          connect: t.Array(
+            t.Object(
+              {
+                id: t.String({ additionalProperties: false }),
+              },
+              { additionalProperties: false },
+            ),
+            { additionalProperties: false },
+          ),
+        },
+        { additionalProperties: false },
+      ),
+    ),
   },
   { additionalProperties: false },
 );
@@ -112,6 +192,56 @@ export const TenantRelationsInputUpdate = t.Partial(
   t.Object(
     {
       rentals: t.Partial(
+        t.Object(
+          {
+            connect: t.Array(
+              t.Object(
+                {
+                  id: t.String({ additionalProperties: false }),
+                },
+                { additionalProperties: false },
+              ),
+              { additionalProperties: false },
+            ),
+            disconnect: t.Array(
+              t.Object(
+                {
+                  id: t.String({ additionalProperties: false }),
+                },
+                { additionalProperties: false },
+              ),
+              { additionalProperties: false },
+            ),
+          },
+          { additionalProperties: false },
+        ),
+      ),
+      invoices: t.Partial(
+        t.Object(
+          {
+            connect: t.Array(
+              t.Object(
+                {
+                  id: t.String({ additionalProperties: false }),
+                },
+                { additionalProperties: false },
+              ),
+              { additionalProperties: false },
+            ),
+            disconnect: t.Array(
+              t.Object(
+                {
+                  id: t.String({ additionalProperties: false }),
+                },
+                { additionalProperties: false },
+              ),
+              { additionalProperties: false },
+            ),
+          },
+          { additionalProperties: false },
+        ),
+      ),
+      quotes: t.Partial(
         t.Object(
           {
             connect: t.Array(
@@ -243,6 +373,8 @@ export const TenantSelect = t.Partial(
       createdAt: t.Boolean(),
       updatedAt: t.Boolean(),
       rentals: t.Boolean(),
+      invoices: t.Boolean(),
+      quotes: t.Boolean(),
       _count: t.Boolean(),
     },
     { additionalProperties: false },
@@ -251,7 +383,12 @@ export const TenantSelect = t.Partial(
 
 export const TenantInclude = t.Partial(
   t.Object(
-    { rentals: t.Boolean(), _count: t.Boolean() },
+    {
+      rentals: t.Boolean(),
+      invoices: t.Boolean(),
+      quotes: t.Boolean(),
+      _count: t.Boolean(),
+    },
     { additionalProperties: false },
   ),
 );

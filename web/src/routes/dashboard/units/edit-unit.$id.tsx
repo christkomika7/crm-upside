@@ -11,6 +11,6 @@ function RouteComponent() {
   const id = param.id.split("edit_unit-")[1];
   return <div className='space-y-6'>
     <ActionHeader />
-    <EditUnit id={id} />
+    <EditUnit key={id} id={id} />
   </div>
 }

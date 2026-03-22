@@ -15,7 +15,7 @@ const app = new Elysia()
   .use(betterAuthPlugin)
   .use(wsPlugin)
   .use(route)
-  .use(loggerPlugin)
+  // .use(loggerPlugin)
   .listen(3001);
 
 console.log(`🦊 Elysia is running at ${app.server?.hostname}:${app.server?.port}`);

@@ -26,6 +26,7 @@ import LotTypeModal from "@/components/modal/lot-type";
 import type { LotType } from "@/types/lot-type";
 import { toast } from "sonner";
 import { queryClient } from "@/lib/query-client";
+import RequiredLabel from "@/components/ui/required-label";
 
 export default function CreateBuilding() {
     const [open, setOpen] = useState(false);
@@ -43,6 +44,8 @@ export default function CreateBuilding() {
             waterBorehole: false,
             gym: false,
             garden: false,
+            lotType: [],
+            status: [],
         }
     });
 
@@ -64,6 +67,7 @@ export default function CreateBuilding() {
             form.reset({
                 constructionDate: new Date(),
                 parkingPrice: "",
+                reference: "",
                 door: "",
                 camera: false,
                 security: false,
@@ -99,6 +103,7 @@ export default function CreateBuilding() {
             const form = new FormData();
 
             form.append("name", data.name);
+            form.append("reference", data.reference);
             form.append("location", data.location);
             form.append("constructionDate", data.constructionDate.toISOString());
             form.append("lotType", JSON.stringify(data.lotType));
@@ -147,10 +152,28 @@ export default function CreateBuilding() {
                     <div className="grid grid-cols-3 gap-4">
                         <FormField
                             control={form.control}
+                            name="reference"
+                            render={({ field }) => (
+                                <FormItem >
+                                    <FormLabel className="text-neutral-600">Référence<RequiredLabel /></FormLabel>
+                                    <FormControl>
+                                        <Input
+                                            placeholder="Entrer la référence"
+                                            value={field.value}
+                                            aria-invalid={!!form.formState.errors.reference}
+                                            onChange={field.onChange}
+                                        />
+                                    </FormControl>
+                                    <FormMessage />
+                                </FormItem>
+                            )}
+                        />
+                        <FormField
+                            control={form.control}
                             name="name"
                             render={({ field }) => (
                                 <FormItem >
-                                    <FormLabel className="text-neutral-600">Nom</FormLabel>
+                                    <FormLabel className="text-neutral-600">Nom<RequiredLabel /></FormLabel>
                                     <FormControl>
                                         <Input
                                             placeholder="Entrer le nom complet"
@@ -168,7 +191,7 @@ export default function CreateBuilding() {
                             name="location"
                             render={({ field }) => (
                                 <FormItem >
-                                    <FormLabel className="text-neutral-600">Localisation</FormLabel>
+                                    <FormLabel className="text-neutral-600">Localisation<RequiredLabel /></FormLabel>
                                     <FormControl>
                                         <Input
                                             placeholder="Entrer la localisation"
@@ -186,7 +209,7 @@ export default function CreateBuilding() {
                             name="constructionDate"
                             render={({ field }) => (
                                 <FormItem >
-                                    <FormLabel className="text-neutral-600">Date de construction</FormLabel>
+                                    <FormLabel className="text-neutral-600">Date de construction<RequiredLabel /></FormLabel>
                                     <FormControl>
                                         <DatePicker date={field.value} setDate={field.onChange} error={!!form.formState.errors.lotType} />
                                     </FormControl>
@@ -199,7 +222,7 @@ export default function CreateBuilding() {
                             name="lotType"
                             render={({ field }) => (
                                 <FormItem >
-                                    <FormLabel className="text-neutral-600">Type de lot</FormLabel>
+                                    <FormLabel className="text-neutral-600">Type de lot<RequiredLabel /></FormLabel>
                                     <FormControl>
                                         <MultipleSelector
                                             commandProps={{
@@ -234,7 +257,7 @@ export default function CreateBuilding() {
                             name="door"
                             render={({ field }) => (
                                 <FormItem >
-                                    <FormLabel className="text-neutral-600">Nombre de porte</FormLabel>
+                                    <FormLabel className="text-neutral-600">Nombre de porte<RequiredLabel /></FormLabel>
                                     <FormControl>
                                         <Input
                                             type="number"
@@ -337,7 +360,7 @@ export default function CreateBuilding() {
                             name="parkingPrice"
                             render={({ field }) => (
                                 <FormItem >
-                                    <FormLabel className="text-neutral-600">Prix de l'espace parking</FormLabel>
+                                    <FormLabel className="text-neutral-600">Prix de l'espace parking<RequiredLabel /></FormLabel>
                                     <FormControl>
                                         <Input
                                             type="number"
@@ -461,7 +484,7 @@ export default function CreateBuilding() {
                             name="status"
                             render={({ field }) => (
                                 <FormItem >
-                                    <FormLabel className="text-neutral-600">Gestion du status</FormLabel>
+                                    <FormLabel className="text-neutral-600">Gestion du status<RequiredLabel /></FormLabel>
                                     <FormControl>
                                         <MultipleSelector
                                             commandProps={{
@@ -493,7 +516,7 @@ export default function CreateBuilding() {
                             name="map"
                             render={({ field }) => (
                                 <FormItem >
-                                    <FormLabel className="text-neutral-600">Google map</FormLabel>
+                                    <FormLabel className="text-neutral-600">Google map<RequiredLabel /></FormLabel>
                                     <FormControl>
                                         <InputMap value={field.value} onChange={field.onChange} error={!!form.formState.errors.map} />
                                     </FormControl>

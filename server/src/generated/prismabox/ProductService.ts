@@ -19,7 +19,24 @@ export const ProductServicePlain = t.Object(
 );
 
 export const ProductServiceRelations = t.Object(
-  {},
+  {
+    items: t.Array(
+      t.Object(
+        {
+          id: t.String(),
+          quantity: __nullable__(t.Integer()),
+          productServiceId: t.String(),
+          price: t.Number(),
+          invoiceId: t.String(),
+          createdAt: t.Date(),
+          updatedAt: t.Date(),
+          quoteId: __nullable__(t.String()),
+        },
+        { additionalProperties: false },
+      ),
+      { additionalProperties: false },
+    ),
+  },
   { additionalProperties: false },
 );
 
@@ -46,12 +63,58 @@ export const ProductServicePlainInputUpdate = t.Object(
 );
 
 export const ProductServiceRelationsInputCreate = t.Object(
-  {},
+  {
+    items: t.Optional(
+      t.Object(
+        {
+          connect: t.Array(
+            t.Object(
+              {
+                id: t.String({ additionalProperties: false }),
+              },
+              { additionalProperties: false },
+            ),
+            { additionalProperties: false },
+          ),
+        },
+        { additionalProperties: false },
+      ),
+    ),
+  },
   { additionalProperties: false },
 );
 
 export const ProductServiceRelationsInputUpdate = t.Partial(
-  t.Object({}, { additionalProperties: false }),
+  t.Object(
+    {
+      items: t.Partial(
+        t.Object(
+          {
+            connect: t.Array(
+              t.Object(
+                {
+                  id: t.String({ additionalProperties: false }),
+                },
+                { additionalProperties: false },
+              ),
+              { additionalProperties: false },
+            ),
+            disconnect: t.Array(
+              t.Object(
+                {
+                  id: t.String({ additionalProperties: false }),
+                },
+                { additionalProperties: false },
+              ),
+              { additionalProperties: false },
+            ),
+          },
+          { additionalProperties: false },
+        ),
+      ),
+    },
+    { additionalProperties: false },
+  ),
 );
 
 export const ProductServiceWhere = t.Partial(
@@ -138,6 +201,7 @@ export const ProductServiceSelect = t.Partial(
       isDeleting: t.Boolean(),
       createdAt: t.Boolean(),
       updatedAt: t.Boolean(),
+      items: t.Boolean(),
       _count: t.Boolean(),
     },
     { additionalProperties: false },
@@ -145,7 +209,10 @@ export const ProductServiceSelect = t.Partial(
 );
 
 export const ProductServiceInclude = t.Partial(
-  t.Object({ _count: t.Boolean() }, { additionalProperties: false }),
+  t.Object(
+    { items: t.Boolean(), _count: t.Boolean() },
+    { additionalProperties: false },
+  ),
 );
 
 export const ProductServiceOrderBy = t.Partial(

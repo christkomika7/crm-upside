@@ -67,6 +67,10 @@ export const ModelName = {
   Reservation: 'Reservation',
   PropertyManagement: 'PropertyManagement',
   ProductService: 'ProductService',
+  Item: 'Item',
+  Invoice: 'Invoice',
+  Quote: 'Quote',
+  Payment: 'Payment',
   PersonalService: 'PersonalService',
   Deletion: 'Deletion',
   Session: 'Session',
@@ -137,13 +141,8 @@ export type NoteScalarFieldEnum = (typeof NoteScalarFieldEnum)[keyof typeof Note
 
 export const ReferenceScalarFieldEnum = {
   id: 'id',
-  owner: 'owner',
-  building: 'building',
-  unit: 'unit',
-  rental: 'rental',
-  invoicing: 'invoicing',
-  contract: 'contract',
-  checkIn: 'checkIn'
+  invoice: 'invoice',
+  quote: 'quote'
 } as const
 
 export type ReferenceScalarFieldEnum = (typeof ReferenceScalarFieldEnum)[keyof typeof ReferenceScalarFieldEnum]
@@ -275,9 +274,7 @@ export type TenantScalarFieldEnum = (typeof TenantScalarFieldEnum)[keyof typeof 
 
 export const RentalScalarFieldEnum = {
   id: 'id',
-  reference: 'reference',
   tenantId: 'tenantId',
-  buildingId: 'buildingId',
   unitId: 'unitId',
   isDeleting: 'isDeleting',
   price: 'price',
@@ -335,6 +332,72 @@ export const ProductServiceScalarFieldEnum = {
 } as const
 
 export type ProductServiceScalarFieldEnum = (typeof ProductServiceScalarFieldEnum)[keyof typeof ProductServiceScalarFieldEnum]
+
+
+export const ItemScalarFieldEnum = {
+  id: 'id',
+  quantity: 'quantity',
+  productServiceId: 'productServiceId',
+  price: 'price',
+  invoiceId: 'invoiceId',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+  quoteId: 'quoteId'
+} as const
+
+export type ItemScalarFieldEnum = (typeof ItemScalarFieldEnum)[keyof typeof ItemScalarFieldEnum]
+
+
+export const InvoiceScalarFieldEnum = {
+  id: 'id',
+  reference: 'reference',
+  price: 'price',
+  discount: 'discount',
+  discountType: 'discountType',
+  hasTax: 'hasTax',
+  updatedTax: 'updatedTax',
+  type: 'type',
+  ownerId: 'ownerId',
+  tenantId: 'tenantId',
+  note: 'note',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type InvoiceScalarFieldEnum = (typeof InvoiceScalarFieldEnum)[keyof typeof InvoiceScalarFieldEnum]
+
+
+export const QuoteScalarFieldEnum = {
+  id: 'id',
+  reference: 'reference',
+  price: 'price',
+  discount: 'discount',
+  discountType: 'discountType',
+  hasTax: 'hasTax',
+  updatedTax: 'updatedTax',
+  type: 'type',
+  ownerId: 'ownerId',
+  tenantId: 'tenantId',
+  note: 'note',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type QuoteScalarFieldEnum = (typeof QuoteScalarFieldEnum)[keyof typeof QuoteScalarFieldEnum]
+
+
+export const PaymentScalarFieldEnum = {
+  id: 'id',
+  reference: 'reference',
+  amount: 'amount',
+  type: 'type',
+  date: 'date',
+  invoiceId: 'invoiceId',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type PaymentScalarFieldEnum = (typeof PaymentScalarFieldEnum)[keyof typeof PaymentScalarFieldEnum]
 
 
 export const PersonalServiceScalarFieldEnum = {

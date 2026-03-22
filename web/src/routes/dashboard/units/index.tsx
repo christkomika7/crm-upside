@@ -27,7 +27,6 @@ export const Route = createFileRoute('/dashboard/units/')({
 })
 
 function RouteComponent() {
-
   const { isPending, data: units } = useQuery<Units[]>({
     queryKey: ["units"],
     queryFn: () => apiFetch<Units[]>("/unit"),

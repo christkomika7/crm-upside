@@ -4,93 +4,104 @@ import { __transformDate__ } from "./__transformDate__";
 
 import { __nullable__ } from "./__nullable__";
 
-export const RentalPlain = t.Object(
+export const ItemPlain = t.Object(
   {
     id: t.String(),
-    tenantId: t.String(),
-    unitId: t.String(),
-    isDeleting: t.Boolean(),
+    quantity: __nullable__(t.Integer()),
+    productServiceId: t.String(),
     price: t.Number(),
-    start: t.Date(),
-    end: t.Date(),
+    invoiceId: t.String(),
     createdAt: t.Date(),
     updatedAt: t.Date(),
+    quoteId: __nullable__(t.String()),
   },
   { additionalProperties: false },
 );
 
-export const RentalRelations = t.Object(
+export const ItemRelations = t.Object(
   {
-    tenant: t.Object(
-      {
-        id: t.String(),
-        firstname: t.String(),
-        lastname: t.String(),
-        company: t.String(),
-        phone: t.String(),
-        email: t.String(),
-        address: t.String(),
-        maritalStatus: __nullable__(t.String()),
-        income: t.Number(),
-        bankInfo: t.String(),
-        paymentMode: t.String(),
-        documents: t.Array(t.String(), { additionalProperties: false }),
-        isDeleting: t.Boolean(),
-        createdAt: t.Date(),
-        updatedAt: t.Date(),
-      },
-      { additionalProperties: false },
-    ),
-    unit: t.Object(
+    productService: t.Object(
       {
         id: t.String(),
         reference: t.String(),
-        rentalStatus: t.String(),
-        surface: t.String(),
-        rooms: t.String(),
-        rent: t.Number(),
-        furnished: t.String(),
-        wifi: t.Boolean(),
-        water: t.Boolean(),
-        electricity: t.Boolean(),
-        tv: t.Boolean(),
-        charges: t.Number(),
-        documents: t.Array(t.String(), { additionalProperties: false }),
+        description: t.String(),
+        hasTax: t.Boolean(),
+        price: t.Number(),
         isDeleting: t.Boolean(),
-        buildingId: t.String(),
-        typeId: t.String(),
         createdAt: t.Date(),
         updatedAt: t.Date(),
       },
       { additionalProperties: false },
     ),
+    invoice: t.Object(
+      {
+        id: t.String(),
+        reference: t.Integer(),
+        price: t.Number(),
+        discount: t.Number(),
+        discountType: t.Union([t.Literal("PURCENT"), t.Literal("MONEY")], {
+          additionalProperties: false,
+        }),
+        hasTax: t.Boolean(),
+        updatedTax: __nullable__(t.String()),
+        type: t.Union([t.Literal("OWNER"), t.Literal("TENANT")], {
+          additionalProperties: false,
+        }),
+        ownerId: __nullable__(t.String()),
+        tenantId: __nullable__(t.String()),
+        note: __nullable__(t.String()),
+        createdAt: t.Date(),
+        updatedAt: t.Date(),
+      },
+      { additionalProperties: false },
+    ),
+    quote: __nullable__(
+      t.Object(
+        {
+          id: t.String(),
+          reference: t.String(),
+          price: t.Number(),
+          discount: t.Number(),
+          discountType: t.Union([t.Literal("PURCENT"), t.Literal("MONEY")], {
+            additionalProperties: false,
+          }),
+          hasTax: t.Boolean(),
+          updatedTax: __nullable__(t.String()),
+          type: t.Union([t.Literal("OWNER"), t.Literal("TENANT")], {
+            additionalProperties: false,
+          }),
+          ownerId: __nullable__(t.String()),
+          tenantId: __nullable__(t.String()),
+          note: __nullable__(t.String()),
+          createdAt: t.Date(),
+          updatedAt: t.Date(),
+        },
+        { additionalProperties: false },
+      ),
+    ),
   },
   { additionalProperties: false },
 );
 
-export const RentalPlainInputCreate = t.Object(
+export const ItemPlainInputCreate = t.Object(
   {
-    isDeleting: t.Optional(t.Boolean()),
+    quantity: t.Optional(__nullable__(t.Integer())),
     price: t.Optional(t.Number()),
-    start: t.Date(),
-    end: t.Date(),
   },
   { additionalProperties: false },
 );
 
-export const RentalPlainInputUpdate = t.Object(
+export const ItemPlainInputUpdate = t.Object(
   {
-    isDeleting: t.Optional(t.Boolean()),
+    quantity: t.Optional(__nullable__(t.Integer())),
     price: t.Optional(t.Number()),
-    start: t.Optional(t.Date()),
-    end: t.Optional(t.Date()),
   },
   { additionalProperties: false },
 );
 
-export const RentalRelationsInputCreate = t.Object(
+export const ItemRelationsInputCreate = t.Object(
   {
-    tenant: t.Object(
+    productService: t.Object(
       {
         connect: t.Object(
           {
@@ -101,7 +112,7 @@ export const RentalRelationsInputCreate = t.Object(
       },
       { additionalProperties: false },
     ),
-    unit: t.Object(
+    invoice: t.Object(
       {
         connect: t.Object(
           {
@@ -112,14 +123,8 @@ export const RentalRelationsInputCreate = t.Object(
       },
       { additionalProperties: false },
     ),
-  },
-  { additionalProperties: false },
-);
-
-export const RentalRelationsInputUpdate = t.Partial(
-  t.Object(
-    {
-      tenant: t.Object(
+    quote: t.Optional(
+      t.Object(
         {
           connect: t.Object(
             {
@@ -130,7 +135,15 @@ export const RentalRelationsInputUpdate = t.Partial(
         },
         { additionalProperties: false },
       ),
-      unit: t.Object(
+    ),
+  },
+  { additionalProperties: false },
+);
+
+export const ItemRelationsInputUpdate = t.Partial(
+  t.Object(
+    {
+      productService: t.Object(
         {
           connect: t.Object(
             {
@@ -140,13 +153,38 @@ export const RentalRelationsInputUpdate = t.Partial(
           ),
         },
         { additionalProperties: false },
+      ),
+      invoice: t.Object(
+        {
+          connect: t.Object(
+            {
+              id: t.String({ additionalProperties: false }),
+            },
+            { additionalProperties: false },
+          ),
+        },
+        { additionalProperties: false },
+      ),
+      quote: t.Partial(
+        t.Object(
+          {
+            connect: t.Object(
+              {
+                id: t.String({ additionalProperties: false }),
+              },
+              { additionalProperties: false },
+            ),
+            disconnect: t.Boolean(),
+          },
+          { additionalProperties: false },
+        ),
       ),
     },
     { additionalProperties: false },
   ),
 );
 
-export const RentalWhere = t.Partial(
+export const ItemWhere = t.Partial(
   t.Recursive(
     (Self) =>
       t.Object(
@@ -155,22 +193,21 @@ export const RentalWhere = t.Partial(
           NOT: t.Union([Self, t.Array(Self, { additionalProperties: false })]),
           OR: t.Array(Self, { additionalProperties: false }),
           id: t.String(),
-          tenantId: t.String(),
-          unitId: t.String(),
-          isDeleting: t.Boolean(),
+          quantity: t.Integer(),
+          productServiceId: t.String(),
           price: t.Number(),
-          start: t.Date(),
-          end: t.Date(),
+          invoiceId: t.String(),
           createdAt: t.Date(),
           updatedAt: t.Date(),
+          quoteId: t.String(),
         },
         { additionalProperties: false },
       ),
-    { $id: "Rental" },
+    { $id: "Item" },
   ),
 );
 
-export const RentalWhereUnique = t.Recursive(
+export const ItemWhereUnique = t.Recursive(
   (Self) =>
     t.Intersect(
       [
@@ -199,14 +236,13 @@ export const RentalWhereUnique = t.Recursive(
           t.Object(
             {
               id: t.String(),
-              tenantId: t.String(),
-              unitId: t.String(),
-              isDeleting: t.Boolean(),
+              quantity: t.Integer(),
+              productServiceId: t.String(),
               price: t.Number(),
-              start: t.Date(),
-              end: t.Date(),
+              invoiceId: t.String(),
               createdAt: t.Date(),
               updatedAt: t.Date(),
+              quoteId: t.String(),
             },
             { additionalProperties: false },
           ),
@@ -214,58 +250,57 @@ export const RentalWhereUnique = t.Recursive(
       ],
       { additionalProperties: false },
     ),
-  { $id: "Rental" },
+  { $id: "Item" },
 );
 
-export const RentalSelect = t.Partial(
+export const ItemSelect = t.Partial(
   t.Object(
     {
       id: t.Boolean(),
-      tenantId: t.Boolean(),
-      tenant: t.Boolean(),
-      unitId: t.Boolean(),
-      unit: t.Boolean(),
-      isDeleting: t.Boolean(),
+      quantity: t.Boolean(),
+      productServiceId: t.Boolean(),
+      productService: t.Boolean(),
       price: t.Boolean(),
-      start: t.Boolean(),
-      end: t.Boolean(),
+      invoiceId: t.Boolean(),
+      invoice: t.Boolean(),
       createdAt: t.Boolean(),
       updatedAt: t.Boolean(),
+      quote: t.Boolean(),
+      quoteId: t.Boolean(),
       _count: t.Boolean(),
     },
     { additionalProperties: false },
   ),
 );
 
-export const RentalInclude = t.Partial(
+export const ItemInclude = t.Partial(
   t.Object(
-    { tenant: t.Boolean(), unit: t.Boolean(), _count: t.Boolean() },
+    {
+      productService: t.Boolean(),
+      invoice: t.Boolean(),
+      quote: t.Boolean(),
+      _count: t.Boolean(),
+    },
     { additionalProperties: false },
   ),
 );
 
-export const RentalOrderBy = t.Partial(
+export const ItemOrderBy = t.Partial(
   t.Object(
     {
       id: t.Union([t.Literal("asc"), t.Literal("desc")], {
         additionalProperties: false,
       }),
-      tenantId: t.Union([t.Literal("asc"), t.Literal("desc")], {
+      quantity: t.Union([t.Literal("asc"), t.Literal("desc")], {
         additionalProperties: false,
       }),
-      unitId: t.Union([t.Literal("asc"), t.Literal("desc")], {
-        additionalProperties: false,
-      }),
-      isDeleting: t.Union([t.Literal("asc"), t.Literal("desc")], {
+      productServiceId: t.Union([t.Literal("asc"), t.Literal("desc")], {
         additionalProperties: false,
       }),
       price: t.Union([t.Literal("asc"), t.Literal("desc")], {
         additionalProperties: false,
       }),
-      start: t.Union([t.Literal("asc"), t.Literal("desc")], {
-        additionalProperties: false,
-      }),
-      end: t.Union([t.Literal("asc"), t.Literal("desc")], {
+      invoiceId: t.Union([t.Literal("asc"), t.Literal("desc")], {
         additionalProperties: false,
       }),
       createdAt: t.Union([t.Literal("asc"), t.Literal("desc")], {
@@ -274,21 +309,24 @@ export const RentalOrderBy = t.Partial(
       updatedAt: t.Union([t.Literal("asc"), t.Literal("desc")], {
         additionalProperties: false,
       }),
+      quoteId: t.Union([t.Literal("asc"), t.Literal("desc")], {
+        additionalProperties: false,
+      }),
     },
     { additionalProperties: false },
   ),
 );
 
-export const Rental = t.Composite([RentalPlain, RentalRelations], {
+export const Item = t.Composite([ItemPlain, ItemRelations], {
   additionalProperties: false,
 });
 
-export const RentalInputCreate = t.Composite(
-  [RentalPlainInputCreate, RentalRelationsInputCreate],
+export const ItemInputCreate = t.Composite(
+  [ItemPlainInputCreate, ItemRelationsInputCreate],
   { additionalProperties: false },
 );
 
-export const RentalInputUpdate = t.Composite(
-  [RentalPlainInputUpdate, RentalRelationsInputUpdate],
+export const ItemInputUpdate = t.Composite(
+  [ItemPlainInputUpdate, ItemRelationsInputUpdate],
   { additionalProperties: false },
 );

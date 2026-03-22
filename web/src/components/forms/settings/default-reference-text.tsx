@@ -12,7 +12,7 @@ import { queryClient } from "@/lib/query-client";
 import { Input } from "@/components/ui/input";
 
 type SaveDefaultTextProps = {
-    current: "owner" | "building" | "unit" | "rental" | "invoicing" | "contract" | "checkIn";
+    current: "invoice" | "quote";
 }
 
 export default function SaveDefaultReferenceText({ current }: SaveDefaultTextProps) {
@@ -25,13 +25,8 @@ export default function SaveDefaultReferenceText({ current }: SaveDefaultTextPro
     const form = useForm<ReferenceSchemaType>({
         resolver: zodResolver(referenceSchema),
         defaultValues: {
-            owner: "",
-            building: "",
-            unit: "",
-            rental: "",
-            invoicing: "",
-            contract: "",
-            checkIn: "",
+            invoice: "",
+            quote: "",
         }
     });
 
@@ -50,13 +45,8 @@ export default function SaveDefaultReferenceText({ current }: SaveDefaultTextPro
     useEffect(() => {
         if (note) {
             form.reset({
-                owner: note.owner,
-                building: note.building,
-                unit: note.unit,
-                rental: note.rental,
-                invoicing: note.invoicing,
-                contract: note.contract,
-                checkIn: note.checkIn,
+                invoice: note.invoice,
+                quote: note.quote,
             });
         }
     }, [note]);
@@ -82,18 +72,18 @@ export default function SaveDefaultReferenceText({ current }: SaveDefaultTextPro
                 onSubmit={form.handleSubmit(submit)}
                 className="space-y-2.5 w-full"
             >
-                <Activity mode={current === "owner" ? "visible" : "hidden"}>
+                <Activity mode={current === "invoice" ? "visible" : "hidden"}>
                     <FormField
                         control={form.control}
-                        name="owner"
+                        name="invoice"
                         render={({ field }) => (
                             <FormItem >
-                                <FormLabel className="text-neutral-600">Référence du propriétaire</FormLabel>
+                                <FormLabel className="text-neutral-600">Référence de la facture</FormLabel>
                                 <FormControl>
                                     <Input
-                                        placeholder="Référence"
+                                        placeholder="Ex: INV-001"
                                         value={field.value}
-                                        aria-invalid={!!form.formState.errors.owner}
+                                        aria-invalid={!!form.formState.errors.invoice}
                                         onChange={field.onChange}
                                     />
                                 </FormControl>
@@ -102,118 +92,18 @@ export default function SaveDefaultReferenceText({ current }: SaveDefaultTextPro
                         )}
                     />
                 </Activity>
-                <Activity mode={current === "building" ? "visible" : "hidden"}>
+                <Activity mode={current === "quote" ? "visible" : "hidden"}>
                     <FormField
                         control={form.control}
-                        name="building"
+                        name="quote"
                         render={({ field }) => (
                             <FormItem >
-                                <FormLabel className="text-neutral-600">Référence du bâtiment</FormLabel>
+                                <FormLabel className="text-neutral-600">Référence du devis</FormLabel>
                                 <FormControl>
                                     <Input
-                                        placeholder="Référence"
+                                        placeholder="Ex: DEV-001"
                                         value={field.value}
-                                        aria-invalid={!!form.formState.errors.building}
-                                        onChange={field.onChange}
-                                    />
-                                </FormControl>
-                                <FormMessage />
-                            </FormItem>
-                        )}
-                    />
-                </Activity>
-                <Activity mode={current === "unit" ? "visible" : "hidden"}>
-                    <FormField
-                        control={form.control}
-                        name="unit"
-                        render={({ field }) => (
-                            <FormItem >
-                                <FormLabel className="text-neutral-600">Référence de l'unité</FormLabel>
-                                <FormControl>
-                                    <Input
-                                        placeholder="Référence"
-                                        value={field.value}
-                                        aria-invalid={!!form.formState.errors.unit}
-                                        onChange={field.onChange}
-                                    />
-                                </FormControl>
-                                <FormMessage />
-                            </FormItem>
-                        )}
-                    />
-                </Activity>
-                <Activity mode={current === "rental" ? "visible" : "hidden"}>
-                    <FormField
-                        control={form.control}
-                        name="rental"
-                        render={({ field }) => (
-                            <FormItem >
-                                <FormLabel className="text-neutral-600">Référence de la location</FormLabel>
-                                <FormControl>
-                                    <Input
-                                        placeholder="Référence"
-                                        value={field.value}
-                                        aria-invalid={!!form.formState.errors.rental}
-                                        onChange={field.onChange}
-                                    />
-                                </FormControl>
-                                <FormMessage />
-                            </FormItem>
-                        )}
-                    />
-                </Activity>
-                <Activity mode={current === "invoicing" ? "visible" : "hidden"}>
-                    <FormField
-                        control={form.control}
-                        name="invoicing"
-                        render={({ field }) => (
-                            <FormItem >
-                                <FormLabel className="text-neutral-600">Référence de la facturation</FormLabel>
-                                <FormControl>
-                                    <Input
-                                        placeholder="Référence"
-                                        value={field.value}
-                                        aria-invalid={!!form.formState.errors.invoicing}
-                                        onChange={field.onChange}
-                                    />
-                                </FormControl>
-                                <FormMessage />
-                            </FormItem>
-                        )}
-                    />
-                </Activity>
-                <Activity mode={current === "contract" ? "visible" : "hidden"}>
-                    <FormField
-                        control={form.control}
-                        name="contract"
-                        render={({ field }) => (
-                            <FormItem >
-                                <FormLabel className="text-neutral-600">Référence du contrat</FormLabel>
-                                <FormControl>
-                                    <Input
-                                        placeholder="Référence"
-                                        value={field.value}
-                                        aria-invalid={!!form.formState.errors.contract}
-                                        onChange={field.onChange}
-                                    />
-                                </FormControl>
-                                <FormMessage />
-                            </FormItem>
-                        )}
-                    />
-                </Activity>
-                <Activity mode={current === "checkIn" ? "visible" : "hidden"}>
-                    <FormField
-                        control={form.control}
-                        name="checkIn"
-                        render={({ field }) => (
-                            <FormItem >
-                                <FormLabel className="text-neutral-600">Référence des mouvements</FormLabel>
-                                <FormControl>
-                                    <Input
-                                        placeholder="Référence"
-                                        value={field.value}
-                                        aria-invalid={!!form.formState.errors.checkIn}
+                                        aria-invalid={!!form.formState.errors.quote}
                                         onChange={field.onChange}
                                     />
                                 </FormControl>

@@ -13,7 +13,7 @@ import { useState } from "react"
 import SaveDefaultReferenceText from "@/components/forms/settings/default-reference-text";
 
 export default function ReferenceText() {
-    const [current, setCurrent] = useState<"owner" | "building" | "unit" | "rental" | "invoicing" | "contract" | "checkIn">("owner");
+    const [current, setCurrent] = useState<"invoice" | "quote">("invoice");
     return (
         <div className="bg-white p-6 rounded-md shadow-md shadow-neutral-300/10">
             <h2 className="font-medium">Référence par défaut</h2>
@@ -34,40 +34,15 @@ export default function ReferenceText() {
             </Accordion>
             <ButtonGroup className="gap-x-2">
                 <Button
-                    onClick={() => setCurrent("owner")}
-                    variant={current === "owner" ? "default" : "outline"}
+                    onClick={() => setCurrent("invoice")}
+                    variant={current === "invoice" ? "default" : "outline"}
                     className="rounded-md!"
-                >Propriétaire</Button>
+                >Facture</Button>
                 <Button
-                    onClick={() => setCurrent("building")}
-                    variant={current === "building" ? "default" : "outline"}
+                    onClick={() => setCurrent("quote")}
+                    variant={current === "quote" ? "default" : "outline"}
                     className="rounded-md! border!"
-                >Bâtiment</Button>
-                <Button
-                    onClick={() => setCurrent("unit")}
-                    variant={current === "unit" ? "default" : "outline"}
-                    className="rounded-md!"
-                >Unité</Button>
-                <Button
-                    onClick={() => setCurrent("rental")}
-                    variant={current === "rental" ? "default" : "outline"}
-                    className="rounded-md! border!"
-                >Location</Button>
-                <Button
-                    onClick={() => setCurrent("invoicing")}
-                    variant={current === "invoicing" ? "default" : "outline"}
-                    className="rounded-md!"
-                >Facturation</Button>
-                <Button
-                    onClick={() => setCurrent("contract")}
-                    variant={current === "contract" ? "default" : "outline"}
-                    className="rounded-md! border!"
-                >Contrat</Button>
-                <Button
-                    onClick={() => setCurrent("checkIn")}
-                    variant={current === "checkIn" ? "default" : "outline"}
-                    className="rounded-md!"
-                >Mouvement</Button>
+                >Devis</Button>
             </ButtonGroup>
         </div>
     )

@@ -26,70 +26,40 @@ export type AggregateReference = {
 
 export type ReferenceMinAggregateOutputType = {
   id: string | null
-  owner: string | null
-  building: string | null
-  unit: string | null
-  rental: string | null
-  invoicing: string | null
-  contract: string | null
-  checkIn: string | null
+  invoice: string | null
+  quote: string | null
 }
 
 export type ReferenceMaxAggregateOutputType = {
   id: string | null
-  owner: string | null
-  building: string | null
-  unit: string | null
-  rental: string | null
-  invoicing: string | null
-  contract: string | null
-  checkIn: string | null
+  invoice: string | null
+  quote: string | null
 }
 
 export type ReferenceCountAggregateOutputType = {
   id: number
-  owner: number
-  building: number
-  unit: number
-  rental: number
-  invoicing: number
-  contract: number
-  checkIn: number
+  invoice: number
+  quote: number
   _all: number
 }
 
 
 export type ReferenceMinAggregateInputType = {
   id?: true
-  owner?: true
-  building?: true
-  unit?: true
-  rental?: true
-  invoicing?: true
-  contract?: true
-  checkIn?: true
+  invoice?: true
+  quote?: true
 }
 
 export type ReferenceMaxAggregateInputType = {
   id?: true
-  owner?: true
-  building?: true
-  unit?: true
-  rental?: true
-  invoicing?: true
-  contract?: true
-  checkIn?: true
+  invoice?: true
+  quote?: true
 }
 
 export type ReferenceCountAggregateInputType = {
   id?: true
-  owner?: true
-  building?: true
-  unit?: true
-  rental?: true
-  invoicing?: true
-  contract?: true
-  checkIn?: true
+  invoice?: true
+  quote?: true
   _all?: true
 }
 
@@ -167,13 +137,8 @@ export type ReferenceGroupByArgs<ExtArgs extends runtime.Types.Extensions.Intern
 
 export type ReferenceGroupByOutputType = {
   id: string
-  owner: string
-  building: string
-  unit: string
-  rental: string
-  invoicing: string
-  contract: string
-  checkIn: string
+  invoice: string
+  quote: string
   _count: ReferenceCountAggregateOutputType | null
   _min: ReferenceMinAggregateOutputType | null
   _max: ReferenceMaxAggregateOutputType | null
@@ -199,24 +164,14 @@ export type ReferenceWhereInput = {
   OR?: Prisma.ReferenceWhereInput[]
   NOT?: Prisma.ReferenceWhereInput | Prisma.ReferenceWhereInput[]
   id?: Prisma.StringFilter<"Reference"> | string
-  owner?: Prisma.StringFilter<"Reference"> | string
-  building?: Prisma.StringFilter<"Reference"> | string
-  unit?: Prisma.StringFilter<"Reference"> | string
-  rental?: Prisma.StringFilter<"Reference"> | string
-  invoicing?: Prisma.StringFilter<"Reference"> | string
-  contract?: Prisma.StringFilter<"Reference"> | string
-  checkIn?: Prisma.StringFilter<"Reference"> | string
+  invoice?: Prisma.StringFilter<"Reference"> | string
+  quote?: Prisma.StringFilter<"Reference"> | string
 }
 
 export type ReferenceOrderByWithRelationInput = {
   id?: Prisma.SortOrder
-  owner?: Prisma.SortOrder
-  building?: Prisma.SortOrder
-  unit?: Prisma.SortOrder
-  rental?: Prisma.SortOrder
-  invoicing?: Prisma.SortOrder
-  contract?: Prisma.SortOrder
-  checkIn?: Prisma.SortOrder
+  invoice?: Prisma.SortOrder
+  quote?: Prisma.SortOrder
 }
 
 export type ReferenceWhereUniqueInput = Prisma.AtLeast<{
@@ -224,24 +179,14 @@ export type ReferenceWhereUniqueInput = Prisma.AtLeast<{
   AND?: Prisma.ReferenceWhereInput | Prisma.ReferenceWhereInput[]
   OR?: Prisma.ReferenceWhereInput[]
   NOT?: Prisma.ReferenceWhereInput | Prisma.ReferenceWhereInput[]
-  owner?: Prisma.StringFilter<"Reference"> | string
-  building?: Prisma.StringFilter<"Reference"> | string
-  unit?: Prisma.StringFilter<"Reference"> | string
-  rental?: Prisma.StringFilter<"Reference"> | string
-  invoicing?: Prisma.StringFilter<"Reference"> | string
-  contract?: Prisma.StringFilter<"Reference"> | string
-  checkIn?: Prisma.StringFilter<"Reference"> | string
+  invoice?: Prisma.StringFilter<"Reference"> | string
+  quote?: Prisma.StringFilter<"Reference"> | string
 }, "id">
 
 export type ReferenceOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
-  owner?: Prisma.SortOrder
-  building?: Prisma.SortOrder
-  unit?: Prisma.SortOrder
-  rental?: Prisma.SortOrder
-  invoicing?: Prisma.SortOrder
-  contract?: Prisma.SortOrder
-  checkIn?: Prisma.SortOrder
+  invoice?: Prisma.SortOrder
+  quote?: Prisma.SortOrder
   _count?: Prisma.ReferenceCountOrderByAggregateInput
   _max?: Prisma.ReferenceMaxOrderByAggregateInput
   _min?: Prisma.ReferenceMinOrderByAggregateInput
@@ -252,185 +197,105 @@ export type ReferenceScalarWhereWithAggregatesInput = {
   OR?: Prisma.ReferenceScalarWhereWithAggregatesInput[]
   NOT?: Prisma.ReferenceScalarWhereWithAggregatesInput | Prisma.ReferenceScalarWhereWithAggregatesInput[]
   id?: Prisma.StringWithAggregatesFilter<"Reference"> | string
-  owner?: Prisma.StringWithAggregatesFilter<"Reference"> | string
-  building?: Prisma.StringWithAggregatesFilter<"Reference"> | string
-  unit?: Prisma.StringWithAggregatesFilter<"Reference"> | string
-  rental?: Prisma.StringWithAggregatesFilter<"Reference"> | string
-  invoicing?: Prisma.StringWithAggregatesFilter<"Reference"> | string
-  contract?: Prisma.StringWithAggregatesFilter<"Reference"> | string
-  checkIn?: Prisma.StringWithAggregatesFilter<"Reference"> | string
+  invoice?: Prisma.StringWithAggregatesFilter<"Reference"> | string
+  quote?: Prisma.StringWithAggregatesFilter<"Reference"> | string
 }
 
 export type ReferenceCreateInput = {
   id?: string
-  owner: string
-  building: string
-  unit: string
-  rental: string
-  invoicing: string
-  contract: string
-  checkIn: string
+  invoice: string
+  quote: string
 }
 
 export type ReferenceUncheckedCreateInput = {
   id?: string
-  owner: string
-  building: string
-  unit: string
-  rental: string
-  invoicing: string
-  contract: string
-  checkIn: string
+  invoice: string
+  quote: string
 }
 
 export type ReferenceUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  owner?: Prisma.StringFieldUpdateOperationsInput | string
-  building?: Prisma.StringFieldUpdateOperationsInput | string
-  unit?: Prisma.StringFieldUpdateOperationsInput | string
-  rental?: Prisma.StringFieldUpdateOperationsInput | string
-  invoicing?: Prisma.StringFieldUpdateOperationsInput | string
-  contract?: Prisma.StringFieldUpdateOperationsInput | string
-  checkIn?: Prisma.StringFieldUpdateOperationsInput | string
+  invoice?: Prisma.StringFieldUpdateOperationsInput | string
+  quote?: Prisma.StringFieldUpdateOperationsInput | string
 }
 
 export type ReferenceUncheckedUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  owner?: Prisma.StringFieldUpdateOperationsInput | string
-  building?: Prisma.StringFieldUpdateOperationsInput | string
-  unit?: Prisma.StringFieldUpdateOperationsInput | string
-  rental?: Prisma.StringFieldUpdateOperationsInput | string
-  invoicing?: Prisma.StringFieldUpdateOperationsInput | string
-  contract?: Prisma.StringFieldUpdateOperationsInput | string
-  checkIn?: Prisma.StringFieldUpdateOperationsInput | string
+  invoice?: Prisma.StringFieldUpdateOperationsInput | string
+  quote?: Prisma.StringFieldUpdateOperationsInput | string
 }
 
 export type ReferenceCreateManyInput = {
   id?: string
-  owner: string
-  building: string
-  unit: string
-  rental: string
-  invoicing: string
-  contract: string
-  checkIn: string
+  invoice: string
+  quote: string
 }
 
 export type ReferenceUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  owner?: Prisma.StringFieldUpdateOperationsInput | string
-  building?: Prisma.StringFieldUpdateOperationsInput | string
-  unit?: Prisma.StringFieldUpdateOperationsInput | string
-  rental?: Prisma.StringFieldUpdateOperationsInput | string
-  invoicing?: Prisma.StringFieldUpdateOperationsInput | string
-  contract?: Prisma.StringFieldUpdateOperationsInput | string
-  checkIn?: Prisma.StringFieldUpdateOperationsInput | string
+  invoice?: Prisma.StringFieldUpdateOperationsInput | string
+  quote?: Prisma.StringFieldUpdateOperationsInput | string
 }
 
 export type ReferenceUncheckedUpdateManyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  owner?: Prisma.StringFieldUpdateOperationsInput | string
-  building?: Prisma.StringFieldUpdateOperationsInput | string
-  unit?: Prisma.StringFieldUpdateOperationsInput | string
-  rental?: Prisma.StringFieldUpdateOperationsInput | string
-  invoicing?: Prisma.StringFieldUpdateOperationsInput | string
-  contract?: Prisma.StringFieldUpdateOperationsInput | string
-  checkIn?: Prisma.StringFieldUpdateOperationsInput | string
+  invoice?: Prisma.StringFieldUpdateOperationsInput | string
+  quote?: Prisma.StringFieldUpdateOperationsInput | string
 }
 
 export type ReferenceCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
-  owner?: Prisma.SortOrder
-  building?: Prisma.SortOrder
-  unit?: Prisma.SortOrder
-  rental?: Prisma.SortOrder
-  invoicing?: Prisma.SortOrder
-  contract?: Prisma.SortOrder
-  checkIn?: Prisma.SortOrder
+  invoice?: Prisma.SortOrder
+  quote?: Prisma.SortOrder
 }
 
 export type ReferenceMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
-  owner?: Prisma.SortOrder
-  building?: Prisma.SortOrder
-  unit?: Prisma.SortOrder
-  rental?: Prisma.SortOrder
-  invoicing?: Prisma.SortOrder
-  contract?: Prisma.SortOrder
-  checkIn?: Prisma.SortOrder
+  invoice?: Prisma.SortOrder
+  quote?: Prisma.SortOrder
 }
 
 export type ReferenceMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
-  owner?: Prisma.SortOrder
-  building?: Prisma.SortOrder
-  unit?: Prisma.SortOrder
-  rental?: Prisma.SortOrder
-  invoicing?: Prisma.SortOrder
-  contract?: Prisma.SortOrder
-  checkIn?: Prisma.SortOrder
+  invoice?: Prisma.SortOrder
+  quote?: Prisma.SortOrder
 }
 
 
 
 export type ReferenceSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
-  owner?: boolean
-  building?: boolean
-  unit?: boolean
-  rental?: boolean
-  invoicing?: boolean
-  contract?: boolean
-  checkIn?: boolean
+  invoice?: boolean
+  quote?: boolean
 }, ExtArgs["result"]["reference"]>
 
 export type ReferenceSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
-  owner?: boolean
-  building?: boolean
-  unit?: boolean
-  rental?: boolean
-  invoicing?: boolean
-  contract?: boolean
-  checkIn?: boolean
+  invoice?: boolean
+  quote?: boolean
 }, ExtArgs["result"]["reference"]>
 
 export type ReferenceSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
-  owner?: boolean
-  building?: boolean
-  unit?: boolean
-  rental?: boolean
-  invoicing?: boolean
-  contract?: boolean
-  checkIn?: boolean
+  invoice?: boolean
+  quote?: boolean
 }, ExtArgs["result"]["reference"]>
 
 export type ReferenceSelectScalar = {
   id?: boolean
-  owner?: boolean
-  building?: boolean
-  unit?: boolean
-  rental?: boolean
-  invoicing?: boolean
-  contract?: boolean
-  checkIn?: boolean
+  invoice?: boolean
+  quote?: boolean
 }
 
-export type ReferenceOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "owner" | "building" | "unit" | "rental" | "invoicing" | "contract" | "checkIn", ExtArgs["result"]["reference"]>
+export type ReferenceOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "invoice" | "quote", ExtArgs["result"]["reference"]>
 
 export type $ReferencePayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "Reference"
   objects: {}
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
-    owner: string
-    building: string
-    unit: string
-    rental: string
-    invoicing: string
-    contract: string
-    checkIn: string
+    invoice: string
+    quote: string
   }, ExtArgs["result"]["reference"]>
   composites: {}
 }
@@ -855,13 +720,8 @@ export interface Prisma__ReferenceClient<T, Null = never, ExtArgs extends runtim
  */
 export interface ReferenceFieldRefs {
   readonly id: Prisma.FieldRef<"Reference", 'String'>
-  readonly owner: Prisma.FieldRef<"Reference", 'String'>
-  readonly building: Prisma.FieldRef<"Reference", 'String'>
-  readonly unit: Prisma.FieldRef<"Reference", 'String'>
-  readonly rental: Prisma.FieldRef<"Reference", 'String'>
-  readonly invoicing: Prisma.FieldRef<"Reference", 'String'>
-  readonly contract: Prisma.FieldRef<"Reference", 'String'>
-  readonly checkIn: Prisma.FieldRef<"Reference", 'String'>
+  readonly invoice: Prisma.FieldRef<"Reference", 'String'>
+  readonly quote: Prisma.FieldRef<"Reference", 'String'>
 }
     
 

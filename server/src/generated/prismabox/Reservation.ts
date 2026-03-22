@@ -25,7 +25,7 @@ export const ReservationRelations = t.Object(
     unit: t.Object(
       {
         id: t.String(),
-        reference: t.Integer(),
+        reference: t.String(),
         rentalStatus: t.String(),
         surface: t.String(),
         rooms: t.String(),

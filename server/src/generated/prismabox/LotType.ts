@@ -20,7 +20,7 @@ export const LotTypeRelations = t.Object(
       t.Object(
         {
           id: t.String(),
-          reference: t.Integer(),
+          reference: t.String(),
           name: t.String(),
           location: t.String(),
           constructionDate: t.Date(),
