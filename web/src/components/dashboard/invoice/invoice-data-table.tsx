@@ -1,14 +1,24 @@
 import Filter from "@/components/input/filter";
 import DataTable from "@/components/table/data-table";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { columns, data } from "@/lib/tables/invoice/invoice";
+import { apiFetch } from "@/lib/api";
+import { columns } from "@/lib/tables/invoice/invoice";
+import type { InvoiceTab } from "@/types/invoice";
+import { useQuery } from "@tanstack/react-query";
 import { useState } from "react";
 
 export default function InvoiceDataTable() {
+    const [type, setType] = useState<"PAID" | "UNPAID">("PAID");
     const [filter, setFilter] = useState<"alpha" | "asc" | "desc">("alpha");
+
+    const { isPending, data: invoices } = useQuery<InvoiceTab[]>({
+        queryKey: ["invoices", type],
+        queryFn: () => apiFetch<InvoiceTab[]>(`/invoice?type=${type}`),
+    });
+
     return (
         <div className="bg-white">
-            <Tabs defaultValue='paid' className='gap-x-4 gap-y-0 w-full'>
+            <Tabs onValueChange={(value) => setType(value === 'paid' ? 'PAID' : 'UNPAID')} defaultValue='paid' className='gap-x-4 gap-y-0 w-full'>
                 <TabsList className='rounded-none px-4 space-x-2 pt-4 pb-0 relative'>
                     <TabsTrigger
                         value="paid"
@@ -31,10 +41,10 @@ export default function InvoiceDataTable() {
 
 
                 <TabsContent value="paid">
-                    <DataTable data={data} columns={columns} filters={["name", "company"]} hasFilter={false} />
+                    <DataTable data={invoices || []} columns={columns} filters={["reference", "client"]} hasFilter={false} isLoading={isPending} />
                 </TabsContent>
                 <TabsContent value="unpaid">
-                    <DataTable data={data} columns={columns} filters={["name", "company"]} hasFilter={false} />
+                    <DataTable data={invoices || []} columns={columns} filters={["reference", "client"]} hasFilter={false} isLoading={isPending} />
                 </TabsContent>
             </Tabs>
         </div>

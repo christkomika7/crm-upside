@@ -7,7 +7,7 @@ import { __nullable__ } from "./__nullable__";
 export const PaymentPlain = t.Object(
   {
     id: t.String(),
-    reference: t.String(),
+    reference: t.Integer(),
     amount: t.Number(),
     type: t.Union([t.Literal("CASH"), t.Literal("CHECK"), t.Literal("BANK")], {
       additionalProperties: false,
@@ -27,18 +27,25 @@ export const PaymentRelations = t.Object(
         id: t.String(),
         reference: t.Integer(),
         price: t.Number(),
+        amountPaid: t.Number(),
         discount: t.Number(),
-        discountType: t.Union([t.Literal("PURCENT"), t.Literal("MONEY")], {
+        status: t.Union(
+          [t.Literal("PENDING"), t.Literal("PAID"), t.Literal("OVERDUE")],
+          { additionalProperties: false },
+        ),
+        discountType: t.Union([t.Literal("PERCENT"), t.Literal("MONEY")], {
           additionalProperties: false,
         }),
         hasTax: t.Boolean(),
-        updatedTax: __nullable__(t.String()),
         type: t.Union([t.Literal("OWNER"), t.Literal("TENANT")], {
           additionalProperties: false,
         }),
         ownerId: __nullable__(t.String()),
         tenantId: __nullable__(t.String()),
         note: __nullable__(t.String()),
+        start: t.Date(),
+        end: t.Date(),
+        isDeleting: t.Boolean(),
         createdAt: t.Date(),
         updatedAt: t.Date(),
       },
@@ -50,7 +57,7 @@ export const PaymentRelations = t.Object(
 
 export const PaymentPlainInputCreate = t.Object(
   {
-    reference: t.String(),
+    reference: t.Optional(t.Integer()),
     amount: t.Optional(t.Number()),
     type: t.Union([t.Literal("CASH"), t.Literal("CHECK"), t.Literal("BANK")], {
       additionalProperties: false,
@@ -62,7 +69,7 @@ export const PaymentPlainInputCreate = t.Object(
 
 export const PaymentPlainInputUpdate = t.Object(
   {
-    reference: t.Optional(t.String()),
+    reference: t.Optional(t.Integer()),
     amount: t.Optional(t.Number()),
     type: t.Optional(
       t.Union([t.Literal("CASH"), t.Literal("CHECK"), t.Literal("BANK")], {
@@ -119,7 +126,7 @@ export const PaymentWhere = t.Partial(
           NOT: t.Union([Self, t.Array(Self, { additionalProperties: false })]),
           OR: t.Array(Self, { additionalProperties: false }),
           id: t.String(),
-          reference: t.String(),
+          reference: t.Integer(),
           amount: t.Number(),
           type: t.Union(
             [t.Literal("CASH"), t.Literal("CHECK"), t.Literal("BANK")],
@@ -141,16 +148,12 @@ export const PaymentWhereUnique = t.Recursive(
     t.Intersect(
       [
         t.Partial(
-          t.Object(
-            { id: t.String(), reference: t.String() },
-            { additionalProperties: false },
-          ),
+          t.Object({ id: t.String() }, { additionalProperties: false }),
           { additionalProperties: false },
         ),
-        t.Union(
-          [t.Object({ id: t.String() }), t.Object({ reference: t.String() })],
-          { additionalProperties: false },
-        ),
+        t.Union([t.Object({ id: t.String() })], {
+          additionalProperties: false,
+        }),
         t.Partial(
           t.Object({
             AND: t.Union([
@@ -169,7 +172,7 @@ export const PaymentWhereUnique = t.Recursive(
           t.Object(
             {
               id: t.String(),
-              reference: t.String(),
+              reference: t.Integer(),
               amount: t.Number(),
               type: t.Union(
                 [t.Literal("CASH"), t.Literal("CHECK"), t.Literal("BANK")],

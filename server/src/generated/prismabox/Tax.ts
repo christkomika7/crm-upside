@@ -9,7 +9,18 @@ export const TaxPlain = t.Object(
   { additionalProperties: false },
 );
 
-export const TaxRelations = t.Object({}, { additionalProperties: false });
+export const TaxRelations = t.Object(
+  {
+    cumuls: t.Array(
+      t.Object(
+        { id: t.String(), name: t.String(), value: t.String() },
+        { additionalProperties: false },
+      ),
+      { additionalProperties: false },
+    ),
+  },
+  { additionalProperties: false },
+);
 
 export const TaxPlainInputCreate = t.Object(
   { name: t.String(), value: t.String() },
@@ -22,12 +33,58 @@ export const TaxPlainInputUpdate = t.Object(
 );
 
 export const TaxRelationsInputCreate = t.Object(
-  {},
+  {
+    cumuls: t.Optional(
+      t.Object(
+        {
+          connect: t.Array(
+            t.Object(
+              {
+                id: t.String({ additionalProperties: false }),
+              },
+              { additionalProperties: false },
+            ),
+            { additionalProperties: false },
+          ),
+        },
+        { additionalProperties: false },
+      ),
+    ),
+  },
   { additionalProperties: false },
 );
 
 export const TaxRelationsInputUpdate = t.Partial(
-  t.Object({}, { additionalProperties: false }),
+  t.Object(
+    {
+      cumuls: t.Partial(
+        t.Object(
+          {
+            connect: t.Array(
+              t.Object(
+                {
+                  id: t.String({ additionalProperties: false }),
+                },
+                { additionalProperties: false },
+              ),
+              { additionalProperties: false },
+            ),
+            disconnect: t.Array(
+              t.Object(
+                {
+                  id: t.String({ additionalProperties: false }),
+                },
+                { additionalProperties: false },
+              ),
+              { additionalProperties: false },
+            ),
+          },
+          { additionalProperties: false },
+        ),
+      ),
+    },
+    { additionalProperties: false },
+  ),
 );
 
 export const TaxWhere = t.Partial(
@@ -53,12 +110,16 @@ export const TaxWhereUnique = t.Recursive(
     t.Intersect(
       [
         t.Partial(
-          t.Object({ id: t.String() }, { additionalProperties: false }),
+          t.Object(
+            { id: t.String(), name: t.String() },
+            { additionalProperties: false },
+          ),
           { additionalProperties: false },
         ),
-        t.Union([t.Object({ id: t.String() })], {
-          additionalProperties: false,
-        }),
+        t.Union(
+          [t.Object({ id: t.String() }), t.Object({ name: t.String() })],
+          { additionalProperties: false },
+        ),
         t.Partial(
           t.Object({
             AND: t.Union([
@@ -91,6 +152,7 @@ export const TaxSelect = t.Partial(
       id: t.Boolean(),
       name: t.Boolean(),
       value: t.Boolean(),
+      cumuls: t.Boolean(),
       _count: t.Boolean(),
     },
     { additionalProperties: false },
@@ -98,7 +160,10 @@ export const TaxSelect = t.Partial(
 );
 
 export const TaxInclude = t.Partial(
-  t.Object({ _count: t.Boolean() }, { additionalProperties: false }),
+  t.Object(
+    { cumuls: t.Boolean(), _count: t.Boolean() },
+    { additionalProperties: false },
+  ),
 );
 
 export const TaxOrderBy = t.Partial(

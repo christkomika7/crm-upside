@@ -35,6 +35,15 @@ export const PaymentType = {
 export type PaymentType = (typeof PaymentType)[keyof typeof PaymentType]
 
 
+export const InvoiceStatus = {
+  PENDING: 'PENDING',
+  PAID: 'PAID',
+  OVERDUE: 'OVERDUE'
+} as const
+
+export type InvoiceStatus = (typeof InvoiceStatus)[keyof typeof InvoiceStatus]
+
+
 export const DeletionType = {
   OWNER: 'OWNER',
   BUILDING: 'BUILDING',
@@ -56,6 +65,14 @@ export const DeletionType = {
 export type DeletionType = (typeof DeletionType)[keyof typeof DeletionType]
 
 
+export const ItemStatus = {
+  USED: 'USED',
+  IGNORE: 'IGNORE'
+} as const
+
+export type ItemStatus = (typeof ItemStatus)[keyof typeof ItemStatus]
+
+
 export const RecordType = {
   OWNER: 'OWNER',
   TENANT: 'TENANT'
@@ -65,7 +82,7 @@ export type RecordType = (typeof RecordType)[keyof typeof RecordType]
 
 
 export const DiscountType = {
-  PURCENT: 'PURCENT',
+  PERCENT: 'PERCENT',
   MONEY: 'MONEY'
 } as const
 

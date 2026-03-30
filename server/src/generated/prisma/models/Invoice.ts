@@ -29,12 +29,14 @@ export type AggregateInvoice = {
 export type InvoiceAvgAggregateOutputType = {
   reference: number | null
   price: runtime.Decimal | null
+  amountPaid: runtime.Decimal | null
   discount: runtime.Decimal | null
 }
 
 export type InvoiceSumAggregateOutputType = {
   reference: number | null
   price: runtime.Decimal | null
+  amountPaid: runtime.Decimal | null
   discount: runtime.Decimal | null
 }
 
@@ -42,14 +44,18 @@ export type InvoiceMinAggregateOutputType = {
   id: string | null
   reference: number | null
   price: runtime.Decimal | null
+  amountPaid: runtime.Decimal | null
   discount: runtime.Decimal | null
+  status: $Enums.InvoiceStatus | null
   discountType: $Enums.DiscountType | null
   hasTax: boolean | null
-  updatedTax: string | null
   type: $Enums.RecordType | null
   ownerId: string | null
   tenantId: string | null
   note: string | null
+  start: Date | null
+  end: Date | null
+  isDeleting: boolean | null
   createdAt: Date | null
   updatedAt: Date | null
 }
@@ -58,14 +64,18 @@ export type InvoiceMaxAggregateOutputType = {
   id: string | null
   reference: number | null
   price: runtime.Decimal | null
+  amountPaid: runtime.Decimal | null
   discount: runtime.Decimal | null
+  status: $Enums.InvoiceStatus | null
   discountType: $Enums.DiscountType | null
   hasTax: boolean | null
-  updatedTax: string | null
   type: $Enums.RecordType | null
   ownerId: string | null
   tenantId: string | null
   note: string | null
+  start: Date | null
+  end: Date | null
+  isDeleting: boolean | null
   createdAt: Date | null
   updatedAt: Date | null
 }
@@ -74,14 +84,18 @@ export type InvoiceCountAggregateOutputType = {
   id: number
   reference: number
   price: number
+  amountPaid: number
   discount: number
+  status: number
   discountType: number
   hasTax: number
-  updatedTax: number
   type: number
   ownerId: number
   tenantId: number
   note: number
+  start: number
+  end: number
+  isDeleting: number
   createdAt: number
   updatedAt: number
   _all: number
@@ -91,12 +105,14 @@ export type InvoiceCountAggregateOutputType = {
 export type InvoiceAvgAggregateInputType = {
   reference?: true
   price?: true
+  amountPaid?: true
   discount?: true
 }
 
 export type InvoiceSumAggregateInputType = {
   reference?: true
   price?: true
+  amountPaid?: true
   discount?: true
 }
 
@@ -104,14 +120,18 @@ export type InvoiceMinAggregateInputType = {
   id?: true
   reference?: true
   price?: true
+  amountPaid?: true
   discount?: true
+  status?: true
   discountType?: true
   hasTax?: true
-  updatedTax?: true
   type?: true
   ownerId?: true
   tenantId?: true
   note?: true
+  start?: true
+  end?: true
+  isDeleting?: true
   createdAt?: true
   updatedAt?: true
 }
@@ -120,14 +140,18 @@ export type InvoiceMaxAggregateInputType = {
   id?: true
   reference?: true
   price?: true
+  amountPaid?: true
   discount?: true
+  status?: true
   discountType?: true
   hasTax?: true
-  updatedTax?: true
   type?: true
   ownerId?: true
   tenantId?: true
   note?: true
+  start?: true
+  end?: true
+  isDeleting?: true
   createdAt?: true
   updatedAt?: true
 }
@@ -136,14 +160,18 @@ export type InvoiceCountAggregateInputType = {
   id?: true
   reference?: true
   price?: true
+  amountPaid?: true
   discount?: true
+  status?: true
   discountType?: true
   hasTax?: true
-  updatedTax?: true
   type?: true
   ownerId?: true
   tenantId?: true
   note?: true
+  start?: true
+  end?: true
+  isDeleting?: true
   createdAt?: true
   updatedAt?: true
   _all?: true
@@ -239,14 +267,18 @@ export type InvoiceGroupByOutputType = {
   id: string
   reference: number
   price: runtime.Decimal
+  amountPaid: runtime.Decimal
   discount: runtime.Decimal
+  status: $Enums.InvoiceStatus
   discountType: $Enums.DiscountType
   hasTax: boolean
-  updatedTax: string | null
   type: $Enums.RecordType
   ownerId: string | null
   tenantId: string | null
   note: string | null
+  start: Date
+  end: Date
+  isDeleting: boolean
   createdAt: Date
   updatedAt: Date
   _count: InvoiceCountAggregateOutputType | null
@@ -256,7 +288,7 @@ export type InvoiceGroupByOutputType = {
   _max: InvoiceMaxAggregateOutputType | null
 }
 
-type GetInvoiceGroupByPayload<T extends InvoiceGroupByArgs> = Prisma.PrismaPromise<
+export type GetInvoiceGroupByPayload<T extends InvoiceGroupByArgs> = Prisma.PrismaPromise<
   Array<
     Prisma.PickEnumerable<InvoiceGroupByOutputType, T['by']> &
       {
@@ -278,14 +310,18 @@ export type InvoiceWhereInput = {
   id?: Prisma.StringFilter<"Invoice"> | string
   reference?: Prisma.IntFilter<"Invoice"> | number
   price?: Prisma.DecimalFilter<"Invoice"> | runtime.Decimal | runtime.DecimalJsLike | number | string
+  amountPaid?: Prisma.DecimalFilter<"Invoice"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   discount?: Prisma.DecimalFilter<"Invoice"> | runtime.Decimal | runtime.DecimalJsLike | number | string
+  status?: Prisma.EnumInvoiceStatusFilter<"Invoice"> | $Enums.InvoiceStatus
   discountType?: Prisma.EnumDiscountTypeFilter<"Invoice"> | $Enums.DiscountType
   hasTax?: Prisma.BoolFilter<"Invoice"> | boolean
-  updatedTax?: Prisma.StringNullableFilter<"Invoice"> | string | null
   type?: Prisma.EnumRecordTypeFilter<"Invoice"> | $Enums.RecordType
   ownerId?: Prisma.StringNullableFilter<"Invoice"> | string | null
   tenantId?: Prisma.StringNullableFilter<"Invoice"> | string | null
   note?: Prisma.StringNullableFilter<"Invoice"> | string | null
+  start?: Prisma.DateTimeFilter<"Invoice"> | Date | string
+  end?: Prisma.DateTimeFilter<"Invoice"> | Date | string
+  isDeleting?: Prisma.BoolFilter<"Invoice"> | boolean
   createdAt?: Prisma.DateTimeFilter<"Invoice"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Invoice"> | Date | string
   owner?: Prisma.XOR<Prisma.OwnerNullableScalarRelationFilter, Prisma.OwnerWhereInput> | null
@@ -298,14 +334,18 @@ export type InvoiceOrderByWithRelationInput = {
   id?: Prisma.SortOrder
   reference?: Prisma.SortOrder
   price?: Prisma.SortOrder
+  amountPaid?: Prisma.SortOrder
   discount?: Prisma.SortOrder
+  status?: Prisma.SortOrder
   discountType?: Prisma.SortOrder
   hasTax?: Prisma.SortOrder
-  updatedTax?: Prisma.SortOrderInput | Prisma.SortOrder
   type?: Prisma.SortOrder
   ownerId?: Prisma.SortOrderInput | Prisma.SortOrder
   tenantId?: Prisma.SortOrderInput | Prisma.SortOrder
   note?: Prisma.SortOrderInput | Prisma.SortOrder
+  start?: Prisma.SortOrder
+  end?: Prisma.SortOrder
+  isDeleting?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   owner?: Prisma.OwnerOrderByWithRelationInput
@@ -321,14 +361,18 @@ export type InvoiceWhereUniqueInput = Prisma.AtLeast<{
   NOT?: Prisma.InvoiceWhereInput | Prisma.InvoiceWhereInput[]
   reference?: Prisma.IntFilter<"Invoice"> | number
   price?: Prisma.DecimalFilter<"Invoice"> | runtime.Decimal | runtime.DecimalJsLike | number | string
+  amountPaid?: Prisma.DecimalFilter<"Invoice"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   discount?: Prisma.DecimalFilter<"Invoice"> | runtime.Decimal | runtime.DecimalJsLike | number | string
+  status?: Prisma.EnumInvoiceStatusFilter<"Invoice"> | $Enums.InvoiceStatus
   discountType?: Prisma.EnumDiscountTypeFilter<"Invoice"> | $Enums.DiscountType
   hasTax?: Prisma.BoolFilter<"Invoice"> | boolean
-  updatedTax?: Prisma.StringNullableFilter<"Invoice"> | string | null
   type?: Prisma.EnumRecordTypeFilter<"Invoice"> | $Enums.RecordType
   ownerId?: Prisma.StringNullableFilter<"Invoice"> | string | null
   tenantId?: Prisma.StringNullableFilter<"Invoice"> | string | null
   note?: Prisma.StringNullableFilter<"Invoice"> | string | null
+  start?: Prisma.DateTimeFilter<"Invoice"> | Date | string
+  end?: Prisma.DateTimeFilter<"Invoice"> | Date | string
+  isDeleting?: Prisma.BoolFilter<"Invoice"> | boolean
   createdAt?: Prisma.DateTimeFilter<"Invoice"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Invoice"> | Date | string
   owner?: Prisma.XOR<Prisma.OwnerNullableScalarRelationFilter, Prisma.OwnerWhereInput> | null
@@ -341,14 +385,18 @@ export type InvoiceOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
   reference?: Prisma.SortOrder
   price?: Prisma.SortOrder
+  amountPaid?: Prisma.SortOrder
   discount?: Prisma.SortOrder
+  status?: Prisma.SortOrder
   discountType?: Prisma.SortOrder
   hasTax?: Prisma.SortOrder
-  updatedTax?: Prisma.SortOrderInput | Prisma.SortOrder
   type?: Prisma.SortOrder
   ownerId?: Prisma.SortOrderInput | Prisma.SortOrder
   tenantId?: Prisma.SortOrderInput | Prisma.SortOrder
   note?: Prisma.SortOrderInput | Prisma.SortOrder
+  start?: Prisma.SortOrder
+  end?: Prisma.SortOrder
+  isDeleting?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   _count?: Prisma.InvoiceCountOrderByAggregateInput
@@ -365,14 +413,18 @@ export type InvoiceScalarWhereWithAggregatesInput = {
   id?: Prisma.StringWithAggregatesFilter<"Invoice"> | string
   reference?: Prisma.IntWithAggregatesFilter<"Invoice"> | number
   price?: Prisma.DecimalWithAggregatesFilter<"Invoice"> | runtime.Decimal | runtime.DecimalJsLike | number | string
+  amountPaid?: Prisma.DecimalWithAggregatesFilter<"Invoice"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   discount?: Prisma.DecimalWithAggregatesFilter<"Invoice"> | runtime.Decimal | runtime.DecimalJsLike | number | string
+  status?: Prisma.EnumInvoiceStatusWithAggregatesFilter<"Invoice"> | $Enums.InvoiceStatus
   discountType?: Prisma.EnumDiscountTypeWithAggregatesFilter<"Invoice"> | $Enums.DiscountType
   hasTax?: Prisma.BoolWithAggregatesFilter<"Invoice"> | boolean
-  updatedTax?: Prisma.StringNullableWithAggregatesFilter<"Invoice"> | string | null
   type?: Prisma.EnumRecordTypeWithAggregatesFilter<"Invoice"> | $Enums.RecordType
   ownerId?: Prisma.StringNullableWithAggregatesFilter<"Invoice"> | string | null
   tenantId?: Prisma.StringNullableWithAggregatesFilter<"Invoice"> | string | null
   note?: Prisma.StringNullableWithAggregatesFilter<"Invoice"> | string | null
+  start?: Prisma.DateTimeWithAggregatesFilter<"Invoice"> | Date | string
+  end?: Prisma.DateTimeWithAggregatesFilter<"Invoice"> | Date | string
+  isDeleting?: Prisma.BoolWithAggregatesFilter<"Invoice"> | boolean
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"Invoice"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"Invoice"> | Date | string
 }
@@ -381,12 +433,16 @@ export type InvoiceCreateInput = {
   id?: string
   reference?: number
   price?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  amountPaid?: runtime.Decimal | runtime.DecimalJsLike | number | string
   discount?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  status?: $Enums.InvoiceStatus
   discountType?: $Enums.DiscountType
   hasTax?: boolean
-  updatedTax?: string | null
   type: $Enums.RecordType
   note?: string | null
+  start: Date | string
+  end: Date | string
+  isDeleting?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
   owner?: Prisma.OwnerCreateNestedOneWithoutInvoicesInput
@@ -399,14 +455,18 @@ export type InvoiceUncheckedCreateInput = {
   id?: string
   reference?: number
   price?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  amountPaid?: runtime.Decimal | runtime.DecimalJsLike | number | string
   discount?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  status?: $Enums.InvoiceStatus
   discountType?: $Enums.DiscountType
   hasTax?: boolean
-  updatedTax?: string | null
   type: $Enums.RecordType
   ownerId?: string | null
   tenantId?: string | null
   note?: string | null
+  start: Date | string
+  end: Date | string
+  isDeleting?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
   items?: Prisma.ItemUncheckedCreateNestedManyWithoutInvoiceInput
@@ -417,12 +477,16 @@ export type InvoiceUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   reference?: Prisma.IntFieldUpdateOperationsInput | number
   price?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  amountPaid?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   discount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  status?: Prisma.EnumInvoiceStatusFieldUpdateOperationsInput | $Enums.InvoiceStatus
   discountType?: Prisma.EnumDiscountTypeFieldUpdateOperationsInput | $Enums.DiscountType
   hasTax?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  updatedTax?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   type?: Prisma.EnumRecordTypeFieldUpdateOperationsInput | $Enums.RecordType
   note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  start?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  end?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  isDeleting?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   owner?: Prisma.OwnerUpdateOneWithoutInvoicesNestedInput
@@ -435,14 +499,18 @@ export type InvoiceUncheckedUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   reference?: Prisma.IntFieldUpdateOperationsInput | number
   price?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  amountPaid?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   discount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  status?: Prisma.EnumInvoiceStatusFieldUpdateOperationsInput | $Enums.InvoiceStatus
   discountType?: Prisma.EnumDiscountTypeFieldUpdateOperationsInput | $Enums.DiscountType
   hasTax?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  updatedTax?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   type?: Prisma.EnumRecordTypeFieldUpdateOperationsInput | $Enums.RecordType
   ownerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   tenantId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  start?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  end?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  isDeleting?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   items?: Prisma.ItemUncheckedUpdateManyWithoutInvoiceNestedInput
@@ -453,14 +521,18 @@ export type InvoiceCreateManyInput = {
   id?: string
   reference?: number
   price?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  amountPaid?: runtime.Decimal | runtime.DecimalJsLike | number | string
   discount?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  status?: $Enums.InvoiceStatus
   discountType?: $Enums.DiscountType
   hasTax?: boolean
-  updatedTax?: string | null
   type: $Enums.RecordType
   ownerId?: string | null
   tenantId?: string | null
   note?: string | null
+  start: Date | string
+  end: Date | string
+  isDeleting?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -469,12 +541,16 @@ export type InvoiceUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   reference?: Prisma.IntFieldUpdateOperationsInput | number
   price?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  amountPaid?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   discount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  status?: Prisma.EnumInvoiceStatusFieldUpdateOperationsInput | $Enums.InvoiceStatus
   discountType?: Prisma.EnumDiscountTypeFieldUpdateOperationsInput | $Enums.DiscountType
   hasTax?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  updatedTax?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   type?: Prisma.EnumRecordTypeFieldUpdateOperationsInput | $Enums.RecordType
   note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  start?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  end?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  isDeleting?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -483,14 +559,18 @@ export type InvoiceUncheckedUpdateManyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   reference?: Prisma.IntFieldUpdateOperationsInput | number
   price?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  amountPaid?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   discount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  status?: Prisma.EnumInvoiceStatusFieldUpdateOperationsInput | $Enums.InvoiceStatus
   discountType?: Prisma.EnumDiscountTypeFieldUpdateOperationsInput | $Enums.DiscountType
   hasTax?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  updatedTax?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   type?: Prisma.EnumRecordTypeFieldUpdateOperationsInput | $Enums.RecordType
   ownerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   tenantId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  start?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  end?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  isDeleting?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -505,23 +585,27 @@ export type InvoiceOrderByRelationAggregateInput = {
   _count?: Prisma.SortOrder
 }
 
-export type InvoiceScalarRelationFilter = {
-  is?: Prisma.InvoiceWhereInput
-  isNot?: Prisma.InvoiceWhereInput
+export type InvoiceNullableScalarRelationFilter = {
+  is?: Prisma.InvoiceWhereInput | null
+  isNot?: Prisma.InvoiceWhereInput | null
 }
 
 export type InvoiceCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
   reference?: Prisma.SortOrder
   price?: Prisma.SortOrder
+  amountPaid?: Prisma.SortOrder
   discount?: Prisma.SortOrder
+  status?: Prisma.SortOrder
   discountType?: Prisma.SortOrder
   hasTax?: Prisma.SortOrder
-  updatedTax?: Prisma.SortOrder
   type?: Prisma.SortOrder
   ownerId?: Prisma.SortOrder
   tenantId?: Prisma.SortOrder
   note?: Prisma.SortOrder
+  start?: Prisma.SortOrder
+  end?: Prisma.SortOrder
+  isDeleting?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -529,6 +613,7 @@ export type InvoiceCountOrderByAggregateInput = {
 export type InvoiceAvgOrderByAggregateInput = {
   reference?: Prisma.SortOrder
   price?: Prisma.SortOrder
+  amountPaid?: Prisma.SortOrder
   discount?: Prisma.SortOrder
 }
 
@@ -536,14 +621,18 @@ export type InvoiceMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
   reference?: Prisma.SortOrder
   price?: Prisma.SortOrder
+  amountPaid?: Prisma.SortOrder
   discount?: Prisma.SortOrder
+  status?: Prisma.SortOrder
   discountType?: Prisma.SortOrder
   hasTax?: Prisma.SortOrder
-  updatedTax?: Prisma.SortOrder
   type?: Prisma.SortOrder
   ownerId?: Prisma.SortOrder
   tenantId?: Prisma.SortOrder
   note?: Prisma.SortOrder
+  start?: Prisma.SortOrder
+  end?: Prisma.SortOrder
+  isDeleting?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -552,14 +641,18 @@ export type InvoiceMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
   reference?: Prisma.SortOrder
   price?: Prisma.SortOrder
+  amountPaid?: Prisma.SortOrder
   discount?: Prisma.SortOrder
+  status?: Prisma.SortOrder
   discountType?: Prisma.SortOrder
   hasTax?: Prisma.SortOrder
-  updatedTax?: Prisma.SortOrder
   type?: Prisma.SortOrder
   ownerId?: Prisma.SortOrder
   tenantId?: Prisma.SortOrder
   note?: Prisma.SortOrder
+  start?: Prisma.SortOrder
+  end?: Prisma.SortOrder
+  isDeleting?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -567,7 +660,13 @@ export type InvoiceMinOrderByAggregateInput = {
 export type InvoiceSumOrderByAggregateInput = {
   reference?: Prisma.SortOrder
   price?: Prisma.SortOrder
+  amountPaid?: Prisma.SortOrder
   discount?: Prisma.SortOrder
+}
+
+export type InvoiceScalarRelationFilter = {
+  is?: Prisma.InvoiceWhereInput
+  isNot?: Prisma.InvoiceWhereInput
 }
 
 export type InvoiceCreateNestedManyWithoutOwnerInput = {
@@ -660,12 +759,18 @@ export type InvoiceCreateNestedOneWithoutItemsInput = {
   connect?: Prisma.InvoiceWhereUniqueInput
 }
 
-export type InvoiceUpdateOneRequiredWithoutItemsNestedInput = {
+export type InvoiceUpdateOneWithoutItemsNestedInput = {
   create?: Prisma.XOR<Prisma.InvoiceCreateWithoutItemsInput, Prisma.InvoiceUncheckedCreateWithoutItemsInput>
   connectOrCreate?: Prisma.InvoiceCreateOrConnectWithoutItemsInput
   upsert?: Prisma.InvoiceUpsertWithoutItemsInput
+  disconnect?: Prisma.InvoiceWhereInput | boolean
+  delete?: Prisma.InvoiceWhereInput | boolean
   connect?: Prisma.InvoiceWhereUniqueInput
   update?: Prisma.XOR<Prisma.XOR<Prisma.InvoiceUpdateToOneWithWhereWithoutItemsInput, Prisma.InvoiceUpdateWithoutItemsInput>, Prisma.InvoiceUncheckedUpdateWithoutItemsInput>
+}
+
+export type EnumInvoiceStatusFieldUpdateOperationsInput = {
+  set?: $Enums.InvoiceStatus
 }
 
 export type EnumDiscountTypeFieldUpdateOperationsInput = {
@@ -694,12 +799,16 @@ export type InvoiceCreateWithoutOwnerInput = {
   id?: string
   reference?: number
   price?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  amountPaid?: runtime.Decimal | runtime.DecimalJsLike | number | string
   discount?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  status?: $Enums.InvoiceStatus
   discountType?: $Enums.DiscountType
   hasTax?: boolean
-  updatedTax?: string | null
   type: $Enums.RecordType
   note?: string | null
+  start: Date | string
+  end: Date | string
+  isDeleting?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
   tenant?: Prisma.TenantCreateNestedOneWithoutInvoicesInput
@@ -711,13 +820,17 @@ export type InvoiceUncheckedCreateWithoutOwnerInput = {
   id?: string
   reference?: number
   price?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  amountPaid?: runtime.Decimal | runtime.DecimalJsLike | number | string
   discount?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  status?: $Enums.InvoiceStatus
   discountType?: $Enums.DiscountType
   hasTax?: boolean
-  updatedTax?: string | null
   type: $Enums.RecordType
   tenantId?: string | null
   note?: string | null
+  start: Date | string
+  end: Date | string
+  isDeleting?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
   items?: Prisma.ItemUncheckedCreateNestedManyWithoutInvoiceInput
@@ -757,14 +870,18 @@ export type InvoiceScalarWhereInput = {
   id?: Prisma.StringFilter<"Invoice"> | string
   reference?: Prisma.IntFilter<"Invoice"> | number
   price?: Prisma.DecimalFilter<"Invoice"> | runtime.Decimal | runtime.DecimalJsLike | number | string
+  amountPaid?: Prisma.DecimalFilter<"Invoice"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   discount?: Prisma.DecimalFilter<"Invoice"> | runtime.Decimal | runtime.DecimalJsLike | number | string
+  status?: Prisma.EnumInvoiceStatusFilter<"Invoice"> | $Enums.InvoiceStatus
   discountType?: Prisma.EnumDiscountTypeFilter<"Invoice"> | $Enums.DiscountType
   hasTax?: Prisma.BoolFilter<"Invoice"> | boolean
-  updatedTax?: Prisma.StringNullableFilter<"Invoice"> | string | null
   type?: Prisma.EnumRecordTypeFilter<"Invoice"> | $Enums.RecordType
   ownerId?: Prisma.StringNullableFilter<"Invoice"> | string | null
   tenantId?: Prisma.StringNullableFilter<"Invoice"> | string | null
   note?: Prisma.StringNullableFilter<"Invoice"> | string | null
+  start?: Prisma.DateTimeFilter<"Invoice"> | Date | string
+  end?: Prisma.DateTimeFilter<"Invoice"> | Date | string
+  isDeleting?: Prisma.BoolFilter<"Invoice"> | boolean
   createdAt?: Prisma.DateTimeFilter<"Invoice"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Invoice"> | Date | string
 }
@@ -773,12 +890,16 @@ export type InvoiceCreateWithoutTenantInput = {
   id?: string
   reference?: number
   price?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  amountPaid?: runtime.Decimal | runtime.DecimalJsLike | number | string
   discount?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  status?: $Enums.InvoiceStatus
   discountType?: $Enums.DiscountType
   hasTax?: boolean
-  updatedTax?: string | null
   type: $Enums.RecordType
   note?: string | null
+  start: Date | string
+  end: Date | string
+  isDeleting?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
   owner?: Prisma.OwnerCreateNestedOneWithoutInvoicesInput
@@ -790,13 +911,17 @@ export type InvoiceUncheckedCreateWithoutTenantInput = {
   id?: string
   reference?: number
   price?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  amountPaid?: runtime.Decimal | runtime.DecimalJsLike | number | string
   discount?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  status?: $Enums.InvoiceStatus
   discountType?: $Enums.DiscountType
   hasTax?: boolean
-  updatedTax?: string | null
   type: $Enums.RecordType
   ownerId?: string | null
   note?: string | null
+  start: Date | string
+  end: Date | string
+  isDeleting?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
   items?: Prisma.ItemUncheckedCreateNestedManyWithoutInvoiceInput
@@ -833,12 +958,16 @@ export type InvoiceCreateWithoutItemsInput = {
   id?: string
   reference?: number
   price?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  amountPaid?: runtime.Decimal | runtime.DecimalJsLike | number | string
   discount?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  status?: $Enums.InvoiceStatus
   discountType?: $Enums.DiscountType
   hasTax?: boolean
-  updatedTax?: string | null
   type: $Enums.RecordType
   note?: string | null
+  start: Date | string
+  end: Date | string
+  isDeleting?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
   owner?: Prisma.OwnerCreateNestedOneWithoutInvoicesInput
@@ -850,14 +979,18 @@ export type InvoiceUncheckedCreateWithoutItemsInput = {
   id?: string
   reference?: number
   price?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  amountPaid?: runtime.Decimal | runtime.DecimalJsLike | number | string
   discount?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  status?: $Enums.InvoiceStatus
   discountType?: $Enums.DiscountType
   hasTax?: boolean
-  updatedTax?: string | null
   type: $Enums.RecordType
   ownerId?: string | null
   tenantId?: string | null
   note?: string | null
+  start: Date | string
+  end: Date | string
+  isDeleting?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
   payments?: Prisma.PaymentUncheckedCreateNestedManyWithoutInvoiceInput
@@ -883,12 +1016,16 @@ export type InvoiceUpdateWithoutItemsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   reference?: Prisma.IntFieldUpdateOperationsInput | number
   price?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  amountPaid?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   discount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  status?: Prisma.EnumInvoiceStatusFieldUpdateOperationsInput | $Enums.InvoiceStatus
   discountType?: Prisma.EnumDiscountTypeFieldUpdateOperationsInput | $Enums.DiscountType
   hasTax?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  updatedTax?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   type?: Prisma.EnumRecordTypeFieldUpdateOperationsInput | $Enums.RecordType
   note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  start?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  end?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  isDeleting?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   owner?: Prisma.OwnerUpdateOneWithoutInvoicesNestedInput
@@ -900,14 +1037,18 @@ export type InvoiceUncheckedUpdateWithoutItemsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   reference?: Prisma.IntFieldUpdateOperationsInput | number
   price?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  amountPaid?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   discount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  status?: Prisma.EnumInvoiceStatusFieldUpdateOperationsInput | $Enums.InvoiceStatus
   discountType?: Prisma.EnumDiscountTypeFieldUpdateOperationsInput | $Enums.DiscountType
   hasTax?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  updatedTax?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   type?: Prisma.EnumRecordTypeFieldUpdateOperationsInput | $Enums.RecordType
   ownerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   tenantId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  start?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  end?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  isDeleting?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   payments?: Prisma.PaymentUncheckedUpdateManyWithoutInvoiceNestedInput
@@ -917,12 +1058,16 @@ export type InvoiceCreateWithoutPaymentsInput = {
   id?: string
   reference?: number
   price?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  amountPaid?: runtime.Decimal | runtime.DecimalJsLike | number | string
   discount?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  status?: $Enums.InvoiceStatus
   discountType?: $Enums.DiscountType
   hasTax?: boolean
-  updatedTax?: string | null
   type: $Enums.RecordType
   note?: string | null
+  start: Date | string
+  end: Date | string
+  isDeleting?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
   owner?: Prisma.OwnerCreateNestedOneWithoutInvoicesInput
@@ -934,14 +1079,18 @@ export type InvoiceUncheckedCreateWithoutPaymentsInput = {
   id?: string
   reference?: number
   price?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  amountPaid?: runtime.Decimal | runtime.DecimalJsLike | number | string
   discount?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  status?: $Enums.InvoiceStatus
   discountType?: $Enums.DiscountType
   hasTax?: boolean
-  updatedTax?: string | null
   type: $Enums.RecordType
   ownerId?: string | null
   tenantId?: string | null
   note?: string | null
+  start: Date | string
+  end: Date | string
+  isDeleting?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
   items?: Prisma.ItemUncheckedCreateNestedManyWithoutInvoiceInput
@@ -967,12 +1116,16 @@ export type InvoiceUpdateWithoutPaymentsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   reference?: Prisma.IntFieldUpdateOperationsInput | number
   price?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  amountPaid?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   discount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  status?: Prisma.EnumInvoiceStatusFieldUpdateOperationsInput | $Enums.InvoiceStatus
   discountType?: Prisma.EnumDiscountTypeFieldUpdateOperationsInput | $Enums.DiscountType
   hasTax?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  updatedTax?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   type?: Prisma.EnumRecordTypeFieldUpdateOperationsInput | $Enums.RecordType
   note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  start?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  end?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  isDeleting?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   owner?: Prisma.OwnerUpdateOneWithoutInvoicesNestedInput
@@ -984,14 +1137,18 @@ export type InvoiceUncheckedUpdateWithoutPaymentsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   reference?: Prisma.IntFieldUpdateOperationsInput | number
   price?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  amountPaid?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   discount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  status?: Prisma.EnumInvoiceStatusFieldUpdateOperationsInput | $Enums.InvoiceStatus
   discountType?: Prisma.EnumDiscountTypeFieldUpdateOperationsInput | $Enums.DiscountType
   hasTax?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  updatedTax?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   type?: Prisma.EnumRecordTypeFieldUpdateOperationsInput | $Enums.RecordType
   ownerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   tenantId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  start?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  end?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  isDeleting?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   items?: Prisma.ItemUncheckedUpdateManyWithoutInvoiceNestedInput
@@ -1001,13 +1158,17 @@ export type InvoiceCreateManyOwnerInput = {
   id?: string
   reference?: number
   price?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  amountPaid?: runtime.Decimal | runtime.DecimalJsLike | number | string
   discount?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  status?: $Enums.InvoiceStatus
   discountType?: $Enums.DiscountType
   hasTax?: boolean
-  updatedTax?: string | null
   type: $Enums.RecordType
   tenantId?: string | null
   note?: string | null
+  start: Date | string
+  end: Date | string
+  isDeleting?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -1016,12 +1177,16 @@ export type InvoiceUpdateWithoutOwnerInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   reference?: Prisma.IntFieldUpdateOperationsInput | number
   price?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  amountPaid?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   discount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  status?: Prisma.EnumInvoiceStatusFieldUpdateOperationsInput | $Enums.InvoiceStatus
   discountType?: Prisma.EnumDiscountTypeFieldUpdateOperationsInput | $Enums.DiscountType
   hasTax?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  updatedTax?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   type?: Prisma.EnumRecordTypeFieldUpdateOperationsInput | $Enums.RecordType
   note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  start?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  end?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  isDeleting?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   tenant?: Prisma.TenantUpdateOneWithoutInvoicesNestedInput
@@ -1033,13 +1198,17 @@ export type InvoiceUncheckedUpdateWithoutOwnerInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   reference?: Prisma.IntFieldUpdateOperationsInput | number
   price?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  amountPaid?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   discount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  status?: Prisma.EnumInvoiceStatusFieldUpdateOperationsInput | $Enums.InvoiceStatus
   discountType?: Prisma.EnumDiscountTypeFieldUpdateOperationsInput | $Enums.DiscountType
   hasTax?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  updatedTax?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   type?: Prisma.EnumRecordTypeFieldUpdateOperationsInput | $Enums.RecordType
   tenantId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  start?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  end?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  isDeleting?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   items?: Prisma.ItemUncheckedUpdateManyWithoutInvoiceNestedInput
@@ -1050,13 +1219,17 @@ export type InvoiceUncheckedUpdateManyWithoutOwnerInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   reference?: Prisma.IntFieldUpdateOperationsInput | number
   price?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  amountPaid?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   discount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  status?: Prisma.EnumInvoiceStatusFieldUpdateOperationsInput | $Enums.InvoiceStatus
   discountType?: Prisma.EnumDiscountTypeFieldUpdateOperationsInput | $Enums.DiscountType
   hasTax?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  updatedTax?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   type?: Prisma.EnumRecordTypeFieldUpdateOperationsInput | $Enums.RecordType
   tenantId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  start?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  end?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  isDeleting?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -1065,13 +1238,17 @@ export type InvoiceCreateManyTenantInput = {
   id?: string
   reference?: number
   price?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  amountPaid?: runtime.Decimal | runtime.DecimalJsLike | number | string
   discount?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  status?: $Enums.InvoiceStatus
   discountType?: $Enums.DiscountType
   hasTax?: boolean
-  updatedTax?: string | null
   type: $Enums.RecordType
   ownerId?: string | null
   note?: string | null
+  start: Date | string
+  end: Date | string
+  isDeleting?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -1080,12 +1257,16 @@ export type InvoiceUpdateWithoutTenantInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   reference?: Prisma.IntFieldUpdateOperationsInput | number
   price?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  amountPaid?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   discount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  status?: Prisma.EnumInvoiceStatusFieldUpdateOperationsInput | $Enums.InvoiceStatus
   discountType?: Prisma.EnumDiscountTypeFieldUpdateOperationsInput | $Enums.DiscountType
   hasTax?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  updatedTax?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   type?: Prisma.EnumRecordTypeFieldUpdateOperationsInput | $Enums.RecordType
   note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  start?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  end?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  isDeleting?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   owner?: Prisma.OwnerUpdateOneWithoutInvoicesNestedInput
@@ -1097,13 +1278,17 @@ export type InvoiceUncheckedUpdateWithoutTenantInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   reference?: Prisma.IntFieldUpdateOperationsInput | number
   price?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  amountPaid?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   discount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  status?: Prisma.EnumInvoiceStatusFieldUpdateOperationsInput | $Enums.InvoiceStatus
   discountType?: Prisma.EnumDiscountTypeFieldUpdateOperationsInput | $Enums.DiscountType
   hasTax?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  updatedTax?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   type?: Prisma.EnumRecordTypeFieldUpdateOperationsInput | $Enums.RecordType
   ownerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  start?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  end?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  isDeleting?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   items?: Prisma.ItemUncheckedUpdateManyWithoutInvoiceNestedInput
@@ -1114,13 +1299,17 @@ export type InvoiceUncheckedUpdateManyWithoutTenantInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   reference?: Prisma.IntFieldUpdateOperationsInput | number
   price?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  amountPaid?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   discount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  status?: Prisma.EnumInvoiceStatusFieldUpdateOperationsInput | $Enums.InvoiceStatus
   discountType?: Prisma.EnumDiscountTypeFieldUpdateOperationsInput | $Enums.DiscountType
   hasTax?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  updatedTax?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   type?: Prisma.EnumRecordTypeFieldUpdateOperationsInput | $Enums.RecordType
   ownerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  start?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  end?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  isDeleting?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -1169,14 +1358,18 @@ export type InvoiceSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs 
   id?: boolean
   reference?: boolean
   price?: boolean
+  amountPaid?: boolean
   discount?: boolean
+  status?: boolean
   discountType?: boolean
   hasTax?: boolean
-  updatedTax?: boolean
   type?: boolean
   ownerId?: boolean
   tenantId?: boolean
   note?: boolean
+  start?: boolean
+  end?: boolean
+  isDeleting?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   owner?: boolean | Prisma.Invoice$ownerArgs<ExtArgs>
@@ -1190,14 +1383,18 @@ export type InvoiceSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Exten
   id?: boolean
   reference?: boolean
   price?: boolean
+  amountPaid?: boolean
   discount?: boolean
+  status?: boolean
   discountType?: boolean
   hasTax?: boolean
-  updatedTax?: boolean
   type?: boolean
   ownerId?: boolean
   tenantId?: boolean
   note?: boolean
+  start?: boolean
+  end?: boolean
+  isDeleting?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   owner?: boolean | Prisma.Invoice$ownerArgs<ExtArgs>
@@ -1208,14 +1405,18 @@ export type InvoiceSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Exten
   id?: boolean
   reference?: boolean
   price?: boolean
+  amountPaid?: boolean
   discount?: boolean
+  status?: boolean
   discountType?: boolean
   hasTax?: boolean
-  updatedTax?: boolean
   type?: boolean
   ownerId?: boolean
   tenantId?: boolean
   note?: boolean
+  start?: boolean
+  end?: boolean
+  isDeleting?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   owner?: boolean | Prisma.Invoice$ownerArgs<ExtArgs>
@@ -1226,19 +1427,23 @@ export type InvoiceSelectScalar = {
   id?: boolean
   reference?: boolean
   price?: boolean
+  amountPaid?: boolean
   discount?: boolean
+  status?: boolean
   discountType?: boolean
   hasTax?: boolean
-  updatedTax?: boolean
   type?: boolean
   ownerId?: boolean
   tenantId?: boolean
   note?: boolean
+  start?: boolean
+  end?: boolean
+  isDeleting?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }
 
-export type InvoiceOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "reference" | "price" | "discount" | "discountType" | "hasTax" | "updatedTax" | "type" | "ownerId" | "tenantId" | "note" | "createdAt" | "updatedAt", ExtArgs["result"]["invoice"]>
+export type InvoiceOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "reference" | "price" | "amountPaid" | "discount" | "status" | "discountType" | "hasTax" | "type" | "ownerId" | "tenantId" | "note" | "start" | "end" | "isDeleting" | "createdAt" | "updatedAt", ExtArgs["result"]["invoice"]>
 export type InvoiceInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   owner?: boolean | Prisma.Invoice$ownerArgs<ExtArgs>
   tenant?: boolean | Prisma.Invoice$tenantArgs<ExtArgs>
@@ -1267,14 +1472,18 @@ export type $InvoicePayload<ExtArgs extends runtime.Types.Extensions.InternalArg
     id: string
     reference: number
     price: runtime.Decimal
+    amountPaid: runtime.Decimal
     discount: runtime.Decimal
+    status: $Enums.InvoiceStatus
     discountType: $Enums.DiscountType
     hasTax: boolean
-    updatedTax: string | null
     type: $Enums.RecordType
     ownerId: string | null
     tenantId: string | null
     note: string | null
+    start: Date
+    end: Date
+    isDeleting: boolean
     createdAt: Date
     updatedAt: Date
   }, ExtArgs["result"]["invoice"]>
@@ -1707,14 +1916,18 @@ export interface InvoiceFieldRefs {
   readonly id: Prisma.FieldRef<"Invoice", 'String'>
   readonly reference: Prisma.FieldRef<"Invoice", 'Int'>
   readonly price: Prisma.FieldRef<"Invoice", 'Decimal'>
+  readonly amountPaid: Prisma.FieldRef<"Invoice", 'Decimal'>
   readonly discount: Prisma.FieldRef<"Invoice", 'Decimal'>
+  readonly status: Prisma.FieldRef<"Invoice", 'InvoiceStatus'>
   readonly discountType: Prisma.FieldRef<"Invoice", 'DiscountType'>
   readonly hasTax: Prisma.FieldRef<"Invoice", 'Boolean'>
-  readonly updatedTax: Prisma.FieldRef<"Invoice", 'String'>
   readonly type: Prisma.FieldRef<"Invoice", 'RecordType'>
   readonly ownerId: Prisma.FieldRef<"Invoice", 'String'>
   readonly tenantId: Prisma.FieldRef<"Invoice", 'String'>
   readonly note: Prisma.FieldRef<"Invoice", 'String'>
+  readonly start: Prisma.FieldRef<"Invoice", 'DateTime'>
+  readonly end: Prisma.FieldRef<"Invoice", 'DateTime'>
+  readonly isDeleting: Prisma.FieldRef<"Invoice", 'Boolean'>
   readonly createdAt: Prisma.FieldRef<"Invoice", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"Invoice", 'DateTime'>
 }

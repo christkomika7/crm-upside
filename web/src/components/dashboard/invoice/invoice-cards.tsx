@@ -1,17 +1,55 @@
 import Card from "@/components/card/card";
-import Key from "@/assets/icons/keys.png";
-import Pocket from "@/assets/icons/pocket.png";
-import Task from "@/assets/icons/task.png";
-import ArrowDollars from "@/assets/icons/arrow-dollars.png";
+import Invoice from "@/assets/icons/invoice/invoice.png";
+import Paid from "@/assets/icons/invoice/paid.png";
+import Unpaid from "@/assets/icons/invoice/unpaid.png";
+import Due from "@/assets/icons/invoice/due.png";
+
+import type { InvoiceStats } from "@/types/invoice";
+import { apiFetch } from "@/lib/api";
+import { useQuery } from "@tanstack/react-query";
+import { formatNumber, pluralize } from "@/lib/utils";
+
 
 
 export default function InvoiceCards() {
+    const { data: stats, isPending } = useQuery({
+        queryKey: ["invoice-stats"],
+        queryFn: () => apiFetch<InvoiceStats>(`/invoice/stats`),
+    });
     return (
+
         <div className="grid grid-cols-4 gap-4">
-            <Card icon={Task} title="Factures totales" value="$120000" color="bg-(--card-purple)" />
-            <Card icon={Key} title="Payé" value="$67000" color="bg-(--card-blue)" />
-            <Card icon={Pocket} title="Impayé" value="$8,700" color="bg-(--card-lime)" />
-            <Card icon={ArrowDollars} title="Dûe" value="$24,000" color="bg-(--card-sky)" />
+            <Card
+                icon={Invoice}
+                title={`${pluralize(stats?.count.total || 0, "Facture totale", "Factures totales")} (${stats?.count.total || 0})`}
+                value={`${formatNumber(stats?.total || 0)} FCFA`}
+                color="bg-(--card-blue)"
+                isLoading={isPending}
+            />
+
+            <Card
+                icon={Paid}
+                title={`${pluralize(stats?.count.paid || 0, "Facture payée", "Factures payées")} (${stats?.count.paid || 0})`}
+                value={`${formatNumber(stats?.paid || 0)} FCFA`}
+                color="bg-(--card-green)"
+                isLoading={isPending}
+            />
+
+            <Card
+                icon={Unpaid}
+                title={`${pluralize(stats?.count.pending || 0, "Facture impayée", "Factures impayées")} (${stats?.count.pending || 0})`}
+                value={`${formatNumber(stats?.unpaid || 0)} FCFA`}
+                color="bg-(--card-orange)"
+                isLoading={isPending}
+            />
+
+            <Card
+                icon={Due}
+                title={`${pluralize(stats?.count.overdue || 0, "Facture due", "Factures dues")} (${stats?.count.overdue || 0})`}
+                value={`${formatNumber(stats?.due || 0)} FCFA`}
+                color="bg-(--card-red)"
+                isLoading={isPending}
+            />
         </div>
     )
 }

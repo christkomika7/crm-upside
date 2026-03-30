@@ -172,7 +172,7 @@ export type DeletionGroupByOutputType = {
   _max: DeletionMaxAggregateOutputType | null
 }
 
-type GetDeletionGroupByPayload<T extends DeletionGroupByArgs> = Prisma.PrismaPromise<
+export type GetDeletionGroupByPayload<T extends DeletionGroupByArgs> = Prisma.PrismaPromise<
   Array<
     Prisma.PickEnumerable<DeletionGroupByOutputType, T['by']> &
       {

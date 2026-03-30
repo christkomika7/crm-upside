@@ -72,8 +72,6 @@ export default function EditReservation({ id }: EditReservationProps) {
                 price: reservation.price,
             })
         }
-
-
     }, [reservation])
 
     async function submit(formData: ReservationSchemaType) {

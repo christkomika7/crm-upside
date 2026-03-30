@@ -8,21 +8,19 @@ import { Command as CommandPrimitive, useCommandState } from 'cmdk'
 import { LayersPlusIcon, XIcon } from 'lucide-react'
 
 import { Command, CommandGroup, CommandItem, CommandList } from '@/components/ui/command'
-import { cn } from '@/lib/utils'
-import Modal from '../modal/modal'
+import { cn, formatNumber } from '@/lib/utils'
 import { Button } from './button'
-import { is } from 'date-fns/locale'
 import { Spinner } from './spinner'
+import { Tooltip, TooltipContent, TooltipTrigger } from './tooltip'
+import { createPortal } from "react-dom"
 
 export interface Option {
     value: string
     label: string
+    description?: string
+    price?: string
     disable?: boolean
-
-    /** fixed option that can't be removed. */
     fixed?: boolean
-
-    /** Group the options by providing key. */
     [key: string]: string | boolean | undefined
 }
 interface GroupOption {
@@ -38,17 +36,13 @@ interface MultipleSelectorProps {
     hasAction?: boolean;
     setModal?: React.Dispatch<React.SetStateAction<boolean>>;
 
-    /** manually controlled options */
     options?: Option[]
     placeholder?: string
 
-    /** Loading component. */
     loadingIndicator?: React.ReactNode
 
-    /** Empty component. */
     emptyIndicator?: React.ReactNode
 
-    /** Debounce time for async search. Only work with `onSearch`. */
     delay?: number
 
     /**
@@ -77,6 +71,7 @@ interface MultipleSelectorProps {
     /** Hide the placeholder when there are options selected. */
     hidePlaceholderWhenSelected?: boolean
     disabled?: boolean
+    error?: boolean
 
     /** Group the options base on provided key. */
     groupBy?: string
@@ -208,6 +203,7 @@ const MultipleSelector = ({
     hideClearAllButton = false,
     hasAction = false,
     isGettingData = false,
+    error = false
 
 }: MultipleSelectorProps) => {
     const inputRef = React.useRef<HTMLInputElement>(null)
@@ -255,14 +251,12 @@ const MultipleSelector = ({
                     if (input.value === '' && selected.length > 0) {
                         const lastSelectOption = selected[selected.length - 1]
 
-                        // If last item is fixed, we should not remove it.
                         if (!lastSelectOption.fixed) {
                             handleUnselect(selected[selected.length - 1])
                         }
                     }
                 }
 
-                // This is not a default behavior of the <input /> field
                 if (e.key === 'Escape') {
                     input.blur()
                 }
@@ -304,8 +298,15 @@ const MultipleSelector = ({
     }, [arrayDefaultOptions, arrayOptions, groupBy, onSearch, options])
 
     useEffect(() => {
-        /** sync search */
+        const handleScroll = () => {
+            if (open) setOpen(false)
+        }
 
+        window.addEventListener("scroll", handleScroll, true)
+        return () => window.removeEventListener("scroll", handleScroll, true)
+    }, [open])
+
+    useEffect(() => {
         const doSearchSync = () => {
             const res = onSearchSync?.(debouncedSearchTerm)
 
@@ -329,8 +330,6 @@ const MultipleSelector = ({
     }, [debouncedSearchTerm, groupBy, open, triggerSearchOnFocus])
 
     useEffect(() => {
-        /** async search */
-
         const doSearch = async () => {
             setIsLoading(true)
             const res = await onSearch?.(debouncedSearchTerm)
@@ -446,7 +445,9 @@ const MultipleSelector = ({
                         'border-input focus-within:border-emerald-background focus-within:ring-emerald-background/50 has-aria-invalid:ring-destructive/20 dark:has-aria-invalid:ring-destructive/40 has-aria-invalid:border-destructive relative min-h-9.5 rounded-md border text-sm transition-[color,box-shadow] outline-none focus-within:ring-[3px] has-disabled:pointer-events-none has-disabled:cursor-not-allowed has-disabled:opacity-50',
                         {
                             'p-1': selected.length !== 0,
-                            'cursor-text': !disabled && selected.length !== 0
+                            'cursor-text': !disabled && selected.length !== 0,
+                            'ring-[3px] ring-destructive/30 border-destructive ': error
+
                         },
                         !hideClearAllButton && 'pr-9',
                         className
@@ -488,7 +489,6 @@ const MultipleSelector = ({
                                 </div>
                             )
                         })}
-                        {/* Avoid having the "Search" Icon */}
                         <CommandPrimitive.Input
                             {...inputProps}
                             ref={inputRef}
@@ -545,87 +545,94 @@ const MultipleSelector = ({
                         </button>
                     </div>
                 </div>
-                <div className='relative'>
-                    <div
-                        className={cn(
-                            'border-input absolute top-2 z-10 w-full overflow-hidden rounded-md border',
-                            'data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95',
-                            !open && 'hidden'
-                        )}
-                        data-state={open ? 'open' : 'closed'}
-                    >
-                        {open && (
-                            <CommandList
-                                className='bg-popover text-popover-foreground shadow-lg outline-hidden'
-                                onMouseLeave={() => {
-                                    setOnScrollbar(false)
-                                }}
-                                onMouseEnter={() => {
-                                    setOnScrollbar(true)
-                                }}
-                                onMouseUp={() => {
-                                    inputRef?.current?.focus()
-                                }}
+                {open &&
+                    createPortal(
+                        <div
+                            className="fixed z-50"
+                            style={{
+                                top: (dropdownRef.current?.getBoundingClientRect().bottom ?? 0) + 5,
+                                left: dropdownRef.current?.getBoundingClientRect().left ?? 0,
+                                width: dropdownRef.current?.offsetWidth ?? 0,
+                            }}
+                        >
+                            <div
+                                className="border-input w-full rounded-md border bg-popover shadow-lg animate-in fade-in zoom-in-95"
                             >
-                                {isGettingData ? (
-                                    <div className='flex justify-center items-center py-4'>
-                                        <Spinner />
-                                    </div>
-                                ) : (
-                                    <>
-                                        {isLoading ? (
-                                            <>{loadingIndicator}</>
-                                        ) : (
-                                            <>
-                                                {EmptyItem()}
-                                                {CreatableItem()}
-                                                {!selectFirstItem && <CommandItem value='-' className='hidden' />}
-                                                {Object.entries(selectables).map(([key, dropdowns]) => (
-                                                    <CommandGroup key={key} heading={key} className='h-full overflow-auto'>
-                                                        <>
-                                                            {dropdowns.map(option => {
-                                                                return (
-                                                                    <CommandItem
-                                                                        key={option.value}
-                                                                        value={option.value}
-                                                                        disabled={option.disable}
-                                                                        onMouseDown={e => {
-                                                                            e.preventDefault()
-                                                                            e.stopPropagation()
-                                                                        }}
-                                                                        onSelect={() => {
-                                                                            if (selected.length >= maxSelected) {
-                                                                                onMaxSelected?.(selected.length)
+                                <CommandList
+                                    onMouseLeave={() => setOnScrollbar(false)}
+                                    onMouseEnter={() => setOnScrollbar(true)}
+                                    onMouseUp={() => {
+                                        inputRef?.current?.focus()
+                                    }}
+                                >
+                                    {isGettingData ? (
+                                        <div className='flex justify-center items-center py-4'>
+                                            <Spinner />
+                                        </div>
+                                    ) : (
+                                        <>
+                                            {isLoading ? (
+                                                <>{loadingIndicator}</>
+                                            ) : (
+                                                <>
+                                                    {EmptyItem()}
+                                                    {CreatableItem()}
+                                                    {!selectFirstItem && <CommandItem value='-' className='hidden' />}
+                                                    {Object.entries(selectables).map(([key, dropdowns]) => (
+                                                        <CommandGroup key={key} heading={key} className='h-full overflow-auto'>
+                                                            <>
+                                                                {dropdowns.map(option => {
+                                                                    return (
+                                                                        <CommandItem
+                                                                            key={option.value}
+                                                                            value={option.value}
+                                                                            disabled={option.disable}
+                                                                            onMouseDown={e => {
+                                                                                e.preventDefault()
+                                                                                e.stopPropagation()
+                                                                            }}
+                                                                            onSelect={() => {
+                                                                                if (selected.length >= maxSelected) {
+                                                                                    onMaxSelected?.(selected.length)
 
-                                                                                return
-                                                                            }
+                                                                                    return
+                                                                                }
 
-                                                                            setInputValue('')
-                                                                            const newOptions = [...selected, option]
+                                                                                setInputValue('')
+                                                                                const newOptions = [...selected, option]
 
-                                                                            setSelected(newOptions)
-                                                                            onChange?.(newOptions)
-                                                                        }}
-                                                                        className={cn(
-                                                                            'cursor-pointer',
-                                                                            option.disable && 'pointer-events-none cursor-not-allowed opacity-50'
-                                                                        )}
-                                                                    >
-                                                                        {option.label}
-                                                                    </CommandItem>
-                                                                )
-                                                            })}
-                                                        </>
-                                                    </CommandGroup>
-                                                ))}
-                                            </>
-                                        )}
-                                    </>
-                                )}
-                            </CommandList>
-                        )}
-                    </div>
-                </div>
+                                                                                setSelected(newOptions)
+                                                                                onChange?.(newOptions)
+                                                                            }}
+                                                                            className={cn(
+                                                                                'cursor-pointer',
+                                                                                option.disable && 'pointer-events-none cursor-not-allowed opacity-50'
+                                                                            )}
+                                                                        >
+                                                                            <Tooltip>
+                                                                                <TooltipTrigger>{option.label}</TooltipTrigger>
+                                                                                <TooltipContent className='max-w-lg'>
+                                                                                    <p className="font-medium">{option.label}</p>
+                                                                                    <pre className="whitespace-pre-wrap font-sans mb-1 leading-tight">{option.description}</pre>
+                                                                                    <p className="font-medium">{formatNumber(option.price)} FCFA</p>
+                                                                                </TooltipContent>
+                                                                            </Tooltip>
+                                                                        </CommandItem>
+                                                                    )
+                                                                })}
+                                                            </>
+                                                        </CommandGroup>
+                                                    ))}
+                                                </>
+                                            )}
+                                        </>
+                                    )}
+                                </CommandList>
+                            </div>
+                        </div>,
+                        document.body
+                    )
+                }
             </Command>
             <React.Activity mode={hasAction && setModal ? "visible" : "hidden"} >
                 <Button onClick={() => setModal?.(true)} type='button' variant="outline" className="h-9.5 shadow-none">

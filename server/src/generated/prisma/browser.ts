@@ -28,6 +28,11 @@ export type User = Prisma.UserModel
  */
 export type Permission = Prisma.PermissionModel
 /**
+ * Model Cumul
+ * 
+ */
+export type Cumul = Prisma.CumulModel
+/**
  * Model Tax
  * 
  */

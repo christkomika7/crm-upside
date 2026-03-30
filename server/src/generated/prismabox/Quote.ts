@@ -7,20 +7,23 @@ import { __nullable__ } from "./__nullable__";
 export const QuotePlain = t.Object(
   {
     id: t.String(),
-    reference: t.String(),
+    reference: t.Integer(),
     price: t.Number(),
     discount: t.Number(),
-    discountType: t.Union([t.Literal("PURCENT"), t.Literal("MONEY")], {
+    discountType: t.Union([t.Literal("PERCENT"), t.Literal("MONEY")], {
       additionalProperties: false,
     }),
     hasTax: t.Boolean(),
-    updatedTax: __nullable__(t.String()),
     type: t.Union([t.Literal("OWNER"), t.Literal("TENANT")], {
       additionalProperties: false,
     }),
+    isComplete: t.Boolean(),
     ownerId: __nullable__(t.String()),
     tenantId: __nullable__(t.String()),
     note: __nullable__(t.String()),
+    start: t.Date(),
+    end: t.Date(),
+    isDeleting: t.Boolean(),
     createdAt: t.Date(),
     updatedAt: t.Date(),
   },
@@ -76,13 +79,19 @@ export const QuoteRelations = t.Object(
       t.Object(
         {
           id: t.String(),
-          quantity: __nullable__(t.Integer()),
+          quantity: t.Integer(),
           productServiceId: t.String(),
           price: t.Number(),
-          invoiceId: t.String(),
+          description: t.String(),
+          reference: t.String(),
+          hasTax: t.Boolean(),
+          status: t.Union([t.Literal("USED"), t.Literal("IGNORE")], {
+            additionalProperties: false,
+          }),
+          invoiceId: __nullable__(t.String()),
+          quoteId: __nullable__(t.String()),
           createdAt: t.Date(),
           updatedAt: t.Date(),
-          quoteId: __nullable__(t.String()),
         },
         { additionalProperties: false },
       ),
@@ -94,42 +103,48 @@ export const QuoteRelations = t.Object(
 
 export const QuotePlainInputCreate = t.Object(
   {
-    reference: t.String(),
+    reference: t.Optional(t.Integer()),
     price: t.Optional(t.Number()),
     discount: t.Optional(t.Number()),
     discountType: t.Optional(
-      t.Union([t.Literal("PURCENT"), t.Literal("MONEY")], {
+      t.Union([t.Literal("PERCENT"), t.Literal("MONEY")], {
         additionalProperties: false,
       }),
     ),
     hasTax: t.Optional(t.Boolean()),
-    updatedTax: t.Optional(__nullable__(t.String())),
     type: t.Union([t.Literal("OWNER"), t.Literal("TENANT")], {
       additionalProperties: false,
     }),
+    isComplete: t.Optional(t.Boolean()),
     note: t.Optional(__nullable__(t.String())),
+    start: t.Date(),
+    end: t.Date(),
+    isDeleting: t.Optional(t.Boolean()),
   },
   { additionalProperties: false },
 );
 
 export const QuotePlainInputUpdate = t.Object(
   {
-    reference: t.Optional(t.String()),
+    reference: t.Optional(t.Integer()),
     price: t.Optional(t.Number()),
     discount: t.Optional(t.Number()),
     discountType: t.Optional(
-      t.Union([t.Literal("PURCENT"), t.Literal("MONEY")], {
+      t.Union([t.Literal("PERCENT"), t.Literal("MONEY")], {
         additionalProperties: false,
       }),
     ),
     hasTax: t.Optional(t.Boolean()),
-    updatedTax: t.Optional(__nullable__(t.String())),
     type: t.Optional(
       t.Union([t.Literal("OWNER"), t.Literal("TENANT")], {
         additionalProperties: false,
       }),
     ),
+    isComplete: t.Optional(t.Boolean()),
     note: t.Optional(__nullable__(t.String())),
+    start: t.Optional(t.Date()),
+    end: t.Optional(t.Date()),
+    isDeleting: t.Optional(t.Boolean()),
   },
   { additionalProperties: false },
 );
@@ -252,20 +267,23 @@ export const QuoteWhere = t.Partial(
           NOT: t.Union([Self, t.Array(Self, { additionalProperties: false })]),
           OR: t.Array(Self, { additionalProperties: false }),
           id: t.String(),
-          reference: t.String(),
+          reference: t.Integer(),
           price: t.Number(),
           discount: t.Number(),
-          discountType: t.Union([t.Literal("PURCENT"), t.Literal("MONEY")], {
+          discountType: t.Union([t.Literal("PERCENT"), t.Literal("MONEY")], {
             additionalProperties: false,
           }),
           hasTax: t.Boolean(),
-          updatedTax: t.String(),
           type: t.Union([t.Literal("OWNER"), t.Literal("TENANT")], {
             additionalProperties: false,
           }),
+          isComplete: t.Boolean(),
           ownerId: t.String(),
           tenantId: t.String(),
           note: t.String(),
+          start: t.Date(),
+          end: t.Date(),
+          isDeleting: t.Boolean(),
           createdAt: t.Date(),
           updatedAt: t.Date(),
         },
@@ -280,16 +298,12 @@ export const QuoteWhereUnique = t.Recursive(
     t.Intersect(
       [
         t.Partial(
-          t.Object(
-            { id: t.String(), reference: t.String() },
-            { additionalProperties: false },
-          ),
+          t.Object({ id: t.String() }, { additionalProperties: false }),
           { additionalProperties: false },
         ),
-        t.Union(
-          [t.Object({ id: t.String() }), t.Object({ reference: t.String() })],
-          { additionalProperties: false },
-        ),
+        t.Union([t.Object({ id: t.String() })], {
+          additionalProperties: false,
+        }),
         t.Partial(
           t.Object({
             AND: t.Union([
@@ -308,21 +322,24 @@ export const QuoteWhereUnique = t.Recursive(
           t.Object(
             {
               id: t.String(),
-              reference: t.String(),
+              reference: t.Integer(),
               price: t.Number(),
               discount: t.Number(),
               discountType: t.Union(
-                [t.Literal("PURCENT"), t.Literal("MONEY")],
+                [t.Literal("PERCENT"), t.Literal("MONEY")],
                 { additionalProperties: false },
               ),
               hasTax: t.Boolean(),
-              updatedTax: t.String(),
               type: t.Union([t.Literal("OWNER"), t.Literal("TENANT")], {
                 additionalProperties: false,
               }),
+              isComplete: t.Boolean(),
               ownerId: t.String(),
               tenantId: t.String(),
               note: t.String(),
+              start: t.Date(),
+              end: t.Date(),
+              isDeleting: t.Boolean(),
               createdAt: t.Date(),
               updatedAt: t.Date(),
             },
@@ -344,14 +361,17 @@ export const QuoteSelect = t.Partial(
       discount: t.Boolean(),
       discountType: t.Boolean(),
       hasTax: t.Boolean(),
-      updatedTax: t.Boolean(),
       type: t.Boolean(),
+      isComplete: t.Boolean(),
       ownerId: t.Boolean(),
       owner: t.Boolean(),
       tenantId: t.Boolean(),
       tenant: t.Boolean(),
       items: t.Boolean(),
       note: t.Boolean(),
+      start: t.Boolean(),
+      end: t.Boolean(),
+      isDeleting: t.Boolean(),
       createdAt: t.Boolean(),
       updatedAt: t.Boolean(),
       _count: t.Boolean(),
@@ -392,7 +412,7 @@ export const QuoteOrderBy = t.Partial(
       hasTax: t.Union([t.Literal("asc"), t.Literal("desc")], {
         additionalProperties: false,
       }),
-      updatedTax: t.Union([t.Literal("asc"), t.Literal("desc")], {
+      isComplete: t.Union([t.Literal("asc"), t.Literal("desc")], {
         additionalProperties: false,
       }),
       ownerId: t.Union([t.Literal("asc"), t.Literal("desc")], {
@@ -402,6 +422,15 @@ export const QuoteOrderBy = t.Partial(
         additionalProperties: false,
       }),
       note: t.Union([t.Literal("asc"), t.Literal("desc")], {
+        additionalProperties: false,
+      }),
+      start: t.Union([t.Literal("asc"), t.Literal("desc")], {
+        additionalProperties: false,
+      }),
+      end: t.Union([t.Literal("asc"), t.Literal("desc")], {
+        additionalProperties: false,
+      }),
+      isDeleting: t.Union([t.Literal("asc"), t.Literal("desc")], {
         additionalProperties: false,
       }),
       createdAt: t.Union([t.Literal("asc"), t.Literal("desc")], {

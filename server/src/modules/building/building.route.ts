@@ -253,6 +253,10 @@ export const buildingRoutes = new Elysia({ prefix: "/building" })
             where: { id },
         });
 
+        if (building?.isDeleting) {
+            return status(400, { message: "Bâtiment en cours de suppression" });
+        }
+
         if (!building) {
             return status(404, { message: "Bâtiment non trouvé" });
         }

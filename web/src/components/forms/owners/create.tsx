@@ -55,6 +55,9 @@ export default function CreateOwners() {
 
     const form = useForm<OwnerSchemaType>({
         resolver: zodResolver(ownerSchema),
+        defaultValues: {
+            buildings: []
+        }
     });
 
     async function submit(formData: OwnerSchemaType) {
@@ -243,6 +246,7 @@ export default function CreateOwners() {
                                     <FormLabel className="text-neutral-600">Propriétés associées<RequiredLabel /></FormLabel>
                                     <FormControl>
                                         <MultipleSelector
+                                            error={!!form.formState.errors.buildings}
                                             commandProps={{
                                                 label: 'Selection des propriétés'
                                             }}

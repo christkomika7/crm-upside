@@ -10,21 +10,51 @@ import { Prisma } from "../../generated/prisma/client";
 
 export const ownerRoutes = new Elysia({ prefix: "/owner" })
     .use(authPlugin)
-    .get("/", async ({ permission, status, server }) => {
+    .get("/", async ({ permission, status, server, query }) => {
 
         if (!canAccess(permission, "owners", "read")) {
             return status(403, { message: "Accès refusé" });
         }
 
+        const PAGE_SIZE = 10;
+        const page = Math.max(1, Number(query.page) || 1);
+        const search = (query.search as string)?.trim() || "";
+        const sort = (query.sort as string) || "alpha";
+
+        const orderBy =
+            sort === "asc"
+                ? { createdAt: "asc" as const }
+                : sort === "desc"
+                    ? { createdAt: "desc" as const }
+                    : [{ firstname: "asc" as const }, { lastname: "asc" as const }];
+
+        const where = search
+            ? {
+                OR: [
+                    { firstname: { contains: search, mode: "insensitive" as const } },
+                    { lastname: { contains: search, mode: "insensitive" as const } },
+                    { reference: { contains: search, mode: "insensitive" as const } },
+                    { email: { contains: search, mode: "insensitive" as const } },
+                    { phone: { contains: search, mode: "insensitive" as const } },
+                ],
+            }
+            : {};
+
+        const total = await prisma.owner.count({ where });
+        const pageCount = Math.ceil(total / PAGE_SIZE);
+
         const owners = await prisma.owner.findMany({
+            where,
             include: {
                 buildings: {
                     include: {
-                        units: true
-                    }
-                }
+                        units: true,
+                    },
+                },
             },
-            orderBy: { createdAt: "desc" },
+            orderBy,
+            skip: (page - 1) * PAGE_SIZE,
+            take: PAGE_SIZE,
         });
 
         const ownersWithSignedUrl = await Promise.all(
@@ -32,27 +62,39 @@ export const ownerRoutes = new Elysia({ prefix: "/owner" })
                 const documents = await safeSignedUrls(owner.documents);
 
                 if (documents.error) {
-                    server?.publish("storage-error",
+                    server?.publish(
+                        "storage-error",
                         "Certaines images n'ont pas pu être chargées depuis le storage"
                     );
-
                 }
 
                 return {
                     ...owner,
                     name: `${owner.firstname} ${owner.lastname}`,
                     properties: owner.buildings.length || 0,
-                    units: owner.buildings.reduce((acc, building) => acc + building.units.length, 0),
+                    units: owner.buildings.reduce(
+                        (acc, building) => acc + building.units.length,
+                        0
+                    ),
                     revenue: "-",
                     documents: documents.urls,
                 };
             })
         );
 
-        return ownersWithSignedUrl;
-
+        return {
+            data: ownersWithSignedUrl,
+            total,
+            pageCount,
+            page,
+        };
     }, {
         auth: true,
+        query: t.Object({
+            page: t.Optional(t.String()),
+            search: t.Optional(t.String()),
+            sort: t.Optional(t.String()),
+        }),
     })
     .get("/:id", async ({ params, permission, status, server }) => {
         if (!canAccess(permission, "owners", "read")) {

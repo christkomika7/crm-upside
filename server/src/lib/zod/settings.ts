@@ -5,13 +5,25 @@ export const defaultTextSchema = z.object({
     quote: z.string().optional(),
 });
 
-export const taxSchema = z.object({
+
+export const taxCumulSchema = z.object({
+    id: z.string(),
     name: z.string(),
+    rate: z.string(),
+});
+
+export const taxSchema = z.object({
+    name: z.string().min(1, "Le nom est requis"),
     rate: z.string()
-        .regex(
-            /^\d+(\.\d+)?$/,
-            "Le taux doit être un nombre valide (ex: 1000, 0.5, 19.12)"
+        .min(1, "Le taux est requis")
+        .transform((val) => val.replace(/[\s\u00a0\u202f]/g, ""))
+        .pipe(
+            z.string().regex(
+                /^-?\d+(\.\d+)?$/,
+                "Le taux doit être un nombre valide (ex: -10, 19, 0.5, 19.12)"
+            )
         ),
+    cumul: z.array(taxCumulSchema).optional(),
 });
 
 export const noteSchema = z.object({

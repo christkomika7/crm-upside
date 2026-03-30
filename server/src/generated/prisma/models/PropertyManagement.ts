@@ -200,7 +200,7 @@ export type PropertyManagementGroupByOutputType = {
   _max: PropertyManagementMaxAggregateOutputType | null
 }
 
-type GetPropertyManagementGroupByPayload<T extends PropertyManagementGroupByArgs> = Prisma.PrismaPromise<
+export type GetPropertyManagementGroupByPayload<T extends PropertyManagementGroupByArgs> = Prisma.PrismaPromise<
   Array<
     Prisma.PickEnumerable<PropertyManagementGroupByOutputType, T['by']> &
       {

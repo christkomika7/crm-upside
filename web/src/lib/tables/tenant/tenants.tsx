@@ -157,7 +157,6 @@ export const columns: ColumnDef<Tenant>[] = [
                 mutationFn: ({ tenantId }: { tenantId: string }) =>
                     crudService.delete(`/tenant/${tenantId}`),
                 onSuccess() {
-                    toast.success("Locataire supprimée avec succès");
                     queryClient.invalidateQueries({ queryKey: ["tenants"] });
                 },
                 onError: (error: Error) => {

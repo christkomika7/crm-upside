@@ -24,13 +24,19 @@ export const ProductServiceRelations = t.Object(
       t.Object(
         {
           id: t.String(),
-          quantity: __nullable__(t.Integer()),
+          quantity: t.Integer(),
           productServiceId: t.String(),
           price: t.Number(),
-          invoiceId: t.String(),
+          description: t.String(),
+          reference: t.String(),
+          hasTax: t.Boolean(),
+          status: t.Union([t.Literal("USED"), t.Literal("IGNORE")], {
+            additionalProperties: false,
+          }),
+          invoiceId: __nullable__(t.String()),
+          quoteId: __nullable__(t.String()),
           createdAt: t.Date(),
           updatedAt: t.Date(),
-          quoteId: __nullable__(t.String()),
         },
         { additionalProperties: false },
       ),

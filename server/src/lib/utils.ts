@@ -19,6 +19,16 @@ export async function safeSignedUrls(keys?: string[]) {
     return { urls, error };
 }
 
+export function generateRef(ref?: string, position: number = 1): string {
+    const prefix = ref && ref.trim() !== "" ? ref.toUpperCase() : "REF";
+
+    const formattedNumber = position
+        .toString()
+        .padStart(3, "0");
+
+    return `${prefix}-${formattedNumber}`;
+}
+
 export function getUnitAmenities(unit: Unit): string {
     const amenities: string[] = [];
     const furnished = unit.furnished === "furnished" ? "Meublé" : unit.furnished === "semi-furnished" ? "Semi-meublé" : "Non meublé";
@@ -31,7 +41,6 @@ export function getUnitAmenities(unit: Unit): string {
     return [furnished, ...amenities].join(", ");
 }
 
-
 export function formatDateToString(date: Date) {
     return date.toLocaleDateString("fr-FR", {
         day: "2-digit",
@@ -39,7 +48,6 @@ export function formatDateToString(date: Date) {
         year: "numeric",
     })
 }
-
 
 export function duration(start: Date, end: Date): string {
     const diffTime = Math.max(0, end.getTime() - start.getTime());

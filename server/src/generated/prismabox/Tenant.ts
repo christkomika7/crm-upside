@@ -50,18 +50,25 @@ export const TenantRelations = t.Object(
           id: t.String(),
           reference: t.Integer(),
           price: t.Number(),
+          amountPaid: t.Number(),
           discount: t.Number(),
-          discountType: t.Union([t.Literal("PURCENT"), t.Literal("MONEY")], {
+          status: t.Union(
+            [t.Literal("PENDING"), t.Literal("PAID"), t.Literal("OVERDUE")],
+            { additionalProperties: false },
+          ),
+          discountType: t.Union([t.Literal("PERCENT"), t.Literal("MONEY")], {
             additionalProperties: false,
           }),
           hasTax: t.Boolean(),
-          updatedTax: __nullable__(t.String()),
           type: t.Union([t.Literal("OWNER"), t.Literal("TENANT")], {
             additionalProperties: false,
           }),
           ownerId: __nullable__(t.String()),
           tenantId: __nullable__(t.String()),
           note: __nullable__(t.String()),
+          start: t.Date(),
+          end: t.Date(),
+          isDeleting: t.Boolean(),
           createdAt: t.Date(),
           updatedAt: t.Date(),
         },
@@ -73,20 +80,23 @@ export const TenantRelations = t.Object(
       t.Object(
         {
           id: t.String(),
-          reference: t.String(),
+          reference: t.Integer(),
           price: t.Number(),
           discount: t.Number(),
-          discountType: t.Union([t.Literal("PURCENT"), t.Literal("MONEY")], {
+          discountType: t.Union([t.Literal("PERCENT"), t.Literal("MONEY")], {
             additionalProperties: false,
           }),
           hasTax: t.Boolean(),
-          updatedTax: __nullable__(t.String()),
           type: t.Union([t.Literal("OWNER"), t.Literal("TENANT")], {
             additionalProperties: false,
           }),
+          isComplete: t.Boolean(),
           ownerId: __nullable__(t.String()),
           tenantId: __nullable__(t.String()),
           note: __nullable__(t.String()),
+          start: t.Date(),
+          end: t.Date(),
+          isDeleting: t.Boolean(),
           createdAt: t.Date(),
           updatedAt: t.Date(),
         },

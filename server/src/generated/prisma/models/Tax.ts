@@ -144,7 +144,7 @@ export type TaxGroupByOutputType = {
   _max: TaxMaxAggregateOutputType | null
 }
 
-type GetTaxGroupByPayload<T extends TaxGroupByArgs> = Prisma.PrismaPromise<
+export type GetTaxGroupByPayload<T extends TaxGroupByArgs> = Prisma.PrismaPromise<
   Array<
     Prisma.PickEnumerable<TaxGroupByOutputType, T['by']> &
       {
@@ -166,22 +166,25 @@ export type TaxWhereInput = {
   id?: Prisma.StringFilter<"Tax"> | string
   name?: Prisma.StringFilter<"Tax"> | string
   value?: Prisma.StringFilter<"Tax"> | string
+  cumuls?: Prisma.CumulListRelationFilter
 }
 
 export type TaxOrderByWithRelationInput = {
   id?: Prisma.SortOrder
   name?: Prisma.SortOrder
   value?: Prisma.SortOrder
+  cumuls?: Prisma.CumulOrderByRelationAggregateInput
 }
 
 export type TaxWhereUniqueInput = Prisma.AtLeast<{
   id?: string
+  name?: string
   AND?: Prisma.TaxWhereInput | Prisma.TaxWhereInput[]
   OR?: Prisma.TaxWhereInput[]
   NOT?: Prisma.TaxWhereInput | Prisma.TaxWhereInput[]
-  name?: Prisma.StringFilter<"Tax"> | string
   value?: Prisma.StringFilter<"Tax"> | string
-}, "id">
+  cumuls?: Prisma.CumulListRelationFilter
+}, "id" | "name">
 
 export type TaxOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
@@ -205,24 +208,28 @@ export type TaxCreateInput = {
   id?: string
   name: string
   value: string
+  cumuls?: Prisma.CumulCreateNestedManyWithoutTaxesInput
 }
 
 export type TaxUncheckedCreateInput = {
   id?: string
   name: string
   value: string
+  cumuls?: Prisma.CumulUncheckedCreateNestedManyWithoutTaxesInput
 }
 
 export type TaxUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   value?: Prisma.StringFieldUpdateOperationsInput | string
+  cumuls?: Prisma.CumulUpdateManyWithoutTaxesNestedInput
 }
 
 export type TaxUncheckedUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   value?: Prisma.StringFieldUpdateOperationsInput | string
+  cumuls?: Prisma.CumulUncheckedUpdateManyWithoutTaxesNestedInput
 }
 
 export type TaxCreateManyInput = {
@@ -243,6 +250,16 @@ export type TaxUncheckedUpdateManyInput = {
   value?: Prisma.StringFieldUpdateOperationsInput | string
 }
 
+export type TaxListRelationFilter = {
+  every?: Prisma.TaxWhereInput
+  some?: Prisma.TaxWhereInput
+  none?: Prisma.TaxWhereInput
+}
+
+export type TaxOrderByRelationAggregateInput = {
+  _count?: Prisma.SortOrder
+}
+
 export type TaxCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
   name?: Prisma.SortOrder
@@ -261,12 +278,141 @@ export type TaxMinOrderByAggregateInput = {
   value?: Prisma.SortOrder
 }
 
+export type TaxCreateNestedManyWithoutCumulsInput = {
+  create?: Prisma.XOR<Prisma.TaxCreateWithoutCumulsInput, Prisma.TaxUncheckedCreateWithoutCumulsInput> | Prisma.TaxCreateWithoutCumulsInput[] | Prisma.TaxUncheckedCreateWithoutCumulsInput[]
+  connectOrCreate?: Prisma.TaxCreateOrConnectWithoutCumulsInput | Prisma.TaxCreateOrConnectWithoutCumulsInput[]
+  connect?: Prisma.TaxWhereUniqueInput | Prisma.TaxWhereUniqueInput[]
+}
+
+export type TaxUncheckedCreateNestedManyWithoutCumulsInput = {
+  create?: Prisma.XOR<Prisma.TaxCreateWithoutCumulsInput, Prisma.TaxUncheckedCreateWithoutCumulsInput> | Prisma.TaxCreateWithoutCumulsInput[] | Prisma.TaxUncheckedCreateWithoutCumulsInput[]
+  connectOrCreate?: Prisma.TaxCreateOrConnectWithoutCumulsInput | Prisma.TaxCreateOrConnectWithoutCumulsInput[]
+  connect?: Prisma.TaxWhereUniqueInput | Prisma.TaxWhereUniqueInput[]
+}
+
+export type TaxUpdateManyWithoutCumulsNestedInput = {
+  create?: Prisma.XOR<Prisma.TaxCreateWithoutCumulsInput, Prisma.TaxUncheckedCreateWithoutCumulsInput> | Prisma.TaxCreateWithoutCumulsInput[] | Prisma.TaxUncheckedCreateWithoutCumulsInput[]
+  connectOrCreate?: Prisma.TaxCreateOrConnectWithoutCumulsInput | Prisma.TaxCreateOrConnectWithoutCumulsInput[]
+  upsert?: Prisma.TaxUpsertWithWhereUniqueWithoutCumulsInput | Prisma.TaxUpsertWithWhereUniqueWithoutCumulsInput[]
+  set?: Prisma.TaxWhereUniqueInput | Prisma.TaxWhereUniqueInput[]
+  disconnect?: Prisma.TaxWhereUniqueInput | Prisma.TaxWhereUniqueInput[]
+  delete?: Prisma.TaxWhereUniqueInput | Prisma.TaxWhereUniqueInput[]
+  connect?: Prisma.TaxWhereUniqueInput | Prisma.TaxWhereUniqueInput[]
+  update?: Prisma.TaxUpdateWithWhereUniqueWithoutCumulsInput | Prisma.TaxUpdateWithWhereUniqueWithoutCumulsInput[]
+  updateMany?: Prisma.TaxUpdateManyWithWhereWithoutCumulsInput | Prisma.TaxUpdateManyWithWhereWithoutCumulsInput[]
+  deleteMany?: Prisma.TaxScalarWhereInput | Prisma.TaxScalarWhereInput[]
+}
+
+export type TaxUncheckedUpdateManyWithoutCumulsNestedInput = {
+  create?: Prisma.XOR<Prisma.TaxCreateWithoutCumulsInput, Prisma.TaxUncheckedCreateWithoutCumulsInput> | Prisma.TaxCreateWithoutCumulsInput[] | Prisma.TaxUncheckedCreateWithoutCumulsInput[]
+  connectOrCreate?: Prisma.TaxCreateOrConnectWithoutCumulsInput | Prisma.TaxCreateOrConnectWithoutCumulsInput[]
+  upsert?: Prisma.TaxUpsertWithWhereUniqueWithoutCumulsInput | Prisma.TaxUpsertWithWhereUniqueWithoutCumulsInput[]
+  set?: Prisma.TaxWhereUniqueInput | Prisma.TaxWhereUniqueInput[]
+  disconnect?: Prisma.TaxWhereUniqueInput | Prisma.TaxWhereUniqueInput[]
+  delete?: Prisma.TaxWhereUniqueInput | Prisma.TaxWhereUniqueInput[]
+  connect?: Prisma.TaxWhereUniqueInput | Prisma.TaxWhereUniqueInput[]
+  update?: Prisma.TaxUpdateWithWhereUniqueWithoutCumulsInput | Prisma.TaxUpdateWithWhereUniqueWithoutCumulsInput[]
+  updateMany?: Prisma.TaxUpdateManyWithWhereWithoutCumulsInput | Prisma.TaxUpdateManyWithWhereWithoutCumulsInput[]
+  deleteMany?: Prisma.TaxScalarWhereInput | Prisma.TaxScalarWhereInput[]
+}
+
+export type TaxCreateWithoutCumulsInput = {
+  id?: string
+  name: string
+  value: string
+}
+
+export type TaxUncheckedCreateWithoutCumulsInput = {
+  id?: string
+  name: string
+  value: string
+}
+
+export type TaxCreateOrConnectWithoutCumulsInput = {
+  where: Prisma.TaxWhereUniqueInput
+  create: Prisma.XOR<Prisma.TaxCreateWithoutCumulsInput, Prisma.TaxUncheckedCreateWithoutCumulsInput>
+}
+
+export type TaxUpsertWithWhereUniqueWithoutCumulsInput = {
+  where: Prisma.TaxWhereUniqueInput
+  update: Prisma.XOR<Prisma.TaxUpdateWithoutCumulsInput, Prisma.TaxUncheckedUpdateWithoutCumulsInput>
+  create: Prisma.XOR<Prisma.TaxCreateWithoutCumulsInput, Prisma.TaxUncheckedCreateWithoutCumulsInput>
+}
+
+export type TaxUpdateWithWhereUniqueWithoutCumulsInput = {
+  where: Prisma.TaxWhereUniqueInput
+  data: Prisma.XOR<Prisma.TaxUpdateWithoutCumulsInput, Prisma.TaxUncheckedUpdateWithoutCumulsInput>
+}
+
+export type TaxUpdateManyWithWhereWithoutCumulsInput = {
+  where: Prisma.TaxScalarWhereInput
+  data: Prisma.XOR<Prisma.TaxUpdateManyMutationInput, Prisma.TaxUncheckedUpdateManyWithoutCumulsInput>
+}
+
+export type TaxScalarWhereInput = {
+  AND?: Prisma.TaxScalarWhereInput | Prisma.TaxScalarWhereInput[]
+  OR?: Prisma.TaxScalarWhereInput[]
+  NOT?: Prisma.TaxScalarWhereInput | Prisma.TaxScalarWhereInput[]
+  id?: Prisma.StringFilter<"Tax"> | string
+  name?: Prisma.StringFilter<"Tax"> | string
+  value?: Prisma.StringFilter<"Tax"> | string
+}
+
+export type TaxUpdateWithoutCumulsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  value?: Prisma.StringFieldUpdateOperationsInput | string
+}
+
+export type TaxUncheckedUpdateWithoutCumulsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  value?: Prisma.StringFieldUpdateOperationsInput | string
+}
+
+export type TaxUncheckedUpdateManyWithoutCumulsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  value?: Prisma.StringFieldUpdateOperationsInput | string
+}
+
+
+/**
+ * Count Type TaxCountOutputType
+ */
+
+export type TaxCountOutputType = {
+  cumuls: number
+}
+
+export type TaxCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  cumuls?: boolean | TaxCountOutputTypeCountCumulsArgs
+}
+
+/**
+ * TaxCountOutputType without action
+ */
+export type TaxCountOutputTypeDefaultArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the TaxCountOutputType
+   */
+  select?: Prisma.TaxCountOutputTypeSelect<ExtArgs> | null
+}
+
+/**
+ * TaxCountOutputType without action
+ */
+export type TaxCountOutputTypeCountCumulsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.CumulWhereInput
+}
 
 
 export type TaxSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   name?: boolean
   value?: boolean
+  cumuls?: boolean | Prisma.Tax$cumulsArgs<ExtArgs>
+  _count?: boolean | Prisma.TaxCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["tax"]>
 
 export type TaxSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -288,10 +434,18 @@ export type TaxSelectScalar = {
 }
 
 export type TaxOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "value", ExtArgs["result"]["tax"]>
+export type TaxInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  cumuls?: boolean | Prisma.Tax$cumulsArgs<ExtArgs>
+  _count?: boolean | Prisma.TaxCountOutputTypeDefaultArgs<ExtArgs>
+}
+export type TaxIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
+export type TaxIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
 
 export type $TaxPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "Tax"
-  objects: {}
+  objects: {
+    cumuls: Prisma.$CumulPayload<ExtArgs>[]
+  }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
     name: string
@@ -690,6 +844,7 @@ readonly fields: TaxFieldRefs;
  */
 export interface Prisma__TaxClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
+  cumuls<T extends Prisma.Tax$cumulsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Tax$cumulsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$CumulPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -739,6 +894,10 @@ export type TaxFindUniqueArgs<ExtArgs extends runtime.Types.Extensions.InternalA
    */
   omit?: Prisma.TaxOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.TaxInclude<ExtArgs> | null
+  /**
    * Filter, which Tax to fetch.
    */
   where: Prisma.TaxWhereUniqueInput
@@ -757,6 +916,10 @@ export type TaxFindUniqueOrThrowArgs<ExtArgs extends runtime.Types.Extensions.In
    */
   omit?: Prisma.TaxOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.TaxInclude<ExtArgs> | null
+  /**
    * Filter, which Tax to fetch.
    */
   where: Prisma.TaxWhereUniqueInput
@@ -774,6 +937,10 @@ export type TaxFindFirstArgs<ExtArgs extends runtime.Types.Extensions.InternalAr
    * Omit specific fields from the Tax
    */
   omit?: Prisma.TaxOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.TaxInclude<ExtArgs> | null
   /**
    * Filter, which Tax to fetch.
    */
@@ -823,6 +990,10 @@ export type TaxFindFirstOrThrowArgs<ExtArgs extends runtime.Types.Extensions.Int
    */
   omit?: Prisma.TaxOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.TaxInclude<ExtArgs> | null
+  /**
    * Filter, which Tax to fetch.
    */
   where?: Prisma.TaxWhereInput
@@ -870,6 +1041,10 @@ export type TaxFindManyArgs<ExtArgs extends runtime.Types.Extensions.InternalArg
    * Omit specific fields from the Tax
    */
   omit?: Prisma.TaxOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.TaxInclude<ExtArgs> | null
   /**
    * Filter, which Taxes to fetch.
    */
@@ -919,6 +1094,10 @@ export type TaxCreateArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs 
    */
   omit?: Prisma.TaxOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.TaxInclude<ExtArgs> | null
+  /**
    * The data needed to create a Tax.
    */
   data: Prisma.XOR<Prisma.TaxCreateInput, Prisma.TaxUncheckedCreateInput>
@@ -966,6 +1145,10 @@ export type TaxUpdateArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs 
    * Omit specific fields from the Tax
    */
   omit?: Prisma.TaxOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.TaxInclude<ExtArgs> | null
   /**
    * The data needed to update a Tax.
    */
@@ -1033,6 +1216,10 @@ export type TaxUpsertArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs 
    */
   omit?: Prisma.TaxOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.TaxInclude<ExtArgs> | null
+  /**
    * The filter to search for the Tax to update in case it exists.
    */
   where: Prisma.TaxWhereUniqueInput
@@ -1059,6 +1246,10 @@ export type TaxDeleteArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs 
    */
   omit?: Prisma.TaxOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.TaxInclude<ExtArgs> | null
+  /**
    * Filter which Tax to delete.
    */
   where: Prisma.TaxWhereUniqueInput
@@ -1079,6 +1270,30 @@ export type TaxDeleteManyArgs<ExtArgs extends runtime.Types.Extensions.InternalA
 }
 
 /**
+ * Tax.cumuls
+ */
+export type Tax$cumulsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Cumul
+   */
+  select?: Prisma.CumulSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Cumul
+   */
+  omit?: Prisma.CumulOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.CumulInclude<ExtArgs> | null
+  where?: Prisma.CumulWhereInput
+  orderBy?: Prisma.CumulOrderByWithRelationInput | Prisma.CumulOrderByWithRelationInput[]
+  cursor?: Prisma.CumulWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.CumulScalarFieldEnum | Prisma.CumulScalarFieldEnum[]
+}
+
+/**
  * Tax without action
  */
 export type TaxDefaultArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1090,4 +1305,8 @@ export type TaxDefaultArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs
    * Omit specific fields from the Tax
    */
   omit?: Prisma.TaxOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.TaxInclude<ExtArgs> | null
 }

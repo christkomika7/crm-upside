@@ -15,6 +15,9 @@ export function initials(value: string) {
     .slice(0, 2);
 }
 
+export const pluralize = (count: number, singular: string, plural: string) =>
+  count > 1 ? plural : singular;
+
 export function cutText(name: string, limit?: number, hasPoint = true) {
   const point = hasPoint ? "..." : "";
   if (name.length > (limit || 15)) {

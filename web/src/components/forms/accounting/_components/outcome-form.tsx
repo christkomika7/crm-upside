@@ -20,7 +20,6 @@ import InputFile from "@/components/ui/input-file";
 
 export default function OutcomeForm() {
   const [isLoading, setIsLoading] = useState(false);
-
   const form = useForm<AccountingSchemaType>({
     resolver: zodResolver(accountingSchema),
     defaultValues: {

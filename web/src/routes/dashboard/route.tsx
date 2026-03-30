@@ -8,7 +8,7 @@ export const Route = createFileRoute('/dashboard')({
 
 function Dashboard() {
     return (
-        <div className="w-screen h-screen bg-neutral-50 grid grid-cols-[220px_1fr] overflow-hidden">
+        <div className="w-screen h-screen bg-neutral-50 grid grid-cols-[260px_1fr] overflow-hidden">
             <aside className="sticky top-0 h-screen  z-10">
                 <Sidebar />
             </aside>
@@ -16,8 +16,10 @@ function Dashboard() {
                 <header className="sticky top-0">
                     <Navbar />
                 </header>
-                <main className="flex-1 overflow-y-auto p-6 max-w-340 w-full mx-auto">
-                    <Outlet />
+                <main className="flex-1 overflow-y-auto p-6 w-full mx-auto">
+                    <div className='max-w-290 w-full mx-auto'>
+                        <Outlet />
+                    </div>
                 </main>
             </div>
         </div>

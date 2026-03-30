@@ -2,7 +2,7 @@ import { z } from "zod";
 import { ALLOWED_TYPES, MAX_FILE_SIZE } from "../constant";
 
 export const ownerSchema = z.object({
-    buildings: z.array(z.string()).min(1, { message: "Minimum un bâtiment est requis." }),
+    buildings: z.array(z.string()).min(1, { error: "Minimum un bâtiment est requis." }),
     reference: z.string({ error: "La référence est requise." }),
     firstname: z.string({ error: "Le prénom est requis." }),
     lastname: z.string({ error: "Le nom est requis." }),

@@ -53,6 +53,7 @@ export const AnyNull = runtime.AnyNull
 export const ModelName = {
   User: 'User',
   Permission: 'Permission',
+  Cumul: 'Cumul',
   Tax: 'Tax',
   Note: 'Note',
   Reference: 'Reference',
@@ -119,6 +120,15 @@ export const PermissionScalarFieldEnum = {
 } as const
 
 export type PermissionScalarFieldEnum = (typeof PermissionScalarFieldEnum)[keyof typeof PermissionScalarFieldEnum]
+
+
+export const CumulScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  value: 'value'
+} as const
+
+export type CumulScalarFieldEnum = (typeof CumulScalarFieldEnum)[keyof typeof CumulScalarFieldEnum]
 
 
 export const TaxScalarFieldEnum = {
@@ -339,10 +349,14 @@ export const ItemScalarFieldEnum = {
   quantity: 'quantity',
   productServiceId: 'productServiceId',
   price: 'price',
+  description: 'description',
+  reference: 'reference',
+  hasTax: 'hasTax',
+  status: 'status',
   invoiceId: 'invoiceId',
+  quoteId: 'quoteId',
   createdAt: 'createdAt',
-  updatedAt: 'updatedAt',
-  quoteId: 'quoteId'
+  updatedAt: 'updatedAt'
 } as const
 
 export type ItemScalarFieldEnum = (typeof ItemScalarFieldEnum)[keyof typeof ItemScalarFieldEnum]
@@ -352,14 +366,18 @@ export const InvoiceScalarFieldEnum = {
   id: 'id',
   reference: 'reference',
   price: 'price',
+  amountPaid: 'amountPaid',
   discount: 'discount',
+  status: 'status',
   discountType: 'discountType',
   hasTax: 'hasTax',
-  updatedTax: 'updatedTax',
   type: 'type',
   ownerId: 'ownerId',
   tenantId: 'tenantId',
   note: 'note',
+  start: 'start',
+  end: 'end',
+  isDeleting: 'isDeleting',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const
@@ -374,11 +392,14 @@ export const QuoteScalarFieldEnum = {
   discount: 'discount',
   discountType: 'discountType',
   hasTax: 'hasTax',
-  updatedTax: 'updatedTax',
   type: 'type',
+  isComplete: 'isComplete',
   ownerId: 'ownerId',
   tenantId: 'tenantId',
   note: 'note',
+  start: 'start',
+  end: 'end',
+  isDeleting: 'isDeleting',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const

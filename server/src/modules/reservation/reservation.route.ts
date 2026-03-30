@@ -64,7 +64,7 @@ export const reservationRoutes = new Elysia({ prefix: "/reservation" })
         }
 
         try {
-            const { success, data } = reservationSchema.safeParse(body);
+            const { success, data, error } = reservationSchema.safeParse(body);
 
             if (!success) {
                 return status(400, { message: "Réservation invalide" });

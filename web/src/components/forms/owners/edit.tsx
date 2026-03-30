@@ -84,7 +84,6 @@ export default function EditOwners({ id }: EditOwnersProps) {
 
     useEffect(() => {
         if (owner) {
-            console.log({ owner })
             form.reset({
                 reference: owner.reference,
                 firstname: owner.firstname,
@@ -99,8 +98,6 @@ export default function EditOwners({ id }: EditOwnersProps) {
                 documents: owner.documents,
             })
         }
-
-
     }, [owner])
 
     async function submit(formData: OwnerSchemaType) {

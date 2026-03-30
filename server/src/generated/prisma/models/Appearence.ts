@@ -137,7 +137,7 @@ export type AppearenceGroupByOutputType = {
   _max: AppearenceMaxAggregateOutputType | null
 }
 
-type GetAppearenceGroupByPayload<T extends AppearenceGroupByArgs> = Prisma.PrismaPromise<
+export type GetAppearenceGroupByPayload<T extends AppearenceGroupByArgs> = Prisma.PrismaPromise<
   Array<
     Prisma.PickEnumerable<AppearenceGroupByOutputType, T['by']> &
       {

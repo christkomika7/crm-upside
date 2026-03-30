@@ -151,7 +151,7 @@ export type LotTypeGroupByOutputType = {
   _max: LotTypeMaxAggregateOutputType | null
 }
 
-type GetLotTypeGroupByPayload<T extends LotTypeGroupByArgs> = Prisma.PrismaPromise<
+export type GetLotTypeGroupByPayload<T extends LotTypeGroupByArgs> = Prisma.PrismaPromise<
   Array<
     Prisma.PickEnumerable<LotTypeGroupByOutputType, T['by']> &
       {

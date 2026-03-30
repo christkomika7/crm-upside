@@ -16,6 +16,8 @@ import { reservationRoutes } from "../modules/reservation/reservation.route";
 import { personalServiceRoutes } from "../modules/personal-service/personal-service.route";
 import { propertyManagementRoutes } from "../modules/property-mangement/property-mangement.route";
 import { productServiceRoutes } from "../modules/product-service/product-service.route";
+import { invoiceRoutes } from "../modules/invoice/invoice.route";
+import { documentRoutes } from "../modules/document/document.route";
 
 export const route = new Elysia()
     .use(userRoutes)
@@ -34,4 +36,6 @@ export const route = new Elysia()
     .use(personalServiceRoutes)
     .use(propertyManagementRoutes)
     .use(productServiceRoutes)
+    .use(invoiceRoutes)
+    .use(documentRoutes)
     .use(deletionRoutes)

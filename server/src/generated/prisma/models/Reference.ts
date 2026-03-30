@@ -144,7 +144,7 @@ export type ReferenceGroupByOutputType = {
   _max: ReferenceMaxAggregateOutputType | null
 }
 
-type GetReferenceGroupByPayload<T extends ReferenceGroupByArgs> = Prisma.PrismaPromise<
+export type GetReferenceGroupByPayload<T extends ReferenceGroupByArgs> = Prisma.PrismaPromise<
   Array<
     Prisma.PickEnumerable<ReferenceGroupByOutputType, T['by']> &
       {

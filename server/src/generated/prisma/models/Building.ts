@@ -320,7 +320,7 @@ export type BuildingGroupByOutputType = {
   _max: BuildingMaxAggregateOutputType | null
 }
 
-type GetBuildingGroupByPayload<T extends BuildingGroupByArgs> = Prisma.PrismaPromise<
+export type GetBuildingGroupByPayload<T extends BuildingGroupByArgs> = Prisma.PrismaPromise<
   Array<
     Prisma.PickEnumerable<BuildingGroupByOutputType, T['by']> &
       {

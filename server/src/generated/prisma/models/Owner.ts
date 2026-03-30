@@ -217,7 +217,7 @@ export type OwnerGroupByOutputType = {
   _max: OwnerMaxAggregateOutputType | null
 }
 
-type GetOwnerGroupByPayload<T extends OwnerGroupByArgs> = Prisma.PrismaPromise<
+export type GetOwnerGroupByPayload<T extends OwnerGroupByArgs> = Prisma.PrismaPromise<
   Array<
     Prisma.PickEnumerable<OwnerGroupByOutputType, T['by']> &
       {

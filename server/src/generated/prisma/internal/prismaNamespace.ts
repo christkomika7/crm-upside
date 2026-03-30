@@ -80,12 +80,12 @@ export type PrismaVersion = {
 }
 
 /**
- * Prisma Client JS version: 7.5.0
- * Query Engine version: 280c870be64f457428992c43c1f6d557fab6e29e
+ * Prisma Client JS version: 7.6.0
+ * Query Engine version: 75cbdc1eb7150937890ad5465d861175c6624711
  */
 export const prismaVersion: PrismaVersion = {
-  client: "7.5.0",
-  engine: "280c870be64f457428992c43c1f6d557fab6e29e"
+  client: "7.6.0",
+  engine: "75cbdc1eb7150937890ad5465d861175c6624711"
 }
 
 /**
@@ -386,6 +386,7 @@ type FieldRefInputType<Model, FieldType> = Model extends never ? never : FieldRe
 export const ModelName = {
   User: 'User',
   Permission: 'Permission',
+  Cumul: 'Cumul',
   Tax: 'Tax',
   Note: 'Note',
   Reference: 'Reference',
@@ -424,7 +425,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "user" | "permission" | "tax" | "note" | "reference" | "appearence" | "building" | "unit" | "lotType" | "type" | "owner" | "tenant" | "rental" | "reservation" | "propertyManagement" | "productService" | "item" | "invoice" | "quote" | "payment" | "personalService" | "deletion" | "session" | "account" | "verification"
+    modelProps: "user" | "permission" | "cumul" | "tax" | "note" | "reference" | "appearence" | "building" | "unit" | "lotType" | "type" | "owner" | "tenant" | "rental" | "reservation" | "propertyManagement" | "productService" | "item" | "invoice" | "quote" | "payment" | "personalService" | "deletion" | "session" | "account" | "verification"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -573,6 +574,80 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         count: {
           args: Prisma.PermissionCountArgs<ExtArgs>
           result: runtime.Types.Utils.Optional<Prisma.PermissionCountAggregateOutputType> | number
+        }
+      }
+    }
+    Cumul: {
+      payload: Prisma.$CumulPayload<ExtArgs>
+      fields: Prisma.CumulFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.CumulFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CumulPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.CumulFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CumulPayload>
+        }
+        findFirst: {
+          args: Prisma.CumulFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CumulPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.CumulFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CumulPayload>
+        }
+        findMany: {
+          args: Prisma.CumulFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CumulPayload>[]
+        }
+        create: {
+          args: Prisma.CumulCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CumulPayload>
+        }
+        createMany: {
+          args: Prisma.CumulCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.CumulCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CumulPayload>[]
+        }
+        delete: {
+          args: Prisma.CumulDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CumulPayload>
+        }
+        update: {
+          args: Prisma.CumulUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CumulPayload>
+        }
+        deleteMany: {
+          args: Prisma.CumulDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.CumulUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.CumulUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CumulPayload>[]
+        }
+        upsert: {
+          args: Prisma.CumulUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CumulPayload>
+        }
+        aggregate: {
+          args: Prisma.CumulAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateCumul>
+        }
+        groupBy: {
+          args: Prisma.CumulGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.CumulGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.CumulCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.CumulCountAggregateOutputType> | number
         }
       }
     }
@@ -2344,6 +2419,15 @@ export const PermissionScalarFieldEnum = {
 export type PermissionScalarFieldEnum = (typeof PermissionScalarFieldEnum)[keyof typeof PermissionScalarFieldEnum]
 
 
+export const CumulScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  value: 'value'
+} as const
+
+export type CumulScalarFieldEnum = (typeof CumulScalarFieldEnum)[keyof typeof CumulScalarFieldEnum]
+
+
 export const TaxScalarFieldEnum = {
   id: 'id',
   name: 'name',
@@ -2562,10 +2646,14 @@ export const ItemScalarFieldEnum = {
   quantity: 'quantity',
   productServiceId: 'productServiceId',
   price: 'price',
+  description: 'description',
+  reference: 'reference',
+  hasTax: 'hasTax',
+  status: 'status',
   invoiceId: 'invoiceId',
+  quoteId: 'quoteId',
   createdAt: 'createdAt',
-  updatedAt: 'updatedAt',
-  quoteId: 'quoteId'
+  updatedAt: 'updatedAt'
 } as const
 
 export type ItemScalarFieldEnum = (typeof ItemScalarFieldEnum)[keyof typeof ItemScalarFieldEnum]
@@ -2575,14 +2663,18 @@ export const InvoiceScalarFieldEnum = {
   id: 'id',
   reference: 'reference',
   price: 'price',
+  amountPaid: 'amountPaid',
   discount: 'discount',
+  status: 'status',
   discountType: 'discountType',
   hasTax: 'hasTax',
-  updatedTax: 'updatedTax',
   type: 'type',
   ownerId: 'ownerId',
   tenantId: 'tenantId',
   note: 'note',
+  start: 'start',
+  end: 'end',
+  isDeleting: 'isDeleting',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const
@@ -2597,11 +2689,14 @@ export const QuoteScalarFieldEnum = {
   discount: 'discount',
   discountType: 'discountType',
   hasTax: 'hasTax',
-  updatedTax: 'updatedTax',
   type: 'type',
+  isComplete: 'isComplete',
   ownerId: 'ownerId',
   tenantId: 'tenantId',
   note: 'note',
+  start: 'start',
+  end: 'end',
+  isDeleting: 'isDeleting',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const
@@ -2827,6 +2922,34 @@ export type ListDecimalFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaMo
 
 
 /**
+ * Reference to a field of type 'ItemStatus'
+ */
+export type EnumItemStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ItemStatus'>
+    
+
+
+/**
+ * Reference to a field of type 'ItemStatus[]'
+ */
+export type ListEnumItemStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ItemStatus[]'>
+    
+
+
+/**
+ * Reference to a field of type 'InvoiceStatus'
+ */
+export type EnumInvoiceStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'InvoiceStatus'>
+    
+
+
+/**
+ * Reference to a field of type 'InvoiceStatus[]'
+ */
+export type ListEnumInvoiceStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'InvoiceStatus[]'>
+    
+
+
+/**
  * Reference to a field of type 'DiscountType'
  */
 export type EnumDiscountTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'DiscountType'>
@@ -3006,6 +3129,7 @@ export type PrismaClientOptions = ({
 export type GlobalOmitConfig = {
   user?: Prisma.UserOmit
   permission?: Prisma.PermissionOmit
+  cumul?: Prisma.CumulOmit
   tax?: Prisma.TaxOmit
   note?: Prisma.NoteOmit
   reference?: Prisma.ReferenceOmit

@@ -4,7 +4,7 @@ import request from "./type";
 import { canAccess } from "../auth/permission";
 import { prisma } from "../../lib/prisma";
 import { deleteFile } from "../../lib/storage";
-import { formatDateToString } from "../../lib/utils";
+import { formatDateToString, generateRef } from "../../lib/utils";
 
 export const deletionRoutes = new Elysia({ prefix: "/deletion" })
     .use(authPlugin)
@@ -188,7 +188,51 @@ export const deletionRoutes = new Elysia({ prefix: "/deletion" })
                 }
                 return productServiceParsed;
             case "INVOICING":
+                const invoiceParsed = [];
+                for (const deletion of deletions) {
+                    const invoice = await prisma.invoice.findUnique({
+                        where: { id: deletion.recordId },
+                        include: {
+                            owner: true,
+                            tenant: true
+                        }
+                    });
+
+                    if (!invoice) return status(400, { message: "Aucune facture trouvée." });
+
+                    invoiceParsed.push({
+                        id: deletion.id,
+                        reference: invoice.reference,
+                        type: deletion.type,
+                        name: invoice.type === "OWNER" ? `${invoice.owner?.firstname} ${invoice.owner?.lastname}` : `${invoice.tenant?.firstname} ${invoice.tenant?.lastname}`,
+                        date: formatDateToString(deletion.createdAt),
+                        actionBy: user.name
+                    });
+                }
+                return invoiceParsed;
             case "QUOTE":
+                const quoteParsed = [];
+                for (const deletion of deletions) {
+                    const quote = await prisma.quote.findUnique({
+                        where: { id: deletion.recordId },
+                        include: {
+                            owner: true,
+                            tenant: true
+                        }
+                    });
+
+                    if (!quote) return status(400, { message: "Aucune devis trouvé." });
+
+                    quoteParsed.push({
+                        id: deletion.id,
+                        reference: quote.reference,
+                        type: deletion.type,
+                        name: quote.type === "OWNER" ? `${quote.owner?.firstname} ${quote.owner?.lastname}` : `${quote.tenant?.firstname} ${quote.tenant?.lastname}`,
+                        date: formatDateToString(deletion.createdAt),
+                        actionBy: user.name
+                    });
+                }
+                return quoteParsed;
             case "CONTRACT":
             case "CHECK_IN":
             case "APPOINTMENT":
@@ -206,9 +250,12 @@ export const deletionRoutes = new Elysia({ prefix: "/deletion" })
             return status(403, { message: "Accès autorisé uniquement pour l'administrateur." })
         }
 
-        const deletion = await prisma.deletion.findUnique({
-            where: { id: params.id }
-        })
+        const [deletion, reference] = await prisma.$transaction([
+            prisma.deletion.findUnique({
+                where: { id: params.id }
+            }),
+            prisma.reference.findFirst()
+        ])
 
 
         if (!deletion) return status(400, { message: "Identifiant invalide." })
@@ -224,6 +271,7 @@ export const deletionRoutes = new Elysia({ prefix: "/deletion" })
                             state: "NOTHING"
                         }
                     });
+
                     switch (deletion.type) {
                         case "BUILDING":
                             const [building] = await prisma.$transaction([
@@ -331,7 +379,31 @@ export const deletionRoutes = new Elysia({ prefix: "/deletion" })
                             ]);
                             return status(200, { message: `La suppression du service ou produit ${productService.reference} a été annulé avec succès.` });
                         case "INVOICING":
+                            const [invoice] = await prisma.$transaction([
+                                prisma.invoice.update({
+                                    where: { id: deletion.recordId },
+                                    data: {
+                                        isDeleting: false
+                                    }
+                                }),
+                                prisma.deletion.delete({
+                                    where: { id: deletion.id }
+                                })
+                            ]);
+                            return status(200, { message: `La suppression de la facture ${generateRef(reference?.invoice, invoice.reference)} a été annulé avec succès.` });
                         case "QUOTE":
+                            const [quote] = await prisma.$transaction([
+                                prisma.quote.update({
+                                    where: { id: deletion.recordId },
+                                    data: {
+                                        isDeleting: false
+                                    }
+                                }),
+                                prisma.deletion.delete({
+                                    where: { id: deletion.id }
+                                })
+                            ]);
+                            return status(200, { message: `La suppression du devis ${generateRef(reference?.quote, quote.reference)} a été annulé avec succès.` });
                         case "CONTRACT":
                         case "CHECK_IN":
                         case "APPOINTMENT":
@@ -552,7 +624,45 @@ export const deletionRoutes = new Elysia({ prefix: "/deletion" })
 
                             return status(200, { message: `Le service ou produit ${productService.reference} a été supprimé avec succès.` });
                         case "INVOICING":
+                            const invoice = await prisma.invoice.findUnique({
+                                where: { id: deletion.recordId },
+                            });
+
+                            if (!invoice) return status(400, { message: "Aucune facture trouvée." })
+
+                            await prisma.$transaction([
+                                prisma.deletion.update({
+                                    where: {
+                                        id: deletion.id
+                                    },
+                                    data: {
+                                        state: "TERMINED"
+                                    }
+                                }),
+                                prisma.invoice.delete({ where: { id: invoice.id } })
+                            ])
+
+                            return status(200, { message: `La facture ${generateRef(reference?.invoice, invoice.reference)} a été supprimé avec succès.` });
                         case "QUOTE":
+                            const quote = await prisma.quote.findUnique({
+                                where: { id: deletion.recordId },
+                            });
+
+                            if (!quote) return status(400, { message: "Aucun devis trouvé." })
+
+                            await prisma.$transaction([
+                                prisma.deletion.update({
+                                    where: {
+                                        id: deletion.id
+                                    },
+                                    data: {
+                                        state: "TERMINED"
+                                    }
+                                }),
+                                prisma.quote.delete({ where: { id: quote.id } })
+                            ])
+
+                            return status(200, { message: `Le devis ${generateRef(reference?.quote, quote.reference)} a été supprimé avec succès.` });
                         case "CONTRACT":
                         case "CHECK_IN":
                         case "APPOINTMENT":

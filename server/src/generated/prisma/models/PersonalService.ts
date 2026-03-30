@@ -137,7 +137,7 @@ export type PersonalServiceGroupByOutputType = {
   _max: PersonalServiceMaxAggregateOutputType | null
 }
 
-type GetPersonalServiceGroupByPayload<T extends PersonalServiceGroupByArgs> = Prisma.PrismaPromise<
+export type GetPersonalServiceGroupByPayload<T extends PersonalServiceGroupByArgs> = Prisma.PrismaPromise<
   Array<
     Prisma.PickEnumerable<PersonalServiceGroupByOutputType, T['by']> &
       {

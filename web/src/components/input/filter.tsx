@@ -7,10 +7,9 @@ import {
 
 import { CheckIcon, ListFilterIcon } from "lucide-react";
 import { Button } from "../ui/button";
-import { type Dispatch, type SetStateAction } from "react";
 
 type FilterProps = {
-    setFilter: Dispatch<SetStateAction<"alpha" | "asc" | "desc">>;
+    setFilter: (value: "alpha" | "asc" | "desc") => void;
     filter: "alpha" | "asc" | "desc"
 }
 

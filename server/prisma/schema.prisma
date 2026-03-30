@@ -32,6 +32,12 @@ enum PaymentType {
   BANK
 }
 
+enum InvoiceStatus {
+  PENDING
+  PAID
+  OVERDUE
+}
+
 enum DeletionType {
   OWNER
   BUILDING
@@ -50,13 +56,18 @@ enum DeletionType {
   COMMUNICATION
 }
 
+enum ItemStatus {
+  USED
+  IGNORE
+}
+
 enum RecordType {
   OWNER
   TENANT
 }
 
 enum DiscountType {
-  PURCENT
+  PERCENT
   MONEY
 }
 
@@ -93,10 +104,21 @@ model Permission {
   @@map("permission")
 }
 
-model Tax {
+model Cumul {
   id    String @id @default(cuid())
   name  String
   value String
+  taxes Tax[]
+
+  @@map("cumul")
+}
+
+model Tax {
+  id    String @id @default(cuid())
+  name  String @unique
+  value String
+
+  cumuls Cumul[]
 
   @@map("tax")
 }
@@ -351,37 +373,49 @@ model ProductService {
 
 model Item {
   id               String         @id @default(cuid())
-  quantity         Int?
+  quantity         Int
   productServiceId String
   productService   ProductService @relation(fields: [productServiceId], references: [id])
   price            Decimal        @default(0) @db.Decimal(15, 2)
+  description      String
+  reference        String
+  hasTax           Boolean        @default(false)
+  status           ItemStatus     @default(USED)
 
-  invoiceId String
-  invoice   Invoice @relation(fields: [invoiceId], references: [id])
+  invoiceId String?
+  invoice   Invoice? @relation(fields: [invoiceId], references: [id])
+  quoteId   String?
+  quote     Quote?   @relation(fields: [quoteId], references: [id])
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-  quote     Quote?   @relation(fields: [quoteId], references: [id])
-  quoteId   String?
+
+  @@map("item")
 }
 
 model Invoice {
-  id           String       @id @default(cuid())
-  reference    Int          @default(autoincrement())
-  price        Decimal      @default(0) @db.Decimal(15, 2)
-  discount     Decimal      @default(0) @db.Decimal(15, 2)
-  discountType DiscountType @default(PURCENT)
-  hasTax       Boolean      @default(false)
-  updatedTax   String?
+  id           String        @id @default(cuid())
+  reference    Int           @default(autoincrement())
+  price        Decimal       @default(0) @db.Decimal(15, 2)
+  amountPaid   Decimal       @default(0) @db.Decimal(15, 2)
+  discount     Decimal       @default(0) @db.Decimal(15, 2)
+  status       InvoiceStatus @default(PENDING)
+  discountType DiscountType  @default(PERCENT)
+  hasTax       Boolean       @default(false)
   type         RecordType
   ownerId      String?
-  owner        Owner?       @relation(fields: [ownerId], references: [id])
+  owner        Owner?        @relation(fields: [ownerId], references: [id])
 
   tenantId String?
   tenant   Tenant? @relation(fields: [tenantId], references: [id])
   items    Item[]
 
   note String?
+
+  start DateTime
+  end   DateTime
+
+  isDeleting Boolean @default(false)
 
   createdAt DateTime  @default(now())
   updatedAt DateTime  @updatedAt
@@ -392,21 +426,28 @@ model Invoice {
 
 model Quote {
   id           String       @id @default(cuid())
-  reference    String       @unique
+  reference    Int          @default(autoincrement())
   price        Decimal      @default(0) @db.Decimal(15, 2)
   discount     Decimal      @default(0) @db.Decimal(15, 2)
-  discountType DiscountType @default(PURCENT)
+  discountType DiscountType @default(PERCENT)
   hasTax       Boolean      @default(false)
-  updatedTax   String?
   type         RecordType
-  ownerId      String?
-  owner        Owner?       @relation(fields: [ownerId], references: [id])
+  isComplete   Boolean      @default(false)
+
+  ownerId String?
+  owner   Owner?  @relation(fields: [ownerId], references: [id])
 
   tenantId String?
   tenant   Tenant? @relation(fields: [tenantId], references: [id])
-  items    Item[]
+
+  items Item[]
 
   note String?
+
+  start DateTime
+  end   DateTime
+
+  isDeleting Boolean @default(false)
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -416,7 +457,7 @@ model Quote {
 
 model Payment {
   id        String      @id @default(cuid())
-  reference String      @unique
+  reference Int         @default(autoincrement())
   amount    Decimal     @default(0) @db.Decimal(15, 2)
   type      PaymentType
   date      DateTime    @default(now())

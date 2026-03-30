@@ -29,7 +29,7 @@ export default function Taxes() {
                     </AccordionContent>
                 </AccordionItem>
                 <AccordionItem value="item-2">
-                    <AccordionTrigger>
+                    <AccordionTrigger >
                         <h3 className="flex items-center gap-x-2 text-sm font-medium">
                             <span className="p-2 size-9 flex justify-center items-center rounded-full bg-(--card-dark-purple)" >
                                 <img src={LogoEdit} alt="Éditer le logo" className="size-5 object-contain object-center" />

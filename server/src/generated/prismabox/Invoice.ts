@@ -9,18 +9,25 @@ export const InvoicePlain = t.Object(
     id: t.String(),
     reference: t.Integer(),
     price: t.Number(),
+    amountPaid: t.Number(),
     discount: t.Number(),
-    discountType: t.Union([t.Literal("PURCENT"), t.Literal("MONEY")], {
+    status: t.Union(
+      [t.Literal("PENDING"), t.Literal("PAID"), t.Literal("OVERDUE")],
+      { additionalProperties: false },
+    ),
+    discountType: t.Union([t.Literal("PERCENT"), t.Literal("MONEY")], {
       additionalProperties: false,
     }),
     hasTax: t.Boolean(),
-    updatedTax: __nullable__(t.String()),
     type: t.Union([t.Literal("OWNER"), t.Literal("TENANT")], {
       additionalProperties: false,
     }),
     ownerId: __nullable__(t.String()),
     tenantId: __nullable__(t.String()),
     note: __nullable__(t.String()),
+    start: t.Date(),
+    end: t.Date(),
+    isDeleting: t.Boolean(),
     createdAt: t.Date(),
     updatedAt: t.Date(),
   },
@@ -76,13 +83,19 @@ export const InvoiceRelations = t.Object(
       t.Object(
         {
           id: t.String(),
-          quantity: __nullable__(t.Integer()),
+          quantity: t.Integer(),
           productServiceId: t.String(),
           price: t.Number(),
-          invoiceId: t.String(),
+          description: t.String(),
+          reference: t.String(),
+          hasTax: t.Boolean(),
+          status: t.Union([t.Literal("USED"), t.Literal("IGNORE")], {
+            additionalProperties: false,
+          }),
+          invoiceId: __nullable__(t.String()),
+          quoteId: __nullable__(t.String()),
           createdAt: t.Date(),
           updatedAt: t.Date(),
-          quoteId: __nullable__(t.String()),
         },
         { additionalProperties: false },
       ),
@@ -92,7 +105,7 @@ export const InvoiceRelations = t.Object(
       t.Object(
         {
           id: t.String(),
-          reference: t.String(),
+          reference: t.Integer(),
           amount: t.Number(),
           type: t.Union(
             [t.Literal("CASH"), t.Literal("CHECK"), t.Literal("BANK")],
@@ -116,17 +129,24 @@ export const InvoicePlainInputCreate = t.Object(
     reference: t.Optional(t.Integer()),
     price: t.Optional(t.Number()),
     discount: t.Optional(t.Number()),
+    status: t.Optional(
+      t.Union([t.Literal("PENDING"), t.Literal("PAID"), t.Literal("OVERDUE")], {
+        additionalProperties: false,
+      }),
+    ),
     discountType: t.Optional(
-      t.Union([t.Literal("PURCENT"), t.Literal("MONEY")], {
+      t.Union([t.Literal("PERCENT"), t.Literal("MONEY")], {
         additionalProperties: false,
       }),
     ),
     hasTax: t.Optional(t.Boolean()),
-    updatedTax: t.Optional(__nullable__(t.String())),
     type: t.Union([t.Literal("OWNER"), t.Literal("TENANT")], {
       additionalProperties: false,
     }),
     note: t.Optional(__nullable__(t.String())),
+    start: t.Date(),
+    end: t.Date(),
+    isDeleting: t.Optional(t.Boolean()),
   },
   { additionalProperties: false },
 );
@@ -136,19 +156,26 @@ export const InvoicePlainInputUpdate = t.Object(
     reference: t.Optional(t.Integer()),
     price: t.Optional(t.Number()),
     discount: t.Optional(t.Number()),
+    status: t.Optional(
+      t.Union([t.Literal("PENDING"), t.Literal("PAID"), t.Literal("OVERDUE")], {
+        additionalProperties: false,
+      }),
+    ),
     discountType: t.Optional(
-      t.Union([t.Literal("PURCENT"), t.Literal("MONEY")], {
+      t.Union([t.Literal("PERCENT"), t.Literal("MONEY")], {
         additionalProperties: false,
       }),
     ),
     hasTax: t.Optional(t.Boolean()),
-    updatedTax: t.Optional(__nullable__(t.String())),
     type: t.Optional(
       t.Union([t.Literal("OWNER"), t.Literal("TENANT")], {
         additionalProperties: false,
       }),
     ),
     note: t.Optional(__nullable__(t.String())),
+    start: t.Optional(t.Date()),
+    end: t.Optional(t.Date()),
+    isDeleting: t.Optional(t.Boolean()),
   },
   { additionalProperties: false },
 );
@@ -314,18 +341,25 @@ export const InvoiceWhere = t.Partial(
           id: t.String(),
           reference: t.Integer(),
           price: t.Number(),
+          amountPaid: t.Number(),
           discount: t.Number(),
-          discountType: t.Union([t.Literal("PURCENT"), t.Literal("MONEY")], {
+          status: t.Union(
+            [t.Literal("PENDING"), t.Literal("PAID"), t.Literal("OVERDUE")],
+            { additionalProperties: false },
+          ),
+          discountType: t.Union([t.Literal("PERCENT"), t.Literal("MONEY")], {
             additionalProperties: false,
           }),
           hasTax: t.Boolean(),
-          updatedTax: t.String(),
           type: t.Union([t.Literal("OWNER"), t.Literal("TENANT")], {
             additionalProperties: false,
           }),
           ownerId: t.String(),
           tenantId: t.String(),
           note: t.String(),
+          start: t.Date(),
+          end: t.Date(),
+          isDeleting: t.Boolean(),
           createdAt: t.Date(),
           updatedAt: t.Date(),
         },
@@ -366,19 +400,26 @@ export const InvoiceWhereUnique = t.Recursive(
               id: t.String(),
               reference: t.Integer(),
               price: t.Number(),
+              amountPaid: t.Number(),
               discount: t.Number(),
+              status: t.Union(
+                [t.Literal("PENDING"), t.Literal("PAID"), t.Literal("OVERDUE")],
+                { additionalProperties: false },
+              ),
               discountType: t.Union(
-                [t.Literal("PURCENT"), t.Literal("MONEY")],
+                [t.Literal("PERCENT"), t.Literal("MONEY")],
                 { additionalProperties: false },
               ),
               hasTax: t.Boolean(),
-              updatedTax: t.String(),
               type: t.Union([t.Literal("OWNER"), t.Literal("TENANT")], {
                 additionalProperties: false,
               }),
               ownerId: t.String(),
               tenantId: t.String(),
               note: t.String(),
+              start: t.Date(),
+              end: t.Date(),
+              isDeleting: t.Boolean(),
               createdAt: t.Date(),
               updatedAt: t.Date(),
             },
@@ -397,10 +438,11 @@ export const InvoiceSelect = t.Partial(
       id: t.Boolean(),
       reference: t.Boolean(),
       price: t.Boolean(),
+      amountPaid: t.Boolean(),
       discount: t.Boolean(),
+      status: t.Boolean(),
       discountType: t.Boolean(),
       hasTax: t.Boolean(),
-      updatedTax: t.Boolean(),
       type: t.Boolean(),
       ownerId: t.Boolean(),
       owner: t.Boolean(),
@@ -408,6 +450,9 @@ export const InvoiceSelect = t.Partial(
       tenant: t.Boolean(),
       items: t.Boolean(),
       note: t.Boolean(),
+      start: t.Boolean(),
+      end: t.Boolean(),
+      isDeleting: t.Boolean(),
       createdAt: t.Boolean(),
       updatedAt: t.Boolean(),
       payments: t.Boolean(),
@@ -420,6 +465,7 @@ export const InvoiceSelect = t.Partial(
 export const InvoiceInclude = t.Partial(
   t.Object(
     {
+      status: t.Boolean(),
       discountType: t.Boolean(),
       type: t.Boolean(),
       owner: t.Boolean(),
@@ -444,13 +490,13 @@ export const InvoiceOrderBy = t.Partial(
       price: t.Union([t.Literal("asc"), t.Literal("desc")], {
         additionalProperties: false,
       }),
+      amountPaid: t.Union([t.Literal("asc"), t.Literal("desc")], {
+        additionalProperties: false,
+      }),
       discount: t.Union([t.Literal("asc"), t.Literal("desc")], {
         additionalProperties: false,
       }),
       hasTax: t.Union([t.Literal("asc"), t.Literal("desc")], {
-        additionalProperties: false,
-      }),
-      updatedTax: t.Union([t.Literal("asc"), t.Literal("desc")], {
         additionalProperties: false,
       }),
       ownerId: t.Union([t.Literal("asc"), t.Literal("desc")], {
@@ -460,6 +506,15 @@ export const InvoiceOrderBy = t.Partial(
         additionalProperties: false,
       }),
       note: t.Union([t.Literal("asc"), t.Literal("desc")], {
+        additionalProperties: false,
+      }),
+      start: t.Union([t.Literal("asc"), t.Literal("desc")], {
+        additionalProperties: false,
+      }),
+      end: t.Union([t.Literal("asc"), t.Literal("desc")], {
+        additionalProperties: false,
+      }),
+      isDeleting: t.Union([t.Literal("asc"), t.Literal("desc")], {
         additionalProperties: false,
       }),
       createdAt: t.Union([t.Literal("asc"), t.Literal("desc")], {

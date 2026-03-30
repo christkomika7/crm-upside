@@ -4,6 +4,7 @@ import { prisma } from "../../lib/prisma";
 import { canAccess } from "../auth/permission";
 import request from "./type";
 import { productServiceSchema } from "../../lib/zod/product-service";
+import { Prisma } from "../../generated/prisma/client";
 
 export const productServiceRoutes = new Elysia({ prefix: "/product-service" })
     .use(authPlugin)
@@ -63,6 +64,13 @@ export const productServiceRoutes = new Elysia({ prefix: "/product-service" })
             return status(201, { message: "Service produit créé avec succès" });
         } catch (error) {
             console.error(error);
+            if (error instanceof Prisma.PrismaClientKnownRequestError) {
+                if (error.code === "P2002") {
+                    return status(400, {
+                        message: "Cette référence existe déjà"
+                    });
+                }
+            }
             return status(500, { message: "Erreur lors de la création du service produit" });
         }
     }, { auth: true, body: request.body })
@@ -108,6 +116,14 @@ export const productServiceRoutes = new Elysia({ prefix: "/product-service" })
             return status(200, { message: "Service produit modifié avec succès" });
         } catch (error) {
             console.error(error);
+
+            if (error instanceof Prisma.PrismaClientKnownRequestError) {
+                if (error.code === "P2002") {
+                    return status(400, {
+                        message: "Cette référence existe déjà"
+                    });
+                }
+            }
             return status(500, { message: "Erreur lors de la modification du service produit" });
         }
     }, { auth: true, body: request.body, params: request.params })

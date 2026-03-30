@@ -44,4 +44,10 @@ export const envPlugin = env({
     S3_PUBLIC_DOMAIN: t.String({
         error: 'Le domaine public de S3 est requis',
     }),
+    EMAIL_USER: t.String({
+        error: 'L\'email de l\'utilisateur est requis',
+    }),
+    EMAIL_PASS: t.String({
+        error: 'Le mot de passe de l\'email est requis',
+    }),
 });
