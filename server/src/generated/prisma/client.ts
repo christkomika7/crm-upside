@@ -142,6 +142,21 @@ export type Invoice = Prisma.InvoiceModel
  */
 export type Quote = Prisma.QuoteModel
 /**
+ * Model Contract
+ * 
+ */
+export type Contract = Prisma.ContractModel
+/**
+ * Model CheckInOut
+ * 
+ */
+export type CheckInOut = Prisma.CheckInOutModel
+/**
+ * Model Appointment
+ * 
+ */
+export type Appointment = Prisma.AppointmentModel
+/**
  * Model Payment
  * 
  */

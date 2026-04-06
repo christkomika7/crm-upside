@@ -28,6 +28,18 @@ export const userRoutes = new Elysia({ prefix: "/users" })
 
         return usersWithSignedUrl;
     }, { auth: true })
+    .get("/member", async ({ permission, status }) => {
+        if (!canAccess(permission, "appointments", "read")) {
+            return status(403, { message: "Accès refusé" });
+        }
+
+        return await prisma.user.findMany({
+            select: {
+                id: true,
+                name: true,
+            }
+        });
+    }, { auth: true })
     .get("/:id", async ({ params, permission, status }) => {
         if (!canAccess(permission, "settings", "read")) {
             return status(403, { message: "Accès refusé" });

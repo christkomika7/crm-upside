@@ -104,6 +104,30 @@ export const TenantRelations = t.Object(
       ),
       { additionalProperties: false },
     ),
+    appointments: t.Array(
+      t.Object(
+        {
+          id: t.String(),
+          type: t.Union([t.Literal("OWNER"), t.Literal("TENANT")], {
+            additionalProperties: false,
+          }),
+          ownerId: __nullable__(t.String()),
+          tenantId: __nullable__(t.String()),
+          date: t.Date(),
+          hour: t.String(),
+          minutes: t.String(),
+          address: t.String(),
+          subject: t.String(),
+          note: t.String(),
+          isComplete: t.Boolean(),
+          isDeleting: t.Boolean(),
+          createdAt: t.Date(),
+          updatedAt: t.Date(),
+        },
+        { additionalProperties: false },
+      ),
+      { additionalProperties: false },
+    ),
   },
   { additionalProperties: false },
 );
@@ -194,6 +218,22 @@ export const TenantRelationsInputCreate = t.Object(
         { additionalProperties: false },
       ),
     ),
+    appointments: t.Optional(
+      t.Object(
+        {
+          connect: t.Array(
+            t.Object(
+              {
+                id: t.String({ additionalProperties: false }),
+              },
+              { additionalProperties: false },
+            ),
+            { additionalProperties: false },
+          ),
+        },
+        { additionalProperties: false },
+      ),
+    ),
   },
   { additionalProperties: false },
 );
@@ -252,6 +292,31 @@ export const TenantRelationsInputUpdate = t.Partial(
         ),
       ),
       quotes: t.Partial(
+        t.Object(
+          {
+            connect: t.Array(
+              t.Object(
+                {
+                  id: t.String({ additionalProperties: false }),
+                },
+                { additionalProperties: false },
+              ),
+              { additionalProperties: false },
+            ),
+            disconnect: t.Array(
+              t.Object(
+                {
+                  id: t.String({ additionalProperties: false }),
+                },
+                { additionalProperties: false },
+              ),
+              { additionalProperties: false },
+            ),
+          },
+          { additionalProperties: false },
+        ),
+      ),
+      appointments: t.Partial(
         t.Object(
           {
             connect: t.Array(
@@ -385,6 +450,7 @@ export const TenantSelect = t.Partial(
       rentals: t.Boolean(),
       invoices: t.Boolean(),
       quotes: t.Boolean(),
+      appointments: t.Boolean(),
       _count: t.Boolean(),
     },
     { additionalProperties: false },
@@ -397,6 +463,7 @@ export const TenantInclude = t.Partial(
       rentals: t.Boolean(),
       invoices: t.Boolean(),
       quotes: t.Boolean(),
+      appointments: t.Boolean(),
       _count: t.Boolean(),
     },
     { additionalProperties: false },

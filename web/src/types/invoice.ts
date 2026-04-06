@@ -2,12 +2,6 @@ import type { Item } from "./item";
 import type { Owner } from "./owner";
 import type { Tenant } from "./tenant";
 
-export type Client = {
-    id: string;
-    firstname: string;
-    lastname: string;
-}
-
 export type InvoiceStats = {
     total: number
     paid: number

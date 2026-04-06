@@ -97,7 +97,7 @@ export default function Share({
 
             async function convertPdfToFile(document: Document) {
                 const pdfData = await renderComponentToPDF(
-                    <RecordDocument id={id} title="Facture" type="Facture" data={document} />
+                    <RecordDocument id={id} title="Facture" type="INVOICE" data={document} />
                     , {
                         padding: 0,
                         margin: 0,
@@ -142,7 +142,7 @@ export default function Share({
 
     async function submit(formData: ShareSchemaType) {
         const { success, data } = shareSchema.safeParse(formData);
-        if (success && document?.id) {
+        if (success && document?.id && data.document) {
             const form = new FormData();
             form.append("id", document.id);
             form.append("type", data.type);

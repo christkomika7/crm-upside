@@ -15,7 +15,7 @@ function RouteComponent() {
       component={
         <Popover>
           <PopoverTrigger asChild>
-            <Button variant="action">Nouveau</Button>
+            <Button variant="action" className='w-fit'>Nouveau</Button>
           </PopoverTrigger>
           <PopoverContent align="end" side="bottom" className="w-52 p-0">
             <PopoverArrow />

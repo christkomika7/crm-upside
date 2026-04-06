@@ -15,6 +15,16 @@ export function initials(value: string) {
     .slice(0, 2);
 }
 
+export function formatTime(value: string): string {
+  if (value.length <= 2) return value;
+  return value.replace(/^0+/, '');
+}
+
+export function normalizeDate(date: Date): Date {
+  const d = new Date(date)
+  return new Date(d.getFullYear(), d.getMonth(), d.getDate())
+}
+
 export const pluralize = (count: number, singular: string, plural: string) =>
   count > 1 ? plural : singular;
 
@@ -24,6 +34,13 @@ export function cutText(name: string, limit?: number, hasPoint = true) {
     return name.slice(0, limit || 15) + point;
   }
   return name;
+}
+
+export function withMinDelay<T>(promise: Promise<T>, delay = 700): Promise<T> {
+  return Promise.all([
+    promise,
+    new Promise((resolve) => setTimeout(resolve, delay)),
+  ]).then(([result]) => result);
 }
 
 
@@ -63,4 +80,15 @@ export function formatDateTo(date: Date, model: "dash" | "slash" = "slash"): str
 
 export function getColor(index: number): string {
   return STATUS_COLORS[index % STATUS_COLORS.length];
+}
+
+export function isSameRangeDate(current: [Date, Date], newRange: [Date, Date]) {
+  const startCurrent = new Date(current[0]).getTime();
+  const endCurrent = new Date(current[1]).getTime();
+
+  const startNewRange = new Date(newRange[0]).getTime();
+  const endNewRange = new Date(newRange[1]).getTime();
+
+  if (startCurrent === startNewRange && endCurrent === endNewRange) return true;
+  return false;
 }

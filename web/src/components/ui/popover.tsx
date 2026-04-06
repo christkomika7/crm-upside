@@ -42,7 +42,7 @@ ring-foreground/10 flex flex-col gap-2.5 rounded-lg p-2.5
 shadow-[0_0px_25px_-5px_rgba(0,0,0,0.15)]
 text-sm ring-none duration-100 z-50 w-72
 origin-(--radix-popover-content-transform-origin)
-outline-hidden
+outline-hidden overflow-hidden
 `,
           className
         )}

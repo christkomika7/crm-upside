@@ -1,14 +1,5 @@
 import { z } from "zod";
-
-export const itemSchema = z.object({
-    id: z.string().min(1, { error: "L'identifiant est requis." }),
-    reference: z.string().min(1, { error: "La référence est requise." }),
-    description: z.string().min(1, { error: "La description est requise." }),
-    price: z.number().min(1, { error: "Le prix doit être supérieur à 0." }),
-    quantity: z.number().min(1, { error: "La quantité doit être supérieure à 0." }),
-    hasTax: z.boolean(),
-});
-
+import { itemSchema } from "./item";
 
 export const invoiceSchema = z.object({
     price: z.string().refine((val) => !isNaN(Number(val)) && Number(val) >= 0, { error: "Le prix doit être un nombre positif." }),
@@ -33,11 +24,10 @@ export const invoiceSchema = z.object({
         });
         ctx.addIssue({
             code: "custom",
-            message: "La date d'émission doit être inférieure à la date d'échéance.",
+            message: "La date d'échéance  doit être superieur à la date d'émission.",
             path: ["end"],
         });
     }
 });
 
-export type ItemSchemaType = z.infer<typeof itemSchema>;
 export type InvoiceSchemaType = z.infer<typeof invoiceSchema>;

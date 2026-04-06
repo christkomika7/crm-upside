@@ -368,6 +368,7 @@ export type BuildingWhereInput = {
   units?: Prisma.UnitListRelationFilter
   owner?: Prisma.XOR<Prisma.OwnerNullableScalarRelationFilter, Prisma.OwnerWhereInput> | null
   propertyManagements?: Prisma.PropertyManagementListRelationFilter
+  contracts?: Prisma.ContractListRelationFilter
 }
 
 export type BuildingOrderByWithRelationInput = {
@@ -400,6 +401,7 @@ export type BuildingOrderByWithRelationInput = {
   units?: Prisma.UnitOrderByRelationAggregateInput
   owner?: Prisma.OwnerOrderByWithRelationInput
   propertyManagements?: Prisma.PropertyManagementOrderByRelationAggregateInput
+  contracts?: Prisma.ContractOrderByRelationAggregateInput
 }
 
 export type BuildingWhereUniqueInput = Prisma.AtLeast<{
@@ -435,6 +437,7 @@ export type BuildingWhereUniqueInput = Prisma.AtLeast<{
   units?: Prisma.UnitListRelationFilter
   owner?: Prisma.XOR<Prisma.OwnerNullableScalarRelationFilter, Prisma.OwnerWhereInput> | null
   propertyManagements?: Prisma.PropertyManagementListRelationFilter
+  contracts?: Prisma.ContractListRelationFilter
 }, "id" | "reference">
 
 export type BuildingOrderByWithAggregationInput = {
@@ -530,6 +533,7 @@ export type BuildingCreateInput = {
   units?: Prisma.UnitCreateNestedManyWithoutBuildingInput
   owner?: Prisma.OwnerCreateNestedOneWithoutBuildingsInput
   propertyManagements?: Prisma.PropertyManagementCreateNestedManyWithoutBuildingInput
+  contracts?: Prisma.ContractCreateNestedManyWithoutBuildingInput
 }
 
 export type BuildingUncheckedCreateInput = {
@@ -561,6 +565,7 @@ export type BuildingUncheckedCreateInput = {
   lotTypes?: Prisma.LotTypeUncheckedCreateNestedManyWithoutBuildingInput
   units?: Prisma.UnitUncheckedCreateNestedManyWithoutBuildingInput
   propertyManagements?: Prisma.PropertyManagementUncheckedCreateNestedManyWithoutBuildingInput
+  contracts?: Prisma.ContractUncheckedCreateNestedManyWithoutBuildingInput
 }
 
 export type BuildingUpdateInput = {
@@ -592,6 +597,7 @@ export type BuildingUpdateInput = {
   units?: Prisma.UnitUpdateManyWithoutBuildingNestedInput
   owner?: Prisma.OwnerUpdateOneWithoutBuildingsNestedInput
   propertyManagements?: Prisma.PropertyManagementUpdateManyWithoutBuildingNestedInput
+  contracts?: Prisma.ContractUpdateManyWithoutBuildingNestedInput
 }
 
 export type BuildingUncheckedUpdateInput = {
@@ -623,6 +629,7 @@ export type BuildingUncheckedUpdateInput = {
   lotTypes?: Prisma.LotTypeUncheckedUpdateManyWithoutBuildingNestedInput
   units?: Prisma.UnitUncheckedUpdateManyWithoutBuildingNestedInput
   propertyManagements?: Prisma.PropertyManagementUncheckedUpdateManyWithoutBuildingNestedInput
+  contracts?: Prisma.ContractUncheckedUpdateManyWithoutBuildingNestedInput
 }
 
 export type BuildingCreateManyInput = {
@@ -817,6 +824,11 @@ export type BuildingOrderByRelationAggregateInput = {
   _count?: Prisma.SortOrder
 }
 
+export type BuildingNullableScalarRelationFilter = {
+  is?: Prisma.BuildingWhereInput | null
+  isNot?: Prisma.BuildingWhereInput | null
+}
+
 export type BuildingCreatestatusInput = {
   set: string[]
 }
@@ -977,6 +989,22 @@ export type BuildingUpdateOneRequiredWithoutPropertyManagementsNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.BuildingUpdateToOneWithWhereWithoutPropertyManagementsInput, Prisma.BuildingUpdateWithoutPropertyManagementsInput>, Prisma.BuildingUncheckedUpdateWithoutPropertyManagementsInput>
 }
 
+export type BuildingCreateNestedOneWithoutContractsInput = {
+  create?: Prisma.XOR<Prisma.BuildingCreateWithoutContractsInput, Prisma.BuildingUncheckedCreateWithoutContractsInput>
+  connectOrCreate?: Prisma.BuildingCreateOrConnectWithoutContractsInput
+  connect?: Prisma.BuildingWhereUniqueInput
+}
+
+export type BuildingUpdateOneWithoutContractsNestedInput = {
+  create?: Prisma.XOR<Prisma.BuildingCreateWithoutContractsInput, Prisma.BuildingUncheckedCreateWithoutContractsInput>
+  connectOrCreate?: Prisma.BuildingCreateOrConnectWithoutContractsInput
+  upsert?: Prisma.BuildingUpsertWithoutContractsInput
+  disconnect?: Prisma.BuildingWhereInput | boolean
+  delete?: Prisma.BuildingWhereInput | boolean
+  connect?: Prisma.BuildingWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.BuildingUpdateToOneWithWhereWithoutContractsInput, Prisma.BuildingUpdateWithoutContractsInput>, Prisma.BuildingUncheckedUpdateWithoutContractsInput>
+}
+
 export type BuildingCreateWithoutUnitsInput = {
   id?: string
   reference: string
@@ -1005,6 +1033,7 @@ export type BuildingCreateWithoutUnitsInput = {
   lotTypes?: Prisma.LotTypeCreateNestedManyWithoutBuildingInput
   owner?: Prisma.OwnerCreateNestedOneWithoutBuildingsInput
   propertyManagements?: Prisma.PropertyManagementCreateNestedManyWithoutBuildingInput
+  contracts?: Prisma.ContractCreateNestedManyWithoutBuildingInput
 }
 
 export type BuildingUncheckedCreateWithoutUnitsInput = {
@@ -1035,6 +1064,7 @@ export type BuildingUncheckedCreateWithoutUnitsInput = {
   updatedAt?: Date | string
   lotTypes?: Prisma.LotTypeUncheckedCreateNestedManyWithoutBuildingInput
   propertyManagements?: Prisma.PropertyManagementUncheckedCreateNestedManyWithoutBuildingInput
+  contracts?: Prisma.ContractUncheckedCreateNestedManyWithoutBuildingInput
 }
 
 export type BuildingCreateOrConnectWithoutUnitsInput = {
@@ -1081,6 +1111,7 @@ export type BuildingUpdateWithoutUnitsInput = {
   lotTypes?: Prisma.LotTypeUpdateManyWithoutBuildingNestedInput
   owner?: Prisma.OwnerUpdateOneWithoutBuildingsNestedInput
   propertyManagements?: Prisma.PropertyManagementUpdateManyWithoutBuildingNestedInput
+  contracts?: Prisma.ContractUpdateManyWithoutBuildingNestedInput
 }
 
 export type BuildingUncheckedUpdateWithoutUnitsInput = {
@@ -1111,6 +1142,7 @@ export type BuildingUncheckedUpdateWithoutUnitsInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   lotTypes?: Prisma.LotTypeUncheckedUpdateManyWithoutBuildingNestedInput
   propertyManagements?: Prisma.PropertyManagementUncheckedUpdateManyWithoutBuildingNestedInput
+  contracts?: Prisma.ContractUncheckedUpdateManyWithoutBuildingNestedInput
 }
 
 export type BuildingCreateWithoutLotTypesInput = {
@@ -1141,6 +1173,7 @@ export type BuildingCreateWithoutLotTypesInput = {
   units?: Prisma.UnitCreateNestedManyWithoutBuildingInput
   owner?: Prisma.OwnerCreateNestedOneWithoutBuildingsInput
   propertyManagements?: Prisma.PropertyManagementCreateNestedManyWithoutBuildingInput
+  contracts?: Prisma.ContractCreateNestedManyWithoutBuildingInput
 }
 
 export type BuildingUncheckedCreateWithoutLotTypesInput = {
@@ -1171,6 +1204,7 @@ export type BuildingUncheckedCreateWithoutLotTypesInput = {
   updatedAt?: Date | string
   units?: Prisma.UnitUncheckedCreateNestedManyWithoutBuildingInput
   propertyManagements?: Prisma.PropertyManagementUncheckedCreateNestedManyWithoutBuildingInput
+  contracts?: Prisma.ContractUncheckedCreateNestedManyWithoutBuildingInput
 }
 
 export type BuildingCreateOrConnectWithoutLotTypesInput = {
@@ -1253,6 +1287,7 @@ export type BuildingCreateWithoutOwnerInput = {
   lotTypes?: Prisma.LotTypeCreateNestedManyWithoutBuildingInput
   units?: Prisma.UnitCreateNestedManyWithoutBuildingInput
   propertyManagements?: Prisma.PropertyManagementCreateNestedManyWithoutBuildingInput
+  contracts?: Prisma.ContractCreateNestedManyWithoutBuildingInput
 }
 
 export type BuildingUncheckedCreateWithoutOwnerInput = {
@@ -1283,6 +1318,7 @@ export type BuildingUncheckedCreateWithoutOwnerInput = {
   lotTypes?: Prisma.LotTypeUncheckedCreateNestedManyWithoutBuildingInput
   units?: Prisma.UnitUncheckedCreateNestedManyWithoutBuildingInput
   propertyManagements?: Prisma.PropertyManagementUncheckedCreateNestedManyWithoutBuildingInput
+  contracts?: Prisma.ContractUncheckedCreateNestedManyWithoutBuildingInput
 }
 
 export type BuildingCreateOrConnectWithoutOwnerInput = {
@@ -1339,6 +1375,7 @@ export type BuildingCreateWithoutPropertyManagementsInput = {
   lotTypes?: Prisma.LotTypeCreateNestedManyWithoutBuildingInput
   units?: Prisma.UnitCreateNestedManyWithoutBuildingInput
   owner?: Prisma.OwnerCreateNestedOneWithoutBuildingsInput
+  contracts?: Prisma.ContractCreateNestedManyWithoutBuildingInput
 }
 
 export type BuildingUncheckedCreateWithoutPropertyManagementsInput = {
@@ -1369,6 +1406,7 @@ export type BuildingUncheckedCreateWithoutPropertyManagementsInput = {
   updatedAt?: Date | string
   lotTypes?: Prisma.LotTypeUncheckedCreateNestedManyWithoutBuildingInput
   units?: Prisma.UnitUncheckedCreateNestedManyWithoutBuildingInput
+  contracts?: Prisma.ContractUncheckedCreateNestedManyWithoutBuildingInput
 }
 
 export type BuildingCreateOrConnectWithoutPropertyManagementsInput = {
@@ -1415,6 +1453,7 @@ export type BuildingUpdateWithoutPropertyManagementsInput = {
   lotTypes?: Prisma.LotTypeUpdateManyWithoutBuildingNestedInput
   units?: Prisma.UnitUpdateManyWithoutBuildingNestedInput
   owner?: Prisma.OwnerUpdateOneWithoutBuildingsNestedInput
+  contracts?: Prisma.ContractUpdateManyWithoutBuildingNestedInput
 }
 
 export type BuildingUncheckedUpdateWithoutPropertyManagementsInput = {
@@ -1445,6 +1484,147 @@ export type BuildingUncheckedUpdateWithoutPropertyManagementsInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   lotTypes?: Prisma.LotTypeUncheckedUpdateManyWithoutBuildingNestedInput
   units?: Prisma.UnitUncheckedUpdateManyWithoutBuildingNestedInput
+  contracts?: Prisma.ContractUncheckedUpdateManyWithoutBuildingNestedInput
+}
+
+export type BuildingCreateWithoutContractsInput = {
+  id?: string
+  reference: string
+  name: string
+  location: string
+  constructionDate: Date | string
+  door: number
+  parkingPrice?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  security?: boolean
+  camera?: boolean
+  elevator?: boolean
+  parking?: boolean
+  pool?: boolean
+  generator?: boolean
+  waterBorehole?: boolean
+  gym?: boolean
+  garden?: boolean
+  status?: Prisma.BuildingCreatestatusInput | string[]
+  map: string
+  photos?: Prisma.BuildingCreatephotosInput | string[]
+  deeds?: Prisma.BuildingCreatedeedsInput | string[]
+  documents?: Prisma.BuildingCreatedocumentsInput | string[]
+  isDeleting?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  lotTypes?: Prisma.LotTypeCreateNestedManyWithoutBuildingInput
+  units?: Prisma.UnitCreateNestedManyWithoutBuildingInput
+  owner?: Prisma.OwnerCreateNestedOneWithoutBuildingsInput
+  propertyManagements?: Prisma.PropertyManagementCreateNestedManyWithoutBuildingInput
+}
+
+export type BuildingUncheckedCreateWithoutContractsInput = {
+  id?: string
+  reference: string
+  name: string
+  location: string
+  constructionDate: Date | string
+  door: number
+  parkingPrice?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  security?: boolean
+  camera?: boolean
+  elevator?: boolean
+  parking?: boolean
+  pool?: boolean
+  generator?: boolean
+  waterBorehole?: boolean
+  gym?: boolean
+  garden?: boolean
+  status?: Prisma.BuildingCreatestatusInput | string[]
+  map: string
+  photos?: Prisma.BuildingCreatephotosInput | string[]
+  deeds?: Prisma.BuildingCreatedeedsInput | string[]
+  documents?: Prisma.BuildingCreatedocumentsInput | string[]
+  isDeleting?: boolean
+  ownerId?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  lotTypes?: Prisma.LotTypeUncheckedCreateNestedManyWithoutBuildingInput
+  units?: Prisma.UnitUncheckedCreateNestedManyWithoutBuildingInput
+  propertyManagements?: Prisma.PropertyManagementUncheckedCreateNestedManyWithoutBuildingInput
+}
+
+export type BuildingCreateOrConnectWithoutContractsInput = {
+  where: Prisma.BuildingWhereUniqueInput
+  create: Prisma.XOR<Prisma.BuildingCreateWithoutContractsInput, Prisma.BuildingUncheckedCreateWithoutContractsInput>
+}
+
+export type BuildingUpsertWithoutContractsInput = {
+  update: Prisma.XOR<Prisma.BuildingUpdateWithoutContractsInput, Prisma.BuildingUncheckedUpdateWithoutContractsInput>
+  create: Prisma.XOR<Prisma.BuildingCreateWithoutContractsInput, Prisma.BuildingUncheckedCreateWithoutContractsInput>
+  where?: Prisma.BuildingWhereInput
+}
+
+export type BuildingUpdateToOneWithWhereWithoutContractsInput = {
+  where?: Prisma.BuildingWhereInput
+  data: Prisma.XOR<Prisma.BuildingUpdateWithoutContractsInput, Prisma.BuildingUncheckedUpdateWithoutContractsInput>
+}
+
+export type BuildingUpdateWithoutContractsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  reference?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  location?: Prisma.StringFieldUpdateOperationsInput | string
+  constructionDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  door?: Prisma.IntFieldUpdateOperationsInput | number
+  parkingPrice?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  security?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  camera?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  elevator?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  parking?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  pool?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  generator?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  waterBorehole?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  gym?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  garden?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  status?: Prisma.BuildingUpdatestatusInput | string[]
+  map?: Prisma.StringFieldUpdateOperationsInput | string
+  photos?: Prisma.BuildingUpdatephotosInput | string[]
+  deeds?: Prisma.BuildingUpdatedeedsInput | string[]
+  documents?: Prisma.BuildingUpdatedocumentsInput | string[]
+  isDeleting?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  lotTypes?: Prisma.LotTypeUpdateManyWithoutBuildingNestedInput
+  units?: Prisma.UnitUpdateManyWithoutBuildingNestedInput
+  owner?: Prisma.OwnerUpdateOneWithoutBuildingsNestedInput
+  propertyManagements?: Prisma.PropertyManagementUpdateManyWithoutBuildingNestedInput
+}
+
+export type BuildingUncheckedUpdateWithoutContractsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  reference?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  location?: Prisma.StringFieldUpdateOperationsInput | string
+  constructionDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  door?: Prisma.IntFieldUpdateOperationsInput | number
+  parkingPrice?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  security?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  camera?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  elevator?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  parking?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  pool?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  generator?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  waterBorehole?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  gym?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  garden?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  status?: Prisma.BuildingUpdatestatusInput | string[]
+  map?: Prisma.StringFieldUpdateOperationsInput | string
+  photos?: Prisma.BuildingUpdatephotosInput | string[]
+  deeds?: Prisma.BuildingUpdatedeedsInput | string[]
+  documents?: Prisma.BuildingUpdatedocumentsInput | string[]
+  isDeleting?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  ownerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  lotTypes?: Prisma.LotTypeUncheckedUpdateManyWithoutBuildingNestedInput
+  units?: Prisma.UnitUncheckedUpdateManyWithoutBuildingNestedInput
+  propertyManagements?: Prisma.PropertyManagementUncheckedUpdateManyWithoutBuildingNestedInput
 }
 
 export type BuildingUpdateWithoutLotTypesInput = {
@@ -1475,6 +1655,7 @@ export type BuildingUpdateWithoutLotTypesInput = {
   units?: Prisma.UnitUpdateManyWithoutBuildingNestedInput
   owner?: Prisma.OwnerUpdateOneWithoutBuildingsNestedInput
   propertyManagements?: Prisma.PropertyManagementUpdateManyWithoutBuildingNestedInput
+  contracts?: Prisma.ContractUpdateManyWithoutBuildingNestedInput
 }
 
 export type BuildingUncheckedUpdateWithoutLotTypesInput = {
@@ -1505,6 +1686,7 @@ export type BuildingUncheckedUpdateWithoutLotTypesInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   units?: Prisma.UnitUncheckedUpdateManyWithoutBuildingNestedInput
   propertyManagements?: Prisma.PropertyManagementUncheckedUpdateManyWithoutBuildingNestedInput
+  contracts?: Prisma.ContractUncheckedUpdateManyWithoutBuildingNestedInput
 }
 
 export type BuildingUncheckedUpdateManyWithoutLotTypesInput = {
@@ -1590,6 +1772,7 @@ export type BuildingUpdateWithoutOwnerInput = {
   lotTypes?: Prisma.LotTypeUpdateManyWithoutBuildingNestedInput
   units?: Prisma.UnitUpdateManyWithoutBuildingNestedInput
   propertyManagements?: Prisma.PropertyManagementUpdateManyWithoutBuildingNestedInput
+  contracts?: Prisma.ContractUpdateManyWithoutBuildingNestedInput
 }
 
 export type BuildingUncheckedUpdateWithoutOwnerInput = {
@@ -1620,6 +1803,7 @@ export type BuildingUncheckedUpdateWithoutOwnerInput = {
   lotTypes?: Prisma.LotTypeUncheckedUpdateManyWithoutBuildingNestedInput
   units?: Prisma.UnitUncheckedUpdateManyWithoutBuildingNestedInput
   propertyManagements?: Prisma.PropertyManagementUncheckedUpdateManyWithoutBuildingNestedInput
+  contracts?: Prisma.ContractUncheckedUpdateManyWithoutBuildingNestedInput
 }
 
 export type BuildingUncheckedUpdateManyWithoutOwnerInput = {
@@ -1658,12 +1842,14 @@ export type BuildingCountOutputType = {
   lotTypes: number
   units: number
   propertyManagements: number
+  contracts: number
 }
 
 export type BuildingCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   lotTypes?: boolean | BuildingCountOutputTypeCountLotTypesArgs
   units?: boolean | BuildingCountOutputTypeCountUnitsArgs
   propertyManagements?: boolean | BuildingCountOutputTypeCountPropertyManagementsArgs
+  contracts?: boolean | BuildingCountOutputTypeCountContractsArgs
 }
 
 /**
@@ -1697,6 +1883,13 @@ export type BuildingCountOutputTypeCountPropertyManagementsArgs<ExtArgs extends 
   where?: Prisma.PropertyManagementWhereInput
 }
 
+/**
+ * BuildingCountOutputType without action
+ */
+export type BuildingCountOutputTypeCountContractsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.ContractWhereInput
+}
+
 
 export type BuildingSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
@@ -1728,6 +1921,7 @@ export type BuildingSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs
   units?: boolean | Prisma.Building$unitsArgs<ExtArgs>
   owner?: boolean | Prisma.Building$ownerArgs<ExtArgs>
   propertyManagements?: boolean | Prisma.Building$propertyManagementsArgs<ExtArgs>
+  contracts?: boolean | Prisma.Building$contractsArgs<ExtArgs>
   _count?: boolean | Prisma.BuildingCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["building"]>
 
@@ -1823,6 +2017,7 @@ export type BuildingInclude<ExtArgs extends runtime.Types.Extensions.InternalArg
   units?: boolean | Prisma.Building$unitsArgs<ExtArgs>
   owner?: boolean | Prisma.Building$ownerArgs<ExtArgs>
   propertyManagements?: boolean | Prisma.Building$propertyManagementsArgs<ExtArgs>
+  contracts?: boolean | Prisma.Building$contractsArgs<ExtArgs>
   _count?: boolean | Prisma.BuildingCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type BuildingIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1839,6 +2034,7 @@ export type $BuildingPayload<ExtArgs extends runtime.Types.Extensions.InternalAr
     units: Prisma.$UnitPayload<ExtArgs>[]
     owner: Prisma.$OwnerPayload<ExtArgs> | null
     propertyManagements: Prisma.$PropertyManagementPayload<ExtArgs>[]
+    contracts: Prisma.$ContractPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -2264,6 +2460,7 @@ export interface Prisma__BuildingClient<T, Null = never, ExtArgs extends runtime
   units<T extends Prisma.Building$unitsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Building$unitsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$UnitPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   owner<T extends Prisma.Building$ownerArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Building$ownerArgs<ExtArgs>>): Prisma.Prisma__OwnerClient<runtime.Types.Result.GetResult<Prisma.$OwnerPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   propertyManagements<T extends Prisma.Building$propertyManagementsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Building$propertyManagementsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$PropertyManagementPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  contracts<T extends Prisma.Building$contractsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Building$contractsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ContractPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -2807,6 +3004,30 @@ export type Building$propertyManagementsArgs<ExtArgs extends runtime.Types.Exten
   take?: number
   skip?: number
   distinct?: Prisma.PropertyManagementScalarFieldEnum | Prisma.PropertyManagementScalarFieldEnum[]
+}
+
+/**
+ * Building.contracts
+ */
+export type Building$contractsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Contract
+   */
+  select?: Prisma.ContractSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Contract
+   */
+  omit?: Prisma.ContractOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.ContractInclude<ExtArgs> | null
+  where?: Prisma.ContractWhereInput
+  orderBy?: Prisma.ContractOrderByWithRelationInput | Prisma.ContractOrderByWithRelationInput[]
+  cursor?: Prisma.ContractWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.ContractScalarFieldEnum | Prisma.ContractScalarFieldEnum[]
 }
 
 /**

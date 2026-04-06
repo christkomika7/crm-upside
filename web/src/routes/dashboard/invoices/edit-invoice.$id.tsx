@@ -4,6 +4,11 @@ import { createFileRoute, useParams } from '@tanstack/react-router'
 
 export const Route = createFileRoute('/dashboard/invoices/edit-invoice/$id')({
   component: RouteComponent,
+  validateSearch: (search: Record<string, unknown>) => {
+    return {
+      type: (search.type as string) || "edit",
+    };
+  },
 })
 
 function RouteComponent() {

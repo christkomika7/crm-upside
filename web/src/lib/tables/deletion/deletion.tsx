@@ -103,7 +103,7 @@ export const columns: ColumnDef<Deletion>[] = [
                         RESERVATION: "reservations",
                         BUILDING: "buildings",
                         PROPERTY_MANAGEMENT: "property-managements",
-                        INVOICING: "invoicings",
+                        INVOICING: "invoices",
                         QUOTE: "quotes",
                         CONTRACT: "contracts",
                     };

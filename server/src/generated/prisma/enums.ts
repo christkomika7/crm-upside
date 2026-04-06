@@ -44,6 +44,14 @@ export const InvoiceStatus = {
 export type InvoiceStatus = (typeof InvoiceStatus)[keyof typeof InvoiceStatus]
 
 
+export const ContractType = {
+  CONTRACT: 'CONTRACT',
+  MANDATE: 'MANDATE'
+} as const
+
+export type ContractType = (typeof ContractType)[keyof typeof ContractType]
+
+
 export const DeletionType = {
   OWNER: 'OWNER',
   BUILDING: 'BUILDING',
@@ -73,12 +81,12 @@ export const ItemStatus = {
 export type ItemStatus = (typeof ItemStatus)[keyof typeof ItemStatus]
 
 
-export const RecordType = {
+export const ClientType = {
   OWNER: 'OWNER',
   TENANT: 'TENANT'
 } as const
 
-export type RecordType = (typeof RecordType)[keyof typeof RecordType]
+export type ClientType = (typeof ClientType)[keyof typeof ClientType]
 
 
 export const DiscountType = {

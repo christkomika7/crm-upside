@@ -18,6 +18,10 @@ import { propertyManagementRoutes } from "../modules/property-mangement/property
 import { productServiceRoutes } from "../modules/product-service/product-service.route";
 import { invoiceRoutes } from "../modules/invoice/invoice.route";
 import { documentRoutes } from "../modules/document/document.route";
+import { quoteRoutes } from "../modules/quote/quote.route";
+import { contractRoutes } from "../modules/contract/contract.route";
+import { clientRoutes } from "../modules/client/client.route";
+import { appointmentRoutes } from "../modules/appointment/appointment.route";
 
 export const route = new Elysia()
     .use(userRoutes)
@@ -36,6 +40,10 @@ export const route = new Elysia()
     .use(personalServiceRoutes)
     .use(propertyManagementRoutes)
     .use(productServiceRoutes)
+    .use(clientRoutes)
     .use(invoiceRoutes)
+    .use(quoteRoutes)
+    .use(contractRoutes)
+    .use(appointmentRoutes)
     .use(documentRoutes)
     .use(deletionRoutes)

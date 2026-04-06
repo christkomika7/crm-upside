@@ -4,19 +4,24 @@ import { useEffect, useRef, useState } from "react"
 interface InputProps extends Omit<React.ComponentProps<"input">, "onChange" | "value"> {
   suffix?: string
   value?: string | number
+  integer?: boolean
+  padded?: boolean
   onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void
 }
 
 const INVISIBLE_SPACES = /[\s\u00a0\u202f\u2009\u2007\u200b\u2060]/g
 
-function formatNumber(value: string): string {
+function formatNumber(value: string, integer?: boolean, padded?: boolean): string {
   const raw = value.replace(INVISIBLE_SPACES, "")
   if (raw === "" || raw === "-") return raw
   const num = Number(raw)
   if (isNaN(num)) return value
+  if (padded) {
+    return String(Math.floor(num)).padStart(2, "0")
+  }
   return new Intl.NumberFormat("fr-FR", {
     useGrouping: true,
-    maximumFractionDigits: 20,
+    maximumFractionDigits: integer ? 0 : 20,
   })
     .format(num)
     .replace(/\u202f/g, "\u00a0")
@@ -28,22 +33,41 @@ function unformatNumber(value: string): string {
     .replace(",", ".")
 }
 
-function isIncompleteDecimal(value: string): boolean {
+function isIncompleteDecimal(value: string, integer?: boolean): boolean {
+  if (integer) {
+    return value === "-" || value === ""
+  }
   return (
     value.endsWith(".") ||
-    value.endsWith(",") || // ✅ cas virgule
+    value.endsWith(",") ||
     /[.,]\d*0$/.test(value) ||
     value === "-" ||
     value === ""
   )
 }
 
-function Input({ className, type, suffix, value, onChange, ...props }: InputProps) {
+function isWithinBounds(
+  unformatted: string,
+  min?: number,
+  max?: number
+): boolean {
+  if (unformatted === "" || unformatted === "-") return true
+  const num = Number(unformatted)
+  if (isNaN(num)) return false
+  if (min !== undefined && num < min) return false
+  if (max !== undefined && num > max) return false
+  return true
+}
+
+function Input({ className, type, suffix, value, padded, integer, min, max, onChange, ...props }: InputProps) {
   const isNumber = type === "number"
+
+  const minNum = min !== undefined ? Number(min) : undefined
+  const maxNum = max !== undefined ? Number(max) : undefined
 
   const [displayValue, setDisplayValue] = useState<string>(() => {
     if (isNumber && value !== undefined && value !== "") {
-      return formatNumber(String(value))
+      return formatNumber(String(value), integer, padded)
     }
     return value !== undefined ? String(value) : ""
   })
@@ -56,9 +80,9 @@ function Input({ className, type, suffix, value, onChange, ...props }: InputProp
     if (value !== undefined) {
       const strValue = String(value)
       const currentUnformatted = unformatNumber(displayValue)
-      if (currentUnformatted === strValue && isIncompleteDecimal(displayValue)) return
+      if (currentUnformatted === strValue && isIncompleteDecimal(displayValue, integer)) return
 
-      setDisplayValue(value === "" ? "" : formatNumber(strValue))
+      setDisplayValue(value === "" ? "" : formatNumber(strValue, integer, padded))
     }
   }, [value, isNumber])
 
@@ -80,18 +104,25 @@ function Input({ className, type, suffix, value, onChange, ...props }: InputProp
     const normalized = raw.replace(",", ".")
     const unformatted = unformatNumber(normalized)
 
+    // Validation format
+    const integerPattern = /^-?\d*$/
+    const decimalPattern = /^-?\d*\.?\d*$/
     const isValid =
       unformatted === "" ||
       unformatted === "-" ||
-      /^-?\d*\.?\d*$/.test(unformatted)
+      (integer ? integerPattern.test(unformatted) : decimalPattern.test(unformatted))
 
     if (!isValid) return
 
-    const incomplete = isIncompleteDecimal(unformatted)
+    // Validation min/max — bloque si hors intervalle (sauf valeur incomplète)
+    const isComplete = unformatted !== "" && unformatted !== "-" && !unformatted.endsWith(".")
+    if (isComplete && !isWithinBounds(unformatted, minNum, maxNum)) return
+
+    const incomplete = isIncompleteDecimal(unformatted, integer)
 
     const formatted = incomplete
       ? unformatted.replace(".", ",")
-      : formatNumber(unformatted)
+      : formatNumber(unformatted, integer, padded)
 
     isUserTyping.current = true
     setDisplayValue(formatted)
@@ -113,7 +144,7 @@ function Input({ className, type, suffix, value, onChange, ...props }: InputProp
   const inputEl = (
     <input
       type={isNumber ? "text" : type}
-      inputMode={isNumber ? "decimal" : undefined}
+      inputMode={isNumber ? (integer ? "numeric" : "decimal") : undefined}
       data-slot="input"
       value={isNumber ? displayValue : (value !== undefined ? String(value) : "")}
       onChange={handleChange}

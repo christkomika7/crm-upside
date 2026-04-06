@@ -38,6 +38,11 @@ enum InvoiceStatus {
   OVERDUE
 }
 
+enum ContractType {
+  CONTRACT
+  MANDATE
+}
+
 enum DeletionType {
   OWNER
   BUILDING
@@ -61,7 +66,7 @@ enum ItemStatus {
   IGNORE
 }
 
-enum RecordType {
+enum ClientType {
   OWNER
   TENANT
 }
@@ -72,18 +77,19 @@ enum DiscountType {
 }
 
 model User {
-  id            String    @id @default(cuid())
-  email         String    @unique
-  createdAt     DateTime  @default(now())
-  firstname     String    @default("")
-  lastname      String    @default("")
+  id            String        @id @default(cuid())
+  email         String        @unique
+  createdAt     DateTime      @default(now())
+  firstname     String        @default("")
+  lastname      String        @default("")
   name          String
-  role          Role      @default(USER)
-  emailVerified Boolean   @default(false)
+  role          Role          @default(USER)
+  emailVerified Boolean       @default(false)
   image         String?
-  updatedAt     DateTime  @updatedAt
+  updatedAt     DateTime      @updatedAt
   sessions      Session[]
   accounts      Account[]
+  appointments  Appointment[]
 
   permission Permission?
   deletions  Deletion[]
@@ -180,6 +186,7 @@ model Building {
   createdAt           DateTime             @default(now())
   updatedAt           DateTime             @updatedAt
   propertyManagements PropertyManagement[]
+  contracts           Contract[]
 
   @@map("building")
 }
@@ -260,10 +267,11 @@ model Owner {
   bankInfo  String
   documents String[]
 
-  createdAt DateTime  @default(now())
-  updatedAt DateTime  @updatedAt
-  invoices  Invoice[]
-  quotes    Quote[]
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @updatedAt
+  invoices     Invoice[]
+  quotes       Quote[]
+  appointments Appointment[]
 
   @@map("owner")
 }
@@ -284,11 +292,12 @@ model Tenant {
 
   isDeleting Boolean @default(false)
 
-  createdAt DateTime  @default(now())
-  updatedAt DateTime  @updatedAt
-  rentals   Rental[]
-  invoices  Invoice[]
-  quotes    Quote[]
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @updatedAt
+  rentals      Rental[]
+  invoices     Invoice[]
+  quotes       Quote[]
+  appointments Appointment[]
 
   @@map("tenant")
 }
@@ -307,6 +316,8 @@ model Rental {
   price Decimal  @default(0) @db.Decimal(15, 2)
   start DateTime
   end   DateTime
+
+  contracts Contract[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -402,7 +413,7 @@ model Invoice {
   status       InvoiceStatus @default(PENDING)
   discountType DiscountType  @default(PERCENT)
   hasTax       Boolean       @default(false)
-  type         RecordType
+  type         ClientType
   ownerId      String?
   owner        Owner?        @relation(fields: [ownerId], references: [id])
 
@@ -431,7 +442,7 @@ model Quote {
   discount     Decimal      @default(0) @db.Decimal(15, 2)
   discountType DiscountType @default(PERCENT)
   hasTax       Boolean      @default(false)
-  type         RecordType
+  type         ClientType
   isComplete   Boolean      @default(false)
 
   ownerId String?
@@ -453,6 +464,66 @@ model Quote {
   updatedAt DateTime @updatedAt
 
   @@map("quote")
+}
+
+model Contract {
+  id   String       @id @default(cuid())
+  type ContractType
+
+  start DateTime
+  end   DateTime
+
+  rentalId String?
+  rental   Rental? @relation(fields: [rentalId], references: [id])
+
+  buildingId String?
+  building   Building? @relation(fields: [buildingId], references: [id])
+
+  isCanceled Boolean @default(false)
+  isDeleting Boolean @default(false)
+
+  updatedAt DateTime @updatedAt
+  createdAt DateTime @default(now())
+
+  @@map("contract")
+}
+
+model CheckInOut {
+  id String @id @default(cuid())
+
+  isChecked  Boolean @default(false)
+  isDeleting Boolean @default(false)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("check_in_out")
+}
+
+model Appointment {
+  id   String     @id @default(cuid())
+  type ClientType
+
+  ownerId     String?
+  owner       Owner?  @relation(fields: [ownerId], references: [id])
+  tenantId    String?
+  tenant      Tenant? @relation(fields: [tenantId], references: [id])
+  teamMembers User[]
+
+  date       DateTime
+  hour       String
+  minutes    String
+  address    String
+  subject    String
+  note       String
+  isComplete Boolean  @default(false)
+
+  isDeleting Boolean @default(false)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("appointment")
 }
 
 model Payment {

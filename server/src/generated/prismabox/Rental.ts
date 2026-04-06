@@ -64,6 +64,26 @@ export const RentalRelations = t.Object(
       },
       { additionalProperties: false },
     ),
+    contracts: t.Array(
+      t.Object(
+        {
+          id: t.String(),
+          type: t.Union([t.Literal("CONTRACT"), t.Literal("MANDATE")], {
+            additionalProperties: false,
+          }),
+          start: t.Date(),
+          end: t.Date(),
+          rentalId: __nullable__(t.String()),
+          buildingId: __nullable__(t.String()),
+          isCanceled: t.Boolean(),
+          isDeleting: t.Boolean(),
+          updatedAt: t.Date(),
+          createdAt: t.Date(),
+        },
+        { additionalProperties: false },
+      ),
+      { additionalProperties: false },
+    ),
   },
   { additionalProperties: false },
 );
@@ -112,6 +132,22 @@ export const RentalRelationsInputCreate = t.Object(
       },
       { additionalProperties: false },
     ),
+    contracts: t.Optional(
+      t.Object(
+        {
+          connect: t.Array(
+            t.Object(
+              {
+                id: t.String({ additionalProperties: false }),
+              },
+              { additionalProperties: false },
+            ),
+            { additionalProperties: false },
+          ),
+        },
+        { additionalProperties: false },
+      ),
+    ),
   },
   { additionalProperties: false },
 );
@@ -140,6 +176,31 @@ export const RentalRelationsInputUpdate = t.Partial(
           ),
         },
         { additionalProperties: false },
+      ),
+      contracts: t.Partial(
+        t.Object(
+          {
+            connect: t.Array(
+              t.Object(
+                {
+                  id: t.String({ additionalProperties: false }),
+                },
+                { additionalProperties: false },
+              ),
+              { additionalProperties: false },
+            ),
+            disconnect: t.Array(
+              t.Object(
+                {
+                  id: t.String({ additionalProperties: false }),
+                },
+                { additionalProperties: false },
+              ),
+              { additionalProperties: false },
+            ),
+          },
+          { additionalProperties: false },
+        ),
       ),
     },
     { additionalProperties: false },
@@ -229,6 +290,7 @@ export const RentalSelect = t.Partial(
       price: t.Boolean(),
       start: t.Boolean(),
       end: t.Boolean(),
+      contracts: t.Boolean(),
       createdAt: t.Boolean(),
       updatedAt: t.Boolean(),
       _count: t.Boolean(),
@@ -239,7 +301,12 @@ export const RentalSelect = t.Partial(
 
 export const RentalInclude = t.Partial(
   t.Object(
-    { tenant: t.Boolean(), unit: t.Boolean(), _count: t.Boolean() },
+    {
+      tenant: t.Boolean(),
+      unit: t.Boolean(),
+      contracts: t.Boolean(),
+      _count: t.Boolean(),
+    },
     { additionalProperties: false },
   ),
 );

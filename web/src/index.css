@@ -163,3 +163,29 @@
     @apply bg-background text-foreground;
   }
 }
+
+/* Force docx-preview à s'adapter au conteneur */
+.docx-preview {
+  padding: 0 !important;
+}
+
+/* .docx-preview-wrapper,
+.docx-wrapper {
+  width: 100% !important;
+  min-width: unset !important;
+  background: transparent !important;
+  padding: 0 !important;
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: stretch !important;
+}
+
+.docx-preview-wrapper>section,
+.docx-wrapper>section,
+section.docx {
+  width: 100% !important;
+  min-width: unset !important;
+  box-shadow: none !important;
+  margin: 0 !important;
+  box-sizing: border-box !important;
+} */

@@ -234,7 +234,8 @@ export default function DataTable({
                                             data-state={row.getIsSelected() && "selected"}
                                             className={cn(
                                                 "h-11 border-neutral-100",
-                                                { "bg-red-100/60!": row.original.isDeleting }
+                                                { "bg-emerald-100!": !row.original.isDeleting && row.original?.isToday },
+                                                { "bg-red-100/60!": row.original.isDeleting },
                                             )}
                                         >
                                             {row.getVisibleCells().map((cell) => (

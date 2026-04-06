@@ -250,6 +250,7 @@ export type RentalWhereInput = {
   updatedAt?: Prisma.DateTimeFilter<"Rental"> | Date | string
   tenant?: Prisma.XOR<Prisma.TenantScalarRelationFilter, Prisma.TenantWhereInput>
   unit?: Prisma.XOR<Prisma.UnitScalarRelationFilter, Prisma.UnitWhereInput>
+  contracts?: Prisma.ContractListRelationFilter
 }
 
 export type RentalOrderByWithRelationInput = {
@@ -264,6 +265,7 @@ export type RentalOrderByWithRelationInput = {
   updatedAt?: Prisma.SortOrder
   tenant?: Prisma.TenantOrderByWithRelationInput
   unit?: Prisma.UnitOrderByWithRelationInput
+  contracts?: Prisma.ContractOrderByRelationAggregateInput
 }
 
 export type RentalWhereUniqueInput = Prisma.AtLeast<{
@@ -281,6 +283,7 @@ export type RentalWhereUniqueInput = Prisma.AtLeast<{
   updatedAt?: Prisma.DateTimeFilter<"Rental"> | Date | string
   tenant?: Prisma.XOR<Prisma.TenantScalarRelationFilter, Prisma.TenantWhereInput>
   unit?: Prisma.XOR<Prisma.UnitScalarRelationFilter, Prisma.UnitWhereInput>
+  contracts?: Prisma.ContractListRelationFilter
 }, "id">
 
 export type RentalOrderByWithAggregationInput = {
@@ -325,6 +328,7 @@ export type RentalCreateInput = {
   updatedAt?: Date | string
   tenant: Prisma.TenantCreateNestedOneWithoutRentalsInput
   unit: Prisma.UnitCreateNestedOneWithoutRentalsInput
+  contracts?: Prisma.ContractCreateNestedManyWithoutRentalInput
 }
 
 export type RentalUncheckedCreateInput = {
@@ -337,6 +341,7 @@ export type RentalUncheckedCreateInput = {
   end: Date | string
   createdAt?: Date | string
   updatedAt?: Date | string
+  contracts?: Prisma.ContractUncheckedCreateNestedManyWithoutRentalInput
 }
 
 export type RentalUpdateInput = {
@@ -349,6 +354,7 @@ export type RentalUpdateInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   tenant?: Prisma.TenantUpdateOneRequiredWithoutRentalsNestedInput
   unit?: Prisma.UnitUpdateOneRequiredWithoutRentalsNestedInput
+  contracts?: Prisma.ContractUpdateManyWithoutRentalNestedInput
 }
 
 export type RentalUncheckedUpdateInput = {
@@ -361,6 +367,7 @@ export type RentalUncheckedUpdateInput = {
   end?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  contracts?: Prisma.ContractUncheckedUpdateManyWithoutRentalNestedInput
 }
 
 export type RentalCreateManyInput = {
@@ -451,6 +458,11 @@ export type RentalSumOrderByAggregateInput = {
   price?: Prisma.SortOrder
 }
 
+export type RentalNullableScalarRelationFilter = {
+  is?: Prisma.RentalWhereInput | null
+  isNot?: Prisma.RentalWhereInput | null
+}
+
 export type RentalCreateNestedManyWithoutUnitInput = {
   create?: Prisma.XOR<Prisma.RentalCreateWithoutUnitInput, Prisma.RentalUncheckedCreateWithoutUnitInput> | Prisma.RentalCreateWithoutUnitInput[] | Prisma.RentalUncheckedCreateWithoutUnitInput[]
   connectOrCreate?: Prisma.RentalCreateOrConnectWithoutUnitInput | Prisma.RentalCreateOrConnectWithoutUnitInput[]
@@ -535,6 +547,22 @@ export type RentalUncheckedUpdateManyWithoutTenantNestedInput = {
   deleteMany?: Prisma.RentalScalarWhereInput | Prisma.RentalScalarWhereInput[]
 }
 
+export type RentalCreateNestedOneWithoutContractsInput = {
+  create?: Prisma.XOR<Prisma.RentalCreateWithoutContractsInput, Prisma.RentalUncheckedCreateWithoutContractsInput>
+  connectOrCreate?: Prisma.RentalCreateOrConnectWithoutContractsInput
+  connect?: Prisma.RentalWhereUniqueInput
+}
+
+export type RentalUpdateOneWithoutContractsNestedInput = {
+  create?: Prisma.XOR<Prisma.RentalCreateWithoutContractsInput, Prisma.RentalUncheckedCreateWithoutContractsInput>
+  connectOrCreate?: Prisma.RentalCreateOrConnectWithoutContractsInput
+  upsert?: Prisma.RentalUpsertWithoutContractsInput
+  disconnect?: Prisma.RentalWhereInput | boolean
+  delete?: Prisma.RentalWhereInput | boolean
+  connect?: Prisma.RentalWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.RentalUpdateToOneWithWhereWithoutContractsInput, Prisma.RentalUpdateWithoutContractsInput>, Prisma.RentalUncheckedUpdateWithoutContractsInput>
+}
+
 export type RentalCreateWithoutUnitInput = {
   id?: string
   isDeleting?: boolean
@@ -544,6 +572,7 @@ export type RentalCreateWithoutUnitInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   tenant: Prisma.TenantCreateNestedOneWithoutRentalsInput
+  contracts?: Prisma.ContractCreateNestedManyWithoutRentalInput
 }
 
 export type RentalUncheckedCreateWithoutUnitInput = {
@@ -555,6 +584,7 @@ export type RentalUncheckedCreateWithoutUnitInput = {
   end: Date | string
   createdAt?: Date | string
   updatedAt?: Date | string
+  contracts?: Prisma.ContractUncheckedCreateNestedManyWithoutRentalInput
 }
 
 export type RentalCreateOrConnectWithoutUnitInput = {
@@ -607,6 +637,7 @@ export type RentalCreateWithoutTenantInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   unit: Prisma.UnitCreateNestedOneWithoutRentalsInput
+  contracts?: Prisma.ContractCreateNestedManyWithoutRentalInput
 }
 
 export type RentalUncheckedCreateWithoutTenantInput = {
@@ -618,6 +649,7 @@ export type RentalUncheckedCreateWithoutTenantInput = {
   end: Date | string
   createdAt?: Date | string
   updatedAt?: Date | string
+  contracts?: Prisma.ContractUncheckedCreateNestedManyWithoutRentalInput
 }
 
 export type RentalCreateOrConnectWithoutTenantInput = {
@@ -646,6 +678,70 @@ export type RentalUpdateManyWithWhereWithoutTenantInput = {
   data: Prisma.XOR<Prisma.RentalUpdateManyMutationInput, Prisma.RentalUncheckedUpdateManyWithoutTenantInput>
 }
 
+export type RentalCreateWithoutContractsInput = {
+  id?: string
+  isDeleting?: boolean
+  price?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  start: Date | string
+  end: Date | string
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  tenant: Prisma.TenantCreateNestedOneWithoutRentalsInput
+  unit: Prisma.UnitCreateNestedOneWithoutRentalsInput
+}
+
+export type RentalUncheckedCreateWithoutContractsInput = {
+  id?: string
+  tenantId: string
+  unitId: string
+  isDeleting?: boolean
+  price?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  start: Date | string
+  end: Date | string
+  createdAt?: Date | string
+  updatedAt?: Date | string
+}
+
+export type RentalCreateOrConnectWithoutContractsInput = {
+  where: Prisma.RentalWhereUniqueInput
+  create: Prisma.XOR<Prisma.RentalCreateWithoutContractsInput, Prisma.RentalUncheckedCreateWithoutContractsInput>
+}
+
+export type RentalUpsertWithoutContractsInput = {
+  update: Prisma.XOR<Prisma.RentalUpdateWithoutContractsInput, Prisma.RentalUncheckedUpdateWithoutContractsInput>
+  create: Prisma.XOR<Prisma.RentalCreateWithoutContractsInput, Prisma.RentalUncheckedCreateWithoutContractsInput>
+  where?: Prisma.RentalWhereInput
+}
+
+export type RentalUpdateToOneWithWhereWithoutContractsInput = {
+  where?: Prisma.RentalWhereInput
+  data: Prisma.XOR<Prisma.RentalUpdateWithoutContractsInput, Prisma.RentalUncheckedUpdateWithoutContractsInput>
+}
+
+export type RentalUpdateWithoutContractsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  isDeleting?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  price?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  start?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  end?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  tenant?: Prisma.TenantUpdateOneRequiredWithoutRentalsNestedInput
+  unit?: Prisma.UnitUpdateOneRequiredWithoutRentalsNestedInput
+}
+
+export type RentalUncheckedUpdateWithoutContractsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenantId?: Prisma.StringFieldUpdateOperationsInput | string
+  unitId?: Prisma.StringFieldUpdateOperationsInput | string
+  isDeleting?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  price?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  start?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  end?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+}
+
 export type RentalCreateManyUnitInput = {
   id?: string
   tenantId: string
@@ -666,6 +762,7 @@ export type RentalUpdateWithoutUnitInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   tenant?: Prisma.TenantUpdateOneRequiredWithoutRentalsNestedInput
+  contracts?: Prisma.ContractUpdateManyWithoutRentalNestedInput
 }
 
 export type RentalUncheckedUpdateWithoutUnitInput = {
@@ -677,6 +774,7 @@ export type RentalUncheckedUpdateWithoutUnitInput = {
   end?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  contracts?: Prisma.ContractUncheckedUpdateManyWithoutRentalNestedInput
 }
 
 export type RentalUncheckedUpdateManyWithoutUnitInput = {
@@ -710,6 +808,7 @@ export type RentalUpdateWithoutTenantInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   unit?: Prisma.UnitUpdateOneRequiredWithoutRentalsNestedInput
+  contracts?: Prisma.ContractUpdateManyWithoutRentalNestedInput
 }
 
 export type RentalUncheckedUpdateWithoutTenantInput = {
@@ -721,6 +820,7 @@ export type RentalUncheckedUpdateWithoutTenantInput = {
   end?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  contracts?: Prisma.ContractUncheckedUpdateManyWithoutRentalNestedInput
 }
 
 export type RentalUncheckedUpdateManyWithoutTenantInput = {
@@ -735,6 +835,35 @@ export type RentalUncheckedUpdateManyWithoutTenantInput = {
 }
 
 
+/**
+ * Count Type RentalCountOutputType
+ */
+
+export type RentalCountOutputType = {
+  contracts: number
+}
+
+export type RentalCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  contracts?: boolean | RentalCountOutputTypeCountContractsArgs
+}
+
+/**
+ * RentalCountOutputType without action
+ */
+export type RentalCountOutputTypeDefaultArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the RentalCountOutputType
+   */
+  select?: Prisma.RentalCountOutputTypeSelect<ExtArgs> | null
+}
+
+/**
+ * RentalCountOutputType without action
+ */
+export type RentalCountOutputTypeCountContractsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.ContractWhereInput
+}
+
 
 export type RentalSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
@@ -748,6 +877,8 @@ export type RentalSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs =
   updatedAt?: boolean
   tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
   unit?: boolean | Prisma.UnitDefaultArgs<ExtArgs>
+  contracts?: boolean | Prisma.Rental$contractsArgs<ExtArgs>
+  _count?: boolean | Prisma.RentalCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["rental"]>
 
 export type RentalSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -794,6 +925,8 @@ export type RentalOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
 export type RentalInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
   unit?: boolean | Prisma.UnitDefaultArgs<ExtArgs>
+  contracts?: boolean | Prisma.Rental$contractsArgs<ExtArgs>
+  _count?: boolean | Prisma.RentalCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type RentalIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
@@ -809,6 +942,7 @@ export type $RentalPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs
   objects: {
     tenant: Prisma.$TenantPayload<ExtArgs>
     unit: Prisma.$UnitPayload<ExtArgs>
+    contracts: Prisma.$ContractPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -1216,6 +1350,7 @@ export interface Prisma__RentalClient<T, Null = never, ExtArgs extends runtime.T
   readonly [Symbol.toStringTag]: "PrismaPromise"
   tenant<T extends Prisma.TenantDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.TenantDefaultArgs<ExtArgs>>): Prisma.Prisma__TenantClient<runtime.Types.Result.GetResult<Prisma.$TenantPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   unit<T extends Prisma.UnitDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.UnitDefaultArgs<ExtArgs>>): Prisma.Prisma__UnitClient<runtime.Types.Result.GetResult<Prisma.$UnitPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+  contracts<T extends Prisma.Rental$contractsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Rental$contractsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ContractPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1652,6 +1787,30 @@ export type RentalDeleteManyArgs<ExtArgs extends runtime.Types.Extensions.Intern
    * Limit how many Rentals to delete.
    */
   limit?: number
+}
+
+/**
+ * Rental.contracts
+ */
+export type Rental$contractsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Contract
+   */
+  select?: Prisma.ContractSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Contract
+   */
+  omit?: Prisma.ContractOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.ContractInclude<ExtArgs> | null
+  where?: Prisma.ContractWhereInput
+  orderBy?: Prisma.ContractOrderByWithRelationInput | Prisma.ContractOrderByWithRelationInput[]
+  cursor?: Prisma.ContractWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.ContractScalarFieldEnum | Prisma.ContractScalarFieldEnum[]
 }
 
 /**

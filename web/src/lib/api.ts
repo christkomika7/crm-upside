@@ -15,20 +15,39 @@ interface ApiResponse<T> {
     message?: string;
 }
 
-export async function apiFetch<T>(path: string, options?: RequestInit): Promise<T> {
+type ResponseType = "json" | "blob" | "arrayBuffer" | "text";
+
+export async function apiFetch<T = unknown>(
+    path: string,
+    options?: RequestInit & { responseType?: ResponseType }
+): Promise<T> {
+    const { responseType = "json", ...fetchOptions } = options || {};
+
     const res = await fetch(`${BASE_URL}${path}`, {
-        ...options,
+        ...fetchOptions,
         credentials: "include",
         headers: {
-            "Content-Type": "application/json",
-            ...options?.headers,
+            ...(responseType === "json" ? { "Content-Type": "application/json" } : {}),
+            ...fetchOptions?.headers,
         },
     });
 
     if (!res.ok) throw new Error(await res.text());
-    return res.json() as Promise<T>;
-}
 
+    switch (responseType) {
+        case "blob":
+            return (await res.blob()) as T;
+
+        case "arrayBuffer":
+            return (await res.arrayBuffer()) as T;
+
+        case "text":
+            return (await res.text()) as T;
+
+        default:
+            return (await res.json()) as T;
+    }
+}
 
 
 export async function apiClient<TRequest = unknown, TResponse = unknown>(

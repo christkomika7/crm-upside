@@ -1,16 +1,20 @@
+import RecordDocument from "@/components/document/record";
 import { Button } from "@/components/ui/button";
 import { Popover, PopoverArrow, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+import { Skeleton } from "@/components/ui/skeleton";
 import { Spinner } from "@/components/ui/spinner";
 import { Status, StatusIndicator, StatusLabel } from "@/components/ui/status";
-import { crudService } from "@/lib/api";
+import { apiFetch, crudService } from "@/lib/api";
+import { renderComponentToPDF } from "@/lib/document";
 import { queryClient } from "@/lib/query-client";
 import { cn, formatNumber } from "@/lib/utils";
+import type { Document as DocumentType } from "@/types/document";
 import type { InvoiceTab } from "@/types/invoice";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import { Link, useRouter } from "@tanstack/react-router";
 import type { ColumnDef } from "@tanstack/react-table";
 import { ArrowUpDownIcon, Edit3Icon, EllipsisVerticalIcon, Trash2Icon } from "lucide-react";
-import { Activity } from "react";
+import { Activity, useState } from "react";
 import { toast } from "sonner";
 
 
@@ -175,7 +179,19 @@ export const columns: ColumnDef<InvoiceTab>[] = [
         enableHiding: false,
         cell: ({ row }) => {
             const router = useRouter();
-            const removeInvoice = useMutation({
+            const [loading, setLoading] = useState(false);
+
+            const { isPending: isGettingInvoice, data: invoice } = useQuery({
+                queryKey: ["invoice-document", row.original.id],
+                enabled: !!row.original.id,
+                queryFn: () => apiFetch<DocumentType>(`/document/${row.original.id}?type=INVOICE`),
+                staleTime: 0,
+                gcTime: 0,
+                refetchOnMount: "always",
+                refetchOnWindowFocus: true,
+            });
+
+            const remove = useMutation({
                 mutationFn: ({ invoiceId }: { invoiceId: string }) =>
                     crudService.delete(`/invoice/${invoiceId}`),
                 onSuccess() {
@@ -186,6 +202,62 @@ export const columns: ColumnDef<InvoiceTab>[] = [
                     toast.error(error.message);
                 },
             });
+
+            const duplicate = useMutation({
+                mutationFn: ({ invoiceId }: { invoiceId: string }) =>
+                    crudService.get(`/invoice/duplicate/${invoiceId}`),
+                onSuccess() {
+                    queryClient.invalidateQueries({ queryKey: ["invoices"] });
+                },
+                onError: (error: Error) => {
+                    console.error("Erreur:", error.message);
+                    toast.error(error.message);
+                },
+            });
+
+            async function convertPdfToFile(invoice: DocumentType, filename: string) {
+                const pdfData = await renderComponentToPDF(
+                    <RecordDocument id={row.original.id} title="Facture" type="INVOICE" data={invoice} />
+                    , {
+                        padding: 0,
+                        margin: 0,
+                        quality: 0.98,
+                        scale: 4,
+                        headerText: `- ${filename} - ${new Date().toLocaleDateString("fr-FR", {
+                            year: "numeric",
+                            month: "long",
+                            day: "numeric",
+                        })}`
+                    })
+                const blob = new Blob([pdfData], { type: "application/pdf" });
+                const url = URL.createObjectURL(blob);
+
+                const link = document.createElement("a");
+                link.href = url;
+                link.download = filename;
+
+                document.body.appendChild(link);
+                link.click();
+
+                document.body.removeChild(link);
+                URL.revokeObjectURL(url);
+            }
+
+            async function downloadPdf() {
+                if (invoice) {
+                    setLoading(true);
+
+                    const filename = `Facture ${invoice.reference}.pdf`;
+                    const start = Date.now();
+                    await convertPdfToFile(invoice, filename);
+                    const elapsed = Date.now() - start;
+                    const remaining = Math.max(0, 800 - elapsed);
+
+                    setTimeout(() => {
+                        setLoading(false);
+                    }, remaining);
+                }
+            }
             return (
                 <div className="flex gap-x-2">
                     <Popover>
@@ -196,24 +268,52 @@ export const columns: ColumnDef<InvoiceTab>[] = [
                             <PopoverArrow />
                             <ul className=" text-sm text-neutral-600">
                                 <li className="border-b p-4 border-neutral-100 hover:bg-emerald-50 cursor-pointer flex gap-x-2 items-center"
-                                    onClick={() => router.navigate({ to: "/dashboard/invoices/$id", params: { id: `view_invoice-${row.original.id}` }, search: { type: row.original.type } })}
+                                    onClick={() => router.navigate(
+                                        {
+                                            to: "/dashboard/invoices/edit-invoice/$id",
+                                            params: { id: `edit_invoice-${row.original.id}` },
+                                            search: { type: 'preview' }
+                                        }
+                                    )}
                                 >
                                     Aperçu
                                 </li>
-                                <li className="border-b p-4 border-neutral-100 hover:bg-emerald-50 cursor-pointer flex gap-x-2 items-center">Dupliquer</li>
+                                <li className="border-b p-4 border-neutral-100 hover:bg-emerald-50 cursor-pointer flex gap-x-2 items-center"
+                                    onClick={() => router.navigate(
+                                        {
+                                            to: "/dashboard/invoices/edit-invoice/$id",
+                                            params: { id: `edit_invoice-${row.original.id}` },
+                                            search: { type: 'share' }
+                                        }
+                                    )}
+                                >
+                                    Partager
+                                </li>
+                                <li className="border-b p-4 border-neutral-100 hover:bg-emerald-50 cursor-pointer flex gap-x-2 items-center"
+                                    onClick={() => duplicate.mutate({ invoiceId: row.original.id })}
+                                >Dupliquer {duplicate.isPending && <Spinner />} </li>
                                 <li className="border-b p-4 border-neutral-100 hover:bg-emerald-50 cursor-pointer flex gap-x-2 items-center">Effectuer un paiement</li>
-                                <li className="p-4 hover:bg-emerald-50 cursor-pointer flex gap-x-2 items-center">Télécharger la facture</li>
+                                <Activity mode={isGettingInvoice ? "visible" : "hidden"}>
+                                    <li className="p-4 hover:bg-emerald-50 cursor-pointer flex gap-x-2 items-center">
+                                        <Skeleton className="w-40 h-2" />
+                                    </li>
+                                </Activity>
+                                <Activity mode={isGettingInvoice ? "hidden" : "visible"}>
+                                    <li className="p-4 hover:bg-emerald-50 cursor-pointer flex gap-x-2 items-center"
+                                        onClick={() => downloadPdf()}
+                                    >Télécharger la facture {loading && <Spinner />} </li>
+                                </Activity>
                             </ul>
                         </PopoverContent>
                     </Popover>
                     <Link to="/dashboard/invoices/edit-invoice/$id"
                         params={{ id: `edit_invoice-${row.original.id}` }}
-                        search={{ type: row.original.type }}
+                        search={{ type: 'edit' }}
                     >
                         <Button variant="secondary" className="size-7.5 rounded-lg"><Edit3Icon className="size-3.5" /></Button>
                     </Link>
-                    <Button onClick={() => removeInvoice.mutate({ invoiceId: row.original.id })} variant="destructive" className="size-7.5 rounded-lg bg-red-400">
-                        {removeInvoice.isPending ? <Spinner className="text-white size-3.5" /> : <Trash2Icon className="size-3.5" />}
+                    <Button onClick={() => remove.mutate({ invoiceId: row.original.id })} variant="destructive" className="size-7.5 rounded-lg bg-red-400">
+                        {remove.isPending ? <Spinner className="text-white size-3.5" /> : <Trash2Icon className="size-3.5" />}
                     </Button>
                 </div>
             )

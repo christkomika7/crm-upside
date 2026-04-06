@@ -53,30 +53,6 @@ export const invoiceRoutes = new Elysia({ prefix: "/invoice" })
             }
         }
     }, { auth: true })
-    .get("/clients", async ({ permission, status, query }) => {
-        if (!canAccess(permission, "invoicing", ['read'])) {
-            return status(403, { message: "Accès refusé" });
-        }
-
-        switch (query.type) {
-            case "OWNER":
-                return await prisma.owner.findMany({
-                    select: {
-                        id: true,
-                        firstname: true,
-                        lastname: true,
-                    }
-                })
-            case "TENANT":
-                return await prisma.tenant.findMany({
-                    select: {
-                        id: true,
-                        firstname: true,
-                        lastname: true,
-                    }
-                })
-        }
-    }, { auth: true, query: request.queryClient })
     .get("/", async ({ permission, status, query }) => {
         if (!canAccess(permission, "invoicing", ['read'])) {
             return status(403, { message: "Accès refusé" });
@@ -139,6 +115,94 @@ export const invoiceRoutes = new Elysia({ prefix: "/invoice" })
             ...invoice,
             reference: generateRef(reference?.invoice, invoice?.reference),
         }
+    }, { auth: true, params: request.paramsId })
+    .get("/duplicate/:id", async ({ params, permission, status }) => {
+        if (!canAccess(permission, "invoicing", ['create'])) {
+            return status(403, { message: "Accès refusé" });
+        }
+
+        if (!params.id) return status(400, { message: "L'identifiant est requis" });
+
+        const invoice = await prisma.invoice.findUnique({
+            where: {
+                id: params.id
+            },
+            include: {
+                items: true,
+                owner: true,
+                tenant: true
+            }
+        });
+
+        if (!invoice) return status(404, { message: "Facture non trouvée" });
+        if (invoice.isDeleting) return status(400, { message: "Impossible de dupliquer une facture en cours de suppression" });
+
+
+        try {
+            const newInvoice = await prisma.invoice.create({
+                data: {
+                    price: new Decimal(invoice.price),
+                    discount: new Decimal(invoice.discount || 0),
+                    discountType: invoice.discountType,
+                    hasTax: invoice.hasTax,
+                    type: invoice.type,
+                    start: invoice.start,
+                    end: invoice.end,
+                    note: invoice.note,
+                    ...(invoice.type === "OWNER" ? { ownerId: invoice.ownerId } : { tenantId: invoice.tenantId }),
+                    items: {
+                        createMany: {
+                            data: invoice.items.map((item) => ({
+                                productServiceId: item.productServiceId,
+                                quantity: item.quantity,
+                                price: new Decimal(item.price),
+                                description: item.description,
+                                hasTax: item.hasTax,
+                                reference: item.reference
+                            })),
+                        }
+                    },
+                },
+            });
+
+            switch (newInvoice.type) {
+                case "OWNER":
+                    await prisma.owner.update({
+                        where: {
+                            id: newInvoice.ownerId!
+                        },
+                        data: {
+                            invoices: {
+                                connect: {
+                                    id: newInvoice.id
+                                }
+                            }
+                        }
+                    })
+                    break;
+                case "TENANT":
+                    await prisma.tenant.update({
+                        where: {
+                            id: newInvoice.tenantId!
+                        },
+                        data: {
+                            invoices: {
+                                connect: {
+                                    id: newInvoice.id
+                                }
+                            }
+                        }
+                    })
+                    break;
+            }
+            return status(201, { message: "Facture dupliquée avec succès" })
+        } catch (error) {
+            console.error(error);
+            return status(500, { message: "Erreur lors de la duplication de la facture" })
+        }
+
+
+
     }, { auth: true, params: request.paramsId })
     .post("/", async ({ body, permission, status }) => {
         if (!canAccess(permission, "invoicing", ['create'])) {

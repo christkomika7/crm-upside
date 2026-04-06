@@ -1,25 +1,54 @@
 import { z } from "zod";
 
-
 export const contractSchema = z.object({
-    building: z.string({ error: "Le nom du bâtiment est requis." }),
-    units: z.string({ error: "L'unité est requise." }),
-    tenant: z.string({ error: "Le locataire est requis." }),
-    price: z.string({ error: "Le prix est requis." }),
-    managementFee: z.string({ error: "Les frais de gestion sont requis." }),
-    startDate: z.date({ error: "La date de début est requise." }),
-    duration: z.string({ error: "La durée du contrat est requise." }),
-});
+    type: z.enum(["CONTRACT", "MANDATE"], {
+        error: "Le type de contrat est requis."
+    }),
+    period: z
+        .object({
+            from: z.date({ error: "La date de début est requise." }),
+            to: z.date({ error: "La date de fin est requise." }),
+        }, { error: "La période est requise." })
+        .refine(
+            (period) => period.from instanceof Date && !isNaN(period.from.getTime()),
+            {
+                message: "La date de début est requise.",
+                path: ["from"],
+            }
+        )
+        .refine(
+            (period) => period.to instanceof Date && !isNaN(period.to.getTime()),
+            {
+                message: "La date de fin est requise.",
+                path: ["to"],
+            }
+        )
+        .refine(
+            (period) => period.from < period.to,
+            {
+                message: "La date de début doit être antérieure à la date de fin.",
+                path: ["from"],
+            }
+        ),
+    rental: z.string().optional(),
+    building: z.string().optional(),
+    note: z.string().optional(),
 
-export const mandateSchema = z.object({
-    building: z.string({ error: "Le nom du bâtiment est requis." }),
-    owner: z.string({ error: "Le nom du propriétaire est requis." }),
-    units: z.string({ error: "L'unité est requise." }),
-    managementFee: z.string({ error: "Les frais de gestion sont requis." }),
-    startDate: z.date({ error: "La date de début est requise." }),
-    duration: z.string({ error: "La durée du contrat est requise." }),
+}).superRefine((data, ctx) => {
+    if (data.type === "CONTRACT" && !data.rental) {
+        ctx.addIssue({
+            code: "custom",
+            message: "La location est requise.",
+            path: ["rental"],
+        });
+    }
+    if (data.type === "MANDATE" && !data.building) {
+        ctx.addIssue({
+            code: "custom",
+            message: "Le nom du bâtiment est requis.",
+            path: ["building"],
+        });
+    }
 });
-
 
 export type ContractSchemaType = z.infer<typeof contractSchema>;
-export type MandateSchemaType = z.infer<typeof mandateSchema>;

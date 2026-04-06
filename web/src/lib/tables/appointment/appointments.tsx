@@ -1,35 +1,17 @@
 import { Button } from "@/components/ui/button";
-import { formatDateTo } from "@/lib/utils";
+import { Spinner } from "@/components/ui/spinner";
+import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
+import { crudService } from "@/lib/api";
+import { queryClient } from "@/lib/query-client";
+import { cutText } from "@/lib/utils";
+import type { AppointmentTab } from "@/types/appointment";
+import { useMutation } from "@tanstack/react-query";
 import { Link } from "@tanstack/react-router";
 import type { ColumnDef } from "@tanstack/react-table";
-import { ArrowUpDownIcon, Edit3Icon, EllipsisVerticalIcon, EyeIcon } from "lucide-react";
+import { ArrowUpDownIcon, CalendarCheck2Icon, Edit3Icon, Trash2Icon } from "lucide-react";
+import { toast } from "sonner";
 
-type KeyType = "id" | "date" | "type" | "client" | "member" | "subject" | "location" | "createdAt"
-
-export const data: Record<KeyType, string | number | Date>[] = [
-    {
-        id: "m5gr84i9",
-        type: "upcoming",
-        date: new Date("2023-01-15"),
-        client: "John Doe",
-        member: "Jane Smith",
-        subject: "Meeting about project X",
-        location: "Sunset Heights-A-101",
-        createdAt: new Date("2023-01-15")
-    },
-    {
-        id: "3u1reuv4",
-        type: "past",
-        date: new Date("2023-01-20"),
-        client: "Alice Johnson",
-        member: "Bob Williams",
-        subject: "Project review meeting",
-        location: "Sunset Heights-B-202",
-        createdAt: new Date("2023-01-15")
-    },
-]
-
-export const columns: ColumnDef<Record<KeyType, string | number | Date>>[] = [
+export const columns: ColumnDef<AppointmentTab>[] = [
     {
         accessorKey: "date",
         header: ({ column }) => {
@@ -45,7 +27,7 @@ export const columns: ColumnDef<Record<KeyType, string | number | Date>>[] = [
             )
         },
         cell: ({ row }) => (
-            <div className="capitalize">{formatDateTo(row.getValue("date"))}</div>
+            <div className="capitalize">{row.getValue("date")}</div>
         ),
     },
     {
@@ -63,11 +45,20 @@ export const columns: ColumnDef<Record<KeyType, string | number | Date>>[] = [
             )
         },
         cell: ({ row }) => (
-            <div className="capitalize">{row.getValue("client")}</div>
+            <div className="capitalize">
+                <Tooltip>
+                    <TooltipTrigger>
+                        {cutText(row.getValue("client"), 18)}
+                    </TooltipTrigger>
+                    <TooltipContent>
+                        {row.getValue("client")}
+                    </TooltipContent>
+                </Tooltip>
+            </div>
         ),
     },
     {
-        accessorKey: "member",
+        accessorKey: "members",
         header: ({ column }) => {
             return (
                 <Button
@@ -75,14 +66,26 @@ export const columns: ColumnDef<Record<KeyType, string | number | Date>>[] = [
                     className="text-sm! font-medium cursor-pointer text-left pl-0!"
                     onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
                 >
-                    Membre
+                    Membres
                     <ArrowUpDownIcon className="size-3.5 text-neutral-500" />
                 </Button>
             )
         },
-        cell: ({ row }) => (
-            <div className="capitalize">{row.getValue("member")}</div>
-        ),
+        cell: ({ row }) => {
+            const members = row.original.members.join(", ");
+            return (
+                <div className="capitalize">
+                    <Tooltip>
+                        <TooltipTrigger>
+                            {cutText(members, 18)}
+                        </TooltipTrigger>
+                        <TooltipContent>
+                            {members}
+                        </TooltipContent>
+                    </Tooltip>
+                </div>
+            )
+        },
     },
     {
         accessorKey: "subject",
@@ -99,11 +102,20 @@ export const columns: ColumnDef<Record<KeyType, string | number | Date>>[] = [
             )
         },
         cell: ({ row }) => (
-            <div className="capitalize">{row.getValue("subject")}</div>
+            <div className="capitalize">
+                <Tooltip>
+                    <TooltipTrigger>
+                        {cutText(row.getValue("subject"), 18)}
+                    </TooltipTrigger>
+                    <TooltipContent>
+                        {row.getValue("subject")}
+                    </TooltipContent>
+                </Tooltip>
+            </div>
         ),
     },
     {
-        accessorKey: "location",
+        accessorKey: "address",
         header: ({ column }) => {
             return (
                 <Button
@@ -111,13 +123,22 @@ export const columns: ColumnDef<Record<KeyType, string | number | Date>>[] = [
                     className="text-sm! font-medium cursor-pointer text-left pl-0!"
                     onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
                 >
-                    Emplacement
+                    Lieu
                     <ArrowUpDownIcon className="size-3.5 text-neutral-500" />
                 </Button>
             )
         },
         cell: ({ row }) => (
-            <div className="capitalize">{row.getValue("location")}</div>
+            <div className="capitalize">
+                <Tooltip>
+                    <TooltipTrigger>
+                        {cutText(row.getValue("address"), 18)}
+                    </TooltipTrigger>
+                    <TooltipContent>
+                        {row.getValue("address")}
+                    </TooltipContent>
+                </Tooltip>
+            </div>
         ),
     },
     {
@@ -125,21 +146,52 @@ export const columns: ColumnDef<Record<KeyType, string | number | Date>>[] = [
         header: "Action",
         enableHiding: false,
         cell: ({ row }) => {
+            const remove = useMutation({
+                mutationFn: ({ buildingId }: { buildingId: string }) =>
+                    crudService.delete(`/appointment/${buildingId}`),
+                onSuccess(data) {
+                    toast.success(data.message);
+                    queryClient.invalidateQueries({ queryKey: ["appointments"] });
+                    queryClient.invalidateQueries({ queryKey: ["deletions"] });
+                },
+                onError: (error: Error) => {
+                    console.error("Erreur:", error.message);
+                    toast.error(error.message);
+                },
+            });
+
+            const complete = useMutation({
+                mutationFn: ({ buildingId }: { buildingId: string }) =>
+                    crudService.put(`/appointment/complete/${buildingId}`, {}),
+                onSuccess(data) {
+                    toast.success(data.message);
+                    queryClient.invalidateQueries({ queryKey: ["appointments"] });
+                    queryClient.invalidateQueries({ queryKey: ["appointment-stats"] });
+                    queryClient.invalidateQueries({ queryKey: ["deletions"] });
+                },
+                onError: (error: Error) => {
+                    console.error("Erreur:", error.message);
+                    toast.error(error.message);
+                },
+            });
+
             return (
                 <div className="flex gap-x-2">
-                    <Link to="/dashboard/appointments/edit-appointment/$id"
-                        params={{ id: `edit_appointment-${row.original.id}` }}
-                        search={{ type: row.original.type }}
-                    >
-                        <Button variant="outline" className="size-7.5 rounded-lg"><Edit3Icon className="size-3.5" /></Button>
-                    </Link>
-                    <Link to="/dashboard/appointments/$id"
-                        params={{ id: `view_appointment-${row.original.id}` }}
-                        search={{ type: row.original.type }}
-                    >
-                        <Button variant="secondary" className="size-7.5 rounded-lg"><EyeIcon className="size-3.5" /></Button>
-                    </Link>
-                    <Button variant="amber" className="size-7.5 rounded-lg"><EllipsisVerticalIcon className="size-3.5" /></Button>
+                    {!row.original.isComplete && (
+                        <>
+                            <Link to="/dashboard/appointments/edit-appointment/$id"
+                                params={{ id: `edit_appointment-${row.original.id}` }}
+                            >
+                                <Button variant="outline" className="size-7.5 rounded-lg"><Edit3Icon className="size-3.5" /></Button>
+                            </Link>
+                            <Button onClick={() => complete.mutate({ buildingId: row.original.id })} variant="emerald" className="size-7.5! rounded-lg">
+                                {complete.isPending ? <Spinner className="text-white size-3.5" /> : <CalendarCheck2Icon className="size-3.5" />}
+                            </Button>
+                        </>
+                    )}
+                    <Button onClick={() => remove.mutate({ buildingId: row.original.id })} variant="red" className="size-7.5! rounded-lg">
+                        {remove.isPending ? <Spinner className="text-white size-3.5" /> : <Trash2Icon className="size-3.5" />}
+                    </Button>
                 </div>
             )
         },

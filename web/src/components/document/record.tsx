@@ -7,7 +7,7 @@ import { calculateTaxes } from "@/lib/price";
 type DocumentPreviewProps = {
     id: string;
     title: string;
-    type: 'Facture' | 'Devis';
+    type: 'INVOICE' | 'QUOTE';
     data: Document
 
 };
@@ -46,9 +46,11 @@ export default function RecordDocument({
     const amountType = data.amountType;
     const note = data.note
 
+
     const total = new Decimal(data.amount);
-    const paid = new Decimal(data.amountPaid);
+    const paid = new Decimal(data?.amountPaid ?? 0);
     const due = total.minus(paid);
+
 
     const result = calculateTaxes({
         items,
@@ -118,7 +120,7 @@ export default function RecordDocument({
                         marginBottom: "1px",
 
                     }}>
-                        <span className="font-medium">{type} N° :</span>
+                        <span className="font-medium">{type === "INVOICE" ? "Facture" : "Devis"} N° :</span>
                         <span className="font-normal">{reference}</span>
                     </p>
 
@@ -274,28 +276,30 @@ export default function RecordDocument({
 
                     <div className="h-2"></div>
 
-                    {/* Payé */}
-                    {paid && (
-                        <div className="grid grid-cols-[1fr_240px]">
-                            <div className="text-right pr-4">
-                                Payé
+                    {type === "INVOICE" && paid && (
+                        <>
+                            {/* Payé */}
+                            <div className="grid grid-cols-[1fr_240px]">
+                                <div className="text-right pr-4">
+                                    Payé
+                                </div>
+                                <div className="pr-[27px] text-right">
+                                    {formatNumber(paid.toNumber())} FCFA
+                                </div>
                             </div>
-                            <div className="pr-[27px] text-right">
-                                {formatNumber(paid.toNumber())} FCFA
+                            {/* TOTAL */}
+                            <div
+                                className="grid grid-cols-[1fr_240px] py-3 text-2xl font-black"
+                                style={{ backgroundColor: secondColor }}
+                            >
+                                <div className="text-right pr-4">Net à payer</div>
+                                <div className="pr-[27px] text-right">
+                                    {formatNumber(due.toNumber())} FCFA
+                                </div>
                             </div>
-                        </div>
+                        </>
                     )}
 
-                    {/* TOTAL */}
-                    <div
-                        className="grid grid-cols-[1fr_240px] py-3 text-2xl font-black"
-                        style={{ backgroundColor: secondColor }}
-                    >
-                        <div className="text-right pr-4">Net à payer</div>
-                        <div className="pr-[27px] text-right">
-                            {formatNumber(due.toNumber())} FCFA
-                        </div>
-                    </div>
                 </div>
             </div>
             <div className="px-7 mt-[65px]" >

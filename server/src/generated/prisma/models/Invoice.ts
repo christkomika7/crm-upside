@@ -49,7 +49,7 @@ export type InvoiceMinAggregateOutputType = {
   status: $Enums.InvoiceStatus | null
   discountType: $Enums.DiscountType | null
   hasTax: boolean | null
-  type: $Enums.RecordType | null
+  type: $Enums.ClientType | null
   ownerId: string | null
   tenantId: string | null
   note: string | null
@@ -69,7 +69,7 @@ export type InvoiceMaxAggregateOutputType = {
   status: $Enums.InvoiceStatus | null
   discountType: $Enums.DiscountType | null
   hasTax: boolean | null
-  type: $Enums.RecordType | null
+  type: $Enums.ClientType | null
   ownerId: string | null
   tenantId: string | null
   note: string | null
@@ -272,7 +272,7 @@ export type InvoiceGroupByOutputType = {
   status: $Enums.InvoiceStatus
   discountType: $Enums.DiscountType
   hasTax: boolean
-  type: $Enums.RecordType
+  type: $Enums.ClientType
   ownerId: string | null
   tenantId: string | null
   note: string | null
@@ -315,7 +315,7 @@ export type InvoiceWhereInput = {
   status?: Prisma.EnumInvoiceStatusFilter<"Invoice"> | $Enums.InvoiceStatus
   discountType?: Prisma.EnumDiscountTypeFilter<"Invoice"> | $Enums.DiscountType
   hasTax?: Prisma.BoolFilter<"Invoice"> | boolean
-  type?: Prisma.EnumRecordTypeFilter<"Invoice"> | $Enums.RecordType
+  type?: Prisma.EnumClientTypeFilter<"Invoice"> | $Enums.ClientType
   ownerId?: Prisma.StringNullableFilter<"Invoice"> | string | null
   tenantId?: Prisma.StringNullableFilter<"Invoice"> | string | null
   note?: Prisma.StringNullableFilter<"Invoice"> | string | null
@@ -366,7 +366,7 @@ export type InvoiceWhereUniqueInput = Prisma.AtLeast<{
   status?: Prisma.EnumInvoiceStatusFilter<"Invoice"> | $Enums.InvoiceStatus
   discountType?: Prisma.EnumDiscountTypeFilter<"Invoice"> | $Enums.DiscountType
   hasTax?: Prisma.BoolFilter<"Invoice"> | boolean
-  type?: Prisma.EnumRecordTypeFilter<"Invoice"> | $Enums.RecordType
+  type?: Prisma.EnumClientTypeFilter<"Invoice"> | $Enums.ClientType
   ownerId?: Prisma.StringNullableFilter<"Invoice"> | string | null
   tenantId?: Prisma.StringNullableFilter<"Invoice"> | string | null
   note?: Prisma.StringNullableFilter<"Invoice"> | string | null
@@ -418,7 +418,7 @@ export type InvoiceScalarWhereWithAggregatesInput = {
   status?: Prisma.EnumInvoiceStatusWithAggregatesFilter<"Invoice"> | $Enums.InvoiceStatus
   discountType?: Prisma.EnumDiscountTypeWithAggregatesFilter<"Invoice"> | $Enums.DiscountType
   hasTax?: Prisma.BoolWithAggregatesFilter<"Invoice"> | boolean
-  type?: Prisma.EnumRecordTypeWithAggregatesFilter<"Invoice"> | $Enums.RecordType
+  type?: Prisma.EnumClientTypeWithAggregatesFilter<"Invoice"> | $Enums.ClientType
   ownerId?: Prisma.StringNullableWithAggregatesFilter<"Invoice"> | string | null
   tenantId?: Prisma.StringNullableWithAggregatesFilter<"Invoice"> | string | null
   note?: Prisma.StringNullableWithAggregatesFilter<"Invoice"> | string | null
@@ -438,7 +438,7 @@ export type InvoiceCreateInput = {
   status?: $Enums.InvoiceStatus
   discountType?: $Enums.DiscountType
   hasTax?: boolean
-  type: $Enums.RecordType
+  type: $Enums.ClientType
   note?: string | null
   start: Date | string
   end: Date | string
@@ -460,7 +460,7 @@ export type InvoiceUncheckedCreateInput = {
   status?: $Enums.InvoiceStatus
   discountType?: $Enums.DiscountType
   hasTax?: boolean
-  type: $Enums.RecordType
+  type: $Enums.ClientType
   ownerId?: string | null
   tenantId?: string | null
   note?: string | null
@@ -482,7 +482,7 @@ export type InvoiceUpdateInput = {
   status?: Prisma.EnumInvoiceStatusFieldUpdateOperationsInput | $Enums.InvoiceStatus
   discountType?: Prisma.EnumDiscountTypeFieldUpdateOperationsInput | $Enums.DiscountType
   hasTax?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  type?: Prisma.EnumRecordTypeFieldUpdateOperationsInput | $Enums.RecordType
+  type?: Prisma.EnumClientTypeFieldUpdateOperationsInput | $Enums.ClientType
   note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   start?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   end?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -504,7 +504,7 @@ export type InvoiceUncheckedUpdateInput = {
   status?: Prisma.EnumInvoiceStatusFieldUpdateOperationsInput | $Enums.InvoiceStatus
   discountType?: Prisma.EnumDiscountTypeFieldUpdateOperationsInput | $Enums.DiscountType
   hasTax?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  type?: Prisma.EnumRecordTypeFieldUpdateOperationsInput | $Enums.RecordType
+  type?: Prisma.EnumClientTypeFieldUpdateOperationsInput | $Enums.ClientType
   ownerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   tenantId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -526,7 +526,7 @@ export type InvoiceCreateManyInput = {
   status?: $Enums.InvoiceStatus
   discountType?: $Enums.DiscountType
   hasTax?: boolean
-  type: $Enums.RecordType
+  type: $Enums.ClientType
   ownerId?: string | null
   tenantId?: string | null
   note?: string | null
@@ -546,7 +546,7 @@ export type InvoiceUpdateManyMutationInput = {
   status?: Prisma.EnumInvoiceStatusFieldUpdateOperationsInput | $Enums.InvoiceStatus
   discountType?: Prisma.EnumDiscountTypeFieldUpdateOperationsInput | $Enums.DiscountType
   hasTax?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  type?: Prisma.EnumRecordTypeFieldUpdateOperationsInput | $Enums.RecordType
+  type?: Prisma.EnumClientTypeFieldUpdateOperationsInput | $Enums.ClientType
   note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   start?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   end?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -564,7 +564,7 @@ export type InvoiceUncheckedUpdateManyInput = {
   status?: Prisma.EnumInvoiceStatusFieldUpdateOperationsInput | $Enums.InvoiceStatus
   discountType?: Prisma.EnumDiscountTypeFieldUpdateOperationsInput | $Enums.DiscountType
   hasTax?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  type?: Prisma.EnumRecordTypeFieldUpdateOperationsInput | $Enums.RecordType
+  type?: Prisma.EnumClientTypeFieldUpdateOperationsInput | $Enums.ClientType
   ownerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   tenantId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -777,8 +777,8 @@ export type EnumDiscountTypeFieldUpdateOperationsInput = {
   set?: $Enums.DiscountType
 }
 
-export type EnumRecordTypeFieldUpdateOperationsInput = {
-  set?: $Enums.RecordType
+export type EnumClientTypeFieldUpdateOperationsInput = {
+  set?: $Enums.ClientType
 }
 
 export type InvoiceCreateNestedOneWithoutPaymentsInput = {
@@ -804,7 +804,7 @@ export type InvoiceCreateWithoutOwnerInput = {
   status?: $Enums.InvoiceStatus
   discountType?: $Enums.DiscountType
   hasTax?: boolean
-  type: $Enums.RecordType
+  type: $Enums.ClientType
   note?: string | null
   start: Date | string
   end: Date | string
@@ -825,7 +825,7 @@ export type InvoiceUncheckedCreateWithoutOwnerInput = {
   status?: $Enums.InvoiceStatus
   discountType?: $Enums.DiscountType
   hasTax?: boolean
-  type: $Enums.RecordType
+  type: $Enums.ClientType
   tenantId?: string | null
   note?: string | null
   start: Date | string
@@ -875,7 +875,7 @@ export type InvoiceScalarWhereInput = {
   status?: Prisma.EnumInvoiceStatusFilter<"Invoice"> | $Enums.InvoiceStatus
   discountType?: Prisma.EnumDiscountTypeFilter<"Invoice"> | $Enums.DiscountType
   hasTax?: Prisma.BoolFilter<"Invoice"> | boolean
-  type?: Prisma.EnumRecordTypeFilter<"Invoice"> | $Enums.RecordType
+  type?: Prisma.EnumClientTypeFilter<"Invoice"> | $Enums.ClientType
   ownerId?: Prisma.StringNullableFilter<"Invoice"> | string | null
   tenantId?: Prisma.StringNullableFilter<"Invoice"> | string | null
   note?: Prisma.StringNullableFilter<"Invoice"> | string | null
@@ -895,7 +895,7 @@ export type InvoiceCreateWithoutTenantInput = {
   status?: $Enums.InvoiceStatus
   discountType?: $Enums.DiscountType
   hasTax?: boolean
-  type: $Enums.RecordType
+  type: $Enums.ClientType
   note?: string | null
   start: Date | string
   end: Date | string
@@ -916,7 +916,7 @@ export type InvoiceUncheckedCreateWithoutTenantInput = {
   status?: $Enums.InvoiceStatus
   discountType?: $Enums.DiscountType
   hasTax?: boolean
-  type: $Enums.RecordType
+  type: $Enums.ClientType
   ownerId?: string | null
   note?: string | null
   start: Date | string
@@ -963,7 +963,7 @@ export type InvoiceCreateWithoutItemsInput = {
   status?: $Enums.InvoiceStatus
   discountType?: $Enums.DiscountType
   hasTax?: boolean
-  type: $Enums.RecordType
+  type: $Enums.ClientType
   note?: string | null
   start: Date | string
   end: Date | string
@@ -984,7 +984,7 @@ export type InvoiceUncheckedCreateWithoutItemsInput = {
   status?: $Enums.InvoiceStatus
   discountType?: $Enums.DiscountType
   hasTax?: boolean
-  type: $Enums.RecordType
+  type: $Enums.ClientType
   ownerId?: string | null
   tenantId?: string | null
   note?: string | null
@@ -1021,7 +1021,7 @@ export type InvoiceUpdateWithoutItemsInput = {
   status?: Prisma.EnumInvoiceStatusFieldUpdateOperationsInput | $Enums.InvoiceStatus
   discountType?: Prisma.EnumDiscountTypeFieldUpdateOperationsInput | $Enums.DiscountType
   hasTax?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  type?: Prisma.EnumRecordTypeFieldUpdateOperationsInput | $Enums.RecordType
+  type?: Prisma.EnumClientTypeFieldUpdateOperationsInput | $Enums.ClientType
   note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   start?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   end?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1042,7 +1042,7 @@ export type InvoiceUncheckedUpdateWithoutItemsInput = {
   status?: Prisma.EnumInvoiceStatusFieldUpdateOperationsInput | $Enums.InvoiceStatus
   discountType?: Prisma.EnumDiscountTypeFieldUpdateOperationsInput | $Enums.DiscountType
   hasTax?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  type?: Prisma.EnumRecordTypeFieldUpdateOperationsInput | $Enums.RecordType
+  type?: Prisma.EnumClientTypeFieldUpdateOperationsInput | $Enums.ClientType
   ownerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   tenantId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1063,7 +1063,7 @@ export type InvoiceCreateWithoutPaymentsInput = {
   status?: $Enums.InvoiceStatus
   discountType?: $Enums.DiscountType
   hasTax?: boolean
-  type: $Enums.RecordType
+  type: $Enums.ClientType
   note?: string | null
   start: Date | string
   end: Date | string
@@ -1084,7 +1084,7 @@ export type InvoiceUncheckedCreateWithoutPaymentsInput = {
   status?: $Enums.InvoiceStatus
   discountType?: $Enums.DiscountType
   hasTax?: boolean
-  type: $Enums.RecordType
+  type: $Enums.ClientType
   ownerId?: string | null
   tenantId?: string | null
   note?: string | null
@@ -1121,7 +1121,7 @@ export type InvoiceUpdateWithoutPaymentsInput = {
   status?: Prisma.EnumInvoiceStatusFieldUpdateOperationsInput | $Enums.InvoiceStatus
   discountType?: Prisma.EnumDiscountTypeFieldUpdateOperationsInput | $Enums.DiscountType
   hasTax?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  type?: Prisma.EnumRecordTypeFieldUpdateOperationsInput | $Enums.RecordType
+  type?: Prisma.EnumClientTypeFieldUpdateOperationsInput | $Enums.ClientType
   note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   start?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   end?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1142,7 +1142,7 @@ export type InvoiceUncheckedUpdateWithoutPaymentsInput = {
   status?: Prisma.EnumInvoiceStatusFieldUpdateOperationsInput | $Enums.InvoiceStatus
   discountType?: Prisma.EnumDiscountTypeFieldUpdateOperationsInput | $Enums.DiscountType
   hasTax?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  type?: Prisma.EnumRecordTypeFieldUpdateOperationsInput | $Enums.RecordType
+  type?: Prisma.EnumClientTypeFieldUpdateOperationsInput | $Enums.ClientType
   ownerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   tenantId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1163,7 +1163,7 @@ export type InvoiceCreateManyOwnerInput = {
   status?: $Enums.InvoiceStatus
   discountType?: $Enums.DiscountType
   hasTax?: boolean
-  type: $Enums.RecordType
+  type: $Enums.ClientType
   tenantId?: string | null
   note?: string | null
   start: Date | string
@@ -1182,7 +1182,7 @@ export type InvoiceUpdateWithoutOwnerInput = {
   status?: Prisma.EnumInvoiceStatusFieldUpdateOperationsInput | $Enums.InvoiceStatus
   discountType?: Prisma.EnumDiscountTypeFieldUpdateOperationsInput | $Enums.DiscountType
   hasTax?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  type?: Prisma.EnumRecordTypeFieldUpdateOperationsInput | $Enums.RecordType
+  type?: Prisma.EnumClientTypeFieldUpdateOperationsInput | $Enums.ClientType
   note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   start?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   end?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1203,7 +1203,7 @@ export type InvoiceUncheckedUpdateWithoutOwnerInput = {
   status?: Prisma.EnumInvoiceStatusFieldUpdateOperationsInput | $Enums.InvoiceStatus
   discountType?: Prisma.EnumDiscountTypeFieldUpdateOperationsInput | $Enums.DiscountType
   hasTax?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  type?: Prisma.EnumRecordTypeFieldUpdateOperationsInput | $Enums.RecordType
+  type?: Prisma.EnumClientTypeFieldUpdateOperationsInput | $Enums.ClientType
   tenantId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   start?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1224,7 +1224,7 @@ export type InvoiceUncheckedUpdateManyWithoutOwnerInput = {
   status?: Prisma.EnumInvoiceStatusFieldUpdateOperationsInput | $Enums.InvoiceStatus
   discountType?: Prisma.EnumDiscountTypeFieldUpdateOperationsInput | $Enums.DiscountType
   hasTax?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  type?: Prisma.EnumRecordTypeFieldUpdateOperationsInput | $Enums.RecordType
+  type?: Prisma.EnumClientTypeFieldUpdateOperationsInput | $Enums.ClientType
   tenantId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   start?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1243,7 +1243,7 @@ export type InvoiceCreateManyTenantInput = {
   status?: $Enums.InvoiceStatus
   discountType?: $Enums.DiscountType
   hasTax?: boolean
-  type: $Enums.RecordType
+  type: $Enums.ClientType
   ownerId?: string | null
   note?: string | null
   start: Date | string
@@ -1262,7 +1262,7 @@ export type InvoiceUpdateWithoutTenantInput = {
   status?: Prisma.EnumInvoiceStatusFieldUpdateOperationsInput | $Enums.InvoiceStatus
   discountType?: Prisma.EnumDiscountTypeFieldUpdateOperationsInput | $Enums.DiscountType
   hasTax?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  type?: Prisma.EnumRecordTypeFieldUpdateOperationsInput | $Enums.RecordType
+  type?: Prisma.EnumClientTypeFieldUpdateOperationsInput | $Enums.ClientType
   note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   start?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   end?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1283,7 +1283,7 @@ export type InvoiceUncheckedUpdateWithoutTenantInput = {
   status?: Prisma.EnumInvoiceStatusFieldUpdateOperationsInput | $Enums.InvoiceStatus
   discountType?: Prisma.EnumDiscountTypeFieldUpdateOperationsInput | $Enums.DiscountType
   hasTax?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  type?: Prisma.EnumRecordTypeFieldUpdateOperationsInput | $Enums.RecordType
+  type?: Prisma.EnumClientTypeFieldUpdateOperationsInput | $Enums.ClientType
   ownerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   start?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1304,7 +1304,7 @@ export type InvoiceUncheckedUpdateManyWithoutTenantInput = {
   status?: Prisma.EnumInvoiceStatusFieldUpdateOperationsInput | $Enums.InvoiceStatus
   discountType?: Prisma.EnumDiscountTypeFieldUpdateOperationsInput | $Enums.DiscountType
   hasTax?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  type?: Prisma.EnumRecordTypeFieldUpdateOperationsInput | $Enums.RecordType
+  type?: Prisma.EnumClientTypeFieldUpdateOperationsInput | $Enums.ClientType
   ownerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   start?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1477,7 +1477,7 @@ export type $InvoicePayload<ExtArgs extends runtime.Types.Extensions.InternalArg
     status: $Enums.InvoiceStatus
     discountType: $Enums.DiscountType
     hasTax: boolean
-    type: $Enums.RecordType
+    type: $Enums.ClientType
     ownerId: string | null
     tenantId: string | null
     note: string | null
@@ -1921,7 +1921,7 @@ export interface InvoiceFieldRefs {
   readonly status: Prisma.FieldRef<"Invoice", 'InvoiceStatus'>
   readonly discountType: Prisma.FieldRef<"Invoice", 'DiscountType'>
   readonly hasTax: Prisma.FieldRef<"Invoice", 'Boolean'>
-  readonly type: Prisma.FieldRef<"Invoice", 'RecordType'>
+  readonly type: Prisma.FieldRef<"Invoice", 'ClientType'>
   readonly ownerId: Prisma.FieldRef<"Invoice", 'String'>
   readonly tenantId: Prisma.FieldRef<"Invoice", 'String'>
   readonly note: Prisma.FieldRef<"Invoice", 'String'>

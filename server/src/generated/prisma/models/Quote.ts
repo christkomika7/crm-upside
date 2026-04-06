@@ -45,7 +45,7 @@ export type QuoteMinAggregateOutputType = {
   discount: runtime.Decimal | null
   discountType: $Enums.DiscountType | null
   hasTax: boolean | null
-  type: $Enums.RecordType | null
+  type: $Enums.ClientType | null
   isComplete: boolean | null
   ownerId: string | null
   tenantId: string | null
@@ -64,7 +64,7 @@ export type QuoteMaxAggregateOutputType = {
   discount: runtime.Decimal | null
   discountType: $Enums.DiscountType | null
   hasTax: boolean | null
-  type: $Enums.RecordType | null
+  type: $Enums.ClientType | null
   isComplete: boolean | null
   ownerId: string | null
   tenantId: string | null
@@ -260,7 +260,7 @@ export type QuoteGroupByOutputType = {
   discount: runtime.Decimal
   discountType: $Enums.DiscountType
   hasTax: boolean
-  type: $Enums.RecordType
+  type: $Enums.ClientType
   isComplete: boolean
   ownerId: string | null
   tenantId: string | null
@@ -302,7 +302,7 @@ export type QuoteWhereInput = {
   discount?: Prisma.DecimalFilter<"Quote"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   discountType?: Prisma.EnumDiscountTypeFilter<"Quote"> | $Enums.DiscountType
   hasTax?: Prisma.BoolFilter<"Quote"> | boolean
-  type?: Prisma.EnumRecordTypeFilter<"Quote"> | $Enums.RecordType
+  type?: Prisma.EnumClientTypeFilter<"Quote"> | $Enums.ClientType
   isComplete?: Prisma.BoolFilter<"Quote"> | boolean
   ownerId?: Prisma.StringNullableFilter<"Quote"> | string | null
   tenantId?: Prisma.StringNullableFilter<"Quote"> | string | null
@@ -349,7 +349,7 @@ export type QuoteWhereUniqueInput = Prisma.AtLeast<{
   discount?: Prisma.DecimalFilter<"Quote"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   discountType?: Prisma.EnumDiscountTypeFilter<"Quote"> | $Enums.DiscountType
   hasTax?: Prisma.BoolFilter<"Quote"> | boolean
-  type?: Prisma.EnumRecordTypeFilter<"Quote"> | $Enums.RecordType
+  type?: Prisma.EnumClientTypeFilter<"Quote"> | $Enums.ClientType
   isComplete?: Prisma.BoolFilter<"Quote"> | boolean
   ownerId?: Prisma.StringNullableFilter<"Quote"> | string | null
   tenantId?: Prisma.StringNullableFilter<"Quote"> | string | null
@@ -398,7 +398,7 @@ export type QuoteScalarWhereWithAggregatesInput = {
   discount?: Prisma.DecimalWithAggregatesFilter<"Quote"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   discountType?: Prisma.EnumDiscountTypeWithAggregatesFilter<"Quote"> | $Enums.DiscountType
   hasTax?: Prisma.BoolWithAggregatesFilter<"Quote"> | boolean
-  type?: Prisma.EnumRecordTypeWithAggregatesFilter<"Quote"> | $Enums.RecordType
+  type?: Prisma.EnumClientTypeWithAggregatesFilter<"Quote"> | $Enums.ClientType
   isComplete?: Prisma.BoolWithAggregatesFilter<"Quote"> | boolean
   ownerId?: Prisma.StringNullableWithAggregatesFilter<"Quote"> | string | null
   tenantId?: Prisma.StringNullableWithAggregatesFilter<"Quote"> | string | null
@@ -417,7 +417,7 @@ export type QuoteCreateInput = {
   discount?: runtime.Decimal | runtime.DecimalJsLike | number | string
   discountType?: $Enums.DiscountType
   hasTax?: boolean
-  type: $Enums.RecordType
+  type: $Enums.ClientType
   isComplete?: boolean
   note?: string | null
   start: Date | string
@@ -437,7 +437,7 @@ export type QuoteUncheckedCreateInput = {
   discount?: runtime.Decimal | runtime.DecimalJsLike | number | string
   discountType?: $Enums.DiscountType
   hasTax?: boolean
-  type: $Enums.RecordType
+  type: $Enums.ClientType
   isComplete?: boolean
   ownerId?: string | null
   tenantId?: string | null
@@ -457,7 +457,7 @@ export type QuoteUpdateInput = {
   discount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   discountType?: Prisma.EnumDiscountTypeFieldUpdateOperationsInput | $Enums.DiscountType
   hasTax?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  type?: Prisma.EnumRecordTypeFieldUpdateOperationsInput | $Enums.RecordType
+  type?: Prisma.EnumClientTypeFieldUpdateOperationsInput | $Enums.ClientType
   isComplete?: Prisma.BoolFieldUpdateOperationsInput | boolean
   note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   start?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -477,7 +477,7 @@ export type QuoteUncheckedUpdateInput = {
   discount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   discountType?: Prisma.EnumDiscountTypeFieldUpdateOperationsInput | $Enums.DiscountType
   hasTax?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  type?: Prisma.EnumRecordTypeFieldUpdateOperationsInput | $Enums.RecordType
+  type?: Prisma.EnumClientTypeFieldUpdateOperationsInput | $Enums.ClientType
   isComplete?: Prisma.BoolFieldUpdateOperationsInput | boolean
   ownerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   tenantId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -497,7 +497,7 @@ export type QuoteCreateManyInput = {
   discount?: runtime.Decimal | runtime.DecimalJsLike | number | string
   discountType?: $Enums.DiscountType
   hasTax?: boolean
-  type: $Enums.RecordType
+  type: $Enums.ClientType
   isComplete?: boolean
   ownerId?: string | null
   tenantId?: string | null
@@ -516,7 +516,7 @@ export type QuoteUpdateManyMutationInput = {
   discount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   discountType?: Prisma.EnumDiscountTypeFieldUpdateOperationsInput | $Enums.DiscountType
   hasTax?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  type?: Prisma.EnumRecordTypeFieldUpdateOperationsInput | $Enums.RecordType
+  type?: Prisma.EnumClientTypeFieldUpdateOperationsInput | $Enums.ClientType
   isComplete?: Prisma.BoolFieldUpdateOperationsInput | boolean
   note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   start?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -533,7 +533,7 @@ export type QuoteUncheckedUpdateManyInput = {
   discount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   discountType?: Prisma.EnumDiscountTypeFieldUpdateOperationsInput | $Enums.DiscountType
   hasTax?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  type?: Prisma.EnumRecordTypeFieldUpdateOperationsInput | $Enums.RecordType
+  type?: Prisma.EnumClientTypeFieldUpdateOperationsInput | $Enums.ClientType
   isComplete?: Prisma.BoolFieldUpdateOperationsInput | boolean
   ownerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   tenantId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -736,7 +736,7 @@ export type QuoteCreateWithoutOwnerInput = {
   discount?: runtime.Decimal | runtime.DecimalJsLike | number | string
   discountType?: $Enums.DiscountType
   hasTax?: boolean
-  type: $Enums.RecordType
+  type: $Enums.ClientType
   isComplete?: boolean
   note?: string | null
   start: Date | string
@@ -755,7 +755,7 @@ export type QuoteUncheckedCreateWithoutOwnerInput = {
   discount?: runtime.Decimal | runtime.DecimalJsLike | number | string
   discountType?: $Enums.DiscountType
   hasTax?: boolean
-  type: $Enums.RecordType
+  type: $Enums.ClientType
   isComplete?: boolean
   tenantId?: string | null
   note?: string | null
@@ -803,7 +803,7 @@ export type QuoteScalarWhereInput = {
   discount?: Prisma.DecimalFilter<"Quote"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   discountType?: Prisma.EnumDiscountTypeFilter<"Quote"> | $Enums.DiscountType
   hasTax?: Prisma.BoolFilter<"Quote"> | boolean
-  type?: Prisma.EnumRecordTypeFilter<"Quote"> | $Enums.RecordType
+  type?: Prisma.EnumClientTypeFilter<"Quote"> | $Enums.ClientType
   isComplete?: Prisma.BoolFilter<"Quote"> | boolean
   ownerId?: Prisma.StringNullableFilter<"Quote"> | string | null
   tenantId?: Prisma.StringNullableFilter<"Quote"> | string | null
@@ -822,7 +822,7 @@ export type QuoteCreateWithoutTenantInput = {
   discount?: runtime.Decimal | runtime.DecimalJsLike | number | string
   discountType?: $Enums.DiscountType
   hasTax?: boolean
-  type: $Enums.RecordType
+  type: $Enums.ClientType
   isComplete?: boolean
   note?: string | null
   start: Date | string
@@ -841,7 +841,7 @@ export type QuoteUncheckedCreateWithoutTenantInput = {
   discount?: runtime.Decimal | runtime.DecimalJsLike | number | string
   discountType?: $Enums.DiscountType
   hasTax?: boolean
-  type: $Enums.RecordType
+  type: $Enums.ClientType
   isComplete?: boolean
   ownerId?: string | null
   note?: string | null
@@ -886,7 +886,7 @@ export type QuoteCreateWithoutItemsInput = {
   discount?: runtime.Decimal | runtime.DecimalJsLike | number | string
   discountType?: $Enums.DiscountType
   hasTax?: boolean
-  type: $Enums.RecordType
+  type: $Enums.ClientType
   isComplete?: boolean
   note?: string | null
   start: Date | string
@@ -905,7 +905,7 @@ export type QuoteUncheckedCreateWithoutItemsInput = {
   discount?: runtime.Decimal | runtime.DecimalJsLike | number | string
   discountType?: $Enums.DiscountType
   hasTax?: boolean
-  type: $Enums.RecordType
+  type: $Enums.ClientType
   isComplete?: boolean
   ownerId?: string | null
   tenantId?: string | null
@@ -940,7 +940,7 @@ export type QuoteUpdateWithoutItemsInput = {
   discount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   discountType?: Prisma.EnumDiscountTypeFieldUpdateOperationsInput | $Enums.DiscountType
   hasTax?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  type?: Prisma.EnumRecordTypeFieldUpdateOperationsInput | $Enums.RecordType
+  type?: Prisma.EnumClientTypeFieldUpdateOperationsInput | $Enums.ClientType
   isComplete?: Prisma.BoolFieldUpdateOperationsInput | boolean
   note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   start?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -959,7 +959,7 @@ export type QuoteUncheckedUpdateWithoutItemsInput = {
   discount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   discountType?: Prisma.EnumDiscountTypeFieldUpdateOperationsInput | $Enums.DiscountType
   hasTax?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  type?: Prisma.EnumRecordTypeFieldUpdateOperationsInput | $Enums.RecordType
+  type?: Prisma.EnumClientTypeFieldUpdateOperationsInput | $Enums.ClientType
   isComplete?: Prisma.BoolFieldUpdateOperationsInput | boolean
   ownerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   tenantId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -978,7 +978,7 @@ export type QuoteCreateManyOwnerInput = {
   discount?: runtime.Decimal | runtime.DecimalJsLike | number | string
   discountType?: $Enums.DiscountType
   hasTax?: boolean
-  type: $Enums.RecordType
+  type: $Enums.ClientType
   isComplete?: boolean
   tenantId?: string | null
   note?: string | null
@@ -996,7 +996,7 @@ export type QuoteUpdateWithoutOwnerInput = {
   discount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   discountType?: Prisma.EnumDiscountTypeFieldUpdateOperationsInput | $Enums.DiscountType
   hasTax?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  type?: Prisma.EnumRecordTypeFieldUpdateOperationsInput | $Enums.RecordType
+  type?: Prisma.EnumClientTypeFieldUpdateOperationsInput | $Enums.ClientType
   isComplete?: Prisma.BoolFieldUpdateOperationsInput | boolean
   note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   start?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1015,7 +1015,7 @@ export type QuoteUncheckedUpdateWithoutOwnerInput = {
   discount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   discountType?: Prisma.EnumDiscountTypeFieldUpdateOperationsInput | $Enums.DiscountType
   hasTax?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  type?: Prisma.EnumRecordTypeFieldUpdateOperationsInput | $Enums.RecordType
+  type?: Prisma.EnumClientTypeFieldUpdateOperationsInput | $Enums.ClientType
   isComplete?: Prisma.BoolFieldUpdateOperationsInput | boolean
   tenantId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1034,7 +1034,7 @@ export type QuoteUncheckedUpdateManyWithoutOwnerInput = {
   discount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   discountType?: Prisma.EnumDiscountTypeFieldUpdateOperationsInput | $Enums.DiscountType
   hasTax?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  type?: Prisma.EnumRecordTypeFieldUpdateOperationsInput | $Enums.RecordType
+  type?: Prisma.EnumClientTypeFieldUpdateOperationsInput | $Enums.ClientType
   isComplete?: Prisma.BoolFieldUpdateOperationsInput | boolean
   tenantId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1052,7 +1052,7 @@ export type QuoteCreateManyTenantInput = {
   discount?: runtime.Decimal | runtime.DecimalJsLike | number | string
   discountType?: $Enums.DiscountType
   hasTax?: boolean
-  type: $Enums.RecordType
+  type: $Enums.ClientType
   isComplete?: boolean
   ownerId?: string | null
   note?: string | null
@@ -1070,7 +1070,7 @@ export type QuoteUpdateWithoutTenantInput = {
   discount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   discountType?: Prisma.EnumDiscountTypeFieldUpdateOperationsInput | $Enums.DiscountType
   hasTax?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  type?: Prisma.EnumRecordTypeFieldUpdateOperationsInput | $Enums.RecordType
+  type?: Prisma.EnumClientTypeFieldUpdateOperationsInput | $Enums.ClientType
   isComplete?: Prisma.BoolFieldUpdateOperationsInput | boolean
   note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   start?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1089,7 +1089,7 @@ export type QuoteUncheckedUpdateWithoutTenantInput = {
   discount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   discountType?: Prisma.EnumDiscountTypeFieldUpdateOperationsInput | $Enums.DiscountType
   hasTax?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  type?: Prisma.EnumRecordTypeFieldUpdateOperationsInput | $Enums.RecordType
+  type?: Prisma.EnumClientTypeFieldUpdateOperationsInput | $Enums.ClientType
   isComplete?: Prisma.BoolFieldUpdateOperationsInput | boolean
   ownerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1108,7 +1108,7 @@ export type QuoteUncheckedUpdateManyWithoutTenantInput = {
   discount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   discountType?: Prisma.EnumDiscountTypeFieldUpdateOperationsInput | $Enums.DiscountType
   hasTax?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  type?: Prisma.EnumRecordTypeFieldUpdateOperationsInput | $Enums.RecordType
+  type?: Prisma.EnumClientTypeFieldUpdateOperationsInput | $Enums.ClientType
   isComplete?: Prisma.BoolFieldUpdateOperationsInput | boolean
   ownerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1264,7 +1264,7 @@ export type $QuotePayload<ExtArgs extends runtime.Types.Extensions.InternalArgs 
     discount: runtime.Decimal
     discountType: $Enums.DiscountType
     hasTax: boolean
-    type: $Enums.RecordType
+    type: $Enums.ClientType
     isComplete: boolean
     ownerId: string | null
     tenantId: string | null
@@ -1706,7 +1706,7 @@ export interface QuoteFieldRefs {
   readonly discount: Prisma.FieldRef<"Quote", 'Decimal'>
   readonly discountType: Prisma.FieldRef<"Quote", 'DiscountType'>
   readonly hasTax: Prisma.FieldRef<"Quote", 'Boolean'>
-  readonly type: Prisma.FieldRef<"Quote", 'RecordType'>
+  readonly type: Prisma.FieldRef<"Quote", 'ClientType'>
   readonly isComplete: Prisma.FieldRef<"Quote", 'Boolean'>
   readonly ownerId: Prisma.FieldRef<"Quote", 'String'>
   readonly tenantId: Prisma.FieldRef<"Quote", 'String'>

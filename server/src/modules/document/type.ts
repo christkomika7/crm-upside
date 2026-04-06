@@ -6,7 +6,7 @@ export default {
         type: t.Enum({
             INVOICE: "INVOICE",
             QUOTE: "QUOTE",
-        }, { error: "2 Le type de document est requis." }),
+        }, { error: "Le type de document est requis." }),
         emails: t.Transform((t.String()))
             .Decode((value) => JSON.parse(value) as string[])
             .Encode((value) => JSON.stringify(value)),

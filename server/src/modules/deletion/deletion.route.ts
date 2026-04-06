@@ -234,8 +234,57 @@ export const deletionRoutes = new Elysia({ prefix: "/deletion" })
                 }
                 return quoteParsed;
             case "CONTRACT":
+                const contractParsed = [];
+                for (const deletion of deletions) {
+                    const contract = await prisma.contract.findUnique({
+                        where: { id: deletion.recordId },
+                        include: {
+                            rental: {
+                                include: {
+                                    unit: true
+                                }
+                            },
+                            building: true
+                        }
+                    });
+
+                    if (!contract) return status(400, { message: "Aucun contrat trouvé." });
+                    const reference = contract.type === "CONTRACT" ? contract.rental?.unit.reference : contract.building?.name;
+
+                    contractParsed.push({
+                        id: deletion.id,
+                        reference: reference,
+                        type: deletion.type,
+                        name: "-",
+                        date: formatDateToString(deletion.createdAt),
+                        actionBy: user.name
+                    });
+                }
+                return contractParsed;
             case "CHECK_IN":
             case "APPOINTMENT":
+                const appointmentParsed = [];
+                for (const deletion of deletions) {
+                    const appointment = await prisma.appointment.findUnique({
+                        where: { id: deletion.recordId },
+                        include: {
+                            owner: true,
+                            tenant: true
+                        }
+                    });
+
+                    if (!appointment) return status(400, { message: "Aucun rendez-vous trouvé." });
+
+                    appointmentParsed.push({
+                        id: deletion.id,
+                        reference: appointment.type === "OWNER" ? `${appointment.owner?.firstname} ${appointment.owner?.lastname}` : `${appointment.tenant?.firstname} ${appointment.tenant?.lastname}`,
+                        type: deletion.type,
+                        name: "-",
+                        date: formatDateToString(deletion.createdAt),
+                        actionBy: user.name
+                    });
+                }
+                return appointmentParsed;
             case "SERVICE_PROVIDER":
             case "COMMUNICATION":
         }
@@ -405,10 +454,74 @@ export const deletionRoutes = new Elysia({ prefix: "/deletion" })
                             ]);
                             return status(200, { message: `La suppression du devis ${generateRef(reference?.quote, quote.reference)} a été annulé avec succès.` });
                         case "CONTRACT":
+                            const [contract] = await prisma.$transaction([
+                                prisma.contract.update({
+                                    where: { id: deletion.recordId },
+                                    data: {
+                                        isDeleting: false
+                                    }
+                                }),
+                                prisma.deletion.delete({
+                                    where: { id: deletion.id }
+                                })
+                            ]);
+                            return status(200, { message: `La suppression du contrat a été annulé avec succès.` });
                         case "CHECK_IN":
+                        // const [checkIn] = await prisma.$transaction([
+                        //     prisma.checkIn.update({
+                        //         where: { id: deletion.recordId },
+                        //         data: {
+                        //             isDeleting: false
+                        //         }
+                        //     }),
+                        //     prisma.deletion.delete({
+                        //         where: { id: deletion.id }
+                        //     })
+                        // ]);
+                        // return status(200, { message: `La suppression du check-in ${generateRef(reference?.checkIn, checkIn.reference)} a été annulé avec succès.` });
                         case "APPOINTMENT":
+                            const [appointment] = await prisma.$transaction([
+                                prisma.appointment.update({
+                                    where: { id: deletion.recordId },
+                                    data: {
+                                        isDeleting: false
+                                    },
+                                    include: {
+                                        owner: true,
+                                        tenant: true
+                                    }
+                                }),
+                                prisma.deletion.delete({
+                                    where: { id: deletion.id }
+                                })
+                            ]);
+                            return status(200, { message: `La suppression du rendez-vous ${appointment.type === "OWNER" ? `${appointment.owner?.firstname} ${appointment.owner?.lastname}` : `${appointment.tenant?.firstname} ${appointment.tenant?.lastname}`} a été annulé avec succès.` });
                         case "SERVICE_PROVIDER":
+                        // const [serviceProvider] = await prisma.$transaction([
+                        //     prisma.serviceProvider.update({
+                        //         where: { id: deletion.recordId },
+                        //         data: {
+                        //             isDeleting: false
+                        //         }
+                        //     }),
+                        //     prisma.deletion.delete({
+                        //         where: { id: deletion.id }
+                        //     })
+                        // ]);
+                        // return status(200, { message: `La suppression du prestataire ${generateRef(reference?.serviceProvider, serviceProvider.reference)} a été annulé avec succès.` });
                         case "COMMUNICATION":
+                        // const [communication] = await prisma.$transaction([
+                        //     prisma.communication.update({
+                        //         where: { id: deletion.recordId },
+                        //         data: {
+                        //             isDeleting: false
+                        //         }
+                        //     }),
+                        //     prisma.deletion.delete({
+                        //         where: { id: deletion.id }
+                        //     })
+                        // ]);
+                        // return status(200, { message: `La suppression de la communication ${generateRef(reference?.communication, communication.reference)} a été annulé avec succès.` });
                     }
 
                 } catch (error) {
@@ -664,8 +777,50 @@ export const deletionRoutes = new Elysia({ prefix: "/deletion" })
 
                             return status(200, { message: `Le devis ${generateRef(reference?.quote, quote.reference)} a été supprimé avec succès.` });
                         case "CONTRACT":
+                            const contract = await prisma.contract.findUnique({
+                                where: { id: deletion.recordId },
+                            });
+
+                            if (!contract) return status(400, { message: "Aucun contrat trouvé." })
+
+                            await prisma.$transaction([
+                                prisma.deletion.update({
+                                    where: {
+                                        id: deletion.id
+                                    },
+                                    data: {
+                                        state: "TERMINED"
+                                    }
+                                }),
+                                prisma.contract.delete({ where: { id: contract.id } })
+                            ])
+
+                            return status(200, { message: `Le contrat a été supprimé avec succès.` });
                         case "CHECK_IN":
                         case "APPOINTMENT":
+                            const appointment = await prisma.appointment.findUnique({
+                                where: { id: deletion.recordId },
+                                include: {
+                                    owner: true,
+                                    tenant: true
+                                }
+                            });
+
+                            if (!appointment) return status(400, { message: "Aucun rendez-vous trouvé." })
+
+                            await prisma.$transaction([
+                                prisma.deletion.update({
+                                    where: {
+                                        id: deletion.id
+                                    },
+                                    data: {
+                                        state: "TERMINED"
+                                    }
+                                }),
+                                prisma.appointment.delete({ where: { id: appointment.id } })
+                            ])
+
+                            return status(200, { message: `Le rendez-vous a été supprimé avec succès.` });
                         case "SERVICE_PROVIDER":
                         case "COMMUNICATION":
                     }

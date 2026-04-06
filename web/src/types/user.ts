@@ -14,3 +14,8 @@ export type User = {
     image?: string;
     permission: Permissions | null;
 };
+
+export type Member = {
+    id: string;
+    name: string;
+}

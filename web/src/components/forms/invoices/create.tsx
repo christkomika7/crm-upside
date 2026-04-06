@@ -14,7 +14,6 @@ import { Spinner } from "@/components/ui/spinner";
 import {
     invoiceSchema,
     type InvoiceSchemaType,
-    type ItemSchemaType,
 } from "@/lib/zod/invoices";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
@@ -29,7 +28,6 @@ import MultipleSelector from "@/components/ui/mullti-select";
 import { Textarea } from "@/components/ui/textarea";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { apiFetch, crudService } from "@/lib/api";
-import type { Client } from "@/types/invoice";
 import { Label } from "@/components/ui/label";
 import { cn } from "@/lib/utils";
 import { Switch } from "@/components/ui/switch";
@@ -42,6 +40,8 @@ import { PackageIcon, Trash2Icon } from "lucide-react";
 import { useState } from "react";
 import type { Tax } from "@/types/tax";
 import RequiredLabel from "@/components/ui/required-label";
+import type { Client } from "@/types/client";
+import type { ItemSchemaType } from "@/lib/zod/item";
 
 export default function Create() {
     const [type, setType] = useState<"OWNER" | "TENANT">("OWNER");
@@ -49,7 +49,7 @@ export default function Create() {
     const { isPending: isGettingClients, data: clients } = useQuery({
         queryKey: ["clients", type],
         enabled: !!type,
-        queryFn: () => apiFetch<Client[]>(`/invoice/clients?type=${type}`),
+        queryFn: () => apiFetch<Client[]>(`/client/by?type=${type}`),
         select: (data) =>
             data.map((client) => ({
                 value: client.id,

@@ -71,6 +71,9 @@ export const ModelName = {
   Item: 'Item',
   Invoice: 'Invoice',
   Quote: 'Quote',
+  Contract: 'Contract',
+  CheckInOut: 'CheckInOut',
+  Appointment: 'Appointment',
   Payment: 'Payment',
   PersonalService: 'PersonalService',
   Deletion: 'Deletion',
@@ -405,6 +408,53 @@ export const QuoteScalarFieldEnum = {
 } as const
 
 export type QuoteScalarFieldEnum = (typeof QuoteScalarFieldEnum)[keyof typeof QuoteScalarFieldEnum]
+
+
+export const ContractScalarFieldEnum = {
+  id: 'id',
+  type: 'type',
+  start: 'start',
+  end: 'end',
+  rentalId: 'rentalId',
+  buildingId: 'buildingId',
+  isCanceled: 'isCanceled',
+  isDeleting: 'isDeleting',
+  updatedAt: 'updatedAt',
+  createdAt: 'createdAt'
+} as const
+
+export type ContractScalarFieldEnum = (typeof ContractScalarFieldEnum)[keyof typeof ContractScalarFieldEnum]
+
+
+export const CheckInOutScalarFieldEnum = {
+  id: 'id',
+  isChecked: 'isChecked',
+  isDeleting: 'isDeleting',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type CheckInOutScalarFieldEnum = (typeof CheckInOutScalarFieldEnum)[keyof typeof CheckInOutScalarFieldEnum]
+
+
+export const AppointmentScalarFieldEnum = {
+  id: 'id',
+  type: 'type',
+  ownerId: 'ownerId',
+  tenantId: 'tenantId',
+  date: 'date',
+  hour: 'hour',
+  minutes: 'minutes',
+  address: 'address',
+  subject: 'subject',
+  note: 'note',
+  isComplete: 'isComplete',
+  isDeleting: 'isDeleting',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type AppointmentScalarFieldEnum = (typeof AppointmentScalarFieldEnum)[keyof typeof AppointmentScalarFieldEnum]
 
 
 export const PaymentScalarFieldEnum = {

@@ -1,3 +1,5 @@
+import type { Unit } from "./unit";
+
 export type Rental = {
     id: string;
     reference: string;
@@ -7,6 +9,7 @@ export type Rental = {
     buildingId: string;
     tenantId: string;
     unitId: string;
+    unit: Unit
     updatedAt: Date;
     createdAt: Date
 }

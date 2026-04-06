@@ -10,6 +10,17 @@ import { AttachementProps, sendMail } from "../../lib/email";
 export const documentRoutes = new Elysia({ prefix: "/document" })
     .use(authPlugin)
     .get("/:id", async ({ permission, status, query, params }) => {
+
+        const [reference, taxes, note] = await prisma.$transaction([
+            prisma.reference.findFirst(),
+            prisma.tax.findMany({
+                include: {
+                    cumuls: true
+                }
+            }),
+            prisma.note.findFirst()
+        ]);
+
         switch (query.type) {
             case "INVOICE":
                 if (!canAccess(permission, "invoicing", ['read'])) {
@@ -18,27 +29,18 @@ export const documentRoutes = new Elysia({ prefix: "/document" })
 
                 if (!params.id) return status(404, { message: "Identifiant de la facture invalide" })
 
-                const [invoice, reference, taxes, note] = await prisma.$transaction([
-                    prisma.invoice.findUnique({
-                        where: {
-                            id: params.id
-                        },
-                        include: {
-                            owner: true,
-                            tenant: true,
-                            items: true
-                        }
-                    }),
-                    prisma.reference.findFirst(),
-                    prisma.tax.findMany({
-                        include: {
-                            cumuls: true
-                        }
-                    }),
-                    prisma.note.findFirst()
-                ]);
+                const invoice = await prisma.invoice.findUnique({
+                    where: {
+                        id: params.id
+                    },
+                    include: {
+                        owner: true,
+                        tenant: true,
+                        items: true
+                    }
+                });
 
-                if (!invoice) return status(404, { message: "Facture non trouvée" })
+                if (!invoice) return status(404, { message: "Facture non trouvée." })
                 return {
                     id: invoice?.id,
                     reference: generateRef(reference?.invoice, invoice.reference),
@@ -88,56 +90,60 @@ export const documentRoutes = new Elysia({ prefix: "/document" })
                     return status(403, { message: "Accès refusé" });
                 }
 
-                if (params.id) return ""
+                if (!params.id) return status(404, { message: "Identifiant du devis invalide." })
 
-                const [quote, ref] = await prisma.$transaction([
-                    prisma.quote.findUnique({
-                        where: {
-                            id: params.id
-                        },
-                        include: {
-                            owner: true,
-                            tenant: true,
-                            items: true
-                        }
-                    }),
-                    prisma.reference.findFirst(),
-                ]);
+                const quote = await prisma.quote.findUnique({
+                    where: {
+                        id: params.id
+                    },
+                    include: {
+                        owner: true,
+                        tenant: true,
+                        items: true
+                    }
+                });
 
-                if (!quote) return ""
+                if (!quote) return status(404, { message: "Devis non trouvé." })
 
                 return {
                     id: quote?.id,
-                    // reference: generateRef(ref?.quote, quote.reference),
+                    reference: generateRef(reference?.quote, quote.reference),
                     type: quote.type,
-                    // issue: formatDateToString(quote.start),
-                    // due: formatDateToString(quote.end),
+                    issue: formatDateToString(quote.start),
+                    discount: quote.discount,
+                    discountType: quote.discountType,
+                    amountType: quote.hasTax ? "TTC" : "HT",
+                    due: formatDateToString(quote.end),
                     amount: quote.price.toString(),
-                    // status: quote.status,
+                    isComplete: quote.isComplete,
                     items: quote.items,
-                    // isDeleting: quote.isDeleting,
+                    note: quote.note || note?.invoice || "Aucune note",
+                    isDeleting: quote.isDeleting,
                     upside: {
                         design: {
                             logo: "",
-                            position: "",
-                            size: "",
-                            background: "",
-                            line: ""
+                            position: "MIDDLE",
+                            size: "SMALL",
+                            background: "#ECFDF5",
+                            line: "#34D399",
                         },
                         client: {
-                            company: "",
-                            email: "",
-                            address: ""
+                            name: quote.type === "OWNER" ? `${quote.owner?.firstname} ${quote.owner?.lastname}` :
+                                `${quote.tenant?.firstname} ${quote.tenant?.lastname}`,
+                            company: quote.type === "OWNER" ? `${quote.owner?.company}` : `${quote.tenant?.company}`,
+                            email: quote.type === "OWNER" ? quote.owner?.email : quote.tenant?.email,
+                            address: quote.type === "OWNER" ? quote.owner?.address : quote.tenant?.address
                         },
-                        address: "",
-                        city: "",
-                        country: "",
-                        bp: "",
-                        email: "",
-                        website: "",
-                        phone: "",
-                        rccm: "",
-                        nif: ""
+                        company: "Upside",
+                        address: "Rue de l'indépendance",
+                        city: "Libreville",
+                        country: "Gabon",
+                        bp: "BP 2789",
+                        email: "contact@upside.com",
+                        website: "https://upside-gabon.com",
+                        phone: "+241 01 44 00 00",
+                        rccm: "GBLBR2022M12345",
+                        nif: "0123456789"
                     },
                     createdAt: quote.createdAt
                 }
@@ -148,12 +154,12 @@ export const documentRoutes = new Elysia({ prefix: "/document" })
 
         switch (body.type) {
             case "INVOICE":
-                if (!canAccess(permission, "invoicing", ["create"])) {
+                if (!canAccess(permission, "invoicing", ["create", "update"])) {
                     return status(403, { message: "Accès refusé" });
                 }
                 break;
             case "QUOTE":
-                if (!canAccess(permission, "quotes", ["create"])) {
+                if (!canAccess(permission, "quotes", ["create", "update"])) {
                     return status(403, { message: "Accès refusé" });
                 }
                 break;
@@ -245,7 +251,7 @@ export const documentRoutes = new Elysia({ prefix: "/document" })
             }
 
             const filename = `${data.type === "INVOICE" ? "Facture" : "Devis"} ${reference}.pdf`;
-            const buffer = Buffer.from(await data.document.arrayBuffer())
+            const buffer = Buffer.from(await data.document!.arrayBuffer())
             const fileAttacments: AttachementProps[] = [];
 
             for (const uploadedFile of data.files ?? []) {

@@ -8,10 +8,10 @@ import { Status, StatusIndicator, StatusLabel } from "@/components/ui/status";
 import { Activity, useState } from "react";
 import { formatDateTo, formatNumber } from "@/lib/utils";
 import Decimal from "decimal.js";
-import RecordDocument from "@/components/document/record";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
 import { downloadComponentAsPDF } from "@/lib/document";
+import ContractDoc from "@/components/document/contract";
 
 type PreviewProps = {
     id: string;
@@ -66,8 +66,8 @@ export default function Preview({
     return (
         <div className="flex font-sans">
             <div className="flex-1">
-                <div className="w-full h-full max-w-2xl bg-white rounded-lg flex flex-col items-center justify-center gap-3">
-                    <RecordDocument id={id} title="Facture" type="Facture" data={invoice} />
+                <div className="w-full h-full max-w-2xl  bg-white rounded-lg flex relative justify-center gap-3">
+                    <ContractDoc id={id} />
                 </div>
             </div>
 

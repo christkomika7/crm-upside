@@ -2,11 +2,14 @@ import EditInvoices from "@/components/forms/invoices/edit";
 import Preview from "@/components/forms/invoices/preview";
 import Share from "@/components/forms/invoices/share";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { useSearch } from "@tanstack/react-router";
 
 export default function InvoiceTabs({ id }: { id: string }) {
+    const search = useSearch({ from: "/dashboard/invoices/edit-invoice/$id" });
+
     return (
         <div>
-            <Tabs defaultValue='edit' className='gap-4 w-full'>
+            <Tabs defaultValue={search.type} className='gap-4 w-full'>
                 <TabsList className="bg-white rounded-md p-1">
                     <TabsTrigger
                         value="edit"
@@ -22,7 +25,7 @@ export default function InvoiceTabs({ id }: { id: string }) {
                     </TabsTrigger>
                     <TabsTrigger
                         className='bg-transparent text-sm p-2 font-medium data-[state=active]:bg-emerald-background data-[state=active]:text-white h-full rounded-md border-transparent'
-                        value="send"
+                        value="share"
                     >
                         Partager
                     </TabsTrigger>
@@ -35,7 +38,7 @@ export default function InvoiceTabs({ id }: { id: string }) {
                 <TabsContent value="preview">
                     <Preview id={id} />
                 </TabsContent>
-                <TabsContent value="send">
+                <TabsContent value="share">
                     <Share id={id} />
                 </TabsContent>
             </Tabs>

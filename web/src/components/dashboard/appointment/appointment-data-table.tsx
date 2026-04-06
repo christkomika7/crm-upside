@@ -1,11 +1,27 @@
 import DataTable from "@/components/table/data-table";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { columns, data } from "@/lib/tables/appointment/appointments";
+import { columns } from "@/lib/tables/appointment/appointments";
+import { useQuery } from "@tanstack/react-query";
+import { apiFetch } from "@/lib/api";
+import type { AppointmentTab } from "@/types/appointment";
+import { useState } from "react";
 
 export default function AppointmentDataTable() {
+    const [tab, setTab] = useState<"WAIT" | "EXPIRED">("WAIT");
+
+    const { data: appointments, isPending } = useQuery({
+        queryKey: ["appointments", tab],
+        enabled: !!tab,
+        queryFn: () => apiFetch<AppointmentTab[]>(`/appointment?type=${tab}`),
+        staleTime: 0,
+        gcTime: 0,
+        refetchOnMount: "always",
+        refetchOnWindowFocus: true,
+    });
+
     return (
         <div className="bg-white">
-            <Tabs defaultValue='upcoming' className='gap-x-4 gap-y-0 w-full'>
+            <Tabs onValueChange={(e) => setTab(e === "upcoming" ? "WAIT" : "EXPIRED")} defaultValue='upcoming' className='gap-x-4 gap-y-0 w-full'>
                 <TabsList className='rounded-none px-4 space-x-2 pt-4 pb-0 relative'>
                     <TabsTrigger
                         value="upcoming"
@@ -22,10 +38,10 @@ export default function AppointmentDataTable() {
                 </TabsList>
                 <span className="flex w-full h-px bg-border" />
                 <TabsContent value="upcoming">
-                    <DataTable data={data} columns={columns} filters={["name", "company"]} hasFilter={false} />
+                    <DataTable data={appointments || []} columns={columns} filters={["name", "company"]} hasFilter={false} isLoading={isPending} />
                 </TabsContent>
                 <TabsContent value="past">
-                    <DataTable data={data} columns={columns} filters={["name", "company"]} hasFilter={false} />
+                    <DataTable data={appointments || []} columns={columns} filters={["name", "company"]} hasFilter={false} isLoading={isPending} />
                 </TabsContent>
             </Tabs>
         </div>

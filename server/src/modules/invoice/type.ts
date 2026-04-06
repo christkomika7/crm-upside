@@ -8,12 +8,6 @@ export default {
             ALL: "ALL"
         }, { error: "Le type de facture est requis." })
     }),
-    queryClient: t.Object({
-        type: t.Enum({
-            OWNER: "OWNER",
-            TENANT: "TENANT",
-        }, { error: "Le type de client est requis." })
-    }),
     paramsId: t.Object({
         id: t.String({ error: "L'identifiant est requis." })
     }),

@@ -8,6 +8,7 @@ export type Document = {
     taxes: Tax[];
     discount: number;
     discountType: "PERCENT" | "MONEY";
+    isComplete?: boolean;
     amountType: "HT" | "TTC";
     issue: string;
     due: string;
