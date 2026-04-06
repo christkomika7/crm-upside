@@ -2,74 +2,15 @@ import { Button } from "@/components/ui/button";
 import { Link } from "@tanstack/react-router";
 import type { ColumnDef } from "@tanstack/react-table";
 import { ArrowUpDownIcon, Edit3Icon, EyeIcon, StarIcon, Trash2Icon } from "lucide-react";
-
-type KeyType = 'id' | 'name' | 'profession' | 'rating' | 'phone' | 'email' | 'amountDue' | "amountPaid" | 'createdAt';
-
-export const data: Record<
-    KeyType,
-    string | string[] | number | Date
->[] = [
-        {
-            id: "k39dkd02a",
-            name: "Ocean Breeze",
-            profession: "Alice Johnson",
-            rating: "4.2",
-            phone: "555-5678",
-            email: "alice.johnson@example.com",
-            amountDue: "$950",
-            amountPaid: "$900",
-            createdAt: new Date("2023-02-10"),
-        },
-        {
-            id: "x92jdla77",
-            name: "Mountain View",
-            profession: "Robert Brown",
-            rating: "4.8",
-            phone: "555-8765",
-            email: "robert.brown@example.com",
-            amountDue: "$2,300",
-            amountPaid: "$2,000",
-            createdAt: new Date("2023-03-05"),
-        },
-        {
-            id: "p01lske44",
-            name: "Green Valley",
-            profession: "Maria Garcia",
-            rating: "4.1",
-            phone: "555-3344",
-            email: "maria.garcia@example.com",
-            amountDue: "$780",
-            amountPaid: "$500",
-            createdAt: new Date("2023-04-18"),
-        },
-        {
-            id: "z88qwe120",
-            name: "Golden Horizon",
-            profession: "David Wilson",
-            rating: "4.7",
-            phone: "555-9988",
-            email: "david.wilson@example.com",
-            amountDue: "$1,500",
-            amountPaid: "$1,200",
-            createdAt: new Date("2023-05-22"),
-        },
-        {
-            id: "m55ncc309",
-            name: "Silver Lake",
-            profession: "Sophia Martinez",
-            rating: "4.3",
-            phone: "555-2211",
-            email: "sophia.martinez@example.com",
-            amountDue: "$1,100",
-            amountPaid: "$1,100",
-            createdAt: new Date("2023-06-12"),
-        },
+import type { ServiceProviderTab } from "@/types/service-provider";
+import { useMutation } from "@tanstack/react-query";
+import { crudService } from "@/lib/api";
+import { toast } from "sonner";
+import { queryClient } from "@/lib/query-client";
+import { Spinner } from "@/components/ui/spinner";
 
 
-    ];
-
-
-export const columns: ColumnDef<Record<KeyType, string | number | Date | string[]>>[] = [
+export const columns: ColumnDef<ServiceProviderTab>[] = [
     {
         accessorKey: "name",
         header: ({ column }) => {
@@ -161,7 +102,7 @@ export const columns: ColumnDef<Record<KeyType, string | number | Date | string[
         ),
     },
     {
-        accessorKey: "amountDue",
+        accessorKey: "due",
         header: ({ column }) => {
             return (
                 <Button
@@ -175,11 +116,11 @@ export const columns: ColumnDef<Record<KeyType, string | number | Date | string[
             )
         },
         cell: ({ row }) => (
-            <div className="capitalize">{row.getValue("amountDue")}</div>
+            <div className="capitalize">{row.getValue("due")}</div>
         ),
     },
     {
-        accessorKey: "amountPaid",
+        accessorKey: "paid",
         header: ({ column }) => {
             return (
                 <Button
@@ -193,7 +134,7 @@ export const columns: ColumnDef<Record<KeyType, string | number | Date | string[
             )
         },
         cell: ({ row }) => (
-            <div className="capitalize">{row.getValue("amountPaid")}</div>
+            <div className="capitalize">{row.getValue("paid")}</div>
         ),
     },
     {
@@ -202,17 +143,39 @@ export const columns: ColumnDef<Record<KeyType, string | number | Date | string[
         header: "Action",
         enableHiding: false,
         cell: ({ row }) => {
-            // const router = useRouter();
+
+            const remove = useMutation({
+                mutationFn: ({ serviceProviderId }: { serviceProviderId: string }) =>
+                    crudService.delete(`/service-provider/${serviceProviderId}`),
+                onSuccess(data) {
+                    toast.success(data.message);
+                    queryClient.invalidateQueries({ queryKey: ["service-providers"] });
+                    queryClient.invalidateQueries({ queryKey: ["deletions"] });
+                },
+                onError: (error: Error) => {
+                    console.error("Erreur:", error.message);
+                    toast.error(error.message);
+                },
+            });
+
             return (
-                <div className="flex gap-x-2">
-                    <Link to='/dashboard/service-providers/edit-service/$id' params={{ id: `edit_service-${row.original.id}` }} >
-                        <Button variant="secondary" className="size-7.5 rounded-lg"><Edit3Icon className="size-3.5" /></Button>
-                    </Link>
-                    <Link to='/dashboard/service-providers/$id' params={{ id: `view_service-${row.original.id}` }} >
-                        <Button variant="secondary" className="size-7.5 rounded-lg"><EyeIcon className="size-3.5" /></Button>
-                    </Link>
-                    <Button variant="destructive" className="size-7.5 rounded-lg bg-red-400"><Trash2Icon className="size-3.5" /></Button>
-                </div>
+                <>
+                    {
+                        !row.original.isDeleting && (
+                            <div className="flex gap-x-2">
+                                <Link to='/dashboard/service-providers/edit-service/$id' params={{ id: `edit_service-${row.original.id}` }} >
+                                    <Button variant="secondary" className="size-7.5 rounded-lg"><Edit3Icon className="size-3.5" /></Button>
+                                </Link>
+                                <Link to='/dashboard/service-providers/$id' params={{ id: `view_service-${row.original.id}` }} >
+                                    <Button variant="secondary" className="size-7.5 rounded-lg"><EyeIcon className="size-3.5" /></Button>
+                                </Link>
+                                <Button disabled={remove.isPending} onClick={() => remove.mutate({ serviceProviderId: row.original.id })} variant="destructive" className="size-7.5 rounded-lg bg-red-400">
+                                    {remove.isPending ? <Spinner className="text-white size-3.5" /> : <Trash2Icon className="size-3.5" />}
+                                </Button>
+                            </div>
+                        )
+                    }
+                </>
             )
         },
     },

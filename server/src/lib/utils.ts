@@ -1,22 +1,28 @@
 import { Unit } from "../generated/prisma/client";
 import { getSignedFileUrl } from "./storage";
 
-export async function safeSignedUrls(keys?: string[]) {
-    if (!keys?.length) {
+export async function safeSignedUrls(keys?: string | string[]) {
+    if (!keys) {
         return { urls: [], error: false };
     }
 
+    const isSingle = typeof keys === "string";
+    const normalizedKeys = isSingle ? [keys] : keys;
+
     const results = await Promise.allSettled(
-        keys.map((key) => getSignedFileUrl(key))
+        normalizedKeys.map((key) => getSignedFileUrl(key))
     );
 
     const urls = results
-        .filter((r) => r.status === "fulfilled")
-        .map((r: any) => r.value);
+        .filter((r): r is PromiseFulfilledResult<string> => r.status === "fulfilled")
+        .map((r) => r.value);
 
     const error = results.some((r) => r.status === "rejected");
 
-    return { urls, error };
+    return {
+        urls: isSingle ? urls[0] ?? null : urls,
+        error,
+    };
 }
 
 export function generateRef(ref?: string, position: number = 1): string {

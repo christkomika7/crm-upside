@@ -175,9 +175,9 @@ export const buildingRoutes = new Elysia({ prefix: "/building" })
             let documents: string[] = [];
 
             try {
-                photos = await uploadFiles(uploadedKeys, data.photos);
-                deeds = await uploadFiles(uploadedKeys, data.deeds);
-                documents = await uploadFiles(uploadedKeys, data.documents);
+                photos = await uploadFiles(uploadedKeys, data.photos) as string[];
+                deeds = await uploadFiles(uploadedKeys, data.deeds) as string[];
+                documents = await uploadFiles(uploadedKeys, data.documents) as string[];
             } catch (error) {
                 console.error(error);
                 return status(500, { message: "Erreur lors de l'upload des fichiers, veuillez réessayer" });
@@ -290,9 +290,9 @@ export const buildingRoutes = new Elysia({ prefix: "/building" })
             let documents: string[] = [];
 
             try {
-                photos = await uploadFiles(uploadedKeys, data.photos);
-                deeds = await uploadFiles(uploadedKeys, data.deeds);
-                documents = await uploadFiles(uploadedKeys, data.documents);
+                photos = await uploadFiles(uploadedKeys, data.photos) as string[];
+                deeds = await uploadFiles(uploadedKeys, data.deeds) as string[];
+                documents = await uploadFiles(uploadedKeys, data.documents) as string[];
             } catch (error) {
                 console.error(JSON.stringify(error));
                 return status(500, { message: "Erreur lors de l'upload des fichiers, veuillez réessayer" });

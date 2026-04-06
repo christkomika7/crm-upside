@@ -106,6 +106,7 @@ export const columns: ColumnDef<Deletion>[] = [
                         INVOICING: "invoices",
                         QUOTE: "quotes",
                         CONTRACT: "contracts",
+                        SERVICE_PROVIDER: "service-providers",
                     };
 
                     const relatedQueryKey = typeQueryKeyMap[row.original.type];

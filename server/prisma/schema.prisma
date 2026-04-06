@@ -237,6 +237,18 @@ model LotType {
   @@map("lot_type")
 }
 
+model Profession {
+  id   String @id @default(cuid())
+  name String @unique
+
+  serviceProviders ServiceProvider[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("profession")
+}
+
 model Type {
   id   String @id @default(cuid())
   name String @unique
@@ -464,6 +476,36 @@ model Quote {
   updatedAt DateTime @updatedAt
 
   @@map("quote")
+}
+
+model ServiceProvider {
+  id String @id @default(cuid())
+
+  firstname      String
+  lastname       String
+  company        String
+  phone          String
+  email          String
+  address        String
+  nif            String
+  registerNumber String
+  paymentMode    String
+  note           Float
+  comment        String?
+
+  isDeleting Boolean @default(false)
+
+  profession   Profession @relation(fields: [professionId], references: [id])
+  professionId String
+
+  rcc            String?
+  idCard         String?
+  taxCertificate String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("service_provider")
 }
 
 model Contract {

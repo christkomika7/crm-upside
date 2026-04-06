@@ -188,7 +188,7 @@ export default function EditUnit({ id }: EditUnitProps) {
                                     <FormControl>
                                         <div className="flex gap-x-2">
                                             <Select onValueChange={e => field.onChange(e)} value={field.value} >
-                                                <SelectTrigger className="w-full" aria-invalid={!!form.formState.errors.building}>
+                                                <SelectTrigger className="w-full" aria-invalid={!!form.formState.errors.type}>
                                                     <SelectValue placeholder="" />
                                                 </SelectTrigger>
                                                 <SelectContent position="popper" align="end">

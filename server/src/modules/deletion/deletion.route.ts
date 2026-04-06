@@ -286,6 +286,24 @@ export const deletionRoutes = new Elysia({ prefix: "/deletion" })
                 }
                 return appointmentParsed;
             case "SERVICE_PROVIDER":
+                const serviceProviderParsed = [];
+                for (const deletion of deletions) {
+                    const serviceProvider = await prisma.serviceProvider.findUnique({
+                        where: { id: deletion.recordId },
+                    });
+
+                    if (!serviceProvider) return status(400, { message: "Aucun prestataire trouvé." });
+
+                    serviceProviderParsed.push({
+                        id: deletion.id,
+                        reference: "-",
+                        type: deletion.type,
+                        name: `${serviceProvider.firstname} ${serviceProvider.lastname}`,
+                        date: formatDateToString(deletion.createdAt),
+                        actionBy: user.name
+                    });
+                }
+                return serviceProviderParsed;
             case "COMMUNICATION":
         }
     }, { auth: true, query: request.query })
@@ -497,18 +515,18 @@ export const deletionRoutes = new Elysia({ prefix: "/deletion" })
                             ]);
                             return status(200, { message: `La suppression du rendez-vous ${appointment.type === "OWNER" ? `${appointment.owner?.firstname} ${appointment.owner?.lastname}` : `${appointment.tenant?.firstname} ${appointment.tenant?.lastname}`} a été annulé avec succès.` });
                         case "SERVICE_PROVIDER":
-                        // const [serviceProvider] = await prisma.$transaction([
-                        //     prisma.serviceProvider.update({
-                        //         where: { id: deletion.recordId },
-                        //         data: {
-                        //             isDeleting: false
-                        //         }
-                        //     }),
-                        //     prisma.deletion.delete({
-                        //         where: { id: deletion.id }
-                        //     })
-                        // ]);
-                        // return status(200, { message: `La suppression du prestataire ${generateRef(reference?.serviceProvider, serviceProvider.reference)} a été annulé avec succès.` });
+                            const [serviceProvider] = await prisma.$transaction([
+                                prisma.serviceProvider.update({
+                                    where: { id: deletion.recordId },
+                                    data: {
+                                        isDeleting: false
+                                    }
+                                }),
+                                prisma.deletion.delete({
+                                    where: { id: deletion.id }
+                                })
+                            ]);
+                            return status(200, { message: `La suppression du prestataire ${serviceProvider.firstname} ${serviceProvider.lastname} a été annulé avec succès.` });
                         case "COMMUNICATION":
                         // const [communication] = await prisma.$transaction([
                         //     prisma.communication.update({
@@ -822,6 +840,25 @@ export const deletionRoutes = new Elysia({ prefix: "/deletion" })
 
                             return status(200, { message: `Le rendez-vous a été supprimé avec succès.` });
                         case "SERVICE_PROVIDER":
+                            const serviceProvider = await prisma.serviceProvider.findUnique({
+                                where: { id: deletion.recordId },
+                            });
+
+                            if (!serviceProvider) return status(400, { message: "Aucun prestataire trouvé." })
+
+                            await prisma.$transaction([
+                                prisma.deletion.update({
+                                    where: {
+                                        id: deletion.id
+                                    },
+                                    data: {
+                                        state: "TERMINED"
+                                    }
+                                }),
+                                prisma.serviceProvider.delete({ where: { id: serviceProvider.id } })
+                            ])
+
+                            return status(200, { message: `Le prestataire ${serviceProvider.firstname} ${serviceProvider.lastname} a été supprimé avec succès.` });
                         case "COMMUNICATION":
                     }
 
@@ -832,8 +869,6 @@ export const deletionRoutes = new Elysia({ prefix: "/deletion" })
                 }
             default:
                 return status(400, "Le type d'action est invalide.");
-
-
         }
 
     }, { auth: true, params: request.params, body: request.body, })

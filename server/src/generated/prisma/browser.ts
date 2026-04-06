@@ -68,6 +68,11 @@ export type Unit = Prisma.UnitModel
  */
 export type LotType = Prisma.LotTypeModel
 /**
+ * Model Profession
+ * 
+ */
+export type Profession = Prisma.ProfessionModel
+/**
  * Model Type
  * 
  */
@@ -117,6 +122,11 @@ export type Invoice = Prisma.InvoiceModel
  * 
  */
 export type Quote = Prisma.QuoteModel
+/**
+ * Model ServiceProvider
+ * 
+ */
+export type ServiceProvider = Prisma.ServiceProviderModel
 /**
  * Model Contract
  * 

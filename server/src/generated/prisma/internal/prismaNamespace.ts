@@ -394,6 +394,7 @@ export const ModelName = {
   Building: 'Building',
   Unit: 'Unit',
   LotType: 'LotType',
+  Profession: 'Profession',
   Type: 'Type',
   Owner: 'Owner',
   Tenant: 'Tenant',
@@ -404,6 +405,7 @@ export const ModelName = {
   Item: 'Item',
   Invoice: 'Invoice',
   Quote: 'Quote',
+  ServiceProvider: 'ServiceProvider',
   Contract: 'Contract',
   CheckInOut: 'CheckInOut',
   Appointment: 'Appointment',
@@ -428,7 +430,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "user" | "permission" | "cumul" | "tax" | "note" | "reference" | "appearence" | "building" | "unit" | "lotType" | "type" | "owner" | "tenant" | "rental" | "reservation" | "propertyManagement" | "productService" | "item" | "invoice" | "quote" | "contract" | "checkInOut" | "appointment" | "payment" | "personalService" | "deletion" | "session" | "account" | "verification"
+    modelProps: "user" | "permission" | "cumul" | "tax" | "note" | "reference" | "appearence" | "building" | "unit" | "lotType" | "profession" | "type" | "owner" | "tenant" | "rental" | "reservation" | "propertyManagement" | "productService" | "item" | "invoice" | "quote" | "serviceProvider" | "contract" | "checkInOut" | "appointment" | "payment" | "personalService" | "deletion" | "session" | "account" | "verification"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -1172,6 +1174,80 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
+    Profession: {
+      payload: Prisma.$ProfessionPayload<ExtArgs>
+      fields: Prisma.ProfessionFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.ProfessionFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ProfessionPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.ProfessionFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ProfessionPayload>
+        }
+        findFirst: {
+          args: Prisma.ProfessionFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ProfessionPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.ProfessionFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ProfessionPayload>
+        }
+        findMany: {
+          args: Prisma.ProfessionFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ProfessionPayload>[]
+        }
+        create: {
+          args: Prisma.ProfessionCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ProfessionPayload>
+        }
+        createMany: {
+          args: Prisma.ProfessionCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.ProfessionCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ProfessionPayload>[]
+        }
+        delete: {
+          args: Prisma.ProfessionDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ProfessionPayload>
+        }
+        update: {
+          args: Prisma.ProfessionUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ProfessionPayload>
+        }
+        deleteMany: {
+          args: Prisma.ProfessionDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.ProfessionUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.ProfessionUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ProfessionPayload>[]
+        }
+        upsert: {
+          args: Prisma.ProfessionUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ProfessionPayload>
+        }
+        aggregate: {
+          args: Prisma.ProfessionAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateProfession>
+        }
+        groupBy: {
+          args: Prisma.ProfessionGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.ProfessionGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.ProfessionCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.ProfessionCountAggregateOutputType> | number
+        }
+      }
+    }
     Type: {
       payload: Prisma.$TypePayload<ExtArgs>
       fields: Prisma.TypeFieldRefs
@@ -1909,6 +1985,80 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         count: {
           args: Prisma.QuoteCountArgs<ExtArgs>
           result: runtime.Types.Utils.Optional<Prisma.QuoteCountAggregateOutputType> | number
+        }
+      }
+    }
+    ServiceProvider: {
+      payload: Prisma.$ServiceProviderPayload<ExtArgs>
+      fields: Prisma.ServiceProviderFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.ServiceProviderFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ServiceProviderPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.ServiceProviderFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ServiceProviderPayload>
+        }
+        findFirst: {
+          args: Prisma.ServiceProviderFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ServiceProviderPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.ServiceProviderFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ServiceProviderPayload>
+        }
+        findMany: {
+          args: Prisma.ServiceProviderFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ServiceProviderPayload>[]
+        }
+        create: {
+          args: Prisma.ServiceProviderCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ServiceProviderPayload>
+        }
+        createMany: {
+          args: Prisma.ServiceProviderCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.ServiceProviderCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ServiceProviderPayload>[]
+        }
+        delete: {
+          args: Prisma.ServiceProviderDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ServiceProviderPayload>
+        }
+        update: {
+          args: Prisma.ServiceProviderUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ServiceProviderPayload>
+        }
+        deleteMany: {
+          args: Prisma.ServiceProviderDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.ServiceProviderUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.ServiceProviderUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ServiceProviderPayload>[]
+        }
+        upsert: {
+          args: Prisma.ServiceProviderUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ServiceProviderPayload>
+        }
+        aggregate: {
+          args: Prisma.ServiceProviderAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateServiceProvider>
+        }
+        groupBy: {
+          args: Prisma.ServiceProviderGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.ServiceProviderGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.ServiceProviderCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.ServiceProviderCountAggregateOutputType> | number
         }
       }
     }
@@ -2753,6 +2903,16 @@ export const LotTypeScalarFieldEnum = {
 export type LotTypeScalarFieldEnum = (typeof LotTypeScalarFieldEnum)[keyof typeof LotTypeScalarFieldEnum]
 
 
+export const ProfessionScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type ProfessionScalarFieldEnum = (typeof ProfessionScalarFieldEnum)[keyof typeof ProfessionScalarFieldEnum]
+
+
 export const TypeScalarFieldEnum = {
   id: 'id',
   name: 'name',
@@ -2927,6 +3087,31 @@ export const QuoteScalarFieldEnum = {
 } as const
 
 export type QuoteScalarFieldEnum = (typeof QuoteScalarFieldEnum)[keyof typeof QuoteScalarFieldEnum]
+
+
+export const ServiceProviderScalarFieldEnum = {
+  id: 'id',
+  firstname: 'firstname',
+  lastname: 'lastname',
+  company: 'company',
+  phone: 'phone',
+  email: 'email',
+  address: 'address',
+  nif: 'nif',
+  registerNumber: 'registerNumber',
+  paymentMode: 'paymentMode',
+  note: 'note',
+  comment: 'comment',
+  isDeleting: 'isDeleting',
+  professionId: 'professionId',
+  rcc: 'rcc',
+  idCard: 'idCard',
+  taxCertificate: 'taxCertificate',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type ServiceProviderScalarFieldEnum = (typeof ServiceProviderScalarFieldEnum)[keyof typeof ServiceProviderScalarFieldEnum]
 
 
 export const ContractScalarFieldEnum = {
@@ -3250,6 +3435,20 @@ export type ListEnumClientTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$P
 
 
 /**
+ * Reference to a field of type 'Float'
+ */
+export type FloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Float'>
+    
+
+
+/**
+ * Reference to a field of type 'Float[]'
+ */
+export type ListFloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Float[]'>
+    
+
+
+/**
  * Reference to a field of type 'ContractType'
  */
 export type EnumContractTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ContractType'>
@@ -3302,20 +3501,6 @@ export type EnumDeletionStateFieldRefInput<$PrismaModel> = FieldRefInputType<$Pr
  * Reference to a field of type 'DeletionState[]'
  */
 export type ListEnumDeletionStateFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'DeletionState[]'>
-    
-
-
-/**
- * Reference to a field of type 'Float'
- */
-export type FloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Float'>
-    
-
-
-/**
- * Reference to a field of type 'Float[]'
- */
-export type ListFloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Float[]'>
     
 
 /**
@@ -3423,6 +3608,7 @@ export type GlobalOmitConfig = {
   building?: Prisma.BuildingOmit
   unit?: Prisma.UnitOmit
   lotType?: Prisma.LotTypeOmit
+  profession?: Prisma.ProfessionOmit
   type?: Prisma.TypeOmit
   owner?: Prisma.OwnerOmit
   tenant?: Prisma.TenantOmit
@@ -3433,6 +3619,7 @@ export type GlobalOmitConfig = {
   item?: Prisma.ItemOmit
   invoice?: Prisma.InvoiceOmit
   quote?: Prisma.QuoteOmit
+  serviceProvider?: Prisma.ServiceProviderOmit
   contract?: Prisma.ContractOmit
   checkInOut?: Prisma.CheckInOutOmit
   appointment?: Prisma.AppointmentOmit

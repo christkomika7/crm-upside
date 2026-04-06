@@ -70,6 +70,24 @@ export function uploadFiles(uploadedKeys: string[], files?: File[]) {
     );
 }
 
+export async function uploadFileSingle(
+    uploadedKeys: string[],
+    file?: File
+): Promise<string | null> {
+    if (!file) return null;
+
+    return uploadWithRetry(async () => {
+        const buffer = new Uint8Array(await file.arrayBuffer());
+        const extension = file.name.split(".").pop();
+        const key = `${crypto.randomUUID()}.${extension}`;
+
+        await uploadFile(key, buffer, file.type);
+        uploadedKeys.push(key);
+
+        return key;
+    });
+}
+
 export async function deleteFile(key: string) {
     await s3.send(new DeleteObjectCommand({
         Bucket: BUCKET,

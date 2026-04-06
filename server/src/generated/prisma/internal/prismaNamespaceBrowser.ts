@@ -61,6 +61,7 @@ export const ModelName = {
   Building: 'Building',
   Unit: 'Unit',
   LotType: 'LotType',
+  Profession: 'Profession',
   Type: 'Type',
   Owner: 'Owner',
   Tenant: 'Tenant',
@@ -71,6 +72,7 @@ export const ModelName = {
   Item: 'Item',
   Invoice: 'Invoice',
   Quote: 'Quote',
+  ServiceProvider: 'ServiceProvider',
   Contract: 'Contract',
   CheckInOut: 'CheckInOut',
   Appointment: 'Appointment',
@@ -232,6 +234,16 @@ export const LotTypeScalarFieldEnum = {
 } as const
 
 export type LotTypeScalarFieldEnum = (typeof LotTypeScalarFieldEnum)[keyof typeof LotTypeScalarFieldEnum]
+
+
+export const ProfessionScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type ProfessionScalarFieldEnum = (typeof ProfessionScalarFieldEnum)[keyof typeof ProfessionScalarFieldEnum]
 
 
 export const TypeScalarFieldEnum = {
@@ -408,6 +420,31 @@ export const QuoteScalarFieldEnum = {
 } as const
 
 export type QuoteScalarFieldEnum = (typeof QuoteScalarFieldEnum)[keyof typeof QuoteScalarFieldEnum]
+
+
+export const ServiceProviderScalarFieldEnum = {
+  id: 'id',
+  firstname: 'firstname',
+  lastname: 'lastname',
+  company: 'company',
+  phone: 'phone',
+  email: 'email',
+  address: 'address',
+  nif: 'nif',
+  registerNumber: 'registerNumber',
+  paymentMode: 'paymentMode',
+  note: 'note',
+  comment: 'comment',
+  isDeleting: 'isDeleting',
+  professionId: 'professionId',
+  rcc: 'rcc',
+  idCard: 'idCard',
+  taxCertificate: 'taxCertificate',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type ServiceProviderScalarFieldEnum = (typeof ServiceProviderScalarFieldEnum)[keyof typeof ServiceProviderScalarFieldEnum]
 
 
 export const ContractScalarFieldEnum = {

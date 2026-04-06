@@ -136,7 +136,7 @@ export const columns: ColumnDef<Building>[] = [
         enableHiding: false,
         cell: ({ row }) => {
 
-            const removeBuilding = useMutation({
+            const remove = useMutation({
                 mutationFn: ({ buildingId }: { buildingId: string }) =>
                     crudService.delete(`/building/${buildingId}`),
                 onSuccess(data) {
@@ -159,8 +159,8 @@ export const columns: ColumnDef<Building>[] = [
                         <Link to='/dashboard/buildings/$id' params={{ id: `view_building-${row.original.id}` }} >
                             <Button variant="secondary" className="size-7.5 rounded-lg"><EyeIcon className="size-3.5" /></Button>
                         </Link>
-                        <Button onClick={() => removeBuilding.mutate({ buildingId: row.original.id })} variant="destructive" className="size-7.5 rounded-lg bg-red-400">
-                            {removeBuilding.isPending ? <Spinner className="text-white size-3.5" /> : <Trash2Icon className="size-3.5" />}
+                        <Button onClick={() => remove.mutate({ buildingId: row.original.id })} variant="destructive" className="size-7.5 rounded-lg bg-red-400">
+                            {remove.isPending ? <Spinner className="text-white size-3.5" /> : <Trash2Icon className="size-3.5" />}
                         </Button>
                     </Activity>
                 </div>

@@ -94,7 +94,7 @@ export const tenantRoutes = new Elysia({ prefix: "/tenant" })
             let documents: string[] = [];
 
             try {
-                documents = await uploadFiles(uploadedKeys, data.documents);
+                documents = await uploadFiles(uploadedKeys, data.documents) as string[];
             } catch (error) {
                 console.error(error);
                 return status(500, { message: "Erreur lors de l'upload des fichiers, veuillez réessayer" });
@@ -169,7 +169,7 @@ export const tenantRoutes = new Elysia({ prefix: "/tenant" })
             let documents: string[] = [];
 
             try {
-                documents = await uploadFiles(uploadedKeys, data.documents);
+                documents = await uploadFiles(uploadedKeys, data.documents) as string[];
             } catch (error) {
                 console.error(JSON.stringify(error));
                 return status(500, { message: "Erreur lors de l'upload des fichiers, veuillez réessayer" });
