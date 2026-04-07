@@ -1,11 +1,5 @@
 import { z } from "zod";
 
-export const defaultTextSchema = z.object({
-    invoice: z.string().optional(),
-    quote: z.string().optional(),
-});
-
-
 export const taxCumulSchema = z.object({
     id: z.string(),
     name: z.string(),
@@ -29,6 +23,7 @@ export const taxSchema = z.object({
 export const noteSchema = z.object({
     invoice: z.string().optional(),
     quote: z.string().optional(),
+    purchaseOrder: z.string().optional(),
 });
 
 export const referenceSchema = z.object({
@@ -39,5 +34,4 @@ export const referenceSchema = z.object({
 
 export type ReferenceSchemaType = z.infer<typeof referenceSchema>;
 export type TaxSchemaType = z.infer<typeof taxSchema>;
-export type DefaultTextSchemaType = z.infer<typeof defaultTextSchema>;
 export type NoteSchemaType = z.infer<typeof noteSchema>;

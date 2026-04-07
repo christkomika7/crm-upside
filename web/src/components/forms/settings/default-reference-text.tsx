@@ -12,7 +12,7 @@ import { queryClient } from "@/lib/query-client";
 import { Input } from "@/components/ui/input";
 
 type SaveDefaultTextProps = {
-    current: "invoice" | "quote";
+    current: "invoice" | "quote" | "purchase-order";
 }
 
 export default function SaveDefaultReferenceText({ current }: SaveDefaultTextProps) {
@@ -27,6 +27,7 @@ export default function SaveDefaultReferenceText({ current }: SaveDefaultTextPro
         defaultValues: {
             invoice: "",
             quote: "",
+            purchaseOrder: "",
         }
     });
 
@@ -47,6 +48,7 @@ export default function SaveDefaultReferenceText({ current }: SaveDefaultTextPro
             form.reset({
                 invoice: note.invoice,
                 quote: note.quote,
+                purchaseOrder: note.purchaseOrder,
             });
         }
     }, [note]);
@@ -104,6 +106,26 @@ export default function SaveDefaultReferenceText({ current }: SaveDefaultTextPro
                                         placeholder="Ex: DEV-001"
                                         value={field.value}
                                         aria-invalid={!!form.formState.errors.quote}
+                                        onChange={field.onChange}
+                                    />
+                                </FormControl>
+                                <FormMessage />
+                            </FormItem>
+                        )}
+                    />
+                </Activity>
+                <Activity mode={current === "purchase-order" ? "visible" : "hidden"}>
+                    <FormField
+                        control={form.control}
+                        name="purchaseOrder"
+                        render={({ field }) => (
+                            <FormItem >
+                                <FormLabel className="text-neutral-600">Référence du bon de commande</FormLabel>
+                                <FormControl>
+                                    <Input
+                                        placeholder="Ex: PO-001"
+                                        value={field.value}
+                                        aria-invalid={!!form.formState.errors.purchaseOrder}
                                         onChange={field.onChange}
                                     />
                                 </FormControl>

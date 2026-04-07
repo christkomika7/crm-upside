@@ -28,18 +28,21 @@ export type NoteMinAggregateOutputType = {
   id: string | null
   invoice: string | null
   quote: string | null
+  purchaseOrder: string | null
 }
 
 export type NoteMaxAggregateOutputType = {
   id: string | null
   invoice: string | null
   quote: string | null
+  purchaseOrder: string | null
 }
 
 export type NoteCountAggregateOutputType = {
   id: number
   invoice: number
   quote: number
+  purchaseOrder: number
   _all: number
 }
 
@@ -48,18 +51,21 @@ export type NoteMinAggregateInputType = {
   id?: true
   invoice?: true
   quote?: true
+  purchaseOrder?: true
 }
 
 export type NoteMaxAggregateInputType = {
   id?: true
   invoice?: true
   quote?: true
+  purchaseOrder?: true
 }
 
 export type NoteCountAggregateInputType = {
   id?: true
   invoice?: true
   quote?: true
+  purchaseOrder?: true
   _all?: true
 }
 
@@ -139,6 +145,7 @@ export type NoteGroupByOutputType = {
   id: string
   invoice: string
   quote: string
+  purchaseOrder: string
   _count: NoteCountAggregateOutputType | null
   _min: NoteMinAggregateOutputType | null
   _max: NoteMaxAggregateOutputType | null
@@ -166,12 +173,14 @@ export type NoteWhereInput = {
   id?: Prisma.StringFilter<"Note"> | string
   invoice?: Prisma.StringFilter<"Note"> | string
   quote?: Prisma.StringFilter<"Note"> | string
+  purchaseOrder?: Prisma.StringFilter<"Note"> | string
 }
 
 export type NoteOrderByWithRelationInput = {
   id?: Prisma.SortOrder
   invoice?: Prisma.SortOrder
   quote?: Prisma.SortOrder
+  purchaseOrder?: Prisma.SortOrder
 }
 
 export type NoteWhereUniqueInput = Prisma.AtLeast<{
@@ -181,12 +190,14 @@ export type NoteWhereUniqueInput = Prisma.AtLeast<{
   NOT?: Prisma.NoteWhereInput | Prisma.NoteWhereInput[]
   invoice?: Prisma.StringFilter<"Note"> | string
   quote?: Prisma.StringFilter<"Note"> | string
+  purchaseOrder?: Prisma.StringFilter<"Note"> | string
 }, "id">
 
 export type NoteOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
   invoice?: Prisma.SortOrder
   quote?: Prisma.SortOrder
+  purchaseOrder?: Prisma.SortOrder
   _count?: Prisma.NoteCountOrderByAggregateInput
   _max?: Prisma.NoteMaxOrderByAggregateInput
   _min?: Prisma.NoteMinOrderByAggregateInput
@@ -199,66 +210,77 @@ export type NoteScalarWhereWithAggregatesInput = {
   id?: Prisma.StringWithAggregatesFilter<"Note"> | string
   invoice?: Prisma.StringWithAggregatesFilter<"Note"> | string
   quote?: Prisma.StringWithAggregatesFilter<"Note"> | string
+  purchaseOrder?: Prisma.StringWithAggregatesFilter<"Note"> | string
 }
 
 export type NoteCreateInput = {
   id?: string
   invoice: string
   quote: string
+  purchaseOrder: string
 }
 
 export type NoteUncheckedCreateInput = {
   id?: string
   invoice: string
   quote: string
+  purchaseOrder: string
 }
 
 export type NoteUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   invoice?: Prisma.StringFieldUpdateOperationsInput | string
   quote?: Prisma.StringFieldUpdateOperationsInput | string
+  purchaseOrder?: Prisma.StringFieldUpdateOperationsInput | string
 }
 
 export type NoteUncheckedUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   invoice?: Prisma.StringFieldUpdateOperationsInput | string
   quote?: Prisma.StringFieldUpdateOperationsInput | string
+  purchaseOrder?: Prisma.StringFieldUpdateOperationsInput | string
 }
 
 export type NoteCreateManyInput = {
   id?: string
   invoice: string
   quote: string
+  purchaseOrder: string
 }
 
 export type NoteUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   invoice?: Prisma.StringFieldUpdateOperationsInput | string
   quote?: Prisma.StringFieldUpdateOperationsInput | string
+  purchaseOrder?: Prisma.StringFieldUpdateOperationsInput | string
 }
 
 export type NoteUncheckedUpdateManyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   invoice?: Prisma.StringFieldUpdateOperationsInput | string
   quote?: Prisma.StringFieldUpdateOperationsInput | string
+  purchaseOrder?: Prisma.StringFieldUpdateOperationsInput | string
 }
 
 export type NoteCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
   invoice?: Prisma.SortOrder
   quote?: Prisma.SortOrder
+  purchaseOrder?: Prisma.SortOrder
 }
 
 export type NoteMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
   invoice?: Prisma.SortOrder
   quote?: Prisma.SortOrder
+  purchaseOrder?: Prisma.SortOrder
 }
 
 export type NoteMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
   invoice?: Prisma.SortOrder
   quote?: Prisma.SortOrder
+  purchaseOrder?: Prisma.SortOrder
 }
 
 
@@ -267,27 +289,31 @@ export type NoteSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   id?: boolean
   invoice?: boolean
   quote?: boolean
+  purchaseOrder?: boolean
 }, ExtArgs["result"]["note"]>
 
 export type NoteSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   invoice?: boolean
   quote?: boolean
+  purchaseOrder?: boolean
 }, ExtArgs["result"]["note"]>
 
 export type NoteSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   invoice?: boolean
   quote?: boolean
+  purchaseOrder?: boolean
 }, ExtArgs["result"]["note"]>
 
 export type NoteSelectScalar = {
   id?: boolean
   invoice?: boolean
   quote?: boolean
+  purchaseOrder?: boolean
 }
 
-export type NoteOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "invoice" | "quote", ExtArgs["result"]["note"]>
+export type NoteOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "invoice" | "quote" | "purchaseOrder", ExtArgs["result"]["note"]>
 
 export type $NotePayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "Note"
@@ -296,6 +322,7 @@ export type $NotePayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
     id: string
     invoice: string
     quote: string
+    purchaseOrder: string
   }, ExtArgs["result"]["note"]>
   composites: {}
 }
@@ -722,6 +749,7 @@ export interface NoteFieldRefs {
   readonly id: Prisma.FieldRef<"Note", 'String'>
   readonly invoice: Prisma.FieldRef<"Note", 'String'>
   readonly quote: Prisma.FieldRef<"Note", 'String'>
+  readonly purchaseOrder: Prisma.FieldRef<"Note", 'String'>
 }
     
 

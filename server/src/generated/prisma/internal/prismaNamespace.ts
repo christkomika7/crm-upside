@@ -3415,7 +3415,8 @@ export type TaxScalarFieldEnum = (typeof TaxScalarFieldEnum)[keyof typeof TaxSca
 export const NoteScalarFieldEnum = {
   id: 'id',
   invoice: 'invoice',
-  quote: 'quote'
+  quote: 'quote',
+  purchaseOrder: 'purchaseOrder'
 } as const
 
 export type NoteScalarFieldEnum = (typeof NoteScalarFieldEnum)[keyof typeof NoteScalarFieldEnum]

@@ -13,7 +13,7 @@ import { useState } from "react"
 import SaveDefaultReferenceText from "@/components/forms/settings/default-reference-text";
 
 export default function ReferenceText() {
-    const [current, setCurrent] = useState<"invoice" | "quote">("invoice");
+    const [current, setCurrent] = useState<"invoice" | "quote" | "purchase-order">("invoice");
     return (
         <div className="bg-white p-6 rounded-md shadow-md shadow-neutral-300/10">
             <h2 className="font-medium">Référence par défaut</h2>
@@ -43,6 +43,11 @@ export default function ReferenceText() {
                     variant={current === "quote" ? "default" : "outline"}
                     className="rounded-md! border!"
                 >Devis</Button>
+                <Button
+                    onClick={() => setCurrent("purchase-order")}
+                    variant={current === "purchase-order" ? "default" : "outline"}
+                    className="rounded-md! border!"
+                >Bon de commande</Button>
             </ButtonGroup>
         </div>
     )

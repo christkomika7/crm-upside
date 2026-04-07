@@ -141,9 +141,10 @@ model Tax {
 }
 
 model Note {
-  id      String @id @default(cuid())
-  invoice String
-  quote   String
+  id            String @id @default(cuid())
+  invoice       String
+  quote         String
+  purchaseOrder String
 
   @@map("note")
 }

@@ -4,7 +4,7 @@ import { Spinner } from "@/components/ui/spinner";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Activity, useEffect } from "react"
 import { useForm } from "react-hook-form";
-import { defaultTextSchema, type DefaultTextSchemaType, type NoteSchemaType } from "@/lib/zod/settings";
+import { noteSchema, type NoteSchemaType } from "@/lib/zod/settings";
 import { Textarea } from "@/components/ui/textarea";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { apiFetch, crudService } from "@/lib/api";
@@ -12,7 +12,7 @@ import { toast } from "sonner";
 import { queryClient } from "@/lib/query-client";
 
 type SaveDefaultTextProps = {
-    current: "invoice" | "quote"
+    current: "invoice" | "quote" | "purchase-order"
 }
 
 export default function SaveDefaultText({ current }: SaveDefaultTextProps) {
@@ -22,8 +22,8 @@ export default function SaveDefaultText({ current }: SaveDefaultTextProps) {
         queryFn: () => apiFetch<NoteSchemaType>("/note"),
     });
 
-    const form = useForm<DefaultTextSchemaType>({
-        resolver: zodResolver(defaultTextSchema),
+    const form = useForm<NoteSchemaType>({
+        resolver: zodResolver(noteSchema),
     });
 
     const editNote = useMutation({
@@ -43,14 +43,14 @@ export default function SaveDefaultText({ current }: SaveDefaultTextProps) {
             form.reset({
                 invoice: note.invoice,
                 quote: note.quote,
+                purchaseOrder: note.purchaseOrder,
             });
         }
     }, [note]);
 
-    async function submit(formData: DefaultTextSchemaType) {
-        const { success, data } = defaultTextSchema.safeParse(formData);
+    async function submit(formData: NoteSchemaType) {
+        const { success, data } = noteSchema.safeParse(formData);
         if (success) {
-            console.log({ data })
             editNote.mutate({ data });
         }
     }
@@ -101,6 +101,26 @@ export default function SaveDefaultText({ current }: SaveDefaultTextProps) {
                                         placeholder="Note"
                                         value={field.value}
                                         aria-invalid={!!form.formState.errors.quote}
+                                        onChange={field.onChange}
+                                    />
+                                </FormControl>
+                                <FormMessage />
+                            </FormItem>
+                        )}
+                    />
+                </Activity>
+                <Activity mode={current === "purchase-order" ? "visible" : "hidden"}>
+                    <FormField
+                        control={form.control}
+                        name="purchaseOrder"
+                        render={({ field }) => (
+                            <FormItem >
+                                <FormLabel className="text-neutral-600">Note du bon de commande</FormLabel>
+                                <FormControl>
+                                    <Textarea
+                                        placeholder="Note"
+                                        value={field.value}
+                                        aria-invalid={!!form.formState.errors.purchaseOrder}
                                         onChange={field.onChange}
                                     />
                                 </FormControl>

@@ -5,19 +5,28 @@ import { __transformDate__ } from "./__transformDate__";
 import { __nullable__ } from "./__nullable__";
 
 export const NotePlain = t.Object(
-  { id: t.String(), invoice: t.String(), quote: t.String() },
+  {
+    id: t.String(),
+    invoice: t.String(),
+    quote: t.String(),
+    purchaseOrder: t.String(),
+  },
   { additionalProperties: false },
 );
 
 export const NoteRelations = t.Object({}, { additionalProperties: false });
 
 export const NotePlainInputCreate = t.Object(
-  { invoice: t.String(), quote: t.String() },
+  { invoice: t.String(), quote: t.String(), purchaseOrder: t.String() },
   { additionalProperties: false },
 );
 
 export const NotePlainInputUpdate = t.Object(
-  { invoice: t.Optional(t.String()), quote: t.Optional(t.String()) },
+  {
+    invoice: t.Optional(t.String()),
+    quote: t.Optional(t.String()),
+    purchaseOrder: t.Optional(t.String()),
+  },
   { additionalProperties: false },
 );
 
@@ -41,6 +50,7 @@ export const NoteWhere = t.Partial(
           id: t.String(),
           invoice: t.String(),
           quote: t.String(),
+          purchaseOrder: t.String(),
         },
         { additionalProperties: false },
       ),
@@ -75,7 +85,12 @@ export const NoteWhereUnique = t.Recursive(
         ),
         t.Partial(
           t.Object(
-            { id: t.String(), invoice: t.String(), quote: t.String() },
+            {
+              id: t.String(),
+              invoice: t.String(),
+              quote: t.String(),
+              purchaseOrder: t.String(),
+            },
             { additionalProperties: false },
           ),
         ),
@@ -91,6 +106,7 @@ export const NoteSelect = t.Partial(
       id: t.Boolean(),
       invoice: t.Boolean(),
       quote: t.Boolean(),
+      purchaseOrder: t.Boolean(),
       _count: t.Boolean(),
     },
     { additionalProperties: false },
@@ -111,6 +127,9 @@ export const NoteOrderBy = t.Partial(
         additionalProperties: false,
       }),
       quote: t.Union([t.Literal("asc"), t.Literal("desc")], {
+        additionalProperties: false,
+      }),
+      purchaseOrder: t.Union([t.Literal("asc"), t.Literal("desc")], {
         additionalProperties: false,
       }),
     },

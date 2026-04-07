@@ -31,6 +31,7 @@ export const noteRoutes = new Elysia({ prefix: "/note" })
                 data: {
                     invoice: data.invoice || "",
                     quote: data.quote || "",
+                    purchaseOrder: data.purchaseOrder || "",
                 }
             });
 
@@ -44,6 +45,7 @@ export const noteRoutes = new Elysia({ prefix: "/note" })
             data: {
                 invoice: data.invoice,
                 quote: data.quote,
+                purchaseOrder: data.purchaseOrder,
             }
         });
 
