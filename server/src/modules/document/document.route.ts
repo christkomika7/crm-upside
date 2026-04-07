@@ -147,6 +147,68 @@ export const documentRoutes = new Elysia({ prefix: "/document" })
                     },
                     createdAt: quote.createdAt
                 }
+            case "PURCHASE_ORDER":
+                if (!canAccess(permission, "purchaseOrders", ['read'])) {
+                    return status(403, { message: "Accès refusé" });
+                }
+
+                if (!params.id) return status(404, { message: "Identifiant du bon de commande invalide" })
+
+                const purchaseOrder = await prisma.purchaseOrder.findUnique({
+                    where: {
+                        id: params.id
+                    },
+                    include: {
+                        serviceProvider: true,
+                        items: true
+                    }
+                });
+
+                if (!purchaseOrder) return status(404, { message: "Bon de commande non trouvé." })
+
+                return {
+                    id: purchaseOrder?.id,
+                    reference: generateRef(reference?.purchaseOrder, purchaseOrder.reference),
+                    taxes,
+                    discount: purchaseOrder.discount,
+                    discountType: purchaseOrder.discountType,
+                    amountType: purchaseOrder.hasTax ? "TTC" : "HT",
+                    issue: formatDateToString(purchaseOrder.start),
+                    due: formatDateToString(purchaseOrder.end),
+                    amount: purchaseOrder.price.toString(),
+                    amountPaid: purchaseOrder.amountPaid.toString(),
+                    status: purchaseOrder.status,
+                    items: purchaseOrder.items,
+                    note: purchaseOrder.note || note?.purchaseOrder || "Aucune note",
+                    isDeleting: purchaseOrder.isDeleting,
+                    upside: {
+                        design: {
+                            logo: "",
+                            position: "MIDDLE",
+                            size: "SMALL",
+                            background: "#ECFDF5",
+                            line: "#34D399",
+                        },
+                        serviceProvider: {
+                            name: `${purchaseOrder.serviceProvider?.firstname} ${purchaseOrder.serviceProvider?.lastname}`,
+                            company: purchaseOrder.serviceProvider?.company,
+                            email: purchaseOrder.serviceProvider?.email,
+                            address: purchaseOrder.serviceProvider?.address
+                        },
+                        company: "Upside",
+                        address: "Rue de l'indépendance",
+                        city: "Libreville",
+                        country: "Gabon",
+                        bp: "BP 2789",
+                        email: "contact@upside.com",
+                        website: "https://upside-gabon.com",
+                        phone: "+241 01 44 00 00",
+                        rccm: "GBLBR2022M12345",
+                        nif: "0123456789"
+                    },
+                    createdAt: purchaseOrder.createdAt
+                }
+
 
         }
     }, { auth: true, query: request.query, params: request.param })
@@ -160,6 +222,11 @@ export const documentRoutes = new Elysia({ prefix: "/document" })
                 break;
             case "QUOTE":
                 if (!canAccess(permission, "quotes", ["create", "update"])) {
+                    return status(403, { message: "Accès refusé" });
+                }
+                break;
+            case "PURCHASE_ORDER":
+                if (!canAccess(permission, "purchaseOrders", ["create", "update"])) {
                     return status(403, { message: "Accès refusé" });
                 }
                 break;
@@ -179,6 +246,7 @@ export const documentRoutes = new Elysia({ prefix: "/document" })
             let price: number;
             let due: Date;
             let client: string;
+            let serviceProvider: string;
 
             switch (data.type) {
                 case "INVOICE":
@@ -213,6 +281,7 @@ export const documentRoutes = new Elysia({ prefix: "/document" })
                     client = invoice.type === "OWNER" ?
                         `${invoice.owner?.firstname} ${invoice.owner?.lastname}` :
                         `${invoice.tenant?.firstname} ${invoice.tenant?.lastname}`;
+                    serviceProvider = "";
 
                     break;
                 case "QUOTE":
@@ -247,10 +316,36 @@ export const documentRoutes = new Elysia({ prefix: "/document" })
                     client = quote.type === "OWNER" ?
                         `${quote.owner?.firstname} ${quote.owner?.lastname}` :
                         `${quote.tenant?.firstname} ${quote.tenant?.lastname}`;
+                    serviceProvider = "";
+                    break;
+                case "PURCHASE_ORDER":
+                    const purchaseOrder = await prisma.purchaseOrder.findUnique({
+                        where: {
+                            id: data.id
+                        },
+                        select: {
+                            reference: true,
+                            price: true,
+                            end: true,
+                            serviceProvider: {
+                                select: {
+                                    firstname: true,
+                                    lastname: true
+                                }
+                            }
+                        }
+                    });
+
+                    if (!purchaseOrder) return status(404, { message: "Bon de commande non trouvé" });
+                    reference = generateRef(prefix?.purchaseOrder, purchaseOrder.reference);
+                    price = purchaseOrder.price.toNumber();
+                    due = purchaseOrder.end;
+                    client = "";
+                    serviceProvider = `${purchaseOrder.serviceProvider?.firstname} ${purchaseOrder.serviceProvider?.lastname}`;
                     break;
             }
 
-            const filename = `${data.type === "INVOICE" ? "Facture" : "Devis"} ${reference}.pdf`;
+            const filename = `${data.type === "INVOICE" ? "Facture" : data.type === "QUOTE" ? "Devis" : "Bon de commande"} ${reference}.pdf`;
             const buffer = Buffer.from(await data.document!.arrayBuffer())
             const fileAttacments: AttachementProps[] = [];
 
@@ -272,7 +367,7 @@ export const documentRoutes = new Elysia({ prefix: "/document" })
                     contentType: 'application/pdf',
                 },
                 to: data.emails,
-                subject: data.subject || `Votre ${data.type === "INVOICE" ? "facture" : "devis"} n° ${reference} – Upside`,
+                subject: data.subject || `Votre ${data.type === "INVOICE" ? "facture" : data.type === "QUOTE" ? "devis" : "bon de commande"} n° ${reference} – Upside`,
                 html: data.message ?
                     `
 <!DOCTYPE html>
@@ -305,7 +400,7 @@ export const documentRoutes = new Elysia({ prefix: "/document" })
                     <tr>
                         <td style="background:#ffffff;padding:40px;">
                             <p style="margin:0 0 24px;font-size:15px;color:#3f3f46;">Bonjour <strong
-                                    style="color:#18181b;">${client}</strong>,</p>
+                                    style="color:#18181b;">${data.type === "INVOICE" ? client : data.type === "QUOTE" ? client : serviceProvider}</strong>,</p>
                             <p style="margin:0 0 32px;font-size:15px;line-height:1.7;color:#52525b;">${data.message}</p>
                             <div style="border-top:1px solid #f4f4f5;padding-top:28px;margin-top:8px;">
                                 <p style="margin:0 0 4px;font-size:13px;color:#a1a1aa;">Cordialement,</p>
@@ -365,7 +460,7 @@ export const documentRoutes = new Elysia({ prefix: "/document" })
                     <tr>
                         <td style="background:#ffffff;padding:40px;">
                             <p style="margin:0 0 24px;font-size:15px;color:#3f3f46;">Bonjour <strong
-                                    style="color:#18181b;">${client}</strong>,</p>
+                                    style="color:#18181b;">${data.type === "INVOICE" ? client : data.type === "QUOTE" ? client : serviceProvider}</strong>,</p>
                             <p style="margin:0 0 28px;font-size:15px;line-height:1.7;color:#52525b;">
                                 Veuillez trouver ci-joint votre facture accompagnant ce message.
                             </p>

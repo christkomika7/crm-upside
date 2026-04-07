@@ -1,5 +1,5 @@
 import type { CardBalanceProps } from "@/components/card/card-balance";
-import type { DeletionKey, DeletionType } from "@/types/deletion";
+import type { DeletionKey } from "@/types/deletion";
 
 export const balances: CardBalanceProps[] = [
     {
@@ -98,6 +98,7 @@ export const deletionLabels: Record<DeletionKey, string> = {
     PROPERTY_MANAGEMENT: "Gestion immobilière",
     PRODUCT_SERVICE: "Produit | Service",
     INVOICING: "Facturation",
+    PURCHASE_ORDER: "Bon de commande",
     QUOTE: "Devis",
     CONTRACT: "Contrat",
     CHECK_IN: "Check-in",

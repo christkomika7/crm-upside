@@ -79,7 +79,7 @@ export const purchaseOrderRoutes = new Elysia({ prefix: "/purchase-order" })
             reference: generateRef(reference?.purchaseOrder, purchaseOrder.reference),
             issue: formatDateToString(purchaseOrder.start),
             isDeleting: purchaseOrder.isDeleting,
-            client: `${purchaseOrder.serviceProvider?.firstname} ${purchaseOrder.serviceProvider?.lastname}`,
+            serviceProvider: `${purchaseOrder.serviceProvider?.firstname} ${purchaseOrder.serviceProvider?.lastname}`,
             amount: purchaseOrder.price.toString(),
             amountPaid: purchaseOrder.amountPaid.toString(),
             status: purchaseOrder.status,
@@ -109,6 +109,20 @@ export const purchaseOrderRoutes = new Elysia({ prefix: "/purchase-order" })
             reference: generateRef(reference?.purchaseOrder, purchaseOrder?.reference),
         }
     }, { auth: true, params: request.paramsId })
+    .get("/service-provider", async ({ permission, status }) => {
+        if (!canAccess(permission, "purchaseOrders", ['read'])) {
+            return status(403, { message: "Accès refusé" });
+        }
+
+        return await prisma.serviceProvider.findMany({
+            select: {
+                id: true,
+                firstname: true,
+                lastname: true
+            }
+        });
+
+    }, { auth: true })
     .get("/duplicate/:id", async ({ params, permission, status }) => {
         if (!canAccess(permission, "purchaseOrders", ['create'])) {
             return status(403, { message: "Accès refusé" });
@@ -198,7 +212,7 @@ export const purchaseOrderRoutes = new Elysia({ prefix: "/purchase-order" })
                     start: data.start,
                     end: data.end,
                     note: data.note,
-                    serviceProviderId: data.client,
+                    serviceProviderId: data.serviceProvider,
                     items: {
                         createMany: {
                             data: data.items.map((item) => ({
@@ -216,7 +230,7 @@ export const purchaseOrderRoutes = new Elysia({ prefix: "/purchase-order" })
 
             await prisma.serviceProvider.update({
                 where: {
-                    id: data.client
+                    id: data.serviceProvider
                 },
                 data: {
                     purchaseOrders: {
@@ -284,7 +298,7 @@ export const purchaseOrderRoutes = new Elysia({ prefix: "/purchase-order" })
                         start: data.start,
                         end: data.end,
                         note: data.note,
-                        serviceProviderId: data.client,
+                        serviceProviderId: data.serviceProvider,
                         items: {
                             createMany: {
                                 data: data.items.map((item) => ({

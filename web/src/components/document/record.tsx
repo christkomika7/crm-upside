@@ -7,7 +7,7 @@ import { calculateTaxes } from "@/lib/price";
 type DocumentPreviewProps = {
     id: string;
     title: string;
-    type: 'INVOICE' | 'QUOTE';
+    type: 'INVOICE' | 'QUOTE' | "PURCHASE_ORDER";
     data: Document
 
 };
@@ -17,6 +17,7 @@ export default function RecordDocument({
     type,
     data
 }: DocumentPreviewProps) {
+    console.log({ data })
     const id = data.id;
     const position = data.upside.design.position as "LEFT" | "MIDDLE" | "RIGHT";
     const size = data.upside.design.size as "SMALL" | "MEDIUM" | "LARGE";
@@ -26,9 +27,9 @@ export default function RecordDocument({
 
     const reference = data.reference;
     const issue = data.issue;
-    const clientCompany = data.upside.client.company;
-    const clientAddress = data.upside.client.address;
-    const clientEmail = data.upside.client.email;
+    const clientCompany = type === "PURCHASE_ORDER" ? data.upside.serviceProvider.company : data.upside.client.company;
+    const clientAddress = type === "PURCHASE_ORDER" ? data.upside.serviceProvider.address : data.upside.client.address;
+    const clientEmail = type === "PURCHASE_ORDER" ? data.upside.serviceProvider.email : data.upside.client.email;
 
     const company = data.upside.company;
     const address = data.upside.address;
@@ -120,7 +121,7 @@ export default function RecordDocument({
                         marginBottom: "1px",
 
                     }}>
-                        <span className="font-medium">{type === "INVOICE" ? "Facture" : "Devis"} N° :</span>
+                        <span className="font-medium">{type === "INVOICE" ? "Facture" : type === "PURCHASE_ORDER" ? "Bon de commande" : "Devis"} N° :</span>
                         <span className="font-normal">{reference}</span>
                     </p>
 
@@ -180,7 +181,7 @@ export default function RecordDocument({
             </div>
             <div className="w-full text-sm">
                 {/* HEADER */}
-                <div className="grid grid-cols-[1fr_80px_160px_240px] border-y border-[#bfbfbf] h-12 items-center font-bold">
+                <div className="grid grid-cols-[1fr_40px_140px_180px] border-y border-[#bfbfbf] h-12 items-center font-bold">
                     <div className="pl-[27px]">Article</div>
                     <div className="text-right">Qté</div>
                     <div className="text-right">Prix unitaire</div>
@@ -191,10 +192,10 @@ export default function RecordDocument({
                 {items.map((item) => (
                     <div
                         key={item.id}
-                        className="grid grid-cols-[1fr_80px_160px_240px] py-2"
+                        className="grid grid-cols-[1fr_40px_140px_180px] py-2"
                     >
                         {/* ARTICLE */}
-                        <div className="px-7">
+                        <div className="pl-7 pr-4">
                             <p className="mb-[3px] font-semibold">
                                 {item.reference} {!item.hasTax && <span className="text-blue">*</span>}
                             </p>
@@ -276,7 +277,7 @@ export default function RecordDocument({
 
                     <div className="h-2"></div>
 
-                    {type === "INVOICE" && paid && (
+                    {(type === "INVOICE" || type === "PURCHASE_ORDER") && paid && (
                         <>
                             {/* Payé */}
                             <div className="grid grid-cols-[1fr_240px]">

@@ -9,6 +9,7 @@ export type BreadcrumbKey =
     "product-service" | "new-product-service" | "edit_product-service" | "view_product-service" |
     "invoices" | "new-invoice" | "edit_invoice" | "view_invoice" |
     "quotes" | "new-quote" | "edit_quote" | "view_quote" |
+    "purchase-orders" | "new-purchase-order" | "edit_purchase-order" | "view_purchase-order" |
     "contracts" | "new-contract" | "edit_contract" | "view_contract" |
     "reports" | "new-report" | "edit_report" | "view_report" |
     "accounting" | "new-accounting" | "edit_accounting" | "view_accounting" |
@@ -81,6 +82,13 @@ export const breadcrumbs: Record<BreadcrumbKey, string> = {
     'new-quote': "Nouveau devis",
     'edit_quote': "Modification du devis",
     'view_quote': "Information sur le devis",
+
+    // Purchase Orders
+    'purchase-orders': "Gestion des BC",
+    'new-purchase-order': "Nouveau BC",
+    'edit_purchase-order': "Modification du BC",
+    'view_purchase-order': "Information sur le BC",
+
 
     // Contracts
     'contracts': "Contracts/Mandates",

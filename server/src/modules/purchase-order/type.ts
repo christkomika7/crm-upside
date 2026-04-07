@@ -19,7 +19,7 @@ export default {
             MONEY: "MONEY",
         }, { error: "Le type de réduction doit être PERCENT ou MONEY." })),
         hasTax: t.Boolean(),
-        client: t.String({ error: "Le client est requis." }),
+        serviceProvider: t.String({ error: "Le fournisseur est requis." }),
         items: t.Array(t.Object({
             id: t.String({ error: "L'identifiant est requis." }),
             reference: t.String({ error: "La référence est requise." }),

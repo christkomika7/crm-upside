@@ -24,7 +24,6 @@ type EditOwnersProps = {
 }
 
 export default function EditOwners({ id }: EditOwnersProps) {
-
     const { isPending, data: buildings } = useQuery({
         queryKey: ["owner-buildings", id],
         enabled: !!id,
@@ -33,7 +32,7 @@ export default function EditOwners({ id }: EditOwnersProps) {
         select: (data) =>
             data.map((building) => ({
                 value: building.id,
-                label: building.name,
+                label: building.reference,
             })),
         staleTime: 0,
 

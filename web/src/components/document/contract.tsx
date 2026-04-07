@@ -40,10 +40,8 @@ export default function ContractDoc({ id }: ContractDocProps) {
             for (let pageNum = 1; pageNum <= pdf.numPages; pageNum++) {
                 const page = await pdf.getPage(pageNum);
 
-                // 👇 viewport de base
                 const viewport = page.getViewport({ scale: 1 });
 
-                // 👇 calcul du scale pour fit width
                 const scale = containerWidth / viewport.width;
 
                 const scaledViewport = page.getViewport({ scale });

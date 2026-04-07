@@ -1,6 +1,5 @@
 import { t } from "elysia";
 import { DeletionType } from "../../types/deletion";
-import { email } from "better-auth/*";
 
 
 export default {

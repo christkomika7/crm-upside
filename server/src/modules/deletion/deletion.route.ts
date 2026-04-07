@@ -210,6 +210,28 @@ export const deletionRoutes = new Elysia({ prefix: "/deletion" })
                     });
                 }
                 return invoiceParsed;
+            case "PURCHASE_ORDER":
+                const purchaseOrderParsed = [];
+                for (const deletion of deletions) {
+                    const purchaseOrder = await prisma.purchaseOrder.findUnique({
+                        where: { id: deletion.recordId },
+                        include: {
+                            serviceProvider: true
+                        }
+                    });
+
+                    if (!purchaseOrder) return status(400, { message: "Aucun bon de commande trouvé." });
+
+                    purchaseOrderParsed.push({
+                        id: deletion.id,
+                        reference: purchaseOrder.reference,
+                        type: deletion.type,
+                        name: `${purchaseOrder?.serviceProvider?.firstname} ${purchaseOrder?.serviceProvider?.lastname}`,
+                        date: formatDateToString(deletion.createdAt),
+                        actionBy: user.name
+                    });
+                }
+                return purchaseOrderParsed;
             case "QUOTE":
                 const quoteParsed = [];
                 for (const deletion of deletions) {
@@ -458,6 +480,19 @@ export const deletionRoutes = new Elysia({ prefix: "/deletion" })
                                 })
                             ]);
                             return status(200, { message: `La suppression de la facture ${generateRef(reference?.invoice, invoice.reference)} a été annulé avec succès.` });
+                        case "PURCHASE_ORDER":
+                            const [purchaseOrder] = await prisma.$transaction([
+                                prisma.purchaseOrder.update({
+                                    where: { id: deletion.recordId },
+                                    data: {
+                                        isDeleting: false
+                                    }
+                                }),
+                                prisma.deletion.delete({
+                                    where: { id: deletion.id }
+                                })
+                            ]);
+                            return status(200, { message: `La suppression du bon de commande ${generateRef(reference?.purchaseOrder, purchaseOrder.reference)} a été annulé avec succès.` });
                         case "QUOTE":
                             const [quote] = await prisma.$transaction([
                                 prisma.quote.update({
@@ -774,6 +809,26 @@ export const deletionRoutes = new Elysia({ prefix: "/deletion" })
                             ])
 
                             return status(200, { message: `La facture ${generateRef(reference?.invoice, invoice.reference)} a été supprimé avec succès.` });
+                        case "PURCHASE_ORDER":
+                            const purchaseOrder = await prisma.purchaseOrder.findUnique({
+                                where: { id: deletion.recordId },
+                            });
+
+                            if (!purchaseOrder) return status(400, { message: "Aucun bon de commande trouvé." })
+
+                            await prisma.$transaction([
+                                prisma.deletion.update({
+                                    where: {
+                                        id: deletion.id
+                                    },
+                                    data: {
+                                        state: "TERMINED"
+                                    }
+                                }),
+                                prisma.purchaseOrder.delete({ where: { id: purchaseOrder.id } })
+                            ])
+
+                            return status(200, { message: `Le bon de commande ${generateRef(reference?.purchaseOrder, purchaseOrder.reference)} a été supprimé avec succès.` });
                         case "QUOTE":
                             const quote = await prisma.quote.findUnique({
                                 where: { id: deletion.recordId },

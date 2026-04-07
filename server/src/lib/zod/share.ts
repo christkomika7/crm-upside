@@ -2,7 +2,7 @@ import { z } from "zod";
 
 export const shareSchema = z.object({
     id: z.string({ error: "L'identifiant est requis" }),
-    type: z.enum(["INVOICE", "QUOTE"]),
+    type: z.enum(["INVOICE", "QUOTE", "PURCHASE_ORDER"]),
     emails: z.array(z.email({ error: "Email invalide" })).min(1, "Au moins un email est requis"),
     subject: z.string().optional(),
     message: z.string().optional(),

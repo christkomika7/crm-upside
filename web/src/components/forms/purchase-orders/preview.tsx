@@ -21,30 +21,30 @@ export default function Preview({
     id,
 }: PreviewProps) {
     const [isDownloading, setIsDownloading] = useState(false);
-    const { isPending, data: invoice } = useQuery({
-        queryKey: ["invoice-document", id],
+    const { isPending, data: purchaseOrder } = useQuery({
+        queryKey: ["purchase-order-document", id],
         enabled: !!id,
-        queryFn: () => apiFetch<Document>(`/document/${id}?type=INVOICE`),
+        queryFn: () => apiFetch<Document>(`/document/${id}?type=PURCHASE_ORDER`),
         staleTime: 0,
         gcTime: 0,
         refetchOnMount: "always",
         refetchOnWindowFocus: true,
     });
 
-    if (isPending || !invoice) return <Spinner />
+    if (isPending || !purchaseOrder) return <Spinner />
 
-    const reference = invoice.reference;
-    const total = new Decimal(invoice.amount);
-    const paid = new Decimal(invoice.amountPaid);
+    const reference = purchaseOrder.reference;
+    const total = new Decimal(purchaseOrder.amount);
+    const paid = new Decimal(purchaseOrder.amountPaid);
     const due = total.minus(paid);
     const paidPercent = paid.div(total).mul(100).toNumber().toFixed(0);
 
-    async function downloadInvoice() {
-        if (!invoice) return toast.error("Impossible de télécharger la facture.");
+    async function downloadPurchaseOrder() {
+        if (!purchaseOrder) return toast.error("Impossible de télécharger le bon de commande.");
 
         setIsDownloading(true);
 
-        const filename = `Facture ${invoice.reference}.pdf`;
+        const filename = `Bon de commande ${purchaseOrder.reference}.pdf`;
         const start = Date.now();
 
         await downloadComponentAsPDF(id, filename, {
@@ -52,7 +52,7 @@ export default function Preview({
             margin: 0,
             quality: 0.98,
             scale: 3,
-            headerText: `- ${filename.split(".pdf")[0]} - ${formatDateTo(new Date(invoice.createdAt || new Date()))}`
+            headerText: `- ${filename.split(".pdf")[0]} - ${formatDateTo(new Date(purchaseOrder.createdAt || new Date()))}`
         });
 
         const elapsed = Date.now() - start;
@@ -67,8 +67,7 @@ export default function Preview({
         <div className="flex font-sans">
             <div className="flex-1">
                 <div className="w-full h-full max-w-2xl  bg-white rounded-lg flex relative justify-center gap-3">
-                    <RecordDocument id={id} title="Facture" type="INVOICE" data={invoice} />
-
+                    <RecordDocument id={id} title="Bon de commande" type="PURCHASE_ORDER" data={purchaseOrder} />
                 </div>
             </div>
 
@@ -76,14 +75,14 @@ export default function Preview({
                 <div className="px-6 pt-6 pb-5 rounded-t-lg bg-white">
                     <div className="flex items-start justify-between mb-4">
                         <div>
-                            <p className="text-[11px] font-medium tracking-widest uppercase text-neutral-400 mb-1">Facture</p>
+                            <p className="text-[11px] font-medium tracking-widest uppercase text-neutral-400 mb-1">Bon de commande</p>
                             <p className="text-xl font-semibold text-neutral-800">{reference}</p>
                         </div>
-                        <Status variant={invoice?.status === 'PAID' ? "success" : invoice?.status === 'PENDING' ? "info" : "error"}>
-                            <Activity mode={invoice?.status === 'OVERDUE' ? 'visible' : 'hidden'}>
+                        <Status variant={purchaseOrder.status === 'PAID' ? "success" : purchaseOrder.status === 'PENDING' ? "info" : "error"}>
+                            <Activity mode={purchaseOrder.status === 'OVERDUE' ? 'visible' : 'hidden'}>
                                 <StatusIndicator />
                             </Activity>
-                            <StatusLabel>{invoice?.status === 'PAID' ? 'Payé' : invoice?.status === 'PENDING' ? 'En attente' : 'En retard'}</StatusLabel>
+                            <StatusLabel>{purchaseOrder.status === 'PAID' ? 'Payé' : purchaseOrder.status === 'PENDING' ? 'En attente' : 'En retard'}</StatusLabel>
                         </Status>
 
                     </div>
@@ -117,7 +116,7 @@ export default function Preview({
                 <div className="flex-1 px-6 py-5 bg-white flex flex-col gap-2">
                     <p className="text-[10px] font-medium tracking-widest uppercase text-neutral-300 mb-1">Actions</p>
 
-                    <Button variant="action" onClick={downloadInvoice} className="justify-start">
+                    <Button variant="action" onClick={downloadPurchaseOrder} className="justify-start">
                         {isDownloading ? <>
                             <Spinner />
                             Exportation en cours...

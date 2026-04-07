@@ -1,4 +1,4 @@
-import { BoxIcon, BuildingIcon, CalculatorIcon, CalendarCheck2Icon, CogIcon, FileCheckCornerIcon, FilePenIcon, HandPlatterIcon, KeySquareIcon, LayoutDashboardIcon, ListCheckIcon, MessagesSquareIcon, PencilRulerIcon, ReceiptTextIcon, SquareKanbanIcon, UserLockIcon, UsersIcon } from "lucide-react";
+import { BoxIcon, BuildingIcon, CalculatorIcon, CalendarCheck2Icon, CalendarDaysIcon, ClipboardListIcon, CogIcon, FileCheckCornerIcon, FilePenIcon, KeySquareIcon, Layers2Icon, LayoutDashboardIcon, ListCheckIcon, MessagesSquareIcon, ReceiptTextIcon, SquareKanbanIcon, UserCheck2Icon, UserKeyIcon, UserLockIcon } from "lucide-react";
 
 export const sidebar = [
     {
@@ -10,13 +10,13 @@ export const sidebar = [
     },
     {
         id: 2,
-        icon: UsersIcon,
+        icon: UserLockIcon,
         title: "Propriétaires",
         path: "/dashboard/owners/"
     },
     {
         id: 3,
-        icon: UserLockIcon,
+        icon: UserKeyIcon,
         title: "Locataires",
         path: "/dashboard/tenants"
     },
@@ -28,7 +28,7 @@ export const sidebar = [
     },
     {
         id: 5,
-        icon: PencilRulerIcon,
+        icon: Layers2Icon,
         title: "Unités",
         path: "/dashboard/units"
     },
@@ -40,7 +40,7 @@ export const sidebar = [
     },
     {
         id: 7,
-        icon: FileCheckCornerIcon,
+        icon: CalendarDaysIcon,
         title: "Réservations",
         path: "/dashboard/reservations"
     },
@@ -70,42 +70,48 @@ export const sidebar = [
     },
     {
         id: 12,
+        icon: ClipboardListIcon,
+        title: "Bons de commande",
+        path: "/dashboard/purchase-orders"
+    },
+    {
+        id: 13,
         icon: FilePenIcon,
         title: "Contrats",
         path: "/dashboard/contracts"
     },
     {
-        id: 13,
+        id: 14,
         icon: ListCheckIcon,
         title: "Mouvements",
         path: "/dashboard/reports"
     },
     {
-        id: 14,
+        id: 15,
         icon: CalculatorIcon,
         title: "Comptabilité",
         path: "/dashboard/accounting"
     },
     {
-        id: 15,
+        id: 16,
         icon: CalendarCheck2Icon,
         title: "Rendez-vous",
         path: "/dashboard/appointments"
     },
     {
-        id: 16,
-        icon: HandPlatterIcon,
+        id: 17,
+        icon: UserCheck2Icon,
         title: "Prestataires de services",
         path: "/dashboard/service-providers"
     },
     {
-        id: 17,
+        id: 18,
         icon: MessagesSquareIcon,
         title: "Communication",
         path: "/dashboard/communications"
     },
     {
-        id: 18,
+        id: 19,
         icon: CogIcon,
         title: "Paramètres",
         path: "/dashboard/settings"

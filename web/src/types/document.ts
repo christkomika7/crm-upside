@@ -34,6 +34,13 @@ export type Document = {
             address: string;
         };
 
+        serviceProvider: {
+            name: string;
+            company: string;
+            email: string;
+            address: string;
+        };
+
         company: string;
         address: string;
         city: string;

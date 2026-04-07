@@ -20,6 +20,7 @@ import { Route as DashboardReservationsIndexRouteImport } from './routes/dashboa
 import { Route as DashboardReportsIndexRouteImport } from './routes/dashboard/reports/index'
 import { Route as DashboardRentalsIndexRouteImport } from './routes/dashboard/rentals/index'
 import { Route as DashboardQuotesIndexRouteImport } from './routes/dashboard/quotes/index'
+import { Route as DashboardPurchaseOrdersIndexRouteImport } from './routes/dashboard/purchase-orders/index'
 import { Route as DashboardPropertyManagementIndexRouteImport } from './routes/dashboard/property-management/index'
 import { Route as DashboardProductServiceIndexRouteImport } from './routes/dashboard/product-service/index'
 import { Route as DashboardOwnersIndexRouteImport } from './routes/dashboard/owners/index'
@@ -43,6 +44,8 @@ import { Route as DashboardRentalsNewRentalRouteImport } from './routes/dashboar
 import { Route as DashboardRentalsIdRouteImport } from './routes/dashboard/rentals/$id'
 import { Route as DashboardQuotesNewQuoteRouteImport } from './routes/dashboard/quotes/new-quote'
 import { Route as DashboardQuotesIdRouteImport } from './routes/dashboard/quotes/$id'
+import { Route as DashboardPurchaseOrdersNewPurchaseOrderRouteImport } from './routes/dashboard/purchase-orders/new-purchase-order'
+import { Route as DashboardPurchaseOrdersIdRouteImport } from './routes/dashboard/purchase-orders/$id'
 import { Route as DashboardPropertyManagementNewPropertyRouteImport } from './routes/dashboard/property-management/new-property'
 import { Route as DashboardPropertyManagementIdRouteImport } from './routes/dashboard/property-management/$id'
 import { Route as DashboardProductServiceNewProductServiceRouteImport } from './routes/dashboard/product-service/new-product-service'
@@ -68,6 +71,7 @@ import { Route as DashboardReservationsEditReservationIdRouteImport } from './ro
 import { Route as DashboardReportsEditReportIdRouteImport } from './routes/dashboard/reports/edit-report.$id'
 import { Route as DashboardRentalsEditRentalIdRouteImport } from './routes/dashboard/rentals/edit-rental.$id'
 import { Route as DashboardQuotesEditQuoteIdRouteImport } from './routes/dashboard/quotes/edit-quote.$id'
+import { Route as DashboardPurchaseOrdersEditPurchaseOrderIdRouteImport } from './routes/dashboard/purchase-orders/edit-purchase-order.$id'
 import { Route as DashboardPropertyManagementEditPropertyIdRouteImport } from './routes/dashboard/property-management/edit-property.$id'
 import { Route as DashboardProductServiceEditProductServiceIdRouteImport } from './routes/dashboard/product-service/edit-product-service.$id'
 import { Route as DashboardOwnersEditOwnerIdRouteImport } from './routes/dashboard/owners/edit-owner.$id'
@@ -135,6 +139,12 @@ const DashboardQuotesIndexRoute = DashboardQuotesIndexRouteImport.update({
   path: '/quotes/',
   getParentRoute: () => DashboardRouteRoute,
 } as any)
+const DashboardPurchaseOrdersIndexRoute =
+  DashboardPurchaseOrdersIndexRouteImport.update({
+    id: '/purchase-orders/',
+    path: '/purchase-orders/',
+    getParentRoute: () => DashboardRouteRoute,
+  } as any)
 const DashboardPropertyManagementIndexRoute =
   DashboardPropertyManagementIndexRouteImport.update({
     id: '/property-management/',
@@ -261,6 +271,18 @@ const DashboardQuotesIdRoute = DashboardQuotesIdRouteImport.update({
   path: '/quotes/$id',
   getParentRoute: () => DashboardRouteRoute,
 } as any)
+const DashboardPurchaseOrdersNewPurchaseOrderRoute =
+  DashboardPurchaseOrdersNewPurchaseOrderRouteImport.update({
+    id: '/purchase-orders/new-purchase-order',
+    path: '/purchase-orders/new-purchase-order',
+    getParentRoute: () => DashboardRouteRoute,
+  } as any)
+const DashboardPurchaseOrdersIdRoute =
+  DashboardPurchaseOrdersIdRouteImport.update({
+    id: '/purchase-orders/$id',
+    path: '/purchase-orders/$id',
+    getParentRoute: () => DashboardRouteRoute,
+  } as any)
 const DashboardPropertyManagementNewPropertyRoute =
   DashboardPropertyManagementNewPropertyRouteImport.update({
     id: '/property-management/new-property',
@@ -404,6 +426,12 @@ const DashboardQuotesEditQuoteIdRoute =
     path: '/quotes/edit-quote/$id',
     getParentRoute: () => DashboardRouteRoute,
   } as any)
+const DashboardPurchaseOrdersEditPurchaseOrderIdRoute =
+  DashboardPurchaseOrdersEditPurchaseOrderIdRouteImport.update({
+    id: '/purchase-orders/edit-purchase-order/$id',
+    path: '/purchase-orders/edit-purchase-order/$id',
+    getParentRoute: () => DashboardRouteRoute,
+  } as any)
 const DashboardPropertyManagementEditPropertyIdRoute =
   DashboardPropertyManagementEditPropertyIdRouteImport.update({
     id: '/property-management/edit-property/$id',
@@ -481,6 +509,8 @@ export interface FileRoutesByFullPath {
   '/dashboard/product-service/new-product-service': typeof DashboardProductServiceNewProductServiceRoute
   '/dashboard/property-management/$id': typeof DashboardPropertyManagementIdRoute
   '/dashboard/property-management/new-property': typeof DashboardPropertyManagementNewPropertyRoute
+  '/dashboard/purchase-orders/$id': typeof DashboardPurchaseOrdersIdRoute
+  '/dashboard/purchase-orders/new-purchase-order': typeof DashboardPurchaseOrdersNewPurchaseOrderRoute
   '/dashboard/quotes/$id': typeof DashboardQuotesIdRoute
   '/dashboard/quotes/new-quote': typeof DashboardQuotesNewQuoteRoute
   '/dashboard/rentals/$id': typeof DashboardRentalsIdRoute
@@ -504,6 +534,7 @@ export interface FileRoutesByFullPath {
   '/dashboard/owners': typeof DashboardOwnersIndexRoute
   '/dashboard/product-service': typeof DashboardProductServiceIndexRoute
   '/dashboard/property-management': typeof DashboardPropertyManagementIndexRoute
+  '/dashboard/purchase-orders': typeof DashboardPurchaseOrdersIndexRoute
   '/dashboard/quotes': typeof DashboardQuotesIndexRoute
   '/dashboard/rentals': typeof DashboardRentalsIndexRoute
   '/dashboard/reports': typeof DashboardReportsIndexRoute
@@ -521,6 +552,7 @@ export interface FileRoutesByFullPath {
   '/dashboard/owners/edit-owner/$id': typeof DashboardOwnersEditOwnerIdRoute
   '/dashboard/product-service/edit-product-service/$id': typeof DashboardProductServiceEditProductServiceIdRoute
   '/dashboard/property-management/edit-property/$id': typeof DashboardPropertyManagementEditPropertyIdRoute
+  '/dashboard/purchase-orders/edit-purchase-order/$id': typeof DashboardPurchaseOrdersEditPurchaseOrderIdRoute
   '/dashboard/quotes/edit-quote/$id': typeof DashboardQuotesEditQuoteIdRoute
   '/dashboard/rentals/edit-rental/$id': typeof DashboardRentalsEditRentalIdRoute
   '/dashboard/reports/edit-report/$id': typeof DashboardReportsEditReportIdRoute
@@ -550,6 +582,8 @@ export interface FileRoutesByTo {
   '/dashboard/product-service/new-product-service': typeof DashboardProductServiceNewProductServiceRoute
   '/dashboard/property-management/$id': typeof DashboardPropertyManagementIdRoute
   '/dashboard/property-management/new-property': typeof DashboardPropertyManagementNewPropertyRoute
+  '/dashboard/purchase-orders/$id': typeof DashboardPurchaseOrdersIdRoute
+  '/dashboard/purchase-orders/new-purchase-order': typeof DashboardPurchaseOrdersNewPurchaseOrderRoute
   '/dashboard/quotes/$id': typeof DashboardQuotesIdRoute
   '/dashboard/quotes/new-quote': typeof DashboardQuotesNewQuoteRoute
   '/dashboard/rentals/$id': typeof DashboardRentalsIdRoute
@@ -573,6 +607,7 @@ export interface FileRoutesByTo {
   '/dashboard/owners': typeof DashboardOwnersIndexRoute
   '/dashboard/product-service': typeof DashboardProductServiceIndexRoute
   '/dashboard/property-management': typeof DashboardPropertyManagementIndexRoute
+  '/dashboard/purchase-orders': typeof DashboardPurchaseOrdersIndexRoute
   '/dashboard/quotes': typeof DashboardQuotesIndexRoute
   '/dashboard/rentals': typeof DashboardRentalsIndexRoute
   '/dashboard/reports': typeof DashboardReportsIndexRoute
@@ -590,6 +625,7 @@ export interface FileRoutesByTo {
   '/dashboard/owners/edit-owner/$id': typeof DashboardOwnersEditOwnerIdRoute
   '/dashboard/product-service/edit-product-service/$id': typeof DashboardProductServiceEditProductServiceIdRoute
   '/dashboard/property-management/edit-property/$id': typeof DashboardPropertyManagementEditPropertyIdRoute
+  '/dashboard/purchase-orders/edit-purchase-order/$id': typeof DashboardPurchaseOrdersEditPurchaseOrderIdRoute
   '/dashboard/quotes/edit-quote/$id': typeof DashboardQuotesEditQuoteIdRoute
   '/dashboard/rentals/edit-rental/$id': typeof DashboardRentalsEditRentalIdRoute
   '/dashboard/reports/edit-report/$id': typeof DashboardReportsEditReportIdRoute
@@ -621,6 +657,8 @@ export interface FileRoutesById {
   '/dashboard/product-service/new-product-service': typeof DashboardProductServiceNewProductServiceRoute
   '/dashboard/property-management/$id': typeof DashboardPropertyManagementIdRoute
   '/dashboard/property-management/new-property': typeof DashboardPropertyManagementNewPropertyRoute
+  '/dashboard/purchase-orders/$id': typeof DashboardPurchaseOrdersIdRoute
+  '/dashboard/purchase-orders/new-purchase-order': typeof DashboardPurchaseOrdersNewPurchaseOrderRoute
   '/dashboard/quotes/$id': typeof DashboardQuotesIdRoute
   '/dashboard/quotes/new-quote': typeof DashboardQuotesNewQuoteRoute
   '/dashboard/rentals/$id': typeof DashboardRentalsIdRoute
@@ -644,6 +682,7 @@ export interface FileRoutesById {
   '/dashboard/owners/': typeof DashboardOwnersIndexRoute
   '/dashboard/product-service/': typeof DashboardProductServiceIndexRoute
   '/dashboard/property-management/': typeof DashboardPropertyManagementIndexRoute
+  '/dashboard/purchase-orders/': typeof DashboardPurchaseOrdersIndexRoute
   '/dashboard/quotes/': typeof DashboardQuotesIndexRoute
   '/dashboard/rentals/': typeof DashboardRentalsIndexRoute
   '/dashboard/reports/': typeof DashboardReportsIndexRoute
@@ -661,6 +700,7 @@ export interface FileRoutesById {
   '/dashboard/owners/edit-owner/$id': typeof DashboardOwnersEditOwnerIdRoute
   '/dashboard/product-service/edit-product-service/$id': typeof DashboardProductServiceEditProductServiceIdRoute
   '/dashboard/property-management/edit-property/$id': typeof DashboardPropertyManagementEditPropertyIdRoute
+  '/dashboard/purchase-orders/edit-purchase-order/$id': typeof DashboardPurchaseOrdersEditPurchaseOrderIdRoute
   '/dashboard/quotes/edit-quote/$id': typeof DashboardQuotesEditQuoteIdRoute
   '/dashboard/rentals/edit-rental/$id': typeof DashboardRentalsEditRentalIdRoute
   '/dashboard/reports/edit-report/$id': typeof DashboardReportsEditReportIdRoute
@@ -693,6 +733,8 @@ export interface FileRouteTypes {
     | '/dashboard/product-service/new-product-service'
     | '/dashboard/property-management/$id'
     | '/dashboard/property-management/new-property'
+    | '/dashboard/purchase-orders/$id'
+    | '/dashboard/purchase-orders/new-purchase-order'
     | '/dashboard/quotes/$id'
     | '/dashboard/quotes/new-quote'
     | '/dashboard/rentals/$id'
@@ -716,6 +758,7 @@ export interface FileRouteTypes {
     | '/dashboard/owners'
     | '/dashboard/product-service'
     | '/dashboard/property-management'
+    | '/dashboard/purchase-orders'
     | '/dashboard/quotes'
     | '/dashboard/rentals'
     | '/dashboard/reports'
@@ -733,6 +776,7 @@ export interface FileRouteTypes {
     | '/dashboard/owners/edit-owner/$id'
     | '/dashboard/product-service/edit-product-service/$id'
     | '/dashboard/property-management/edit-property/$id'
+    | '/dashboard/purchase-orders/edit-purchase-order/$id'
     | '/dashboard/quotes/edit-quote/$id'
     | '/dashboard/rentals/edit-rental/$id'
     | '/dashboard/reports/edit-report/$id'
@@ -762,6 +806,8 @@ export interface FileRouteTypes {
     | '/dashboard/product-service/new-product-service'
     | '/dashboard/property-management/$id'
     | '/dashboard/property-management/new-property'
+    | '/dashboard/purchase-orders/$id'
+    | '/dashboard/purchase-orders/new-purchase-order'
     | '/dashboard/quotes/$id'
     | '/dashboard/quotes/new-quote'
     | '/dashboard/rentals/$id'
@@ -785,6 +831,7 @@ export interface FileRouteTypes {
     | '/dashboard/owners'
     | '/dashboard/product-service'
     | '/dashboard/property-management'
+    | '/dashboard/purchase-orders'
     | '/dashboard/quotes'
     | '/dashboard/rentals'
     | '/dashboard/reports'
@@ -802,6 +849,7 @@ export interface FileRouteTypes {
     | '/dashboard/owners/edit-owner/$id'
     | '/dashboard/product-service/edit-product-service/$id'
     | '/dashboard/property-management/edit-property/$id'
+    | '/dashboard/purchase-orders/edit-purchase-order/$id'
     | '/dashboard/quotes/edit-quote/$id'
     | '/dashboard/rentals/edit-rental/$id'
     | '/dashboard/reports/edit-report/$id'
@@ -832,6 +880,8 @@ export interface FileRouteTypes {
     | '/dashboard/product-service/new-product-service'
     | '/dashboard/property-management/$id'
     | '/dashboard/property-management/new-property'
+    | '/dashboard/purchase-orders/$id'
+    | '/dashboard/purchase-orders/new-purchase-order'
     | '/dashboard/quotes/$id'
     | '/dashboard/quotes/new-quote'
     | '/dashboard/rentals/$id'
@@ -855,6 +905,7 @@ export interface FileRouteTypes {
     | '/dashboard/owners/'
     | '/dashboard/product-service/'
     | '/dashboard/property-management/'
+    | '/dashboard/purchase-orders/'
     | '/dashboard/quotes/'
     | '/dashboard/rentals/'
     | '/dashboard/reports/'
@@ -872,6 +923,7 @@ export interface FileRouteTypes {
     | '/dashboard/owners/edit-owner/$id'
     | '/dashboard/product-service/edit-product-service/$id'
     | '/dashboard/property-management/edit-property/$id'
+    | '/dashboard/purchase-orders/edit-purchase-order/$id'
     | '/dashboard/quotes/edit-quote/$id'
     | '/dashboard/rentals/edit-rental/$id'
     | '/dashboard/reports/edit-report/$id'
@@ -963,6 +1015,13 @@ declare module '@tanstack/react-router' {
       path: '/quotes'
       fullPath: '/dashboard/quotes'
       preLoaderRoute: typeof DashboardQuotesIndexRouteImport
+      parentRoute: typeof DashboardRouteRoute
+    }
+    '/dashboard/purchase-orders/': {
+      id: '/dashboard/purchase-orders/'
+      path: '/purchase-orders'
+      fullPath: '/dashboard/purchase-orders'
+      preLoaderRoute: typeof DashboardPurchaseOrdersIndexRouteImport
       parentRoute: typeof DashboardRouteRoute
     }
     '/dashboard/property-management/': {
@@ -1124,6 +1183,20 @@ declare module '@tanstack/react-router' {
       path: '/quotes/$id'
       fullPath: '/dashboard/quotes/$id'
       preLoaderRoute: typeof DashboardQuotesIdRouteImport
+      parentRoute: typeof DashboardRouteRoute
+    }
+    '/dashboard/purchase-orders/new-purchase-order': {
+      id: '/dashboard/purchase-orders/new-purchase-order'
+      path: '/purchase-orders/new-purchase-order'
+      fullPath: '/dashboard/purchase-orders/new-purchase-order'
+      preLoaderRoute: typeof DashboardPurchaseOrdersNewPurchaseOrderRouteImport
+      parentRoute: typeof DashboardRouteRoute
+    }
+    '/dashboard/purchase-orders/$id': {
+      id: '/dashboard/purchase-orders/$id'
+      path: '/purchase-orders/$id'
+      fullPath: '/dashboard/purchase-orders/$id'
+      preLoaderRoute: typeof DashboardPurchaseOrdersIdRouteImport
       parentRoute: typeof DashboardRouteRoute
     }
     '/dashboard/property-management/new-property': {
@@ -1301,6 +1374,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DashboardQuotesEditQuoteIdRouteImport
       parentRoute: typeof DashboardRouteRoute
     }
+    '/dashboard/purchase-orders/edit-purchase-order/$id': {
+      id: '/dashboard/purchase-orders/edit-purchase-order/$id'
+      path: '/purchase-orders/edit-purchase-order/$id'
+      fullPath: '/dashboard/purchase-orders/edit-purchase-order/$id'
+      preLoaderRoute: typeof DashboardPurchaseOrdersEditPurchaseOrderIdRouteImport
+      parentRoute: typeof DashboardRouteRoute
+    }
     '/dashboard/property-management/edit-property/$id': {
       id: '/dashboard/property-management/edit-property/$id'
       path: '/property-management/edit-property/$id'
@@ -1387,6 +1467,8 @@ interface DashboardRouteRouteChildren {
   DashboardProductServiceNewProductServiceRoute: typeof DashboardProductServiceNewProductServiceRoute
   DashboardPropertyManagementIdRoute: typeof DashboardPropertyManagementIdRoute
   DashboardPropertyManagementNewPropertyRoute: typeof DashboardPropertyManagementNewPropertyRoute
+  DashboardPurchaseOrdersIdRoute: typeof DashboardPurchaseOrdersIdRoute
+  DashboardPurchaseOrdersNewPurchaseOrderRoute: typeof DashboardPurchaseOrdersNewPurchaseOrderRoute
   DashboardQuotesIdRoute: typeof DashboardQuotesIdRoute
   DashboardQuotesNewQuoteRoute: typeof DashboardQuotesNewQuoteRoute
   DashboardRentalsIdRoute: typeof DashboardRentalsIdRoute
@@ -1410,6 +1492,7 @@ interface DashboardRouteRouteChildren {
   DashboardOwnersIndexRoute: typeof DashboardOwnersIndexRoute
   DashboardProductServiceIndexRoute: typeof DashboardProductServiceIndexRoute
   DashboardPropertyManagementIndexRoute: typeof DashboardPropertyManagementIndexRoute
+  DashboardPurchaseOrdersIndexRoute: typeof DashboardPurchaseOrdersIndexRoute
   DashboardQuotesIndexRoute: typeof DashboardQuotesIndexRoute
   DashboardRentalsIndexRoute: typeof DashboardRentalsIndexRoute
   DashboardReportsIndexRoute: typeof DashboardReportsIndexRoute
@@ -1427,6 +1510,7 @@ interface DashboardRouteRouteChildren {
   DashboardOwnersEditOwnerIdRoute: typeof DashboardOwnersEditOwnerIdRoute
   DashboardProductServiceEditProductServiceIdRoute: typeof DashboardProductServiceEditProductServiceIdRoute
   DashboardPropertyManagementEditPropertyIdRoute: typeof DashboardPropertyManagementEditPropertyIdRoute
+  DashboardPurchaseOrdersEditPurchaseOrderIdRoute: typeof DashboardPurchaseOrdersEditPurchaseOrderIdRoute
   DashboardQuotesEditQuoteIdRoute: typeof DashboardQuotesEditQuoteIdRoute
   DashboardRentalsEditRentalIdRoute: typeof DashboardRentalsEditRentalIdRoute
   DashboardReportsEditReportIdRoute: typeof DashboardReportsEditReportIdRoute
@@ -1460,6 +1544,9 @@ const DashboardRouteRouteChildren: DashboardRouteRouteChildren = {
   DashboardPropertyManagementIdRoute: DashboardPropertyManagementIdRoute,
   DashboardPropertyManagementNewPropertyRoute:
     DashboardPropertyManagementNewPropertyRoute,
+  DashboardPurchaseOrdersIdRoute: DashboardPurchaseOrdersIdRoute,
+  DashboardPurchaseOrdersNewPurchaseOrderRoute:
+    DashboardPurchaseOrdersNewPurchaseOrderRoute,
   DashboardQuotesIdRoute: DashboardQuotesIdRoute,
   DashboardQuotesNewQuoteRoute: DashboardQuotesNewQuoteRoute,
   DashboardRentalsIdRoute: DashboardRentalsIdRoute,
@@ -1485,6 +1572,7 @@ const DashboardRouteRouteChildren: DashboardRouteRouteChildren = {
   DashboardOwnersIndexRoute: DashboardOwnersIndexRoute,
   DashboardProductServiceIndexRoute: DashboardProductServiceIndexRoute,
   DashboardPropertyManagementIndexRoute: DashboardPropertyManagementIndexRoute,
+  DashboardPurchaseOrdersIndexRoute: DashboardPurchaseOrdersIndexRoute,
   DashboardQuotesIndexRoute: DashboardQuotesIndexRoute,
   DashboardRentalsIndexRoute: DashboardRentalsIndexRoute,
   DashboardReportsIndexRoute: DashboardReportsIndexRoute,
@@ -1507,6 +1595,8 @@ const DashboardRouteRouteChildren: DashboardRouteRouteChildren = {
     DashboardProductServiceEditProductServiceIdRoute,
   DashboardPropertyManagementEditPropertyIdRoute:
     DashboardPropertyManagementEditPropertyIdRoute,
+  DashboardPurchaseOrdersEditPurchaseOrderIdRoute:
+    DashboardPurchaseOrdersEditPurchaseOrderIdRoute,
   DashboardQuotesEditQuoteIdRoute: DashboardQuotesEditQuoteIdRoute,
   DashboardRentalsEditRentalIdRoute: DashboardRentalsEditRentalIdRoute,
   DashboardReportsEditReportIdRoute: DashboardReportsEditReportIdRoute,

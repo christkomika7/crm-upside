@@ -6,6 +6,7 @@ export default {
         type: t.Enum({
             INVOICE: "INVOICE",
             QUOTE: "QUOTE",
+            PURCHASE_ORDER: "PURCHASE_ORDER",
         }, { error: "Le type de document est requis." }),
         emails: t.Transform((t.String()))
             .Decode((value) => JSON.parse(value) as string[])
@@ -17,8 +18,9 @@ export default {
     }),
     query: t.Object({
         type: t.Enum({
-            PAID: "INVOICE",
-            UNPAID: "QUOTE",
+            INVOICE: "INVOICE",
+            QUOTE: "QUOTE",
+            PURCHASE_ORDER: "PURCHASE_ORDER",
         }, { error: "Le type de document est requis." })
     }),
     param: t.Object({

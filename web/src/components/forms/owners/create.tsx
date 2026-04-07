@@ -22,7 +22,7 @@ export default function CreateOwners() {
         queryFn: () => apiFetch<Building[]>("/building/without-owner"),
         select: (data) => data.map((building) => ({
             value: building.id,
-            label: building.name,
+            label: building.reference,
         })),
     });
 

@@ -18,6 +18,9 @@
 # Property Management
 - Section info Tab accounting voir le filtre monthly
 
+# Input
+- Prevoir une fonction pour vider les inputs de type file
+
 # ExportTo
 - Revoir le composant 
 

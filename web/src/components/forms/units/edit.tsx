@@ -249,7 +249,7 @@ export default function EditUnit({ id }: EditUnitProps) {
                                                 ) : buildingOptions && buildingOptions.length > 0 ? (
                                                     buildingOptions.map((building) => (
                                                         <SelectItem key={building.id} value={building.id}>
-                                                            {building.name}
+                                                            {building.reference}
                                                         </SelectItem>
                                                     ))
                                                 ) : (
@@ -298,7 +298,7 @@ export default function EditUnit({ id }: EditUnitProps) {
                                             placeholder="Entrer la valeur de la surface"
                                             value={field.value}
                                             aria-invalid={!!form.formState.errors.surface}
-                                            onChange={field.onChange}
+                                            onChange={e => field.onChange(Number(e.target.value))}
                                         />
                                     </FormControl>
                                     <FormMessage />
@@ -317,7 +317,7 @@ export default function EditUnit({ id }: EditUnitProps) {
                                             placeholder="Entrer le nombre de pièces"
                                             value={field.value}
                                             aria-invalid={!!form.formState.errors.rooms}
-                                            onChange={field.onChange}
+                                            onChange={e => field.onChange(Number(e.target.value))}
                                         />
                                     </FormControl>
                                     <FormMessage />
@@ -336,7 +336,7 @@ export default function EditUnit({ id }: EditUnitProps) {
                                             placeholder="Entrer le nombre de salle à manger"
                                             value={field.value}
                                             aria-invalid={!!form.formState.errors.dining}
-                                            onChange={field.onChange}
+                                            onChange={e => field.onChange(Number(e.target.value))}
                                         />
                                     </FormControl>
                                     <FormMessage />
@@ -355,7 +355,7 @@ export default function EditUnit({ id }: EditUnitProps) {
                                             placeholder="Entrer le nombre de cuisine"
                                             value={field.value}
                                             aria-invalid={!!form.formState.errors.kitchen}
-                                            onChange={field.onChange}
+                                            onChange={e => field.onChange(Number(e.target.value))}
                                         />
                                     </FormControl>
                                     <FormMessage />
@@ -374,7 +374,7 @@ export default function EditUnit({ id }: EditUnitProps) {
                                             placeholder="Entrer le nombre de chambre"
                                             value={field.value}
                                             aria-invalid={!!form.formState.errors.bedroom}
-                                            onChange={field.onChange}
+                                            onChange={e => field.onChange(Number(e.target.value))}
                                         />
                                     </FormControl>
                                     <FormMessage />
@@ -393,7 +393,7 @@ export default function EditUnit({ id }: EditUnitProps) {
                                             placeholder="Entrer le nombre de salle de bain"
                                             value={field.value}
                                             aria-invalid={!!form.formState.errors.bathroom}
-                                            onChange={field.onChange}
+                                            onChange={e => field.onChange(Number(e.target.value))}
                                         />
                                     </FormControl>
                                     <FormMessage />
@@ -413,7 +413,7 @@ export default function EditUnit({ id }: EditUnitProps) {
                                             placeholder="Entrer le prix de la location"
                                             value={field.value}
                                             aria-invalid={!!form.formState.errors.rent}
-                                            onChange={field.onChange}
+                                            onChange={e => field.onChange(Number(e.target.value))}
                                         />
                                     </FormControl>
                                     <FormMessage />

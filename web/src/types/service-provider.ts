@@ -11,6 +11,12 @@ export type ServiceProviderTab = {
     createdAt: Date;
 }
 
+export type ServiceProviderSelect = {
+    id: string;
+    firstname: string;
+    lastname: string;
+}
+
 export type ServiceProvider = {
     id: string;
     firstname: string;
