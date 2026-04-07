@@ -71,10 +71,18 @@ export const ModelName = {
   ProductService: 'ProductService',
   Item: 'Item',
   Invoice: 'Invoice',
+  purchaseOrder: 'purchaseOrder',
   Quote: 'Quote',
   ServiceProvider: 'ServiceProvider',
   Contract: 'Contract',
   CheckInOut: 'CheckInOut',
+  accounting: 'accounting',
+  Source: 'Source',
+  Allocation: 'Allocation',
+  Category: 'Category',
+  Nature: 'Nature',
+  SecondNature: 'SecondNature',
+  ThirdNature: 'ThirdNature',
   Appointment: 'Appointment',
   Payment: 'Payment',
   PersonalService: 'PersonalService',
@@ -157,7 +165,8 @@ export type NoteScalarFieldEnum = (typeof NoteScalarFieldEnum)[keyof typeof Note
 export const ReferenceScalarFieldEnum = {
   id: 'id',
   invoice: 'invoice',
-  quote: 'quote'
+  quote: 'quote',
+  purchaseOrder: 'purchaseOrder'
 } as const
 
 export type ReferenceScalarFieldEnum = (typeof ReferenceScalarFieldEnum)[keyof typeof ReferenceScalarFieldEnum]
@@ -208,6 +217,10 @@ export const UnitScalarFieldEnum = {
   rentalStatus: 'rentalStatus',
   surface: 'surface',
   rooms: 'rooms',
+  dining: 'dining',
+  kitchen: 'kitchen',
+  bedroom: 'bedroom',
+  bathroom: 'bathroom',
   rent: 'rent',
   furnished: 'furnished',
   wifi: 'wifi',
@@ -371,7 +384,8 @@ export const ItemScalarFieldEnum = {
   invoiceId: 'invoiceId',
   quoteId: 'quoteId',
   createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
+  updatedAt: 'updatedAt',
+  purchaseOrderId: 'purchaseOrderId'
 } as const
 
 export type ItemScalarFieldEnum = (typeof ItemScalarFieldEnum)[keyof typeof ItemScalarFieldEnum]
@@ -398,6 +412,27 @@ export const InvoiceScalarFieldEnum = {
 } as const
 
 export type InvoiceScalarFieldEnum = (typeof InvoiceScalarFieldEnum)[keyof typeof InvoiceScalarFieldEnum]
+
+
+export const PurchaseOrderScalarFieldEnum = {
+  id: 'id',
+  reference: 'reference',
+  price: 'price',
+  amountPaid: 'amountPaid',
+  discount: 'discount',
+  status: 'status',
+  discountType: 'discountType',
+  hasTax: 'hasTax',
+  serviceProviderId: 'serviceProviderId',
+  note: 'note',
+  start: 'start',
+  end: 'end',
+  isDeleting: 'isDeleting',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type PurchaseOrderScalarFieldEnum = (typeof PurchaseOrderScalarFieldEnum)[keyof typeof PurchaseOrderScalarFieldEnum]
 
 
 export const QuoteScalarFieldEnum = {
@@ -465,13 +500,92 @@ export type ContractScalarFieldEnum = (typeof ContractScalarFieldEnum)[keyof typ
 
 export const CheckInOutScalarFieldEnum = {
   id: 'id',
+  date: 'date',
+  tenantId: 'tenantId',
+  unitId: 'unitId',
   isChecked: 'isChecked',
   isDeleting: 'isDeleting',
+  document: 'document',
+  note: 'note',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const
 
 export type CheckInOutScalarFieldEnum = (typeof CheckInOutScalarFieldEnum)[keyof typeof CheckInOutScalarFieldEnum]
+
+
+export const AccountingScalarFieldEnum = {
+  id: 'id',
+  date: 'date',
+  type: 'type',
+  paymentMode: 'paymentMode',
+  amount: 'amount',
+  isTTC: 'isTTC',
+  checkNumber: 'checkNumber',
+  description: 'description',
+  sourceId: 'sourceId',
+  allocationId: 'allocationId',
+  categoryId: 'categoryId',
+  natureId: 'natureId',
+  secondNatureId: 'secondNatureId',
+  thirdNatureId: 'thirdNatureId',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type AccountingScalarFieldEnum = (typeof AccountingScalarFieldEnum)[keyof typeof AccountingScalarFieldEnum]
+
+
+export const SourceScalarFieldEnum = {
+  id: 'id',
+  type: 'type',
+  name: 'name'
+} as const
+
+export type SourceScalarFieldEnum = (typeof SourceScalarFieldEnum)[keyof typeof SourceScalarFieldEnum]
+
+
+export const AllocationScalarFieldEnum = {
+  id: 'id',
+  name: 'name'
+} as const
+
+export type AllocationScalarFieldEnum = (typeof AllocationScalarFieldEnum)[keyof typeof AllocationScalarFieldEnum]
+
+
+export const CategoryScalarFieldEnum = {
+  id: 'id',
+  name: 'name'
+} as const
+
+export type CategoryScalarFieldEnum = (typeof CategoryScalarFieldEnum)[keyof typeof CategoryScalarFieldEnum]
+
+
+export const NatureScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  categoryId: 'categoryId'
+} as const
+
+export type NatureScalarFieldEnum = (typeof NatureScalarFieldEnum)[keyof typeof NatureScalarFieldEnum]
+
+
+export const SecondNatureScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  natureId: 'natureId'
+} as const
+
+export type SecondNatureScalarFieldEnum = (typeof SecondNatureScalarFieldEnum)[keyof typeof SecondNatureScalarFieldEnum]
+
+
+export const ThirdNatureScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  secondNatureId: 'secondNatureId'
+} as const
+
+export type ThirdNatureScalarFieldEnum = (typeof ThirdNatureScalarFieldEnum)[keyof typeof ThirdNatureScalarFieldEnum]
 
 
 export const AppointmentScalarFieldEnum = {
@@ -498,9 +612,11 @@ export const PaymentScalarFieldEnum = {
   id: 'id',
   reference: 'reference',
   amount: 'amount',
+  recordType: 'recordType',
   type: 'type',
   date: 'date',
   invoiceId: 'invoiceId',
+  purchaseOrderId: 'purchaseOrderId',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const

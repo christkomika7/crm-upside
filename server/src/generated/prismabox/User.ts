@@ -113,6 +113,7 @@ export const UserRelations = t.Object(
               t.Literal("PRODUCT_SERVICE"),
               t.Literal("INVOICING"),
               t.Literal("QUOTE"),
+              t.Literal("PURCHASE_ORDER"),
               t.Literal("CONTRACT"),
               t.Literal("CHECK_IN"),
               t.Literal("APPOINTMENT"),

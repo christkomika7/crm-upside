@@ -16,7 +16,10 @@ export const TenantPlain = t.Object(
     maritalStatus: __nullable__(t.String()),
     income: t.Number(),
     bankInfo: t.String(),
-    paymentMode: t.String(),
+    paymentMode: t.Union(
+      [t.Literal("CASH"), t.Literal("CHECK"), t.Literal("BANK")],
+      { additionalProperties: false },
+    ),
     documents: t.Array(t.String(), { additionalProperties: false }),
     isDeleting: t.Boolean(),
     createdAt: t.Date(),
@@ -128,6 +131,24 @@ export const TenantRelations = t.Object(
       ),
       { additionalProperties: false },
     ),
+    checkInOuts: t.Array(
+      t.Object(
+        {
+          id: t.String(),
+          date: t.Date(),
+          tenantId: t.String(),
+          unitId: t.String(),
+          isChecked: t.Boolean(),
+          isDeleting: t.Boolean(),
+          document: t.Array(t.String(), { additionalProperties: false }),
+          note: __nullable__(t.String()),
+          createdAt: t.Date(),
+          updatedAt: t.Date(),
+        },
+        { additionalProperties: false },
+      ),
+      { additionalProperties: false },
+    ),
   },
   { additionalProperties: false },
 );
@@ -143,7 +164,10 @@ export const TenantPlainInputCreate = t.Object(
     maritalStatus: t.Optional(__nullable__(t.String())),
     income: t.Optional(t.Number()),
     bankInfo: t.String(),
-    paymentMode: t.String(),
+    paymentMode: t.Union(
+      [t.Literal("CASH"), t.Literal("CHECK"), t.Literal("BANK")],
+      { additionalProperties: false },
+    ),
     documents: t.Array(t.String(), { additionalProperties: false }),
     isDeleting: t.Optional(t.Boolean()),
   },
@@ -161,7 +185,11 @@ export const TenantPlainInputUpdate = t.Object(
     maritalStatus: t.Optional(__nullable__(t.String())),
     income: t.Optional(t.Number()),
     bankInfo: t.Optional(t.String()),
-    paymentMode: t.Optional(t.String()),
+    paymentMode: t.Optional(
+      t.Union([t.Literal("CASH"), t.Literal("CHECK"), t.Literal("BANK")], {
+        additionalProperties: false,
+      }),
+    ),
     documents: t.Optional(t.Array(t.String(), { additionalProperties: false })),
     isDeleting: t.Optional(t.Boolean()),
   },
@@ -219,6 +247,22 @@ export const TenantRelationsInputCreate = t.Object(
       ),
     ),
     appointments: t.Optional(
+      t.Object(
+        {
+          connect: t.Array(
+            t.Object(
+              {
+                id: t.String({ additionalProperties: false }),
+              },
+              { additionalProperties: false },
+            ),
+            { additionalProperties: false },
+          ),
+        },
+        { additionalProperties: false },
+      ),
+    ),
+    checkInOuts: t.Optional(
       t.Object(
         {
           connect: t.Array(
@@ -341,6 +385,31 @@ export const TenantRelationsInputUpdate = t.Partial(
           { additionalProperties: false },
         ),
       ),
+      checkInOuts: t.Partial(
+        t.Object(
+          {
+            connect: t.Array(
+              t.Object(
+                {
+                  id: t.String({ additionalProperties: false }),
+                },
+                { additionalProperties: false },
+              ),
+              { additionalProperties: false },
+            ),
+            disconnect: t.Array(
+              t.Object(
+                {
+                  id: t.String({ additionalProperties: false }),
+                },
+                { additionalProperties: false },
+              ),
+              { additionalProperties: false },
+            ),
+          },
+          { additionalProperties: false },
+        ),
+      ),
     },
     { additionalProperties: false },
   ),
@@ -364,7 +433,10 @@ export const TenantWhere = t.Partial(
           maritalStatus: t.String(),
           income: t.Number(),
           bankInfo: t.String(),
-          paymentMode: t.String(),
+          paymentMode: t.Union(
+            [t.Literal("CASH"), t.Literal("CHECK"), t.Literal("BANK")],
+            { additionalProperties: false },
+          ),
           documents: t.Array(t.String(), { additionalProperties: false }),
           isDeleting: t.Boolean(),
           createdAt: t.Date(),
@@ -414,7 +486,10 @@ export const TenantWhereUnique = t.Recursive(
               maritalStatus: t.String(),
               income: t.Number(),
               bankInfo: t.String(),
-              paymentMode: t.String(),
+              paymentMode: t.Union(
+                [t.Literal("CASH"), t.Literal("CHECK"), t.Literal("BANK")],
+                { additionalProperties: false },
+              ),
               documents: t.Array(t.String(), { additionalProperties: false }),
               isDeleting: t.Boolean(),
               createdAt: t.Date(),
@@ -451,6 +526,7 @@ export const TenantSelect = t.Partial(
       invoices: t.Boolean(),
       quotes: t.Boolean(),
       appointments: t.Boolean(),
+      checkInOuts: t.Boolean(),
       _count: t.Boolean(),
     },
     { additionalProperties: false },
@@ -460,10 +536,12 @@ export const TenantSelect = t.Partial(
 export const TenantInclude = t.Partial(
   t.Object(
     {
+      paymentMode: t.Boolean(),
       rentals: t.Boolean(),
       invoices: t.Boolean(),
       quotes: t.Boolean(),
       appointments: t.Boolean(),
+      checkInOuts: t.Boolean(),
       _count: t.Boolean(),
     },
     { additionalProperties: false },
@@ -501,9 +579,6 @@ export const TenantOrderBy = t.Partial(
         additionalProperties: false,
       }),
       bankInfo: t.Union([t.Literal("asc"), t.Literal("desc")], {
-        additionalProperties: false,
-      }),
-      paymentMode: t.Union([t.Literal("asc"), t.Literal("desc")], {
         additionalProperties: false,
       }),
       documents: t.Union([t.Literal("asc"), t.Literal("desc")], {

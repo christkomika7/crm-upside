@@ -26,24 +26,37 @@ export type AggregateCheckInOut = {
 
 export type CheckInOutMinAggregateOutputType = {
   id: string | null
+  date: Date | null
+  tenantId: string | null
+  unitId: string | null
   isChecked: boolean | null
   isDeleting: boolean | null
+  note: string | null
   createdAt: Date | null
   updatedAt: Date | null
 }
 
 export type CheckInOutMaxAggregateOutputType = {
   id: string | null
+  date: Date | null
+  tenantId: string | null
+  unitId: string | null
   isChecked: boolean | null
   isDeleting: boolean | null
+  note: string | null
   createdAt: Date | null
   updatedAt: Date | null
 }
 
 export type CheckInOutCountAggregateOutputType = {
   id: number
+  date: number
+  tenantId: number
+  unitId: number
   isChecked: number
   isDeleting: number
+  document: number
+  note: number
   createdAt: number
   updatedAt: number
   _all: number
@@ -52,24 +65,37 @@ export type CheckInOutCountAggregateOutputType = {
 
 export type CheckInOutMinAggregateInputType = {
   id?: true
+  date?: true
+  tenantId?: true
+  unitId?: true
   isChecked?: true
   isDeleting?: true
+  note?: true
   createdAt?: true
   updatedAt?: true
 }
 
 export type CheckInOutMaxAggregateInputType = {
   id?: true
+  date?: true
+  tenantId?: true
+  unitId?: true
   isChecked?: true
   isDeleting?: true
+  note?: true
   createdAt?: true
   updatedAt?: true
 }
 
 export type CheckInOutCountAggregateInputType = {
   id?: true
+  date?: true
+  tenantId?: true
+  unitId?: true
   isChecked?: true
   isDeleting?: true
+  document?: true
+  note?: true
   createdAt?: true
   updatedAt?: true
   _all?: true
@@ -149,8 +175,13 @@ export type CheckInOutGroupByArgs<ExtArgs extends runtime.Types.Extensions.Inter
 
 export type CheckInOutGroupByOutputType = {
   id: string
+  date: Date
+  tenantId: string
+  unitId: string
   isChecked: boolean
   isDeleting: boolean
+  document: string[]
+  note: string | null
   createdAt: Date
   updatedAt: Date
   _count: CheckInOutCountAggregateOutputType | null
@@ -178,18 +209,32 @@ export type CheckInOutWhereInput = {
   OR?: Prisma.CheckInOutWhereInput[]
   NOT?: Prisma.CheckInOutWhereInput | Prisma.CheckInOutWhereInput[]
   id?: Prisma.StringFilter<"CheckInOut"> | string
+  date?: Prisma.DateTimeFilter<"CheckInOut"> | Date | string
+  tenantId?: Prisma.StringFilter<"CheckInOut"> | string
+  unitId?: Prisma.StringFilter<"CheckInOut"> | string
   isChecked?: Prisma.BoolFilter<"CheckInOut"> | boolean
   isDeleting?: Prisma.BoolFilter<"CheckInOut"> | boolean
+  document?: Prisma.StringNullableListFilter<"CheckInOut">
+  note?: Prisma.StringNullableFilter<"CheckInOut"> | string | null
   createdAt?: Prisma.DateTimeFilter<"CheckInOut"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"CheckInOut"> | Date | string
+  tenant?: Prisma.XOR<Prisma.TenantScalarRelationFilter, Prisma.TenantWhereInput>
+  unit?: Prisma.XOR<Prisma.UnitScalarRelationFilter, Prisma.UnitWhereInput>
 }
 
 export type CheckInOutOrderByWithRelationInput = {
   id?: Prisma.SortOrder
+  date?: Prisma.SortOrder
+  tenantId?: Prisma.SortOrder
+  unitId?: Prisma.SortOrder
   isChecked?: Prisma.SortOrder
   isDeleting?: Prisma.SortOrder
+  document?: Prisma.SortOrder
+  note?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  tenant?: Prisma.TenantOrderByWithRelationInput
+  unit?: Prisma.UnitOrderByWithRelationInput
 }
 
 export type CheckInOutWhereUniqueInput = Prisma.AtLeast<{
@@ -197,16 +242,28 @@ export type CheckInOutWhereUniqueInput = Prisma.AtLeast<{
   AND?: Prisma.CheckInOutWhereInput | Prisma.CheckInOutWhereInput[]
   OR?: Prisma.CheckInOutWhereInput[]
   NOT?: Prisma.CheckInOutWhereInput | Prisma.CheckInOutWhereInput[]
+  date?: Prisma.DateTimeFilter<"CheckInOut"> | Date | string
+  tenantId?: Prisma.StringFilter<"CheckInOut"> | string
+  unitId?: Prisma.StringFilter<"CheckInOut"> | string
   isChecked?: Prisma.BoolFilter<"CheckInOut"> | boolean
   isDeleting?: Prisma.BoolFilter<"CheckInOut"> | boolean
+  document?: Prisma.StringNullableListFilter<"CheckInOut">
+  note?: Prisma.StringNullableFilter<"CheckInOut"> | string | null
   createdAt?: Prisma.DateTimeFilter<"CheckInOut"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"CheckInOut"> | Date | string
+  tenant?: Prisma.XOR<Prisma.TenantScalarRelationFilter, Prisma.TenantWhereInput>
+  unit?: Prisma.XOR<Prisma.UnitScalarRelationFilter, Prisma.UnitWhereInput>
 }, "id">
 
 export type CheckInOutOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
+  date?: Prisma.SortOrder
+  tenantId?: Prisma.SortOrder
+  unitId?: Prisma.SortOrder
   isChecked?: Prisma.SortOrder
   isDeleting?: Prisma.SortOrder
+  document?: Prisma.SortOrder
+  note?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   _count?: Prisma.CheckInOutCountOrderByAggregateInput
@@ -219,135 +276,547 @@ export type CheckInOutScalarWhereWithAggregatesInput = {
   OR?: Prisma.CheckInOutScalarWhereWithAggregatesInput[]
   NOT?: Prisma.CheckInOutScalarWhereWithAggregatesInput | Prisma.CheckInOutScalarWhereWithAggregatesInput[]
   id?: Prisma.StringWithAggregatesFilter<"CheckInOut"> | string
+  date?: Prisma.DateTimeWithAggregatesFilter<"CheckInOut"> | Date | string
+  tenantId?: Prisma.StringWithAggregatesFilter<"CheckInOut"> | string
+  unitId?: Prisma.StringWithAggregatesFilter<"CheckInOut"> | string
   isChecked?: Prisma.BoolWithAggregatesFilter<"CheckInOut"> | boolean
   isDeleting?: Prisma.BoolWithAggregatesFilter<"CheckInOut"> | boolean
+  document?: Prisma.StringNullableListFilter<"CheckInOut">
+  note?: Prisma.StringNullableWithAggregatesFilter<"CheckInOut"> | string | null
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"CheckInOut"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"CheckInOut"> | Date | string
 }
 
 export type CheckInOutCreateInput = {
   id?: string
+  date: Date | string
   isChecked?: boolean
   isDeleting?: boolean
+  document?: Prisma.CheckInOutCreatedocumentInput | string[]
+  note?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  tenant: Prisma.TenantCreateNestedOneWithoutCheckInOutsInput
+  unit: Prisma.UnitCreateNestedOneWithoutCheckInOutsInput
 }
 
 export type CheckInOutUncheckedCreateInput = {
   id?: string
+  date: Date | string
+  tenantId: string
+  unitId: string
   isChecked?: boolean
   isDeleting?: boolean
+  document?: Prisma.CheckInOutCreatedocumentInput | string[]
+  note?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
 }
 
 export type CheckInOutUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   isChecked?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isDeleting?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  document?: Prisma.CheckInOutUpdatedocumentInput | string[]
+  note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  tenant?: Prisma.TenantUpdateOneRequiredWithoutCheckInOutsNestedInput
+  unit?: Prisma.UnitUpdateOneRequiredWithoutCheckInOutsNestedInput
 }
 
 export type CheckInOutUncheckedUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  tenantId?: Prisma.StringFieldUpdateOperationsInput | string
+  unitId?: Prisma.StringFieldUpdateOperationsInput | string
   isChecked?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isDeleting?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  document?: Prisma.CheckInOutUpdatedocumentInput | string[]
+  note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type CheckInOutCreateManyInput = {
   id?: string
+  date: Date | string
+  tenantId: string
+  unitId: string
   isChecked?: boolean
   isDeleting?: boolean
+  document?: Prisma.CheckInOutCreatedocumentInput | string[]
+  note?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
 }
 
 export type CheckInOutUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   isChecked?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isDeleting?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  document?: Prisma.CheckInOutUpdatedocumentInput | string[]
+  note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type CheckInOutUncheckedUpdateManyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  tenantId?: Prisma.StringFieldUpdateOperationsInput | string
+  unitId?: Prisma.StringFieldUpdateOperationsInput | string
   isChecked?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isDeleting?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  document?: Prisma.CheckInOutUpdatedocumentInput | string[]
+  note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
+export type CheckInOutListRelationFilter = {
+  every?: Prisma.CheckInOutWhereInput
+  some?: Prisma.CheckInOutWhereInput
+  none?: Prisma.CheckInOutWhereInput
+}
+
+export type CheckInOutOrderByRelationAggregateInput = {
+  _count?: Prisma.SortOrder
+}
+
 export type CheckInOutCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
+  date?: Prisma.SortOrder
+  tenantId?: Prisma.SortOrder
+  unitId?: Prisma.SortOrder
   isChecked?: Prisma.SortOrder
   isDeleting?: Prisma.SortOrder
+  document?: Prisma.SortOrder
+  note?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
 
 export type CheckInOutMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
+  date?: Prisma.SortOrder
+  tenantId?: Prisma.SortOrder
+  unitId?: Prisma.SortOrder
   isChecked?: Prisma.SortOrder
   isDeleting?: Prisma.SortOrder
+  note?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
 
 export type CheckInOutMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
+  date?: Prisma.SortOrder
+  tenantId?: Prisma.SortOrder
+  unitId?: Prisma.SortOrder
   isChecked?: Prisma.SortOrder
   isDeleting?: Prisma.SortOrder
+  note?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+}
+
+export type CheckInOutCreateNestedManyWithoutUnitInput = {
+  create?: Prisma.XOR<Prisma.CheckInOutCreateWithoutUnitInput, Prisma.CheckInOutUncheckedCreateWithoutUnitInput> | Prisma.CheckInOutCreateWithoutUnitInput[] | Prisma.CheckInOutUncheckedCreateWithoutUnitInput[]
+  connectOrCreate?: Prisma.CheckInOutCreateOrConnectWithoutUnitInput | Prisma.CheckInOutCreateOrConnectWithoutUnitInput[]
+  createMany?: Prisma.CheckInOutCreateManyUnitInputEnvelope
+  connect?: Prisma.CheckInOutWhereUniqueInput | Prisma.CheckInOutWhereUniqueInput[]
+}
+
+export type CheckInOutUncheckedCreateNestedManyWithoutUnitInput = {
+  create?: Prisma.XOR<Prisma.CheckInOutCreateWithoutUnitInput, Prisma.CheckInOutUncheckedCreateWithoutUnitInput> | Prisma.CheckInOutCreateWithoutUnitInput[] | Prisma.CheckInOutUncheckedCreateWithoutUnitInput[]
+  connectOrCreate?: Prisma.CheckInOutCreateOrConnectWithoutUnitInput | Prisma.CheckInOutCreateOrConnectWithoutUnitInput[]
+  createMany?: Prisma.CheckInOutCreateManyUnitInputEnvelope
+  connect?: Prisma.CheckInOutWhereUniqueInput | Prisma.CheckInOutWhereUniqueInput[]
+}
+
+export type CheckInOutUpdateManyWithoutUnitNestedInput = {
+  create?: Prisma.XOR<Prisma.CheckInOutCreateWithoutUnitInput, Prisma.CheckInOutUncheckedCreateWithoutUnitInput> | Prisma.CheckInOutCreateWithoutUnitInput[] | Prisma.CheckInOutUncheckedCreateWithoutUnitInput[]
+  connectOrCreate?: Prisma.CheckInOutCreateOrConnectWithoutUnitInput | Prisma.CheckInOutCreateOrConnectWithoutUnitInput[]
+  upsert?: Prisma.CheckInOutUpsertWithWhereUniqueWithoutUnitInput | Prisma.CheckInOutUpsertWithWhereUniqueWithoutUnitInput[]
+  createMany?: Prisma.CheckInOutCreateManyUnitInputEnvelope
+  set?: Prisma.CheckInOutWhereUniqueInput | Prisma.CheckInOutWhereUniqueInput[]
+  disconnect?: Prisma.CheckInOutWhereUniqueInput | Prisma.CheckInOutWhereUniqueInput[]
+  delete?: Prisma.CheckInOutWhereUniqueInput | Prisma.CheckInOutWhereUniqueInput[]
+  connect?: Prisma.CheckInOutWhereUniqueInput | Prisma.CheckInOutWhereUniqueInput[]
+  update?: Prisma.CheckInOutUpdateWithWhereUniqueWithoutUnitInput | Prisma.CheckInOutUpdateWithWhereUniqueWithoutUnitInput[]
+  updateMany?: Prisma.CheckInOutUpdateManyWithWhereWithoutUnitInput | Prisma.CheckInOutUpdateManyWithWhereWithoutUnitInput[]
+  deleteMany?: Prisma.CheckInOutScalarWhereInput | Prisma.CheckInOutScalarWhereInput[]
+}
+
+export type CheckInOutUncheckedUpdateManyWithoutUnitNestedInput = {
+  create?: Prisma.XOR<Prisma.CheckInOutCreateWithoutUnitInput, Prisma.CheckInOutUncheckedCreateWithoutUnitInput> | Prisma.CheckInOutCreateWithoutUnitInput[] | Prisma.CheckInOutUncheckedCreateWithoutUnitInput[]
+  connectOrCreate?: Prisma.CheckInOutCreateOrConnectWithoutUnitInput | Prisma.CheckInOutCreateOrConnectWithoutUnitInput[]
+  upsert?: Prisma.CheckInOutUpsertWithWhereUniqueWithoutUnitInput | Prisma.CheckInOutUpsertWithWhereUniqueWithoutUnitInput[]
+  createMany?: Prisma.CheckInOutCreateManyUnitInputEnvelope
+  set?: Prisma.CheckInOutWhereUniqueInput | Prisma.CheckInOutWhereUniqueInput[]
+  disconnect?: Prisma.CheckInOutWhereUniqueInput | Prisma.CheckInOutWhereUniqueInput[]
+  delete?: Prisma.CheckInOutWhereUniqueInput | Prisma.CheckInOutWhereUniqueInput[]
+  connect?: Prisma.CheckInOutWhereUniqueInput | Prisma.CheckInOutWhereUniqueInput[]
+  update?: Prisma.CheckInOutUpdateWithWhereUniqueWithoutUnitInput | Prisma.CheckInOutUpdateWithWhereUniqueWithoutUnitInput[]
+  updateMany?: Prisma.CheckInOutUpdateManyWithWhereWithoutUnitInput | Prisma.CheckInOutUpdateManyWithWhereWithoutUnitInput[]
+  deleteMany?: Prisma.CheckInOutScalarWhereInput | Prisma.CheckInOutScalarWhereInput[]
+}
+
+export type CheckInOutCreateNestedManyWithoutTenantInput = {
+  create?: Prisma.XOR<Prisma.CheckInOutCreateWithoutTenantInput, Prisma.CheckInOutUncheckedCreateWithoutTenantInput> | Prisma.CheckInOutCreateWithoutTenantInput[] | Prisma.CheckInOutUncheckedCreateWithoutTenantInput[]
+  connectOrCreate?: Prisma.CheckInOutCreateOrConnectWithoutTenantInput | Prisma.CheckInOutCreateOrConnectWithoutTenantInput[]
+  createMany?: Prisma.CheckInOutCreateManyTenantInputEnvelope
+  connect?: Prisma.CheckInOutWhereUniqueInput | Prisma.CheckInOutWhereUniqueInput[]
+}
+
+export type CheckInOutUncheckedCreateNestedManyWithoutTenantInput = {
+  create?: Prisma.XOR<Prisma.CheckInOutCreateWithoutTenantInput, Prisma.CheckInOutUncheckedCreateWithoutTenantInput> | Prisma.CheckInOutCreateWithoutTenantInput[] | Prisma.CheckInOutUncheckedCreateWithoutTenantInput[]
+  connectOrCreate?: Prisma.CheckInOutCreateOrConnectWithoutTenantInput | Prisma.CheckInOutCreateOrConnectWithoutTenantInput[]
+  createMany?: Prisma.CheckInOutCreateManyTenantInputEnvelope
+  connect?: Prisma.CheckInOutWhereUniqueInput | Prisma.CheckInOutWhereUniqueInput[]
+}
+
+export type CheckInOutUpdateManyWithoutTenantNestedInput = {
+  create?: Prisma.XOR<Prisma.CheckInOutCreateWithoutTenantInput, Prisma.CheckInOutUncheckedCreateWithoutTenantInput> | Prisma.CheckInOutCreateWithoutTenantInput[] | Prisma.CheckInOutUncheckedCreateWithoutTenantInput[]
+  connectOrCreate?: Prisma.CheckInOutCreateOrConnectWithoutTenantInput | Prisma.CheckInOutCreateOrConnectWithoutTenantInput[]
+  upsert?: Prisma.CheckInOutUpsertWithWhereUniqueWithoutTenantInput | Prisma.CheckInOutUpsertWithWhereUniqueWithoutTenantInput[]
+  createMany?: Prisma.CheckInOutCreateManyTenantInputEnvelope
+  set?: Prisma.CheckInOutWhereUniqueInput | Prisma.CheckInOutWhereUniqueInput[]
+  disconnect?: Prisma.CheckInOutWhereUniqueInput | Prisma.CheckInOutWhereUniqueInput[]
+  delete?: Prisma.CheckInOutWhereUniqueInput | Prisma.CheckInOutWhereUniqueInput[]
+  connect?: Prisma.CheckInOutWhereUniqueInput | Prisma.CheckInOutWhereUniqueInput[]
+  update?: Prisma.CheckInOutUpdateWithWhereUniqueWithoutTenantInput | Prisma.CheckInOutUpdateWithWhereUniqueWithoutTenantInput[]
+  updateMany?: Prisma.CheckInOutUpdateManyWithWhereWithoutTenantInput | Prisma.CheckInOutUpdateManyWithWhereWithoutTenantInput[]
+  deleteMany?: Prisma.CheckInOutScalarWhereInput | Prisma.CheckInOutScalarWhereInput[]
+}
+
+export type CheckInOutUncheckedUpdateManyWithoutTenantNestedInput = {
+  create?: Prisma.XOR<Prisma.CheckInOutCreateWithoutTenantInput, Prisma.CheckInOutUncheckedCreateWithoutTenantInput> | Prisma.CheckInOutCreateWithoutTenantInput[] | Prisma.CheckInOutUncheckedCreateWithoutTenantInput[]
+  connectOrCreate?: Prisma.CheckInOutCreateOrConnectWithoutTenantInput | Prisma.CheckInOutCreateOrConnectWithoutTenantInput[]
+  upsert?: Prisma.CheckInOutUpsertWithWhereUniqueWithoutTenantInput | Prisma.CheckInOutUpsertWithWhereUniqueWithoutTenantInput[]
+  createMany?: Prisma.CheckInOutCreateManyTenantInputEnvelope
+  set?: Prisma.CheckInOutWhereUniqueInput | Prisma.CheckInOutWhereUniqueInput[]
+  disconnect?: Prisma.CheckInOutWhereUniqueInput | Prisma.CheckInOutWhereUniqueInput[]
+  delete?: Prisma.CheckInOutWhereUniqueInput | Prisma.CheckInOutWhereUniqueInput[]
+  connect?: Prisma.CheckInOutWhereUniqueInput | Prisma.CheckInOutWhereUniqueInput[]
+  update?: Prisma.CheckInOutUpdateWithWhereUniqueWithoutTenantInput | Prisma.CheckInOutUpdateWithWhereUniqueWithoutTenantInput[]
+  updateMany?: Prisma.CheckInOutUpdateManyWithWhereWithoutTenantInput | Prisma.CheckInOutUpdateManyWithWhereWithoutTenantInput[]
+  deleteMany?: Prisma.CheckInOutScalarWhereInput | Prisma.CheckInOutScalarWhereInput[]
+}
+
+export type CheckInOutCreatedocumentInput = {
+  set: string[]
+}
+
+export type CheckInOutUpdatedocumentInput = {
+  set?: string[]
+  push?: string | string[]
+}
+
+export type CheckInOutCreateWithoutUnitInput = {
+  id?: string
+  date: Date | string
+  isChecked?: boolean
+  isDeleting?: boolean
+  document?: Prisma.CheckInOutCreatedocumentInput | string[]
+  note?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  tenant: Prisma.TenantCreateNestedOneWithoutCheckInOutsInput
+}
+
+export type CheckInOutUncheckedCreateWithoutUnitInput = {
+  id?: string
+  date: Date | string
+  tenantId: string
+  isChecked?: boolean
+  isDeleting?: boolean
+  document?: Prisma.CheckInOutCreatedocumentInput | string[]
+  note?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+}
+
+export type CheckInOutCreateOrConnectWithoutUnitInput = {
+  where: Prisma.CheckInOutWhereUniqueInput
+  create: Prisma.XOR<Prisma.CheckInOutCreateWithoutUnitInput, Prisma.CheckInOutUncheckedCreateWithoutUnitInput>
+}
+
+export type CheckInOutCreateManyUnitInputEnvelope = {
+  data: Prisma.CheckInOutCreateManyUnitInput | Prisma.CheckInOutCreateManyUnitInput[]
+  skipDuplicates?: boolean
+}
+
+export type CheckInOutUpsertWithWhereUniqueWithoutUnitInput = {
+  where: Prisma.CheckInOutWhereUniqueInput
+  update: Prisma.XOR<Prisma.CheckInOutUpdateWithoutUnitInput, Prisma.CheckInOutUncheckedUpdateWithoutUnitInput>
+  create: Prisma.XOR<Prisma.CheckInOutCreateWithoutUnitInput, Prisma.CheckInOutUncheckedCreateWithoutUnitInput>
+}
+
+export type CheckInOutUpdateWithWhereUniqueWithoutUnitInput = {
+  where: Prisma.CheckInOutWhereUniqueInput
+  data: Prisma.XOR<Prisma.CheckInOutUpdateWithoutUnitInput, Prisma.CheckInOutUncheckedUpdateWithoutUnitInput>
+}
+
+export type CheckInOutUpdateManyWithWhereWithoutUnitInput = {
+  where: Prisma.CheckInOutScalarWhereInput
+  data: Prisma.XOR<Prisma.CheckInOutUpdateManyMutationInput, Prisma.CheckInOutUncheckedUpdateManyWithoutUnitInput>
+}
+
+export type CheckInOutScalarWhereInput = {
+  AND?: Prisma.CheckInOutScalarWhereInput | Prisma.CheckInOutScalarWhereInput[]
+  OR?: Prisma.CheckInOutScalarWhereInput[]
+  NOT?: Prisma.CheckInOutScalarWhereInput | Prisma.CheckInOutScalarWhereInput[]
+  id?: Prisma.StringFilter<"CheckInOut"> | string
+  date?: Prisma.DateTimeFilter<"CheckInOut"> | Date | string
+  tenantId?: Prisma.StringFilter<"CheckInOut"> | string
+  unitId?: Prisma.StringFilter<"CheckInOut"> | string
+  isChecked?: Prisma.BoolFilter<"CheckInOut"> | boolean
+  isDeleting?: Prisma.BoolFilter<"CheckInOut"> | boolean
+  document?: Prisma.StringNullableListFilter<"CheckInOut">
+  note?: Prisma.StringNullableFilter<"CheckInOut"> | string | null
+  createdAt?: Prisma.DateTimeFilter<"CheckInOut"> | Date | string
+  updatedAt?: Prisma.DateTimeFilter<"CheckInOut"> | Date | string
+}
+
+export type CheckInOutCreateWithoutTenantInput = {
+  id?: string
+  date: Date | string
+  isChecked?: boolean
+  isDeleting?: boolean
+  document?: Prisma.CheckInOutCreatedocumentInput | string[]
+  note?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  unit: Prisma.UnitCreateNestedOneWithoutCheckInOutsInput
+}
+
+export type CheckInOutUncheckedCreateWithoutTenantInput = {
+  id?: string
+  date: Date | string
+  unitId: string
+  isChecked?: boolean
+  isDeleting?: boolean
+  document?: Prisma.CheckInOutCreatedocumentInput | string[]
+  note?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+}
+
+export type CheckInOutCreateOrConnectWithoutTenantInput = {
+  where: Prisma.CheckInOutWhereUniqueInput
+  create: Prisma.XOR<Prisma.CheckInOutCreateWithoutTenantInput, Prisma.CheckInOutUncheckedCreateWithoutTenantInput>
+}
+
+export type CheckInOutCreateManyTenantInputEnvelope = {
+  data: Prisma.CheckInOutCreateManyTenantInput | Prisma.CheckInOutCreateManyTenantInput[]
+  skipDuplicates?: boolean
+}
+
+export type CheckInOutUpsertWithWhereUniqueWithoutTenantInput = {
+  where: Prisma.CheckInOutWhereUniqueInput
+  update: Prisma.XOR<Prisma.CheckInOutUpdateWithoutTenantInput, Prisma.CheckInOutUncheckedUpdateWithoutTenantInput>
+  create: Prisma.XOR<Prisma.CheckInOutCreateWithoutTenantInput, Prisma.CheckInOutUncheckedCreateWithoutTenantInput>
+}
+
+export type CheckInOutUpdateWithWhereUniqueWithoutTenantInput = {
+  where: Prisma.CheckInOutWhereUniqueInput
+  data: Prisma.XOR<Prisma.CheckInOutUpdateWithoutTenantInput, Prisma.CheckInOutUncheckedUpdateWithoutTenantInput>
+}
+
+export type CheckInOutUpdateManyWithWhereWithoutTenantInput = {
+  where: Prisma.CheckInOutScalarWhereInput
+  data: Prisma.XOR<Prisma.CheckInOutUpdateManyMutationInput, Prisma.CheckInOutUncheckedUpdateManyWithoutTenantInput>
+}
+
+export type CheckInOutCreateManyUnitInput = {
+  id?: string
+  date: Date | string
+  tenantId: string
+  isChecked?: boolean
+  isDeleting?: boolean
+  document?: Prisma.CheckInOutCreatedocumentInput | string[]
+  note?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+}
+
+export type CheckInOutUpdateWithoutUnitInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  isChecked?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isDeleting?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  document?: Prisma.CheckInOutUpdatedocumentInput | string[]
+  note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  tenant?: Prisma.TenantUpdateOneRequiredWithoutCheckInOutsNestedInput
+}
+
+export type CheckInOutUncheckedUpdateWithoutUnitInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  tenantId?: Prisma.StringFieldUpdateOperationsInput | string
+  isChecked?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isDeleting?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  document?: Prisma.CheckInOutUpdatedocumentInput | string[]
+  note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+}
+
+export type CheckInOutUncheckedUpdateManyWithoutUnitInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  tenantId?: Prisma.StringFieldUpdateOperationsInput | string
+  isChecked?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isDeleting?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  document?: Prisma.CheckInOutUpdatedocumentInput | string[]
+  note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+}
+
+export type CheckInOutCreateManyTenantInput = {
+  id?: string
+  date: Date | string
+  unitId: string
+  isChecked?: boolean
+  isDeleting?: boolean
+  document?: Prisma.CheckInOutCreatedocumentInput | string[]
+  note?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+}
+
+export type CheckInOutUpdateWithoutTenantInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  isChecked?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isDeleting?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  document?: Prisma.CheckInOutUpdatedocumentInput | string[]
+  note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  unit?: Prisma.UnitUpdateOneRequiredWithoutCheckInOutsNestedInput
+}
+
+export type CheckInOutUncheckedUpdateWithoutTenantInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  unitId?: Prisma.StringFieldUpdateOperationsInput | string
+  isChecked?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isDeleting?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  document?: Prisma.CheckInOutUpdatedocumentInput | string[]
+  note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+}
+
+export type CheckInOutUncheckedUpdateManyWithoutTenantInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  unitId?: Prisma.StringFieldUpdateOperationsInput | string
+  isChecked?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isDeleting?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  document?: Prisma.CheckInOutUpdatedocumentInput | string[]
+  note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 
 
 export type CheckInOutSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
+  date?: boolean
+  tenantId?: boolean
+  unitId?: boolean
   isChecked?: boolean
   isDeleting?: boolean
+  document?: boolean
+  note?: boolean
   createdAt?: boolean
   updatedAt?: boolean
+  tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
+  unit?: boolean | Prisma.UnitDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["checkInOut"]>
 
 export type CheckInOutSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
+  date?: boolean
+  tenantId?: boolean
+  unitId?: boolean
   isChecked?: boolean
   isDeleting?: boolean
+  document?: boolean
+  note?: boolean
   createdAt?: boolean
   updatedAt?: boolean
+  tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
+  unit?: boolean | Prisma.UnitDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["checkInOut"]>
 
 export type CheckInOutSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
+  date?: boolean
+  tenantId?: boolean
+  unitId?: boolean
   isChecked?: boolean
   isDeleting?: boolean
+  document?: boolean
+  note?: boolean
   createdAt?: boolean
   updatedAt?: boolean
+  tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
+  unit?: boolean | Prisma.UnitDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["checkInOut"]>
 
 export type CheckInOutSelectScalar = {
   id?: boolean
+  date?: boolean
+  tenantId?: boolean
+  unitId?: boolean
   isChecked?: boolean
   isDeleting?: boolean
+  document?: boolean
+  note?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }
 
-export type CheckInOutOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "isChecked" | "isDeleting" | "createdAt" | "updatedAt", ExtArgs["result"]["checkInOut"]>
+export type CheckInOutOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "date" | "tenantId" | "unitId" | "isChecked" | "isDeleting" | "document" | "note" | "createdAt" | "updatedAt", ExtArgs["result"]["checkInOut"]>
+export type CheckInOutInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
+  unit?: boolean | Prisma.UnitDefaultArgs<ExtArgs>
+}
+export type CheckInOutIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
+  unit?: boolean | Prisma.UnitDefaultArgs<ExtArgs>
+}
+export type CheckInOutIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
+  unit?: boolean | Prisma.UnitDefaultArgs<ExtArgs>
+}
 
 export type $CheckInOutPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "CheckInOut"
-  objects: {}
+  objects: {
+    tenant: Prisma.$TenantPayload<ExtArgs>
+    unit: Prisma.$UnitPayload<ExtArgs>
+  }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
+    date: Date
+    tenantId: string
+    unitId: string
     isChecked: boolean
     isDeleting: boolean
+    document: string[]
+    note: string | null
     createdAt: Date
     updatedAt: Date
   }, ExtArgs["result"]["checkInOut"]>
@@ -744,6 +1213,8 @@ readonly fields: CheckInOutFieldRefs;
  */
 export interface Prisma__CheckInOutClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
+  tenant<T extends Prisma.TenantDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.TenantDefaultArgs<ExtArgs>>): Prisma.Prisma__TenantClient<runtime.Types.Result.GetResult<Prisma.$TenantPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+  unit<T extends Prisma.UnitDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.UnitDefaultArgs<ExtArgs>>): Prisma.Prisma__UnitClient<runtime.Types.Result.GetResult<Prisma.$UnitPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -774,8 +1245,13 @@ export interface Prisma__CheckInOutClient<T, Null = never, ExtArgs extends runti
  */
 export interface CheckInOutFieldRefs {
   readonly id: Prisma.FieldRef<"CheckInOut", 'String'>
+  readonly date: Prisma.FieldRef<"CheckInOut", 'DateTime'>
+  readonly tenantId: Prisma.FieldRef<"CheckInOut", 'String'>
+  readonly unitId: Prisma.FieldRef<"CheckInOut", 'String'>
   readonly isChecked: Prisma.FieldRef<"CheckInOut", 'Boolean'>
   readonly isDeleting: Prisma.FieldRef<"CheckInOut", 'Boolean'>
+  readonly document: Prisma.FieldRef<"CheckInOut", 'String[]'>
+  readonly note: Prisma.FieldRef<"CheckInOut", 'String'>
   readonly createdAt: Prisma.FieldRef<"CheckInOut", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"CheckInOut", 'DateTime'>
 }
@@ -795,6 +1271,10 @@ export type CheckInOutFindUniqueArgs<ExtArgs extends runtime.Types.Extensions.In
    */
   omit?: Prisma.CheckInOutOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.CheckInOutInclude<ExtArgs> | null
+  /**
    * Filter, which CheckInOut to fetch.
    */
   where: Prisma.CheckInOutWhereUniqueInput
@@ -813,6 +1293,10 @@ export type CheckInOutFindUniqueOrThrowArgs<ExtArgs extends runtime.Types.Extens
    */
   omit?: Prisma.CheckInOutOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.CheckInOutInclude<ExtArgs> | null
+  /**
    * Filter, which CheckInOut to fetch.
    */
   where: Prisma.CheckInOutWhereUniqueInput
@@ -830,6 +1314,10 @@ export type CheckInOutFindFirstArgs<ExtArgs extends runtime.Types.Extensions.Int
    * Omit specific fields from the CheckInOut
    */
   omit?: Prisma.CheckInOutOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.CheckInOutInclude<ExtArgs> | null
   /**
    * Filter, which CheckInOut to fetch.
    */
@@ -879,6 +1367,10 @@ export type CheckInOutFindFirstOrThrowArgs<ExtArgs extends runtime.Types.Extensi
    */
   omit?: Prisma.CheckInOutOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.CheckInOutInclude<ExtArgs> | null
+  /**
    * Filter, which CheckInOut to fetch.
    */
   where?: Prisma.CheckInOutWhereInput
@@ -926,6 +1418,10 @@ export type CheckInOutFindManyArgs<ExtArgs extends runtime.Types.Extensions.Inte
    * Omit specific fields from the CheckInOut
    */
   omit?: Prisma.CheckInOutOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.CheckInOutInclude<ExtArgs> | null
   /**
    * Filter, which CheckInOuts to fetch.
    */
@@ -975,6 +1471,10 @@ export type CheckInOutCreateArgs<ExtArgs extends runtime.Types.Extensions.Intern
    */
   omit?: Prisma.CheckInOutOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.CheckInOutInclude<ExtArgs> | null
+  /**
    * The data needed to create a CheckInOut.
    */
   data: Prisma.XOR<Prisma.CheckInOutCreateInput, Prisma.CheckInOutUncheckedCreateInput>
@@ -1008,6 +1508,10 @@ export type CheckInOutCreateManyAndReturnArgs<ExtArgs extends runtime.Types.Exte
    */
   data: Prisma.CheckInOutCreateManyInput | Prisma.CheckInOutCreateManyInput[]
   skipDuplicates?: boolean
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.CheckInOutIncludeCreateManyAndReturn<ExtArgs> | null
 }
 
 /**
@@ -1022,6 +1526,10 @@ export type CheckInOutUpdateArgs<ExtArgs extends runtime.Types.Extensions.Intern
    * Omit specific fields from the CheckInOut
    */
   omit?: Prisma.CheckInOutOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.CheckInOutInclude<ExtArgs> | null
   /**
    * The data needed to update a CheckInOut.
    */
@@ -1074,6 +1582,10 @@ export type CheckInOutUpdateManyAndReturnArgs<ExtArgs extends runtime.Types.Exte
    * Limit how many CheckInOuts to update.
    */
   limit?: number
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.CheckInOutIncludeUpdateManyAndReturn<ExtArgs> | null
 }
 
 /**
@@ -1088,6 +1600,10 @@ export type CheckInOutUpsertArgs<ExtArgs extends runtime.Types.Extensions.Intern
    * Omit specific fields from the CheckInOut
    */
   omit?: Prisma.CheckInOutOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.CheckInOutInclude<ExtArgs> | null
   /**
    * The filter to search for the CheckInOut to update in case it exists.
    */
@@ -1114,6 +1630,10 @@ export type CheckInOutDeleteArgs<ExtArgs extends runtime.Types.Extensions.Intern
    * Omit specific fields from the CheckInOut
    */
   omit?: Prisma.CheckInOutOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.CheckInOutInclude<ExtArgs> | null
   /**
    * Filter which CheckInOut to delete.
    */
@@ -1146,4 +1666,8 @@ export type CheckInOutDefaultArgs<ExtArgs extends runtime.Types.Extensions.Inter
    * Omit specific fields from the CheckInOut
    */
   omit?: Prisma.CheckInOutOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.CheckInOutInclude<ExtArgs> | null
 }

@@ -7,9 +7,27 @@ export default {
         reference: t.String({ error: "Veuillez saisir la référence" }),
         building: t.String({ error: "Veuillez saisir le bâtiment" }),
         rentalStatus: t.String({ error: "Veuillez saisir le statut de location" }),
-        surface: t.String({ error: "Veuillez saisir la surface" }),
-        rooms: t.String({ error: "Veuillez saisir le nombre de pièces" }),
-        rent: t.String({ error: "Veuillez saisir le loyer" }),
+        surface: t.Transform(t.String({ error: "Veuillez saisir la surface" }))
+            .Decode((value) => JSON.parse(value))
+            .Encode((value) => value.toString()),
+        rooms: t.Transform(t.String({ error: "Veuillez saisir le nombre de pièces" }))
+            .Decode((value) => JSON.parse(value))
+            .Encode((value) => value.toString()),
+        dining: t.Transform(t.String({ error: "Veuillez saisir le nombre de salle à manger" }))
+            .Decode((value) => JSON.parse(value))
+            .Encode((value) => value.toString()),
+        kitchen: t.Transform(t.String({ error: "Veuillez saisir le nombre de cuisine" }))
+            .Decode((value) => JSON.parse(value))
+            .Encode((value) => value.toString()),
+        bedroom: t.Transform(t.String({ error: "Veuillez saisir le nombre de chambre" }))
+            .Decode((value) => JSON.parse(value))
+            .Encode((value) => value.toString()),
+        bathroom: t.Transform(t.String({ error: "Veuillez saisir le nombre de salle de bain" }))
+            .Decode((value) => JSON.parse(value))
+            .Encode((value) => value.toString()),
+        rent: t.Transform(t.String({ error: "Veuillez saisir le loyer" }))
+            .Decode((value) => JSON.parse(value))
+            .Encode((value) => value.toString()),
         furnished: t.String({ errors: "Veuillez saisir le statut de l'ameublement" }),
         wifi: t.Transform(t.String({ error: "Veuillez saisir le statut du wifi" }))
             .Decode((value) => JSON.parse(value))

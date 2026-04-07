@@ -16,7 +16,6 @@ export const invoiceRoutes = new Elysia({ prefix: "/invoice" })
         }
 
         const invoices = await prisma.invoice.findMany({
-            where: { isDeleting: false },
             select: {
                 price: true,
                 amountPaid: true,
@@ -60,9 +59,9 @@ export const invoiceRoutes = new Elysia({ prefix: "/invoice" })
 
         const whereClause =
             query.type === "PAID"
-                ? { status: $Enums.InvoiceStatus.PAID }
+                ? { status: $Enums.RecordStatus.PAID }
                 : query.type === "UNPAID"
-                    ? { NOT: { status: $Enums.InvoiceStatus.PAID } }
+                    ? { NOT: { status: $Enums.RecordStatus.PAID } }
                     : {};
 
         const [invoices, reference] = await prisma.$transaction([

@@ -15,7 +15,10 @@ export const ServiceProviderPlain = t.Object(
     address: t.String(),
     nif: t.String(),
     registerNumber: t.String(),
-    paymentMode: t.String(),
+    paymentMode: t.Union(
+      [t.Literal("CASH"), t.Literal("CHECK"), t.Literal("BANK")],
+      { additionalProperties: false },
+    ),
     note: t.Number(),
     comment: __nullable__(t.String()),
     isDeleting: t.Boolean(),
@@ -40,6 +43,34 @@ export const ServiceProviderRelations = t.Object(
       },
       { additionalProperties: false },
     ),
+    purchaseOrders: t.Array(
+      t.Object(
+        {
+          id: t.String(),
+          reference: t.Integer(),
+          price: t.Number(),
+          amountPaid: t.Number(),
+          discount: t.Number(),
+          status: t.Union(
+            [t.Literal("PENDING"), t.Literal("PAID"), t.Literal("OVERDUE")],
+            { additionalProperties: false },
+          ),
+          discountType: t.Union([t.Literal("PERCENT"), t.Literal("MONEY")], {
+            additionalProperties: false,
+          }),
+          hasTax: t.Boolean(),
+          serviceProviderId: t.String(),
+          note: __nullable__(t.String()),
+          start: t.Date(),
+          end: t.Date(),
+          isDeleting: t.Boolean(),
+          createdAt: t.Date(),
+          updatedAt: t.Date(),
+        },
+        { additionalProperties: false },
+      ),
+      { additionalProperties: false },
+    ),
   },
   { additionalProperties: false },
 );
@@ -54,7 +85,10 @@ export const ServiceProviderPlainInputCreate = t.Object(
     address: t.String(),
     nif: t.String(),
     registerNumber: t.String(),
-    paymentMode: t.String(),
+    paymentMode: t.Union(
+      [t.Literal("CASH"), t.Literal("CHECK"), t.Literal("BANK")],
+      { additionalProperties: false },
+    ),
     note: t.Number(),
     comment: t.Optional(__nullable__(t.String())),
     isDeleting: t.Optional(t.Boolean()),
@@ -75,7 +109,11 @@ export const ServiceProviderPlainInputUpdate = t.Object(
     address: t.Optional(t.String()),
     nif: t.Optional(t.String()),
     registerNumber: t.Optional(t.String()),
-    paymentMode: t.Optional(t.String()),
+    paymentMode: t.Optional(
+      t.Union([t.Literal("CASH"), t.Literal("CHECK"), t.Literal("BANK")], {
+        additionalProperties: false,
+      }),
+    ),
     note: t.Optional(t.Number()),
     comment: t.Optional(__nullable__(t.String())),
     isDeleting: t.Optional(t.Boolean()),
@@ -99,6 +137,22 @@ export const ServiceProviderRelationsInputCreate = t.Object(
       },
       { additionalProperties: false },
     ),
+    purchaseOrders: t.Optional(
+      t.Object(
+        {
+          connect: t.Array(
+            t.Object(
+              {
+                id: t.String({ additionalProperties: false }),
+              },
+              { additionalProperties: false },
+            ),
+            { additionalProperties: false },
+          ),
+        },
+        { additionalProperties: false },
+      ),
+    ),
   },
   { additionalProperties: false },
 );
@@ -116,6 +170,31 @@ export const ServiceProviderRelationsInputUpdate = t.Partial(
           ),
         },
         { additionalProperties: false },
+      ),
+      purchaseOrders: t.Partial(
+        t.Object(
+          {
+            connect: t.Array(
+              t.Object(
+                {
+                  id: t.String({ additionalProperties: false }),
+                },
+                { additionalProperties: false },
+              ),
+              { additionalProperties: false },
+            ),
+            disconnect: t.Array(
+              t.Object(
+                {
+                  id: t.String({ additionalProperties: false }),
+                },
+                { additionalProperties: false },
+              ),
+              { additionalProperties: false },
+            ),
+          },
+          { additionalProperties: false },
+        ),
       ),
     },
     { additionalProperties: false },
@@ -139,7 +218,10 @@ export const ServiceProviderWhere = t.Partial(
           address: t.String(),
           nif: t.String(),
           registerNumber: t.String(),
-          paymentMode: t.String(),
+          paymentMode: t.Union(
+            [t.Literal("CASH"), t.Literal("CHECK"), t.Literal("BANK")],
+            { additionalProperties: false },
+          ),
           note: t.Number(),
           comment: t.String(),
           isDeleting: t.Boolean(),
@@ -193,7 +275,10 @@ export const ServiceProviderWhereUnique = t.Recursive(
               address: t.String(),
               nif: t.String(),
               registerNumber: t.String(),
-              paymentMode: t.String(),
+              paymentMode: t.Union(
+                [t.Literal("CASH"), t.Literal("CHECK"), t.Literal("BANK")],
+                { additionalProperties: false },
+              ),
               note: t.Number(),
               comment: t.String(),
               isDeleting: t.Boolean(),
@@ -234,6 +319,7 @@ export const ServiceProviderSelect = t.Partial(
       rcc: t.Boolean(),
       idCard: t.Boolean(),
       taxCertificate: t.Boolean(),
+      purchaseOrders: t.Boolean(),
       createdAt: t.Boolean(),
       updatedAt: t.Boolean(),
       _count: t.Boolean(),
@@ -244,7 +330,12 @@ export const ServiceProviderSelect = t.Partial(
 
 export const ServiceProviderInclude = t.Partial(
   t.Object(
-    { profession: t.Boolean(), _count: t.Boolean() },
+    {
+      paymentMode: t.Boolean(),
+      profession: t.Boolean(),
+      purchaseOrders: t.Boolean(),
+      _count: t.Boolean(),
+    },
     { additionalProperties: false },
   ),
 );
@@ -277,9 +368,6 @@ export const ServiceProviderOrderBy = t.Partial(
         additionalProperties: false,
       }),
       registerNumber: t.Union([t.Literal("asc"), t.Literal("desc")], {
-        additionalProperties: false,
-      }),
-      paymentMode: t.Union([t.Literal("asc"), t.Literal("desc")], {
         additionalProperties: false,
       }),
       note: t.Union([t.Literal("asc"), t.Literal("desc")], {

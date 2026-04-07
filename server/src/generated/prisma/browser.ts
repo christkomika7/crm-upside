@@ -118,6 +118,11 @@ export type Item = Prisma.ItemModel
  */
 export type Invoice = Prisma.InvoiceModel
 /**
+ * Model purchaseOrder
+ * 
+ */
+export type purchaseOrder = Prisma.purchaseOrderModel
+/**
  * Model Quote
  * 
  */
@@ -137,6 +142,41 @@ export type Contract = Prisma.ContractModel
  * 
  */
 export type CheckInOut = Prisma.CheckInOutModel
+/**
+ * Model accounting
+ * 
+ */
+export type accounting = Prisma.accountingModel
+/**
+ * Model Source
+ * 
+ */
+export type Source = Prisma.SourceModel
+/**
+ * Model Allocation
+ * 
+ */
+export type Allocation = Prisma.AllocationModel
+/**
+ * Model Category
+ * 
+ */
+export type Category = Prisma.CategoryModel
+/**
+ * Model Nature
+ * 
+ */
+export type Nature = Prisma.NatureModel
+/**
+ * Model SecondNature
+ * 
+ */
+export type SecondNature = Prisma.SecondNatureModel
+/**
+ * Model ThirdNature
+ * 
+ */
+export type ThirdNature = Prisma.ThirdNatureModel
 /**
  * Model Appointment
  * 

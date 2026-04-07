@@ -36,9 +36,13 @@ export default function CreateUnit() {
             reference: "",
             building: "",
             rentalStatus: "",
-            surface: "",
-            rooms: "",
-            rent: "",
+            surface: 0,
+            rooms: 0,
+            rent: 0,
+            dining: 0,
+            kitchen: 0,
+            bedroom: 0,
+            bathroom: 0,
             furnished: "",
             wifi: false,
             water: false,
@@ -75,9 +79,13 @@ export default function CreateUnit() {
                 reference: "",
                 building: "",
                 rentalStatus: "",
-                surface: "",
-                rooms: "",
-                rent: "",
+                surface: 0,
+                rooms: 0,
+                rent: 0,
+                dining: 0,
+                kitchen: 0,
+                bedroom: 0,
+                bathroom: 0,
                 furnished: "",
                 wifi: false,
                 water: false,
@@ -104,9 +112,13 @@ export default function CreateUnit() {
             form.append("reference", data.reference);
             form.append("building", data.building);
             form.append("rentalStatus", data.rentalStatus);
-            form.append("surface", data.surface);
-            form.append("rooms", data.rooms);
-            form.append("rent", data.rent);
+            form.append("surface", data.surface.toString());
+            form.append("rooms", data.rooms.toString());
+            form.append("rent", data.rent.toString());
+            form.append("dining", data.dining.toString());
+            form.append("kitchen", data.kitchen.toString());
+            form.append("bedroom", data.bedroom.toString());
+            form.append("bathroom", data.bathroom.toString());
             form.append("furnished", data.furnished);
             form.append("wifi", data.wifi.toString());
             form.append("water", data.water.toString());
@@ -247,6 +259,8 @@ export default function CreateUnit() {
                                     <FormLabel className="text-neutral-600">Surface<RequiredLabel /></FormLabel>
                                     <FormControl>
                                         <Input
+                                            type="number"
+                                            suffix="m²"
                                             placeholder="Entrer la valeur de la surface"
                                             value={field.value}
                                             aria-invalid={!!form.formState.errors.surface}
@@ -262,13 +276,89 @@ export default function CreateUnit() {
                             name="rooms"
                             render={({ field }) => (
                                 <FormItem >
+                                    <FormLabel className="text-neutral-600">Nombre de pièces<RequiredLabel /></FormLabel>
+                                    <FormControl>
+                                        <Input
+                                            type="number"
+                                            placeholder="Entrer le nombre de pièces"
+                                            value={field.value}
+                                            aria-invalid={!!form.formState.errors.rooms}
+                                            onChange={field.onChange}
+                                        />
+                                    </FormControl>
+                                    <FormMessage />
+                                </FormItem>
+                            )}
+                        />
+                        <FormField
+                            control={form.control}
+                            name="dining"
+                            render={({ field }) => (
+                                <FormItem >
+                                    <FormLabel className="text-neutral-600">Nombre de salle à manger<RequiredLabel /></FormLabel>
+                                    <FormControl>
+                                        <Input
+                                            type="number"
+                                            placeholder="Entrer le nombre de salle à manger"
+                                            value={field.value}
+                                            aria-invalid={!!form.formState.errors.dining}
+                                            onChange={field.onChange}
+                                        />
+                                    </FormControl>
+                                    <FormMessage />
+                                </FormItem>
+                            )}
+                        />
+                        <FormField
+                            control={form.control}
+                            name="kitchen"
+                            render={({ field }) => (
+                                <FormItem >
+                                    <FormLabel className="text-neutral-600">Nombre de cuisine<RequiredLabel /></FormLabel>
+                                    <FormControl>
+                                        <Input
+                                            type="number"
+                                            placeholder="Entrer le nombre de cuisine"
+                                            value={field.value}
+                                            aria-invalid={!!form.formState.errors.kitchen}
+                                            onChange={field.onChange}
+                                        />
+                                    </FormControl>
+                                    <FormMessage />
+                                </FormItem>
+                            )}
+                        />
+                        <FormField
+                            control={form.control}
+                            name="bedroom"
+                            render={({ field }) => (
+                                <FormItem >
                                     <FormLabel className="text-neutral-600">Nombre de chambre<RequiredLabel /></FormLabel>
                                     <FormControl>
                                         <Input
                                             type="number"
                                             placeholder="Entrer le nombre de chambre"
                                             value={field.value}
-                                            aria-invalid={!!form.formState.errors.rooms}
+                                            aria-invalid={!!form.formState.errors.bedroom}
+                                            onChange={field.onChange}
+                                        />
+                                    </FormControl>
+                                    <FormMessage />
+                                </FormItem>
+                            )}
+                        />
+                        <FormField
+                            control={form.control}
+                            name="bathroom"
+                            render={({ field }) => (
+                                <FormItem >
+                                    <FormLabel className="text-neutral-600">Nombre de salle de bain<RequiredLabel /></FormLabel>
+                                    <FormControl>
+                                        <Input
+                                            type="number"
+                                            placeholder="Entrer le nombre de salle de bain"
+                                            value={field.value}
+                                            aria-invalid={!!form.formState.errors.bathroom}
                                             onChange={field.onChange}
                                         />
                                     </FormControl>
@@ -284,6 +374,8 @@ export default function CreateUnit() {
                                     <FormLabel className="text-neutral-600">Prix de location<RequiredLabel /></FormLabel>
                                     <FormControl>
                                         <Input
+                                            type="number"
+                                            suffix="FCFA"
                                             placeholder="Entrer le prix de la location"
                                             value={field.value}
                                             aria-invalid={!!form.formState.errors.rent}
@@ -303,7 +395,7 @@ export default function CreateUnit() {
                                     <FormControl>
                                         <Select onValueChange={e => field.onChange(e)} value={field.value} >
                                             <SelectTrigger className="w-full" aria-invalid={!!form.formState.errors.furnished}>
-                                                <SelectValue placeholder="" />
+                                                <SelectValue placeholder="Sélectionner l'état de l'unité" />
                                             </SelectTrigger>
                                             <SelectContent position="popper" align="end">
                                                 {furnishedOptions.map((furnished) => (
@@ -411,6 +503,7 @@ export default function CreateUnit() {
                                     <FormControl>
                                         <Input
                                             type="number"
+                                            suffix="FCFA"
                                             placeholder="Entrer le prix des charges"
                                             value={field.value}
                                             aria-invalid={!!form.formState.errors.charges}

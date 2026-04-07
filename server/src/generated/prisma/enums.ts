@@ -35,13 +35,21 @@ export const PaymentType = {
 export type PaymentType = (typeof PaymentType)[keyof typeof PaymentType]
 
 
-export const InvoiceStatus = {
+export const RecordStatus = {
   PENDING: 'PENDING',
   PAID: 'PAID',
   OVERDUE: 'OVERDUE'
 } as const
 
-export type InvoiceStatus = (typeof InvoiceStatus)[keyof typeof InvoiceStatus]
+export type RecordStatus = (typeof RecordStatus)[keyof typeof RecordStatus]
+
+
+export const RecordType = {
+  PURCHASE_ORDER: 'PURCHASE_ORDER',
+  INVOICE: 'INVOICE'
+} as const
+
+export type RecordType = (typeof RecordType)[keyof typeof RecordType]
 
 
 export const ContractType = {
@@ -63,6 +71,7 @@ export const DeletionType = {
   PRODUCT_SERVICE: 'PRODUCT_SERVICE',
   INVOICING: 'INVOICING',
   QUOTE: 'QUOTE',
+  PURCHASE_ORDER: 'PURCHASE_ORDER',
   CONTRACT: 'CONTRACT',
   CHECK_IN: 'CHECK_IN',
   APPOINTMENT: 'APPOINTMENT',
@@ -87,6 +96,14 @@ export const ClientType = {
 } as const
 
 export type ClientType = (typeof ClientType)[keyof typeof ClientType]
+
+
+export const AccountingType = {
+  INFLOW: 'INFLOW',
+  OUTFLOW: 'OUTFLOW'
+} as const
+
+export type AccountingType = (typeof AccountingType)[keyof typeof AccountingType]
 
 
 export const DiscountType = {

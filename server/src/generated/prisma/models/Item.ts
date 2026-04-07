@@ -49,6 +49,7 @@ export type ItemMinAggregateOutputType = {
   quoteId: string | null
   createdAt: Date | null
   updatedAt: Date | null
+  purchaseOrderId: string | null
 }
 
 export type ItemMaxAggregateOutputType = {
@@ -64,6 +65,7 @@ export type ItemMaxAggregateOutputType = {
   quoteId: string | null
   createdAt: Date | null
   updatedAt: Date | null
+  purchaseOrderId: string | null
 }
 
 export type ItemCountAggregateOutputType = {
@@ -79,6 +81,7 @@ export type ItemCountAggregateOutputType = {
   quoteId: number
   createdAt: number
   updatedAt: number
+  purchaseOrderId: number
   _all: number
 }
 
@@ -106,6 +109,7 @@ export type ItemMinAggregateInputType = {
   quoteId?: true
   createdAt?: true
   updatedAt?: true
+  purchaseOrderId?: true
 }
 
 export type ItemMaxAggregateInputType = {
@@ -121,6 +125,7 @@ export type ItemMaxAggregateInputType = {
   quoteId?: true
   createdAt?: true
   updatedAt?: true
+  purchaseOrderId?: true
 }
 
 export type ItemCountAggregateInputType = {
@@ -136,6 +141,7 @@ export type ItemCountAggregateInputType = {
   quoteId?: true
   createdAt?: true
   updatedAt?: true
+  purchaseOrderId?: true
   _all?: true
 }
 
@@ -238,6 +244,7 @@ export type ItemGroupByOutputType = {
   quoteId: string | null
   createdAt: Date
   updatedAt: Date
+  purchaseOrderId: string | null
   _count: ItemCountAggregateOutputType | null
   _avg: ItemAvgAggregateOutputType | null
   _sum: ItemSumAggregateOutputType | null
@@ -276,9 +283,11 @@ export type ItemWhereInput = {
   quoteId?: Prisma.StringNullableFilter<"Item"> | string | null
   createdAt?: Prisma.DateTimeFilter<"Item"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Item"> | Date | string
+  purchaseOrderId?: Prisma.StringNullableFilter<"Item"> | string | null
   productService?: Prisma.XOR<Prisma.ProductServiceScalarRelationFilter, Prisma.ProductServiceWhereInput>
   invoice?: Prisma.XOR<Prisma.InvoiceNullableScalarRelationFilter, Prisma.InvoiceWhereInput> | null
   quote?: Prisma.XOR<Prisma.QuoteNullableScalarRelationFilter, Prisma.QuoteWhereInput> | null
+  purchaseOrder?: Prisma.XOR<Prisma.PurchaseOrderNullableScalarRelationFilter, Prisma.purchaseOrderWhereInput> | null
 }
 
 export type ItemOrderByWithRelationInput = {
@@ -294,9 +303,11 @@ export type ItemOrderByWithRelationInput = {
   quoteId?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  purchaseOrderId?: Prisma.SortOrderInput | Prisma.SortOrder
   productService?: Prisma.ProductServiceOrderByWithRelationInput
   invoice?: Prisma.InvoiceOrderByWithRelationInput
   quote?: Prisma.QuoteOrderByWithRelationInput
+  purchaseOrder?: Prisma.purchaseOrderOrderByWithRelationInput
 }
 
 export type ItemWhereUniqueInput = Prisma.AtLeast<{
@@ -315,9 +326,11 @@ export type ItemWhereUniqueInput = Prisma.AtLeast<{
   quoteId?: Prisma.StringNullableFilter<"Item"> | string | null
   createdAt?: Prisma.DateTimeFilter<"Item"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Item"> | Date | string
+  purchaseOrderId?: Prisma.StringNullableFilter<"Item"> | string | null
   productService?: Prisma.XOR<Prisma.ProductServiceScalarRelationFilter, Prisma.ProductServiceWhereInput>
   invoice?: Prisma.XOR<Prisma.InvoiceNullableScalarRelationFilter, Prisma.InvoiceWhereInput> | null
   quote?: Prisma.XOR<Prisma.QuoteNullableScalarRelationFilter, Prisma.QuoteWhereInput> | null
+  purchaseOrder?: Prisma.XOR<Prisma.PurchaseOrderNullableScalarRelationFilter, Prisma.purchaseOrderWhereInput> | null
 }, "id">
 
 export type ItemOrderByWithAggregationInput = {
@@ -333,6 +346,7 @@ export type ItemOrderByWithAggregationInput = {
   quoteId?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  purchaseOrderId?: Prisma.SortOrderInput | Prisma.SortOrder
   _count?: Prisma.ItemCountOrderByAggregateInput
   _avg?: Prisma.ItemAvgOrderByAggregateInput
   _max?: Prisma.ItemMaxOrderByAggregateInput
@@ -356,6 +370,7 @@ export type ItemScalarWhereWithAggregatesInput = {
   quoteId?: Prisma.StringNullableWithAggregatesFilter<"Item"> | string | null
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"Item"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"Item"> | Date | string
+  purchaseOrderId?: Prisma.StringNullableWithAggregatesFilter<"Item"> | string | null
 }
 
 export type ItemCreateInput = {
@@ -371,6 +386,7 @@ export type ItemCreateInput = {
   productService: Prisma.ProductServiceCreateNestedOneWithoutItemsInput
   invoice?: Prisma.InvoiceCreateNestedOneWithoutItemsInput
   quote?: Prisma.QuoteCreateNestedOneWithoutItemsInput
+  purchaseOrder?: Prisma.purchaseOrderCreateNestedOneWithoutItemsInput
 }
 
 export type ItemUncheckedCreateInput = {
@@ -386,6 +402,7 @@ export type ItemUncheckedCreateInput = {
   quoteId?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  purchaseOrderId?: string | null
 }
 
 export type ItemUpdateInput = {
@@ -401,6 +418,7 @@ export type ItemUpdateInput = {
   productService?: Prisma.ProductServiceUpdateOneRequiredWithoutItemsNestedInput
   invoice?: Prisma.InvoiceUpdateOneWithoutItemsNestedInput
   quote?: Prisma.QuoteUpdateOneWithoutItemsNestedInput
+  purchaseOrder?: Prisma.purchaseOrderUpdateOneWithoutItemsNestedInput
 }
 
 export type ItemUncheckedUpdateInput = {
@@ -416,6 +434,7 @@ export type ItemUncheckedUpdateInput = {
   quoteId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  purchaseOrderId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type ItemCreateManyInput = {
@@ -431,6 +450,7 @@ export type ItemCreateManyInput = {
   quoteId?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  purchaseOrderId?: string | null
 }
 
 export type ItemUpdateManyMutationInput = {
@@ -458,6 +478,7 @@ export type ItemUncheckedUpdateManyInput = {
   quoteId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  purchaseOrderId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type ItemListRelationFilter = {
@@ -483,6 +504,7 @@ export type ItemCountOrderByAggregateInput = {
   quoteId?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  purchaseOrderId?: Prisma.SortOrder
 }
 
 export type ItemAvgOrderByAggregateInput = {
@@ -503,6 +525,7 @@ export type ItemMaxOrderByAggregateInput = {
   quoteId?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  purchaseOrderId?: Prisma.SortOrder
 }
 
 export type ItemMinOrderByAggregateInput = {
@@ -518,6 +541,7 @@ export type ItemMinOrderByAggregateInput = {
   quoteId?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  purchaseOrderId?: Prisma.SortOrder
 }
 
 export type ItemSumOrderByAggregateInput = {
@@ -613,6 +637,48 @@ export type ItemUncheckedUpdateManyWithoutInvoiceNestedInput = {
   deleteMany?: Prisma.ItemScalarWhereInput | Prisma.ItemScalarWhereInput[]
 }
 
+export type ItemCreateNestedManyWithoutPurchaseOrderInput = {
+  create?: Prisma.XOR<Prisma.ItemCreateWithoutPurchaseOrderInput, Prisma.ItemUncheckedCreateWithoutPurchaseOrderInput> | Prisma.ItemCreateWithoutPurchaseOrderInput[] | Prisma.ItemUncheckedCreateWithoutPurchaseOrderInput[]
+  connectOrCreate?: Prisma.ItemCreateOrConnectWithoutPurchaseOrderInput | Prisma.ItemCreateOrConnectWithoutPurchaseOrderInput[]
+  createMany?: Prisma.ItemCreateManyPurchaseOrderInputEnvelope
+  connect?: Prisma.ItemWhereUniqueInput | Prisma.ItemWhereUniqueInput[]
+}
+
+export type ItemUncheckedCreateNestedManyWithoutPurchaseOrderInput = {
+  create?: Prisma.XOR<Prisma.ItemCreateWithoutPurchaseOrderInput, Prisma.ItemUncheckedCreateWithoutPurchaseOrderInput> | Prisma.ItemCreateWithoutPurchaseOrderInput[] | Prisma.ItemUncheckedCreateWithoutPurchaseOrderInput[]
+  connectOrCreate?: Prisma.ItemCreateOrConnectWithoutPurchaseOrderInput | Prisma.ItemCreateOrConnectWithoutPurchaseOrderInput[]
+  createMany?: Prisma.ItemCreateManyPurchaseOrderInputEnvelope
+  connect?: Prisma.ItemWhereUniqueInput | Prisma.ItemWhereUniqueInput[]
+}
+
+export type ItemUpdateManyWithoutPurchaseOrderNestedInput = {
+  create?: Prisma.XOR<Prisma.ItemCreateWithoutPurchaseOrderInput, Prisma.ItemUncheckedCreateWithoutPurchaseOrderInput> | Prisma.ItemCreateWithoutPurchaseOrderInput[] | Prisma.ItemUncheckedCreateWithoutPurchaseOrderInput[]
+  connectOrCreate?: Prisma.ItemCreateOrConnectWithoutPurchaseOrderInput | Prisma.ItemCreateOrConnectWithoutPurchaseOrderInput[]
+  upsert?: Prisma.ItemUpsertWithWhereUniqueWithoutPurchaseOrderInput | Prisma.ItemUpsertWithWhereUniqueWithoutPurchaseOrderInput[]
+  createMany?: Prisma.ItemCreateManyPurchaseOrderInputEnvelope
+  set?: Prisma.ItemWhereUniqueInput | Prisma.ItemWhereUniqueInput[]
+  disconnect?: Prisma.ItemWhereUniqueInput | Prisma.ItemWhereUniqueInput[]
+  delete?: Prisma.ItemWhereUniqueInput | Prisma.ItemWhereUniqueInput[]
+  connect?: Prisma.ItemWhereUniqueInput | Prisma.ItemWhereUniqueInput[]
+  update?: Prisma.ItemUpdateWithWhereUniqueWithoutPurchaseOrderInput | Prisma.ItemUpdateWithWhereUniqueWithoutPurchaseOrderInput[]
+  updateMany?: Prisma.ItemUpdateManyWithWhereWithoutPurchaseOrderInput | Prisma.ItemUpdateManyWithWhereWithoutPurchaseOrderInput[]
+  deleteMany?: Prisma.ItemScalarWhereInput | Prisma.ItemScalarWhereInput[]
+}
+
+export type ItemUncheckedUpdateManyWithoutPurchaseOrderNestedInput = {
+  create?: Prisma.XOR<Prisma.ItemCreateWithoutPurchaseOrderInput, Prisma.ItemUncheckedCreateWithoutPurchaseOrderInput> | Prisma.ItemCreateWithoutPurchaseOrderInput[] | Prisma.ItemUncheckedCreateWithoutPurchaseOrderInput[]
+  connectOrCreate?: Prisma.ItemCreateOrConnectWithoutPurchaseOrderInput | Prisma.ItemCreateOrConnectWithoutPurchaseOrderInput[]
+  upsert?: Prisma.ItemUpsertWithWhereUniqueWithoutPurchaseOrderInput | Prisma.ItemUpsertWithWhereUniqueWithoutPurchaseOrderInput[]
+  createMany?: Prisma.ItemCreateManyPurchaseOrderInputEnvelope
+  set?: Prisma.ItemWhereUniqueInput | Prisma.ItemWhereUniqueInput[]
+  disconnect?: Prisma.ItemWhereUniqueInput | Prisma.ItemWhereUniqueInput[]
+  delete?: Prisma.ItemWhereUniqueInput | Prisma.ItemWhereUniqueInput[]
+  connect?: Prisma.ItemWhereUniqueInput | Prisma.ItemWhereUniqueInput[]
+  update?: Prisma.ItemUpdateWithWhereUniqueWithoutPurchaseOrderInput | Prisma.ItemUpdateWithWhereUniqueWithoutPurchaseOrderInput[]
+  updateMany?: Prisma.ItemUpdateManyWithWhereWithoutPurchaseOrderInput | Prisma.ItemUpdateManyWithWhereWithoutPurchaseOrderInput[]
+  deleteMany?: Prisma.ItemScalarWhereInput | Prisma.ItemScalarWhereInput[]
+}
+
 export type ItemCreateNestedManyWithoutQuoteInput = {
   create?: Prisma.XOR<Prisma.ItemCreateWithoutQuoteInput, Prisma.ItemUncheckedCreateWithoutQuoteInput> | Prisma.ItemCreateWithoutQuoteInput[] | Prisma.ItemUncheckedCreateWithoutQuoteInput[]
   connectOrCreate?: Prisma.ItemCreateOrConnectWithoutQuoteInput | Prisma.ItemCreateOrConnectWithoutQuoteInput[]
@@ -667,6 +733,7 @@ export type ItemCreateWithoutProductServiceInput = {
   updatedAt?: Date | string
   invoice?: Prisma.InvoiceCreateNestedOneWithoutItemsInput
   quote?: Prisma.QuoteCreateNestedOneWithoutItemsInput
+  purchaseOrder?: Prisma.purchaseOrderCreateNestedOneWithoutItemsInput
 }
 
 export type ItemUncheckedCreateWithoutProductServiceInput = {
@@ -681,6 +748,7 @@ export type ItemUncheckedCreateWithoutProductServiceInput = {
   quoteId?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  purchaseOrderId?: string | null
 }
 
 export type ItemCreateOrConnectWithoutProductServiceInput = {
@@ -725,6 +793,7 @@ export type ItemScalarWhereInput = {
   quoteId?: Prisma.StringNullableFilter<"Item"> | string | null
   createdAt?: Prisma.DateTimeFilter<"Item"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Item"> | Date | string
+  purchaseOrderId?: Prisma.StringNullableFilter<"Item"> | string | null
 }
 
 export type ItemCreateWithoutInvoiceInput = {
@@ -739,6 +808,7 @@ export type ItemCreateWithoutInvoiceInput = {
   updatedAt?: Date | string
   productService: Prisma.ProductServiceCreateNestedOneWithoutItemsInput
   quote?: Prisma.QuoteCreateNestedOneWithoutItemsInput
+  purchaseOrder?: Prisma.purchaseOrderCreateNestedOneWithoutItemsInput
 }
 
 export type ItemUncheckedCreateWithoutInvoiceInput = {
@@ -753,6 +823,7 @@ export type ItemUncheckedCreateWithoutInvoiceInput = {
   quoteId?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  purchaseOrderId?: string | null
 }
 
 export type ItemCreateOrConnectWithoutInvoiceInput = {
@@ -781,6 +852,62 @@ export type ItemUpdateManyWithWhereWithoutInvoiceInput = {
   data: Prisma.XOR<Prisma.ItemUpdateManyMutationInput, Prisma.ItemUncheckedUpdateManyWithoutInvoiceInput>
 }
 
+export type ItemCreateWithoutPurchaseOrderInput = {
+  id?: string
+  quantity: number
+  price?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  description: string
+  reference: string
+  hasTax?: boolean
+  status?: $Enums.ItemStatus
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  productService: Prisma.ProductServiceCreateNestedOneWithoutItemsInput
+  invoice?: Prisma.InvoiceCreateNestedOneWithoutItemsInput
+  quote?: Prisma.QuoteCreateNestedOneWithoutItemsInput
+}
+
+export type ItemUncheckedCreateWithoutPurchaseOrderInput = {
+  id?: string
+  quantity: number
+  productServiceId: string
+  price?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  description: string
+  reference: string
+  hasTax?: boolean
+  status?: $Enums.ItemStatus
+  invoiceId?: string | null
+  quoteId?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+}
+
+export type ItemCreateOrConnectWithoutPurchaseOrderInput = {
+  where: Prisma.ItemWhereUniqueInput
+  create: Prisma.XOR<Prisma.ItemCreateWithoutPurchaseOrderInput, Prisma.ItemUncheckedCreateWithoutPurchaseOrderInput>
+}
+
+export type ItemCreateManyPurchaseOrderInputEnvelope = {
+  data: Prisma.ItemCreateManyPurchaseOrderInput | Prisma.ItemCreateManyPurchaseOrderInput[]
+  skipDuplicates?: boolean
+}
+
+export type ItemUpsertWithWhereUniqueWithoutPurchaseOrderInput = {
+  where: Prisma.ItemWhereUniqueInput
+  update: Prisma.XOR<Prisma.ItemUpdateWithoutPurchaseOrderInput, Prisma.ItemUncheckedUpdateWithoutPurchaseOrderInput>
+  create: Prisma.XOR<Prisma.ItemCreateWithoutPurchaseOrderInput, Prisma.ItemUncheckedCreateWithoutPurchaseOrderInput>
+}
+
+export type ItemUpdateWithWhereUniqueWithoutPurchaseOrderInput = {
+  where: Prisma.ItemWhereUniqueInput
+  data: Prisma.XOR<Prisma.ItemUpdateWithoutPurchaseOrderInput, Prisma.ItemUncheckedUpdateWithoutPurchaseOrderInput>
+}
+
+export type ItemUpdateManyWithWhereWithoutPurchaseOrderInput = {
+  where: Prisma.ItemScalarWhereInput
+  data: Prisma.XOR<Prisma.ItemUpdateManyMutationInput, Prisma.ItemUncheckedUpdateManyWithoutPurchaseOrderInput>
+}
+
 export type ItemCreateWithoutQuoteInput = {
   id?: string
   quantity: number
@@ -793,6 +920,7 @@ export type ItemCreateWithoutQuoteInput = {
   updatedAt?: Date | string
   productService: Prisma.ProductServiceCreateNestedOneWithoutItemsInput
   invoice?: Prisma.InvoiceCreateNestedOneWithoutItemsInput
+  purchaseOrder?: Prisma.purchaseOrderCreateNestedOneWithoutItemsInput
 }
 
 export type ItemUncheckedCreateWithoutQuoteInput = {
@@ -807,6 +935,7 @@ export type ItemUncheckedCreateWithoutQuoteInput = {
   invoiceId?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  purchaseOrderId?: string | null
 }
 
 export type ItemCreateOrConnectWithoutQuoteInput = {
@@ -847,6 +976,7 @@ export type ItemCreateManyProductServiceInput = {
   quoteId?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  purchaseOrderId?: string | null
 }
 
 export type ItemUpdateWithoutProductServiceInput = {
@@ -861,6 +991,7 @@ export type ItemUpdateWithoutProductServiceInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   invoice?: Prisma.InvoiceUpdateOneWithoutItemsNestedInput
   quote?: Prisma.QuoteUpdateOneWithoutItemsNestedInput
+  purchaseOrder?: Prisma.purchaseOrderUpdateOneWithoutItemsNestedInput
 }
 
 export type ItemUncheckedUpdateWithoutProductServiceInput = {
@@ -875,6 +1006,7 @@ export type ItemUncheckedUpdateWithoutProductServiceInput = {
   quoteId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  purchaseOrderId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type ItemUncheckedUpdateManyWithoutProductServiceInput = {
@@ -889,6 +1021,7 @@ export type ItemUncheckedUpdateManyWithoutProductServiceInput = {
   quoteId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  purchaseOrderId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type ItemCreateManyInvoiceInput = {
@@ -903,6 +1036,7 @@ export type ItemCreateManyInvoiceInput = {
   quoteId?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  purchaseOrderId?: string | null
 }
 
 export type ItemUpdateWithoutInvoiceInput = {
@@ -917,6 +1051,7 @@ export type ItemUpdateWithoutInvoiceInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   productService?: Prisma.ProductServiceUpdateOneRequiredWithoutItemsNestedInput
   quote?: Prisma.QuoteUpdateOneWithoutItemsNestedInput
+  purchaseOrder?: Prisma.purchaseOrderUpdateOneWithoutItemsNestedInput
 }
 
 export type ItemUncheckedUpdateWithoutInvoiceInput = {
@@ -931,6 +1066,7 @@ export type ItemUncheckedUpdateWithoutInvoiceInput = {
   quoteId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  purchaseOrderId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type ItemUncheckedUpdateManyWithoutInvoiceInput = {
@@ -942,6 +1078,67 @@ export type ItemUncheckedUpdateManyWithoutInvoiceInput = {
   reference?: Prisma.StringFieldUpdateOperationsInput | string
   hasTax?: Prisma.BoolFieldUpdateOperationsInput | boolean
   status?: Prisma.EnumItemStatusFieldUpdateOperationsInput | $Enums.ItemStatus
+  quoteId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  purchaseOrderId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+}
+
+export type ItemCreateManyPurchaseOrderInput = {
+  id?: string
+  quantity: number
+  productServiceId: string
+  price?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  description: string
+  reference: string
+  hasTax?: boolean
+  status?: $Enums.ItemStatus
+  invoiceId?: string | null
+  quoteId?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+}
+
+export type ItemUpdateWithoutPurchaseOrderInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  quantity?: Prisma.IntFieldUpdateOperationsInput | number
+  price?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  description?: Prisma.StringFieldUpdateOperationsInput | string
+  reference?: Prisma.StringFieldUpdateOperationsInput | string
+  hasTax?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  status?: Prisma.EnumItemStatusFieldUpdateOperationsInput | $Enums.ItemStatus
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  productService?: Prisma.ProductServiceUpdateOneRequiredWithoutItemsNestedInput
+  invoice?: Prisma.InvoiceUpdateOneWithoutItemsNestedInput
+  quote?: Prisma.QuoteUpdateOneWithoutItemsNestedInput
+}
+
+export type ItemUncheckedUpdateWithoutPurchaseOrderInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  quantity?: Prisma.IntFieldUpdateOperationsInput | number
+  productServiceId?: Prisma.StringFieldUpdateOperationsInput | string
+  price?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  description?: Prisma.StringFieldUpdateOperationsInput | string
+  reference?: Prisma.StringFieldUpdateOperationsInput | string
+  hasTax?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  status?: Prisma.EnumItemStatusFieldUpdateOperationsInput | $Enums.ItemStatus
+  invoiceId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  quoteId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+}
+
+export type ItemUncheckedUpdateManyWithoutPurchaseOrderInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  quantity?: Prisma.IntFieldUpdateOperationsInput | number
+  productServiceId?: Prisma.StringFieldUpdateOperationsInput | string
+  price?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  description?: Prisma.StringFieldUpdateOperationsInput | string
+  reference?: Prisma.StringFieldUpdateOperationsInput | string
+  hasTax?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  status?: Prisma.EnumItemStatusFieldUpdateOperationsInput | $Enums.ItemStatus
+  invoiceId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   quoteId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -959,6 +1156,7 @@ export type ItemCreateManyQuoteInput = {
   invoiceId?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  purchaseOrderId?: string | null
 }
 
 export type ItemUpdateWithoutQuoteInput = {
@@ -973,6 +1171,7 @@ export type ItemUpdateWithoutQuoteInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   productService?: Prisma.ProductServiceUpdateOneRequiredWithoutItemsNestedInput
   invoice?: Prisma.InvoiceUpdateOneWithoutItemsNestedInput
+  purchaseOrder?: Prisma.purchaseOrderUpdateOneWithoutItemsNestedInput
 }
 
 export type ItemUncheckedUpdateWithoutQuoteInput = {
@@ -987,6 +1186,7 @@ export type ItemUncheckedUpdateWithoutQuoteInput = {
   invoiceId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  purchaseOrderId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type ItemUncheckedUpdateManyWithoutQuoteInput = {
@@ -1001,6 +1201,7 @@ export type ItemUncheckedUpdateManyWithoutQuoteInput = {
   invoiceId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  purchaseOrderId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 
@@ -1018,9 +1219,11 @@ export type ItemSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   quoteId?: boolean
   createdAt?: boolean
   updatedAt?: boolean
+  purchaseOrderId?: boolean
   productService?: boolean | Prisma.ProductServiceDefaultArgs<ExtArgs>
   invoice?: boolean | Prisma.Item$invoiceArgs<ExtArgs>
   quote?: boolean | Prisma.Item$quoteArgs<ExtArgs>
+  purchaseOrder?: boolean | Prisma.Item$purchaseOrderArgs<ExtArgs>
 }, ExtArgs["result"]["item"]>
 
 export type ItemSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -1036,9 +1239,11 @@ export type ItemSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensio
   quoteId?: boolean
   createdAt?: boolean
   updatedAt?: boolean
+  purchaseOrderId?: boolean
   productService?: boolean | Prisma.ProductServiceDefaultArgs<ExtArgs>
   invoice?: boolean | Prisma.Item$invoiceArgs<ExtArgs>
   quote?: boolean | Prisma.Item$quoteArgs<ExtArgs>
+  purchaseOrder?: boolean | Prisma.Item$purchaseOrderArgs<ExtArgs>
 }, ExtArgs["result"]["item"]>
 
 export type ItemSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -1054,9 +1259,11 @@ export type ItemSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensio
   quoteId?: boolean
   createdAt?: boolean
   updatedAt?: boolean
+  purchaseOrderId?: boolean
   productService?: boolean | Prisma.ProductServiceDefaultArgs<ExtArgs>
   invoice?: boolean | Prisma.Item$invoiceArgs<ExtArgs>
   quote?: boolean | Prisma.Item$quoteArgs<ExtArgs>
+  purchaseOrder?: boolean | Prisma.Item$purchaseOrderArgs<ExtArgs>
 }, ExtArgs["result"]["item"]>
 
 export type ItemSelectScalar = {
@@ -1072,23 +1279,27 @@ export type ItemSelectScalar = {
   quoteId?: boolean
   createdAt?: boolean
   updatedAt?: boolean
+  purchaseOrderId?: boolean
 }
 
-export type ItemOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "quantity" | "productServiceId" | "price" | "description" | "reference" | "hasTax" | "status" | "invoiceId" | "quoteId" | "createdAt" | "updatedAt", ExtArgs["result"]["item"]>
+export type ItemOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "quantity" | "productServiceId" | "price" | "description" | "reference" | "hasTax" | "status" | "invoiceId" | "quoteId" | "createdAt" | "updatedAt" | "purchaseOrderId", ExtArgs["result"]["item"]>
 export type ItemInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   productService?: boolean | Prisma.ProductServiceDefaultArgs<ExtArgs>
   invoice?: boolean | Prisma.Item$invoiceArgs<ExtArgs>
   quote?: boolean | Prisma.Item$quoteArgs<ExtArgs>
+  purchaseOrder?: boolean | Prisma.Item$purchaseOrderArgs<ExtArgs>
 }
 export type ItemIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   productService?: boolean | Prisma.ProductServiceDefaultArgs<ExtArgs>
   invoice?: boolean | Prisma.Item$invoiceArgs<ExtArgs>
   quote?: boolean | Prisma.Item$quoteArgs<ExtArgs>
+  purchaseOrder?: boolean | Prisma.Item$purchaseOrderArgs<ExtArgs>
 }
 export type ItemIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   productService?: boolean | Prisma.ProductServiceDefaultArgs<ExtArgs>
   invoice?: boolean | Prisma.Item$invoiceArgs<ExtArgs>
   quote?: boolean | Prisma.Item$quoteArgs<ExtArgs>
+  purchaseOrder?: boolean | Prisma.Item$purchaseOrderArgs<ExtArgs>
 }
 
 export type $ItemPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1097,6 +1308,7 @@ export type $ItemPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
     productService: Prisma.$ProductServicePayload<ExtArgs>
     invoice: Prisma.$InvoicePayload<ExtArgs> | null
     quote: Prisma.$QuotePayload<ExtArgs> | null
+    purchaseOrder: Prisma.$purchaseOrderPayload<ExtArgs> | null
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -1111,6 +1323,7 @@ export type $ItemPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
     quoteId: string | null
     createdAt: Date
     updatedAt: Date
+    purchaseOrderId: string | null
   }, ExtArgs["result"]["item"]>
   composites: {}
 }
@@ -1508,6 +1721,7 @@ export interface Prisma__ItemClient<T, Null = never, ExtArgs extends runtime.Typ
   productService<T extends Prisma.ProductServiceDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.ProductServiceDefaultArgs<ExtArgs>>): Prisma.Prisma__ProductServiceClient<runtime.Types.Result.GetResult<Prisma.$ProductServicePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   invoice<T extends Prisma.Item$invoiceArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Item$invoiceArgs<ExtArgs>>): Prisma.Prisma__InvoiceClient<runtime.Types.Result.GetResult<Prisma.$InvoicePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   quote<T extends Prisma.Item$quoteArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Item$quoteArgs<ExtArgs>>): Prisma.Prisma__QuoteClient<runtime.Types.Result.GetResult<Prisma.$QuotePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+  purchaseOrder<T extends Prisma.Item$purchaseOrderArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Item$purchaseOrderArgs<ExtArgs>>): Prisma.Prisma__purchaseOrderClient<runtime.Types.Result.GetResult<Prisma.$purchaseOrderPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1549,6 +1763,7 @@ export interface ItemFieldRefs {
   readonly quoteId: Prisma.FieldRef<"Item", 'String'>
   readonly createdAt: Prisma.FieldRef<"Item", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"Item", 'DateTime'>
+  readonly purchaseOrderId: Prisma.FieldRef<"Item", 'String'>
 }
     
 
@@ -1985,6 +2200,25 @@ export type Item$quoteArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs
    */
   include?: Prisma.QuoteInclude<ExtArgs> | null
   where?: Prisma.QuoteWhereInput
+}
+
+/**
+ * Item.purchaseOrder
+ */
+export type Item$purchaseOrderArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the purchaseOrder
+   */
+  select?: Prisma.purchaseOrderSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the purchaseOrder
+   */
+  omit?: Prisma.purchaseOrderOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.purchaseOrderInclude<ExtArgs> | null
+  where?: Prisma.purchaseOrderWhereInput
 }
 
 /**

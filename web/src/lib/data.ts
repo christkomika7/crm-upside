@@ -82,9 +82,9 @@ export const furnishedOptions = [
 ]
 
 export const paymentMode = [
-    { value: "cash", label: "Espèces" },
-    { value: "cheque", label: "Chèque" },
-    { value: "virement", label: "Virement" },
+    { value: "CASH", label: "Espèces" },
+    { value: "CHECK", label: "Chèque" },
+    { value: "BANK", label: "Virement" },
 ]
 
 

@@ -34,6 +34,7 @@ export const noteSchema = z.object({
 export const referenceSchema = z.object({
     invoice: z.string().optional(),
     quote: z.string().optional(),
+    purchaseOrder: z.string().optional(),
 });
 
 export type ReferenceSchemaType = z.infer<typeof referenceSchema>;

@@ -28,18 +28,21 @@ export type ReferenceMinAggregateOutputType = {
   id: string | null
   invoice: string | null
   quote: string | null
+  purchaseOrder: string | null
 }
 
 export type ReferenceMaxAggregateOutputType = {
   id: string | null
   invoice: string | null
   quote: string | null
+  purchaseOrder: string | null
 }
 
 export type ReferenceCountAggregateOutputType = {
   id: number
   invoice: number
   quote: number
+  purchaseOrder: number
   _all: number
 }
 
@@ -48,18 +51,21 @@ export type ReferenceMinAggregateInputType = {
   id?: true
   invoice?: true
   quote?: true
+  purchaseOrder?: true
 }
 
 export type ReferenceMaxAggregateInputType = {
   id?: true
   invoice?: true
   quote?: true
+  purchaseOrder?: true
 }
 
 export type ReferenceCountAggregateInputType = {
   id?: true
   invoice?: true
   quote?: true
+  purchaseOrder?: true
   _all?: true
 }
 
@@ -139,6 +145,7 @@ export type ReferenceGroupByOutputType = {
   id: string
   invoice: string
   quote: string
+  purchaseOrder: string
   _count: ReferenceCountAggregateOutputType | null
   _min: ReferenceMinAggregateOutputType | null
   _max: ReferenceMaxAggregateOutputType | null
@@ -166,12 +173,14 @@ export type ReferenceWhereInput = {
   id?: Prisma.StringFilter<"Reference"> | string
   invoice?: Prisma.StringFilter<"Reference"> | string
   quote?: Prisma.StringFilter<"Reference"> | string
+  purchaseOrder?: Prisma.StringFilter<"Reference"> | string
 }
 
 export type ReferenceOrderByWithRelationInput = {
   id?: Prisma.SortOrder
   invoice?: Prisma.SortOrder
   quote?: Prisma.SortOrder
+  purchaseOrder?: Prisma.SortOrder
 }
 
 export type ReferenceWhereUniqueInput = Prisma.AtLeast<{
@@ -181,12 +190,14 @@ export type ReferenceWhereUniqueInput = Prisma.AtLeast<{
   NOT?: Prisma.ReferenceWhereInput | Prisma.ReferenceWhereInput[]
   invoice?: Prisma.StringFilter<"Reference"> | string
   quote?: Prisma.StringFilter<"Reference"> | string
+  purchaseOrder?: Prisma.StringFilter<"Reference"> | string
 }, "id">
 
 export type ReferenceOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
   invoice?: Prisma.SortOrder
   quote?: Prisma.SortOrder
+  purchaseOrder?: Prisma.SortOrder
   _count?: Prisma.ReferenceCountOrderByAggregateInput
   _max?: Prisma.ReferenceMaxOrderByAggregateInput
   _min?: Prisma.ReferenceMinOrderByAggregateInput
@@ -199,66 +210,77 @@ export type ReferenceScalarWhereWithAggregatesInput = {
   id?: Prisma.StringWithAggregatesFilter<"Reference"> | string
   invoice?: Prisma.StringWithAggregatesFilter<"Reference"> | string
   quote?: Prisma.StringWithAggregatesFilter<"Reference"> | string
+  purchaseOrder?: Prisma.StringWithAggregatesFilter<"Reference"> | string
 }
 
 export type ReferenceCreateInput = {
   id?: string
   invoice: string
   quote: string
+  purchaseOrder: string
 }
 
 export type ReferenceUncheckedCreateInput = {
   id?: string
   invoice: string
   quote: string
+  purchaseOrder: string
 }
 
 export type ReferenceUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   invoice?: Prisma.StringFieldUpdateOperationsInput | string
   quote?: Prisma.StringFieldUpdateOperationsInput | string
+  purchaseOrder?: Prisma.StringFieldUpdateOperationsInput | string
 }
 
 export type ReferenceUncheckedUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   invoice?: Prisma.StringFieldUpdateOperationsInput | string
   quote?: Prisma.StringFieldUpdateOperationsInput | string
+  purchaseOrder?: Prisma.StringFieldUpdateOperationsInput | string
 }
 
 export type ReferenceCreateManyInput = {
   id?: string
   invoice: string
   quote: string
+  purchaseOrder: string
 }
 
 export type ReferenceUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   invoice?: Prisma.StringFieldUpdateOperationsInput | string
   quote?: Prisma.StringFieldUpdateOperationsInput | string
+  purchaseOrder?: Prisma.StringFieldUpdateOperationsInput | string
 }
 
 export type ReferenceUncheckedUpdateManyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   invoice?: Prisma.StringFieldUpdateOperationsInput | string
   quote?: Prisma.StringFieldUpdateOperationsInput | string
+  purchaseOrder?: Prisma.StringFieldUpdateOperationsInput | string
 }
 
 export type ReferenceCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
   invoice?: Prisma.SortOrder
   quote?: Prisma.SortOrder
+  purchaseOrder?: Prisma.SortOrder
 }
 
 export type ReferenceMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
   invoice?: Prisma.SortOrder
   quote?: Prisma.SortOrder
+  purchaseOrder?: Prisma.SortOrder
 }
 
 export type ReferenceMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
   invoice?: Prisma.SortOrder
   quote?: Prisma.SortOrder
+  purchaseOrder?: Prisma.SortOrder
 }
 
 
@@ -267,27 +289,31 @@ export type ReferenceSelect<ExtArgs extends runtime.Types.Extensions.InternalArg
   id?: boolean
   invoice?: boolean
   quote?: boolean
+  purchaseOrder?: boolean
 }, ExtArgs["result"]["reference"]>
 
 export type ReferenceSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   invoice?: boolean
   quote?: boolean
+  purchaseOrder?: boolean
 }, ExtArgs["result"]["reference"]>
 
 export type ReferenceSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   invoice?: boolean
   quote?: boolean
+  purchaseOrder?: boolean
 }, ExtArgs["result"]["reference"]>
 
 export type ReferenceSelectScalar = {
   id?: boolean
   invoice?: boolean
   quote?: boolean
+  purchaseOrder?: boolean
 }
 
-export type ReferenceOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "invoice" | "quote", ExtArgs["result"]["reference"]>
+export type ReferenceOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "invoice" | "quote" | "purchaseOrder", ExtArgs["result"]["reference"]>
 
 export type $ReferencePayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "Reference"
@@ -296,6 +322,7 @@ export type $ReferencePayload<ExtArgs extends runtime.Types.Extensions.InternalA
     id: string
     invoice: string
     quote: string
+    purchaseOrder: string
   }, ExtArgs["result"]["reference"]>
   composites: {}
 }
@@ -722,6 +749,7 @@ export interface ReferenceFieldRefs {
   readonly id: Prisma.FieldRef<"Reference", 'String'>
   readonly invoice: Prisma.FieldRef<"Reference", 'String'>
   readonly quote: Prisma.FieldRef<"Reference", 'String'>
+  readonly purchaseOrder: Prisma.FieldRef<"Reference", 'String'>
 }
     
 

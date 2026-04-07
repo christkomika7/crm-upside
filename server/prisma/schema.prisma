@@ -32,10 +32,15 @@ enum PaymentType {
   BANK
 }
 
-enum InvoiceStatus {
+enum RecordStatus {
   PENDING
   PAID
   OVERDUE
+}
+
+enum RecordType {
+  PURCHASE_ORDER
+  INVOICE
 }
 
 enum ContractType {
@@ -54,6 +59,7 @@ enum DeletionType {
   PRODUCT_SERVICE
   INVOICING
   QUOTE
+  PURCHASE_ORDER
   CONTRACT
   CHECK_IN
   APPOINTMENT
@@ -69,6 +75,11 @@ enum ItemStatus {
 enum ClientType {
   OWNER
   TENANT
+}
+
+enum AccountingType {
+  INFLOW
+  OUTFLOW
 }
 
 enum DiscountType {
@@ -138,9 +149,10 @@ model Note {
 }
 
 model Reference {
-  id      String @id @default(cuid())
-  invoice String
-  quote   String
+  id            String @id @default(cuid())
+  invoice       String
+  quote         String
+  purchaseOrder String
 
   @@map("reference")
 }
@@ -195,8 +207,12 @@ model Unit {
   id           String   @id @default(cuid())
   reference    String   @unique
   rentalStatus String
-  surface      String
-  rooms        String
+  surface      Float    @default(0)
+  rooms        Int      @default(0)
+  dining       Int      @default(0)
+  kitchen      Int      @default(0)
+  bedroom      Int      @default(0)
+  bathroom     Int      @default(0)
   rent         Decimal
   furnished    String
   wifi         Boolean
@@ -218,6 +234,7 @@ model Unit {
 
   reservations        Reservation[]
   propertyManagements PropertyManagement[]
+  checkInOuts         CheckInOut[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -289,7 +306,7 @@ model Owner {
 }
 
 model Tenant {
-  id            String   @id @default(cuid())
+  id            String      @id @default(cuid())
   firstname     String
   lastname      String
   company       String
@@ -297,9 +314,9 @@ model Tenant {
   email         String
   address       String
   maritalStatus String?
-  income        Decimal  @default(0) @db.Decimal(15, 2)
+  income        Decimal     @default(0) @db.Decimal(15, 2)
   bankInfo      String
-  paymentMode   String
+  paymentMode   PaymentType
   documents     String[]
 
   isDeleting Boolean @default(false)
@@ -310,6 +327,7 @@ model Tenant {
   invoices     Invoice[]
   quotes       Quote[]
   appointments Appointment[]
+  checkInOuts  CheckInOut[]
 
   @@map("tenant")
 }
@@ -410,24 +428,26 @@ model Item {
   quoteId   String?
   quote     Quote?   @relation(fields: [quoteId], references: [id])
 
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  createdAt       DateTime       @default(now())
+  updatedAt       DateTime       @updatedAt
+  purchaseOrder   purchaseOrder? @relation(fields: [purchaseOrderId], references: [id])
+  purchaseOrderId String?
 
   @@map("item")
 }
 
 model Invoice {
-  id           String        @id @default(cuid())
-  reference    Int           @default(autoincrement())
-  price        Decimal       @default(0) @db.Decimal(15, 2)
-  amountPaid   Decimal       @default(0) @db.Decimal(15, 2)
-  discount     Decimal       @default(0) @db.Decimal(15, 2)
-  status       InvoiceStatus @default(PENDING)
-  discountType DiscountType  @default(PERCENT)
-  hasTax       Boolean       @default(false)
+  id           String       @id @default(cuid())
+  reference    Int          @default(autoincrement())
+  price        Decimal      @default(0) @db.Decimal(15, 2)
+  amountPaid   Decimal      @default(0) @db.Decimal(15, 2)
+  discount     Decimal      @default(0) @db.Decimal(15, 2)
+  status       RecordStatus @default(PENDING)
+  discountType DiscountType @default(PERCENT)
+  hasTax       Boolean      @default(false)
   type         ClientType
   ownerId      String?
-  owner        Owner?        @relation(fields: [ownerId], references: [id])
+  owner        Owner?       @relation(fields: [ownerId], references: [id])
 
   tenantId String?
   tenant   Tenant? @relation(fields: [tenantId], references: [id])
@@ -445,6 +465,35 @@ model Invoice {
   payments  Payment[]
 
   @@map("invoice")
+}
+
+model purchaseOrder {
+  id           String       @id @default(cuid())
+  reference    Int          @default(autoincrement())
+  price        Decimal      @default(0) @db.Decimal(15, 2)
+  amountPaid   Decimal      @default(0) @db.Decimal(15, 2)
+  discount     Decimal      @default(0) @db.Decimal(15, 2)
+  status       RecordStatus @default(PENDING)
+  discountType DiscountType @default(PERCENT)
+  hasTax       Boolean      @default(false)
+
+  serviceProviderId String
+  serviceProvider   ServiceProvider @relation(fields: [serviceProviderId], references: [id])
+
+  items    Item[]
+  payments Payment[]
+
+  note String?
+
+  start DateTime
+  end   DateTime
+
+  isDeleting Boolean @default(false)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("purchase_order")
 }
 
 model Quote {
@@ -489,7 +538,7 @@ model ServiceProvider {
   address        String
   nif            String
   registerNumber String
-  paymentMode    String
+  paymentMode    PaymentType
   note           Float
   comment        String?
 
@@ -501,6 +550,7 @@ model ServiceProvider {
   rcc            String?
   idCard         String?
   taxCertificate String?
+  purchaseOrders purchaseOrder[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -531,15 +581,126 @@ model Contract {
 }
 
 model CheckInOut {
-  id String @id @default(cuid())
+  id   String   @id @default(cuid())
+  date DateTime
+
+  tenantId String
+  tenant   Tenant @relation(fields: [tenantId], references: [id])
+
+  unitId String
+  unit   Unit   @relation(fields: [unitId], references: [id])
 
   isChecked  Boolean @default(false)
   isDeleting Boolean @default(false)
+
+  document String[]
+  note     String?
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
   @@map("check_in_out")
+}
+
+model accounting {
+  id   String         @id @default(cuid())
+  date DateTime
+  type AccountingType
+
+  paymentMode PaymentType
+  amount      Decimal     @default(0) @db.Decimal(15, 2)
+  isTTC       Boolean
+  checkNumber String
+  description String
+
+  // paid for
+
+  sourceId String
+  source   Source @relation(fields: [sourceId], references: [id])
+
+  allocationId String
+  allocation   Allocation @relation(fields: [allocationId], references: [id])
+
+  categoryId String
+  category   Category @relation(fields: [categoryId], references: [id])
+
+  natureId String
+  nature   Nature @relation(fields: [natureId], references: [id])
+
+  secondNatureId String
+  secondNature   SecondNature @relation(fields: [secondNatureId], references: [id])
+
+  thirdNatureId String
+  thirdNature   ThirdNature @relation(fields: [thirdNatureId], references: [id])
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("accounting")
+}
+
+model Source {
+  id          String       @id @default(cuid())
+  type        PaymentType
+  name        String       @unique
+  accountings accounting[]
+
+  @@map("source")
+}
+
+model Allocation {
+  id          String       @id @default(cuid())
+  name        String       @unique
+  accountings accounting[]
+
+  @@map("allocation")
+}
+
+model Category {
+  id   String @id @default(cuid())
+  name String @unique
+
+  nature      Nature[]
+  accountings accounting[]
+
+  @@map("category")
+}
+
+model Nature {
+  id   String @id @default(cuid())
+  name String @unique
+
+  categoryId String
+  category   Category @relation(fields: [categoryId], references: [id])
+
+  secondNatures SecondNature[]
+  accountings   accounting[]
+
+  @@map("nature")
+}
+
+model SecondNature {
+  id   String @id @default(cuid())
+  name String @unique
+
+  natureId String
+  nature   Nature @relation(fields: [natureId], references: [id])
+
+  thirdNatures ThirdNature[]
+  accountings  accounting[]
+
+  @@map("second_nature")
+}
+
+model ThirdNature {
+  id   String @id @default(cuid())
+  name String @unique
+
+  secondNatureId String
+  secondNature   SecondNature @relation(fields: [secondNatureId], references: [id])
+  accountings    accounting[]
+
+  @@map("third_nature")
 }
 
 model Appointment {
@@ -569,14 +730,18 @@ model Appointment {
 }
 
 model Payment {
-  id        String      @id @default(cuid())
-  reference Int         @default(autoincrement())
-  amount    Decimal     @default(0) @db.Decimal(15, 2)
-  type      PaymentType
-  date      DateTime    @default(now())
+  id         String      @id @default(cuid())
+  reference  Int         @default(autoincrement())
+  amount     Decimal     @default(0) @db.Decimal(15, 2)
+  recordType RecordType
+  type       PaymentType
+  date       DateTime    @default(now())
 
-  invoiceId String
-  invoice   Invoice @relation(fields: [invoiceId], references: [id])
+  invoiceId String?
+  invoice   Invoice? @relation(fields: [invoiceId], references: [id])
+
+  purchaseOrder   purchaseOrder? @relation(fields: [purchaseOrderId], references: [id])
+  purchaseOrderId String?
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt

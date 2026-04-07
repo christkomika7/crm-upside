@@ -218,6 +218,10 @@ export const unitRoutes = new Elysia({ prefix: "/unit" })
                     surface: data.surface,
                     rooms: data.rooms,
                     rent: data.rent,
+                    dining: data.dining,
+                    kitchen: data.kitchen,
+                    bedroom: data.bedroom,
+                    bathroom: data.bathroom,
                     furnished: data.furnished,
                     wifi: data.wifi,
                     water: data.water,
@@ -285,18 +289,24 @@ export const unitRoutes = new Elysia({ prefix: "/unit" })
                 return status(400, { message: "Unité invalide" });
             }
 
-            const existingUnit = await prisma.unit.findFirst({
-                where: {
-                    reference: data.reference,
-                    NOT: { id: params.id }
-                }
-            });
+            const [existingUnit, unit] = await prisma.$transaction([
+                prisma.unit.findFirst({
+                    where: {
+                        reference: data.reference,
+                        NOT: { id: params.id }
+                    }
+                }),
+                prisma.unit.findUnique({
+                    where: {
+                        id: params.id
+                    }
+                }),
+            ])
 
-            if (existingUnit) {
-                return status(400, {
-                    message: `L'unité ${data.reference} existe déjà`
-                });
-            }
+
+            if (!unit) return status(404, { message: "Unité non trouvée" });
+            if (unit.isDeleting) return status(400, { message: "L'unité est en cours de suppression" });
+            if (existingUnit) return status(400, { message: `L'unité ${data.reference} existe déjà` });
 
             let documents: string[] = [];
 
@@ -307,45 +317,53 @@ export const unitRoutes = new Elysia({ prefix: "/unit" })
                 return status(500, { message: "Erreur lors de l'upload des fichiers, veuillez réessayer" });
             }
 
-            await prisma.unit.update({
-                where: {
-                    id: params.id
-                },
-                data: {
-                    type: {
-                        connect: {
-                            id: data.type
-                        }
+            await prisma.$transaction(async tx => {
+                await tx.unit.update({
+                    where: {
+                        id: params.id
                     },
-                    building: {
-                        connect: {
-                            id: data.building
-                        }
+                    data: {
+                        type: {
+                            connect: {
+                                id: data.type
+                            }
+                        },
+                        building: {
+                            connect: {
+                                id: data.building
+                            }
+                        },
+                        reference: data.reference,
+                        rentalStatus: data.rentalStatus,
+                        surface: data.surface,
+                        rooms: data.rooms,
+                        rent: data.rent,
+                        dining: data.dining,
+                        kitchen: data.kitchen,
+                        bedroom: data.bedroom,
+                        bathroom: data.bathroom,
+                        furnished: data.furnished,
+                        wifi: data.wifi,
+                        water: data.water,
+                        electricity: data.electricity,
+                        tv: data.tv,
+                        charges: data.charges,
+                        documents,
                     },
-                    reference: data.reference,
-                    rentalStatus: data.rentalStatus,
-                    surface: data.surface,
-                    rooms: data.rooms,
-                    rent: data.rent,
-                    furnished: data.furnished,
-                    wifi: data.wifi,
-                    water: data.water,
-                    electricity: data.electricity,
-                    tv: data.tv,
-                    charges: data.charges,
-                    documents,
-                },
-            });
+                });
 
-            await Promise.all(
-                oldKeys.map(async (key) => {
-                    try {
-                        await deleteFile(key);
-                    } catch (e) {
-                        console.error("Erreur suppression fichier:", key, e);
-                    }
-                })
-            );
+                await Promise.all(
+                    oldKeys.map(async (key) => {
+                        try {
+                            await deleteFile(key);
+                        } catch (e) {
+                            console.error("Erreur suppression fichier:", key, e);
+                        }
+                    })
+                );
+
+            })
+
 
             return status(201, { message: "Unité modifié avec succès" });
 
@@ -388,13 +406,13 @@ export const unitRoutes = new Elysia({ prefix: "/unit" })
             include: {
                 rentals: true,
                 reservations: true,
-                propertyManagements: true
+                propertyManagements: true,
+                checkInOuts: true
             }
         });
 
         if (!unit) return status(400, { message: "Aucune unité trouvée." });
-
-        if (unit.rentals.length > 0 || unit.reservations.length > 0 || unit.propertyManagements.length > 0) return status(400, { message: "L'unité est déjà louée, réservée ou gérée." });
+        if (unit.rentals.length > 0 || unit.reservations.length > 0 || unit.propertyManagements.length > 0 || unit.checkInOuts.length > 0) return status(400, { message: "L'unité est déjà louée, réservée, en attente de visite pour l'état des lieux ou en cours de gestion." });
 
         await prisma.$transaction([
             prisma.deletion.create({

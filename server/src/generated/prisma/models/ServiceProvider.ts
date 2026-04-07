@@ -44,7 +44,7 @@ export type ServiceProviderMinAggregateOutputType = {
   address: string | null
   nif: string | null
   registerNumber: string | null
-  paymentMode: string | null
+  paymentMode: $Enums.PaymentType | null
   note: number | null
   comment: string | null
   isDeleting: boolean | null
@@ -66,7 +66,7 @@ export type ServiceProviderMaxAggregateOutputType = {
   address: string | null
   nif: string | null
   registerNumber: string | null
-  paymentMode: string | null
+  paymentMode: $Enums.PaymentType | null
   note: number | null
   comment: string | null
   isDeleting: boolean | null
@@ -273,7 +273,7 @@ export type ServiceProviderGroupByOutputType = {
   address: string
   nif: string
   registerNumber: string
-  paymentMode: string
+  paymentMode: $Enums.PaymentType
   note: number
   comment: string | null
   isDeleting: boolean
@@ -318,7 +318,7 @@ export type ServiceProviderWhereInput = {
   address?: Prisma.StringFilter<"ServiceProvider"> | string
   nif?: Prisma.StringFilter<"ServiceProvider"> | string
   registerNumber?: Prisma.StringFilter<"ServiceProvider"> | string
-  paymentMode?: Prisma.StringFilter<"ServiceProvider"> | string
+  paymentMode?: Prisma.EnumPaymentTypeFilter<"ServiceProvider"> | $Enums.PaymentType
   note?: Prisma.FloatFilter<"ServiceProvider"> | number
   comment?: Prisma.StringNullableFilter<"ServiceProvider"> | string | null
   isDeleting?: Prisma.BoolFilter<"ServiceProvider"> | boolean
@@ -329,6 +329,7 @@ export type ServiceProviderWhereInput = {
   createdAt?: Prisma.DateTimeFilter<"ServiceProvider"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"ServiceProvider"> | Date | string
   profession?: Prisma.XOR<Prisma.ProfessionScalarRelationFilter, Prisma.ProfessionWhereInput>
+  purchaseOrders?: Prisma.PurchaseOrderListRelationFilter
 }
 
 export type ServiceProviderOrderByWithRelationInput = {
@@ -352,6 +353,7 @@ export type ServiceProviderOrderByWithRelationInput = {
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   profession?: Prisma.ProfessionOrderByWithRelationInput
+  purchaseOrders?: Prisma.purchaseOrderOrderByRelationAggregateInput
 }
 
 export type ServiceProviderWhereUniqueInput = Prisma.AtLeast<{
@@ -367,7 +369,7 @@ export type ServiceProviderWhereUniqueInput = Prisma.AtLeast<{
   address?: Prisma.StringFilter<"ServiceProvider"> | string
   nif?: Prisma.StringFilter<"ServiceProvider"> | string
   registerNumber?: Prisma.StringFilter<"ServiceProvider"> | string
-  paymentMode?: Prisma.StringFilter<"ServiceProvider"> | string
+  paymentMode?: Prisma.EnumPaymentTypeFilter<"ServiceProvider"> | $Enums.PaymentType
   note?: Prisma.FloatFilter<"ServiceProvider"> | number
   comment?: Prisma.StringNullableFilter<"ServiceProvider"> | string | null
   isDeleting?: Prisma.BoolFilter<"ServiceProvider"> | boolean
@@ -378,6 +380,7 @@ export type ServiceProviderWhereUniqueInput = Prisma.AtLeast<{
   createdAt?: Prisma.DateTimeFilter<"ServiceProvider"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"ServiceProvider"> | Date | string
   profession?: Prisma.XOR<Prisma.ProfessionScalarRelationFilter, Prisma.ProfessionWhereInput>
+  purchaseOrders?: Prisma.PurchaseOrderListRelationFilter
 }, "id">
 
 export type ServiceProviderOrderByWithAggregationInput = {
@@ -420,7 +423,7 @@ export type ServiceProviderScalarWhereWithAggregatesInput = {
   address?: Prisma.StringWithAggregatesFilter<"ServiceProvider"> | string
   nif?: Prisma.StringWithAggregatesFilter<"ServiceProvider"> | string
   registerNumber?: Prisma.StringWithAggregatesFilter<"ServiceProvider"> | string
-  paymentMode?: Prisma.StringWithAggregatesFilter<"ServiceProvider"> | string
+  paymentMode?: Prisma.EnumPaymentTypeWithAggregatesFilter<"ServiceProvider"> | $Enums.PaymentType
   note?: Prisma.FloatWithAggregatesFilter<"ServiceProvider"> | number
   comment?: Prisma.StringNullableWithAggregatesFilter<"ServiceProvider"> | string | null
   isDeleting?: Prisma.BoolWithAggregatesFilter<"ServiceProvider"> | boolean
@@ -442,7 +445,7 @@ export type ServiceProviderCreateInput = {
   address: string
   nif: string
   registerNumber: string
-  paymentMode: string
+  paymentMode: $Enums.PaymentType
   note: number
   comment?: string | null
   isDeleting?: boolean
@@ -452,6 +455,7 @@ export type ServiceProviderCreateInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   profession: Prisma.ProfessionCreateNestedOneWithoutServiceProvidersInput
+  purchaseOrders?: Prisma.purchaseOrderCreateNestedManyWithoutServiceProviderInput
 }
 
 export type ServiceProviderUncheckedCreateInput = {
@@ -464,7 +468,7 @@ export type ServiceProviderUncheckedCreateInput = {
   address: string
   nif: string
   registerNumber: string
-  paymentMode: string
+  paymentMode: $Enums.PaymentType
   note: number
   comment?: string | null
   isDeleting?: boolean
@@ -474,6 +478,7 @@ export type ServiceProviderUncheckedCreateInput = {
   taxCertificate?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  purchaseOrders?: Prisma.purchaseOrderUncheckedCreateNestedManyWithoutServiceProviderInput
 }
 
 export type ServiceProviderUpdateInput = {
@@ -486,7 +491,7 @@ export type ServiceProviderUpdateInput = {
   address?: Prisma.StringFieldUpdateOperationsInput | string
   nif?: Prisma.StringFieldUpdateOperationsInput | string
   registerNumber?: Prisma.StringFieldUpdateOperationsInput | string
-  paymentMode?: Prisma.StringFieldUpdateOperationsInput | string
+  paymentMode?: Prisma.EnumPaymentTypeFieldUpdateOperationsInput | $Enums.PaymentType
   note?: Prisma.FloatFieldUpdateOperationsInput | number
   comment?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isDeleting?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -496,6 +501,7 @@ export type ServiceProviderUpdateInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   profession?: Prisma.ProfessionUpdateOneRequiredWithoutServiceProvidersNestedInput
+  purchaseOrders?: Prisma.purchaseOrderUpdateManyWithoutServiceProviderNestedInput
 }
 
 export type ServiceProviderUncheckedUpdateInput = {
@@ -508,7 +514,7 @@ export type ServiceProviderUncheckedUpdateInput = {
   address?: Prisma.StringFieldUpdateOperationsInput | string
   nif?: Prisma.StringFieldUpdateOperationsInput | string
   registerNumber?: Prisma.StringFieldUpdateOperationsInput | string
-  paymentMode?: Prisma.StringFieldUpdateOperationsInput | string
+  paymentMode?: Prisma.EnumPaymentTypeFieldUpdateOperationsInput | $Enums.PaymentType
   note?: Prisma.FloatFieldUpdateOperationsInput | number
   comment?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isDeleting?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -518,6 +524,7 @@ export type ServiceProviderUncheckedUpdateInput = {
   taxCertificate?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  purchaseOrders?: Prisma.purchaseOrderUncheckedUpdateManyWithoutServiceProviderNestedInput
 }
 
 export type ServiceProviderCreateManyInput = {
@@ -530,7 +537,7 @@ export type ServiceProviderCreateManyInput = {
   address: string
   nif: string
   registerNumber: string
-  paymentMode: string
+  paymentMode: $Enums.PaymentType
   note: number
   comment?: string | null
   isDeleting?: boolean
@@ -552,7 +559,7 @@ export type ServiceProviderUpdateManyMutationInput = {
   address?: Prisma.StringFieldUpdateOperationsInput | string
   nif?: Prisma.StringFieldUpdateOperationsInput | string
   registerNumber?: Prisma.StringFieldUpdateOperationsInput | string
-  paymentMode?: Prisma.StringFieldUpdateOperationsInput | string
+  paymentMode?: Prisma.EnumPaymentTypeFieldUpdateOperationsInput | $Enums.PaymentType
   note?: Prisma.FloatFieldUpdateOperationsInput | number
   comment?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isDeleting?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -573,7 +580,7 @@ export type ServiceProviderUncheckedUpdateManyInput = {
   address?: Prisma.StringFieldUpdateOperationsInput | string
   nif?: Prisma.StringFieldUpdateOperationsInput | string
   registerNumber?: Prisma.StringFieldUpdateOperationsInput | string
-  paymentMode?: Prisma.StringFieldUpdateOperationsInput | string
+  paymentMode?: Prisma.EnumPaymentTypeFieldUpdateOperationsInput | $Enums.PaymentType
   note?: Prisma.FloatFieldUpdateOperationsInput | number
   comment?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isDeleting?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -593,6 +600,11 @@ export type ServiceProviderListRelationFilter = {
 
 export type ServiceProviderOrderByRelationAggregateInput = {
   _count?: Prisma.SortOrder
+}
+
+export type ServiceProviderScalarRelationFilter = {
+  is?: Prisma.ServiceProviderWhereInput
+  isNot?: Prisma.ServiceProviderWhereInput
 }
 
 export type ServiceProviderCountOrderByAggregateInput = {
@@ -711,12 +723,18 @@ export type ServiceProviderUncheckedUpdateManyWithoutProfessionNestedInput = {
   deleteMany?: Prisma.ServiceProviderScalarWhereInput | Prisma.ServiceProviderScalarWhereInput[]
 }
 
-export type FloatFieldUpdateOperationsInput = {
-  set?: number
-  increment?: number
-  decrement?: number
-  multiply?: number
-  divide?: number
+export type ServiceProviderCreateNestedOneWithoutPurchaseOrdersInput = {
+  create?: Prisma.XOR<Prisma.ServiceProviderCreateWithoutPurchaseOrdersInput, Prisma.ServiceProviderUncheckedCreateWithoutPurchaseOrdersInput>
+  connectOrCreate?: Prisma.ServiceProviderCreateOrConnectWithoutPurchaseOrdersInput
+  connect?: Prisma.ServiceProviderWhereUniqueInput
+}
+
+export type ServiceProviderUpdateOneRequiredWithoutPurchaseOrdersNestedInput = {
+  create?: Prisma.XOR<Prisma.ServiceProviderCreateWithoutPurchaseOrdersInput, Prisma.ServiceProviderUncheckedCreateWithoutPurchaseOrdersInput>
+  connectOrCreate?: Prisma.ServiceProviderCreateOrConnectWithoutPurchaseOrdersInput
+  upsert?: Prisma.ServiceProviderUpsertWithoutPurchaseOrdersInput
+  connect?: Prisma.ServiceProviderWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.ServiceProviderUpdateToOneWithWhereWithoutPurchaseOrdersInput, Prisma.ServiceProviderUpdateWithoutPurchaseOrdersInput>, Prisma.ServiceProviderUncheckedUpdateWithoutPurchaseOrdersInput>
 }
 
 export type ServiceProviderCreateWithoutProfessionInput = {
@@ -729,7 +747,7 @@ export type ServiceProviderCreateWithoutProfessionInput = {
   address: string
   nif: string
   registerNumber: string
-  paymentMode: string
+  paymentMode: $Enums.PaymentType
   note: number
   comment?: string | null
   isDeleting?: boolean
@@ -738,6 +756,7 @@ export type ServiceProviderCreateWithoutProfessionInput = {
   taxCertificate?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  purchaseOrders?: Prisma.purchaseOrderCreateNestedManyWithoutServiceProviderInput
 }
 
 export type ServiceProviderUncheckedCreateWithoutProfessionInput = {
@@ -750,7 +769,7 @@ export type ServiceProviderUncheckedCreateWithoutProfessionInput = {
   address: string
   nif: string
   registerNumber: string
-  paymentMode: string
+  paymentMode: $Enums.PaymentType
   note: number
   comment?: string | null
   isDeleting?: boolean
@@ -759,6 +778,7 @@ export type ServiceProviderUncheckedCreateWithoutProfessionInput = {
   taxCertificate?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  purchaseOrders?: Prisma.purchaseOrderUncheckedCreateNestedManyWithoutServiceProviderInput
 }
 
 export type ServiceProviderCreateOrConnectWithoutProfessionInput = {
@@ -800,7 +820,7 @@ export type ServiceProviderScalarWhereInput = {
   address?: Prisma.StringFilter<"ServiceProvider"> | string
   nif?: Prisma.StringFilter<"ServiceProvider"> | string
   registerNumber?: Prisma.StringFilter<"ServiceProvider"> | string
-  paymentMode?: Prisma.StringFilter<"ServiceProvider"> | string
+  paymentMode?: Prisma.EnumPaymentTypeFilter<"ServiceProvider"> | $Enums.PaymentType
   note?: Prisma.FloatFilter<"ServiceProvider"> | number
   comment?: Prisma.StringNullableFilter<"ServiceProvider"> | string | null
   isDeleting?: Prisma.BoolFilter<"ServiceProvider"> | boolean
@@ -810,6 +830,110 @@ export type ServiceProviderScalarWhereInput = {
   taxCertificate?: Prisma.StringNullableFilter<"ServiceProvider"> | string | null
   createdAt?: Prisma.DateTimeFilter<"ServiceProvider"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"ServiceProvider"> | Date | string
+}
+
+export type ServiceProviderCreateWithoutPurchaseOrdersInput = {
+  id?: string
+  firstname: string
+  lastname: string
+  company: string
+  phone: string
+  email: string
+  address: string
+  nif: string
+  registerNumber: string
+  paymentMode: $Enums.PaymentType
+  note: number
+  comment?: string | null
+  isDeleting?: boolean
+  rcc?: string | null
+  idCard?: string | null
+  taxCertificate?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  profession: Prisma.ProfessionCreateNestedOneWithoutServiceProvidersInput
+}
+
+export type ServiceProviderUncheckedCreateWithoutPurchaseOrdersInput = {
+  id?: string
+  firstname: string
+  lastname: string
+  company: string
+  phone: string
+  email: string
+  address: string
+  nif: string
+  registerNumber: string
+  paymentMode: $Enums.PaymentType
+  note: number
+  comment?: string | null
+  isDeleting?: boolean
+  professionId: string
+  rcc?: string | null
+  idCard?: string | null
+  taxCertificate?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+}
+
+export type ServiceProviderCreateOrConnectWithoutPurchaseOrdersInput = {
+  where: Prisma.ServiceProviderWhereUniqueInput
+  create: Prisma.XOR<Prisma.ServiceProviderCreateWithoutPurchaseOrdersInput, Prisma.ServiceProviderUncheckedCreateWithoutPurchaseOrdersInput>
+}
+
+export type ServiceProviderUpsertWithoutPurchaseOrdersInput = {
+  update: Prisma.XOR<Prisma.ServiceProviderUpdateWithoutPurchaseOrdersInput, Prisma.ServiceProviderUncheckedUpdateWithoutPurchaseOrdersInput>
+  create: Prisma.XOR<Prisma.ServiceProviderCreateWithoutPurchaseOrdersInput, Prisma.ServiceProviderUncheckedCreateWithoutPurchaseOrdersInput>
+  where?: Prisma.ServiceProviderWhereInput
+}
+
+export type ServiceProviderUpdateToOneWithWhereWithoutPurchaseOrdersInput = {
+  where?: Prisma.ServiceProviderWhereInput
+  data: Prisma.XOR<Prisma.ServiceProviderUpdateWithoutPurchaseOrdersInput, Prisma.ServiceProviderUncheckedUpdateWithoutPurchaseOrdersInput>
+}
+
+export type ServiceProviderUpdateWithoutPurchaseOrdersInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  firstname?: Prisma.StringFieldUpdateOperationsInput | string
+  lastname?: Prisma.StringFieldUpdateOperationsInput | string
+  company?: Prisma.StringFieldUpdateOperationsInput | string
+  phone?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  address?: Prisma.StringFieldUpdateOperationsInput | string
+  nif?: Prisma.StringFieldUpdateOperationsInput | string
+  registerNumber?: Prisma.StringFieldUpdateOperationsInput | string
+  paymentMode?: Prisma.EnumPaymentTypeFieldUpdateOperationsInput | $Enums.PaymentType
+  note?: Prisma.FloatFieldUpdateOperationsInput | number
+  comment?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isDeleting?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  rcc?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  idCard?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  taxCertificate?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  profession?: Prisma.ProfessionUpdateOneRequiredWithoutServiceProvidersNestedInput
+}
+
+export type ServiceProviderUncheckedUpdateWithoutPurchaseOrdersInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  firstname?: Prisma.StringFieldUpdateOperationsInput | string
+  lastname?: Prisma.StringFieldUpdateOperationsInput | string
+  company?: Prisma.StringFieldUpdateOperationsInput | string
+  phone?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  address?: Prisma.StringFieldUpdateOperationsInput | string
+  nif?: Prisma.StringFieldUpdateOperationsInput | string
+  registerNumber?: Prisma.StringFieldUpdateOperationsInput | string
+  paymentMode?: Prisma.EnumPaymentTypeFieldUpdateOperationsInput | $Enums.PaymentType
+  note?: Prisma.FloatFieldUpdateOperationsInput | number
+  comment?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isDeleting?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  professionId?: Prisma.StringFieldUpdateOperationsInput | string
+  rcc?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  idCard?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  taxCertificate?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type ServiceProviderCreateManyProfessionInput = {
@@ -822,7 +946,7 @@ export type ServiceProviderCreateManyProfessionInput = {
   address: string
   nif: string
   registerNumber: string
-  paymentMode: string
+  paymentMode: $Enums.PaymentType
   note: number
   comment?: string | null
   isDeleting?: boolean
@@ -843,7 +967,7 @@ export type ServiceProviderUpdateWithoutProfessionInput = {
   address?: Prisma.StringFieldUpdateOperationsInput | string
   nif?: Prisma.StringFieldUpdateOperationsInput | string
   registerNumber?: Prisma.StringFieldUpdateOperationsInput | string
-  paymentMode?: Prisma.StringFieldUpdateOperationsInput | string
+  paymentMode?: Prisma.EnumPaymentTypeFieldUpdateOperationsInput | $Enums.PaymentType
   note?: Prisma.FloatFieldUpdateOperationsInput | number
   comment?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isDeleting?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -852,6 +976,7 @@ export type ServiceProviderUpdateWithoutProfessionInput = {
   taxCertificate?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  purchaseOrders?: Prisma.purchaseOrderUpdateManyWithoutServiceProviderNestedInput
 }
 
 export type ServiceProviderUncheckedUpdateWithoutProfessionInput = {
@@ -864,7 +989,7 @@ export type ServiceProviderUncheckedUpdateWithoutProfessionInput = {
   address?: Prisma.StringFieldUpdateOperationsInput | string
   nif?: Prisma.StringFieldUpdateOperationsInput | string
   registerNumber?: Prisma.StringFieldUpdateOperationsInput | string
-  paymentMode?: Prisma.StringFieldUpdateOperationsInput | string
+  paymentMode?: Prisma.EnumPaymentTypeFieldUpdateOperationsInput | $Enums.PaymentType
   note?: Prisma.FloatFieldUpdateOperationsInput | number
   comment?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isDeleting?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -873,6 +998,7 @@ export type ServiceProviderUncheckedUpdateWithoutProfessionInput = {
   taxCertificate?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  purchaseOrders?: Prisma.purchaseOrderUncheckedUpdateManyWithoutServiceProviderNestedInput
 }
 
 export type ServiceProviderUncheckedUpdateManyWithoutProfessionInput = {
@@ -885,7 +1011,7 @@ export type ServiceProviderUncheckedUpdateManyWithoutProfessionInput = {
   address?: Prisma.StringFieldUpdateOperationsInput | string
   nif?: Prisma.StringFieldUpdateOperationsInput | string
   registerNumber?: Prisma.StringFieldUpdateOperationsInput | string
-  paymentMode?: Prisma.StringFieldUpdateOperationsInput | string
+  paymentMode?: Prisma.EnumPaymentTypeFieldUpdateOperationsInput | $Enums.PaymentType
   note?: Prisma.FloatFieldUpdateOperationsInput | number
   comment?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isDeleting?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -896,6 +1022,35 @@ export type ServiceProviderUncheckedUpdateManyWithoutProfessionInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
+
+/**
+ * Count Type ServiceProviderCountOutputType
+ */
+
+export type ServiceProviderCountOutputType = {
+  purchaseOrders: number
+}
+
+export type ServiceProviderCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  purchaseOrders?: boolean | ServiceProviderCountOutputTypeCountPurchaseOrdersArgs
+}
+
+/**
+ * ServiceProviderCountOutputType without action
+ */
+export type ServiceProviderCountOutputTypeDefaultArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the ServiceProviderCountOutputType
+   */
+  select?: Prisma.ServiceProviderCountOutputTypeSelect<ExtArgs> | null
+}
+
+/**
+ * ServiceProviderCountOutputType without action
+ */
+export type ServiceProviderCountOutputTypeCountPurchaseOrdersArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.purchaseOrderWhereInput
+}
 
 
 export type ServiceProviderSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -919,6 +1074,8 @@ export type ServiceProviderSelect<ExtArgs extends runtime.Types.Extensions.Inter
   createdAt?: boolean
   updatedAt?: boolean
   profession?: boolean | Prisma.ProfessionDefaultArgs<ExtArgs>
+  purchaseOrders?: boolean | Prisma.ServiceProvider$purchaseOrdersArgs<ExtArgs>
+  _count?: boolean | Prisma.ServiceProviderCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["serviceProvider"]>
 
 export type ServiceProviderSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -992,6 +1149,8 @@ export type ServiceProviderSelectScalar = {
 export type ServiceProviderOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "firstname" | "lastname" | "company" | "phone" | "email" | "address" | "nif" | "registerNumber" | "paymentMode" | "note" | "comment" | "isDeleting" | "professionId" | "rcc" | "idCard" | "taxCertificate" | "createdAt" | "updatedAt", ExtArgs["result"]["serviceProvider"]>
 export type ServiceProviderInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   profession?: boolean | Prisma.ProfessionDefaultArgs<ExtArgs>
+  purchaseOrders?: boolean | Prisma.ServiceProvider$purchaseOrdersArgs<ExtArgs>
+  _count?: boolean | Prisma.ServiceProviderCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type ServiceProviderIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   profession?: boolean | Prisma.ProfessionDefaultArgs<ExtArgs>
@@ -1004,6 +1163,7 @@ export type $ServiceProviderPayload<ExtArgs extends runtime.Types.Extensions.Int
   name: "ServiceProvider"
   objects: {
     profession: Prisma.$ProfessionPayload<ExtArgs>
+    purchaseOrders: Prisma.$purchaseOrderPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -1015,7 +1175,7 @@ export type $ServiceProviderPayload<ExtArgs extends runtime.Types.Extensions.Int
     address: string
     nif: string
     registerNumber: string
-    paymentMode: string
+    paymentMode: $Enums.PaymentType
     note: number
     comment: string | null
     isDeleting: boolean
@@ -1420,6 +1580,7 @@ readonly fields: ServiceProviderFieldRefs;
 export interface Prisma__ServiceProviderClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
   profession<T extends Prisma.ProfessionDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.ProfessionDefaultArgs<ExtArgs>>): Prisma.Prisma__ProfessionClient<runtime.Types.Result.GetResult<Prisma.$ProfessionPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+  purchaseOrders<T extends Prisma.ServiceProvider$purchaseOrdersArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.ServiceProvider$purchaseOrdersArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$purchaseOrderPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1458,7 +1619,7 @@ export interface ServiceProviderFieldRefs {
   readonly address: Prisma.FieldRef<"ServiceProvider", 'String'>
   readonly nif: Prisma.FieldRef<"ServiceProvider", 'String'>
   readonly registerNumber: Prisma.FieldRef<"ServiceProvider", 'String'>
-  readonly paymentMode: Prisma.FieldRef<"ServiceProvider", 'String'>
+  readonly paymentMode: Prisma.FieldRef<"ServiceProvider", 'PaymentType'>
   readonly note: Prisma.FieldRef<"ServiceProvider", 'Float'>
   readonly comment: Prisma.FieldRef<"ServiceProvider", 'String'>
   readonly isDeleting: Prisma.FieldRef<"ServiceProvider", 'Boolean'>
@@ -1866,6 +2027,30 @@ export type ServiceProviderDeleteManyArgs<ExtArgs extends runtime.Types.Extensio
    * Limit how many ServiceProviders to delete.
    */
   limit?: number
+}
+
+/**
+ * ServiceProvider.purchaseOrders
+ */
+export type ServiceProvider$purchaseOrdersArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the purchaseOrder
+   */
+  select?: Prisma.purchaseOrderSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the purchaseOrder
+   */
+  omit?: Prisma.purchaseOrderOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.purchaseOrderInclude<ExtArgs> | null
+  where?: Prisma.purchaseOrderWhereInput
+  orderBy?: Prisma.purchaseOrderOrderByWithRelationInput | Prisma.purchaseOrderOrderByWithRelationInput[]
+  cursor?: Prisma.purchaseOrderWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.PurchaseOrderScalarFieldEnum | Prisma.PurchaseOrderScalarFieldEnum[]
 }
 
 /**

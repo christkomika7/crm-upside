@@ -11,7 +11,7 @@ export const serviceProvidersSchema = z.object({
     email: z.string({ error: "L'adresse mail est requis." }),
     nif: z.string({ error: "Le numéro d'identification fiscal est requis." }),
     registerNumber: z.string({ error: "Le numéro d'enregistrement est requis." }),
-    paymentMode: z.string({ error: "Le mode de paiement est requis." }),
+    paymentMode: z.enum(["CASH", "BANK", "CHECK"], { error: "Le mode de paiement est requis." }),
     rating: z.object({
         note: z.number().min(0).max(5, { message: "La note doit être comprise entre 0 et 5." }),
         comment: z.string().optional(),

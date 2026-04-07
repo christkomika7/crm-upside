@@ -151,9 +151,8 @@ export const tenantRoutes = new Elysia({ prefix: "/tenant" })
             where: { id },
         });
 
-        if (!tenant) {
-            return status(404, { message: "Locataire non trouvé" });
-        }
+        if (!tenant) return status(404, { message: "Locataire non trouvé" });
+        if (tenant.isDeleting) return status(400, { message: "La suppression de ce locataire est en cours. Aucune modification n'est possible." });
 
         const oldKeys = [...tenant.documents];
 
@@ -175,40 +174,42 @@ export const tenantRoutes = new Elysia({ prefix: "/tenant" })
                 return status(500, { message: "Erreur lors de l'upload des fichiers, veuillez réessayer" });
             }
 
-            await prisma.tenant.update({
-                where: {
-                    id: params.id
-                },
-                data: {
-                    firstname: data.firstname,
-                    lastname: data.lastname,
-                    company: data.company,
-                    phone: data.phone,
-                    email: data.email,
-                    address: data.address,
-                    income: new Decimal(data.income),
-                    bankInfo: data.bankInfo,
-                    maritalStatus: data.maritalStatus,
-                    paymentMode: data.paymentMode,
-                    documents,
-                },
-            });
+            await prisma.$transaction(async tx => {
+                await tx.tenant.update({
+                    where: {
+                        id: params.id
+                    },
+                    data: {
+                        firstname: data.firstname,
+                        lastname: data.lastname,
+                        company: data.company,
+                        phone: data.phone,
+                        email: data.email,
+                        address: data.address,
+                        income: new Decimal(data.income),
+                        bankInfo: data.bankInfo,
+                        maritalStatus: data.maritalStatus,
+                        paymentMode: data.paymentMode,
+                        documents,
+                    },
+                });
 
-            await Promise.all(
-                oldKeys.map(async (key) => {
-                    try {
-                        await deleteFile(key);
-                    } catch (e) {
-                        console.error("Erreur suppression fichier:", key, e);
-                    }
-                })
-            );
+                await Promise.all(
+                    oldKeys.map(async (key) => {
+                        try {
+                            await deleteFile(key);
+                        } catch (e) {
+                            console.error("Erreur suppression fichier:", key, e);
+                        }
+                    })
+                );
+            })
+
 
             return status(201, { message: "Locataire modifié avec succès" });
 
         } catch (error) {
             console.error(error);
-
             await Promise.all(
                 uploadedKeys.map(async (key) => {
                     try {
@@ -233,10 +234,23 @@ export const tenantRoutes = new Elysia({ prefix: "/tenant" })
         }
         const id = params.id;
         const tenant = await prisma.tenant.findUnique({
-            where: { id }
+            where: { id },
+            include: {
+                rentals: true,
+                invoices: true,
+                quotes: true,
+                appointments: true,
+                checkInOuts: true,
+            }
         });
 
         if (!tenant) return status(400, { message: "Aucun locataire trouvée." });
+        if (tenant.isDeleting) return status(400, { message: "La suppression de ce locataire est déjà en cours. Merci de patienter quelques instants." });
+        if (tenant.rentals.length > 0) return status(400, { message: "Impossible de supprimer ce locataire : il a encore des locations actives. Veuillez les clôturer avant." });
+        if (tenant.invoices.length > 0) return status(400, { message: "Impossible de supprimer ce locataire : des factures sont associées à son compte." });
+        if (tenant.quotes.length > 0) return status(400, { message: "Impossible de supprimer ce locataire : des devis sont encore liés à ce locataire." });
+        if (tenant.appointments.length > 0) return status(400, { message: "Impossible de supprimer ce locataire : des rendez-vous sont encore planifiés." });
+        if (tenant.checkInOuts.length > 0) return status(400, { message: "Impossible de supprimer ce locataire : des entrées/sorties sont enregistrées." });
 
         await prisma.$transaction([
             prisma.deletion.create({

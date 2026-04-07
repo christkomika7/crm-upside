@@ -18,9 +18,13 @@ export type Unit = {
     id: string;
     reference: string;
     rentalStatus: string;
-    surface: string;
-    rooms: string;
-    rent: string;
+    surface: number;
+    rooms: number;
+    dining: number;
+    kitchen: number;
+    bedroom: number;
+    bathroom: number;
+    rent: number;
     furnished: string;
     wifi: boolean;
     water: boolean;

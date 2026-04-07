@@ -32,6 +32,7 @@ export const referenceRoutes = new Elysia({ prefix: "/reference" })
                 data: {
                     invoice: data.invoice || "",
                     quote: data.quote || "",
+                    purchaseOrder: data.purchaseOrder || "",
                 }
             });
 
@@ -46,6 +47,7 @@ export const referenceRoutes = new Elysia({ prefix: "/reference" })
             data: {
                 invoice: data.invoice,
                 quote: data.quote,
+                purchaseOrder: data.purchaseOrder,
             }
         });
 

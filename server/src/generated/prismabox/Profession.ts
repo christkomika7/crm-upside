@@ -28,7 +28,10 @@ export const ProfessionRelations = t.Object(
           address: t.String(),
           nif: t.String(),
           registerNumber: t.String(),
-          paymentMode: t.String(),
+          paymentMode: t.Union(
+            [t.Literal("CASH"), t.Literal("CHECK"), t.Literal("BANK")],
+            { additionalProperties: false },
+          ),
           note: t.Number(),
           comment: __nullable__(t.String()),
           isDeleting: t.Boolean(),

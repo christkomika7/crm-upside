@@ -12,7 +12,11 @@ export default {
         income: t.String({ error: "Le revenu est requis." }),
         maritalStatus: t.String({ error: "Le statut marital est requis." }),
         bankInfo: t.String({ error: "Les informations bancaires sont requises." }),
-        paymentMode: t.String({ error: "Le mode de paiement est requis." }),
+        paymentMode: t.Enum({
+            CASH: "CASH",
+            BANK: "BANK",
+            CHECK: "CHECK",
+        }, { error: "Le mode de paiement Sest requis." }),
         documents: t.Optional(t.Union([t.Files(), t.Array(t.Files())])),
     }),
     params: t.Object({ id: t.String() })

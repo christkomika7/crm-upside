@@ -62,7 +62,10 @@ export const AppointmentRelations = t.Object(
           maritalStatus: __nullable__(t.String()),
           income: t.Number(),
           bankInfo: t.String(),
-          paymentMode: t.String(),
+          paymentMode: t.Union(
+            [t.Literal("CASH"), t.Literal("CHECK"), t.Literal("BANK")],
+            { additionalProperties: false },
+          ),
           documents: t.Array(t.String(), { additionalProperties: false }),
           isDeleting: t.Boolean(),
           createdAt: t.Date(),

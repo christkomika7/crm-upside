@@ -11,7 +11,7 @@ export const tenantSchema = z.object({
     income: z.string({ error: "Le prix est requis." }),
     bankInfo: z.string({ error: "Les informations bancaires sont requises." }),
     maritalStatus: z.string().optional(),
-    paymentMode: z.string({ error: "Le mode de paiement est requis." }),
+    paymentMode: z.enum(["CASH", "BANK", "CHECK"], { error: "Le mode de paiement est requis." }),
     documents: z.array(
         z
             .instanceof(File)

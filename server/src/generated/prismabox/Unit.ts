@@ -9,8 +9,12 @@ export const UnitPlain = t.Object(
     id: t.String(),
     reference: t.String(),
     rentalStatus: t.String(),
-    surface: t.String(),
-    rooms: t.String(),
+    surface: t.Number(),
+    rooms: t.Integer(),
+    dining: t.Integer(),
+    kitchen: t.Integer(),
+    bedroom: t.Integer(),
+    bathroom: t.Integer(),
     rent: t.Number(),
     furnished: t.String(),
     wifi: t.Boolean(),
@@ -123,6 +127,24 @@ export const UnitRelations = t.Object(
       ),
       { additionalProperties: false },
     ),
+    checkInOuts: t.Array(
+      t.Object(
+        {
+          id: t.String(),
+          date: t.Date(),
+          tenantId: t.String(),
+          unitId: t.String(),
+          isChecked: t.Boolean(),
+          isDeleting: t.Boolean(),
+          document: t.Array(t.String(), { additionalProperties: false }),
+          note: __nullable__(t.String()),
+          createdAt: t.Date(),
+          updatedAt: t.Date(),
+        },
+        { additionalProperties: false },
+      ),
+      { additionalProperties: false },
+    ),
   },
   { additionalProperties: false },
 );
@@ -131,8 +153,12 @@ export const UnitPlainInputCreate = t.Object(
   {
     reference: t.String(),
     rentalStatus: t.String(),
-    surface: t.String(),
-    rooms: t.String(),
+    surface: t.Optional(t.Number()),
+    rooms: t.Optional(t.Integer()),
+    dining: t.Optional(t.Integer()),
+    kitchen: t.Optional(t.Integer()),
+    bedroom: t.Optional(t.Integer()),
+    bathroom: t.Optional(t.Integer()),
     rent: t.Number(),
     furnished: t.String(),
     wifi: t.Boolean(),
@@ -150,8 +176,12 @@ export const UnitPlainInputUpdate = t.Object(
   {
     reference: t.Optional(t.String()),
     rentalStatus: t.Optional(t.String()),
-    surface: t.Optional(t.String()),
-    rooms: t.Optional(t.String()),
+    surface: t.Optional(t.Number()),
+    rooms: t.Optional(t.Integer()),
+    dining: t.Optional(t.Integer()),
+    kitchen: t.Optional(t.Integer()),
+    bedroom: t.Optional(t.Integer()),
+    bathroom: t.Optional(t.Integer()),
     rent: t.Optional(t.Number()),
     furnished: t.Optional(t.String()),
     wifi: t.Optional(t.Boolean()),
@@ -222,6 +252,22 @@ export const UnitRelationsInputCreate = t.Object(
       ),
     ),
     propertyManagements: t.Optional(
+      t.Object(
+        {
+          connect: t.Array(
+            t.Object(
+              {
+                id: t.String({ additionalProperties: false }),
+              },
+              { additionalProperties: false },
+            ),
+            { additionalProperties: false },
+          ),
+        },
+        { additionalProperties: false },
+      ),
+    ),
+    checkInOuts: t.Optional(
       t.Object(
         {
           connect: t.Array(
@@ -341,6 +387,31 @@ export const UnitRelationsInputUpdate = t.Partial(
           { additionalProperties: false },
         ),
       ),
+      checkInOuts: t.Partial(
+        t.Object(
+          {
+            connect: t.Array(
+              t.Object(
+                {
+                  id: t.String({ additionalProperties: false }),
+                },
+                { additionalProperties: false },
+              ),
+              { additionalProperties: false },
+            ),
+            disconnect: t.Array(
+              t.Object(
+                {
+                  id: t.String({ additionalProperties: false }),
+                },
+                { additionalProperties: false },
+              ),
+              { additionalProperties: false },
+            ),
+          },
+          { additionalProperties: false },
+        ),
+      ),
     },
     { additionalProperties: false },
   ),
@@ -357,8 +428,12 @@ export const UnitWhere = t.Partial(
           id: t.String(),
           reference: t.String(),
           rentalStatus: t.String(),
-          surface: t.String(),
-          rooms: t.String(),
+          surface: t.Number(),
+          rooms: t.Integer(),
+          dining: t.Integer(),
+          kitchen: t.Integer(),
+          bedroom: t.Integer(),
+          bathroom: t.Integer(),
           rent: t.Number(),
           furnished: t.String(),
           wifi: t.Boolean(),
@@ -414,8 +489,12 @@ export const UnitWhereUnique = t.Recursive(
               id: t.String(),
               reference: t.String(),
               rentalStatus: t.String(),
-              surface: t.String(),
-              rooms: t.String(),
+              surface: t.Number(),
+              rooms: t.Integer(),
+              dining: t.Integer(),
+              kitchen: t.Integer(),
+              bedroom: t.Integer(),
+              bathroom: t.Integer(),
               rent: t.Number(),
               furnished: t.String(),
               wifi: t.Boolean(),
@@ -447,6 +526,10 @@ export const UnitSelect = t.Partial(
       rentalStatus: t.Boolean(),
       surface: t.Boolean(),
       rooms: t.Boolean(),
+      dining: t.Boolean(),
+      kitchen: t.Boolean(),
+      bedroom: t.Boolean(),
+      bathroom: t.Boolean(),
       rent: t.Boolean(),
       furnished: t.Boolean(),
       wifi: t.Boolean(),
@@ -465,6 +548,7 @@ export const UnitSelect = t.Partial(
       propertyManagements: t.Boolean(),
       createdAt: t.Boolean(),
       updatedAt: t.Boolean(),
+      checkInOuts: t.Boolean(),
       _count: t.Boolean(),
     },
     { additionalProperties: false },
@@ -479,6 +563,7 @@ export const UnitInclude = t.Partial(
       type: t.Boolean(),
       reservations: t.Boolean(),
       propertyManagements: t.Boolean(),
+      checkInOuts: t.Boolean(),
       _count: t.Boolean(),
     },
     { additionalProperties: false },
@@ -501,6 +586,18 @@ export const UnitOrderBy = t.Partial(
         additionalProperties: false,
       }),
       rooms: t.Union([t.Literal("asc"), t.Literal("desc")], {
+        additionalProperties: false,
+      }),
+      dining: t.Union([t.Literal("asc"), t.Literal("desc")], {
+        additionalProperties: false,
+      }),
+      kitchen: t.Union([t.Literal("asc"), t.Literal("desc")], {
+        additionalProperties: false,
+      }),
+      bedroom: t.Union([t.Literal("asc"), t.Literal("desc")], {
+        additionalProperties: false,
+      }),
+      bathroom: t.Union([t.Literal("asc"), t.Literal("desc")], {
         additionalProperties: false,
       }),
       rent: t.Union([t.Literal("asc"), t.Literal("desc")], {

@@ -37,6 +37,7 @@ export const ProductServiceRelations = t.Object(
           quoteId: __nullable__(t.String()),
           createdAt: t.Date(),
           updatedAt: t.Date(),
+          purchaseOrderId: __nullable__(t.String()),
         },
         { additionalProperties: false },
       ),
