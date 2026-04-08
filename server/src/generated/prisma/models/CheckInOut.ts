@@ -55,7 +55,7 @@ export type CheckInOutCountAggregateOutputType = {
   unitId: number
   isChecked: number
   isDeleting: number
-  document: number
+  documents: number
   note: number
   createdAt: number
   updatedAt: number
@@ -94,7 +94,7 @@ export type CheckInOutCountAggregateInputType = {
   unitId?: true
   isChecked?: true
   isDeleting?: true
-  document?: true
+  documents?: true
   note?: true
   createdAt?: true
   updatedAt?: true
@@ -180,7 +180,7 @@ export type CheckInOutGroupByOutputType = {
   unitId: string
   isChecked: boolean
   isDeleting: boolean
-  document: string[]
+  documents: string[]
   note: string | null
   createdAt: Date
   updatedAt: Date
@@ -214,7 +214,7 @@ export type CheckInOutWhereInput = {
   unitId?: Prisma.StringFilter<"CheckInOut"> | string
   isChecked?: Prisma.BoolFilter<"CheckInOut"> | boolean
   isDeleting?: Prisma.BoolFilter<"CheckInOut"> | boolean
-  document?: Prisma.StringNullableListFilter<"CheckInOut">
+  documents?: Prisma.StringNullableListFilter<"CheckInOut">
   note?: Prisma.StringNullableFilter<"CheckInOut"> | string | null
   createdAt?: Prisma.DateTimeFilter<"CheckInOut"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"CheckInOut"> | Date | string
@@ -229,7 +229,7 @@ export type CheckInOutOrderByWithRelationInput = {
   unitId?: Prisma.SortOrder
   isChecked?: Prisma.SortOrder
   isDeleting?: Prisma.SortOrder
-  document?: Prisma.SortOrder
+  documents?: Prisma.SortOrder
   note?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
@@ -247,7 +247,7 @@ export type CheckInOutWhereUniqueInput = Prisma.AtLeast<{
   unitId?: Prisma.StringFilter<"CheckInOut"> | string
   isChecked?: Prisma.BoolFilter<"CheckInOut"> | boolean
   isDeleting?: Prisma.BoolFilter<"CheckInOut"> | boolean
-  document?: Prisma.StringNullableListFilter<"CheckInOut">
+  documents?: Prisma.StringNullableListFilter<"CheckInOut">
   note?: Prisma.StringNullableFilter<"CheckInOut"> | string | null
   createdAt?: Prisma.DateTimeFilter<"CheckInOut"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"CheckInOut"> | Date | string
@@ -262,7 +262,7 @@ export type CheckInOutOrderByWithAggregationInput = {
   unitId?: Prisma.SortOrder
   isChecked?: Prisma.SortOrder
   isDeleting?: Prisma.SortOrder
-  document?: Prisma.SortOrder
+  documents?: Prisma.SortOrder
   note?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
@@ -281,7 +281,7 @@ export type CheckInOutScalarWhereWithAggregatesInput = {
   unitId?: Prisma.StringWithAggregatesFilter<"CheckInOut"> | string
   isChecked?: Prisma.BoolWithAggregatesFilter<"CheckInOut"> | boolean
   isDeleting?: Prisma.BoolWithAggregatesFilter<"CheckInOut"> | boolean
-  document?: Prisma.StringNullableListFilter<"CheckInOut">
+  documents?: Prisma.StringNullableListFilter<"CheckInOut">
   note?: Prisma.StringNullableWithAggregatesFilter<"CheckInOut"> | string | null
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"CheckInOut"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"CheckInOut"> | Date | string
@@ -292,7 +292,7 @@ export type CheckInOutCreateInput = {
   date: Date | string
   isChecked?: boolean
   isDeleting?: boolean
-  document?: Prisma.CheckInOutCreatedocumentInput | string[]
+  documents?: Prisma.CheckInOutCreatedocumentsInput | string[]
   note?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -307,7 +307,7 @@ export type CheckInOutUncheckedCreateInput = {
   unitId: string
   isChecked?: boolean
   isDeleting?: boolean
-  document?: Prisma.CheckInOutCreatedocumentInput | string[]
+  documents?: Prisma.CheckInOutCreatedocumentsInput | string[]
   note?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -318,7 +318,7 @@ export type CheckInOutUpdateInput = {
   date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   isChecked?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isDeleting?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  document?: Prisma.CheckInOutUpdatedocumentInput | string[]
+  documents?: Prisma.CheckInOutUpdatedocumentsInput | string[]
   note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -333,7 +333,7 @@ export type CheckInOutUncheckedUpdateInput = {
   unitId?: Prisma.StringFieldUpdateOperationsInput | string
   isChecked?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isDeleting?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  document?: Prisma.CheckInOutUpdatedocumentInput | string[]
+  documents?: Prisma.CheckInOutUpdatedocumentsInput | string[]
   note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -346,7 +346,7 @@ export type CheckInOutCreateManyInput = {
   unitId: string
   isChecked?: boolean
   isDeleting?: boolean
-  document?: Prisma.CheckInOutCreatedocumentInput | string[]
+  documents?: Prisma.CheckInOutCreatedocumentsInput | string[]
   note?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -357,7 +357,7 @@ export type CheckInOutUpdateManyMutationInput = {
   date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   isChecked?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isDeleting?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  document?: Prisma.CheckInOutUpdatedocumentInput | string[]
+  documents?: Prisma.CheckInOutUpdatedocumentsInput | string[]
   note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -370,7 +370,7 @@ export type CheckInOutUncheckedUpdateManyInput = {
   unitId?: Prisma.StringFieldUpdateOperationsInput | string
   isChecked?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isDeleting?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  document?: Prisma.CheckInOutUpdatedocumentInput | string[]
+  documents?: Prisma.CheckInOutUpdatedocumentsInput | string[]
   note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -393,7 +393,7 @@ export type CheckInOutCountOrderByAggregateInput = {
   unitId?: Prisma.SortOrder
   isChecked?: Prisma.SortOrder
   isDeleting?: Prisma.SortOrder
-  document?: Prisma.SortOrder
+  documents?: Prisma.SortOrder
   note?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
@@ -507,11 +507,11 @@ export type CheckInOutUncheckedUpdateManyWithoutTenantNestedInput = {
   deleteMany?: Prisma.CheckInOutScalarWhereInput | Prisma.CheckInOutScalarWhereInput[]
 }
 
-export type CheckInOutCreatedocumentInput = {
+export type CheckInOutCreatedocumentsInput = {
   set: string[]
 }
 
-export type CheckInOutUpdatedocumentInput = {
+export type CheckInOutUpdatedocumentsInput = {
   set?: string[]
   push?: string | string[]
 }
@@ -521,7 +521,7 @@ export type CheckInOutCreateWithoutUnitInput = {
   date: Date | string
   isChecked?: boolean
   isDeleting?: boolean
-  document?: Prisma.CheckInOutCreatedocumentInput | string[]
+  documents?: Prisma.CheckInOutCreatedocumentsInput | string[]
   note?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -534,7 +534,7 @@ export type CheckInOutUncheckedCreateWithoutUnitInput = {
   tenantId: string
   isChecked?: boolean
   isDeleting?: boolean
-  document?: Prisma.CheckInOutCreatedocumentInput | string[]
+  documents?: Prisma.CheckInOutCreatedocumentsInput | string[]
   note?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -576,7 +576,7 @@ export type CheckInOutScalarWhereInput = {
   unitId?: Prisma.StringFilter<"CheckInOut"> | string
   isChecked?: Prisma.BoolFilter<"CheckInOut"> | boolean
   isDeleting?: Prisma.BoolFilter<"CheckInOut"> | boolean
-  document?: Prisma.StringNullableListFilter<"CheckInOut">
+  documents?: Prisma.StringNullableListFilter<"CheckInOut">
   note?: Prisma.StringNullableFilter<"CheckInOut"> | string | null
   createdAt?: Prisma.DateTimeFilter<"CheckInOut"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"CheckInOut"> | Date | string
@@ -587,7 +587,7 @@ export type CheckInOutCreateWithoutTenantInput = {
   date: Date | string
   isChecked?: boolean
   isDeleting?: boolean
-  document?: Prisma.CheckInOutCreatedocumentInput | string[]
+  documents?: Prisma.CheckInOutCreatedocumentsInput | string[]
   note?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -600,7 +600,7 @@ export type CheckInOutUncheckedCreateWithoutTenantInput = {
   unitId: string
   isChecked?: boolean
   isDeleting?: boolean
-  document?: Prisma.CheckInOutCreatedocumentInput | string[]
+  documents?: Prisma.CheckInOutCreatedocumentsInput | string[]
   note?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -638,7 +638,7 @@ export type CheckInOutCreateManyUnitInput = {
   tenantId: string
   isChecked?: boolean
   isDeleting?: boolean
-  document?: Prisma.CheckInOutCreatedocumentInput | string[]
+  documents?: Prisma.CheckInOutCreatedocumentsInput | string[]
   note?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -649,7 +649,7 @@ export type CheckInOutUpdateWithoutUnitInput = {
   date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   isChecked?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isDeleting?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  document?: Prisma.CheckInOutUpdatedocumentInput | string[]
+  documents?: Prisma.CheckInOutUpdatedocumentsInput | string[]
   note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -662,7 +662,7 @@ export type CheckInOutUncheckedUpdateWithoutUnitInput = {
   tenantId?: Prisma.StringFieldUpdateOperationsInput | string
   isChecked?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isDeleting?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  document?: Prisma.CheckInOutUpdatedocumentInput | string[]
+  documents?: Prisma.CheckInOutUpdatedocumentsInput | string[]
   note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -674,7 +674,7 @@ export type CheckInOutUncheckedUpdateManyWithoutUnitInput = {
   tenantId?: Prisma.StringFieldUpdateOperationsInput | string
   isChecked?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isDeleting?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  document?: Prisma.CheckInOutUpdatedocumentInput | string[]
+  documents?: Prisma.CheckInOutUpdatedocumentsInput | string[]
   note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -686,7 +686,7 @@ export type CheckInOutCreateManyTenantInput = {
   unitId: string
   isChecked?: boolean
   isDeleting?: boolean
-  document?: Prisma.CheckInOutCreatedocumentInput | string[]
+  documents?: Prisma.CheckInOutCreatedocumentsInput | string[]
   note?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -697,7 +697,7 @@ export type CheckInOutUpdateWithoutTenantInput = {
   date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   isChecked?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isDeleting?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  document?: Prisma.CheckInOutUpdatedocumentInput | string[]
+  documents?: Prisma.CheckInOutUpdatedocumentsInput | string[]
   note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -710,7 +710,7 @@ export type CheckInOutUncheckedUpdateWithoutTenantInput = {
   unitId?: Prisma.StringFieldUpdateOperationsInput | string
   isChecked?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isDeleting?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  document?: Prisma.CheckInOutUpdatedocumentInput | string[]
+  documents?: Prisma.CheckInOutUpdatedocumentsInput | string[]
   note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -722,7 +722,7 @@ export type CheckInOutUncheckedUpdateManyWithoutTenantInput = {
   unitId?: Prisma.StringFieldUpdateOperationsInput | string
   isChecked?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isDeleting?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  document?: Prisma.CheckInOutUpdatedocumentInput | string[]
+  documents?: Prisma.CheckInOutUpdatedocumentsInput | string[]
   note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -737,7 +737,7 @@ export type CheckInOutSelect<ExtArgs extends runtime.Types.Extensions.InternalAr
   unitId?: boolean
   isChecked?: boolean
   isDeleting?: boolean
-  document?: boolean
+  documents?: boolean
   note?: boolean
   createdAt?: boolean
   updatedAt?: boolean
@@ -752,7 +752,7 @@ export type CheckInOutSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Ex
   unitId?: boolean
   isChecked?: boolean
   isDeleting?: boolean
-  document?: boolean
+  documents?: boolean
   note?: boolean
   createdAt?: boolean
   updatedAt?: boolean
@@ -767,7 +767,7 @@ export type CheckInOutSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Ex
   unitId?: boolean
   isChecked?: boolean
   isDeleting?: boolean
-  document?: boolean
+  documents?: boolean
   note?: boolean
   createdAt?: boolean
   updatedAt?: boolean
@@ -782,13 +782,13 @@ export type CheckInOutSelectScalar = {
   unitId?: boolean
   isChecked?: boolean
   isDeleting?: boolean
-  document?: boolean
+  documents?: boolean
   note?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }
 
-export type CheckInOutOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "date" | "tenantId" | "unitId" | "isChecked" | "isDeleting" | "document" | "note" | "createdAt" | "updatedAt", ExtArgs["result"]["checkInOut"]>
+export type CheckInOutOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "date" | "tenantId" | "unitId" | "isChecked" | "isDeleting" | "documents" | "note" | "createdAt" | "updatedAt", ExtArgs["result"]["checkInOut"]>
 export type CheckInOutInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
   unit?: boolean | Prisma.UnitDefaultArgs<ExtArgs>
@@ -815,7 +815,7 @@ export type $CheckInOutPayload<ExtArgs extends runtime.Types.Extensions.Internal
     unitId: string
     isChecked: boolean
     isDeleting: boolean
-    document: string[]
+    documents: string[]
     note: string | null
     createdAt: Date
     updatedAt: Date
@@ -1250,7 +1250,7 @@ export interface CheckInOutFieldRefs {
   readonly unitId: Prisma.FieldRef<"CheckInOut", 'String'>
   readonly isChecked: Prisma.FieldRef<"CheckInOut", 'Boolean'>
   readonly isDeleting: Prisma.FieldRef<"CheckInOut", 'Boolean'>
-  readonly document: Prisma.FieldRef<"CheckInOut", 'String[]'>
+  readonly documents: Prisma.FieldRef<"CheckInOut", 'String[]'>
   readonly note: Prisma.FieldRef<"CheckInOut", 'String'>
   readonly createdAt: Prisma.FieldRef<"CheckInOut", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"CheckInOut", 'DateTime'>

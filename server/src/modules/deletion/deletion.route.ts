@@ -284,6 +284,29 @@ export const deletionRoutes = new Elysia({ prefix: "/deletion" })
                 }
                 return contractParsed;
             case "CHECK_IN":
+                const checkInOutParsed = [];
+                for (const deletion of deletions) {
+                    const checkInOut = await prisma.checkInOut.findUnique({
+                        where: { id: deletion.recordId },
+                        include: {
+                            tenant: true,
+                            unit: true
+                        }
+                    });
+
+                    if (!checkInOut) return status(400, { message: "Aucun état des lieux trouvé." });
+                    const reference = checkInOut.unit.reference;
+
+                    checkInOutParsed.push({
+                        id: deletion.id,
+                        reference: reference,
+                        type: deletion.type,
+                        name: `${checkInOut.tenant.firstname} ${checkInOut.tenant.lastname}`,
+                        date: formatDateToString(deletion.createdAt),
+                        actionBy: user.name
+                    });
+                }
+                return checkInOutParsed;
             case "APPOINTMENT":
                 const appointmentParsed = [];
                 for (const deletion of deletions) {
@@ -520,18 +543,21 @@ export const deletionRoutes = new Elysia({ prefix: "/deletion" })
                             ]);
                             return status(200, { message: `La suppression du contrat a été annulé avec succès.` });
                         case "CHECK_IN":
-                        // const [checkIn] = await prisma.$transaction([
-                        //     prisma.checkIn.update({
-                        //         where: { id: deletion.recordId },
-                        //         data: {
-                        //             isDeleting: false
-                        //         }
-                        //     }),
-                        //     prisma.deletion.delete({
-                        //         where: { id: deletion.id }
-                        //     })
-                        // ]);
-                        // return status(200, { message: `La suppression du check-in ${generateRef(reference?.checkIn, checkIn.reference)} a été annulé avec succès.` });
+                            const [checkIn] = await prisma.$transaction([
+                                prisma.checkInOut.update({
+                                    where: { id: deletion.recordId },
+                                    data: {
+                                        isDeleting: false,
+                                    },
+                                    include: {
+                                        unit: true
+                                    }
+                                }),
+                                prisma.deletion.delete({
+                                    where: { id: deletion.id }
+                                })
+                            ]);
+                            return status(200, { message: `La suppression de l'état des lieux ${checkIn.unit.reference} a été annulé avec succès.` });
                         case "APPOINTMENT":
                             const [appointment] = await prisma.$transaction([
                                 prisma.appointment.update({
@@ -870,6 +896,28 @@ export const deletionRoutes = new Elysia({ prefix: "/deletion" })
 
                             return status(200, { message: `Le contrat a été supprimé avec succès.` });
                         case "CHECK_IN":
+                            const checkIn = await prisma.checkInOut.findUnique({
+                                where: { id: deletion.recordId },
+                                include: {
+                                    unit: true
+                                }
+                            });
+
+                            if (!checkIn) return status(400, { message: "Aucun état des lieux trouvé." })
+
+                            await prisma.$transaction([
+                                prisma.deletion.update({
+                                    where: {
+                                        id: deletion.id
+                                    },
+                                    data: {
+                                        state: "TERMINED"
+                                    }
+                                }),
+                                prisma.checkInOut.delete({ where: { id: checkIn.id } })
+                            ])
+
+                            return status(200, { message: `L'état des lieux ${checkIn.unit.reference} a été supprimé avec succès.` });
                         case "APPOINTMENT":
                             const appointment = await prisma.appointment.findUnique({
                                 where: { id: deletion.recordId },

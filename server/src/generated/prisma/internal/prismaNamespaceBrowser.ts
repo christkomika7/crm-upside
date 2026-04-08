@@ -506,7 +506,7 @@ export const CheckInOutScalarFieldEnum = {
   unitId: 'unitId',
   isChecked: 'isChecked',
   isDeleting: 'isDeleting',
-  document: 'document',
+  documents: 'documents',
   note: 'note',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'

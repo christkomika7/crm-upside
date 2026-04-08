@@ -136,7 +136,7 @@ export const UnitRelations = t.Object(
           unitId: t.String(),
           isChecked: t.Boolean(),
           isDeleting: t.Boolean(),
-          document: t.Array(t.String(), { additionalProperties: false }),
+          documents: t.Array(t.String(), { additionalProperties: false }),
           note: __nullable__(t.String()),
           createdAt: t.Date(),
           updatedAt: t.Date(),

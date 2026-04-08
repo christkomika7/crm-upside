@@ -25,6 +25,7 @@ import { appointmentRoutes } from "../modules/appointment/appointment.route";
 import { serviceProviderRoutes } from "../modules/service-provider/service-provider.route";
 import { professionRoutes } from "../modules/profession/profession.route";
 import { purchaseOrderRoutes } from "../modules/purchase-order/purchase-order.route";
+import { checkInOutRoutes } from "../modules/check-in-out/check-in-out.route";
 
 export const route = new Elysia()
     .use(userRoutes)
@@ -51,5 +52,6 @@ export const route = new Elysia()
     .use(appointmentRoutes)
     .use(professionRoutes)
     .use(serviceProviderRoutes)
+    .use(checkInOutRoutes)
     .use(documentRoutes)
     .use(deletionRoutes)

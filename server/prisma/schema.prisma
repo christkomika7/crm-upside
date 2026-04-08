@@ -594,8 +594,8 @@ model CheckInOut {
   isChecked  Boolean @default(false)
   isDeleting Boolean @default(false)
 
-  document String[]
-  note     String?
+  documents String[]
+  note      String?
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
