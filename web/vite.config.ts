@@ -30,7 +30,7 @@ export default defineConfig({
 		allowedHosts: ['crm.upside-gabon.com', 'localhost'],
 		proxy: {
 			"/api": {
-				target: "http://localhost:3000",
+				target: "http://localhost:3001",
 				changeOrigin: true,
 			},
 		},
