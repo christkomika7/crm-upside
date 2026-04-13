@@ -6,7 +6,7 @@ const allowedOrigins = [
 ];
 
 export const corsPlugin = cors({
-    origin: "https://crm.upside-gabon.com",
+    origin: "*",
     methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
     credentials: true,
     allowedHeaders: ["Content-Type", "Authorization"],
