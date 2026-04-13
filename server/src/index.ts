@@ -12,7 +12,7 @@ const app = new Elysia()
   .use(envPlugin)
   .use(corsPlugin)
   .use(betterAuthPlugin)
-  .use(wsPlugin)
+  // .use(wsPlugin)
   .use(route)
   // .use(loggerPlugin)
   .listen(3001);
