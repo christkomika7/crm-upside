@@ -13,12 +13,12 @@ import { NotificationProvider } from "./components/notification/notification-pro
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
     <QueryClientProvider client={queryClient}>
-      <NotificationProvider>
-        <Toaster position="top-right" />
-        <TooltipProvider>
-          <RouterProvider router={router} />
-        </TooltipProvider>
-      </NotificationProvider>
+      {/* <NotificationProvider> */}
+      <Toaster position="top-right" />
+      <TooltipProvider>
+        <RouterProvider router={router} />
+      </TooltipProvider>
+      {/* </NotificationProvider> */}
     </QueryClientProvider>
   </StrictMode>
 );
