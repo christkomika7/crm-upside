@@ -2,11 +2,13 @@ import { createRouter } from "@tanstack/react-router";
 import { routeTree } from "./routeTree.gen";
 import { queryClient } from "./lib/query-client";
 import { authClient } from "./lib/auth/auth-client";
+import NotFound from "./components/not-found";
 
 const session = authClient.getSession();
 
 export const router = createRouter({
     routeTree,
+    defaultNotFoundComponent: NotFound,
     context: {
         queryClient,
         session,

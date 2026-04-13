@@ -182,15 +182,15 @@ export type SecondNatureOrderByWithRelationInput = {
 
 export type SecondNatureWhereUniqueInput = Prisma.AtLeast<{
   id?: string
-  name?: string
   AND?: Prisma.SecondNatureWhereInput | Prisma.SecondNatureWhereInput[]
   OR?: Prisma.SecondNatureWhereInput[]
   NOT?: Prisma.SecondNatureWhereInput | Prisma.SecondNatureWhereInput[]
+  name?: Prisma.StringFilter<"SecondNature"> | string
   natureId?: Prisma.StringFilter<"SecondNature"> | string
   nature?: Prisma.XOR<Prisma.NatureScalarRelationFilter, Prisma.NatureWhereInput>
   thirdNatures?: Prisma.ThirdNatureListRelationFilter
   accountings?: Prisma.AccountingListRelationFilter
-}, "id" | "name">
+}, "id">
 
 export type SecondNatureOrderByWithAggregationInput = {
   id?: Prisma.SortOrder

@@ -5,13 +5,16 @@ import { ArrowUpDownIcon, Edit3Icon, EyeIcon, Trash2Icon } from "lucide-react";
 import { Status, StatusIndicator, StatusLabel } from "@/components/ui/status";
 import { Activity } from "react";
 import type { Units } from "@/types/unit";
-import { cutText } from "@/lib/utils";
+import { cutText, formatNumber } from "@/lib/utils";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
 import { useMutation } from "@tanstack/react-query";
 import { crudService } from "@/lib/api";
 import { toast } from "sonner";
 import { queryClient } from "@/lib/query-client";
 import { Spinner } from "@/components/ui/spinner";
+import { Route } from "@/routes/dashboard/units";
+import type { User } from "@/types/user";
+import { canAccess } from "@/lib/permission";
 
 export const columns: ColumnDef<Units>[] = [
     {
@@ -101,7 +104,7 @@ export const columns: ColumnDef<Units>[] = [
             )
         },
         cell: ({ row }) => (
-            <div className="capitalize">{row.getValue("charges")}</div>
+            <div className="capitalize">{formatNumber(Number(row.getValue("charges")))} FCFA</div>
         ),
     },
     {
@@ -159,6 +162,11 @@ export const columns: ColumnDef<Units>[] = [
         header: "Action",
         enableHiding: false,
         cell: ({ row }) => {
+            const { session } = Route.useRouteContext();
+            const permission = (session.data?.user as unknown as User).permission?.permissions;
+            const hasReadAccess = canAccess(permission, "units", ['read']);
+            const hasUpdateAccess = canAccess(permission, "units", ['update']);
+
             const removeUnit = useMutation({
                 mutationFn: ({ unitId }: { unitId: string }) =>
                     crudService.delete(`/unit/${unitId}`),
@@ -173,15 +181,23 @@ export const columns: ColumnDef<Units>[] = [
             });
             return (
                 <div className="flex gap-x-2">
-                    <Link to='/dashboard/units/edit-unit/$id' params={{ id: `edit_unit-${row.original.id}` }} >
-                        <Button variant="secondary" className="size-7.5 rounded-lg"><Edit3Icon className="size-3.5" /></Button>
-                    </Link>
-                    <Link to='/dashboard/units/$id' params={{ id: `view_unit-${row.original.id}` }} >
-                        <Button variant="secondary" className="size-7.5 rounded-lg"><EyeIcon className="size-3.5" /></Button>
-                    </Link>
-                    <Button onClick={() => removeUnit.mutate({ unitId: row.original.id })} variant="destructive" className="size-7.5 rounded-lg bg-red-400">
-                        {removeUnit.isPending ? <Spinner className="text-white size-3.5" /> : <Trash2Icon className="size-3.5" />}
-                    </Button>
+                    <Activity mode={row.original.isDeleting ? "hidden" : "visible"} >
+                        <Activity mode={hasReadAccess ? 'visible' : 'hidden'}>
+                            <Link to='/dashboard/units/$id' params={{ id: `view_unit-${row.original.id}` }} >
+                                <Button variant="secondary" className="size-7.5 rounded-lg"><EyeIcon className="size-3.5" /></Button>
+                            </Link>
+                        </Activity>
+                        <Activity mode={hasUpdateAccess ? 'visible' : 'hidden'}>
+                            <>
+                                <Link to='/dashboard/units/edit-unit/$id' params={{ id: `edit_unit-${row.original.id}` }} >
+                                    <Button variant="secondary" className="size-7.5 rounded-lg"><Edit3Icon className="size-3.5" /></Button>
+                                </Link>
+                                <Button onClick={() => removeUnit.mutate({ unitId: row.original.id })} variant="destructive" className="size-7.5 rounded-lg bg-red-400">
+                                    {removeUnit.isPending ? <Spinner className="text-white size-3.5" /> : <Trash2Icon className="size-3.5" />}
+                                </Button>
+                            </>
+                        </Activity>
+                    </Activity>
                 </div>
             )
         },

@@ -1,6 +1,15 @@
 import { t } from "elysia";
 
 export default {
+    body: t.Object({
+        tenant: t.String({ error: "Le locataire est requis." }),
+        unit: t.String({ error: "L'unité est requise." }),
+        date: t.Transform(t.String({ error: "La date est requise." }))
+            .Decode(value => new Date(value))
+            .Encode(value => value.toISOString()),
+        note: t.Optional(t.String()),
+        documents: t.Optional(t.Union([t.Files(), t.Array(t.Files())])),
+    }),
     queryType: t.Object({
         type: t.Enum({
             CHECK_IN: "CHECK_IN",
@@ -16,15 +25,6 @@ export default {
     }),
     paramsId: t.Object({
         id: t.String({ error: "L'identifiant est requis." })
-    }),
-    body: t.Object({
-        tenant: t.String({ error: "Le locataire est requis." }),
-        unit: t.String({ error: "L'unité est requise." }),
-        date: t.Transform(t.String({ error: "La date est requise." }))
-            .Decode(value => new Date(value))
-            .Encode(value => value.toISOString()),
-        note: t.Optional(t.String()),
-        documents: t.Optional(t.Union([t.Files(), t.Array(t.Files())])),
     }),
     mailBody: t.Object({
         id: t.String({ error: "L'identifiant est requis" }),

@@ -16,6 +16,7 @@ export const modules = [
     "propertyManagement",
     "productService",
     "invoicing",
+    "purchaseOrders",
     "contracts",
     "quotes",
     "checkInOutReports",
@@ -25,7 +26,6 @@ export const modules = [
     "communication",
     "settings",
 ] as const;
-
 
 export type ModuleType = (typeof modules)[number];
 
@@ -40,6 +40,7 @@ export const moduleFr: Record<ModuleType, string> = {
     propertyManagement: "Gestion immobilière",
     productService: "Produits et services",
     invoicing: "Facturation",
+    purchaseOrders: "Bon de commande",
     contracts: "Contrats",
     quotes: "Devis",
     checkInOutReports: "Rapports entrée/sortie",
@@ -49,6 +50,7 @@ export const moduleFr: Record<ModuleType, string> = {
     communication: "Communication",
     settings: "Paramètres",
 };
+
 
 export const actionLabels: Record<string, string> = {
     read: "Lire",

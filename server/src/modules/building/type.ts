@@ -2,6 +2,12 @@ import { t } from "elysia";
 
 
 export default {
+    queryFilter: t.Object({
+        page: t.Optional(t.String()),
+        pageSize: t.Optional(t.String()),
+        search: t.Optional(t.String()),
+        filter: t.Optional(t.String()),
+    }),
     body: t.Object({
         name: t.String({ error: "Le nom est requis" }),
         reference: t.String({ error: "La référence est requise" }),

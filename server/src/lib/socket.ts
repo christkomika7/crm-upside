@@ -1,12 +1,20 @@
-import { Elysia } from "elysia";
+import Elysia, { t } from "elysia";
 
 export const wsPlugin = new Elysia()
     .ws("/ws", {
+        body: t.Object({
+            type: t.String(),
+            payload: t.Any(),
+        }),
         open(ws) {
-            console.log("Client connecté au websocket");
+            ws.subscribe("notifications");
+            console.log(`Client connecté: ${ws.id}`);
         },
-
-        close() {
-            console.log("Client déconnecté");
-        }
+        close(ws) {
+            ws.unsubscribe("notifications");
+            console.log(`Client déconnecté: ${ws.id}`);
+        },
+        message(ws, message) {
+            console.log("Message reçu:", message);
+        },
     });

@@ -20,6 +20,7 @@
 
 # Input
 - Prevoir une fonction pour vider les inputs de type file
+- Au niveau de l update des type file toutes les images ont l icone file au lieu du preview
 
 # ExportTo
 - Revoir le composant 

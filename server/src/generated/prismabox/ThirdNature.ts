@@ -31,6 +31,14 @@ export const ThirdNatureRelations = t.Object(
           isTTC: t.Boolean(),
           checkNumber: t.String(),
           description: t.String(),
+          clientType: t.Union([t.Literal("OWNER"), t.Literal("TENANT")], {
+            additionalProperties: false,
+          }),
+          ownerId: __nullable__(t.String()),
+          tenantId: __nullable__(t.String()),
+          invoiceId: __nullable__(t.String()),
+          purchaseOrderId: __nullable__(t.String()),
+          unitId: t.String(),
           sourceId: t.String(),
           allocationId: t.String(),
           categoryId: t.String(),
@@ -158,16 +166,12 @@ export const ThirdNatureWhereUnique = t.Recursive(
     t.Intersect(
       [
         t.Partial(
-          t.Object(
-            { id: t.String(), name: t.String() },
-            { additionalProperties: false },
-          ),
+          t.Object({ id: t.String() }, { additionalProperties: false }),
           { additionalProperties: false },
         ),
-        t.Union(
-          [t.Object({ id: t.String() }), t.Object({ name: t.String() })],
-          { additionalProperties: false },
-        ),
+        t.Union([t.Object({ id: t.String() })], {
+          additionalProperties: false,
+        }),
         t.Partial(
           t.Object({
             AND: t.Union([

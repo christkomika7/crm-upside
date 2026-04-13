@@ -2,7 +2,7 @@ import { z } from "zod";
 import { ALLOWED_TYPES, MAX_FILE_SIZE } from "../../config/constant";
 
 export const reportSchema = z.object({
-    date: z.string({ error: "La date est requise." }),
+    date: z.date({ error: "La date est requise." }),
     tenant: z.string({ error: "Le nom du locataire est requis." }),
     unit: z.string({ error: "Veuillez selectionner une unité." }),
     note: z.string().optional(),

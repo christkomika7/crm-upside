@@ -10,7 +10,7 @@
     "@aws-sdk/s3-request-presigner": "^3.996.0",
     "@elysiajs/cors": "^1.4.1",
     "@prisma/adapter-pg": "^7.4.1",
-    "@prisma/client": "^7.6.0",
+    "@prisma/client": "^7.7.0",
     "@prisma/extension-accelerate": "^3.0.1",
     "@smithy/fetch-http-handler": "^5.3.13",
     "@types/node": "^25.0.3",
@@ -27,7 +27,7 @@
     "p-retry": "^7.1.1",
     "pg": "^8.18.0",
     "pizzip": "^3.2.0",
-    "prisma": "^7.6.0",
+    "prisma": "^7.7.0",
     "prismabox": "^1.1.26"
   },
   "devDependencies": {

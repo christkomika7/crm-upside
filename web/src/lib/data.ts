@@ -101,7 +101,7 @@ export const deletionLabels: Record<DeletionKey, string> = {
     PURCHASE_ORDER: "Bon de commande",
     QUOTE: "Devis",
     CONTRACT: "Contrat",
-    CHECK_IN: "Check-in",
+    CHECK_IN: "État de lieu",
     APPOINTMENT: "Rendez-vous",
     SERVICE_PROVIDER: "Prestataire",
     COMMUNICATION: "Communication",

@@ -24,107 +24,107 @@ export type BreadcrumbKey =
 export const breadcrumbs: Record<BreadcrumbKey, string> = {
     // Owners
     'owners': "Propriétaires",
-    'new-owner': 'Nouveau propriétaire',
-    'edit_owner': "Modification propriétaire",
-    'view_owner': "Gestion immobilière",
+    'new-owner': 'Nouveau',
+    'edit_owner': "Modification",
+    'view_owner': "Aperçu",
 
     //  Tenants
     'tenants': "Locataire",
-    'new-tenant': "Nouveau locataire",
-    'edit_tenant': "Modification locataire",
-    'view_tenant': "Profil du locataire",
+    'new-tenant': "Nouveau",
+    'edit_tenant': "Modification",
+    'view_tenant': "Aperçu",
 
     // Buildings
     'buildings': "Bâtiment",
-    'new-building': "Nouveau bâtiment",
-    'edit_building': "Modification bâtiment",
-    'view_building': "Profil du bâtiment",
+    'new-building': "Nouveau",
+    'edit_building': "Modification",
+    'view_building': "Aperçu",
 
 
     // Buildings
     'units': "Unité",
-    'new-unit': "Nouvel unité",
-    'edit_unit': "Modification unité",
-    'view_unit': "Profil de l'unité",
+    'new-unit': "Nouveau",
+    'edit_unit': "Modification",
+    'view_unit': "Aperçu",
 
     // Rentals
     'rentals': "Loyer",
-    'new-rental': "Nouveau loyer",
-    'edit_rental': "Modification du loyer",
-    'view_rental': "Profil du loyer",
+    'new-rental': "Nouveau",
+    'edit_rental': "Modification",
+    'view_rental': "Aperçu",
 
     // Reservations
     'reservations': "Reservation",
-    'new-reservation': "Nouvelle reservation",
-    'edit_reservation': "Modification de la reservation",
-    'view_reservation': "Profil de la reservation",
+    'new-reservation': "Nouvelle",
+    'edit_reservation': "Modification",
+    'view_reservation': "Aperçu",
 
     // Property Management
     'property-management': "Gestion des biens",
-    'new-property': "Nouveau bien",
-    'edit_property': "Modification du bien",
-    'view_property': "Profil du bien",
+    'new-property': "Nouveau",
+    'edit_property': "Modification",
+    'view_property': "Aperçu",
 
     // Product | Service
     'product-service': "Gestion des produits | services",
-    'new-product-service': "Nouveau produit | service",
-    'edit_product-service': "Modification du produit | service",
-    'view_product-service': "Profil du produit | service",
+    'new-product-service': "Nouveau",
+    'edit_product-service': "Modification",
+    'view_product-service': "Aperçu",
 
     // Invoices
     'invoices': "Gestion des factures",
-    'new-invoice': "Nouvelle facture",
-    'edit_invoice': "Modification de la facture",
-    'view_invoice': "Information sur la facture",
+    'new-invoice': "Nouvelle",
+    'edit_invoice': "Modification",
+    'view_invoice': "Aperçu",
 
     // Quotes
     'quotes': "Gestion des devis",
-    'new-quote': "Nouveau devis",
-    'edit_quote': "Modification du devis",
-    'view_quote': "Information sur le devis",
+    'new-quote': "Nouveau",
+    'edit_quote': "Modification",
+    'view_quote': "Aperçu",
 
     // Purchase Orders
-    'purchase-orders': "Gestion des BC",
-    'new-purchase-order': "Nouveau BC",
-    'edit_purchase-order': "Modification du BC",
-    'view_purchase-order': "Information sur le BC",
+    'purchase-orders': "Gestion des Bon de commande",
+    'new-purchase-order': "Nouveau",
+    'edit_purchase-order': "Modification",
+    'view_purchase-order': "Aperçu",
 
 
     // Contracts
     'contracts': "Contracts/Mandates",
-    'new-contract': "Nouveau contrat",
-    'edit_contract': "Modification du contrat",
-    'view_contract': "Information du contrat",
+    'new-contract': "Nouveau",
+    'edit_contract': "Modification",
+    'view_contract': "Aperçu",
 
     // Reports
-    'reports': "Point de suivi & Nos rapports",
-    'new-report': "Nouveau point de suivi & rapports",
-    'edit_report': "Modification du point de suivi & rapports",
-    'view_report': "Information sur le point de suivi & rapports",
+    'reports': "État des lieux",
+    'new-report': "Nouveau",
+    'edit_report': "Modification",
+    'view_report': "Aperçu",
 
     // Accounting
     'accounting': "Comptabilité",
-    'new-accounting': "Nouvelle comptabilité",
-    'edit_accounting': "Modification de la comptabilité",
-    'view_accounting': "Information sur la comptabilité",
+    'new-accounting': "Nouveau",
+    'edit_accounting': "Modification",
+    'view_accounting': "Aperçu",
 
     // Appointments
     'appointments': "Rendez-vous",
-    'new-appointment': "Nouveau rendez-vous",
-    'edit_appointment': "Modification du rendez-vous",
-    'view_appointment': "Information sur le rendez-vous",
+    'new-appointment': "Nouveau",
+    'edit_appointment': "Modification",
+    'view_appointment': "Aperçu",
 
     // Service Providers
     'service-providers': "Fournisseurs de services",
-    'new-service': "Nouveau fournisseur de services",
-    'edit_service': "Modification du fournisseur de services",
-    'view_service': "Information sur le fournisseur de services",
+    'new-service': "Nouveau",
+    'edit_service': "Modification",
+    'view_service': "Aperçu",
 
     // Communications
     'communications': "Communications",
-    'new-communication': "Nouvelle communication",
-    'edit_communication': "Modification de la communication",
-    'view_communication': "Information sur la communication",
+    'new-communication': "Nouvelle",
+    'edit_communication': "Modification",
+    'view_communication': "Aperçu",
 
     // Settings
     'settings': "Paramètres",

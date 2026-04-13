@@ -80,11 +80,11 @@ export type PrismaVersion = {
 }
 
 /**
- * Prisma Client JS version: 7.6.0
+ * Prisma Client JS version: 7.7.0
  * Query Engine version: 75cbdc1eb7150937890ad5465d861175c6624711
  */
 export const prismaVersion: PrismaVersion = {
-  client: "7.6.0",
+  client: "7.7.0",
   engine: "75cbdc1eb7150937890ad5465d861175c6624711"
 }
 
@@ -3476,7 +3476,7 @@ export const UnitScalarFieldEnum = {
   reference: 'reference',
   rentalStatus: 'rentalStatus',
   surface: 'surface',
-  rooms: 'rooms',
+  livingroom: 'livingroom',
   dining: 'dining',
   kitchen: 'kitchen',
   bedroom: 'bedroom',
@@ -3783,6 +3783,12 @@ export const AccountingScalarFieldEnum = {
   isTTC: 'isTTC',
   checkNumber: 'checkNumber',
   description: 'description',
+  clientType: 'clientType',
+  ownerId: 'ownerId',
+  tenantId: 'tenantId',
+  invoiceId: 'invoiceId',
+  purchaseOrderId: 'purchaseOrderId',
+  unitId: 'unitId',
   sourceId: 'sourceId',
   allocationId: 'allocationId',
   categoryId: 'categoryId',

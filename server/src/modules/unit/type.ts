@@ -10,7 +10,7 @@ export default {
         surface: t.Transform(t.String({ error: "Veuillez saisir la surface" }))
             .Decode((value) => JSON.parse(value))
             .Encode((value) => value.toString()),
-        rooms: t.Transform(t.String({ error: "Veuillez saisir le nombre de pièces" }))
+        livingroom: t.Transform(t.String({ error: "Veuillez saisir le nombre de salon" }))
             .Decode((value) => JSON.parse(value))
             .Encode((value) => value.toString()),
         dining: t.Transform(t.String({ error: "Veuillez saisir le nombre de salle à manger" }))
@@ -45,5 +45,11 @@ export default {
         documents: t.Optional(t.Union([t.Files(), t.Array(t.Files())])),
     }),
     params: t.Object({ id: t.String({ error: "Veuillez saisir l'identifiant" }) }),
-    query: t.Object({ id: t.String({ error: "Veuillez saisir l'identifiant" }) })
+    query: t.Object({ id: t.String({ error: "Veuillez saisir l'identifiant" }) }),
+    queryFilter: t.Object({
+        page: t.Optional(t.String()),
+        pageSize: t.Optional(t.String()),
+        search: t.Optional(t.String()),
+        filter: t.Optional(t.String()),
+    })
 } 

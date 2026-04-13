@@ -26,6 +26,12 @@ import { serviceProviderRoutes } from "../modules/service-provider/service-provi
 import { professionRoutes } from "../modules/profession/profession.route";
 import { purchaseOrderRoutes } from "../modules/purchase-order/purchase-order.route";
 import { checkInOutRoutes } from "../modules/check-in-out/check-in-out.route";
+import { categoryRoutes } from "../modules/category/category.route";
+import { allocationRoutes } from "../modules/allocation/allocation.route";
+import { sourceRoutes } from "../modules/source/source.route";
+import { natureRoutes } from "../modules/nature/nature.route";
+import { secondNatureRoutes } from "../modules/second-nature/second-nature.route";
+import { thirdNatureRoutes } from "../modules/third-nature/third-nature.route";
 
 export const route = new Elysia()
     .use(userRoutes)
@@ -53,5 +59,11 @@ export const route = new Elysia()
     .use(professionRoutes)
     .use(serviceProviderRoutes)
     .use(checkInOutRoutes)
+    .use(categoryRoutes)
+    .use(allocationRoutes)
+    .use(sourceRoutes)
+    .use(natureRoutes)
+    .use(secondNatureRoutes)
+    .use(thirdNatureRoutes)
     .use(documentRoutes)
     .use(deletionRoutes)

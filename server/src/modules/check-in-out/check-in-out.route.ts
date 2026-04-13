@@ -3,7 +3,7 @@ import { authPlugin } from "../auth/auth";
 import { prisma } from "../../lib/prisma";
 import { canAccess } from "../auth/permission";
 import request from "./type";
-import { formatDateToString } from "../../lib/utils";
+import { formatDateToString, safeSignedUrls } from "../../lib/utils";
 import { mkdir, readFile, unlink, writeFile } from "fs/promises";
 import { join } from "path";
 import PizZip from "pizzip";
@@ -14,7 +14,8 @@ import { randomUUID } from "crypto";
 import { AttachementProps, sendMail } from "../../lib/email";
 import { checkInOutShareSchema } from "../../lib/zod/share";
 import { reportSchema } from "../../lib/zod/reports";
-import { deleteFile, uploadFiles } from "../../lib/storage";
+import { deleteFile, s3, uploadFiles } from "../../lib/storage";
+import { CopyObjectCommand } from "@aws-sdk/client-s3";
 
 const filePath = join(
     process.cwd(),
@@ -31,8 +32,6 @@ export const checkInOutRoutes = new Elysia({ prefix: "/check-in-out" })
         if (!canAccess(permission, "checkInOutReports", ['read'])) {
             return status(403, { message: "Accès refusé" });
         }
-
-        const now = new Date();
 
         const whereClause =
             query.type === "CHECK_IN"
@@ -72,9 +71,26 @@ export const checkInOutRoutes = new Elysia({ prefix: "/check-in-out" })
             return status(403, { message: "Accès refusé" });
         }
 
-        return await prisma.checkInOut.findUnique({
+        const checkInOut = await prisma.checkInOut.findUnique({
             where: { id: params.id },
+            include: {
+                unit: {
+                    include: {
+                        building: true
+                    }
+                },
+                tenant: true,
+            }
         });
+
+        if (!checkInOut) return status(404, { message: "État des lieux introuvable." });
+
+        const documents = await safeSignedUrls(checkInOut.documents);
+
+        return {
+            ...checkInOut,
+            documents: documents.urls,
+        }
     }, {
         auth: true,
         params: request.paramsId,
@@ -104,7 +120,6 @@ export const checkInOutRoutes = new Elysia({ prefix: "/check-in-out" })
         const doc = new Docxtemplater(zip, { paragraphLoop: true, linebreaks: true })
 
         const surface = `${checkInOut.unit.surface} m²`;
-
 
         try {
             doc.render({ surface })
@@ -268,6 +283,63 @@ export const checkInOutRoutes = new Elysia({ prefix: "/check-in-out" })
             });
         }
     }, { auth: true })
+    .post("/duplicate/:id", async ({ params, permission, status }) => {
+        if (!canAccess(permission, "checkInOutReports", ['update'])) {
+            return status(403, { message: "Accès refusé" });
+        }
+
+        try {
+            const checkInOut = await prisma.checkInOut.findUnique({
+                where: { id: params.id },
+            });
+
+            if (!checkInOut) {
+                return status(404, { message: "État des lieux introuvable." });
+            }
+
+            if (checkInOut.isChecked) {
+                return status(400, {
+                    message: "Cet état des lieux est déjà validé.",
+                });
+            }
+
+            const duplicatedDocuments = await Promise.all(
+                checkInOut.documents.map(async (key) => {
+                    const extension = key.split(".").pop();
+                    const newKey = `${randomUUID()}.${extension}`;
+
+                    await s3.send(new CopyObjectCommand({
+                        Bucket: process.env.S3_BUCKET!,
+                        CopySource: `${process.env.S3_BUCKET!}/${key}`,
+                        Key: newKey,
+                    }));
+
+                    return newKey;
+                })
+            );
+
+            await prisma.checkInOut.create({
+                data: {
+                    date: checkInOut.date,
+                    isChecked: false,
+                    tenantId: checkInOut.tenantId,
+                    unitId: checkInOut.unitId,
+                    note: checkInOut.note,
+                    documents: duplicatedDocuments,
+                },
+            });
+
+            return status(200, {
+                message: "État des lieux dupliqué avec succès.",
+            });
+
+        } catch (error) {
+            console.log(error);
+            return status(500, {
+                message: "Erreur lors de la duplication de l'état des lieux.",
+            });
+        }
+    }, { auth: true })
     .post("/", async ({ body, permission, status }) => {
         if (!canAccess(permission, "checkInOutReports", ['create'])) {
             return status(403, { message: "Accès refusé" });
@@ -331,6 +403,7 @@ export const checkInOutRoutes = new Elysia({ prefix: "/check-in-out" })
         }
 
         const { success, data } = checkInOutShareSchema.safeParse(body);
+
         if (!success) {
             return status(400, { message: "Données invalides" });
         }
@@ -349,7 +422,7 @@ export const checkInOutRoutes = new Elysia({ prefix: "/check-in-out" })
 
         try {
             const unit = checkInOut.unit.building.reference;
-            const surface = checkInOut.unit.surface;
+            const surface = `${checkInOut.unit.surface} m²`;
             const building = checkInOut.unit.building.name;
             const tenant = checkInOut.tenant.firstname + " " + checkInOut.tenant.lastname;
             const docLabel = "État des lieux";

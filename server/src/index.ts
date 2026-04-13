@@ -1,4 +1,4 @@
-import { Elysia } from "elysia";
+import { Elysia, t } from "elysia";
 
 import { betterAuthPlugin } from "./lib/auth";
 import { envPlugin } from "./lib/env";
@@ -9,7 +9,6 @@ import { wsPlugin } from "./lib/socket";
 
 
 const app = new Elysia()
-  .get("/", () => "Hello")
   .use(envPlugin)
   .use(corsPlugin)
   .use(betterAuthPlugin)

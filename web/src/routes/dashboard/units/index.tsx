@@ -2,40 +2,72 @@ import Brochure from '@/components/dashboard/unit/brochure'
 import ActionHeader from '@/components/header/action-header'
 import DataTable from '@/components/table/data-table'
 import { Button } from '@/components/ui/button'
-import { apiFetch } from '@/lib/api'
+import { useApiData } from '@/hooks/use-api-data'
+import { canAccess } from '@/lib/permission'
 import { columns } from '@/lib/tables/unit/units'
-import { hasAccess } from '@/types/permissions'
-import type { AuthSession } from '@/types/session'
 import type { Units } from '@/types/unit'
-import { useQuery } from '@tanstack/react-query'
-import { createFileRoute, redirect } from '@tanstack/react-router'
+import type { User } from '@/types/user'
+import { createFileRoute, notFound, redirect } from '@tanstack/react-router'
 
 export const Route = createFileRoute('/dashboard/units/')({
   beforeLoad({ context }) {
-    const session = context.session as AuthSession;
-    const buildings = session.data?.user.permission?.permissions.buildings;
-    const access = hasAccess(
-      !!context.session?.data?.user,
-      buildings as unknown as string[],
-    );
-
-    if (!access) {
-      throw redirect({ to: "/" });
+    const user = context.session.data?.user as unknown as User;
+    const permission = user.permission?.permissions;
+    const hasAccess = canAccess(permission, "units", ['read']);
+    if (!user) {
+      throw redirect({ to: "/", search: { redirect: location.href } });
     }
+    if (!hasAccess) throw notFound()
   },
   component: RouteComponent,
 })
 
 function RouteComponent() {
-  const { isPending, data: units } = useQuery<Units[]>({
-    queryKey: ["units"],
-    queryFn: () => apiFetch<Units[]>("/unit"),
-  });
+  const { session } = Route.useRouteContext();
+  const permission = (session.data?.user as unknown as User).permission?.permissions;
+  const hasCreateAccess = canAccess(permission, "units", ['create']);
+  const hasReadAccess = canAccess(permission, "units", ['read']);
+
+  const {
+    units,
+    total,
+    pageCount,
+    page,
+    search,
+    filter,
+    isPending,
+    onPageChange,
+    onSearchChange,
+    onFilterChange,
+  } = useApiData<Units>({ url: "/unit" });
 
   return <div className='space-y-6'>
     <div className='space-y-6'>
-      <ActionHeader title='Nouveau unités' url='/dashboard/units/new-unit' type='url' secondComponnet={<Brochure />} />
-      <DataTable data={units || []} columns={columns} filters={["reference", "building", "owner", "tenant"]} sort="building" placeholder='Rechercher' isLoading={isPending} />
+      <ActionHeader
+        title='Nouvelle unité'
+        url='/dashboard/units/new-unit'
+        type='url'
+        secondComponent={<Brochure />}
+        showAction={hasCreateAccess}
+        showSecond={hasReadAccess}
+      />
+      <DataTable
+        data={units}
+        columns={columns}
+        filters={["reference", "building", "owner", "tenant"]}
+        sort="reference"
+        placeholder="Rechercher"
+        isLoading={isPending}
+        serverSide={true}
+        total={total}
+        pageCount={pageCount}
+        page={page}
+        onPageChange={onPageChange}
+        search={search}
+        onSearchChange={onSearchChange}
+        filter={filter}
+        onFilterChange={onFilterChange}
+      />
       <div className='flex justify-center'>
         <Button variant="inset-action" className='max-w-md'>Envoyer un mail</Button>
       </div>

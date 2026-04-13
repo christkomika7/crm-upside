@@ -4,6 +4,11 @@ import { createFileRoute } from '@tanstack/react-router'
 
 export const Route = createFileRoute('/dashboard/reports/edit-report/$id')({
   component: RouteComponent,
+  validateSearch: (search: Record<string, unknown>) => {
+    return {
+      tab: (search.tab as "edit" | "preview" | "share") || "edit",
+    };
+  },
 })
 
 function RouteComponent() {

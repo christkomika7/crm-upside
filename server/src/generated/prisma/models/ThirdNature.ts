@@ -180,14 +180,14 @@ export type ThirdNatureOrderByWithRelationInput = {
 
 export type ThirdNatureWhereUniqueInput = Prisma.AtLeast<{
   id?: string
-  name?: string
   AND?: Prisma.ThirdNatureWhereInput | Prisma.ThirdNatureWhereInput[]
   OR?: Prisma.ThirdNatureWhereInput[]
   NOT?: Prisma.ThirdNatureWhereInput | Prisma.ThirdNatureWhereInput[]
+  name?: Prisma.StringFilter<"ThirdNature"> | string
   secondNatureId?: Prisma.StringFilter<"ThirdNature"> | string
   secondNature?: Prisma.XOR<Prisma.SecondNatureScalarRelationFilter, Prisma.SecondNatureWhereInput>
   accountings?: Prisma.AccountingListRelationFilter
-}, "id" | "name">
+}, "id">
 
 export type ThirdNatureOrderByWithAggregationInput = {
   id?: Prisma.SortOrder

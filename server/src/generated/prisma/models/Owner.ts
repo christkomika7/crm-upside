@@ -254,6 +254,7 @@ export type OwnerWhereInput = {
   invoices?: Prisma.InvoiceListRelationFilter
   quotes?: Prisma.QuoteListRelationFilter
   appointments?: Prisma.AppointmentListRelationFilter
+  accountings?: Prisma.AccountingListRelationFilter
 }
 
 export type OwnerOrderByWithRelationInput = {
@@ -275,6 +276,7 @@ export type OwnerOrderByWithRelationInput = {
   invoices?: Prisma.InvoiceOrderByRelationAggregateInput
   quotes?: Prisma.QuoteOrderByRelationAggregateInput
   appointments?: Prisma.AppointmentOrderByRelationAggregateInput
+  accountings?: Prisma.accountingOrderByRelationAggregateInput
 }
 
 export type OwnerWhereUniqueInput = Prisma.AtLeast<{
@@ -299,6 +301,7 @@ export type OwnerWhereUniqueInput = Prisma.AtLeast<{
   invoices?: Prisma.InvoiceListRelationFilter
   quotes?: Prisma.QuoteListRelationFilter
   appointments?: Prisma.AppointmentListRelationFilter
+  accountings?: Prisma.AccountingListRelationFilter
 }, "id" | "reference">
 
 export type OwnerOrderByWithAggregationInput = {
@@ -360,6 +363,7 @@ export type OwnerCreateInput = {
   invoices?: Prisma.InvoiceCreateNestedManyWithoutOwnerInput
   quotes?: Prisma.QuoteCreateNestedManyWithoutOwnerInput
   appointments?: Prisma.AppointmentCreateNestedManyWithoutOwnerInput
+  accountings?: Prisma.accountingCreateNestedManyWithoutOwnerInput
 }
 
 export type OwnerUncheckedCreateInput = {
@@ -381,6 +385,7 @@ export type OwnerUncheckedCreateInput = {
   invoices?: Prisma.InvoiceUncheckedCreateNestedManyWithoutOwnerInput
   quotes?: Prisma.QuoteUncheckedCreateNestedManyWithoutOwnerInput
   appointments?: Prisma.AppointmentUncheckedCreateNestedManyWithoutOwnerInput
+  accountings?: Prisma.accountingUncheckedCreateNestedManyWithoutOwnerInput
 }
 
 export type OwnerUpdateInput = {
@@ -402,6 +407,7 @@ export type OwnerUpdateInput = {
   invoices?: Prisma.InvoiceUpdateManyWithoutOwnerNestedInput
   quotes?: Prisma.QuoteUpdateManyWithoutOwnerNestedInput
   appointments?: Prisma.AppointmentUpdateManyWithoutOwnerNestedInput
+  accountings?: Prisma.accountingUpdateManyWithoutOwnerNestedInput
 }
 
 export type OwnerUncheckedUpdateInput = {
@@ -423,6 +429,7 @@ export type OwnerUncheckedUpdateInput = {
   invoices?: Prisma.InvoiceUncheckedUpdateManyWithoutOwnerNestedInput
   quotes?: Prisma.QuoteUncheckedUpdateManyWithoutOwnerNestedInput
   appointments?: Prisma.AppointmentUncheckedUpdateManyWithoutOwnerNestedInput
+  accountings?: Prisma.accountingUncheckedUpdateManyWithoutOwnerNestedInput
 }
 
 export type OwnerCreateManyInput = {
@@ -587,6 +594,22 @@ export type OwnerUpdateOneWithoutQuotesNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.OwnerUpdateToOneWithWhereWithoutQuotesInput, Prisma.OwnerUpdateWithoutQuotesInput>, Prisma.OwnerUncheckedUpdateWithoutQuotesInput>
 }
 
+export type OwnerCreateNestedOneWithoutAccountingsInput = {
+  create?: Prisma.XOR<Prisma.OwnerCreateWithoutAccountingsInput, Prisma.OwnerUncheckedCreateWithoutAccountingsInput>
+  connectOrCreate?: Prisma.OwnerCreateOrConnectWithoutAccountingsInput
+  connect?: Prisma.OwnerWhereUniqueInput
+}
+
+export type OwnerUpdateOneWithoutAccountingsNestedInput = {
+  create?: Prisma.XOR<Prisma.OwnerCreateWithoutAccountingsInput, Prisma.OwnerUncheckedCreateWithoutAccountingsInput>
+  connectOrCreate?: Prisma.OwnerCreateOrConnectWithoutAccountingsInput
+  upsert?: Prisma.OwnerUpsertWithoutAccountingsInput
+  disconnect?: Prisma.OwnerWhereInput | boolean
+  delete?: Prisma.OwnerWhereInput | boolean
+  connect?: Prisma.OwnerWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.OwnerUpdateToOneWithWhereWithoutAccountingsInput, Prisma.OwnerUpdateWithoutAccountingsInput>, Prisma.OwnerUncheckedUpdateWithoutAccountingsInput>
+}
+
 export type OwnerCreateNestedOneWithoutAppointmentsInput = {
   create?: Prisma.XOR<Prisma.OwnerCreateWithoutAppointmentsInput, Prisma.OwnerUncheckedCreateWithoutAppointmentsInput>
   connectOrCreate?: Prisma.OwnerCreateOrConnectWithoutAppointmentsInput
@@ -621,6 +644,7 @@ export type OwnerCreateWithoutBuildingsInput = {
   invoices?: Prisma.InvoiceCreateNestedManyWithoutOwnerInput
   quotes?: Prisma.QuoteCreateNestedManyWithoutOwnerInput
   appointments?: Prisma.AppointmentCreateNestedManyWithoutOwnerInput
+  accountings?: Prisma.accountingCreateNestedManyWithoutOwnerInput
 }
 
 export type OwnerUncheckedCreateWithoutBuildingsInput = {
@@ -641,6 +665,7 @@ export type OwnerUncheckedCreateWithoutBuildingsInput = {
   invoices?: Prisma.InvoiceUncheckedCreateNestedManyWithoutOwnerInput
   quotes?: Prisma.QuoteUncheckedCreateNestedManyWithoutOwnerInput
   appointments?: Prisma.AppointmentUncheckedCreateNestedManyWithoutOwnerInput
+  accountings?: Prisma.accountingUncheckedCreateNestedManyWithoutOwnerInput
 }
 
 export type OwnerCreateOrConnectWithoutBuildingsInput = {
@@ -677,6 +702,7 @@ export type OwnerUpdateWithoutBuildingsInput = {
   invoices?: Prisma.InvoiceUpdateManyWithoutOwnerNestedInput
   quotes?: Prisma.QuoteUpdateManyWithoutOwnerNestedInput
   appointments?: Prisma.AppointmentUpdateManyWithoutOwnerNestedInput
+  accountings?: Prisma.accountingUpdateManyWithoutOwnerNestedInput
 }
 
 export type OwnerUncheckedUpdateWithoutBuildingsInput = {
@@ -697,6 +723,7 @@ export type OwnerUncheckedUpdateWithoutBuildingsInput = {
   invoices?: Prisma.InvoiceUncheckedUpdateManyWithoutOwnerNestedInput
   quotes?: Prisma.QuoteUncheckedUpdateManyWithoutOwnerNestedInput
   appointments?: Prisma.AppointmentUncheckedUpdateManyWithoutOwnerNestedInput
+  accountings?: Prisma.accountingUncheckedUpdateManyWithoutOwnerNestedInput
 }
 
 export type OwnerCreateWithoutInvoicesInput = {
@@ -717,6 +744,7 @@ export type OwnerCreateWithoutInvoicesInput = {
   buildings?: Prisma.BuildingCreateNestedManyWithoutOwnerInput
   quotes?: Prisma.QuoteCreateNestedManyWithoutOwnerInput
   appointments?: Prisma.AppointmentCreateNestedManyWithoutOwnerInput
+  accountings?: Prisma.accountingCreateNestedManyWithoutOwnerInput
 }
 
 export type OwnerUncheckedCreateWithoutInvoicesInput = {
@@ -737,6 +765,7 @@ export type OwnerUncheckedCreateWithoutInvoicesInput = {
   buildings?: Prisma.BuildingUncheckedCreateNestedManyWithoutOwnerInput
   quotes?: Prisma.QuoteUncheckedCreateNestedManyWithoutOwnerInput
   appointments?: Prisma.AppointmentUncheckedCreateNestedManyWithoutOwnerInput
+  accountings?: Prisma.accountingUncheckedCreateNestedManyWithoutOwnerInput
 }
 
 export type OwnerCreateOrConnectWithoutInvoicesInput = {
@@ -773,6 +802,7 @@ export type OwnerUpdateWithoutInvoicesInput = {
   buildings?: Prisma.BuildingUpdateManyWithoutOwnerNestedInput
   quotes?: Prisma.QuoteUpdateManyWithoutOwnerNestedInput
   appointments?: Prisma.AppointmentUpdateManyWithoutOwnerNestedInput
+  accountings?: Prisma.accountingUpdateManyWithoutOwnerNestedInput
 }
 
 export type OwnerUncheckedUpdateWithoutInvoicesInput = {
@@ -793,6 +823,7 @@ export type OwnerUncheckedUpdateWithoutInvoicesInput = {
   buildings?: Prisma.BuildingUncheckedUpdateManyWithoutOwnerNestedInput
   quotes?: Prisma.QuoteUncheckedUpdateManyWithoutOwnerNestedInput
   appointments?: Prisma.AppointmentUncheckedUpdateManyWithoutOwnerNestedInput
+  accountings?: Prisma.accountingUncheckedUpdateManyWithoutOwnerNestedInput
 }
 
 export type OwnerCreateWithoutQuotesInput = {
@@ -813,6 +844,7 @@ export type OwnerCreateWithoutQuotesInput = {
   buildings?: Prisma.BuildingCreateNestedManyWithoutOwnerInput
   invoices?: Prisma.InvoiceCreateNestedManyWithoutOwnerInput
   appointments?: Prisma.AppointmentCreateNestedManyWithoutOwnerInput
+  accountings?: Prisma.accountingCreateNestedManyWithoutOwnerInput
 }
 
 export type OwnerUncheckedCreateWithoutQuotesInput = {
@@ -833,6 +865,7 @@ export type OwnerUncheckedCreateWithoutQuotesInput = {
   buildings?: Prisma.BuildingUncheckedCreateNestedManyWithoutOwnerInput
   invoices?: Prisma.InvoiceUncheckedCreateNestedManyWithoutOwnerInput
   appointments?: Prisma.AppointmentUncheckedCreateNestedManyWithoutOwnerInput
+  accountings?: Prisma.accountingUncheckedCreateNestedManyWithoutOwnerInput
 }
 
 export type OwnerCreateOrConnectWithoutQuotesInput = {
@@ -869,6 +902,7 @@ export type OwnerUpdateWithoutQuotesInput = {
   buildings?: Prisma.BuildingUpdateManyWithoutOwnerNestedInput
   invoices?: Prisma.InvoiceUpdateManyWithoutOwnerNestedInput
   appointments?: Prisma.AppointmentUpdateManyWithoutOwnerNestedInput
+  accountings?: Prisma.accountingUpdateManyWithoutOwnerNestedInput
 }
 
 export type OwnerUncheckedUpdateWithoutQuotesInput = {
@@ -888,6 +922,107 @@ export type OwnerUncheckedUpdateWithoutQuotesInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   buildings?: Prisma.BuildingUncheckedUpdateManyWithoutOwnerNestedInput
   invoices?: Prisma.InvoiceUncheckedUpdateManyWithoutOwnerNestedInput
+  appointments?: Prisma.AppointmentUncheckedUpdateManyWithoutOwnerNestedInput
+  accountings?: Prisma.accountingUncheckedUpdateManyWithoutOwnerNestedInput
+}
+
+export type OwnerCreateWithoutAccountingsInput = {
+  id?: string
+  reference: string
+  firstname: string
+  lastname: string
+  company: string
+  phone: string
+  email: string
+  address: string
+  actionnary: string
+  isDeleting?: boolean
+  bankInfo: string
+  documents?: Prisma.OwnerCreatedocumentsInput | string[]
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  buildings?: Prisma.BuildingCreateNestedManyWithoutOwnerInput
+  invoices?: Prisma.InvoiceCreateNestedManyWithoutOwnerInput
+  quotes?: Prisma.QuoteCreateNestedManyWithoutOwnerInput
+  appointments?: Prisma.AppointmentCreateNestedManyWithoutOwnerInput
+}
+
+export type OwnerUncheckedCreateWithoutAccountingsInput = {
+  id?: string
+  reference: string
+  firstname: string
+  lastname: string
+  company: string
+  phone: string
+  email: string
+  address: string
+  actionnary: string
+  isDeleting?: boolean
+  bankInfo: string
+  documents?: Prisma.OwnerCreatedocumentsInput | string[]
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  buildings?: Prisma.BuildingUncheckedCreateNestedManyWithoutOwnerInput
+  invoices?: Prisma.InvoiceUncheckedCreateNestedManyWithoutOwnerInput
+  quotes?: Prisma.QuoteUncheckedCreateNestedManyWithoutOwnerInput
+  appointments?: Prisma.AppointmentUncheckedCreateNestedManyWithoutOwnerInput
+}
+
+export type OwnerCreateOrConnectWithoutAccountingsInput = {
+  where: Prisma.OwnerWhereUniqueInput
+  create: Prisma.XOR<Prisma.OwnerCreateWithoutAccountingsInput, Prisma.OwnerUncheckedCreateWithoutAccountingsInput>
+}
+
+export type OwnerUpsertWithoutAccountingsInput = {
+  update: Prisma.XOR<Prisma.OwnerUpdateWithoutAccountingsInput, Prisma.OwnerUncheckedUpdateWithoutAccountingsInput>
+  create: Prisma.XOR<Prisma.OwnerCreateWithoutAccountingsInput, Prisma.OwnerUncheckedCreateWithoutAccountingsInput>
+  where?: Prisma.OwnerWhereInput
+}
+
+export type OwnerUpdateToOneWithWhereWithoutAccountingsInput = {
+  where?: Prisma.OwnerWhereInput
+  data: Prisma.XOR<Prisma.OwnerUpdateWithoutAccountingsInput, Prisma.OwnerUncheckedUpdateWithoutAccountingsInput>
+}
+
+export type OwnerUpdateWithoutAccountingsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  reference?: Prisma.StringFieldUpdateOperationsInput | string
+  firstname?: Prisma.StringFieldUpdateOperationsInput | string
+  lastname?: Prisma.StringFieldUpdateOperationsInput | string
+  company?: Prisma.StringFieldUpdateOperationsInput | string
+  phone?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  address?: Prisma.StringFieldUpdateOperationsInput | string
+  actionnary?: Prisma.StringFieldUpdateOperationsInput | string
+  isDeleting?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  bankInfo?: Prisma.StringFieldUpdateOperationsInput | string
+  documents?: Prisma.OwnerUpdatedocumentsInput | string[]
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  buildings?: Prisma.BuildingUpdateManyWithoutOwnerNestedInput
+  invoices?: Prisma.InvoiceUpdateManyWithoutOwnerNestedInput
+  quotes?: Prisma.QuoteUpdateManyWithoutOwnerNestedInput
+  appointments?: Prisma.AppointmentUpdateManyWithoutOwnerNestedInput
+}
+
+export type OwnerUncheckedUpdateWithoutAccountingsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  reference?: Prisma.StringFieldUpdateOperationsInput | string
+  firstname?: Prisma.StringFieldUpdateOperationsInput | string
+  lastname?: Prisma.StringFieldUpdateOperationsInput | string
+  company?: Prisma.StringFieldUpdateOperationsInput | string
+  phone?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  address?: Prisma.StringFieldUpdateOperationsInput | string
+  actionnary?: Prisma.StringFieldUpdateOperationsInput | string
+  isDeleting?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  bankInfo?: Prisma.StringFieldUpdateOperationsInput | string
+  documents?: Prisma.OwnerUpdatedocumentsInput | string[]
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  buildings?: Prisma.BuildingUncheckedUpdateManyWithoutOwnerNestedInput
+  invoices?: Prisma.InvoiceUncheckedUpdateManyWithoutOwnerNestedInput
+  quotes?: Prisma.QuoteUncheckedUpdateManyWithoutOwnerNestedInput
   appointments?: Prisma.AppointmentUncheckedUpdateManyWithoutOwnerNestedInput
 }
 
@@ -909,6 +1044,7 @@ export type OwnerCreateWithoutAppointmentsInput = {
   buildings?: Prisma.BuildingCreateNestedManyWithoutOwnerInput
   invoices?: Prisma.InvoiceCreateNestedManyWithoutOwnerInput
   quotes?: Prisma.QuoteCreateNestedManyWithoutOwnerInput
+  accountings?: Prisma.accountingCreateNestedManyWithoutOwnerInput
 }
 
 export type OwnerUncheckedCreateWithoutAppointmentsInput = {
@@ -929,6 +1065,7 @@ export type OwnerUncheckedCreateWithoutAppointmentsInput = {
   buildings?: Prisma.BuildingUncheckedCreateNestedManyWithoutOwnerInput
   invoices?: Prisma.InvoiceUncheckedCreateNestedManyWithoutOwnerInput
   quotes?: Prisma.QuoteUncheckedCreateNestedManyWithoutOwnerInput
+  accountings?: Prisma.accountingUncheckedCreateNestedManyWithoutOwnerInput
 }
 
 export type OwnerCreateOrConnectWithoutAppointmentsInput = {
@@ -965,6 +1102,7 @@ export type OwnerUpdateWithoutAppointmentsInput = {
   buildings?: Prisma.BuildingUpdateManyWithoutOwnerNestedInput
   invoices?: Prisma.InvoiceUpdateManyWithoutOwnerNestedInput
   quotes?: Prisma.QuoteUpdateManyWithoutOwnerNestedInput
+  accountings?: Prisma.accountingUpdateManyWithoutOwnerNestedInput
 }
 
 export type OwnerUncheckedUpdateWithoutAppointmentsInput = {
@@ -985,6 +1123,7 @@ export type OwnerUncheckedUpdateWithoutAppointmentsInput = {
   buildings?: Prisma.BuildingUncheckedUpdateManyWithoutOwnerNestedInput
   invoices?: Prisma.InvoiceUncheckedUpdateManyWithoutOwnerNestedInput
   quotes?: Prisma.QuoteUncheckedUpdateManyWithoutOwnerNestedInput
+  accountings?: Prisma.accountingUncheckedUpdateManyWithoutOwnerNestedInput
 }
 
 
@@ -997,6 +1136,7 @@ export type OwnerCountOutputType = {
   invoices: number
   quotes: number
   appointments: number
+  accountings: number
 }
 
 export type OwnerCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1004,6 +1144,7 @@ export type OwnerCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.
   invoices?: boolean | OwnerCountOutputTypeCountInvoicesArgs
   quotes?: boolean | OwnerCountOutputTypeCountQuotesArgs
   appointments?: boolean | OwnerCountOutputTypeCountAppointmentsArgs
+  accountings?: boolean | OwnerCountOutputTypeCountAccountingsArgs
 }
 
 /**
@@ -1044,6 +1185,13 @@ export type OwnerCountOutputTypeCountAppointmentsArgs<ExtArgs extends runtime.Ty
   where?: Prisma.AppointmentWhereInput
 }
 
+/**
+ * OwnerCountOutputType without action
+ */
+export type OwnerCountOutputTypeCountAccountingsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.accountingWhereInput
+}
+
 
 export type OwnerSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
@@ -1064,6 +1212,7 @@ export type OwnerSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = 
   invoices?: boolean | Prisma.Owner$invoicesArgs<ExtArgs>
   quotes?: boolean | Prisma.Owner$quotesArgs<ExtArgs>
   appointments?: boolean | Prisma.Owner$appointmentsArgs<ExtArgs>
+  accountings?: boolean | Prisma.Owner$accountingsArgs<ExtArgs>
   _count?: boolean | Prisma.OwnerCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["owner"]>
 
@@ -1124,6 +1273,7 @@ export type OwnerInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs =
   invoices?: boolean | Prisma.Owner$invoicesArgs<ExtArgs>
   quotes?: boolean | Prisma.Owner$quotesArgs<ExtArgs>
   appointments?: boolean | Prisma.Owner$appointmentsArgs<ExtArgs>
+  accountings?: boolean | Prisma.Owner$accountingsArgs<ExtArgs>
   _count?: boolean | Prisma.OwnerCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type OwnerIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
@@ -1136,6 +1286,7 @@ export type $OwnerPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs 
     invoices: Prisma.$InvoicePayload<ExtArgs>[]
     quotes: Prisma.$QuotePayload<ExtArgs>[]
     appointments: Prisma.$AppointmentPayload<ExtArgs>[]
+    accountings: Prisma.$accountingPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -1550,6 +1701,7 @@ export interface Prisma__OwnerClient<T, Null = never, ExtArgs extends runtime.Ty
   invoices<T extends Prisma.Owner$invoicesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Owner$invoicesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$InvoicePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   quotes<T extends Prisma.Owner$quotesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Owner$quotesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$QuotePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   appointments<T extends Prisma.Owner$appointmentsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Owner$appointmentsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$AppointmentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  accountings<T extends Prisma.Owner$accountingsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Owner$accountingsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$accountingPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -2079,6 +2231,30 @@ export type Owner$appointmentsArgs<ExtArgs extends runtime.Types.Extensions.Inte
   take?: number
   skip?: number
   distinct?: Prisma.AppointmentScalarFieldEnum | Prisma.AppointmentScalarFieldEnum[]
+}
+
+/**
+ * Owner.accountings
+ */
+export type Owner$accountingsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the accounting
+   */
+  select?: Prisma.accountingSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the accounting
+   */
+  omit?: Prisma.accountingOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.accountingInclude<ExtArgs> | null
+  where?: Prisma.accountingWhereInput
+  orderBy?: Prisma.accountingOrderByWithRelationInput | Prisma.accountingOrderByWithRelationInput[]
+  cursor?: Prisma.accountingWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.AccountingScalarFieldEnum | Prisma.AccountingScalarFieldEnum[]
 }
 
 /**

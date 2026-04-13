@@ -1,8 +1,6 @@
 import Customize from "@/assets/icons/settings/customize.png"
-import LogoEdit from "@/assets/icons/settings/logo-edit.png"
 import CreateUser from "@/components/forms/settings/user/create"
 import ListUser from "@/components/forms/settings/user/list"
-import SetPermissions from "@/components/forms/settings/user/set-permissions"
 import Modal from "@/components/modal/modal"
 
 import {
@@ -35,19 +33,6 @@ export default function UserManagement() {
                         <Modal open={open} setOpen={setOpen} title="Nouvel utilisateur" action={<Button variant="action" className="w-fit"><PlusIcon className="size-4" /> Ajouter un utilisateur</Button>} >
                             <CreateUser close={setOpen} />
                         </Modal>
-                    </AccordionContent>
-                </AccordionItem>
-                <AccordionItem value="item-2">
-                    <AccordionTrigger>
-                        <h3 className="flex items-center gap-x-2 text-sm font-medium">
-                            <span className="p-2 size-9 flex justify-center items-center rounded-full bg-(--card-dark-purple)" >
-                                <img src={LogoEdit} alt="Logo Edit" className="size-5 object-contain object-center" />
-                            </span>
-                            Gestion des permissions
-                        </h3>
-                    </AccordionTrigger>
-                    <AccordionContent className="p-2">
-                        <SetPermissions />
                     </AccordionContent>
                 </AccordionItem>
             </Accordion>

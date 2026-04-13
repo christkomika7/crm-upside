@@ -1,4 +1,4 @@
-import React from "react"
+import React, { Activity } from "react"
 import {
     Breadcrumb,
     BreadcrumbLink,
@@ -8,9 +8,7 @@ import {
 } from "@/components/ui/breadcrumb"
 import { ArrowLeftIcon, PlusIcon } from "lucide-react"
 import { Button } from "../ui/button"
-import { Activity } from "react"
 import { Link, useLocation, useRouter } from "@tanstack/react-router"
-import { cn } from "@/lib/utils"
 import { breadcrumbs, type BreadcrumbKey } from "@/lib/breadcrumbs"
 
 type ActionHeaderProps = {
@@ -19,87 +17,150 @@ type ActionHeaderProps = {
     hasIcon?: boolean;
     type?: "url" | "modal";
     component?: React.ReactNode;
-    secondComponnet?: React.ReactNode;
-
+    secondComponent?: React.ReactNode;
+    showAction?: boolean;
+    showSecond?: boolean;
+    showComponent?: boolean;
 }
 
-export default function ActionHeader({ title, url, type, component, secondComponnet, hasIcon = true }: ActionHeaderProps) {
+const SKIP_SEGMENTS = new Set([
+    "edit-tenant", "view-tenant",
+    "edit-owner", "view-owner",
+    "edit-building", "view-building",
+    "edit-unit", "view-unit",
+    "edit-rental", "view-rental",
+    "edit-reservation", "view-reservation",
+    "edit-property", "view-property",
+    "edit-product-service", "view-product-service",
+    "edit-invoice", "view-invoice",
+    "edit-quote", "view-quote",
+    "edit-purchase-order", "view-purchase-order",
+    "edit-contract", "view-contract",
+    "edit-report", "view-report",
+    "edit-accounting", "view-accounting",
+    "edit-appointment", "view-appointment",
+    "edit-service", "view-service",
+    "edit-communication", "view-communication",
+])
+
+export default function ActionHeader({
+    title,
+    url,
+    type,
+    component,
+    secondComponent,
+    hasIcon = true,
+    showAction = true,
+    showSecond = true,
+    showComponent = true
+}: ActionHeaderProps) {
     const router = useRouter()
-    const location = useLocation();
-    const paths = location.pathname.split("/").filter(Boolean).slice(1);
-    const elements = location.pathname.split("/").filter(Boolean);
+    const location = useLocation()
 
-    switch (type) {
-        case "url":
-            if (!url || !title) {
-                throw new Error("Le lien et le titre sont requis au niveau du ActionHeader");
-            }
-            break;
-        case "modal":
-            if (!component) {
-                throw new Error("Le composant est requis au niveau du ActionHeader");
-            }
-    }
+    const elements = location.pathname.split("/").filter(Boolean)
+    const segments = elements.slice(1)
 
+    const crumbs: { label: string; href: string }[] = []
 
-    function getPathname(value: string) {
-        let current: string = '';
-        let urls: string[] = [];
-        for (const element of elements) {
-            current = element;
-            urls = [...urls, element]
-            if (current === value) {
-                break;
+    for (const seg of segments) {
+        const segIndex = elements.lastIndexOf(seg)
+        const fullPath = "/" + elements.slice(0, segIndex + 1).join("/")
+
+        if (SKIP_SEGMENTS.has(seg)) continue
+        if (seg.includes("_") && seg.includes("-")) {
+            const prefix = seg.substring(0, seg.indexOf("-"))
+            if (prefix in breadcrumbs) {
+                crumbs.push({ label: breadcrumbs[prefix as BreadcrumbKey], href: fullPath })
             }
+            continue
         }
-        return `/${urls.join("/")}`;
+
+        const label = seg in breadcrumbs ? breadcrumbs[seg as BreadcrumbKey] : seg
+        crumbs.push({ label, href: fullPath })
     }
 
-    function getTitle(value: string) {
-        const path = value.split("-")[0];
-        const isExist = path in breadcrumbs;
-        return isExist ? breadcrumbs[path as BreadcrumbKey] : breadcrumbs[value as BreadcrumbKey];
-    }
+    const isDeep = crumbs.length > 1
 
     return (
-        <div className="grid grid-cols-2">
-            <div className="flex items-center gap-x-4">
-                <Activity mode={paths.length > 1 ? "visible" : "hidden"}>
-                    <Button variant="outline" onClick={() => router.history.back()}>
-                        <ArrowLeftIcon />
-                        Back
-                    </Button>
-                </Activity>
+        <div className="flex items-center justify-between px-1 py-2">
+            <div className="flex items-center gap-2">
+                {isDeep && (
+                    <>
+                        <Button
+                            variant="back"
+                            size="sm"
+                            onClick={() => router.history.back()}
+                            className="gap-1.5 text-muted-foreground text-xs"
+                        >
+                            <ArrowLeftIcon className="size-3.5" />
+                            Retour
+                        </Button>
+                        <span className="text-neutral-300 ml-1">|</span>
+                    </>
+                )}
+
                 <Breadcrumb>
                     <BreadcrumbList>
-                        {paths.map((path, index) => (
-                            <React.Fragment key={index}>
-                                <Activity mode={index + 1 === paths.length ? "hidden" : "visible"}>
-                                    <BreadcrumbLink href={getPathname(path)} className={cn('text-base',)}>{getTitle(path)}</BreadcrumbLink>
-                                </Activity>
-                                {/* Last */}
-                                <Activity mode={index + 1 === paths.length ? "visible" : "hidden"}>
+                        {crumbs.map((crumb, index) => {
+                            const isFirst = index === 0
+                            const isLast = index === crumbs.length - 1
+                            const hasMultiple = crumbs.length > 1
 
-                                    <BreadcrumbPage className={cn('text-lg font-semibold',)}>{getTitle(path)}</BreadcrumbPage>
-                                </Activity>
-                                <Activity mode={index + 1 === paths.length ? "hidden" : "visible"}>
-                                    <BreadcrumbSeparator />
-                                </Activity>
-                            </React.Fragment>
-                        ))}
+                            return (
+                                <React.Fragment key={index}>
+                                    {isLast ? (
+                                        <BreadcrumbPage
+                                            className={[
+                                                "text-sm",
+                                                hasMultiple ? "text-muted-foreground" : "",
+                                                isFirst ? "text-xl font-bold" : "",
+                                            ].join(" ")}
+                                        >
+                                            {crumb.label}
+                                        </BreadcrumbPage>
+                                    ) : (
+                                        <BreadcrumbLink
+                                            href={crumb.href}
+                                            className={[
+                                                "text-sm",
+                                                isFirst ? "text-xl text-neutral-800 font-bold" : "text-neutral-500",
+                                            ].join(" ")}
+                                        >
+                                            {crumb.label}
+                                        </BreadcrumbLink>
+                                    )}
+
+                                    {!isLast && <BreadcrumbSeparator />}
+                                </React.Fragment>
+                            )
+                        })}
                     </BreadcrumbList>
                 </Breadcrumb>
             </div>
-            <div className="flex items-center justify-end gap-x-4">
-                {secondComponnet}
-                <Activity mode={type === "url" && title && url ? "visible" : "hidden"}>
-                    <Link to={url}>
-                        <Button variant="action" className="w-fit"> {hasIcon && <PlusIcon className="size-3.5" />} {title}</Button>
-                    </Link>
-                </Activity>
-                <Activity mode={type === "modal" && component ? "visible" : "hidden"}>
-                    {component}
-                </Activity>
+
+            <div className="flex items-center gap-2">
+                <div className="flex items-center gap-2">
+                    <Activity mode={showSecond ? "visible" : "hidden"}>
+                        {secondComponent}
+                    </Activity>
+
+                    <Activity mode={showAction ? "visible" : "hidden"}>
+                        <>
+                            {type === "url" && url && title && (
+                                <Link to={url}>
+                                    <Button variant="action" size="sm" className="gap-1.5 border-0!">
+                                        {hasIcon && <PlusIcon className="size-4" />}
+                                        {title}
+                                    </Button>
+                                </Link>
+                            )}
+                        </>
+                    </Activity>
+
+                    <Activity mode={showComponent ? "visible" : "hidden"}>
+                        {component}
+                    </Activity>
+                </div>
             </div>
         </div>
     )

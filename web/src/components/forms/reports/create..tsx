@@ -15,26 +15,91 @@ import {
 import InputFile from "@/components/ui/input-file";
 import { reportSchema, type ReportSchemaType } from "@/lib/zod/reports";
 import { Textarea } from "@/components/ui/textarea";
+import { useMutation, useQuery } from "@tanstack/react-query";
+import type { Tenant } from "@/types/tenant";
+import { apiFetch, crudService } from "@/lib/api";
+import type { Unit } from "@/types/unit";
+import { Label } from "@/components/ui/label";
+import { toast } from "sonner";
+import { queryClient } from "@/lib/query-client";
+import { DatePicker } from "@/components/ui/date-picker";
 
 
 export default function CreateReport() {
-    const [isLoading, setIsLoading] = useState(false);
+    const [unit, setUnit] = useState<Partial<Unit> | null>(null);
+
+    const { isPending: isGettingTenants, data: tenants } = useQuery({
+        queryKey: ["tenants"],
+        queryFn: () => apiFetch<Tenant[]>("/tenant"),
+        select: (data) => data.map((tenant) => ({
+            value: tenant.id,
+            label: `${tenant.firstname} ${tenant.lastname}`,
+        })),
+    });
+
+    const { isPending: isGettingUnits, data: units } = useQuery({
+        queryKey: ["units"],
+        queryFn: () => apiFetch<Unit[]>(`/unit`),
+        select: (data) => data.map((unit) => ({
+            value: unit.id,
+            label: `${unit.reference}`,
+            surface: unit.surface,
+            rooms: unit.rooms,
+            dining: unit.dining,
+            bedroom: unit.bedroom,
+            kitchen: unit.kitchen,
+            bathroom: unit.bathroom,
+        })),
+    });
 
     const form = useForm<ReportSchemaType>({
         resolver: zodResolver(reportSchema),
     });
 
+
+    const mutation = useMutation({
+        mutationFn: (data: FormData) =>
+            crudService.post<FormData, any>("/check-in-out/", data),
+        onSuccess() {
+            toast.success("État des lieux créé avec succès");
+            queryClient.invalidateQueries({ queryKey: ["reports"] });
+            form.reset({
+                tenant: "",
+                unit: "",
+                note: "",
+                documents: undefined,
+            });
+            setUnit(null)
+        },
+        onError: (error: Error) => {
+            console.error("Erreur:", error.message);
+            toast.error(error.message);
+        },
+    });
+
+
     async function submit(formData: ReportSchemaType) {
         const { success, data } = reportSchema.safeParse(formData);
         if (success) {
-            setIsLoading(true);
-            console.log({ data });
+            const formData = new FormData();
+            formData.append("date", data.date.toISOString());
+            formData.append("tenant", data.tenant);
+            formData.append("unit", data.unit);
+
+            data.note && formData.append("note", data.note);
+
+            if (data.documents && data.documents.length > 0) {
+                data.documents.forEach((file) => {
+                    formData.append("documents", file);
+                });
+            }
+            mutation.mutate(formData);
         }
     }
 
     return (
         <div className="bg-white rounded-md space-y-4 p-4">
-            <h2 className="font-medium">Informations d’enregistrement</h2>
+            <h2 className="font-medium">Informations de l'état des lieux</h2>
             <Form {...form}>
                 <form
                     onSubmit={form.handleSubmit(submit)}
@@ -43,18 +108,50 @@ export default function CreateReport() {
                     <div className="grid grid-cols-3 gap-4">
                         <FormField
                             control={form.control}
+                            name="date"
+                            render={({ field }) => (
+                                <FormItem >
+                                    <FormLabel className="text-neutral-600">Date</FormLabel>
+                                    <FormControl>
+                                        <DatePicker date={field.value} setDate={field.onChange} error={!!form.formState.errors.date} />
+                                    </FormControl>
+                                    <FormMessage />
+                                </FormItem>
+                            )}
+                        />
+                        <FormField
+                            control={form.control}
                             name="tenant"
                             render={({ field }) => (
                                 <FormItem >
                                     <FormLabel className="text-neutral-600">Nom du locataire</FormLabel>
                                     <FormControl>
-                                        <Select onValueChange={field.onChange} value={field.value} >
-                                            <SelectTrigger className="w-full" aria-invalid={!!form.formState.errors.tenant}>
-                                                <SelectValue placeholder="Selectionner une valeur" />
+                                        <Select
+                                            onValueChange={field.onChange}
+                                            value={field.value}
+                                        >
+                                            <SelectTrigger
+                                                className="w-full"
+                                                aria-invalid={!!form.formState.errors.tenant}
+                                            >
+                                                <SelectValue placeholder="Selectionner un locataire" />
                                             </SelectTrigger>
                                             <SelectContent position="popper" align="end">
-                                                <SelectItem value="lessie">Lessie</SelectItem>
-                                                <SelectItem value="monica">Monica</SelectItem>
+                                                {isGettingTenants ? (
+                                                    <div className="flex justify-center items-center">
+                                                        <Spinner />
+                                                    </div>
+                                                ) : tenants && tenants.length > 0 ? (
+                                                    tenants.map((tenant) => (
+                                                        <SelectItem key={tenant.value} value={tenant.value}>
+                                                            {tenant.label}
+                                                        </SelectItem>
+                                                    ))
+                                                ) : (
+                                                    <SelectItem value="none" disabled>
+                                                        Aucun locataire disponible
+                                                    </SelectItem>
+                                                )}
                                             </SelectContent>
                                         </Select>
                                     </FormControl>
@@ -64,18 +161,40 @@ export default function CreateReport() {
                         />
                         <FormField
                             control={form.control}
-                            name="propertyOrUnit"
+                            name="unit"
                             render={({ field }) => (
                                 <FormItem >
-                                    <FormLabel className="text-neutral-600">Nom de l'unité ou du bien immobilier</FormLabel>
+                                    <FormLabel className="text-neutral-600">Unité</FormLabel>
                                     <FormControl>
-                                        <Select onValueChange={field.onChange} value={field.value} >
-                                            <SelectTrigger className="w-full" aria-invalid={!!form.formState.errors.propertyOrUnit}>
-                                                <SelectValue placeholder="Selectionner une valeur" />
+                                        <Select
+                                            onValueChange={(e) => {
+                                                field.onChange(e)
+                                                setUnit(units?.find((unit) => unit.value === e) || null)
+                                            }}
+                                            value={field.value}
+                                        >
+                                            <SelectTrigger
+                                                className="w-full"
+                                                aria-invalid={!!form.formState.errors.unit}
+                                            >
+                                                <SelectValue placeholder="Selectionner une unité" />
                                             </SelectTrigger>
                                             <SelectContent position="popper" align="end">
-                                                <SelectItem value="lessie">Lessie</SelectItem>
-                                                <SelectItem value="monica">Monica</SelectItem>
+                                                {isGettingUnits ? (
+                                                    <div className="flex justify-center items-center">
+                                                        <Spinner />
+                                                    </div>
+                                                ) : units && units.length > 0 ? (
+                                                    units.map((unit) => (
+                                                        <SelectItem key={unit.value} value={unit.value}>
+                                                            {unit.label}
+                                                        </SelectItem>
+                                                    ))
+                                                ) : (
+                                                    <SelectItem value="none" disabled>
+                                                        Aucune unité disponible
+                                                    </SelectItem>
+                                                )}
                                             </SelectContent>
                                         </Select>
                                     </FormControl>
@@ -83,119 +202,56 @@ export default function CreateReport() {
                                 </FormItem>
                             )}
                         />
-                        <FormField
-                            control={form.control}
-                            name="size"
-                            render={({ field }) => (
-                                <FormItem >
-                                    <FormLabel className="text-neutral-600">Dimension</FormLabel>
-                                    <FormControl>
-                                        <Input
-                                            placeholder="Entrer la dimension"
-                                            value={field.value}
-                                            aria-invalid={!!form.formState.errors.size}
-                                            onChange={field.onChange}
-                                        />
-                                    </FormControl>
-                                    <FormMessage />
-                                </FormItem>
-                            )}
-                        />
-                        <FormField
-                            control={form.control}
-                            name="livingRoom"
-                            render={({ field }) => (
-                                <FormItem >
-                                    <FormLabel className="text-neutral-600">Chambre</FormLabel>
-                                    <FormControl>
-                                        <Input
-                                            type="number"
-                                            placeholder="Entrer la chambre"
-                                            value={field.value}
-                                            aria-invalid={!!form.formState.errors.livingRoom}
-                                            onChange={field.onChange}
-                                        />
-                                    </FormControl>
-                                    <FormMessage />
-                                </FormItem>
-                            )}
-                        />
-                        <FormField
-                            control={form.control}
-                            name="dining"
-                            render={({ field }) => (
-                                <FormItem >
-                                    <FormLabel className="text-neutral-600">Salle à manger</FormLabel>
-                                    <FormControl>
-                                        <Input
-                                            type="number"
-                                            placeholder="Entrer la salle à manger"
-                                            value={field.value}
-                                            aria-invalid={!!form.formState.errors.dining}
-                                            onChange={field.onChange}
-                                        />
-                                    </FormControl>
-                                    <FormMessage />
-                                </FormItem>
-                            )}
-                        />
-                        <FormField
-                            control={form.control}
-                            name="kitchen"
-                            render={({ field }) => (
-                                <FormItem >
-                                    <FormLabel className="text-neutral-600">Cuisine</FormLabel>
-                                    <FormControl>
-                                        <Input
-                                            type="number"
-                                            placeholder="Entrer la cuisine"
-                                            value={field.value}
-                                            aria-invalid={!!form.formState.errors.kitchen}
-                                            onChange={field.onChange}
-                                        />
-                                    </FormControl>
-                                    <FormMessage />
-                                </FormItem>
-                            )}
-                        />
-                        <FormField
-                            control={form.control}
-                            name="bedrooms"
-                            render={({ field }) => (
-                                <FormItem >
-                                    <FormLabel className="text-neutral-600">Chambres</FormLabel>
-                                    <FormControl>
-                                        <Input
-                                            type="number"
-                                            placeholder="Entrer le nombre de chambres"
-                                            value={field.value}
-                                            aria-invalid={!!form.formState.errors.bedrooms}
-                                            onChange={field.onChange}
-                                        />
-                                    </FormControl>
-                                    <FormMessage />
-                                </FormItem>
-                            )}
-                        />
-                        <FormField
-                            control={form.control}
-                            name="bathrooms"
-                            render={({ field }) => (
-                                <FormItem >
-                                    <FormLabel className="text-neutral-600">Salles de bain</FormLabel>
-                                    <FormControl>
-                                        <Input
-                                            type="number"
-                                            placeholder="Entrer le nombre de salles de bain"
-                                            value={field.value}
-                                            aria-invalid={!!form.formState.errors.bathrooms}
-                                            onChange={field.onChange}
-                                        />
-                                    </FormControl>
-                                    <FormMessage />
-                                </FormItem>
-                            )}
-                        />
+                        <div className="space-y-2">
+                            <Label className="text-neutral-600">Dimensions</Label>
+                            <Input
+                                suffix="m²"
+                                type="number"
+                                disabled
+                                value={unit?.surface}
+                            />
+                        </div>
+                        <div className="space-y-2">
+                            <Label className="text-neutral-600">Pièce</Label>
+                            <Input
+                                type="number"
+                                disabled
+                                value={unit?.rooms}
+                            />
+                        </div>
+                        <div className="space-y-2">
+                            <Label className="text-neutral-600">Salle à manger</Label>
+                            <Input
+                                type="number"
+                                disabled
+                                value={unit?.dining}
+                            />
+                        </div>
+                        <div className="space-y-2">
+                            <Label className="text-neutral-600">Cuisine</Label>
+                            <Input
+                                type="number"
+                                disabled
+                                value={unit?.kitchen}
+                            />
+                        </div>
+                        <div className="space-y-2">
+                            <Label className="text-neutral-600">Chambre</Label>
+                            <Input
+                                type="number"
+                                disabled
+                                value={unit?.bedroom}
+                            />
+                        </div>
+                        <div className="space-y-2">
+                            <Label className="text-neutral-600">Salle de bain</Label>
+                            <Input
+                                type="number"
+                                disabled
+                                value={unit?.bathroom}
+                            />
+                        </div>
+
                     </div>
                     <FormField
                         control={form.control}
@@ -229,8 +285,8 @@ export default function CreateReport() {
                     />
 
                     <div className="flex justify-center">
-                        <Button type="submit" variant="action" className="max-w-xl h-11">
-                            {isLoading ? (
+                        <Button disabled={mutation.isPending} type="submit" variant="action" className="max-w-xl h-11">
+                            {mutation.isPending ? (
                                 <span className="flex justify-center items-center">
                                     <Spinner />
                                 </span>

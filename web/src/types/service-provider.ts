@@ -28,7 +28,7 @@ export type ServiceProvider = {
     professionId: string;
     nif: string;
     registerNumber: string;
-    paymentMode: string;
+    paymentMode: "CASH" | "BANK" | "CHECK";
     note: number;
     comment: string;
     rcc: string;

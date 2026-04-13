@@ -178,13 +178,13 @@ export type SourceOrderByWithRelationInput = {
 
 export type SourceWhereUniqueInput = Prisma.AtLeast<{
   id?: string
-  name?: string
   AND?: Prisma.SourceWhereInput | Prisma.SourceWhereInput[]
   OR?: Prisma.SourceWhereInput[]
   NOT?: Prisma.SourceWhereInput | Prisma.SourceWhereInput[]
   type?: Prisma.EnumPaymentTypeFilter<"Source"> | $Enums.PaymentType
+  name?: Prisma.StringFilter<"Source"> | string
   accountings?: Prisma.AccountingListRelationFilter
-}, "id" | "name">
+}, "id">
 
 export type SourceOrderByWithAggregationInput = {
   id?: Prisma.SortOrder

@@ -37,7 +37,7 @@ export default function CreateUnit() {
             building: "",
             rentalStatus: "",
             surface: 0,
-            rooms: 0,
+            livingroom: 0,
             rent: 0,
             dining: 0,
             kitchen: 0,
@@ -80,7 +80,7 @@ export default function CreateUnit() {
                 building: "",
                 rentalStatus: "",
                 surface: 0,
-                rooms: 0,
+                livingroom: 0,
                 rent: 0,
                 dining: 0,
                 kitchen: 0,
@@ -113,7 +113,7 @@ export default function CreateUnit() {
             form.append("building", data.building);
             form.append("rentalStatus", data.rentalStatus);
             form.append("surface", data.surface.toString());
-            form.append("rooms", data.rooms.toString());
+            form.append("livingroom", data.livingroom.toString());
             form.append("rent", data.rent.toString());
             form.append("dining", data.dining.toString());
             form.append("kitchen", data.kitchen.toString());
@@ -273,16 +273,16 @@ export default function CreateUnit() {
                         />
                         <FormField
                             control={form.control}
-                            name="rooms"
+                            name="livingroom"
                             render={({ field }) => (
                                 <FormItem >
-                                    <FormLabel className="text-neutral-600">Nombre de pièces<RequiredLabel /></FormLabel>
+                                    <FormLabel className="text-neutral-600">Nombre de salon<RequiredLabel /></FormLabel>
                                     <FormControl>
                                         <Input
                                             type="number"
-                                            placeholder="Entrer le nombre de pièces"
+                                            placeholder="Entrer le nombre de salon"
                                             value={field.value}
-                                            aria-invalid={!!form.formState.errors.rooms}
+                                            aria-invalid={!!form.formState.errors.livingroom}
                                             onChange={e => field.onChange(Number(e.target.value))}
                                         />
                                     </FormControl>

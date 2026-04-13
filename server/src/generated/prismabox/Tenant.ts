@@ -149,6 +149,43 @@ export const TenantRelations = t.Object(
       ),
       { additionalProperties: false },
     ),
+    accountings: t.Array(
+      t.Object(
+        {
+          id: t.String(),
+          date: t.Date(),
+          type: t.Union([t.Literal("INFLOW"), t.Literal("OUTFLOW")], {
+            additionalProperties: false,
+          }),
+          paymentMode: t.Union(
+            [t.Literal("CASH"), t.Literal("CHECK"), t.Literal("BANK")],
+            { additionalProperties: false },
+          ),
+          amount: t.Number(),
+          isTTC: t.Boolean(),
+          checkNumber: t.String(),
+          description: t.String(),
+          clientType: t.Union([t.Literal("OWNER"), t.Literal("TENANT")], {
+            additionalProperties: false,
+          }),
+          ownerId: __nullable__(t.String()),
+          tenantId: __nullable__(t.String()),
+          invoiceId: __nullable__(t.String()),
+          purchaseOrderId: __nullable__(t.String()),
+          unitId: t.String(),
+          sourceId: t.String(),
+          allocationId: t.String(),
+          categoryId: t.String(),
+          natureId: t.String(),
+          secondNatureId: t.String(),
+          thirdNatureId: t.String(),
+          createdAt: t.Date(),
+          updatedAt: t.Date(),
+        },
+        { additionalProperties: false },
+      ),
+      { additionalProperties: false },
+    ),
   },
   { additionalProperties: false },
 );
@@ -263,6 +300,22 @@ export const TenantRelationsInputCreate = t.Object(
       ),
     ),
     checkInOuts: t.Optional(
+      t.Object(
+        {
+          connect: t.Array(
+            t.Object(
+              {
+                id: t.String({ additionalProperties: false }),
+              },
+              { additionalProperties: false },
+            ),
+            { additionalProperties: false },
+          ),
+        },
+        { additionalProperties: false },
+      ),
+    ),
+    accountings: t.Optional(
       t.Object(
         {
           connect: t.Array(
@@ -410,6 +463,31 @@ export const TenantRelationsInputUpdate = t.Partial(
           { additionalProperties: false },
         ),
       ),
+      accountings: t.Partial(
+        t.Object(
+          {
+            connect: t.Array(
+              t.Object(
+                {
+                  id: t.String({ additionalProperties: false }),
+                },
+                { additionalProperties: false },
+              ),
+              { additionalProperties: false },
+            ),
+            disconnect: t.Array(
+              t.Object(
+                {
+                  id: t.String({ additionalProperties: false }),
+                },
+                { additionalProperties: false },
+              ),
+              { additionalProperties: false },
+            ),
+          },
+          { additionalProperties: false },
+        ),
+      ),
     },
     { additionalProperties: false },
   ),
@@ -527,6 +605,7 @@ export const TenantSelect = t.Partial(
       quotes: t.Boolean(),
       appointments: t.Boolean(),
       checkInOuts: t.Boolean(),
+      accountings: t.Boolean(),
       _count: t.Boolean(),
     },
     { additionalProperties: false },
@@ -542,6 +621,7 @@ export const TenantInclude = t.Partial(
       quotes: t.Boolean(),
       appointments: t.Boolean(),
       checkInOuts: t.Boolean(),
+      accountings: t.Boolean(),
       _count: t.Boolean(),
     },
     { additionalProperties: false },

@@ -5,15 +5,21 @@ import Occupancy from '@/components/dashboard/overview/occupancy'
 import ReceivableCards from '@/components/dashboard/overview/receivable-cards'
 import ReceivableList from '@/components/dashboard/overview/receivable-list'
 import Revenue from '@/components/dashboard/overview/revenue'
+import { canAccess } from '@/lib/permission'
+import type { User } from '@/types/user'
 import { createFileRoute, redirect } from '@tanstack/react-router'
 
 
 
 export const Route = createFileRoute('/dashboard/')({
   beforeLoad({ context }) {
-    if (!context.session?.data?.user) {
+    const user = context.session.data?.user as unknown as User;
+    const permission = user.permission?.permissions;
+    const hasAccess = canAccess(permission, "dashboard", ['read']);
+    if (!user) {
       throw redirect({ to: "/" });
     }
+    if (!hasAccess) throw redirect({ to: "/error" })
   },
   component: RouteComponent,
 })

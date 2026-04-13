@@ -28,7 +28,7 @@ export const ReservationRelations = t.Object(
         reference: t.String(),
         rentalStatus: t.String(),
         surface: t.Number(),
-        rooms: t.Integer(),
+        livingroom: t.Integer(),
         dining: t.Integer(),
         kitchen: t.Integer(),
         bedroom: t.Integer(),

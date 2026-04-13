@@ -28,9 +28,11 @@ const buttonVariants = cva(
           "bg-red-50 text-rose-700 hover:bg-red-100/80",
         ghost:
           "hover:bg-accent hover:text-accent-foreground dark:hover:bg-accent/50",
+        back:
+          "hover:bg-emerald-500/10 bg-emerald-500/5 text-emerald-600! hover:text-emerald-600! ",
         link: "text-primary underline-offset-4 hover:underline",
         action: "bg-emerald-background ring ring-emerald-background text-white hover:bg-emerald-background/90 w-full !h-11 px-6! cursor-pointer",
-        "inset-action": "bg-white ring ring-emerald-background text-emerald-background w-full !h-11 px-6! cursor-pointer",
+        "inset-action": "bg-emerald-400 ring-2 font-medium ring-emerald-400 text-white hover:bg-emerald-400/90 w-full !h-11 px-6! cursor-pointer",
         "outline-destructive": "bg-transparent text-destructive ring-2 hover:bg-destructive/10 ring-destructive w-full !h-11 px-6! cursor-pointer",
         logout: "bg-transparent border-none text-destructive justify-start hover:bg-destructive/10 dark:hover:bg-destructive/20 cursor-pointer",
         'active-pagination': "bg-emerald-background text-white",

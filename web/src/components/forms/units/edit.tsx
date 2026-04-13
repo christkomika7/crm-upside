@@ -46,7 +46,7 @@ export default function EditUnit({ id }: EditUnitProps) {
             building: "",
             rentalStatus: "",
             surface: 0,
-            rooms: 0,
+            livingroom: 0,
             dining: 0,
             kitchen: 0,
             bedroom: 0,
@@ -114,12 +114,12 @@ export default function EditUnit({ id }: EditUnitProps) {
                 reference: unit.reference,
                 rentalStatus: unit.rentalStatus,
                 surface: unit.surface,
-                rooms: unit.rooms,
+                livingroom: unit.livingroom,
                 dining: unit.dining,
                 kitchen: unit.kitchen,
                 bedroom: unit.bedroom,
                 bathroom: unit.bathroom,
-                rent: unit.rent,
+                rent: Number(unit.rent),
                 furnished: unit.furnished,
                 wifi: unit.wifi,
                 water: unit.water,
@@ -144,7 +144,7 @@ export default function EditUnit({ id }: EditUnitProps) {
             form.append("building", data.building);
             form.append("rentalStatus", data.rentalStatus);
             form.append("surface", data.surface.toString());
-            form.append("rooms", data.rooms.toString());
+            form.append("livingroom", data.livingroom.toString());
             form.append("dining", data.dining.toString());
             form.append("kitchen", data.kitchen.toString());
             form.append("bedroom", data.bedroom.toString());
@@ -307,16 +307,16 @@ export default function EditUnit({ id }: EditUnitProps) {
                         />
                         <FormField
                             control={form.control}
-                            name="rooms"
+                            name="livingroom"
                             render={({ field }) => (
                                 <FormItem >
-                                    <FormLabel className="text-neutral-600">Nombre de pièces<RequiredLabel /></FormLabel>
+                                    <FormLabel className="text-neutral-600">Nombre de salon<RequiredLabel /></FormLabel>
                                     <FormControl>
                                         <Input
                                             type="number"
-                                            placeholder="Entrer le nombre de pièces"
+                                            placeholder="Entrer le nombre de salon"
                                             value={field.value}
-                                            aria-invalid={!!form.formState.errors.rooms}
+                                            aria-invalid={!!form.formState.errors.livingroom}
                                             onChange={e => field.onChange(Number(e.target.value))}
                                         />
                                     </FormControl>

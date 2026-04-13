@@ -43,6 +43,12 @@ export type AccountingMinAggregateOutputType = {
   isTTC: boolean | null
   checkNumber: string | null
   description: string | null
+  clientType: $Enums.ClientType | null
+  ownerId: string | null
+  tenantId: string | null
+  invoiceId: string | null
+  purchaseOrderId: string | null
+  unitId: string | null
   sourceId: string | null
   allocationId: string | null
   categoryId: string | null
@@ -62,6 +68,12 @@ export type AccountingMaxAggregateOutputType = {
   isTTC: boolean | null
   checkNumber: string | null
   description: string | null
+  clientType: $Enums.ClientType | null
+  ownerId: string | null
+  tenantId: string | null
+  invoiceId: string | null
+  purchaseOrderId: string | null
+  unitId: string | null
   sourceId: string | null
   allocationId: string | null
   categoryId: string | null
@@ -81,6 +93,12 @@ export type AccountingCountAggregateOutputType = {
   isTTC: number
   checkNumber: number
   description: number
+  clientType: number
+  ownerId: number
+  tenantId: number
+  invoiceId: number
+  purchaseOrderId: number
+  unitId: number
   sourceId: number
   allocationId: number
   categoryId: number
@@ -110,6 +128,12 @@ export type AccountingMinAggregateInputType = {
   isTTC?: true
   checkNumber?: true
   description?: true
+  clientType?: true
+  ownerId?: true
+  tenantId?: true
+  invoiceId?: true
+  purchaseOrderId?: true
+  unitId?: true
   sourceId?: true
   allocationId?: true
   categoryId?: true
@@ -129,6 +153,12 @@ export type AccountingMaxAggregateInputType = {
   isTTC?: true
   checkNumber?: true
   description?: true
+  clientType?: true
+  ownerId?: true
+  tenantId?: true
+  invoiceId?: true
+  purchaseOrderId?: true
+  unitId?: true
   sourceId?: true
   allocationId?: true
   categoryId?: true
@@ -148,6 +178,12 @@ export type AccountingCountAggregateInputType = {
   isTTC?: true
   checkNumber?: true
   description?: true
+  clientType?: true
+  ownerId?: true
+  tenantId?: true
+  invoiceId?: true
+  purchaseOrderId?: true
+  unitId?: true
   sourceId?: true
   allocationId?: true
   categoryId?: true
@@ -254,6 +290,12 @@ export type AccountingGroupByOutputType = {
   isTTC: boolean
   checkNumber: string
   description: string
+  clientType: $Enums.ClientType
+  ownerId: string | null
+  tenantId: string | null
+  invoiceId: string | null
+  purchaseOrderId: string | null
+  unitId: string
   sourceId: string
   allocationId: string
   categoryId: string
@@ -296,6 +338,12 @@ export type accountingWhereInput = {
   isTTC?: Prisma.BoolFilter<"accounting"> | boolean
   checkNumber?: Prisma.StringFilter<"accounting"> | string
   description?: Prisma.StringFilter<"accounting"> | string
+  clientType?: Prisma.EnumClientTypeFilter<"accounting"> | $Enums.ClientType
+  ownerId?: Prisma.StringNullableFilter<"accounting"> | string | null
+  tenantId?: Prisma.StringNullableFilter<"accounting"> | string | null
+  invoiceId?: Prisma.StringNullableFilter<"accounting"> | string | null
+  purchaseOrderId?: Prisma.StringNullableFilter<"accounting"> | string | null
+  unitId?: Prisma.StringFilter<"accounting"> | string
   sourceId?: Prisma.StringFilter<"accounting"> | string
   allocationId?: Prisma.StringFilter<"accounting"> | string
   categoryId?: Prisma.StringFilter<"accounting"> | string
@@ -304,6 +352,11 @@ export type accountingWhereInput = {
   thirdNatureId?: Prisma.StringFilter<"accounting"> | string
   createdAt?: Prisma.DateTimeFilter<"accounting"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"accounting"> | Date | string
+  owner?: Prisma.XOR<Prisma.OwnerNullableScalarRelationFilter, Prisma.OwnerWhereInput> | null
+  tenant?: Prisma.XOR<Prisma.TenantNullableScalarRelationFilter, Prisma.TenantWhereInput> | null
+  invoice?: Prisma.XOR<Prisma.InvoiceNullableScalarRelationFilter, Prisma.InvoiceWhereInput> | null
+  purchaseOrder?: Prisma.XOR<Prisma.PurchaseOrderNullableScalarRelationFilter, Prisma.purchaseOrderWhereInput> | null
+  unit?: Prisma.XOR<Prisma.UnitScalarRelationFilter, Prisma.UnitWhereInput>
   source?: Prisma.XOR<Prisma.SourceScalarRelationFilter, Prisma.SourceWhereInput>
   allocation?: Prisma.XOR<Prisma.AllocationScalarRelationFilter, Prisma.AllocationWhereInput>
   category?: Prisma.XOR<Prisma.CategoryScalarRelationFilter, Prisma.CategoryWhereInput>
@@ -321,6 +374,12 @@ export type accountingOrderByWithRelationInput = {
   isTTC?: Prisma.SortOrder
   checkNumber?: Prisma.SortOrder
   description?: Prisma.SortOrder
+  clientType?: Prisma.SortOrder
+  ownerId?: Prisma.SortOrderInput | Prisma.SortOrder
+  tenantId?: Prisma.SortOrderInput | Prisma.SortOrder
+  invoiceId?: Prisma.SortOrderInput | Prisma.SortOrder
+  purchaseOrderId?: Prisma.SortOrderInput | Prisma.SortOrder
+  unitId?: Prisma.SortOrder
   sourceId?: Prisma.SortOrder
   allocationId?: Prisma.SortOrder
   categoryId?: Prisma.SortOrder
@@ -329,6 +388,11 @@ export type accountingOrderByWithRelationInput = {
   thirdNatureId?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  owner?: Prisma.OwnerOrderByWithRelationInput
+  tenant?: Prisma.TenantOrderByWithRelationInput
+  invoice?: Prisma.InvoiceOrderByWithRelationInput
+  purchaseOrder?: Prisma.purchaseOrderOrderByWithRelationInput
+  unit?: Prisma.UnitOrderByWithRelationInput
   source?: Prisma.SourceOrderByWithRelationInput
   allocation?: Prisma.AllocationOrderByWithRelationInput
   category?: Prisma.CategoryOrderByWithRelationInput
@@ -349,6 +413,12 @@ export type accountingWhereUniqueInput = Prisma.AtLeast<{
   isTTC?: Prisma.BoolFilter<"accounting"> | boolean
   checkNumber?: Prisma.StringFilter<"accounting"> | string
   description?: Prisma.StringFilter<"accounting"> | string
+  clientType?: Prisma.EnumClientTypeFilter<"accounting"> | $Enums.ClientType
+  ownerId?: Prisma.StringNullableFilter<"accounting"> | string | null
+  tenantId?: Prisma.StringNullableFilter<"accounting"> | string | null
+  invoiceId?: Prisma.StringNullableFilter<"accounting"> | string | null
+  purchaseOrderId?: Prisma.StringNullableFilter<"accounting"> | string | null
+  unitId?: Prisma.StringFilter<"accounting"> | string
   sourceId?: Prisma.StringFilter<"accounting"> | string
   allocationId?: Prisma.StringFilter<"accounting"> | string
   categoryId?: Prisma.StringFilter<"accounting"> | string
@@ -357,6 +427,11 @@ export type accountingWhereUniqueInput = Prisma.AtLeast<{
   thirdNatureId?: Prisma.StringFilter<"accounting"> | string
   createdAt?: Prisma.DateTimeFilter<"accounting"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"accounting"> | Date | string
+  owner?: Prisma.XOR<Prisma.OwnerNullableScalarRelationFilter, Prisma.OwnerWhereInput> | null
+  tenant?: Prisma.XOR<Prisma.TenantNullableScalarRelationFilter, Prisma.TenantWhereInput> | null
+  invoice?: Prisma.XOR<Prisma.InvoiceNullableScalarRelationFilter, Prisma.InvoiceWhereInput> | null
+  purchaseOrder?: Prisma.XOR<Prisma.PurchaseOrderNullableScalarRelationFilter, Prisma.purchaseOrderWhereInput> | null
+  unit?: Prisma.XOR<Prisma.UnitScalarRelationFilter, Prisma.UnitWhereInput>
   source?: Prisma.XOR<Prisma.SourceScalarRelationFilter, Prisma.SourceWhereInput>
   allocation?: Prisma.XOR<Prisma.AllocationScalarRelationFilter, Prisma.AllocationWhereInput>
   category?: Prisma.XOR<Prisma.CategoryScalarRelationFilter, Prisma.CategoryWhereInput>
@@ -374,6 +449,12 @@ export type accountingOrderByWithAggregationInput = {
   isTTC?: Prisma.SortOrder
   checkNumber?: Prisma.SortOrder
   description?: Prisma.SortOrder
+  clientType?: Prisma.SortOrder
+  ownerId?: Prisma.SortOrderInput | Prisma.SortOrder
+  tenantId?: Prisma.SortOrderInput | Prisma.SortOrder
+  invoiceId?: Prisma.SortOrderInput | Prisma.SortOrder
+  purchaseOrderId?: Prisma.SortOrderInput | Prisma.SortOrder
+  unitId?: Prisma.SortOrder
   sourceId?: Prisma.SortOrder
   allocationId?: Prisma.SortOrder
   categoryId?: Prisma.SortOrder
@@ -401,6 +482,12 @@ export type accountingScalarWhereWithAggregatesInput = {
   isTTC?: Prisma.BoolWithAggregatesFilter<"accounting"> | boolean
   checkNumber?: Prisma.StringWithAggregatesFilter<"accounting"> | string
   description?: Prisma.StringWithAggregatesFilter<"accounting"> | string
+  clientType?: Prisma.EnumClientTypeWithAggregatesFilter<"accounting"> | $Enums.ClientType
+  ownerId?: Prisma.StringNullableWithAggregatesFilter<"accounting"> | string | null
+  tenantId?: Prisma.StringNullableWithAggregatesFilter<"accounting"> | string | null
+  invoiceId?: Prisma.StringNullableWithAggregatesFilter<"accounting"> | string | null
+  purchaseOrderId?: Prisma.StringNullableWithAggregatesFilter<"accounting"> | string | null
+  unitId?: Prisma.StringWithAggregatesFilter<"accounting"> | string
   sourceId?: Prisma.StringWithAggregatesFilter<"accounting"> | string
   allocationId?: Prisma.StringWithAggregatesFilter<"accounting"> | string
   categoryId?: Prisma.StringWithAggregatesFilter<"accounting"> | string
@@ -420,8 +507,14 @@ export type accountingCreateInput = {
   isTTC: boolean
   checkNumber: string
   description: string
+  clientType: $Enums.ClientType
   createdAt?: Date | string
   updatedAt?: Date | string
+  owner?: Prisma.OwnerCreateNestedOneWithoutAccountingsInput
+  tenant?: Prisma.TenantCreateNestedOneWithoutAccountingsInput
+  invoice?: Prisma.InvoiceCreateNestedOneWithoutAccountingsInput
+  purchaseOrder?: Prisma.purchaseOrderCreateNestedOneWithoutAccountingsInput
+  unit: Prisma.UnitCreateNestedOneWithoutAccountingsInput
   source: Prisma.SourceCreateNestedOneWithoutAccountingsInput
   allocation: Prisma.AllocationCreateNestedOneWithoutAccountingsInput
   category: Prisma.CategoryCreateNestedOneWithoutAccountingsInput
@@ -439,6 +532,12 @@ export type accountingUncheckedCreateInput = {
   isTTC: boolean
   checkNumber: string
   description: string
+  clientType: $Enums.ClientType
+  ownerId?: string | null
+  tenantId?: string | null
+  invoiceId?: string | null
+  purchaseOrderId?: string | null
+  unitId: string
   sourceId: string
   allocationId: string
   categoryId: string
@@ -458,8 +557,14 @@ export type accountingUpdateInput = {
   isTTC?: Prisma.BoolFieldUpdateOperationsInput | boolean
   checkNumber?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.StringFieldUpdateOperationsInput | string
+  clientType?: Prisma.EnumClientTypeFieldUpdateOperationsInput | $Enums.ClientType
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  owner?: Prisma.OwnerUpdateOneWithoutAccountingsNestedInput
+  tenant?: Prisma.TenantUpdateOneWithoutAccountingsNestedInput
+  invoice?: Prisma.InvoiceUpdateOneWithoutAccountingsNestedInput
+  purchaseOrder?: Prisma.purchaseOrderUpdateOneWithoutAccountingsNestedInput
+  unit?: Prisma.UnitUpdateOneRequiredWithoutAccountingsNestedInput
   source?: Prisma.SourceUpdateOneRequiredWithoutAccountingsNestedInput
   allocation?: Prisma.AllocationUpdateOneRequiredWithoutAccountingsNestedInput
   category?: Prisma.CategoryUpdateOneRequiredWithoutAccountingsNestedInput
@@ -477,6 +582,12 @@ export type accountingUncheckedUpdateInput = {
   isTTC?: Prisma.BoolFieldUpdateOperationsInput | boolean
   checkNumber?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.StringFieldUpdateOperationsInput | string
+  clientType?: Prisma.EnumClientTypeFieldUpdateOperationsInput | $Enums.ClientType
+  ownerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tenantId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  invoiceId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  purchaseOrderId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  unitId?: Prisma.StringFieldUpdateOperationsInput | string
   sourceId?: Prisma.StringFieldUpdateOperationsInput | string
   allocationId?: Prisma.StringFieldUpdateOperationsInput | string
   categoryId?: Prisma.StringFieldUpdateOperationsInput | string
@@ -496,6 +607,12 @@ export type accountingCreateManyInput = {
   isTTC: boolean
   checkNumber: string
   description: string
+  clientType: $Enums.ClientType
+  ownerId?: string | null
+  tenantId?: string | null
+  invoiceId?: string | null
+  purchaseOrderId?: string | null
+  unitId: string
   sourceId: string
   allocationId: string
   categoryId: string
@@ -515,6 +632,7 @@ export type accountingUpdateManyMutationInput = {
   isTTC?: Prisma.BoolFieldUpdateOperationsInput | boolean
   checkNumber?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.StringFieldUpdateOperationsInput | string
+  clientType?: Prisma.EnumClientTypeFieldUpdateOperationsInput | $Enums.ClientType
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -528,6 +646,12 @@ export type accountingUncheckedUpdateManyInput = {
   isTTC?: Prisma.BoolFieldUpdateOperationsInput | boolean
   checkNumber?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.StringFieldUpdateOperationsInput | string
+  clientType?: Prisma.EnumClientTypeFieldUpdateOperationsInput | $Enums.ClientType
+  ownerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tenantId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  invoiceId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  purchaseOrderId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  unitId?: Prisma.StringFieldUpdateOperationsInput | string
   sourceId?: Prisma.StringFieldUpdateOperationsInput | string
   allocationId?: Prisma.StringFieldUpdateOperationsInput | string
   categoryId?: Prisma.StringFieldUpdateOperationsInput | string
@@ -536,6 +660,16 @@ export type accountingUncheckedUpdateManyInput = {
   thirdNatureId?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+}
+
+export type AccountingListRelationFilter = {
+  every?: Prisma.accountingWhereInput
+  some?: Prisma.accountingWhereInput
+  none?: Prisma.accountingWhereInput
+}
+
+export type accountingOrderByRelationAggregateInput = {
+  _count?: Prisma.SortOrder
 }
 
 export type accountingCountOrderByAggregateInput = {
@@ -547,6 +681,12 @@ export type accountingCountOrderByAggregateInput = {
   isTTC?: Prisma.SortOrder
   checkNumber?: Prisma.SortOrder
   description?: Prisma.SortOrder
+  clientType?: Prisma.SortOrder
+  ownerId?: Prisma.SortOrder
+  tenantId?: Prisma.SortOrder
+  invoiceId?: Prisma.SortOrder
+  purchaseOrderId?: Prisma.SortOrder
+  unitId?: Prisma.SortOrder
   sourceId?: Prisma.SortOrder
   allocationId?: Prisma.SortOrder
   categoryId?: Prisma.SortOrder
@@ -570,6 +710,12 @@ export type accountingMaxOrderByAggregateInput = {
   isTTC?: Prisma.SortOrder
   checkNumber?: Prisma.SortOrder
   description?: Prisma.SortOrder
+  clientType?: Prisma.SortOrder
+  ownerId?: Prisma.SortOrder
+  tenantId?: Prisma.SortOrder
+  invoiceId?: Prisma.SortOrder
+  purchaseOrderId?: Prisma.SortOrder
+  unitId?: Prisma.SortOrder
   sourceId?: Prisma.SortOrder
   allocationId?: Prisma.SortOrder
   categoryId?: Prisma.SortOrder
@@ -589,6 +735,12 @@ export type accountingMinOrderByAggregateInput = {
   isTTC?: Prisma.SortOrder
   checkNumber?: Prisma.SortOrder
   description?: Prisma.SortOrder
+  clientType?: Prisma.SortOrder
+  ownerId?: Prisma.SortOrder
+  tenantId?: Prisma.SortOrder
+  invoiceId?: Prisma.SortOrder
+  purchaseOrderId?: Prisma.SortOrder
+  unitId?: Prisma.SortOrder
   sourceId?: Prisma.SortOrder
   allocationId?: Prisma.SortOrder
   categoryId?: Prisma.SortOrder
@@ -603,14 +755,214 @@ export type accountingSumOrderByAggregateInput = {
   amount?: Prisma.SortOrder
 }
 
-export type AccountingListRelationFilter = {
-  every?: Prisma.accountingWhereInput
-  some?: Prisma.accountingWhereInput
-  none?: Prisma.accountingWhereInput
+export type accountingCreateNestedManyWithoutUnitInput = {
+  create?: Prisma.XOR<Prisma.accountingCreateWithoutUnitInput, Prisma.accountingUncheckedCreateWithoutUnitInput> | Prisma.accountingCreateWithoutUnitInput[] | Prisma.accountingUncheckedCreateWithoutUnitInput[]
+  connectOrCreate?: Prisma.accountingCreateOrConnectWithoutUnitInput | Prisma.accountingCreateOrConnectWithoutUnitInput[]
+  createMany?: Prisma.accountingCreateManyUnitInputEnvelope
+  connect?: Prisma.accountingWhereUniqueInput | Prisma.accountingWhereUniqueInput[]
 }
 
-export type accountingOrderByRelationAggregateInput = {
-  _count?: Prisma.SortOrder
+export type accountingUncheckedCreateNestedManyWithoutUnitInput = {
+  create?: Prisma.XOR<Prisma.accountingCreateWithoutUnitInput, Prisma.accountingUncheckedCreateWithoutUnitInput> | Prisma.accountingCreateWithoutUnitInput[] | Prisma.accountingUncheckedCreateWithoutUnitInput[]
+  connectOrCreate?: Prisma.accountingCreateOrConnectWithoutUnitInput | Prisma.accountingCreateOrConnectWithoutUnitInput[]
+  createMany?: Prisma.accountingCreateManyUnitInputEnvelope
+  connect?: Prisma.accountingWhereUniqueInput | Prisma.accountingWhereUniqueInput[]
+}
+
+export type accountingUpdateManyWithoutUnitNestedInput = {
+  create?: Prisma.XOR<Prisma.accountingCreateWithoutUnitInput, Prisma.accountingUncheckedCreateWithoutUnitInput> | Prisma.accountingCreateWithoutUnitInput[] | Prisma.accountingUncheckedCreateWithoutUnitInput[]
+  connectOrCreate?: Prisma.accountingCreateOrConnectWithoutUnitInput | Prisma.accountingCreateOrConnectWithoutUnitInput[]
+  upsert?: Prisma.accountingUpsertWithWhereUniqueWithoutUnitInput | Prisma.accountingUpsertWithWhereUniqueWithoutUnitInput[]
+  createMany?: Prisma.accountingCreateManyUnitInputEnvelope
+  set?: Prisma.accountingWhereUniqueInput | Prisma.accountingWhereUniqueInput[]
+  disconnect?: Prisma.accountingWhereUniqueInput | Prisma.accountingWhereUniqueInput[]
+  delete?: Prisma.accountingWhereUniqueInput | Prisma.accountingWhereUniqueInput[]
+  connect?: Prisma.accountingWhereUniqueInput | Prisma.accountingWhereUniqueInput[]
+  update?: Prisma.accountingUpdateWithWhereUniqueWithoutUnitInput | Prisma.accountingUpdateWithWhereUniqueWithoutUnitInput[]
+  updateMany?: Prisma.accountingUpdateManyWithWhereWithoutUnitInput | Prisma.accountingUpdateManyWithWhereWithoutUnitInput[]
+  deleteMany?: Prisma.accountingScalarWhereInput | Prisma.accountingScalarWhereInput[]
+}
+
+export type accountingUncheckedUpdateManyWithoutUnitNestedInput = {
+  create?: Prisma.XOR<Prisma.accountingCreateWithoutUnitInput, Prisma.accountingUncheckedCreateWithoutUnitInput> | Prisma.accountingCreateWithoutUnitInput[] | Prisma.accountingUncheckedCreateWithoutUnitInput[]
+  connectOrCreate?: Prisma.accountingCreateOrConnectWithoutUnitInput | Prisma.accountingCreateOrConnectWithoutUnitInput[]
+  upsert?: Prisma.accountingUpsertWithWhereUniqueWithoutUnitInput | Prisma.accountingUpsertWithWhereUniqueWithoutUnitInput[]
+  createMany?: Prisma.accountingCreateManyUnitInputEnvelope
+  set?: Prisma.accountingWhereUniqueInput | Prisma.accountingWhereUniqueInput[]
+  disconnect?: Prisma.accountingWhereUniqueInput | Prisma.accountingWhereUniqueInput[]
+  delete?: Prisma.accountingWhereUniqueInput | Prisma.accountingWhereUniqueInput[]
+  connect?: Prisma.accountingWhereUniqueInput | Prisma.accountingWhereUniqueInput[]
+  update?: Prisma.accountingUpdateWithWhereUniqueWithoutUnitInput | Prisma.accountingUpdateWithWhereUniqueWithoutUnitInput[]
+  updateMany?: Prisma.accountingUpdateManyWithWhereWithoutUnitInput | Prisma.accountingUpdateManyWithWhereWithoutUnitInput[]
+  deleteMany?: Prisma.accountingScalarWhereInput | Prisma.accountingScalarWhereInput[]
+}
+
+export type accountingCreateNestedManyWithoutOwnerInput = {
+  create?: Prisma.XOR<Prisma.accountingCreateWithoutOwnerInput, Prisma.accountingUncheckedCreateWithoutOwnerInput> | Prisma.accountingCreateWithoutOwnerInput[] | Prisma.accountingUncheckedCreateWithoutOwnerInput[]
+  connectOrCreate?: Prisma.accountingCreateOrConnectWithoutOwnerInput | Prisma.accountingCreateOrConnectWithoutOwnerInput[]
+  createMany?: Prisma.accountingCreateManyOwnerInputEnvelope
+  connect?: Prisma.accountingWhereUniqueInput | Prisma.accountingWhereUniqueInput[]
+}
+
+export type accountingUncheckedCreateNestedManyWithoutOwnerInput = {
+  create?: Prisma.XOR<Prisma.accountingCreateWithoutOwnerInput, Prisma.accountingUncheckedCreateWithoutOwnerInput> | Prisma.accountingCreateWithoutOwnerInput[] | Prisma.accountingUncheckedCreateWithoutOwnerInput[]
+  connectOrCreate?: Prisma.accountingCreateOrConnectWithoutOwnerInput | Prisma.accountingCreateOrConnectWithoutOwnerInput[]
+  createMany?: Prisma.accountingCreateManyOwnerInputEnvelope
+  connect?: Prisma.accountingWhereUniqueInput | Prisma.accountingWhereUniqueInput[]
+}
+
+export type accountingUpdateManyWithoutOwnerNestedInput = {
+  create?: Prisma.XOR<Prisma.accountingCreateWithoutOwnerInput, Prisma.accountingUncheckedCreateWithoutOwnerInput> | Prisma.accountingCreateWithoutOwnerInput[] | Prisma.accountingUncheckedCreateWithoutOwnerInput[]
+  connectOrCreate?: Prisma.accountingCreateOrConnectWithoutOwnerInput | Prisma.accountingCreateOrConnectWithoutOwnerInput[]
+  upsert?: Prisma.accountingUpsertWithWhereUniqueWithoutOwnerInput | Prisma.accountingUpsertWithWhereUniqueWithoutOwnerInput[]
+  createMany?: Prisma.accountingCreateManyOwnerInputEnvelope
+  set?: Prisma.accountingWhereUniqueInput | Prisma.accountingWhereUniqueInput[]
+  disconnect?: Prisma.accountingWhereUniqueInput | Prisma.accountingWhereUniqueInput[]
+  delete?: Prisma.accountingWhereUniqueInput | Prisma.accountingWhereUniqueInput[]
+  connect?: Prisma.accountingWhereUniqueInput | Prisma.accountingWhereUniqueInput[]
+  update?: Prisma.accountingUpdateWithWhereUniqueWithoutOwnerInput | Prisma.accountingUpdateWithWhereUniqueWithoutOwnerInput[]
+  updateMany?: Prisma.accountingUpdateManyWithWhereWithoutOwnerInput | Prisma.accountingUpdateManyWithWhereWithoutOwnerInput[]
+  deleteMany?: Prisma.accountingScalarWhereInput | Prisma.accountingScalarWhereInput[]
+}
+
+export type accountingUncheckedUpdateManyWithoutOwnerNestedInput = {
+  create?: Prisma.XOR<Prisma.accountingCreateWithoutOwnerInput, Prisma.accountingUncheckedCreateWithoutOwnerInput> | Prisma.accountingCreateWithoutOwnerInput[] | Prisma.accountingUncheckedCreateWithoutOwnerInput[]
+  connectOrCreate?: Prisma.accountingCreateOrConnectWithoutOwnerInput | Prisma.accountingCreateOrConnectWithoutOwnerInput[]
+  upsert?: Prisma.accountingUpsertWithWhereUniqueWithoutOwnerInput | Prisma.accountingUpsertWithWhereUniqueWithoutOwnerInput[]
+  createMany?: Prisma.accountingCreateManyOwnerInputEnvelope
+  set?: Prisma.accountingWhereUniqueInput | Prisma.accountingWhereUniqueInput[]
+  disconnect?: Prisma.accountingWhereUniqueInput | Prisma.accountingWhereUniqueInput[]
+  delete?: Prisma.accountingWhereUniqueInput | Prisma.accountingWhereUniqueInput[]
+  connect?: Prisma.accountingWhereUniqueInput | Prisma.accountingWhereUniqueInput[]
+  update?: Prisma.accountingUpdateWithWhereUniqueWithoutOwnerInput | Prisma.accountingUpdateWithWhereUniqueWithoutOwnerInput[]
+  updateMany?: Prisma.accountingUpdateManyWithWhereWithoutOwnerInput | Prisma.accountingUpdateManyWithWhereWithoutOwnerInput[]
+  deleteMany?: Prisma.accountingScalarWhereInput | Prisma.accountingScalarWhereInput[]
+}
+
+export type accountingCreateNestedManyWithoutTenantInput = {
+  create?: Prisma.XOR<Prisma.accountingCreateWithoutTenantInput, Prisma.accountingUncheckedCreateWithoutTenantInput> | Prisma.accountingCreateWithoutTenantInput[] | Prisma.accountingUncheckedCreateWithoutTenantInput[]
+  connectOrCreate?: Prisma.accountingCreateOrConnectWithoutTenantInput | Prisma.accountingCreateOrConnectWithoutTenantInput[]
+  createMany?: Prisma.accountingCreateManyTenantInputEnvelope
+  connect?: Prisma.accountingWhereUniqueInput | Prisma.accountingWhereUniqueInput[]
+}
+
+export type accountingUncheckedCreateNestedManyWithoutTenantInput = {
+  create?: Prisma.XOR<Prisma.accountingCreateWithoutTenantInput, Prisma.accountingUncheckedCreateWithoutTenantInput> | Prisma.accountingCreateWithoutTenantInput[] | Prisma.accountingUncheckedCreateWithoutTenantInput[]
+  connectOrCreate?: Prisma.accountingCreateOrConnectWithoutTenantInput | Prisma.accountingCreateOrConnectWithoutTenantInput[]
+  createMany?: Prisma.accountingCreateManyTenantInputEnvelope
+  connect?: Prisma.accountingWhereUniqueInput | Prisma.accountingWhereUniqueInput[]
+}
+
+export type accountingUpdateManyWithoutTenantNestedInput = {
+  create?: Prisma.XOR<Prisma.accountingCreateWithoutTenantInput, Prisma.accountingUncheckedCreateWithoutTenantInput> | Prisma.accountingCreateWithoutTenantInput[] | Prisma.accountingUncheckedCreateWithoutTenantInput[]
+  connectOrCreate?: Prisma.accountingCreateOrConnectWithoutTenantInput | Prisma.accountingCreateOrConnectWithoutTenantInput[]
+  upsert?: Prisma.accountingUpsertWithWhereUniqueWithoutTenantInput | Prisma.accountingUpsertWithWhereUniqueWithoutTenantInput[]
+  createMany?: Prisma.accountingCreateManyTenantInputEnvelope
+  set?: Prisma.accountingWhereUniqueInput | Prisma.accountingWhereUniqueInput[]
+  disconnect?: Prisma.accountingWhereUniqueInput | Prisma.accountingWhereUniqueInput[]
+  delete?: Prisma.accountingWhereUniqueInput | Prisma.accountingWhereUniqueInput[]
+  connect?: Prisma.accountingWhereUniqueInput | Prisma.accountingWhereUniqueInput[]
+  update?: Prisma.accountingUpdateWithWhereUniqueWithoutTenantInput | Prisma.accountingUpdateWithWhereUniqueWithoutTenantInput[]
+  updateMany?: Prisma.accountingUpdateManyWithWhereWithoutTenantInput | Prisma.accountingUpdateManyWithWhereWithoutTenantInput[]
+  deleteMany?: Prisma.accountingScalarWhereInput | Prisma.accountingScalarWhereInput[]
+}
+
+export type accountingUncheckedUpdateManyWithoutTenantNestedInput = {
+  create?: Prisma.XOR<Prisma.accountingCreateWithoutTenantInput, Prisma.accountingUncheckedCreateWithoutTenantInput> | Prisma.accountingCreateWithoutTenantInput[] | Prisma.accountingUncheckedCreateWithoutTenantInput[]
+  connectOrCreate?: Prisma.accountingCreateOrConnectWithoutTenantInput | Prisma.accountingCreateOrConnectWithoutTenantInput[]
+  upsert?: Prisma.accountingUpsertWithWhereUniqueWithoutTenantInput | Prisma.accountingUpsertWithWhereUniqueWithoutTenantInput[]
+  createMany?: Prisma.accountingCreateManyTenantInputEnvelope
+  set?: Prisma.accountingWhereUniqueInput | Prisma.accountingWhereUniqueInput[]
+  disconnect?: Prisma.accountingWhereUniqueInput | Prisma.accountingWhereUniqueInput[]
+  delete?: Prisma.accountingWhereUniqueInput | Prisma.accountingWhereUniqueInput[]
+  connect?: Prisma.accountingWhereUniqueInput | Prisma.accountingWhereUniqueInput[]
+  update?: Prisma.accountingUpdateWithWhereUniqueWithoutTenantInput | Prisma.accountingUpdateWithWhereUniqueWithoutTenantInput[]
+  updateMany?: Prisma.accountingUpdateManyWithWhereWithoutTenantInput | Prisma.accountingUpdateManyWithWhereWithoutTenantInput[]
+  deleteMany?: Prisma.accountingScalarWhereInput | Prisma.accountingScalarWhereInput[]
+}
+
+export type accountingCreateNestedManyWithoutInvoiceInput = {
+  create?: Prisma.XOR<Prisma.accountingCreateWithoutInvoiceInput, Prisma.accountingUncheckedCreateWithoutInvoiceInput> | Prisma.accountingCreateWithoutInvoiceInput[] | Prisma.accountingUncheckedCreateWithoutInvoiceInput[]
+  connectOrCreate?: Prisma.accountingCreateOrConnectWithoutInvoiceInput | Prisma.accountingCreateOrConnectWithoutInvoiceInput[]
+  createMany?: Prisma.accountingCreateManyInvoiceInputEnvelope
+  connect?: Prisma.accountingWhereUniqueInput | Prisma.accountingWhereUniqueInput[]
+}
+
+export type accountingUncheckedCreateNestedManyWithoutInvoiceInput = {
+  create?: Prisma.XOR<Prisma.accountingCreateWithoutInvoiceInput, Prisma.accountingUncheckedCreateWithoutInvoiceInput> | Prisma.accountingCreateWithoutInvoiceInput[] | Prisma.accountingUncheckedCreateWithoutInvoiceInput[]
+  connectOrCreate?: Prisma.accountingCreateOrConnectWithoutInvoiceInput | Prisma.accountingCreateOrConnectWithoutInvoiceInput[]
+  createMany?: Prisma.accountingCreateManyInvoiceInputEnvelope
+  connect?: Prisma.accountingWhereUniqueInput | Prisma.accountingWhereUniqueInput[]
+}
+
+export type accountingUpdateManyWithoutInvoiceNestedInput = {
+  create?: Prisma.XOR<Prisma.accountingCreateWithoutInvoiceInput, Prisma.accountingUncheckedCreateWithoutInvoiceInput> | Prisma.accountingCreateWithoutInvoiceInput[] | Prisma.accountingUncheckedCreateWithoutInvoiceInput[]
+  connectOrCreate?: Prisma.accountingCreateOrConnectWithoutInvoiceInput | Prisma.accountingCreateOrConnectWithoutInvoiceInput[]
+  upsert?: Prisma.accountingUpsertWithWhereUniqueWithoutInvoiceInput | Prisma.accountingUpsertWithWhereUniqueWithoutInvoiceInput[]
+  createMany?: Prisma.accountingCreateManyInvoiceInputEnvelope
+  set?: Prisma.accountingWhereUniqueInput | Prisma.accountingWhereUniqueInput[]
+  disconnect?: Prisma.accountingWhereUniqueInput | Prisma.accountingWhereUniqueInput[]
+  delete?: Prisma.accountingWhereUniqueInput | Prisma.accountingWhereUniqueInput[]
+  connect?: Prisma.accountingWhereUniqueInput | Prisma.accountingWhereUniqueInput[]
+  update?: Prisma.accountingUpdateWithWhereUniqueWithoutInvoiceInput | Prisma.accountingUpdateWithWhereUniqueWithoutInvoiceInput[]
+  updateMany?: Prisma.accountingUpdateManyWithWhereWithoutInvoiceInput | Prisma.accountingUpdateManyWithWhereWithoutInvoiceInput[]
+  deleteMany?: Prisma.accountingScalarWhereInput | Prisma.accountingScalarWhereInput[]
+}
+
+export type accountingUncheckedUpdateManyWithoutInvoiceNestedInput = {
+  create?: Prisma.XOR<Prisma.accountingCreateWithoutInvoiceInput, Prisma.accountingUncheckedCreateWithoutInvoiceInput> | Prisma.accountingCreateWithoutInvoiceInput[] | Prisma.accountingUncheckedCreateWithoutInvoiceInput[]
+  connectOrCreate?: Prisma.accountingCreateOrConnectWithoutInvoiceInput | Prisma.accountingCreateOrConnectWithoutInvoiceInput[]
+  upsert?: Prisma.accountingUpsertWithWhereUniqueWithoutInvoiceInput | Prisma.accountingUpsertWithWhereUniqueWithoutInvoiceInput[]
+  createMany?: Prisma.accountingCreateManyInvoiceInputEnvelope
+  set?: Prisma.accountingWhereUniqueInput | Prisma.accountingWhereUniqueInput[]
+  disconnect?: Prisma.accountingWhereUniqueInput | Prisma.accountingWhereUniqueInput[]
+  delete?: Prisma.accountingWhereUniqueInput | Prisma.accountingWhereUniqueInput[]
+  connect?: Prisma.accountingWhereUniqueInput | Prisma.accountingWhereUniqueInput[]
+  update?: Prisma.accountingUpdateWithWhereUniqueWithoutInvoiceInput | Prisma.accountingUpdateWithWhereUniqueWithoutInvoiceInput[]
+  updateMany?: Prisma.accountingUpdateManyWithWhereWithoutInvoiceInput | Prisma.accountingUpdateManyWithWhereWithoutInvoiceInput[]
+  deleteMany?: Prisma.accountingScalarWhereInput | Prisma.accountingScalarWhereInput[]
+}
+
+export type accountingCreateNestedManyWithoutPurchaseOrderInput = {
+  create?: Prisma.XOR<Prisma.accountingCreateWithoutPurchaseOrderInput, Prisma.accountingUncheckedCreateWithoutPurchaseOrderInput> | Prisma.accountingCreateWithoutPurchaseOrderInput[] | Prisma.accountingUncheckedCreateWithoutPurchaseOrderInput[]
+  connectOrCreate?: Prisma.accountingCreateOrConnectWithoutPurchaseOrderInput | Prisma.accountingCreateOrConnectWithoutPurchaseOrderInput[]
+  createMany?: Prisma.accountingCreateManyPurchaseOrderInputEnvelope
+  connect?: Prisma.accountingWhereUniqueInput | Prisma.accountingWhereUniqueInput[]
+}
+
+export type accountingUncheckedCreateNestedManyWithoutPurchaseOrderInput = {
+  create?: Prisma.XOR<Prisma.accountingCreateWithoutPurchaseOrderInput, Prisma.accountingUncheckedCreateWithoutPurchaseOrderInput> | Prisma.accountingCreateWithoutPurchaseOrderInput[] | Prisma.accountingUncheckedCreateWithoutPurchaseOrderInput[]
+  connectOrCreate?: Prisma.accountingCreateOrConnectWithoutPurchaseOrderInput | Prisma.accountingCreateOrConnectWithoutPurchaseOrderInput[]
+  createMany?: Prisma.accountingCreateManyPurchaseOrderInputEnvelope
+  connect?: Prisma.accountingWhereUniqueInput | Prisma.accountingWhereUniqueInput[]
+}
+
+export type accountingUpdateManyWithoutPurchaseOrderNestedInput = {
+  create?: Prisma.XOR<Prisma.accountingCreateWithoutPurchaseOrderInput, Prisma.accountingUncheckedCreateWithoutPurchaseOrderInput> | Prisma.accountingCreateWithoutPurchaseOrderInput[] | Prisma.accountingUncheckedCreateWithoutPurchaseOrderInput[]
+  connectOrCreate?: Prisma.accountingCreateOrConnectWithoutPurchaseOrderInput | Prisma.accountingCreateOrConnectWithoutPurchaseOrderInput[]
+  upsert?: Prisma.accountingUpsertWithWhereUniqueWithoutPurchaseOrderInput | Prisma.accountingUpsertWithWhereUniqueWithoutPurchaseOrderInput[]
+  createMany?: Prisma.accountingCreateManyPurchaseOrderInputEnvelope
+  set?: Prisma.accountingWhereUniqueInput | Prisma.accountingWhereUniqueInput[]
+  disconnect?: Prisma.accountingWhereUniqueInput | Prisma.accountingWhereUniqueInput[]
+  delete?: Prisma.accountingWhereUniqueInput | Prisma.accountingWhereUniqueInput[]
+  connect?: Prisma.accountingWhereUniqueInput | Prisma.accountingWhereUniqueInput[]
+  update?: Prisma.accountingUpdateWithWhereUniqueWithoutPurchaseOrderInput | Prisma.accountingUpdateWithWhereUniqueWithoutPurchaseOrderInput[]
+  updateMany?: Prisma.accountingUpdateManyWithWhereWithoutPurchaseOrderInput | Prisma.accountingUpdateManyWithWhereWithoutPurchaseOrderInput[]
+  deleteMany?: Prisma.accountingScalarWhereInput | Prisma.accountingScalarWhereInput[]
+}
+
+export type accountingUncheckedUpdateManyWithoutPurchaseOrderNestedInput = {
+  create?: Prisma.XOR<Prisma.accountingCreateWithoutPurchaseOrderInput, Prisma.accountingUncheckedCreateWithoutPurchaseOrderInput> | Prisma.accountingCreateWithoutPurchaseOrderInput[] | Prisma.accountingUncheckedCreateWithoutPurchaseOrderInput[]
+  connectOrCreate?: Prisma.accountingCreateOrConnectWithoutPurchaseOrderInput | Prisma.accountingCreateOrConnectWithoutPurchaseOrderInput[]
+  upsert?: Prisma.accountingUpsertWithWhereUniqueWithoutPurchaseOrderInput | Prisma.accountingUpsertWithWhereUniqueWithoutPurchaseOrderInput[]
+  createMany?: Prisma.accountingCreateManyPurchaseOrderInputEnvelope
+  set?: Prisma.accountingWhereUniqueInput | Prisma.accountingWhereUniqueInput[]
+  disconnect?: Prisma.accountingWhereUniqueInput | Prisma.accountingWhereUniqueInput[]
+  delete?: Prisma.accountingWhereUniqueInput | Prisma.accountingWhereUniqueInput[]
+  connect?: Prisma.accountingWhereUniqueInput | Prisma.accountingWhereUniqueInput[]
+  update?: Prisma.accountingUpdateWithWhereUniqueWithoutPurchaseOrderInput | Prisma.accountingUpdateWithWhereUniqueWithoutPurchaseOrderInput[]
+  updateMany?: Prisma.accountingUpdateManyWithWhereWithoutPurchaseOrderInput | Prisma.accountingUpdateManyWithWhereWithoutPurchaseOrderInput[]
+  deleteMany?: Prisma.accountingScalarWhereInput | Prisma.accountingScalarWhereInput[]
 }
 
 export type EnumAccountingTypeFieldUpdateOperationsInput = {
@@ -869,6 +1221,404 @@ export type accountingUncheckedUpdateManyWithoutThirdNatureNestedInput = {
   deleteMany?: Prisma.accountingScalarWhereInput | Prisma.accountingScalarWhereInput[]
 }
 
+export type accountingCreateWithoutUnitInput = {
+  id?: string
+  date: Date | string
+  type: $Enums.AccountingType
+  paymentMode: $Enums.PaymentType
+  amount?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  isTTC: boolean
+  checkNumber: string
+  description: string
+  clientType: $Enums.ClientType
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  owner?: Prisma.OwnerCreateNestedOneWithoutAccountingsInput
+  tenant?: Prisma.TenantCreateNestedOneWithoutAccountingsInput
+  invoice?: Prisma.InvoiceCreateNestedOneWithoutAccountingsInput
+  purchaseOrder?: Prisma.purchaseOrderCreateNestedOneWithoutAccountingsInput
+  source: Prisma.SourceCreateNestedOneWithoutAccountingsInput
+  allocation: Prisma.AllocationCreateNestedOneWithoutAccountingsInput
+  category: Prisma.CategoryCreateNestedOneWithoutAccountingsInput
+  nature: Prisma.NatureCreateNestedOneWithoutAccountingsInput
+  secondNature: Prisma.SecondNatureCreateNestedOneWithoutAccountingsInput
+  thirdNature: Prisma.ThirdNatureCreateNestedOneWithoutAccountingsInput
+}
+
+export type accountingUncheckedCreateWithoutUnitInput = {
+  id?: string
+  date: Date | string
+  type: $Enums.AccountingType
+  paymentMode: $Enums.PaymentType
+  amount?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  isTTC: boolean
+  checkNumber: string
+  description: string
+  clientType: $Enums.ClientType
+  ownerId?: string | null
+  tenantId?: string | null
+  invoiceId?: string | null
+  purchaseOrderId?: string | null
+  sourceId: string
+  allocationId: string
+  categoryId: string
+  natureId: string
+  secondNatureId: string
+  thirdNatureId: string
+  createdAt?: Date | string
+  updatedAt?: Date | string
+}
+
+export type accountingCreateOrConnectWithoutUnitInput = {
+  where: Prisma.accountingWhereUniqueInput
+  create: Prisma.XOR<Prisma.accountingCreateWithoutUnitInput, Prisma.accountingUncheckedCreateWithoutUnitInput>
+}
+
+export type accountingCreateManyUnitInputEnvelope = {
+  data: Prisma.accountingCreateManyUnitInput | Prisma.accountingCreateManyUnitInput[]
+  skipDuplicates?: boolean
+}
+
+export type accountingUpsertWithWhereUniqueWithoutUnitInput = {
+  where: Prisma.accountingWhereUniqueInput
+  update: Prisma.XOR<Prisma.accountingUpdateWithoutUnitInput, Prisma.accountingUncheckedUpdateWithoutUnitInput>
+  create: Prisma.XOR<Prisma.accountingCreateWithoutUnitInput, Prisma.accountingUncheckedCreateWithoutUnitInput>
+}
+
+export type accountingUpdateWithWhereUniqueWithoutUnitInput = {
+  where: Prisma.accountingWhereUniqueInput
+  data: Prisma.XOR<Prisma.accountingUpdateWithoutUnitInput, Prisma.accountingUncheckedUpdateWithoutUnitInput>
+}
+
+export type accountingUpdateManyWithWhereWithoutUnitInput = {
+  where: Prisma.accountingScalarWhereInput
+  data: Prisma.XOR<Prisma.accountingUpdateManyMutationInput, Prisma.accountingUncheckedUpdateManyWithoutUnitInput>
+}
+
+export type accountingScalarWhereInput = {
+  AND?: Prisma.accountingScalarWhereInput | Prisma.accountingScalarWhereInput[]
+  OR?: Prisma.accountingScalarWhereInput[]
+  NOT?: Prisma.accountingScalarWhereInput | Prisma.accountingScalarWhereInput[]
+  id?: Prisma.StringFilter<"accounting"> | string
+  date?: Prisma.DateTimeFilter<"accounting"> | Date | string
+  type?: Prisma.EnumAccountingTypeFilter<"accounting"> | $Enums.AccountingType
+  paymentMode?: Prisma.EnumPaymentTypeFilter<"accounting"> | $Enums.PaymentType
+  amount?: Prisma.DecimalFilter<"accounting"> | runtime.Decimal | runtime.DecimalJsLike | number | string
+  isTTC?: Prisma.BoolFilter<"accounting"> | boolean
+  checkNumber?: Prisma.StringFilter<"accounting"> | string
+  description?: Prisma.StringFilter<"accounting"> | string
+  clientType?: Prisma.EnumClientTypeFilter<"accounting"> | $Enums.ClientType
+  ownerId?: Prisma.StringNullableFilter<"accounting"> | string | null
+  tenantId?: Prisma.StringNullableFilter<"accounting"> | string | null
+  invoiceId?: Prisma.StringNullableFilter<"accounting"> | string | null
+  purchaseOrderId?: Prisma.StringNullableFilter<"accounting"> | string | null
+  unitId?: Prisma.StringFilter<"accounting"> | string
+  sourceId?: Prisma.StringFilter<"accounting"> | string
+  allocationId?: Prisma.StringFilter<"accounting"> | string
+  categoryId?: Prisma.StringFilter<"accounting"> | string
+  natureId?: Prisma.StringFilter<"accounting"> | string
+  secondNatureId?: Prisma.StringFilter<"accounting"> | string
+  thirdNatureId?: Prisma.StringFilter<"accounting"> | string
+  createdAt?: Prisma.DateTimeFilter<"accounting"> | Date | string
+  updatedAt?: Prisma.DateTimeFilter<"accounting"> | Date | string
+}
+
+export type accountingCreateWithoutOwnerInput = {
+  id?: string
+  date: Date | string
+  type: $Enums.AccountingType
+  paymentMode: $Enums.PaymentType
+  amount?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  isTTC: boolean
+  checkNumber: string
+  description: string
+  clientType: $Enums.ClientType
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  tenant?: Prisma.TenantCreateNestedOneWithoutAccountingsInput
+  invoice?: Prisma.InvoiceCreateNestedOneWithoutAccountingsInput
+  purchaseOrder?: Prisma.purchaseOrderCreateNestedOneWithoutAccountingsInput
+  unit: Prisma.UnitCreateNestedOneWithoutAccountingsInput
+  source: Prisma.SourceCreateNestedOneWithoutAccountingsInput
+  allocation: Prisma.AllocationCreateNestedOneWithoutAccountingsInput
+  category: Prisma.CategoryCreateNestedOneWithoutAccountingsInput
+  nature: Prisma.NatureCreateNestedOneWithoutAccountingsInput
+  secondNature: Prisma.SecondNatureCreateNestedOneWithoutAccountingsInput
+  thirdNature: Prisma.ThirdNatureCreateNestedOneWithoutAccountingsInput
+}
+
+export type accountingUncheckedCreateWithoutOwnerInput = {
+  id?: string
+  date: Date | string
+  type: $Enums.AccountingType
+  paymentMode: $Enums.PaymentType
+  amount?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  isTTC: boolean
+  checkNumber: string
+  description: string
+  clientType: $Enums.ClientType
+  tenantId?: string | null
+  invoiceId?: string | null
+  purchaseOrderId?: string | null
+  unitId: string
+  sourceId: string
+  allocationId: string
+  categoryId: string
+  natureId: string
+  secondNatureId: string
+  thirdNatureId: string
+  createdAt?: Date | string
+  updatedAt?: Date | string
+}
+
+export type accountingCreateOrConnectWithoutOwnerInput = {
+  where: Prisma.accountingWhereUniqueInput
+  create: Prisma.XOR<Prisma.accountingCreateWithoutOwnerInput, Prisma.accountingUncheckedCreateWithoutOwnerInput>
+}
+
+export type accountingCreateManyOwnerInputEnvelope = {
+  data: Prisma.accountingCreateManyOwnerInput | Prisma.accountingCreateManyOwnerInput[]
+  skipDuplicates?: boolean
+}
+
+export type accountingUpsertWithWhereUniqueWithoutOwnerInput = {
+  where: Prisma.accountingWhereUniqueInput
+  update: Prisma.XOR<Prisma.accountingUpdateWithoutOwnerInput, Prisma.accountingUncheckedUpdateWithoutOwnerInput>
+  create: Prisma.XOR<Prisma.accountingCreateWithoutOwnerInput, Prisma.accountingUncheckedCreateWithoutOwnerInput>
+}
+
+export type accountingUpdateWithWhereUniqueWithoutOwnerInput = {
+  where: Prisma.accountingWhereUniqueInput
+  data: Prisma.XOR<Prisma.accountingUpdateWithoutOwnerInput, Prisma.accountingUncheckedUpdateWithoutOwnerInput>
+}
+
+export type accountingUpdateManyWithWhereWithoutOwnerInput = {
+  where: Prisma.accountingScalarWhereInput
+  data: Prisma.XOR<Prisma.accountingUpdateManyMutationInput, Prisma.accountingUncheckedUpdateManyWithoutOwnerInput>
+}
+
+export type accountingCreateWithoutTenantInput = {
+  id?: string
+  date: Date | string
+  type: $Enums.AccountingType
+  paymentMode: $Enums.PaymentType
+  amount?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  isTTC: boolean
+  checkNumber: string
+  description: string
+  clientType: $Enums.ClientType
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  owner?: Prisma.OwnerCreateNestedOneWithoutAccountingsInput
+  invoice?: Prisma.InvoiceCreateNestedOneWithoutAccountingsInput
+  purchaseOrder?: Prisma.purchaseOrderCreateNestedOneWithoutAccountingsInput
+  unit: Prisma.UnitCreateNestedOneWithoutAccountingsInput
+  source: Prisma.SourceCreateNestedOneWithoutAccountingsInput
+  allocation: Prisma.AllocationCreateNestedOneWithoutAccountingsInput
+  category: Prisma.CategoryCreateNestedOneWithoutAccountingsInput
+  nature: Prisma.NatureCreateNestedOneWithoutAccountingsInput
+  secondNature: Prisma.SecondNatureCreateNestedOneWithoutAccountingsInput
+  thirdNature: Prisma.ThirdNatureCreateNestedOneWithoutAccountingsInput
+}
+
+export type accountingUncheckedCreateWithoutTenantInput = {
+  id?: string
+  date: Date | string
+  type: $Enums.AccountingType
+  paymentMode: $Enums.PaymentType
+  amount?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  isTTC: boolean
+  checkNumber: string
+  description: string
+  clientType: $Enums.ClientType
+  ownerId?: string | null
+  invoiceId?: string | null
+  purchaseOrderId?: string | null
+  unitId: string
+  sourceId: string
+  allocationId: string
+  categoryId: string
+  natureId: string
+  secondNatureId: string
+  thirdNatureId: string
+  createdAt?: Date | string
+  updatedAt?: Date | string
+}
+
+export type accountingCreateOrConnectWithoutTenantInput = {
+  where: Prisma.accountingWhereUniqueInput
+  create: Prisma.XOR<Prisma.accountingCreateWithoutTenantInput, Prisma.accountingUncheckedCreateWithoutTenantInput>
+}
+
+export type accountingCreateManyTenantInputEnvelope = {
+  data: Prisma.accountingCreateManyTenantInput | Prisma.accountingCreateManyTenantInput[]
+  skipDuplicates?: boolean
+}
+
+export type accountingUpsertWithWhereUniqueWithoutTenantInput = {
+  where: Prisma.accountingWhereUniqueInput
+  update: Prisma.XOR<Prisma.accountingUpdateWithoutTenantInput, Prisma.accountingUncheckedUpdateWithoutTenantInput>
+  create: Prisma.XOR<Prisma.accountingCreateWithoutTenantInput, Prisma.accountingUncheckedCreateWithoutTenantInput>
+}
+
+export type accountingUpdateWithWhereUniqueWithoutTenantInput = {
+  where: Prisma.accountingWhereUniqueInput
+  data: Prisma.XOR<Prisma.accountingUpdateWithoutTenantInput, Prisma.accountingUncheckedUpdateWithoutTenantInput>
+}
+
+export type accountingUpdateManyWithWhereWithoutTenantInput = {
+  where: Prisma.accountingScalarWhereInput
+  data: Prisma.XOR<Prisma.accountingUpdateManyMutationInput, Prisma.accountingUncheckedUpdateManyWithoutTenantInput>
+}
+
+export type accountingCreateWithoutInvoiceInput = {
+  id?: string
+  date: Date | string
+  type: $Enums.AccountingType
+  paymentMode: $Enums.PaymentType
+  amount?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  isTTC: boolean
+  checkNumber: string
+  description: string
+  clientType: $Enums.ClientType
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  owner?: Prisma.OwnerCreateNestedOneWithoutAccountingsInput
+  tenant?: Prisma.TenantCreateNestedOneWithoutAccountingsInput
+  purchaseOrder?: Prisma.purchaseOrderCreateNestedOneWithoutAccountingsInput
+  unit: Prisma.UnitCreateNestedOneWithoutAccountingsInput
+  source: Prisma.SourceCreateNestedOneWithoutAccountingsInput
+  allocation: Prisma.AllocationCreateNestedOneWithoutAccountingsInput
+  category: Prisma.CategoryCreateNestedOneWithoutAccountingsInput
+  nature: Prisma.NatureCreateNestedOneWithoutAccountingsInput
+  secondNature: Prisma.SecondNatureCreateNestedOneWithoutAccountingsInput
+  thirdNature: Prisma.ThirdNatureCreateNestedOneWithoutAccountingsInput
+}
+
+export type accountingUncheckedCreateWithoutInvoiceInput = {
+  id?: string
+  date: Date | string
+  type: $Enums.AccountingType
+  paymentMode: $Enums.PaymentType
+  amount?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  isTTC: boolean
+  checkNumber: string
+  description: string
+  clientType: $Enums.ClientType
+  ownerId?: string | null
+  tenantId?: string | null
+  purchaseOrderId?: string | null
+  unitId: string
+  sourceId: string
+  allocationId: string
+  categoryId: string
+  natureId: string
+  secondNatureId: string
+  thirdNatureId: string
+  createdAt?: Date | string
+  updatedAt?: Date | string
+}
+
+export type accountingCreateOrConnectWithoutInvoiceInput = {
+  where: Prisma.accountingWhereUniqueInput
+  create: Prisma.XOR<Prisma.accountingCreateWithoutInvoiceInput, Prisma.accountingUncheckedCreateWithoutInvoiceInput>
+}
+
+export type accountingCreateManyInvoiceInputEnvelope = {
+  data: Prisma.accountingCreateManyInvoiceInput | Prisma.accountingCreateManyInvoiceInput[]
+  skipDuplicates?: boolean
+}
+
+export type accountingUpsertWithWhereUniqueWithoutInvoiceInput = {
+  where: Prisma.accountingWhereUniqueInput
+  update: Prisma.XOR<Prisma.accountingUpdateWithoutInvoiceInput, Prisma.accountingUncheckedUpdateWithoutInvoiceInput>
+  create: Prisma.XOR<Prisma.accountingCreateWithoutInvoiceInput, Prisma.accountingUncheckedCreateWithoutInvoiceInput>
+}
+
+export type accountingUpdateWithWhereUniqueWithoutInvoiceInput = {
+  where: Prisma.accountingWhereUniqueInput
+  data: Prisma.XOR<Prisma.accountingUpdateWithoutInvoiceInput, Prisma.accountingUncheckedUpdateWithoutInvoiceInput>
+}
+
+export type accountingUpdateManyWithWhereWithoutInvoiceInput = {
+  where: Prisma.accountingScalarWhereInput
+  data: Prisma.XOR<Prisma.accountingUpdateManyMutationInput, Prisma.accountingUncheckedUpdateManyWithoutInvoiceInput>
+}
+
+export type accountingCreateWithoutPurchaseOrderInput = {
+  id?: string
+  date: Date | string
+  type: $Enums.AccountingType
+  paymentMode: $Enums.PaymentType
+  amount?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  isTTC: boolean
+  checkNumber: string
+  description: string
+  clientType: $Enums.ClientType
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  owner?: Prisma.OwnerCreateNestedOneWithoutAccountingsInput
+  tenant?: Prisma.TenantCreateNestedOneWithoutAccountingsInput
+  invoice?: Prisma.InvoiceCreateNestedOneWithoutAccountingsInput
+  unit: Prisma.UnitCreateNestedOneWithoutAccountingsInput
+  source: Prisma.SourceCreateNestedOneWithoutAccountingsInput
+  allocation: Prisma.AllocationCreateNestedOneWithoutAccountingsInput
+  category: Prisma.CategoryCreateNestedOneWithoutAccountingsInput
+  nature: Prisma.NatureCreateNestedOneWithoutAccountingsInput
+  secondNature: Prisma.SecondNatureCreateNestedOneWithoutAccountingsInput
+  thirdNature: Prisma.ThirdNatureCreateNestedOneWithoutAccountingsInput
+}
+
+export type accountingUncheckedCreateWithoutPurchaseOrderInput = {
+  id?: string
+  date: Date | string
+  type: $Enums.AccountingType
+  paymentMode: $Enums.PaymentType
+  amount?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  isTTC: boolean
+  checkNumber: string
+  description: string
+  clientType: $Enums.ClientType
+  ownerId?: string | null
+  tenantId?: string | null
+  invoiceId?: string | null
+  unitId: string
+  sourceId: string
+  allocationId: string
+  categoryId: string
+  natureId: string
+  secondNatureId: string
+  thirdNatureId: string
+  createdAt?: Date | string
+  updatedAt?: Date | string
+}
+
+export type accountingCreateOrConnectWithoutPurchaseOrderInput = {
+  where: Prisma.accountingWhereUniqueInput
+  create: Prisma.XOR<Prisma.accountingCreateWithoutPurchaseOrderInput, Prisma.accountingUncheckedCreateWithoutPurchaseOrderInput>
+}
+
+export type accountingCreateManyPurchaseOrderInputEnvelope = {
+  data: Prisma.accountingCreateManyPurchaseOrderInput | Prisma.accountingCreateManyPurchaseOrderInput[]
+  skipDuplicates?: boolean
+}
+
+export type accountingUpsertWithWhereUniqueWithoutPurchaseOrderInput = {
+  where: Prisma.accountingWhereUniqueInput
+  update: Prisma.XOR<Prisma.accountingUpdateWithoutPurchaseOrderInput, Prisma.accountingUncheckedUpdateWithoutPurchaseOrderInput>
+  create: Prisma.XOR<Prisma.accountingCreateWithoutPurchaseOrderInput, Prisma.accountingUncheckedCreateWithoutPurchaseOrderInput>
+}
+
+export type accountingUpdateWithWhereUniqueWithoutPurchaseOrderInput = {
+  where: Prisma.accountingWhereUniqueInput
+  data: Prisma.XOR<Prisma.accountingUpdateWithoutPurchaseOrderInput, Prisma.accountingUncheckedUpdateWithoutPurchaseOrderInput>
+}
+
+export type accountingUpdateManyWithWhereWithoutPurchaseOrderInput = {
+  where: Prisma.accountingScalarWhereInput
+  data: Prisma.XOR<Prisma.accountingUpdateManyMutationInput, Prisma.accountingUncheckedUpdateManyWithoutPurchaseOrderInput>
+}
+
 export type accountingCreateWithoutSourceInput = {
   id?: string
   date: Date | string
@@ -878,8 +1628,14 @@ export type accountingCreateWithoutSourceInput = {
   isTTC: boolean
   checkNumber: string
   description: string
+  clientType: $Enums.ClientType
   createdAt?: Date | string
   updatedAt?: Date | string
+  owner?: Prisma.OwnerCreateNestedOneWithoutAccountingsInput
+  tenant?: Prisma.TenantCreateNestedOneWithoutAccountingsInput
+  invoice?: Prisma.InvoiceCreateNestedOneWithoutAccountingsInput
+  purchaseOrder?: Prisma.purchaseOrderCreateNestedOneWithoutAccountingsInput
+  unit: Prisma.UnitCreateNestedOneWithoutAccountingsInput
   allocation: Prisma.AllocationCreateNestedOneWithoutAccountingsInput
   category: Prisma.CategoryCreateNestedOneWithoutAccountingsInput
   nature: Prisma.NatureCreateNestedOneWithoutAccountingsInput
@@ -896,6 +1652,12 @@ export type accountingUncheckedCreateWithoutSourceInput = {
   isTTC: boolean
   checkNumber: string
   description: string
+  clientType: $Enums.ClientType
+  ownerId?: string | null
+  tenantId?: string | null
+  invoiceId?: string | null
+  purchaseOrderId?: string | null
+  unitId: string
   allocationId: string
   categoryId: string
   natureId: string
@@ -931,28 +1693,6 @@ export type accountingUpdateManyWithWhereWithoutSourceInput = {
   data: Prisma.XOR<Prisma.accountingUpdateManyMutationInput, Prisma.accountingUncheckedUpdateManyWithoutSourceInput>
 }
 
-export type accountingScalarWhereInput = {
-  AND?: Prisma.accountingScalarWhereInput | Prisma.accountingScalarWhereInput[]
-  OR?: Prisma.accountingScalarWhereInput[]
-  NOT?: Prisma.accountingScalarWhereInput | Prisma.accountingScalarWhereInput[]
-  id?: Prisma.StringFilter<"accounting"> | string
-  date?: Prisma.DateTimeFilter<"accounting"> | Date | string
-  type?: Prisma.EnumAccountingTypeFilter<"accounting"> | $Enums.AccountingType
-  paymentMode?: Prisma.EnumPaymentTypeFilter<"accounting"> | $Enums.PaymentType
-  amount?: Prisma.DecimalFilter<"accounting"> | runtime.Decimal | runtime.DecimalJsLike | number | string
-  isTTC?: Prisma.BoolFilter<"accounting"> | boolean
-  checkNumber?: Prisma.StringFilter<"accounting"> | string
-  description?: Prisma.StringFilter<"accounting"> | string
-  sourceId?: Prisma.StringFilter<"accounting"> | string
-  allocationId?: Prisma.StringFilter<"accounting"> | string
-  categoryId?: Prisma.StringFilter<"accounting"> | string
-  natureId?: Prisma.StringFilter<"accounting"> | string
-  secondNatureId?: Prisma.StringFilter<"accounting"> | string
-  thirdNatureId?: Prisma.StringFilter<"accounting"> | string
-  createdAt?: Prisma.DateTimeFilter<"accounting"> | Date | string
-  updatedAt?: Prisma.DateTimeFilter<"accounting"> | Date | string
-}
-
 export type accountingCreateWithoutAllocationInput = {
   id?: string
   date: Date | string
@@ -962,8 +1702,14 @@ export type accountingCreateWithoutAllocationInput = {
   isTTC: boolean
   checkNumber: string
   description: string
+  clientType: $Enums.ClientType
   createdAt?: Date | string
   updatedAt?: Date | string
+  owner?: Prisma.OwnerCreateNestedOneWithoutAccountingsInput
+  tenant?: Prisma.TenantCreateNestedOneWithoutAccountingsInput
+  invoice?: Prisma.InvoiceCreateNestedOneWithoutAccountingsInput
+  purchaseOrder?: Prisma.purchaseOrderCreateNestedOneWithoutAccountingsInput
+  unit: Prisma.UnitCreateNestedOneWithoutAccountingsInput
   source: Prisma.SourceCreateNestedOneWithoutAccountingsInput
   category: Prisma.CategoryCreateNestedOneWithoutAccountingsInput
   nature: Prisma.NatureCreateNestedOneWithoutAccountingsInput
@@ -980,6 +1726,12 @@ export type accountingUncheckedCreateWithoutAllocationInput = {
   isTTC: boolean
   checkNumber: string
   description: string
+  clientType: $Enums.ClientType
+  ownerId?: string | null
+  tenantId?: string | null
+  invoiceId?: string | null
+  purchaseOrderId?: string | null
+  unitId: string
   sourceId: string
   categoryId: string
   natureId: string
@@ -1024,8 +1776,14 @@ export type accountingCreateWithoutCategoryInput = {
   isTTC: boolean
   checkNumber: string
   description: string
+  clientType: $Enums.ClientType
   createdAt?: Date | string
   updatedAt?: Date | string
+  owner?: Prisma.OwnerCreateNestedOneWithoutAccountingsInput
+  tenant?: Prisma.TenantCreateNestedOneWithoutAccountingsInput
+  invoice?: Prisma.InvoiceCreateNestedOneWithoutAccountingsInput
+  purchaseOrder?: Prisma.purchaseOrderCreateNestedOneWithoutAccountingsInput
+  unit: Prisma.UnitCreateNestedOneWithoutAccountingsInput
   source: Prisma.SourceCreateNestedOneWithoutAccountingsInput
   allocation: Prisma.AllocationCreateNestedOneWithoutAccountingsInput
   nature: Prisma.NatureCreateNestedOneWithoutAccountingsInput
@@ -1042,6 +1800,12 @@ export type accountingUncheckedCreateWithoutCategoryInput = {
   isTTC: boolean
   checkNumber: string
   description: string
+  clientType: $Enums.ClientType
+  ownerId?: string | null
+  tenantId?: string | null
+  invoiceId?: string | null
+  purchaseOrderId?: string | null
+  unitId: string
   sourceId: string
   allocationId: string
   natureId: string
@@ -1086,8 +1850,14 @@ export type accountingCreateWithoutNatureInput = {
   isTTC: boolean
   checkNumber: string
   description: string
+  clientType: $Enums.ClientType
   createdAt?: Date | string
   updatedAt?: Date | string
+  owner?: Prisma.OwnerCreateNestedOneWithoutAccountingsInput
+  tenant?: Prisma.TenantCreateNestedOneWithoutAccountingsInput
+  invoice?: Prisma.InvoiceCreateNestedOneWithoutAccountingsInput
+  purchaseOrder?: Prisma.purchaseOrderCreateNestedOneWithoutAccountingsInput
+  unit: Prisma.UnitCreateNestedOneWithoutAccountingsInput
   source: Prisma.SourceCreateNestedOneWithoutAccountingsInput
   allocation: Prisma.AllocationCreateNestedOneWithoutAccountingsInput
   category: Prisma.CategoryCreateNestedOneWithoutAccountingsInput
@@ -1104,6 +1874,12 @@ export type accountingUncheckedCreateWithoutNatureInput = {
   isTTC: boolean
   checkNumber: string
   description: string
+  clientType: $Enums.ClientType
+  ownerId?: string | null
+  tenantId?: string | null
+  invoiceId?: string | null
+  purchaseOrderId?: string | null
+  unitId: string
   sourceId: string
   allocationId: string
   categoryId: string
@@ -1148,8 +1924,14 @@ export type accountingCreateWithoutSecondNatureInput = {
   isTTC: boolean
   checkNumber: string
   description: string
+  clientType: $Enums.ClientType
   createdAt?: Date | string
   updatedAt?: Date | string
+  owner?: Prisma.OwnerCreateNestedOneWithoutAccountingsInput
+  tenant?: Prisma.TenantCreateNestedOneWithoutAccountingsInput
+  invoice?: Prisma.InvoiceCreateNestedOneWithoutAccountingsInput
+  purchaseOrder?: Prisma.purchaseOrderCreateNestedOneWithoutAccountingsInput
+  unit: Prisma.UnitCreateNestedOneWithoutAccountingsInput
   source: Prisma.SourceCreateNestedOneWithoutAccountingsInput
   allocation: Prisma.AllocationCreateNestedOneWithoutAccountingsInput
   category: Prisma.CategoryCreateNestedOneWithoutAccountingsInput
@@ -1166,6 +1948,12 @@ export type accountingUncheckedCreateWithoutSecondNatureInput = {
   isTTC: boolean
   checkNumber: string
   description: string
+  clientType: $Enums.ClientType
+  ownerId?: string | null
+  tenantId?: string | null
+  invoiceId?: string | null
+  purchaseOrderId?: string | null
+  unitId: string
   sourceId: string
   allocationId: string
   categoryId: string
@@ -1210,8 +1998,14 @@ export type accountingCreateWithoutThirdNatureInput = {
   isTTC: boolean
   checkNumber: string
   description: string
+  clientType: $Enums.ClientType
   createdAt?: Date | string
   updatedAt?: Date | string
+  owner?: Prisma.OwnerCreateNestedOneWithoutAccountingsInput
+  tenant?: Prisma.TenantCreateNestedOneWithoutAccountingsInput
+  invoice?: Prisma.InvoiceCreateNestedOneWithoutAccountingsInput
+  purchaseOrder?: Prisma.purchaseOrderCreateNestedOneWithoutAccountingsInput
+  unit: Prisma.UnitCreateNestedOneWithoutAccountingsInput
   source: Prisma.SourceCreateNestedOneWithoutAccountingsInput
   allocation: Prisma.AllocationCreateNestedOneWithoutAccountingsInput
   category: Prisma.CategoryCreateNestedOneWithoutAccountingsInput
@@ -1228,6 +2022,12 @@ export type accountingUncheckedCreateWithoutThirdNatureInput = {
   isTTC: boolean
   checkNumber: string
   description: string
+  clientType: $Enums.ClientType
+  ownerId?: string | null
+  tenantId?: string | null
+  invoiceId?: string | null
+  purchaseOrderId?: string | null
+  unitId: string
   sourceId: string
   allocationId: string
   categoryId: string
@@ -1263,6 +2063,486 @@ export type accountingUpdateManyWithWhereWithoutThirdNatureInput = {
   data: Prisma.XOR<Prisma.accountingUpdateManyMutationInput, Prisma.accountingUncheckedUpdateManyWithoutThirdNatureInput>
 }
 
+export type accountingCreateManyUnitInput = {
+  id?: string
+  date: Date | string
+  type: $Enums.AccountingType
+  paymentMode: $Enums.PaymentType
+  amount?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  isTTC: boolean
+  checkNumber: string
+  description: string
+  clientType: $Enums.ClientType
+  ownerId?: string | null
+  tenantId?: string | null
+  invoiceId?: string | null
+  purchaseOrderId?: string | null
+  sourceId: string
+  allocationId: string
+  categoryId: string
+  natureId: string
+  secondNatureId: string
+  thirdNatureId: string
+  createdAt?: Date | string
+  updatedAt?: Date | string
+}
+
+export type accountingUpdateWithoutUnitInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  type?: Prisma.EnumAccountingTypeFieldUpdateOperationsInput | $Enums.AccountingType
+  paymentMode?: Prisma.EnumPaymentTypeFieldUpdateOperationsInput | $Enums.PaymentType
+  amount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  isTTC?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  checkNumber?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.StringFieldUpdateOperationsInput | string
+  clientType?: Prisma.EnumClientTypeFieldUpdateOperationsInput | $Enums.ClientType
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  owner?: Prisma.OwnerUpdateOneWithoutAccountingsNestedInput
+  tenant?: Prisma.TenantUpdateOneWithoutAccountingsNestedInput
+  invoice?: Prisma.InvoiceUpdateOneWithoutAccountingsNestedInput
+  purchaseOrder?: Prisma.purchaseOrderUpdateOneWithoutAccountingsNestedInput
+  source?: Prisma.SourceUpdateOneRequiredWithoutAccountingsNestedInput
+  allocation?: Prisma.AllocationUpdateOneRequiredWithoutAccountingsNestedInput
+  category?: Prisma.CategoryUpdateOneRequiredWithoutAccountingsNestedInput
+  nature?: Prisma.NatureUpdateOneRequiredWithoutAccountingsNestedInput
+  secondNature?: Prisma.SecondNatureUpdateOneRequiredWithoutAccountingsNestedInput
+  thirdNature?: Prisma.ThirdNatureUpdateOneRequiredWithoutAccountingsNestedInput
+}
+
+export type accountingUncheckedUpdateWithoutUnitInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  type?: Prisma.EnumAccountingTypeFieldUpdateOperationsInput | $Enums.AccountingType
+  paymentMode?: Prisma.EnumPaymentTypeFieldUpdateOperationsInput | $Enums.PaymentType
+  amount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  isTTC?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  checkNumber?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.StringFieldUpdateOperationsInput | string
+  clientType?: Prisma.EnumClientTypeFieldUpdateOperationsInput | $Enums.ClientType
+  ownerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tenantId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  invoiceId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  purchaseOrderId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  sourceId?: Prisma.StringFieldUpdateOperationsInput | string
+  allocationId?: Prisma.StringFieldUpdateOperationsInput | string
+  categoryId?: Prisma.StringFieldUpdateOperationsInput | string
+  natureId?: Prisma.StringFieldUpdateOperationsInput | string
+  secondNatureId?: Prisma.StringFieldUpdateOperationsInput | string
+  thirdNatureId?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+}
+
+export type accountingUncheckedUpdateManyWithoutUnitInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  type?: Prisma.EnumAccountingTypeFieldUpdateOperationsInput | $Enums.AccountingType
+  paymentMode?: Prisma.EnumPaymentTypeFieldUpdateOperationsInput | $Enums.PaymentType
+  amount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  isTTC?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  checkNumber?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.StringFieldUpdateOperationsInput | string
+  clientType?: Prisma.EnumClientTypeFieldUpdateOperationsInput | $Enums.ClientType
+  ownerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tenantId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  invoiceId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  purchaseOrderId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  sourceId?: Prisma.StringFieldUpdateOperationsInput | string
+  allocationId?: Prisma.StringFieldUpdateOperationsInput | string
+  categoryId?: Prisma.StringFieldUpdateOperationsInput | string
+  natureId?: Prisma.StringFieldUpdateOperationsInput | string
+  secondNatureId?: Prisma.StringFieldUpdateOperationsInput | string
+  thirdNatureId?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+}
+
+export type accountingCreateManyOwnerInput = {
+  id?: string
+  date: Date | string
+  type: $Enums.AccountingType
+  paymentMode: $Enums.PaymentType
+  amount?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  isTTC: boolean
+  checkNumber: string
+  description: string
+  clientType: $Enums.ClientType
+  tenantId?: string | null
+  invoiceId?: string | null
+  purchaseOrderId?: string | null
+  unitId: string
+  sourceId: string
+  allocationId: string
+  categoryId: string
+  natureId: string
+  secondNatureId: string
+  thirdNatureId: string
+  createdAt?: Date | string
+  updatedAt?: Date | string
+}
+
+export type accountingUpdateWithoutOwnerInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  type?: Prisma.EnumAccountingTypeFieldUpdateOperationsInput | $Enums.AccountingType
+  paymentMode?: Prisma.EnumPaymentTypeFieldUpdateOperationsInput | $Enums.PaymentType
+  amount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  isTTC?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  checkNumber?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.StringFieldUpdateOperationsInput | string
+  clientType?: Prisma.EnumClientTypeFieldUpdateOperationsInput | $Enums.ClientType
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  tenant?: Prisma.TenantUpdateOneWithoutAccountingsNestedInput
+  invoice?: Prisma.InvoiceUpdateOneWithoutAccountingsNestedInput
+  purchaseOrder?: Prisma.purchaseOrderUpdateOneWithoutAccountingsNestedInput
+  unit?: Prisma.UnitUpdateOneRequiredWithoutAccountingsNestedInput
+  source?: Prisma.SourceUpdateOneRequiredWithoutAccountingsNestedInput
+  allocation?: Prisma.AllocationUpdateOneRequiredWithoutAccountingsNestedInput
+  category?: Prisma.CategoryUpdateOneRequiredWithoutAccountingsNestedInput
+  nature?: Prisma.NatureUpdateOneRequiredWithoutAccountingsNestedInput
+  secondNature?: Prisma.SecondNatureUpdateOneRequiredWithoutAccountingsNestedInput
+  thirdNature?: Prisma.ThirdNatureUpdateOneRequiredWithoutAccountingsNestedInput
+}
+
+export type accountingUncheckedUpdateWithoutOwnerInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  type?: Prisma.EnumAccountingTypeFieldUpdateOperationsInput | $Enums.AccountingType
+  paymentMode?: Prisma.EnumPaymentTypeFieldUpdateOperationsInput | $Enums.PaymentType
+  amount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  isTTC?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  checkNumber?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.StringFieldUpdateOperationsInput | string
+  clientType?: Prisma.EnumClientTypeFieldUpdateOperationsInput | $Enums.ClientType
+  tenantId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  invoiceId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  purchaseOrderId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  unitId?: Prisma.StringFieldUpdateOperationsInput | string
+  sourceId?: Prisma.StringFieldUpdateOperationsInput | string
+  allocationId?: Prisma.StringFieldUpdateOperationsInput | string
+  categoryId?: Prisma.StringFieldUpdateOperationsInput | string
+  natureId?: Prisma.StringFieldUpdateOperationsInput | string
+  secondNatureId?: Prisma.StringFieldUpdateOperationsInput | string
+  thirdNatureId?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+}
+
+export type accountingUncheckedUpdateManyWithoutOwnerInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  type?: Prisma.EnumAccountingTypeFieldUpdateOperationsInput | $Enums.AccountingType
+  paymentMode?: Prisma.EnumPaymentTypeFieldUpdateOperationsInput | $Enums.PaymentType
+  amount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  isTTC?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  checkNumber?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.StringFieldUpdateOperationsInput | string
+  clientType?: Prisma.EnumClientTypeFieldUpdateOperationsInput | $Enums.ClientType
+  tenantId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  invoiceId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  purchaseOrderId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  unitId?: Prisma.StringFieldUpdateOperationsInput | string
+  sourceId?: Prisma.StringFieldUpdateOperationsInput | string
+  allocationId?: Prisma.StringFieldUpdateOperationsInput | string
+  categoryId?: Prisma.StringFieldUpdateOperationsInput | string
+  natureId?: Prisma.StringFieldUpdateOperationsInput | string
+  secondNatureId?: Prisma.StringFieldUpdateOperationsInput | string
+  thirdNatureId?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+}
+
+export type accountingCreateManyTenantInput = {
+  id?: string
+  date: Date | string
+  type: $Enums.AccountingType
+  paymentMode: $Enums.PaymentType
+  amount?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  isTTC: boolean
+  checkNumber: string
+  description: string
+  clientType: $Enums.ClientType
+  ownerId?: string | null
+  invoiceId?: string | null
+  purchaseOrderId?: string | null
+  unitId: string
+  sourceId: string
+  allocationId: string
+  categoryId: string
+  natureId: string
+  secondNatureId: string
+  thirdNatureId: string
+  createdAt?: Date | string
+  updatedAt?: Date | string
+}
+
+export type accountingUpdateWithoutTenantInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  type?: Prisma.EnumAccountingTypeFieldUpdateOperationsInput | $Enums.AccountingType
+  paymentMode?: Prisma.EnumPaymentTypeFieldUpdateOperationsInput | $Enums.PaymentType
+  amount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  isTTC?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  checkNumber?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.StringFieldUpdateOperationsInput | string
+  clientType?: Prisma.EnumClientTypeFieldUpdateOperationsInput | $Enums.ClientType
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  owner?: Prisma.OwnerUpdateOneWithoutAccountingsNestedInput
+  invoice?: Prisma.InvoiceUpdateOneWithoutAccountingsNestedInput
+  purchaseOrder?: Prisma.purchaseOrderUpdateOneWithoutAccountingsNestedInput
+  unit?: Prisma.UnitUpdateOneRequiredWithoutAccountingsNestedInput
+  source?: Prisma.SourceUpdateOneRequiredWithoutAccountingsNestedInput
+  allocation?: Prisma.AllocationUpdateOneRequiredWithoutAccountingsNestedInput
+  category?: Prisma.CategoryUpdateOneRequiredWithoutAccountingsNestedInput
+  nature?: Prisma.NatureUpdateOneRequiredWithoutAccountingsNestedInput
+  secondNature?: Prisma.SecondNatureUpdateOneRequiredWithoutAccountingsNestedInput
+  thirdNature?: Prisma.ThirdNatureUpdateOneRequiredWithoutAccountingsNestedInput
+}
+
+export type accountingUncheckedUpdateWithoutTenantInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  type?: Prisma.EnumAccountingTypeFieldUpdateOperationsInput | $Enums.AccountingType
+  paymentMode?: Prisma.EnumPaymentTypeFieldUpdateOperationsInput | $Enums.PaymentType
+  amount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  isTTC?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  checkNumber?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.StringFieldUpdateOperationsInput | string
+  clientType?: Prisma.EnumClientTypeFieldUpdateOperationsInput | $Enums.ClientType
+  ownerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  invoiceId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  purchaseOrderId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  unitId?: Prisma.StringFieldUpdateOperationsInput | string
+  sourceId?: Prisma.StringFieldUpdateOperationsInput | string
+  allocationId?: Prisma.StringFieldUpdateOperationsInput | string
+  categoryId?: Prisma.StringFieldUpdateOperationsInput | string
+  natureId?: Prisma.StringFieldUpdateOperationsInput | string
+  secondNatureId?: Prisma.StringFieldUpdateOperationsInput | string
+  thirdNatureId?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+}
+
+export type accountingUncheckedUpdateManyWithoutTenantInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  type?: Prisma.EnumAccountingTypeFieldUpdateOperationsInput | $Enums.AccountingType
+  paymentMode?: Prisma.EnumPaymentTypeFieldUpdateOperationsInput | $Enums.PaymentType
+  amount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  isTTC?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  checkNumber?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.StringFieldUpdateOperationsInput | string
+  clientType?: Prisma.EnumClientTypeFieldUpdateOperationsInput | $Enums.ClientType
+  ownerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  invoiceId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  purchaseOrderId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  unitId?: Prisma.StringFieldUpdateOperationsInput | string
+  sourceId?: Prisma.StringFieldUpdateOperationsInput | string
+  allocationId?: Prisma.StringFieldUpdateOperationsInput | string
+  categoryId?: Prisma.StringFieldUpdateOperationsInput | string
+  natureId?: Prisma.StringFieldUpdateOperationsInput | string
+  secondNatureId?: Prisma.StringFieldUpdateOperationsInput | string
+  thirdNatureId?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+}
+
+export type accountingCreateManyInvoiceInput = {
+  id?: string
+  date: Date | string
+  type: $Enums.AccountingType
+  paymentMode: $Enums.PaymentType
+  amount?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  isTTC: boolean
+  checkNumber: string
+  description: string
+  clientType: $Enums.ClientType
+  ownerId?: string | null
+  tenantId?: string | null
+  purchaseOrderId?: string | null
+  unitId: string
+  sourceId: string
+  allocationId: string
+  categoryId: string
+  natureId: string
+  secondNatureId: string
+  thirdNatureId: string
+  createdAt?: Date | string
+  updatedAt?: Date | string
+}
+
+export type accountingUpdateWithoutInvoiceInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  type?: Prisma.EnumAccountingTypeFieldUpdateOperationsInput | $Enums.AccountingType
+  paymentMode?: Prisma.EnumPaymentTypeFieldUpdateOperationsInput | $Enums.PaymentType
+  amount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  isTTC?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  checkNumber?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.StringFieldUpdateOperationsInput | string
+  clientType?: Prisma.EnumClientTypeFieldUpdateOperationsInput | $Enums.ClientType
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  owner?: Prisma.OwnerUpdateOneWithoutAccountingsNestedInput
+  tenant?: Prisma.TenantUpdateOneWithoutAccountingsNestedInput
+  purchaseOrder?: Prisma.purchaseOrderUpdateOneWithoutAccountingsNestedInput
+  unit?: Prisma.UnitUpdateOneRequiredWithoutAccountingsNestedInput
+  source?: Prisma.SourceUpdateOneRequiredWithoutAccountingsNestedInput
+  allocation?: Prisma.AllocationUpdateOneRequiredWithoutAccountingsNestedInput
+  category?: Prisma.CategoryUpdateOneRequiredWithoutAccountingsNestedInput
+  nature?: Prisma.NatureUpdateOneRequiredWithoutAccountingsNestedInput
+  secondNature?: Prisma.SecondNatureUpdateOneRequiredWithoutAccountingsNestedInput
+  thirdNature?: Prisma.ThirdNatureUpdateOneRequiredWithoutAccountingsNestedInput
+}
+
+export type accountingUncheckedUpdateWithoutInvoiceInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  type?: Prisma.EnumAccountingTypeFieldUpdateOperationsInput | $Enums.AccountingType
+  paymentMode?: Prisma.EnumPaymentTypeFieldUpdateOperationsInput | $Enums.PaymentType
+  amount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  isTTC?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  checkNumber?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.StringFieldUpdateOperationsInput | string
+  clientType?: Prisma.EnumClientTypeFieldUpdateOperationsInput | $Enums.ClientType
+  ownerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tenantId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  purchaseOrderId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  unitId?: Prisma.StringFieldUpdateOperationsInput | string
+  sourceId?: Prisma.StringFieldUpdateOperationsInput | string
+  allocationId?: Prisma.StringFieldUpdateOperationsInput | string
+  categoryId?: Prisma.StringFieldUpdateOperationsInput | string
+  natureId?: Prisma.StringFieldUpdateOperationsInput | string
+  secondNatureId?: Prisma.StringFieldUpdateOperationsInput | string
+  thirdNatureId?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+}
+
+export type accountingUncheckedUpdateManyWithoutInvoiceInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  type?: Prisma.EnumAccountingTypeFieldUpdateOperationsInput | $Enums.AccountingType
+  paymentMode?: Prisma.EnumPaymentTypeFieldUpdateOperationsInput | $Enums.PaymentType
+  amount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  isTTC?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  checkNumber?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.StringFieldUpdateOperationsInput | string
+  clientType?: Prisma.EnumClientTypeFieldUpdateOperationsInput | $Enums.ClientType
+  ownerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tenantId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  purchaseOrderId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  unitId?: Prisma.StringFieldUpdateOperationsInput | string
+  sourceId?: Prisma.StringFieldUpdateOperationsInput | string
+  allocationId?: Prisma.StringFieldUpdateOperationsInput | string
+  categoryId?: Prisma.StringFieldUpdateOperationsInput | string
+  natureId?: Prisma.StringFieldUpdateOperationsInput | string
+  secondNatureId?: Prisma.StringFieldUpdateOperationsInput | string
+  thirdNatureId?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+}
+
+export type accountingCreateManyPurchaseOrderInput = {
+  id?: string
+  date: Date | string
+  type: $Enums.AccountingType
+  paymentMode: $Enums.PaymentType
+  amount?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  isTTC: boolean
+  checkNumber: string
+  description: string
+  clientType: $Enums.ClientType
+  ownerId?: string | null
+  tenantId?: string | null
+  invoiceId?: string | null
+  unitId: string
+  sourceId: string
+  allocationId: string
+  categoryId: string
+  natureId: string
+  secondNatureId: string
+  thirdNatureId: string
+  createdAt?: Date | string
+  updatedAt?: Date | string
+}
+
+export type accountingUpdateWithoutPurchaseOrderInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  type?: Prisma.EnumAccountingTypeFieldUpdateOperationsInput | $Enums.AccountingType
+  paymentMode?: Prisma.EnumPaymentTypeFieldUpdateOperationsInput | $Enums.PaymentType
+  amount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  isTTC?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  checkNumber?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.StringFieldUpdateOperationsInput | string
+  clientType?: Prisma.EnumClientTypeFieldUpdateOperationsInput | $Enums.ClientType
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  owner?: Prisma.OwnerUpdateOneWithoutAccountingsNestedInput
+  tenant?: Prisma.TenantUpdateOneWithoutAccountingsNestedInput
+  invoice?: Prisma.InvoiceUpdateOneWithoutAccountingsNestedInput
+  unit?: Prisma.UnitUpdateOneRequiredWithoutAccountingsNestedInput
+  source?: Prisma.SourceUpdateOneRequiredWithoutAccountingsNestedInput
+  allocation?: Prisma.AllocationUpdateOneRequiredWithoutAccountingsNestedInput
+  category?: Prisma.CategoryUpdateOneRequiredWithoutAccountingsNestedInput
+  nature?: Prisma.NatureUpdateOneRequiredWithoutAccountingsNestedInput
+  secondNature?: Prisma.SecondNatureUpdateOneRequiredWithoutAccountingsNestedInput
+  thirdNature?: Prisma.ThirdNatureUpdateOneRequiredWithoutAccountingsNestedInput
+}
+
+export type accountingUncheckedUpdateWithoutPurchaseOrderInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  type?: Prisma.EnumAccountingTypeFieldUpdateOperationsInput | $Enums.AccountingType
+  paymentMode?: Prisma.EnumPaymentTypeFieldUpdateOperationsInput | $Enums.PaymentType
+  amount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  isTTC?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  checkNumber?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.StringFieldUpdateOperationsInput | string
+  clientType?: Prisma.EnumClientTypeFieldUpdateOperationsInput | $Enums.ClientType
+  ownerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tenantId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  invoiceId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  unitId?: Prisma.StringFieldUpdateOperationsInput | string
+  sourceId?: Prisma.StringFieldUpdateOperationsInput | string
+  allocationId?: Prisma.StringFieldUpdateOperationsInput | string
+  categoryId?: Prisma.StringFieldUpdateOperationsInput | string
+  natureId?: Prisma.StringFieldUpdateOperationsInput | string
+  secondNatureId?: Prisma.StringFieldUpdateOperationsInput | string
+  thirdNatureId?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+}
+
+export type accountingUncheckedUpdateManyWithoutPurchaseOrderInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  type?: Prisma.EnumAccountingTypeFieldUpdateOperationsInput | $Enums.AccountingType
+  paymentMode?: Prisma.EnumPaymentTypeFieldUpdateOperationsInput | $Enums.PaymentType
+  amount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  isTTC?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  checkNumber?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.StringFieldUpdateOperationsInput | string
+  clientType?: Prisma.EnumClientTypeFieldUpdateOperationsInput | $Enums.ClientType
+  ownerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tenantId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  invoiceId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  unitId?: Prisma.StringFieldUpdateOperationsInput | string
+  sourceId?: Prisma.StringFieldUpdateOperationsInput | string
+  allocationId?: Prisma.StringFieldUpdateOperationsInput | string
+  categoryId?: Prisma.StringFieldUpdateOperationsInput | string
+  natureId?: Prisma.StringFieldUpdateOperationsInput | string
+  secondNatureId?: Prisma.StringFieldUpdateOperationsInput | string
+  thirdNatureId?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+}
+
 export type accountingCreateManySourceInput = {
   id?: string
   date: Date | string
@@ -1272,6 +2552,12 @@ export type accountingCreateManySourceInput = {
   isTTC: boolean
   checkNumber: string
   description: string
+  clientType: $Enums.ClientType
+  ownerId?: string | null
+  tenantId?: string | null
+  invoiceId?: string | null
+  purchaseOrderId?: string | null
+  unitId: string
   allocationId: string
   categoryId: string
   natureId: string
@@ -1290,8 +2576,14 @@ export type accountingUpdateWithoutSourceInput = {
   isTTC?: Prisma.BoolFieldUpdateOperationsInput | boolean
   checkNumber?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.StringFieldUpdateOperationsInput | string
+  clientType?: Prisma.EnumClientTypeFieldUpdateOperationsInput | $Enums.ClientType
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  owner?: Prisma.OwnerUpdateOneWithoutAccountingsNestedInput
+  tenant?: Prisma.TenantUpdateOneWithoutAccountingsNestedInput
+  invoice?: Prisma.InvoiceUpdateOneWithoutAccountingsNestedInput
+  purchaseOrder?: Prisma.purchaseOrderUpdateOneWithoutAccountingsNestedInput
+  unit?: Prisma.UnitUpdateOneRequiredWithoutAccountingsNestedInput
   allocation?: Prisma.AllocationUpdateOneRequiredWithoutAccountingsNestedInput
   category?: Prisma.CategoryUpdateOneRequiredWithoutAccountingsNestedInput
   nature?: Prisma.NatureUpdateOneRequiredWithoutAccountingsNestedInput
@@ -1308,6 +2600,12 @@ export type accountingUncheckedUpdateWithoutSourceInput = {
   isTTC?: Prisma.BoolFieldUpdateOperationsInput | boolean
   checkNumber?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.StringFieldUpdateOperationsInput | string
+  clientType?: Prisma.EnumClientTypeFieldUpdateOperationsInput | $Enums.ClientType
+  ownerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tenantId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  invoiceId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  purchaseOrderId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  unitId?: Prisma.StringFieldUpdateOperationsInput | string
   allocationId?: Prisma.StringFieldUpdateOperationsInput | string
   categoryId?: Prisma.StringFieldUpdateOperationsInput | string
   natureId?: Prisma.StringFieldUpdateOperationsInput | string
@@ -1326,6 +2624,12 @@ export type accountingUncheckedUpdateManyWithoutSourceInput = {
   isTTC?: Prisma.BoolFieldUpdateOperationsInput | boolean
   checkNumber?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.StringFieldUpdateOperationsInput | string
+  clientType?: Prisma.EnumClientTypeFieldUpdateOperationsInput | $Enums.ClientType
+  ownerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tenantId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  invoiceId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  purchaseOrderId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  unitId?: Prisma.StringFieldUpdateOperationsInput | string
   allocationId?: Prisma.StringFieldUpdateOperationsInput | string
   categoryId?: Prisma.StringFieldUpdateOperationsInput | string
   natureId?: Prisma.StringFieldUpdateOperationsInput | string
@@ -1344,6 +2648,12 @@ export type accountingCreateManyAllocationInput = {
   isTTC: boolean
   checkNumber: string
   description: string
+  clientType: $Enums.ClientType
+  ownerId?: string | null
+  tenantId?: string | null
+  invoiceId?: string | null
+  purchaseOrderId?: string | null
+  unitId: string
   sourceId: string
   categoryId: string
   natureId: string
@@ -1362,8 +2672,14 @@ export type accountingUpdateWithoutAllocationInput = {
   isTTC?: Prisma.BoolFieldUpdateOperationsInput | boolean
   checkNumber?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.StringFieldUpdateOperationsInput | string
+  clientType?: Prisma.EnumClientTypeFieldUpdateOperationsInput | $Enums.ClientType
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  owner?: Prisma.OwnerUpdateOneWithoutAccountingsNestedInput
+  tenant?: Prisma.TenantUpdateOneWithoutAccountingsNestedInput
+  invoice?: Prisma.InvoiceUpdateOneWithoutAccountingsNestedInput
+  purchaseOrder?: Prisma.purchaseOrderUpdateOneWithoutAccountingsNestedInput
+  unit?: Prisma.UnitUpdateOneRequiredWithoutAccountingsNestedInput
   source?: Prisma.SourceUpdateOneRequiredWithoutAccountingsNestedInput
   category?: Prisma.CategoryUpdateOneRequiredWithoutAccountingsNestedInput
   nature?: Prisma.NatureUpdateOneRequiredWithoutAccountingsNestedInput
@@ -1380,6 +2696,12 @@ export type accountingUncheckedUpdateWithoutAllocationInput = {
   isTTC?: Prisma.BoolFieldUpdateOperationsInput | boolean
   checkNumber?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.StringFieldUpdateOperationsInput | string
+  clientType?: Prisma.EnumClientTypeFieldUpdateOperationsInput | $Enums.ClientType
+  ownerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tenantId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  invoiceId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  purchaseOrderId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  unitId?: Prisma.StringFieldUpdateOperationsInput | string
   sourceId?: Prisma.StringFieldUpdateOperationsInput | string
   categoryId?: Prisma.StringFieldUpdateOperationsInput | string
   natureId?: Prisma.StringFieldUpdateOperationsInput | string
@@ -1398,6 +2720,12 @@ export type accountingUncheckedUpdateManyWithoutAllocationInput = {
   isTTC?: Prisma.BoolFieldUpdateOperationsInput | boolean
   checkNumber?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.StringFieldUpdateOperationsInput | string
+  clientType?: Prisma.EnumClientTypeFieldUpdateOperationsInput | $Enums.ClientType
+  ownerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tenantId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  invoiceId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  purchaseOrderId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  unitId?: Prisma.StringFieldUpdateOperationsInput | string
   sourceId?: Prisma.StringFieldUpdateOperationsInput | string
   categoryId?: Prisma.StringFieldUpdateOperationsInput | string
   natureId?: Prisma.StringFieldUpdateOperationsInput | string
@@ -1416,6 +2744,12 @@ export type accountingCreateManyCategoryInput = {
   isTTC: boolean
   checkNumber: string
   description: string
+  clientType: $Enums.ClientType
+  ownerId?: string | null
+  tenantId?: string | null
+  invoiceId?: string | null
+  purchaseOrderId?: string | null
+  unitId: string
   sourceId: string
   allocationId: string
   natureId: string
@@ -1434,8 +2768,14 @@ export type accountingUpdateWithoutCategoryInput = {
   isTTC?: Prisma.BoolFieldUpdateOperationsInput | boolean
   checkNumber?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.StringFieldUpdateOperationsInput | string
+  clientType?: Prisma.EnumClientTypeFieldUpdateOperationsInput | $Enums.ClientType
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  owner?: Prisma.OwnerUpdateOneWithoutAccountingsNestedInput
+  tenant?: Prisma.TenantUpdateOneWithoutAccountingsNestedInput
+  invoice?: Prisma.InvoiceUpdateOneWithoutAccountingsNestedInput
+  purchaseOrder?: Prisma.purchaseOrderUpdateOneWithoutAccountingsNestedInput
+  unit?: Prisma.UnitUpdateOneRequiredWithoutAccountingsNestedInput
   source?: Prisma.SourceUpdateOneRequiredWithoutAccountingsNestedInput
   allocation?: Prisma.AllocationUpdateOneRequiredWithoutAccountingsNestedInput
   nature?: Prisma.NatureUpdateOneRequiredWithoutAccountingsNestedInput
@@ -1452,6 +2792,12 @@ export type accountingUncheckedUpdateWithoutCategoryInput = {
   isTTC?: Prisma.BoolFieldUpdateOperationsInput | boolean
   checkNumber?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.StringFieldUpdateOperationsInput | string
+  clientType?: Prisma.EnumClientTypeFieldUpdateOperationsInput | $Enums.ClientType
+  ownerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tenantId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  invoiceId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  purchaseOrderId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  unitId?: Prisma.StringFieldUpdateOperationsInput | string
   sourceId?: Prisma.StringFieldUpdateOperationsInput | string
   allocationId?: Prisma.StringFieldUpdateOperationsInput | string
   natureId?: Prisma.StringFieldUpdateOperationsInput | string
@@ -1470,6 +2816,12 @@ export type accountingUncheckedUpdateManyWithoutCategoryInput = {
   isTTC?: Prisma.BoolFieldUpdateOperationsInput | boolean
   checkNumber?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.StringFieldUpdateOperationsInput | string
+  clientType?: Prisma.EnumClientTypeFieldUpdateOperationsInput | $Enums.ClientType
+  ownerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tenantId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  invoiceId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  purchaseOrderId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  unitId?: Prisma.StringFieldUpdateOperationsInput | string
   sourceId?: Prisma.StringFieldUpdateOperationsInput | string
   allocationId?: Prisma.StringFieldUpdateOperationsInput | string
   natureId?: Prisma.StringFieldUpdateOperationsInput | string
@@ -1488,6 +2840,12 @@ export type accountingCreateManyNatureInput = {
   isTTC: boolean
   checkNumber: string
   description: string
+  clientType: $Enums.ClientType
+  ownerId?: string | null
+  tenantId?: string | null
+  invoiceId?: string | null
+  purchaseOrderId?: string | null
+  unitId: string
   sourceId: string
   allocationId: string
   categoryId: string
@@ -1506,8 +2864,14 @@ export type accountingUpdateWithoutNatureInput = {
   isTTC?: Prisma.BoolFieldUpdateOperationsInput | boolean
   checkNumber?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.StringFieldUpdateOperationsInput | string
+  clientType?: Prisma.EnumClientTypeFieldUpdateOperationsInput | $Enums.ClientType
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  owner?: Prisma.OwnerUpdateOneWithoutAccountingsNestedInput
+  tenant?: Prisma.TenantUpdateOneWithoutAccountingsNestedInput
+  invoice?: Prisma.InvoiceUpdateOneWithoutAccountingsNestedInput
+  purchaseOrder?: Prisma.purchaseOrderUpdateOneWithoutAccountingsNestedInput
+  unit?: Prisma.UnitUpdateOneRequiredWithoutAccountingsNestedInput
   source?: Prisma.SourceUpdateOneRequiredWithoutAccountingsNestedInput
   allocation?: Prisma.AllocationUpdateOneRequiredWithoutAccountingsNestedInput
   category?: Prisma.CategoryUpdateOneRequiredWithoutAccountingsNestedInput
@@ -1524,6 +2888,12 @@ export type accountingUncheckedUpdateWithoutNatureInput = {
   isTTC?: Prisma.BoolFieldUpdateOperationsInput | boolean
   checkNumber?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.StringFieldUpdateOperationsInput | string
+  clientType?: Prisma.EnumClientTypeFieldUpdateOperationsInput | $Enums.ClientType
+  ownerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tenantId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  invoiceId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  purchaseOrderId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  unitId?: Prisma.StringFieldUpdateOperationsInput | string
   sourceId?: Prisma.StringFieldUpdateOperationsInput | string
   allocationId?: Prisma.StringFieldUpdateOperationsInput | string
   categoryId?: Prisma.StringFieldUpdateOperationsInput | string
@@ -1542,6 +2912,12 @@ export type accountingUncheckedUpdateManyWithoutNatureInput = {
   isTTC?: Prisma.BoolFieldUpdateOperationsInput | boolean
   checkNumber?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.StringFieldUpdateOperationsInput | string
+  clientType?: Prisma.EnumClientTypeFieldUpdateOperationsInput | $Enums.ClientType
+  ownerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tenantId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  invoiceId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  purchaseOrderId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  unitId?: Prisma.StringFieldUpdateOperationsInput | string
   sourceId?: Prisma.StringFieldUpdateOperationsInput | string
   allocationId?: Prisma.StringFieldUpdateOperationsInput | string
   categoryId?: Prisma.StringFieldUpdateOperationsInput | string
@@ -1560,6 +2936,12 @@ export type accountingCreateManySecondNatureInput = {
   isTTC: boolean
   checkNumber: string
   description: string
+  clientType: $Enums.ClientType
+  ownerId?: string | null
+  tenantId?: string | null
+  invoiceId?: string | null
+  purchaseOrderId?: string | null
+  unitId: string
   sourceId: string
   allocationId: string
   categoryId: string
@@ -1578,8 +2960,14 @@ export type accountingUpdateWithoutSecondNatureInput = {
   isTTC?: Prisma.BoolFieldUpdateOperationsInput | boolean
   checkNumber?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.StringFieldUpdateOperationsInput | string
+  clientType?: Prisma.EnumClientTypeFieldUpdateOperationsInput | $Enums.ClientType
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  owner?: Prisma.OwnerUpdateOneWithoutAccountingsNestedInput
+  tenant?: Prisma.TenantUpdateOneWithoutAccountingsNestedInput
+  invoice?: Prisma.InvoiceUpdateOneWithoutAccountingsNestedInput
+  purchaseOrder?: Prisma.purchaseOrderUpdateOneWithoutAccountingsNestedInput
+  unit?: Prisma.UnitUpdateOneRequiredWithoutAccountingsNestedInput
   source?: Prisma.SourceUpdateOneRequiredWithoutAccountingsNestedInput
   allocation?: Prisma.AllocationUpdateOneRequiredWithoutAccountingsNestedInput
   category?: Prisma.CategoryUpdateOneRequiredWithoutAccountingsNestedInput
@@ -1596,6 +2984,12 @@ export type accountingUncheckedUpdateWithoutSecondNatureInput = {
   isTTC?: Prisma.BoolFieldUpdateOperationsInput | boolean
   checkNumber?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.StringFieldUpdateOperationsInput | string
+  clientType?: Prisma.EnumClientTypeFieldUpdateOperationsInput | $Enums.ClientType
+  ownerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tenantId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  invoiceId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  purchaseOrderId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  unitId?: Prisma.StringFieldUpdateOperationsInput | string
   sourceId?: Prisma.StringFieldUpdateOperationsInput | string
   allocationId?: Prisma.StringFieldUpdateOperationsInput | string
   categoryId?: Prisma.StringFieldUpdateOperationsInput | string
@@ -1614,6 +3008,12 @@ export type accountingUncheckedUpdateManyWithoutSecondNatureInput = {
   isTTC?: Prisma.BoolFieldUpdateOperationsInput | boolean
   checkNumber?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.StringFieldUpdateOperationsInput | string
+  clientType?: Prisma.EnumClientTypeFieldUpdateOperationsInput | $Enums.ClientType
+  ownerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tenantId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  invoiceId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  purchaseOrderId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  unitId?: Prisma.StringFieldUpdateOperationsInput | string
   sourceId?: Prisma.StringFieldUpdateOperationsInput | string
   allocationId?: Prisma.StringFieldUpdateOperationsInput | string
   categoryId?: Prisma.StringFieldUpdateOperationsInput | string
@@ -1632,6 +3032,12 @@ export type accountingCreateManyThirdNatureInput = {
   isTTC: boolean
   checkNumber: string
   description: string
+  clientType: $Enums.ClientType
+  ownerId?: string | null
+  tenantId?: string | null
+  invoiceId?: string | null
+  purchaseOrderId?: string | null
+  unitId: string
   sourceId: string
   allocationId: string
   categoryId: string
@@ -1650,8 +3056,14 @@ export type accountingUpdateWithoutThirdNatureInput = {
   isTTC?: Prisma.BoolFieldUpdateOperationsInput | boolean
   checkNumber?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.StringFieldUpdateOperationsInput | string
+  clientType?: Prisma.EnumClientTypeFieldUpdateOperationsInput | $Enums.ClientType
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  owner?: Prisma.OwnerUpdateOneWithoutAccountingsNestedInput
+  tenant?: Prisma.TenantUpdateOneWithoutAccountingsNestedInput
+  invoice?: Prisma.InvoiceUpdateOneWithoutAccountingsNestedInput
+  purchaseOrder?: Prisma.purchaseOrderUpdateOneWithoutAccountingsNestedInput
+  unit?: Prisma.UnitUpdateOneRequiredWithoutAccountingsNestedInput
   source?: Prisma.SourceUpdateOneRequiredWithoutAccountingsNestedInput
   allocation?: Prisma.AllocationUpdateOneRequiredWithoutAccountingsNestedInput
   category?: Prisma.CategoryUpdateOneRequiredWithoutAccountingsNestedInput
@@ -1668,6 +3080,12 @@ export type accountingUncheckedUpdateWithoutThirdNatureInput = {
   isTTC?: Prisma.BoolFieldUpdateOperationsInput | boolean
   checkNumber?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.StringFieldUpdateOperationsInput | string
+  clientType?: Prisma.EnumClientTypeFieldUpdateOperationsInput | $Enums.ClientType
+  ownerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tenantId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  invoiceId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  purchaseOrderId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  unitId?: Prisma.StringFieldUpdateOperationsInput | string
   sourceId?: Prisma.StringFieldUpdateOperationsInput | string
   allocationId?: Prisma.StringFieldUpdateOperationsInput | string
   categoryId?: Prisma.StringFieldUpdateOperationsInput | string
@@ -1686,6 +3104,12 @@ export type accountingUncheckedUpdateManyWithoutThirdNatureInput = {
   isTTC?: Prisma.BoolFieldUpdateOperationsInput | boolean
   checkNumber?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.StringFieldUpdateOperationsInput | string
+  clientType?: Prisma.EnumClientTypeFieldUpdateOperationsInput | $Enums.ClientType
+  ownerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tenantId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  invoiceId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  purchaseOrderId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  unitId?: Prisma.StringFieldUpdateOperationsInput | string
   sourceId?: Prisma.StringFieldUpdateOperationsInput | string
   allocationId?: Prisma.StringFieldUpdateOperationsInput | string
   categoryId?: Prisma.StringFieldUpdateOperationsInput | string
@@ -1706,6 +3130,12 @@ export type accountingSelect<ExtArgs extends runtime.Types.Extensions.InternalAr
   isTTC?: boolean
   checkNumber?: boolean
   description?: boolean
+  clientType?: boolean
+  ownerId?: boolean
+  tenantId?: boolean
+  invoiceId?: boolean
+  purchaseOrderId?: boolean
+  unitId?: boolean
   sourceId?: boolean
   allocationId?: boolean
   categoryId?: boolean
@@ -1714,6 +3144,11 @@ export type accountingSelect<ExtArgs extends runtime.Types.Extensions.InternalAr
   thirdNatureId?: boolean
   createdAt?: boolean
   updatedAt?: boolean
+  owner?: boolean | Prisma.accounting$ownerArgs<ExtArgs>
+  tenant?: boolean | Prisma.accounting$tenantArgs<ExtArgs>
+  invoice?: boolean | Prisma.accounting$invoiceArgs<ExtArgs>
+  purchaseOrder?: boolean | Prisma.accounting$purchaseOrderArgs<ExtArgs>
+  unit?: boolean | Prisma.UnitDefaultArgs<ExtArgs>
   source?: boolean | Prisma.SourceDefaultArgs<ExtArgs>
   allocation?: boolean | Prisma.AllocationDefaultArgs<ExtArgs>
   category?: boolean | Prisma.CategoryDefaultArgs<ExtArgs>
@@ -1731,6 +3166,12 @@ export type accountingSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Ex
   isTTC?: boolean
   checkNumber?: boolean
   description?: boolean
+  clientType?: boolean
+  ownerId?: boolean
+  tenantId?: boolean
+  invoiceId?: boolean
+  purchaseOrderId?: boolean
+  unitId?: boolean
   sourceId?: boolean
   allocationId?: boolean
   categoryId?: boolean
@@ -1739,6 +3180,11 @@ export type accountingSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Ex
   thirdNatureId?: boolean
   createdAt?: boolean
   updatedAt?: boolean
+  owner?: boolean | Prisma.accounting$ownerArgs<ExtArgs>
+  tenant?: boolean | Prisma.accounting$tenantArgs<ExtArgs>
+  invoice?: boolean | Prisma.accounting$invoiceArgs<ExtArgs>
+  purchaseOrder?: boolean | Prisma.accounting$purchaseOrderArgs<ExtArgs>
+  unit?: boolean | Prisma.UnitDefaultArgs<ExtArgs>
   source?: boolean | Prisma.SourceDefaultArgs<ExtArgs>
   allocation?: boolean | Prisma.AllocationDefaultArgs<ExtArgs>
   category?: boolean | Prisma.CategoryDefaultArgs<ExtArgs>
@@ -1756,6 +3202,12 @@ export type accountingSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Ex
   isTTC?: boolean
   checkNumber?: boolean
   description?: boolean
+  clientType?: boolean
+  ownerId?: boolean
+  tenantId?: boolean
+  invoiceId?: boolean
+  purchaseOrderId?: boolean
+  unitId?: boolean
   sourceId?: boolean
   allocationId?: boolean
   categoryId?: boolean
@@ -1764,6 +3216,11 @@ export type accountingSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Ex
   thirdNatureId?: boolean
   createdAt?: boolean
   updatedAt?: boolean
+  owner?: boolean | Prisma.accounting$ownerArgs<ExtArgs>
+  tenant?: boolean | Prisma.accounting$tenantArgs<ExtArgs>
+  invoice?: boolean | Prisma.accounting$invoiceArgs<ExtArgs>
+  purchaseOrder?: boolean | Prisma.accounting$purchaseOrderArgs<ExtArgs>
+  unit?: boolean | Prisma.UnitDefaultArgs<ExtArgs>
   source?: boolean | Prisma.SourceDefaultArgs<ExtArgs>
   allocation?: boolean | Prisma.AllocationDefaultArgs<ExtArgs>
   category?: boolean | Prisma.CategoryDefaultArgs<ExtArgs>
@@ -1781,6 +3238,12 @@ export type accountingSelectScalar = {
   isTTC?: boolean
   checkNumber?: boolean
   description?: boolean
+  clientType?: boolean
+  ownerId?: boolean
+  tenantId?: boolean
+  invoiceId?: boolean
+  purchaseOrderId?: boolean
+  unitId?: boolean
   sourceId?: boolean
   allocationId?: boolean
   categoryId?: boolean
@@ -1791,8 +3254,13 @@ export type accountingSelectScalar = {
   updatedAt?: boolean
 }
 
-export type accountingOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "date" | "type" | "paymentMode" | "amount" | "isTTC" | "checkNumber" | "description" | "sourceId" | "allocationId" | "categoryId" | "natureId" | "secondNatureId" | "thirdNatureId" | "createdAt" | "updatedAt", ExtArgs["result"]["accounting"]>
+export type accountingOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "date" | "type" | "paymentMode" | "amount" | "isTTC" | "checkNumber" | "description" | "clientType" | "ownerId" | "tenantId" | "invoiceId" | "purchaseOrderId" | "unitId" | "sourceId" | "allocationId" | "categoryId" | "natureId" | "secondNatureId" | "thirdNatureId" | "createdAt" | "updatedAt", ExtArgs["result"]["accounting"]>
 export type accountingInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  owner?: boolean | Prisma.accounting$ownerArgs<ExtArgs>
+  tenant?: boolean | Prisma.accounting$tenantArgs<ExtArgs>
+  invoice?: boolean | Prisma.accounting$invoiceArgs<ExtArgs>
+  purchaseOrder?: boolean | Prisma.accounting$purchaseOrderArgs<ExtArgs>
+  unit?: boolean | Prisma.UnitDefaultArgs<ExtArgs>
   source?: boolean | Prisma.SourceDefaultArgs<ExtArgs>
   allocation?: boolean | Prisma.AllocationDefaultArgs<ExtArgs>
   category?: boolean | Prisma.CategoryDefaultArgs<ExtArgs>
@@ -1801,6 +3269,11 @@ export type accountingInclude<ExtArgs extends runtime.Types.Extensions.InternalA
   thirdNature?: boolean | Prisma.ThirdNatureDefaultArgs<ExtArgs>
 }
 export type accountingIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  owner?: boolean | Prisma.accounting$ownerArgs<ExtArgs>
+  tenant?: boolean | Prisma.accounting$tenantArgs<ExtArgs>
+  invoice?: boolean | Prisma.accounting$invoiceArgs<ExtArgs>
+  purchaseOrder?: boolean | Prisma.accounting$purchaseOrderArgs<ExtArgs>
+  unit?: boolean | Prisma.UnitDefaultArgs<ExtArgs>
   source?: boolean | Prisma.SourceDefaultArgs<ExtArgs>
   allocation?: boolean | Prisma.AllocationDefaultArgs<ExtArgs>
   category?: boolean | Prisma.CategoryDefaultArgs<ExtArgs>
@@ -1809,6 +3282,11 @@ export type accountingIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.E
   thirdNature?: boolean | Prisma.ThirdNatureDefaultArgs<ExtArgs>
 }
 export type accountingIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  owner?: boolean | Prisma.accounting$ownerArgs<ExtArgs>
+  tenant?: boolean | Prisma.accounting$tenantArgs<ExtArgs>
+  invoice?: boolean | Prisma.accounting$invoiceArgs<ExtArgs>
+  purchaseOrder?: boolean | Prisma.accounting$purchaseOrderArgs<ExtArgs>
+  unit?: boolean | Prisma.UnitDefaultArgs<ExtArgs>
   source?: boolean | Prisma.SourceDefaultArgs<ExtArgs>
   allocation?: boolean | Prisma.AllocationDefaultArgs<ExtArgs>
   category?: boolean | Prisma.CategoryDefaultArgs<ExtArgs>
@@ -1820,6 +3298,11 @@ export type accountingIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.E
 export type $accountingPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "accounting"
   objects: {
+    owner: Prisma.$OwnerPayload<ExtArgs> | null
+    tenant: Prisma.$TenantPayload<ExtArgs> | null
+    invoice: Prisma.$InvoicePayload<ExtArgs> | null
+    purchaseOrder: Prisma.$purchaseOrderPayload<ExtArgs> | null
+    unit: Prisma.$UnitPayload<ExtArgs>
     source: Prisma.$SourcePayload<ExtArgs>
     allocation: Prisma.$AllocationPayload<ExtArgs>
     category: Prisma.$CategoryPayload<ExtArgs>
@@ -1836,6 +3319,12 @@ export type $accountingPayload<ExtArgs extends runtime.Types.Extensions.Internal
     isTTC: boolean
     checkNumber: string
     description: string
+    clientType: $Enums.ClientType
+    ownerId: string | null
+    tenantId: string | null
+    invoiceId: string | null
+    purchaseOrderId: string | null
+    unitId: string
     sourceId: string
     allocationId: string
     categoryId: string
@@ -2238,6 +3727,11 @@ readonly fields: accountingFieldRefs;
  */
 export interface Prisma__accountingClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
+  owner<T extends Prisma.accounting$ownerArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.accounting$ownerArgs<ExtArgs>>): Prisma.Prisma__OwnerClient<runtime.Types.Result.GetResult<Prisma.$OwnerPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+  tenant<T extends Prisma.accounting$tenantArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.accounting$tenantArgs<ExtArgs>>): Prisma.Prisma__TenantClient<runtime.Types.Result.GetResult<Prisma.$TenantPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+  invoice<T extends Prisma.accounting$invoiceArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.accounting$invoiceArgs<ExtArgs>>): Prisma.Prisma__InvoiceClient<runtime.Types.Result.GetResult<Prisma.$InvoicePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+  purchaseOrder<T extends Prisma.accounting$purchaseOrderArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.accounting$purchaseOrderArgs<ExtArgs>>): Prisma.Prisma__purchaseOrderClient<runtime.Types.Result.GetResult<Prisma.$purchaseOrderPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+  unit<T extends Prisma.UnitDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.UnitDefaultArgs<ExtArgs>>): Prisma.Prisma__UnitClient<runtime.Types.Result.GetResult<Prisma.$UnitPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   source<T extends Prisma.SourceDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.SourceDefaultArgs<ExtArgs>>): Prisma.Prisma__SourceClient<runtime.Types.Result.GetResult<Prisma.$SourcePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   allocation<T extends Prisma.AllocationDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.AllocationDefaultArgs<ExtArgs>>): Prisma.Prisma__AllocationClient<runtime.Types.Result.GetResult<Prisma.$AllocationPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   category<T extends Prisma.CategoryDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.CategoryDefaultArgs<ExtArgs>>): Prisma.Prisma__CategoryClient<runtime.Types.Result.GetResult<Prisma.$CategoryPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
@@ -2281,6 +3775,12 @@ export interface accountingFieldRefs {
   readonly isTTC: Prisma.FieldRef<"accounting", 'Boolean'>
   readonly checkNumber: Prisma.FieldRef<"accounting", 'String'>
   readonly description: Prisma.FieldRef<"accounting", 'String'>
+  readonly clientType: Prisma.FieldRef<"accounting", 'ClientType'>
+  readonly ownerId: Prisma.FieldRef<"accounting", 'String'>
+  readonly tenantId: Prisma.FieldRef<"accounting", 'String'>
+  readonly invoiceId: Prisma.FieldRef<"accounting", 'String'>
+  readonly purchaseOrderId: Prisma.FieldRef<"accounting", 'String'>
+  readonly unitId: Prisma.FieldRef<"accounting", 'String'>
   readonly sourceId: Prisma.FieldRef<"accounting", 'String'>
   readonly allocationId: Prisma.FieldRef<"accounting", 'String'>
   readonly categoryId: Prisma.FieldRef<"accounting", 'String'>
@@ -2687,6 +4187,82 @@ export type accountingDeleteManyArgs<ExtArgs extends runtime.Types.Extensions.In
    * Limit how many accountings to delete.
    */
   limit?: number
+}
+
+/**
+ * accounting.owner
+ */
+export type accounting$ownerArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Owner
+   */
+  select?: Prisma.OwnerSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Owner
+   */
+  omit?: Prisma.OwnerOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.OwnerInclude<ExtArgs> | null
+  where?: Prisma.OwnerWhereInput
+}
+
+/**
+ * accounting.tenant
+ */
+export type accounting$tenantArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Tenant
+   */
+  select?: Prisma.TenantSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Tenant
+   */
+  omit?: Prisma.TenantOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.TenantInclude<ExtArgs> | null
+  where?: Prisma.TenantWhereInput
+}
+
+/**
+ * accounting.invoice
+ */
+export type accounting$invoiceArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Invoice
+   */
+  select?: Prisma.InvoiceSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Invoice
+   */
+  omit?: Prisma.InvoiceOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.InvoiceInclude<ExtArgs> | null
+  where?: Prisma.InvoiceWhereInput
+}
+
+/**
+ * accounting.purchaseOrder
+ */
+export type accounting$purchaseOrderArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the purchaseOrder
+   */
+  select?: Prisma.purchaseOrderSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the purchaseOrder
+   */
+  omit?: Prisma.purchaseOrderOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.purchaseOrderInclude<ExtArgs> | null
+  where?: Prisma.purchaseOrderWhereInput
 }
 
 /**

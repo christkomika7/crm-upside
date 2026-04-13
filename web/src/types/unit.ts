@@ -1,3 +1,4 @@
+import type { Building } from "./building";
 import type { Type } from "./type";
 
 export type Units = {
@@ -7,6 +8,7 @@ export type Units = {
     owner: string;
     tenant: string;
     status: string;
+    isDeleting: boolean;
     rent: string;
     service: string;
     documents: string[];
@@ -19,7 +21,7 @@ export type Unit = {
     reference: string;
     rentalStatus: string;
     surface: number;
-    rooms: number;
+    livingroom: number;
     dining: number;
     kitchen: number;
     bedroom: number;
@@ -32,8 +34,14 @@ export type Unit = {
     tv: boolean;
     charges: string;
     buildingId: string;
+    building: Building;
+    service: string;
+    status: "rented" | "vacant";
     typeId: string;
     type: Type;
+    tenantName: string;
+    tenantEmail: string;
+    tenantContact: string;
     documents: string[];
     createdAt: Date;
     updatedAt: Date;

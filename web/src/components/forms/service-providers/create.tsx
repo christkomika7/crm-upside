@@ -39,7 +39,7 @@ export default function CreateServiceProvider() {
             email: "",
             nif: "",
             registerNumber: "",
-            paymentMode: "",
+            paymentMode: "CASH",
             rating: {
                 note: 0,
                 comment: "",
@@ -76,7 +76,7 @@ export default function CreateServiceProvider() {
                 email: "",
                 nif: "",
                 registerNumber: "",
-                paymentMode: "",
+                paymentMode: "CASH",
                 rating: {
                     note: 0,
                     comment: "",

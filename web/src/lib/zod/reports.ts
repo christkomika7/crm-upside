@@ -2,14 +2,9 @@ import { z } from "zod";
 import { ALLOWED_TYPES, MAX_FILE_SIZE } from "../constant";
 
 export const reportSchema = z.object({
+    date: z.date({ error: "La date est requise." }),
     tenant: z.string({ error: "Le nom du locataire est requis." }),
-    propertyOrUnit: z.string({ error: "Veuillez selectionner une propriété ou une unité." }),
-    size: z.string({ error: "La dimension est requise." }),
-    livingRoom: z.string(),
-    dining: z.string(),
-    kitchen: z.string(),
-    bedrooms: z.string(),
-    bathrooms: z.string(),
+    unit: z.string({ error: "Veuillez selectionner une unité." }),
     note: z.string().optional(),
     documents: z.array(
         z

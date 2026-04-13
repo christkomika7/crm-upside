@@ -11,16 +11,52 @@ import { Prisma } from "../../generated/prisma/client";
 
 export const buildingRoutes = new Elysia({ prefix: "/building" })
     .use(authPlugin)
-    .get("/", async ({ permission, status, server }) => {
+    .get("/", async ({ permission, status, server, query }) => {
 
         if (!canAccess(permission, "buildings", "read")) {
             return status(403, { message: "Accès refusé" });
         }
 
+        const {
+            page = "0",
+            pageSize = "10",
+            search = "",
+            filter = "alpha",
+        } = query;
+
+        const pageNum = parseInt(page);
+        const pageSizeNum = parseInt(pageSize);
+        const skip = pageNum * pageSizeNum;
+
+        const searchCondition = search
+            ? {
+                OR: [
+                    { reference: { contains: search, mode: "insensitive" as const } },
+                    { name: { contains: search, mode: "insensitive" as const } },
+                    { owner: { firstname: { contains: search, mode: "insensitive" as const } } },
+                    { owner: { lastname: { contains: search, mode: "insensitive" as const } } },
+                ],
+            }
+            : {};
+
+        const orderBy = (() => {
+            if (filter === "asc") return { createdAt: "asc" as const };
+            if (filter === "desc") return { createdAt: "desc" as const };
+            return { reference: "asc" as const };
+        })();
+
+        const total = await prisma.building.count({ where: searchCondition });
+
+
+
         const buildings = await prisma.building.findMany({
             include: { lotTypes: true, owner: true, units: true },
-            orderBy: { createdAt: "desc" },
+            orderBy,
+            skip,
+            take: pageSizeNum,
         });
+
+        let hasImageError = false
 
         const buildingsWithSignedUrl = await Promise.all(
             buildings.map(async (building) => {
@@ -29,12 +65,8 @@ export const buildingRoutes = new Elysia({ prefix: "/building" })
                 const deeds = await safeSignedUrls(building.deeds);
                 const documents = await safeSignedUrls(building.documents);
 
-                if (photos.error || deeds.error || documents.error) {
-
-                    server?.publish("storage-error",
-                        "Certaines images n'ont pas pu être chargées depuis le storage"
-                    );
-
+                if (documents.error) {
+                    hasImageError = true
                 }
 
                 return {
@@ -49,10 +81,27 @@ export const buildingRoutes = new Elysia({ prefix: "/building" })
             })
         );
 
-        return buildingsWithSignedUrl;
+        if (hasImageError) {
+            server?.publish(
+                "error",
+                JSON.stringify({
+                    type: "error",
+                    message: "Certaines images n'ont pas pu être chargées.",
+                })
+            );
+        }
+
+        return {
+            data: buildingsWithSignedUrl,
+            total,
+            page: pageNum,
+            pageSize: pageSizeNum,
+            pageCount: Math.ceil(total / pageSizeNum),
+        };
 
     }, {
         auth: true,
+        query: request.queryFilter
     })
     .get("/without-owner", async ({ permission, status, server }) => {
 

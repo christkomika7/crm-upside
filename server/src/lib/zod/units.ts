@@ -7,7 +7,7 @@ export const unitSchema = z.object({
     building: z.string({ error: "Veuillez selectionner le bâtiment" }),
     rentalStatus: z.string({ error: "Le statut de la location est requis." }),
     surface: z.number({ error: "La surface est requise." }),
-    rooms: z.number({ error: "Le nombre de pièces est requis." }),
+    livingroom: z.number({ error: "Le nombre de salon est requis." }),
     rent: z.number({ error: "Le prix de la location est requis." }),
     dining: z.number({ error: "Le nombre de salle à manger est requis." }),
     kitchen: z.number({ error: "Le nombre de cuisine est requis." }),

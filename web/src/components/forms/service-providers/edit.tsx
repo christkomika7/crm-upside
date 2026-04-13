@@ -63,7 +63,7 @@ export default function EditServiceProvider({ id }: EditServiceProviderProps) {
             email: "",
             nif: "",
             registerNumber: "",
-            paymentMode: "",
+            paymentMode: "CASH",
             rating: {
                 note: 0,
                 comment: "",

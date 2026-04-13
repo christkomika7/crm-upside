@@ -91,7 +91,7 @@ export default function CreateUser({ close }: CreateUserProps) {
                             <FormControl>
                                 <AvatarProfil defaultAvatar={preview} onFileChange={(e) => {
                                     setPreview(e?.preview || "");
-                                    field.onChange(e?.file || null);
+                                    field.onChange(e?.file || undefined);
                                 }} />
                             </FormControl>
                             <FormMessage />
