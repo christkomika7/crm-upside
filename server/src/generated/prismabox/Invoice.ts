@@ -129,36 +129,33 @@ export const InvoiceRelations = t.Object(
       ),
       { additionalProperties: false },
     ),
-    accountings: t.Array(
+    notifications: t.Array(
       t.Object(
         {
           id: t.String(),
-          date: t.Date(),
-          type: t.Union([t.Literal("INFLOW"), t.Literal("OUTFLOW")], {
+          type: t.Union([t.Literal("ALERT"), t.Literal("CONFIRM")], {
             additionalProperties: false,
           }),
-          paymentMode: t.Union(
-            [t.Literal("CASH"), t.Literal("CHECK"), t.Literal("BANK")],
+          active: t.Boolean(),
+          for: t.Union(
+            [
+              t.Literal("APPOINTMENT"),
+              t.Literal("ACCOUNTING"),
+              t.Literal("INVOICING"),
+              t.Literal("RENTAL"),
+              t.Literal("PAYMENT"),
+              t.Literal("CONTRACT"),
+            ],
             { additionalProperties: false },
           ),
-          amount: t.Number(),
-          isTTC: t.Boolean(),
-          checkNumber: t.String(),
-          description: t.String(),
-          clientType: t.Union([t.Literal("OWNER"), t.Literal("TENANT")], {
-            additionalProperties: false,
-          }),
-          ownerId: __nullable__(t.String()),
-          tenantId: __nullable__(t.String()),
+          message: __nullable__(t.String()),
+          accountingId: __nullable__(t.String()),
           invoiceId: __nullable__(t.String()),
-          purchaseOrderId: __nullable__(t.String()),
-          unitId: t.String(),
-          sourceId: t.String(),
-          allocationId: t.String(),
-          categoryId: t.String(),
-          natureId: t.String(),
-          secondNatureId: t.String(),
-          thirdNatureId: t.String(),
+          paymentId: __nullable__(t.String()),
+          rentalId: __nullable__(t.String()),
+          contractId: __nullable__(t.String()),
+          appointmentId: __nullable__(t.String()),
+          userId: t.String(),
           createdAt: t.Date(),
           updatedAt: t.Date(),
         },
@@ -286,7 +283,7 @@ export const InvoiceRelationsInputCreate = t.Object(
         { additionalProperties: false },
       ),
     ),
-    accountings: t.Optional(
+    notifications: t.Optional(
       t.Object(
         {
           connect: t.Array(
@@ -387,7 +384,7 @@ export const InvoiceRelationsInputUpdate = t.Partial(
           { additionalProperties: false },
         ),
       ),
-      accountings: t.Partial(
+      notifications: t.Partial(
         t.Object(
           {
             connect: t.Array(
@@ -543,7 +540,7 @@ export const InvoiceSelect = t.Partial(
       createdAt: t.Boolean(),
       updatedAt: t.Boolean(),
       payments: t.Boolean(),
-      accountings: t.Boolean(),
+      notifications: t.Boolean(),
       _count: t.Boolean(),
     },
     { additionalProperties: false },
@@ -560,7 +557,7 @@ export const InvoiceInclude = t.Partial(
       tenant: t.Boolean(),
       items: t.Boolean(),
       payments: t.Boolean(),
-      accountings: t.Boolean(),
+      notifications: t.Boolean(),
       _count: t.Boolean(),
     },
     { additionalProperties: false },

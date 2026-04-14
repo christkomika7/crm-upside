@@ -26,18 +26,21 @@ export type AggregateSource = {
 
 export type SourceMinAggregateOutputType = {
   id: string | null
+  accountingType: $Enums.AccountingType | null
   type: $Enums.PaymentType | null
   name: string | null
 }
 
 export type SourceMaxAggregateOutputType = {
   id: string | null
+  accountingType: $Enums.AccountingType | null
   type: $Enums.PaymentType | null
   name: string | null
 }
 
 export type SourceCountAggregateOutputType = {
   id: number
+  accountingType: number
   type: number
   name: number
   _all: number
@@ -46,18 +49,21 @@ export type SourceCountAggregateOutputType = {
 
 export type SourceMinAggregateInputType = {
   id?: true
+  accountingType?: true
   type?: true
   name?: true
 }
 
 export type SourceMaxAggregateInputType = {
   id?: true
+  accountingType?: true
   type?: true
   name?: true
 }
 
 export type SourceCountAggregateInputType = {
   id?: true
+  accountingType?: true
   type?: true
   name?: true
   _all?: true
@@ -137,6 +143,7 @@ export type SourceGroupByArgs<ExtArgs extends runtime.Types.Extensions.InternalA
 
 export type SourceGroupByOutputType = {
   id: string
+  accountingType: $Enums.AccountingType
   type: $Enums.PaymentType
   name: string
   _count: SourceCountAggregateOutputType | null
@@ -164,6 +171,7 @@ export type SourceWhereInput = {
   OR?: Prisma.SourceWhereInput[]
   NOT?: Prisma.SourceWhereInput | Prisma.SourceWhereInput[]
   id?: Prisma.StringFilter<"Source"> | string
+  accountingType?: Prisma.EnumAccountingTypeFilter<"Source"> | $Enums.AccountingType
   type?: Prisma.EnumPaymentTypeFilter<"Source"> | $Enums.PaymentType
   name?: Prisma.StringFilter<"Source"> | string
   accountings?: Prisma.AccountingListRelationFilter
@@ -171,6 +179,7 @@ export type SourceWhereInput = {
 
 export type SourceOrderByWithRelationInput = {
   id?: Prisma.SortOrder
+  accountingType?: Prisma.SortOrder
   type?: Prisma.SortOrder
   name?: Prisma.SortOrder
   accountings?: Prisma.accountingOrderByRelationAggregateInput
@@ -181,6 +190,7 @@ export type SourceWhereUniqueInput = Prisma.AtLeast<{
   AND?: Prisma.SourceWhereInput | Prisma.SourceWhereInput[]
   OR?: Prisma.SourceWhereInput[]
   NOT?: Prisma.SourceWhereInput | Prisma.SourceWhereInput[]
+  accountingType?: Prisma.EnumAccountingTypeFilter<"Source"> | $Enums.AccountingType
   type?: Prisma.EnumPaymentTypeFilter<"Source"> | $Enums.PaymentType
   name?: Prisma.StringFilter<"Source"> | string
   accountings?: Prisma.AccountingListRelationFilter
@@ -188,6 +198,7 @@ export type SourceWhereUniqueInput = Prisma.AtLeast<{
 
 export type SourceOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
+  accountingType?: Prisma.SortOrder
   type?: Prisma.SortOrder
   name?: Prisma.SortOrder
   _count?: Prisma.SourceCountOrderByAggregateInput
@@ -200,12 +211,14 @@ export type SourceScalarWhereWithAggregatesInput = {
   OR?: Prisma.SourceScalarWhereWithAggregatesInput[]
   NOT?: Prisma.SourceScalarWhereWithAggregatesInput | Prisma.SourceScalarWhereWithAggregatesInput[]
   id?: Prisma.StringWithAggregatesFilter<"Source"> | string
+  accountingType?: Prisma.EnumAccountingTypeWithAggregatesFilter<"Source"> | $Enums.AccountingType
   type?: Prisma.EnumPaymentTypeWithAggregatesFilter<"Source"> | $Enums.PaymentType
   name?: Prisma.StringWithAggregatesFilter<"Source"> | string
 }
 
 export type SourceCreateInput = {
   id?: string
+  accountingType?: $Enums.AccountingType
   type: $Enums.PaymentType
   name: string
   accountings?: Prisma.accountingCreateNestedManyWithoutSourceInput
@@ -213,6 +226,7 @@ export type SourceCreateInput = {
 
 export type SourceUncheckedCreateInput = {
   id?: string
+  accountingType?: $Enums.AccountingType
   type: $Enums.PaymentType
   name: string
   accountings?: Prisma.accountingUncheckedCreateNestedManyWithoutSourceInput
@@ -220,6 +234,7 @@ export type SourceUncheckedCreateInput = {
 
 export type SourceUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  accountingType?: Prisma.EnumAccountingTypeFieldUpdateOperationsInput | $Enums.AccountingType
   type?: Prisma.EnumPaymentTypeFieldUpdateOperationsInput | $Enums.PaymentType
   name?: Prisma.StringFieldUpdateOperationsInput | string
   accountings?: Prisma.accountingUpdateManyWithoutSourceNestedInput
@@ -227,6 +242,7 @@ export type SourceUpdateInput = {
 
 export type SourceUncheckedUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  accountingType?: Prisma.EnumAccountingTypeFieldUpdateOperationsInput | $Enums.AccountingType
   type?: Prisma.EnumPaymentTypeFieldUpdateOperationsInput | $Enums.PaymentType
   name?: Prisma.StringFieldUpdateOperationsInput | string
   accountings?: Prisma.accountingUncheckedUpdateManyWithoutSourceNestedInput
@@ -234,18 +250,21 @@ export type SourceUncheckedUpdateInput = {
 
 export type SourceCreateManyInput = {
   id?: string
+  accountingType?: $Enums.AccountingType
   type: $Enums.PaymentType
   name: string
 }
 
 export type SourceUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  accountingType?: Prisma.EnumAccountingTypeFieldUpdateOperationsInput | $Enums.AccountingType
   type?: Prisma.EnumPaymentTypeFieldUpdateOperationsInput | $Enums.PaymentType
   name?: Prisma.StringFieldUpdateOperationsInput | string
 }
 
 export type SourceUncheckedUpdateManyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  accountingType?: Prisma.EnumAccountingTypeFieldUpdateOperationsInput | $Enums.AccountingType
   type?: Prisma.EnumPaymentTypeFieldUpdateOperationsInput | $Enums.PaymentType
   name?: Prisma.StringFieldUpdateOperationsInput | string
 }
@@ -257,18 +276,21 @@ export type SourceScalarRelationFilter = {
 
 export type SourceCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
+  accountingType?: Prisma.SortOrder
   type?: Prisma.SortOrder
   name?: Prisma.SortOrder
 }
 
 export type SourceMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
+  accountingType?: Prisma.SortOrder
   type?: Prisma.SortOrder
   name?: Prisma.SortOrder
 }
 
 export type SourceMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
+  accountingType?: Prisma.SortOrder
   type?: Prisma.SortOrder
   name?: Prisma.SortOrder
 }
@@ -289,12 +311,14 @@ export type SourceUpdateOneRequiredWithoutAccountingsNestedInput = {
 
 export type SourceCreateWithoutAccountingsInput = {
   id?: string
+  accountingType?: $Enums.AccountingType
   type: $Enums.PaymentType
   name: string
 }
 
 export type SourceUncheckedCreateWithoutAccountingsInput = {
   id?: string
+  accountingType?: $Enums.AccountingType
   type: $Enums.PaymentType
   name: string
 }
@@ -317,12 +341,14 @@ export type SourceUpdateToOneWithWhereWithoutAccountingsInput = {
 
 export type SourceUpdateWithoutAccountingsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  accountingType?: Prisma.EnumAccountingTypeFieldUpdateOperationsInput | $Enums.AccountingType
   type?: Prisma.EnumPaymentTypeFieldUpdateOperationsInput | $Enums.PaymentType
   name?: Prisma.StringFieldUpdateOperationsInput | string
 }
 
 export type SourceUncheckedUpdateWithoutAccountingsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  accountingType?: Prisma.EnumAccountingTypeFieldUpdateOperationsInput | $Enums.AccountingType
   type?: Prisma.EnumPaymentTypeFieldUpdateOperationsInput | $Enums.PaymentType
   name?: Prisma.StringFieldUpdateOperationsInput | string
 }
@@ -360,6 +386,7 @@ export type SourceCountOutputTypeCountAccountingsArgs<ExtArgs extends runtime.Ty
 
 export type SourceSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
+  accountingType?: boolean
   type?: boolean
   name?: boolean
   accountings?: boolean | Prisma.Source$accountingsArgs<ExtArgs>
@@ -368,23 +395,26 @@ export type SourceSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs =
 
 export type SourceSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
+  accountingType?: boolean
   type?: boolean
   name?: boolean
 }, ExtArgs["result"]["source"]>
 
 export type SourceSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
+  accountingType?: boolean
   type?: boolean
   name?: boolean
 }, ExtArgs["result"]["source"]>
 
 export type SourceSelectScalar = {
   id?: boolean
+  accountingType?: boolean
   type?: boolean
   name?: boolean
 }
 
-export type SourceOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "type" | "name", ExtArgs["result"]["source"]>
+export type SourceOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "accountingType" | "type" | "name", ExtArgs["result"]["source"]>
 export type SourceInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   accountings?: boolean | Prisma.Source$accountingsArgs<ExtArgs>
   _count?: boolean | Prisma.SourceCountOutputTypeDefaultArgs<ExtArgs>
@@ -399,6 +429,7 @@ export type $SourcePayload<ExtArgs extends runtime.Types.Extensions.InternalArgs
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
+    accountingType: $Enums.AccountingType
     type: $Enums.PaymentType
     name: string
   }, ExtArgs["result"]["source"]>
@@ -826,6 +857,7 @@ export interface Prisma__SourceClient<T, Null = never, ExtArgs extends runtime.T
  */
 export interface SourceFieldRefs {
   readonly id: Prisma.FieldRef<"Source", 'String'>
+  readonly accountingType: Prisma.FieldRef<"Source", 'AccountingType'>
   readonly type: Prisma.FieldRef<"Source", 'PaymentType'>
   readonly name: Prisma.FieldRef<"Source", 'String'>
 }

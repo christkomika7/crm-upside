@@ -65,7 +65,7 @@ export default function EditReport({ id }: EditReportProps) {
             value: unit.id,
             label: `${unit.reference}`,
             surface: unit.surface,
-            rooms: unit.rooms,
+            livingroom: unit.livingroom,
             dining: unit.dining,
             bedroom: unit.bedroom,
             kitchen: unit.kitchen,
@@ -89,7 +89,7 @@ export default function EditReport({ id }: EditReportProps) {
 
             setUnit({
                 surface: report.unit.surface,
-                rooms: report.unit.rooms,
+                livingroom: report.unit.livingroom,
                 dining: report.unit.dining,
                 bedroom: report.unit.bedroom,
                 kitchen: report.unit.kitchen,
@@ -250,11 +250,11 @@ export default function EditReport({ id }: EditReportProps) {
                             />
                         </div>
                         <div className="space-y-2">
-                            <Label className="text-neutral-600">Pièce</Label>
+                            <Label className="text-neutral-600">Salon</Label>
                             <Input
                                 type="number"
                                 disabled
-                                value={unit?.rooms}
+                                value={unit?.livingroom}
                             />
                         </div>
                         <div className="space-y-2">

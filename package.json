@@ -8,7 +8,7 @@
   },
   "scripts": {
     "web:dev": "cd web && bun run dev",
-    "wd:build": "cd web && bun run build",
+    "web:build": "cd web && bun run build",
     "server:dev": "cd server && bun run dev"
   },
   "peerDependencies": {

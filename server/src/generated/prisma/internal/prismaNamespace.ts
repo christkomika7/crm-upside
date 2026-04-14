@@ -410,6 +410,8 @@ export const ModelName = {
   Contract: 'Contract',
   CheckInOut: 'CheckInOut',
   accounting: 'accounting',
+  Notification: 'Notification',
+  NotificationRead: 'NotificationRead',
   Source: 'Source',
   Allocation: 'Allocation',
   Category: 'Category',
@@ -438,7 +440,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "user" | "permission" | "cumul" | "tax" | "note" | "reference" | "appearence" | "building" | "unit" | "lotType" | "profession" | "type" | "owner" | "tenant" | "rental" | "reservation" | "propertyManagement" | "productService" | "item" | "invoice" | "purchaseOrder" | "quote" | "serviceProvider" | "contract" | "checkInOut" | "accounting" | "source" | "allocation" | "category" | "nature" | "secondNature" | "thirdNature" | "appointment" | "payment" | "personalService" | "deletion" | "session" | "account" | "verification"
+    modelProps: "user" | "permission" | "cumul" | "tax" | "note" | "reference" | "appearence" | "building" | "unit" | "lotType" | "profession" | "type" | "owner" | "tenant" | "rental" | "reservation" | "propertyManagement" | "productService" | "item" | "invoice" | "purchaseOrder" | "quote" | "serviceProvider" | "contract" | "checkInOut" | "accounting" | "notification" | "notificationRead" | "source" | "allocation" | "category" | "nature" | "secondNature" | "thirdNature" | "appointment" | "payment" | "personalService" | "deletion" | "session" | "account" | "verification"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -2366,6 +2368,154 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
+    Notification: {
+      payload: Prisma.$NotificationPayload<ExtArgs>
+      fields: Prisma.NotificationFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.NotificationFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$NotificationPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.NotificationFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$NotificationPayload>
+        }
+        findFirst: {
+          args: Prisma.NotificationFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$NotificationPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.NotificationFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$NotificationPayload>
+        }
+        findMany: {
+          args: Prisma.NotificationFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$NotificationPayload>[]
+        }
+        create: {
+          args: Prisma.NotificationCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$NotificationPayload>
+        }
+        createMany: {
+          args: Prisma.NotificationCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.NotificationCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$NotificationPayload>[]
+        }
+        delete: {
+          args: Prisma.NotificationDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$NotificationPayload>
+        }
+        update: {
+          args: Prisma.NotificationUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$NotificationPayload>
+        }
+        deleteMany: {
+          args: Prisma.NotificationDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.NotificationUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.NotificationUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$NotificationPayload>[]
+        }
+        upsert: {
+          args: Prisma.NotificationUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$NotificationPayload>
+        }
+        aggregate: {
+          args: Prisma.NotificationAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateNotification>
+        }
+        groupBy: {
+          args: Prisma.NotificationGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.NotificationGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.NotificationCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.NotificationCountAggregateOutputType> | number
+        }
+      }
+    }
+    NotificationRead: {
+      payload: Prisma.$NotificationReadPayload<ExtArgs>
+      fields: Prisma.NotificationReadFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.NotificationReadFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$NotificationReadPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.NotificationReadFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$NotificationReadPayload>
+        }
+        findFirst: {
+          args: Prisma.NotificationReadFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$NotificationReadPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.NotificationReadFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$NotificationReadPayload>
+        }
+        findMany: {
+          args: Prisma.NotificationReadFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$NotificationReadPayload>[]
+        }
+        create: {
+          args: Prisma.NotificationReadCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$NotificationReadPayload>
+        }
+        createMany: {
+          args: Prisma.NotificationReadCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.NotificationReadCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$NotificationReadPayload>[]
+        }
+        delete: {
+          args: Prisma.NotificationReadDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$NotificationReadPayload>
+        }
+        update: {
+          args: Prisma.NotificationReadUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$NotificationReadPayload>
+        }
+        deleteMany: {
+          args: Prisma.NotificationReadDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.NotificationReadUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.NotificationReadUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$NotificationReadPayload>[]
+        }
+        upsert: {
+          args: Prisma.NotificationReadUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$NotificationReadPayload>
+        }
+        aggregate: {
+          args: Prisma.NotificationReadAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateNotificationRead>
+        }
+        groupBy: {
+          args: Prisma.NotificationReadGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.NotificationReadGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.NotificationReadCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.NotificationReadCountAggregateOutputType> | number
+        }
+      }
+    }
     Source: {
       payload: Prisma.$SourcePayload<ExtArgs>
       fields: Prisma.SourceFieldRefs
@@ -3481,13 +3631,14 @@ export const UnitScalarFieldEnum = {
   kitchen: 'kitchen',
   bedroom: 'bedroom',
   bathroom: 'bathroom',
-  rent: 'rent',
   furnished: 'furnished',
   wifi: 'wifi',
   water: 'water',
   electricity: 'electricity',
   tv: 'tv',
+  rent: 'rent',
   charges: 'charges',
+  amountGenerate: 'amountGenerate',
   documents: 'documents',
   isDeleting: 'isDeleting',
   buildingId: 'buildingId',
@@ -3783,11 +3934,7 @@ export const AccountingScalarFieldEnum = {
   isTTC: 'isTTC',
   checkNumber: 'checkNumber',
   description: 'description',
-  clientType: 'clientType',
-  ownerId: 'ownerId',
-  tenantId: 'tenantId',
-  invoiceId: 'invoiceId',
-  purchaseOrderId: 'purchaseOrderId',
+  period: 'period',
   unitId: 'unitId',
   sourceId: 'sourceId',
   allocationId: 'allocationId',
@@ -3795,6 +3942,8 @@ export const AccountingScalarFieldEnum = {
   natureId: 'natureId',
   secondNatureId: 'secondNatureId',
   thirdNatureId: 'thirdNatureId',
+  userId: 'userId',
+  documents: 'documents',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const
@@ -3802,8 +3951,39 @@ export const AccountingScalarFieldEnum = {
 export type AccountingScalarFieldEnum = (typeof AccountingScalarFieldEnum)[keyof typeof AccountingScalarFieldEnum]
 
 
+export const NotificationScalarFieldEnum = {
+  id: 'id',
+  type: 'type',
+  active: 'active',
+  for: 'for',
+  message: 'message',
+  accountingId: 'accountingId',
+  invoiceId: 'invoiceId',
+  paymentId: 'paymentId',
+  rentalId: 'rentalId',
+  contractId: 'contractId',
+  appointmentId: 'appointmentId',
+  userId: 'userId',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type NotificationScalarFieldEnum = (typeof NotificationScalarFieldEnum)[keyof typeof NotificationScalarFieldEnum]
+
+
+export const NotificationReadScalarFieldEnum = {
+  id: 'id',
+  notificationId: 'notificationId',
+  userId: 'userId',
+  readAt: 'readAt'
+} as const
+
+export type NotificationReadScalarFieldEnum = (typeof NotificationReadScalarFieldEnum)[keyof typeof NotificationReadScalarFieldEnum]
+
+
 export const SourceScalarFieldEnum = {
   id: 'id',
+  accountingType: 'accountingType',
   type: 'type',
   name: 'name'
 } as const
@@ -3813,6 +3993,7 @@ export type SourceScalarFieldEnum = (typeof SourceScalarFieldEnum)[keyof typeof 
 
 export const AllocationScalarFieldEnum = {
   id: 'id',
+  accountingType: 'accountingType',
   name: 'name'
 } as const
 
@@ -3821,6 +4002,7 @@ export type AllocationScalarFieldEnum = (typeof AllocationScalarFieldEnum)[keyof
 
 export const CategoryScalarFieldEnum = {
   id: 'id',
+  accountingType: 'accountingType',
   name: 'name'
 } as const
 
@@ -3830,6 +4012,7 @@ export type CategoryScalarFieldEnum = (typeof CategoryScalarFieldEnum)[keyof typ
 export const NatureScalarFieldEnum = {
   id: 'id',
   name: 'name',
+  accountingType: 'accountingType',
   categoryId: 'categoryId'
 } as const
 
@@ -3839,6 +4022,7 @@ export type NatureScalarFieldEnum = (typeof NatureScalarFieldEnum)[keyof typeof 
 export const SecondNatureScalarFieldEnum = {
   id: 'id',
   name: 'name',
+  accountingType: 'accountingType',
   natureId: 'natureId'
 } as const
 
@@ -3848,6 +4032,7 @@ export type SecondNatureScalarFieldEnum = (typeof SecondNatureScalarFieldEnum)[k
 export const ThirdNatureScalarFieldEnum = {
   id: 'id',
   name: 'name',
+  accountingType: 'accountingType',
   secondNatureId: 'secondNatureId'
 } as const
 
@@ -4206,6 +4391,34 @@ export type ListEnumAccountingTypeFieldRefInput<$PrismaModel> = FieldRefInputTyp
 
 
 /**
+ * Reference to a field of type 'NotificationType'
+ */
+export type EnumNotificationTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'NotificationType'>
+    
+
+
+/**
+ * Reference to a field of type 'NotificationType[]'
+ */
+export type ListEnumNotificationTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'NotificationType[]'>
+    
+
+
+/**
+ * Reference to a field of type 'NotificationKindOf'
+ */
+export type EnumNotificationKindOfFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'NotificationKindOf'>
+    
+
+
+/**
+ * Reference to a field of type 'NotificationKindOf[]'
+ */
+export type ListEnumNotificationKindOfFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'NotificationKindOf[]'>
+    
+
+
+/**
  * Reference to a field of type 'RecordType'
  */
 export type EnumRecordTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'RecordType'>
@@ -4367,6 +4580,8 @@ export type GlobalOmitConfig = {
   contract?: Prisma.ContractOmit
   checkInOut?: Prisma.CheckInOutOmit
   accounting?: Prisma.accountingOmit
+  notification?: Prisma.NotificationOmit
+  notificationRead?: Prisma.NotificationReadOmit
   source?: Prisma.SourceOmit
   allocation?: Prisma.AllocationOmit
   category?: Prisma.CategoryOmit

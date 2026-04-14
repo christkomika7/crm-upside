@@ -32,6 +32,7 @@ import { sourceRoutes } from "../modules/source/source.route";
 import { natureRoutes } from "../modules/nature/nature.route";
 import { secondNatureRoutes } from "../modules/second-nature/second-nature.route";
 import { thirdNatureRoutes } from "../modules/third-nature/third-nature.route";
+import { accountingRoutes } from "../modules/accounting/accounting.route";
 
 export const route = new Elysia()
     .use(userRoutes)
@@ -65,5 +66,6 @@ export const route = new Elysia()
     .use(natureRoutes)
     .use(secondNatureRoutes)
     .use(thirdNatureRoutes)
+    .use(accountingRoutes)
     .use(documentRoutes)
     .use(deletionRoutes)

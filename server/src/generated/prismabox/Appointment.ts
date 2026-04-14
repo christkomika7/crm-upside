@@ -94,6 +94,40 @@ export const AppointmentRelations = t.Object(
       ),
       { additionalProperties: false },
     ),
+    notifications: t.Array(
+      t.Object(
+        {
+          id: t.String(),
+          type: t.Union([t.Literal("ALERT"), t.Literal("CONFIRM")], {
+            additionalProperties: false,
+          }),
+          active: t.Boolean(),
+          for: t.Union(
+            [
+              t.Literal("APPOINTMENT"),
+              t.Literal("ACCOUNTING"),
+              t.Literal("INVOICING"),
+              t.Literal("RENTAL"),
+              t.Literal("PAYMENT"),
+              t.Literal("CONTRACT"),
+            ],
+            { additionalProperties: false },
+          ),
+          message: __nullable__(t.String()),
+          accountingId: __nullable__(t.String()),
+          invoiceId: __nullable__(t.String()),
+          paymentId: __nullable__(t.String()),
+          rentalId: __nullable__(t.String()),
+          contractId: __nullable__(t.String()),
+          appointmentId: __nullable__(t.String()),
+          userId: t.String(),
+          createdAt: t.Date(),
+          updatedAt: t.Date(),
+        },
+        { additionalProperties: false },
+      ),
+      { additionalProperties: false },
+    ),
   },
   { additionalProperties: false },
 );
@@ -178,6 +212,22 @@ export const AppointmentRelationsInputCreate = t.Object(
         { additionalProperties: false },
       ),
     ),
+    notifications: t.Optional(
+      t.Object(
+        {
+          connect: t.Array(
+            t.Object(
+              {
+                id: t.String({ additionalProperties: false }),
+              },
+              { additionalProperties: false },
+            ),
+            { additionalProperties: false },
+          ),
+        },
+        { additionalProperties: false },
+      ),
+    ),
   },
   { additionalProperties: false },
 );
@@ -214,6 +264,31 @@ export const AppointmentRelationsInputUpdate = t.Partial(
         ),
       ),
       teamMembers: t.Partial(
+        t.Object(
+          {
+            connect: t.Array(
+              t.Object(
+                {
+                  id: t.String({ additionalProperties: false }),
+                },
+                { additionalProperties: false },
+              ),
+              { additionalProperties: false },
+            ),
+            disconnect: t.Array(
+              t.Object(
+                {
+                  id: t.String({ additionalProperties: false }),
+                },
+                { additionalProperties: false },
+              ),
+              { additionalProperties: false },
+            ),
+          },
+          { additionalProperties: false },
+        ),
+      ),
+      notifications: t.Partial(
         t.Object(
           {
             connect: t.Array(
@@ -348,6 +423,7 @@ export const AppointmentSelect = t.Partial(
       isDeleting: t.Boolean(),
       createdAt: t.Boolean(),
       updatedAt: t.Boolean(),
+      notifications: t.Boolean(),
       _count: t.Boolean(),
     },
     { additionalProperties: false },
@@ -361,6 +437,7 @@ export const AppointmentInclude = t.Partial(
       owner: t.Boolean(),
       tenant: t.Boolean(),
       teamMembers: t.Boolean(),
+      notifications: t.Boolean(),
       _count: t.Boolean(),
     },
     { additionalProperties: false },

@@ -24,21 +24,23 @@ import type { AccountElement } from "@/types/accounting";
 
 type SourceModalProps = {
     paymentMode: "CASH" | "BANK" | "CHECK";
+    accountingType: "INFLOW" | "OUTFLOW";
 }
 
-export default function SourceModal({ paymentMode }: SourceModalProps) {
+export default function SourceModal({ paymentMode, accountingType }: SourceModalProps) {
 
     const form = useForm<SourceSchemaType>({
         resolver: zodResolver(sourceSchema),
         defaultValues: {
             name: "",
             paymentMethod: paymentMode,
+            accountingType,
         },
     });
 
     const { isPending, data: sources } = useQuery<AccountElement[]>({
-        queryKey: ["sources", paymentMode],
-        queryFn: () => apiFetch<AccountElement[]>(`/source?paymentMethod=${paymentMode}`),
+        queryKey: ["sources", paymentMode, accountingType],
+        queryFn: () => apiFetch<AccountElement[]>(`/source?paymentMethod=${paymentMode}&accountingType=${accountingType}`),
     });
 
     const createSource = useMutation({
@@ -46,8 +48,8 @@ export default function SourceModal({ paymentMode }: SourceModalProps) {
             crudService.post(`/source`, data),
         onSuccess() {
             toast.success("Source ajoutée avec succès");
-            queryClient.invalidateQueries({ queryKey: ["sources", paymentMode] });
-            form.reset({ name: "", paymentMethod: paymentMode });
+            queryClient.invalidateQueries({ queryKey: ["sources", paymentMode, accountingType] });
+            form.reset({ name: "", paymentMethod: paymentMode, accountingType });
         },
         onError: (error: Error) => {
             toast.error(error.message);
@@ -58,7 +60,6 @@ export default function SourceModal({ paymentMode }: SourceModalProps) {
         const { success, data } = sourceSchema.safeParse(formData);
         if (success) {
             createSource.mutate({ data });
-            form.reset({ name: "", paymentMethod: paymentMode });
         }
     }
 
@@ -85,7 +86,7 @@ export default function SourceModal({ paymentMode }: SourceModalProps) {
             <Activity mode={sources && sources.length > 0 ? "visible" : "hidden"}>
                 <ScrollArea className="space-y-2 h-full max-h-70 pr-3">
                     {sources?.map((source, index) => (
-                        <SourceItem key={index} source={source} paymentMode={paymentMode} />
+                        <SourceItem key={index} source={source} paymentMode={paymentMode} accountingType={accountingType} />
                     ))}
                 </ScrollArea>
             </Activity>
@@ -137,7 +138,7 @@ export default function SourceModal({ paymentMode }: SourceModalProps) {
 }
 
 
-function SourceItem({ source, paymentMode }: { source: AccountElement; paymentMode: "CASH" | "BANK" | "CHECK" }) {
+function SourceItem({ source, paymentMode, accountingType }: { source: AccountElement; paymentMode: "CASH" | "BANK" | "CHECK", accountingType: "INFLOW" | "OUTFLOW" }) {
     const [editing, setEditing] = useState(false);
 
     const form = useForm<SourceSchemaType>({
@@ -145,6 +146,7 @@ function SourceItem({ source, paymentMode }: { source: AccountElement; paymentMo
         defaultValues: {
             name: source.name,
             paymentMethod: paymentMode,
+            accountingType,
         },
     });
 
@@ -153,9 +155,9 @@ function SourceItem({ source, paymentMode }: { source: AccountElement; paymentMo
             crudService.put(`/source/${sourceId}`, data),
         onSuccess() {
             toast.success("Source modifiée avec succès");
-            queryClient.invalidateQueries({ queryKey: ["sources", paymentMode] });
+            queryClient.invalidateQueries({ queryKey: ["sources", paymentMode, accountingType] });
             setEditing(false);
-            form.reset({ name: source.name, paymentMethod: paymentMode });
+            form.reset({ name: source.name, paymentMethod: paymentMode, accountingType });
         },
         onError: (error: Error) => {
             toast.error(error.message);
@@ -167,7 +169,7 @@ function SourceItem({ source, paymentMode }: { source: AccountElement; paymentMo
             crudService.delete(`/source/${sourceId}`),
         onSuccess() {
             toast.success("Source supprimée avec succès");
-            queryClient.invalidateQueries({ queryKey: ["sources", paymentMode] });
+            queryClient.invalidateQueries({ queryKey: ["sources", paymentMode, accountingType] });
         },
         onError: (error: Error) => {
             console.error("Erreur:", error.message);
@@ -177,12 +179,12 @@ function SourceItem({ source, paymentMode }: { source: AccountElement; paymentMo
 
     function edit() {
         setEditing(true);
-        form.reset({ name: source.name, paymentMethod: paymentMode });
+        form.reset({ name: source.name, paymentMethod: paymentMode, accountingType });
     }
 
     function cancel() {
         setEditing(false);
-        form.reset({ name: source.name, paymentMethod: paymentMode });
+        form.reset({ name: source.name, paymentMethod: paymentMode, accountingType });
     }
 
     async function submit(formData: SourceSchemaType) {

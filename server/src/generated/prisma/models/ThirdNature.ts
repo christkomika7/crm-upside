@@ -27,18 +27,21 @@ export type AggregateThirdNature = {
 export type ThirdNatureMinAggregateOutputType = {
   id: string | null
   name: string | null
+  accountingType: $Enums.AccountingType | null
   secondNatureId: string | null
 }
 
 export type ThirdNatureMaxAggregateOutputType = {
   id: string | null
   name: string | null
+  accountingType: $Enums.AccountingType | null
   secondNatureId: string | null
 }
 
 export type ThirdNatureCountAggregateOutputType = {
   id: number
   name: number
+  accountingType: number
   secondNatureId: number
   _all: number
 }
@@ -47,18 +50,21 @@ export type ThirdNatureCountAggregateOutputType = {
 export type ThirdNatureMinAggregateInputType = {
   id?: true
   name?: true
+  accountingType?: true
   secondNatureId?: true
 }
 
 export type ThirdNatureMaxAggregateInputType = {
   id?: true
   name?: true
+  accountingType?: true
   secondNatureId?: true
 }
 
 export type ThirdNatureCountAggregateInputType = {
   id?: true
   name?: true
+  accountingType?: true
   secondNatureId?: true
   _all?: true
 }
@@ -138,6 +144,7 @@ export type ThirdNatureGroupByArgs<ExtArgs extends runtime.Types.Extensions.Inte
 export type ThirdNatureGroupByOutputType = {
   id: string
   name: string
+  accountingType: $Enums.AccountingType
   secondNatureId: string
   _count: ThirdNatureCountAggregateOutputType | null
   _min: ThirdNatureMinAggregateOutputType | null
@@ -165,6 +172,7 @@ export type ThirdNatureWhereInput = {
   NOT?: Prisma.ThirdNatureWhereInput | Prisma.ThirdNatureWhereInput[]
   id?: Prisma.StringFilter<"ThirdNature"> | string
   name?: Prisma.StringFilter<"ThirdNature"> | string
+  accountingType?: Prisma.EnumAccountingTypeFilter<"ThirdNature"> | $Enums.AccountingType
   secondNatureId?: Prisma.StringFilter<"ThirdNature"> | string
   secondNature?: Prisma.XOR<Prisma.SecondNatureScalarRelationFilter, Prisma.SecondNatureWhereInput>
   accountings?: Prisma.AccountingListRelationFilter
@@ -173,6 +181,7 @@ export type ThirdNatureWhereInput = {
 export type ThirdNatureOrderByWithRelationInput = {
   id?: Prisma.SortOrder
   name?: Prisma.SortOrder
+  accountingType?: Prisma.SortOrder
   secondNatureId?: Prisma.SortOrder
   secondNature?: Prisma.SecondNatureOrderByWithRelationInput
   accountings?: Prisma.accountingOrderByRelationAggregateInput
@@ -184,6 +193,7 @@ export type ThirdNatureWhereUniqueInput = Prisma.AtLeast<{
   OR?: Prisma.ThirdNatureWhereInput[]
   NOT?: Prisma.ThirdNatureWhereInput | Prisma.ThirdNatureWhereInput[]
   name?: Prisma.StringFilter<"ThirdNature"> | string
+  accountingType?: Prisma.EnumAccountingTypeFilter<"ThirdNature"> | $Enums.AccountingType
   secondNatureId?: Prisma.StringFilter<"ThirdNature"> | string
   secondNature?: Prisma.XOR<Prisma.SecondNatureScalarRelationFilter, Prisma.SecondNatureWhereInput>
   accountings?: Prisma.AccountingListRelationFilter
@@ -192,6 +202,7 @@ export type ThirdNatureWhereUniqueInput = Prisma.AtLeast<{
 export type ThirdNatureOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
   name?: Prisma.SortOrder
+  accountingType?: Prisma.SortOrder
   secondNatureId?: Prisma.SortOrder
   _count?: Prisma.ThirdNatureCountOrderByAggregateInput
   _max?: Prisma.ThirdNatureMaxOrderByAggregateInput
@@ -204,12 +215,14 @@ export type ThirdNatureScalarWhereWithAggregatesInput = {
   NOT?: Prisma.ThirdNatureScalarWhereWithAggregatesInput | Prisma.ThirdNatureScalarWhereWithAggregatesInput[]
   id?: Prisma.StringWithAggregatesFilter<"ThirdNature"> | string
   name?: Prisma.StringWithAggregatesFilter<"ThirdNature"> | string
+  accountingType?: Prisma.EnumAccountingTypeWithAggregatesFilter<"ThirdNature"> | $Enums.AccountingType
   secondNatureId?: Prisma.StringWithAggregatesFilter<"ThirdNature"> | string
 }
 
 export type ThirdNatureCreateInput = {
   id?: string
   name: string
+  accountingType?: $Enums.AccountingType
   secondNature: Prisma.SecondNatureCreateNestedOneWithoutThirdNaturesInput
   accountings?: Prisma.accountingCreateNestedManyWithoutThirdNatureInput
 }
@@ -217,6 +230,7 @@ export type ThirdNatureCreateInput = {
 export type ThirdNatureUncheckedCreateInput = {
   id?: string
   name: string
+  accountingType?: $Enums.AccountingType
   secondNatureId: string
   accountings?: Prisma.accountingUncheckedCreateNestedManyWithoutThirdNatureInput
 }
@@ -224,6 +238,7 @@ export type ThirdNatureUncheckedCreateInput = {
 export type ThirdNatureUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
+  accountingType?: Prisma.EnumAccountingTypeFieldUpdateOperationsInput | $Enums.AccountingType
   secondNature?: Prisma.SecondNatureUpdateOneRequiredWithoutThirdNaturesNestedInput
   accountings?: Prisma.accountingUpdateManyWithoutThirdNatureNestedInput
 }
@@ -231,6 +246,7 @@ export type ThirdNatureUpdateInput = {
 export type ThirdNatureUncheckedUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
+  accountingType?: Prisma.EnumAccountingTypeFieldUpdateOperationsInput | $Enums.AccountingType
   secondNatureId?: Prisma.StringFieldUpdateOperationsInput | string
   accountings?: Prisma.accountingUncheckedUpdateManyWithoutThirdNatureNestedInput
 }
@@ -238,23 +254,26 @@ export type ThirdNatureUncheckedUpdateInput = {
 export type ThirdNatureCreateManyInput = {
   id?: string
   name: string
+  accountingType?: $Enums.AccountingType
   secondNatureId: string
 }
 
 export type ThirdNatureUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
+  accountingType?: Prisma.EnumAccountingTypeFieldUpdateOperationsInput | $Enums.AccountingType
 }
 
 export type ThirdNatureUncheckedUpdateManyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
+  accountingType?: Prisma.EnumAccountingTypeFieldUpdateOperationsInput | $Enums.AccountingType
   secondNatureId?: Prisma.StringFieldUpdateOperationsInput | string
 }
 
-export type ThirdNatureScalarRelationFilter = {
-  is?: Prisma.ThirdNatureWhereInput
-  isNot?: Prisma.ThirdNatureWhereInput
+export type ThirdNatureNullableScalarRelationFilter = {
+  is?: Prisma.ThirdNatureWhereInput | null
+  isNot?: Prisma.ThirdNatureWhereInput | null
 }
 
 export type ThirdNatureListRelationFilter = {
@@ -270,18 +289,21 @@ export type ThirdNatureOrderByRelationAggregateInput = {
 export type ThirdNatureCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
   name?: Prisma.SortOrder
+  accountingType?: Prisma.SortOrder
   secondNatureId?: Prisma.SortOrder
 }
 
 export type ThirdNatureMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
   name?: Prisma.SortOrder
+  accountingType?: Prisma.SortOrder
   secondNatureId?: Prisma.SortOrder
 }
 
 export type ThirdNatureMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
   name?: Prisma.SortOrder
+  accountingType?: Prisma.SortOrder
   secondNatureId?: Prisma.SortOrder
 }
 
@@ -291,10 +313,12 @@ export type ThirdNatureCreateNestedOneWithoutAccountingsInput = {
   connect?: Prisma.ThirdNatureWhereUniqueInput
 }
 
-export type ThirdNatureUpdateOneRequiredWithoutAccountingsNestedInput = {
+export type ThirdNatureUpdateOneWithoutAccountingsNestedInput = {
   create?: Prisma.XOR<Prisma.ThirdNatureCreateWithoutAccountingsInput, Prisma.ThirdNatureUncheckedCreateWithoutAccountingsInput>
   connectOrCreate?: Prisma.ThirdNatureCreateOrConnectWithoutAccountingsInput
   upsert?: Prisma.ThirdNatureUpsertWithoutAccountingsInput
+  disconnect?: Prisma.ThirdNatureWhereInput | boolean
+  delete?: Prisma.ThirdNatureWhereInput | boolean
   connect?: Prisma.ThirdNatureWhereUniqueInput
   update?: Prisma.XOR<Prisma.XOR<Prisma.ThirdNatureUpdateToOneWithWhereWithoutAccountingsInput, Prisma.ThirdNatureUpdateWithoutAccountingsInput>, Prisma.ThirdNatureUncheckedUpdateWithoutAccountingsInput>
 }
@@ -344,12 +368,14 @@ export type ThirdNatureUncheckedUpdateManyWithoutSecondNatureNestedInput = {
 export type ThirdNatureCreateWithoutAccountingsInput = {
   id?: string
   name: string
+  accountingType?: $Enums.AccountingType
   secondNature: Prisma.SecondNatureCreateNestedOneWithoutThirdNaturesInput
 }
 
 export type ThirdNatureUncheckedCreateWithoutAccountingsInput = {
   id?: string
   name: string
+  accountingType?: $Enums.AccountingType
   secondNatureId: string
 }
 
@@ -372,24 +398,28 @@ export type ThirdNatureUpdateToOneWithWhereWithoutAccountingsInput = {
 export type ThirdNatureUpdateWithoutAccountingsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
+  accountingType?: Prisma.EnumAccountingTypeFieldUpdateOperationsInput | $Enums.AccountingType
   secondNature?: Prisma.SecondNatureUpdateOneRequiredWithoutThirdNaturesNestedInput
 }
 
 export type ThirdNatureUncheckedUpdateWithoutAccountingsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
+  accountingType?: Prisma.EnumAccountingTypeFieldUpdateOperationsInput | $Enums.AccountingType
   secondNatureId?: Prisma.StringFieldUpdateOperationsInput | string
 }
 
 export type ThirdNatureCreateWithoutSecondNatureInput = {
   id?: string
   name: string
+  accountingType?: $Enums.AccountingType
   accountings?: Prisma.accountingCreateNestedManyWithoutThirdNatureInput
 }
 
 export type ThirdNatureUncheckedCreateWithoutSecondNatureInput = {
   id?: string
   name: string
+  accountingType?: $Enums.AccountingType
   accountings?: Prisma.accountingUncheckedCreateNestedManyWithoutThirdNatureInput
 }
 
@@ -425,29 +455,34 @@ export type ThirdNatureScalarWhereInput = {
   NOT?: Prisma.ThirdNatureScalarWhereInput | Prisma.ThirdNatureScalarWhereInput[]
   id?: Prisma.StringFilter<"ThirdNature"> | string
   name?: Prisma.StringFilter<"ThirdNature"> | string
+  accountingType?: Prisma.EnumAccountingTypeFilter<"ThirdNature"> | $Enums.AccountingType
   secondNatureId?: Prisma.StringFilter<"ThirdNature"> | string
 }
 
 export type ThirdNatureCreateManySecondNatureInput = {
   id?: string
   name: string
+  accountingType?: $Enums.AccountingType
 }
 
 export type ThirdNatureUpdateWithoutSecondNatureInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
+  accountingType?: Prisma.EnumAccountingTypeFieldUpdateOperationsInput | $Enums.AccountingType
   accountings?: Prisma.accountingUpdateManyWithoutThirdNatureNestedInput
 }
 
 export type ThirdNatureUncheckedUpdateWithoutSecondNatureInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
+  accountingType?: Prisma.EnumAccountingTypeFieldUpdateOperationsInput | $Enums.AccountingType
   accountings?: Prisma.accountingUncheckedUpdateManyWithoutThirdNatureNestedInput
 }
 
 export type ThirdNatureUncheckedUpdateManyWithoutSecondNatureInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
+  accountingType?: Prisma.EnumAccountingTypeFieldUpdateOperationsInput | $Enums.AccountingType
 }
 
 
@@ -484,6 +519,7 @@ export type ThirdNatureCountOutputTypeCountAccountingsArgs<ExtArgs extends runti
 export type ThirdNatureSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   name?: boolean
+  accountingType?: boolean
   secondNatureId?: boolean
   secondNature?: boolean | Prisma.SecondNatureDefaultArgs<ExtArgs>
   accountings?: boolean | Prisma.ThirdNature$accountingsArgs<ExtArgs>
@@ -493,6 +529,7 @@ export type ThirdNatureSelect<ExtArgs extends runtime.Types.Extensions.InternalA
 export type ThirdNatureSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   name?: boolean
+  accountingType?: boolean
   secondNatureId?: boolean
   secondNature?: boolean | Prisma.SecondNatureDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["thirdNature"]>
@@ -500,6 +537,7 @@ export type ThirdNatureSelectCreateManyAndReturn<ExtArgs extends runtime.Types.E
 export type ThirdNatureSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   name?: boolean
+  accountingType?: boolean
   secondNatureId?: boolean
   secondNature?: boolean | Prisma.SecondNatureDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["thirdNature"]>
@@ -507,10 +545,11 @@ export type ThirdNatureSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.E
 export type ThirdNatureSelectScalar = {
   id?: boolean
   name?: boolean
+  accountingType?: boolean
   secondNatureId?: boolean
 }
 
-export type ThirdNatureOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "secondNatureId", ExtArgs["result"]["thirdNature"]>
+export type ThirdNatureOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "accountingType" | "secondNatureId", ExtArgs["result"]["thirdNature"]>
 export type ThirdNatureInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   secondNature?: boolean | Prisma.SecondNatureDefaultArgs<ExtArgs>
   accountings?: boolean | Prisma.ThirdNature$accountingsArgs<ExtArgs>
@@ -532,6 +571,7 @@ export type $ThirdNaturePayload<ExtArgs extends runtime.Types.Extensions.Interna
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
     name: string
+    accountingType: $Enums.AccountingType
     secondNatureId: string
   }, ExtArgs["result"]["thirdNature"]>
   composites: {}
@@ -960,6 +1000,7 @@ export interface Prisma__ThirdNatureClient<T, Null = never, ExtArgs extends runt
 export interface ThirdNatureFieldRefs {
   readonly id: Prisma.FieldRef<"ThirdNature", 'String'>
   readonly name: Prisma.FieldRef<"ThirdNature", 'String'>
+  readonly accountingType: Prisma.FieldRef<"ThirdNature", 'AccountingType'>
   readonly secondNatureId: Prisma.FieldRef<"ThirdNature", 'String'>
 }
     

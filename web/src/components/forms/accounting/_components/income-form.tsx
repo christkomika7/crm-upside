@@ -13,11 +13,11 @@ import {
     SelectValue,
 } from "@/components/ui/select"
 import { DatePicker } from "@/components/ui/date-picker";
-import { accountingSchema, type AccountingSchemaType } from "@/lib/zod/accounting";
+import { incomeAccountingSchema, type IncomeAccountingSchemaType } from "@/lib/zod/accounting";
 import { Textarea } from "@/components/ui/textarea";
 import InputFile from "@/components/ui/input-file";
-import { useQuery } from "@tanstack/react-query";
-import { apiFetch } from "@/lib/api";
+import { useMutation, useQuery } from "@tanstack/react-query";
+import { apiFetch, crudService } from "@/lib/api";
 import type { AccountElement } from "@/types/accounting";
 import { LayersPlusIcon } from "lucide-react";
 import { cn } from "@/lib/utils";
@@ -25,24 +25,26 @@ import RequiredLabel from "@/components/ui/required-label";
 import { paymentMode } from "@/lib/data";
 import Modal from "@/components/modal/modal";
 import AllocationModal from "@/components/modal/allocation";
-import type { Client } from "@/types/client";
 import CategoryModal from "@/components/modal/category";
 import NatureModal from "@/components/modal/nature";
 import SourceModal from "@/components/modal/source";
 import SecondNatureModal from "@/components/modal/second-nature";
 import ThirdNatureModal from "@/components/modal/third-nature";
+import { toast } from "sonner";
+import { queryClient } from "@/lib/query-client";
 
+type Props = {
+    accountingType: "INFLOW" | "OUTFLOW";
+}
 
-export default function IncomeForm() {
+export default function IncomeForm({ accountingType }: Props) {
     const [element, setElement] = useState<{
-        type: "OWNER" | "TENANT";
         paymentMode: "CASH" | "BANK" | "CHECK";
         category: string;
         nature: string;
         secondNature: string;
         thirdNature: string;
     }>({
-        type: "OWNER",
         paymentMode: "CASH",
         category: "",
         nature: "",
@@ -59,21 +61,9 @@ export default function IncomeForm() {
         thirdNature: false,
     });
 
-    const { isPending: isGettingClients, data: clients } = useQuery({
-        queryKey: ["clients", element.type],
-        enabled: !!element.type,
-        queryFn: () => apiFetch<Client[]>(`/client/by?type=${element.type}`),
-        select: (data) =>
-            data.map((client) => ({
-                value: client.id,
-                label: `${client.firstname} ${client.lastname}`,
-            })),
-    });
-
-
     const { isPending: isGettingCategories, data: categories } = useQuery({
-        queryKey: ["categories"],
-        queryFn: () => apiFetch<AccountElement[]>("/category/"),
+        queryKey: ["categories", accountingType],
+        queryFn: () => apiFetch<AccountElement[]>(`/category?accountingType=${accountingType}`),
         select: (data) => data.map((category) => ({
             value: category.id,
             label: category.name,
@@ -81,8 +71,8 @@ export default function IncomeForm() {
     });
 
     const { isPending: isGettingAllocations, data: allocations } = useQuery({
-        queryKey: ["allocations"],
-        queryFn: () => apiFetch<AccountElement[]>("/allocation/"),
+        queryKey: ["allocations", accountingType],
+        queryFn: () => apiFetch<AccountElement[]>(`/allocation?accountingType=${accountingType}`),
         select: (data) => data.map((allocation) => ({
             value: allocation.id,
             label: allocation.name,
@@ -91,8 +81,8 @@ export default function IncomeForm() {
 
 
     const { isPending: isGettingSources, data: sources } = useQuery({
-        queryKey: ["sources", element.paymentMode],
-        queryFn: () => apiFetch<AccountElement[]>(`/source?paymentMethod=${element.paymentMode}`),
+        queryKey: ["sources", element.paymentMode, accountingType],
+        queryFn: () => apiFetch<AccountElement[]>(`/source?paymentMethod=${element.paymentMode}&accountingType=${accountingType}`),
         select: (data) => data.map((source) => ({
             value: source.id,
             label: source.name,
@@ -100,8 +90,8 @@ export default function IncomeForm() {
     });
 
     const { isPending: isGettingNature, data: natures } = useQuery({
-        queryKey: ["natures", element.category],
-        queryFn: () => apiFetch<AccountElement[]>(`/nature?category=${element.category}`),
+        queryKey: ["natures", element.category, accountingType],
+        queryFn: () => apiFetch<AccountElement[]>(`/nature?category=${element.category}&accountingType=${accountingType}`),
         select: (data) => data.map((nature) => ({
             value: nature.id,
             label: nature.name,
@@ -109,8 +99,8 @@ export default function IncomeForm() {
     });
 
     const { isPending: isGettingSecondNatures, data: secondNatures } = useQuery({
-        queryKey: ["secondNatures", element.nature],
-        queryFn: () => apiFetch<AccountElement[]>(`/second-nature?nature=${element.nature}`),
+        queryKey: ["secondNatures", element.nature, accountingType],
+        queryFn: () => apiFetch<AccountElement[]>(`/second-nature?nature=${element.nature}&accountingType=${accountingType}`),
         select: (data) => data.map((nature) => ({
             value: nature.id,
             label: nature.name,
@@ -118,31 +108,80 @@ export default function IncomeForm() {
     });
 
     const { isPending: isGettingThirdNatures, data: thirdNatures } = useQuery({
-        queryKey: ["thirdNatures", element.secondNature],
-        queryFn: () => apiFetch<AccountElement[]>(`/third-nature?secondNature=${element.secondNature}`),
+        queryKey: ["thirdNatures", element.secondNature, accountingType],
+        queryFn: () => apiFetch<AccountElement[]>(`/third-nature?secondNature=${element.secondNature}&accountingType=${accountingType}`),
         select: (data) => data.map((nature) => ({
             value: nature.id,
             label: nature.name,
         })),
     });
 
-
-
-
-    const form = useForm<AccountingSchemaType>({
-        resolver: zodResolver(accountingSchema),
+    const form = useForm<IncomeAccountingSchemaType>({
+        resolver: zodResolver(incomeAccountingSchema),
         defaultValues: {
             date: new Date(),
-            type: "OWNER",
             taxType: "HT",
             paymentMode: "CASH",
         }
     });
 
-    async function submit(formData: AccountingSchemaType) {
-        const { success, data } = accountingSchema.safeParse(formData);
+    const mutation = useMutation({
+        mutationFn: (data: FormData) =>
+            crudService.post<FormData, any>("/accounting/income/", data),
+        onSuccess() {
+            toast.success("Encaissement créé avec succès");
+            queryClient.invalidateQueries({ queryKey: ["accountings"] });
+            form.reset({
+                date: new Date(),
+                taxType: "HT",
+                paymentMode: "CASH",
+                amount: "",
+                description: "",
+                category: "",
+                nature: "",
+                secondNature: "",
+                thirdNature: "",
+                allocation: "",
+                source: "",
+                documents: [],
+            });
+            setElement({
+                paymentMode: "CASH",
+                category: "",
+                nature: "",
+                secondNature: "",
+                thirdNature: "",
+            })
+        },
+        onError: (error: Error) => {
+            console.error("Erreur:", error.message);
+            toast.error(error.message);
+        },
+    });
+
+
+    async function submit(formData: IncomeAccountingSchemaType) {
+        const { success, data } = incomeAccountingSchema.safeParse(formData);
         if (success) {
-            console.log({ data });
+            console.log(data);
+            const formData = new FormData();
+            formData.append("date", data.date.toISOString());
+            formData.append("taxType", data.taxType);
+            formData.append("paymentMode", data.paymentMode);
+            formData.append("amount", data.amount);
+            formData.append("description", data.description);
+            formData.append("category", data.category);
+            formData.append("nature", data.nature);
+            data.secondNature && formData.append("secondNature", data.secondNature);
+            data.thirdNature && formData.append("thirdNature", data.thirdNature);
+            data.allocation && formData.append("allocation", data.allocation);
+            formData.append("source", data.source);
+            if (data.documents) {
+                data.documents.forEach((file) => {
+                    formData.append("documents", file);
+                });
+            }
+            mutation.mutate(formData);
         }
     }
 
@@ -160,76 +199,9 @@ export default function IncomeForm() {
                             name="date"
                             render={({ field }) => (
                                 <FormItem >
-                                    <FormLabel className="text-neutral-600">Date</FormLabel>
+                                    <FormLabel className="text-neutral-600">Date<RequiredLabel /></FormLabel>
                                     <FormControl>
                                         <DatePicker date={field.value} setDate={field.onChange} error={!!form.formState.errors.date} />
-                                    </FormControl>
-                                    <FormMessage />
-                                </FormItem>
-                            )}
-                        />
-                        <FormField
-                            control={form.control}
-                            name="type"
-                            render={({ field }) => (
-                                <FormItem>
-                                    <FormLabel className="text-neutral-600">Type de client<RequiredLabel /></FormLabel>
-                                    <FormControl>
-                                        <Select
-                                            onValueChange={(e) => {
-                                                field.onChange(e);
-                                                setElement((prev) => ({ ...prev, type: e as "OWNER" | "TENANT" }));
-                                            }}
-                                            value={field.value}
-                                        >
-                                            <SelectTrigger
-                                                className="w-full"
-                                                aria-invalid={!!form.formState.errors.type}
-                                            >
-                                                <SelectValue placeholder="Selectionner un type de client" />
-                                            </SelectTrigger>
-                                            <SelectContent position="popper" align="end">
-                                                <SelectItem value="OWNER">Propriétaire</SelectItem>
-                                                <SelectItem value="TENANT">Locataire</SelectItem>
-                                            </SelectContent>
-                                        </Select>
-                                    </FormControl>
-                                    <FormMessage />
-                                </FormItem>
-                            )}
-                        />
-                        <FormField
-                            control={form.control}
-                            name="paidFor"
-                            render={({ field }) => (
-                                <FormItem>
-                                    <FormLabel className="text-neutral-600">Payé pour<RequiredLabel /></FormLabel>
-                                    <FormControl>
-                                        <Select onValueChange={field.onChange} value={field.value}>
-                                            <SelectTrigger
-                                                className="w-full"
-                                                aria-invalid={!!form.formState.errors.paidFor}
-                                            >
-                                                <SelectValue placeholder="Selectionner un client" />
-                                            </SelectTrigger>
-                                            <SelectContent position="popper" align="end">
-                                                {isGettingClients ? (
-                                                    <div className="flex justify-center items-center">
-                                                        <Spinner />
-                                                    </div>
-                                                ) : clients && clients.length > 0 ? (
-                                                    clients.map((client) => (
-                                                        <SelectItem key={client.value} value={client.value}>
-                                                            {client.label}
-                                                        </SelectItem>
-                                                    ))
-                                                ) : (
-                                                    <SelectItem value="none" disabled>
-                                                        Aucun client disponible
-                                                    </SelectItem>
-                                                )}
-                                            </SelectContent>
-                                        </Select>
                                     </FormControl>
                                     <FormMessage />
                                 </FormItem>
@@ -240,7 +212,7 @@ export default function IncomeForm() {
                             name="category"
                             render={({ field }) => (
                                 <FormItem >
-                                    <FormLabel className="text-neutral-600">Catégorie</FormLabel>
+                                    <FormLabel className="text-neutral-600">Catégorie<RequiredLabel /></FormLabel>
                                     <FormControl>
                                         <div className="flex gap-x-2">
                                             <Select onValueChange={e => {
@@ -283,7 +255,7 @@ export default function IncomeForm() {
                             name="nature"
                             render={({ field }) => (
                                 <FormItem >
-                                    <FormLabel className="text-neutral-600">Nature</FormLabel>
+                                    <FormLabel className="text-neutral-600">Nature<RequiredLabel /></FormLabel>
                                     <FormControl>
                                         <div className="flex gap-x-2">
                                             <Select onValueChange={e => {
@@ -450,7 +422,7 @@ export default function IncomeForm() {
                                 name="amount"
                                 render={({ field }) => (
                                     <FormItem className="w-full">
-                                        <FormLabel className="text-neutral-600">Montant</FormLabel>
+                                        <FormLabel className="text-neutral-600">Montant<RequiredLabel /></FormLabel>
                                         <FormControl>
                                             <Input
                                                 type="number"
@@ -537,7 +509,7 @@ export default function IncomeForm() {
                             name="source"
                             render={({ field }) => (
                                 <FormItem >
-                                    <FormLabel className="text-neutral-600">Source</FormLabel>
+                                    <FormLabel className="text-neutral-600">Source<RequiredLabel /></FormLabel>
                                     <FormControl>
                                         <div className="flex gap-x-2">
                                             <Select onValueChange={field.onChange} value={field.value} >
@@ -571,32 +543,13 @@ export default function IncomeForm() {
                                 </FormItem>
                             )}
                         />
-                        <FormField
-                            control={form.control}
-                            name="checkNumber"
-                            render={({ field }) => (
-                                <FormItem >
-                                    <FormLabel className="text-neutral-600">Numéro de chèque</FormLabel>
-                                    <FormControl>
-                                        <Input
-                                            type="text"
-                                            placeholder="Entrer le numéro de chèque"
-                                            value={field.value}
-                                            aria-invalid={!!form.formState.errors.checkNumber}
-                                            onChange={field.onChange}
-                                        />
-                                    </FormControl>
-                                    <FormMessage />
-                                </FormItem>
-                            )}
-                        />
                     </div>
                     <FormField
                         control={form.control}
                         name="description"
                         render={({ field }) => (
                             <FormItem >
-                                <FormLabel className="text-neutral-600">Description</FormLabel>
+                                <FormLabel className="text-neutral-600">Description<RequiredLabel /></FormLabel>
                                 <FormControl>
                                     <Textarea
                                         placeholder="Entrer la description"
@@ -622,36 +575,35 @@ export default function IncomeForm() {
                         )}
                     />
                     <div className="flex justify-center">
-                        <Button type="submit" variant="action" className="max-w-xl h-11">
-                            {/* {isLoading ? (
+                        <Button disabled={mutation.isPending} type="submit" variant="action" className="max-w-xl h-11">
+                            {mutation.isPending ? (
                                 <span className="flex justify-center items-center">
                                     <Spinner />
                                 </span>
                             ) : (
                                 "Enregistrer"
-                            )} */}
-                            Enregistrer
+                            )}
                         </Button>
                     </div>
                 </form>
             </Form>
             <Modal open={open.allocation} setOpen={(e) => setOpen({ ...open, allocation: e })} title='Gestion des allocations'>
-                <AllocationModal />
+                <AllocationModal accountingType={accountingType} />
             </Modal>
             <Modal open={open.category} setOpen={(e) => setOpen({ ...open, category: e })} title='Gestion des catégories'>
-                <CategoryModal />
+                <CategoryModal accountingType={accountingType} />
             </Modal>
             <Modal open={open.source} setOpen={(e) => setOpen({ ...open, source: e })} title='Gestion des sources'>
-                <SourceModal paymentMode={element.paymentMode} />
+                <SourceModal paymentMode={element.paymentMode} accountingType={accountingType} />
             </Modal>
             <Modal open={open.nature} setOpen={(e) => setOpen({ ...open, nature: e })} title='Gestion des natures'>
-                <NatureModal categoryId={element.category} />
+                <NatureModal categoryId={element.category} accountingType={accountingType} />
             </Modal>
             <Modal open={open.secondNature} setOpen={(e) => setOpen({ ...open, secondNature: e })} title='Gestion des natures secondes'>
-                <SecondNatureModal natureId={element.nature} />
+                <SecondNatureModal natureId={element.nature} accountingType={accountingType} />
             </Modal>
             <Modal open={open.thirdNature} setOpen={(e) => setOpen({ ...open, thirdNature: e })} title='Gestion des natures troisièmes'>
-                <ThirdNatureModal secondNatureId={element.secondNature} />
+                <ThirdNatureModal secondNatureId={element.secondNature} accountingType={accountingType} />
             </Modal>
         </div>
     )

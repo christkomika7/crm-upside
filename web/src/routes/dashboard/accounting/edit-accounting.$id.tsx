@@ -6,6 +6,11 @@ export const Route = createFileRoute(
     '/dashboard/accounting/edit-accounting/$id',
 )({
     component: RouteComponent,
+    validateSearch: (search: Record<string, unknown>) => {
+        return {
+            type: search.type as string,
+        };
+    },
 })
 
 function RouteComponent() {

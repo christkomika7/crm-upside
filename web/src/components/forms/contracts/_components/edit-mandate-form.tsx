@@ -99,6 +99,7 @@ export default function EditMandateForm({ id }: EditMandateFormProps) {
     if (contract) {
       setReference(contract?.buildingId || "");
       setDisabledDates(contract?.disabled || [])
+      setCurrent([new Date(contract.start), new Date(contract.end)])
       form.reset({
         building: contract.buildingId,
         type: contract.type,

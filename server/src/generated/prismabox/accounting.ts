@@ -17,22 +17,18 @@ export const accountingPlain = t.Object(
     ),
     amount: t.Number(),
     isTTC: t.Boolean(),
-    checkNumber: t.String(),
+    checkNumber: __nullable__(t.String()),
     description: t.String(),
-    clientType: t.Union([t.Literal("OWNER"), t.Literal("TENANT")], {
-      additionalProperties: false,
-    }),
-    ownerId: __nullable__(t.String()),
-    tenantId: __nullable__(t.String()),
-    invoiceId: __nullable__(t.String()),
-    purchaseOrderId: __nullable__(t.String()),
-    unitId: t.String(),
+    period: __nullable__(t.Date()),
+    unitId: __nullable__(t.String()),
     sourceId: t.String(),
-    allocationId: t.String(),
+    allocationId: __nullable__(t.String()),
     categoryId: t.String(),
     natureId: t.String(),
-    secondNatureId: t.String(),
-    thirdNatureId: t.String(),
+    secondNatureId: __nullable__(t.String()),
+    thirdNatureId: __nullable__(t.String()),
+    userId: t.String(),
+    documents: t.Array(t.String(), { additionalProperties: false }),
     createdAt: t.Date(),
     updatedAt: t.Date(),
   },
@@ -41,140 +37,42 @@ export const accountingPlain = t.Object(
 
 export const accountingRelations = t.Object(
   {
-    owner: __nullable__(
+    unit: __nullable__(
       t.Object(
         {
           id: t.String(),
           reference: t.String(),
-          firstname: t.String(),
-          lastname: t.String(),
-          company: t.String(),
-          phone: t.String(),
-          email: t.String(),
-          address: t.String(),
-          actionnary: t.String(),
-          isDeleting: t.Boolean(),
-          bankInfo: t.String(),
-          documents: t.Array(t.String(), { additionalProperties: false }),
-          createdAt: t.Date(),
-          updatedAt: t.Date(),
-        },
-        { additionalProperties: false },
-      ),
-    ),
-    tenant: __nullable__(
-      t.Object(
-        {
-          id: t.String(),
-          firstname: t.String(),
-          lastname: t.String(),
-          company: t.String(),
-          phone: t.String(),
-          email: t.String(),
-          address: t.String(),
-          maritalStatus: __nullable__(t.String()),
-          income: t.Number(),
-          bankInfo: t.String(),
-          paymentMode: t.Union(
-            [t.Literal("CASH"), t.Literal("CHECK"), t.Literal("BANK")],
-            { additionalProperties: false },
-          ),
+          rentalStatus: t.String(),
+          surface: t.Number(),
+          livingroom: t.Integer(),
+          dining: t.Integer(),
+          kitchen: t.Integer(),
+          bedroom: t.Integer(),
+          bathroom: t.Integer(),
+          furnished: t.String(),
+          wifi: t.Boolean(),
+          water: t.Boolean(),
+          electricity: t.Boolean(),
+          tv: t.Boolean(),
+          rent: t.Number(),
+          charges: t.Number(),
+          amountGenerate: t.Number(),
           documents: t.Array(t.String(), { additionalProperties: false }),
           isDeleting: t.Boolean(),
+          buildingId: t.String(),
+          typeId: t.String(),
           createdAt: t.Date(),
           updatedAt: t.Date(),
         },
         { additionalProperties: false },
       ),
-    ),
-    invoice: __nullable__(
-      t.Object(
-        {
-          id: t.String(),
-          reference: t.Integer(),
-          price: t.Number(),
-          amountPaid: t.Number(),
-          discount: t.Number(),
-          status: t.Union(
-            [t.Literal("PENDING"), t.Literal("PAID"), t.Literal("OVERDUE")],
-            { additionalProperties: false },
-          ),
-          discountType: t.Union([t.Literal("PERCENT"), t.Literal("MONEY")], {
-            additionalProperties: false,
-          }),
-          hasTax: t.Boolean(),
-          type: t.Union([t.Literal("OWNER"), t.Literal("TENANT")], {
-            additionalProperties: false,
-          }),
-          ownerId: __nullable__(t.String()),
-          tenantId: __nullable__(t.String()),
-          note: __nullable__(t.String()),
-          start: t.Date(),
-          end: t.Date(),
-          isDeleting: t.Boolean(),
-          createdAt: t.Date(),
-          updatedAt: t.Date(),
-        },
-        { additionalProperties: false },
-      ),
-    ),
-    purchaseOrder: __nullable__(
-      t.Object(
-        {
-          id: t.String(),
-          reference: t.Integer(),
-          price: t.Number(),
-          amountPaid: t.Number(),
-          discount: t.Number(),
-          status: t.Union(
-            [t.Literal("PENDING"), t.Literal("PAID"), t.Literal("OVERDUE")],
-            { additionalProperties: false },
-          ),
-          discountType: t.Union([t.Literal("PERCENT"), t.Literal("MONEY")], {
-            additionalProperties: false,
-          }),
-          hasTax: t.Boolean(),
-          serviceProviderId: t.String(),
-          note: __nullable__(t.String()),
-          start: t.Date(),
-          end: t.Date(),
-          isDeleting: t.Boolean(),
-          createdAt: t.Date(),
-          updatedAt: t.Date(),
-        },
-        { additionalProperties: false },
-      ),
-    ),
-    unit: t.Object(
-      {
-        id: t.String(),
-        reference: t.String(),
-        rentalStatus: t.String(),
-        surface: t.Number(),
-        livingroom: t.Integer(),
-        dining: t.Integer(),
-        kitchen: t.Integer(),
-        bedroom: t.Integer(),
-        bathroom: t.Integer(),
-        rent: t.Number(),
-        furnished: t.String(),
-        wifi: t.Boolean(),
-        water: t.Boolean(),
-        electricity: t.Boolean(),
-        tv: t.Boolean(),
-        charges: t.Number(),
-        documents: t.Array(t.String(), { additionalProperties: false }),
-        isDeleting: t.Boolean(),
-        buildingId: t.String(),
-        typeId: t.String(),
-        createdAt: t.Date(),
-        updatedAt: t.Date(),
-      },
-      { additionalProperties: false },
     ),
     source: t.Object(
       {
         id: t.String(),
+        accountingType: t.Union([t.Literal("INFLOW"), t.Literal("OUTFLOW")], {
+          additionalProperties: false,
+        }),
         type: t.Union(
           [t.Literal("CASH"), t.Literal("CHECK"), t.Literal("BANK")],
           { additionalProperties: false },
@@ -183,24 +81,114 @@ export const accountingRelations = t.Object(
       },
       { additionalProperties: false },
     ),
-    allocation: t.Object(
-      { id: t.String(), name: t.String() },
-      { additionalProperties: false },
+    allocation: __nullable__(
+      t.Object(
+        {
+          id: t.String(),
+          accountingType: t.Union([t.Literal("INFLOW"), t.Literal("OUTFLOW")], {
+            additionalProperties: false,
+          }),
+          name: t.String(),
+        },
+        { additionalProperties: false },
+      ),
     ),
     category: t.Object(
-      { id: t.String(), name: t.String() },
+      {
+        id: t.String(),
+        accountingType: t.Union([t.Literal("INFLOW"), t.Literal("OUTFLOW")], {
+          additionalProperties: false,
+        }),
+        name: t.String(),
+      },
       { additionalProperties: false },
     ),
     nature: t.Object(
-      { id: t.String(), name: t.String(), categoryId: t.String() },
+      {
+        id: t.String(),
+        name: t.String(),
+        accountingType: t.Union([t.Literal("INFLOW"), t.Literal("OUTFLOW")], {
+          additionalProperties: false,
+        }),
+        categoryId: t.String(),
+      },
       { additionalProperties: false },
     ),
-    secondNature: t.Object(
-      { id: t.String(), name: t.String(), natureId: t.String() },
+    secondNature: __nullable__(
+      t.Object(
+        {
+          id: t.String(),
+          name: t.String(),
+          accountingType: t.Union([t.Literal("INFLOW"), t.Literal("OUTFLOW")], {
+            additionalProperties: false,
+          }),
+          natureId: t.String(),
+        },
+        { additionalProperties: false },
+      ),
+    ),
+    thirdNature: __nullable__(
+      t.Object(
+        {
+          id: t.String(),
+          name: t.String(),
+          accountingType: t.Union([t.Literal("INFLOW"), t.Literal("OUTFLOW")], {
+            additionalProperties: false,
+          }),
+          secondNatureId: t.String(),
+        },
+        { additionalProperties: false },
+      ),
+    ),
+    user: t.Object(
+      {
+        id: t.String(),
+        email: t.String(),
+        createdAt: t.Date(),
+        firstname: t.String(),
+        lastname: t.String(),
+        name: t.String(),
+        role: t.Union([t.Literal("ADMIN"), t.Literal("USER")], {
+          additionalProperties: false,
+        }),
+        emailVerified: t.Boolean(),
+        image: __nullable__(t.String()),
+        updatedAt: t.Date(),
+      },
       { additionalProperties: false },
     ),
-    thirdNature: t.Object(
-      { id: t.String(), name: t.String(), secondNatureId: t.String() },
+    notifications: t.Array(
+      t.Object(
+        {
+          id: t.String(),
+          type: t.Union([t.Literal("ALERT"), t.Literal("CONFIRM")], {
+            additionalProperties: false,
+          }),
+          active: t.Boolean(),
+          for: t.Union(
+            [
+              t.Literal("APPOINTMENT"),
+              t.Literal("ACCOUNTING"),
+              t.Literal("INVOICING"),
+              t.Literal("RENTAL"),
+              t.Literal("PAYMENT"),
+              t.Literal("CONTRACT"),
+            ],
+            { additionalProperties: false },
+          ),
+          message: __nullable__(t.String()),
+          accountingId: __nullable__(t.String()),
+          invoiceId: __nullable__(t.String()),
+          paymentId: __nullable__(t.String()),
+          rentalId: __nullable__(t.String()),
+          contractId: __nullable__(t.String()),
+          appointmentId: __nullable__(t.String()),
+          userId: t.String(),
+          createdAt: t.Date(),
+          updatedAt: t.Date(),
+        },
+        { additionalProperties: false },
+      ),
       { additionalProperties: false },
     ),
   },
@@ -219,11 +207,10 @@ export const accountingPlainInputCreate = t.Object(
     ),
     amount: t.Optional(t.Number()),
     isTTC: t.Boolean(),
-    checkNumber: t.String(),
+    checkNumber: t.Optional(__nullable__(t.String())),
     description: t.String(),
-    clientType: t.Union([t.Literal("OWNER"), t.Literal("TENANT")], {
-      additionalProperties: false,
-    }),
+    period: t.Optional(__nullable__(t.Date())),
+    documents: t.Array(t.String(), { additionalProperties: false }),
   },
   { additionalProperties: false },
 );
@@ -243,20 +230,17 @@ export const accountingPlainInputUpdate = t.Object(
     ),
     amount: t.Optional(t.Number()),
     isTTC: t.Optional(t.Boolean()),
-    checkNumber: t.Optional(t.String()),
+    checkNumber: t.Optional(__nullable__(t.String())),
     description: t.Optional(t.String()),
-    clientType: t.Optional(
-      t.Union([t.Literal("OWNER"), t.Literal("TENANT")], {
-        additionalProperties: false,
-      }),
-    ),
+    period: t.Optional(__nullable__(t.Date())),
+    documents: t.Optional(t.Array(t.String(), { additionalProperties: false })),
   },
   { additionalProperties: false },
 );
 
 export const accountingRelationsInputCreate = t.Object(
   {
-    owner: t.Optional(
+    unit: t.Optional(
       t.Object(
         {
           connect: t.Object(
@@ -268,56 +252,6 @@ export const accountingRelationsInputCreate = t.Object(
         },
         { additionalProperties: false },
       ),
-    ),
-    tenant: t.Optional(
-      t.Object(
-        {
-          connect: t.Object(
-            {
-              id: t.String({ additionalProperties: false }),
-            },
-            { additionalProperties: false },
-          ),
-        },
-        { additionalProperties: false },
-      ),
-    ),
-    invoice: t.Optional(
-      t.Object(
-        {
-          connect: t.Object(
-            {
-              id: t.String({ additionalProperties: false }),
-            },
-            { additionalProperties: false },
-          ),
-        },
-        { additionalProperties: false },
-      ),
-    ),
-    purchaseOrder: t.Optional(
-      t.Object(
-        {
-          connect: t.Object(
-            {
-              id: t.String({ additionalProperties: false }),
-            },
-            { additionalProperties: false },
-          ),
-        },
-        { additionalProperties: false },
-      ),
-    ),
-    unit: t.Object(
-      {
-        connect: t.Object(
-          {
-            id: t.String({ additionalProperties: false }),
-          },
-          { additionalProperties: false },
-        ),
-      },
-      { additionalProperties: false },
     ),
     source: t.Object(
       {
@@ -330,16 +264,18 @@ export const accountingRelationsInputCreate = t.Object(
       },
       { additionalProperties: false },
     ),
-    allocation: t.Object(
-      {
-        connect: t.Object(
-          {
-            id: t.String({ additionalProperties: false }),
-          },
-          { additionalProperties: false },
-        ),
-      },
-      { additionalProperties: false },
+    allocation: t.Optional(
+      t.Object(
+        {
+          connect: t.Object(
+            {
+              id: t.String({ additionalProperties: false }),
+            },
+            { additionalProperties: false },
+          ),
+        },
+        { additionalProperties: false },
+      ),
     ),
     category: t.Object(
       {
@@ -363,92 +299,8 @@ export const accountingRelationsInputCreate = t.Object(
       },
       { additionalProperties: false },
     ),
-    secondNature: t.Object(
-      {
-        connect: t.Object(
-          {
-            id: t.String({ additionalProperties: false }),
-          },
-          { additionalProperties: false },
-        ),
-      },
-      { additionalProperties: false },
-    ),
-    thirdNature: t.Object(
-      {
-        connect: t.Object(
-          {
-            id: t.String({ additionalProperties: false }),
-          },
-          { additionalProperties: false },
-        ),
-      },
-      { additionalProperties: false },
-    ),
-  },
-  { additionalProperties: false },
-);
-
-export const accountingRelationsInputUpdate = t.Partial(
-  t.Object(
-    {
-      owner: t.Partial(
-        t.Object(
-          {
-            connect: t.Object(
-              {
-                id: t.String({ additionalProperties: false }),
-              },
-              { additionalProperties: false },
-            ),
-            disconnect: t.Boolean(),
-          },
-          { additionalProperties: false },
-        ),
-      ),
-      tenant: t.Partial(
-        t.Object(
-          {
-            connect: t.Object(
-              {
-                id: t.String({ additionalProperties: false }),
-              },
-              { additionalProperties: false },
-            ),
-            disconnect: t.Boolean(),
-          },
-          { additionalProperties: false },
-        ),
-      ),
-      invoice: t.Partial(
-        t.Object(
-          {
-            connect: t.Object(
-              {
-                id: t.String({ additionalProperties: false }),
-              },
-              { additionalProperties: false },
-            ),
-            disconnect: t.Boolean(),
-          },
-          { additionalProperties: false },
-        ),
-      ),
-      purchaseOrder: t.Partial(
-        t.Object(
-          {
-            connect: t.Object(
-              {
-                id: t.String({ additionalProperties: false }),
-              },
-              { additionalProperties: false },
-            ),
-            disconnect: t.Boolean(),
-          },
-          { additionalProperties: false },
-        ),
-      ),
-      unit: t.Object(
+    secondNature: t.Optional(
+      t.Object(
         {
           connect: t.Object(
             {
@@ -458,6 +310,68 @@ export const accountingRelationsInputUpdate = t.Partial(
           ),
         },
         { additionalProperties: false },
+      ),
+    ),
+    thirdNature: t.Optional(
+      t.Object(
+        {
+          connect: t.Object(
+            {
+              id: t.String({ additionalProperties: false }),
+            },
+            { additionalProperties: false },
+          ),
+        },
+        { additionalProperties: false },
+      ),
+    ),
+    user: t.Object(
+      {
+        connect: t.Object(
+          {
+            id: t.String({ additionalProperties: false }),
+          },
+          { additionalProperties: false },
+        ),
+      },
+      { additionalProperties: false },
+    ),
+    notifications: t.Optional(
+      t.Object(
+        {
+          connect: t.Array(
+            t.Object(
+              {
+                id: t.String({ additionalProperties: false }),
+              },
+              { additionalProperties: false },
+            ),
+            { additionalProperties: false },
+          ),
+        },
+        { additionalProperties: false },
+      ),
+    ),
+  },
+  { additionalProperties: false },
+);
+
+export const accountingRelationsInputUpdate = t.Partial(
+  t.Object(
+    {
+      unit: t.Partial(
+        t.Object(
+          {
+            connect: t.Object(
+              {
+                id: t.String({ additionalProperties: false }),
+              },
+              { additionalProperties: false },
+            ),
+            disconnect: t.Boolean(),
+          },
+          { additionalProperties: false },
+        ),
       ),
       source: t.Object(
         {
@@ -470,16 +384,19 @@ export const accountingRelationsInputUpdate = t.Partial(
         },
         { additionalProperties: false },
       ),
-      allocation: t.Object(
-        {
-          connect: t.Object(
-            {
-              id: t.String({ additionalProperties: false }),
-            },
-            { additionalProperties: false },
-          ),
-        },
-        { additionalProperties: false },
+      allocation: t.Partial(
+        t.Object(
+          {
+            connect: t.Object(
+              {
+                id: t.String({ additionalProperties: false }),
+              },
+              { additionalProperties: false },
+            ),
+            disconnect: t.Boolean(),
+          },
+          { additionalProperties: false },
+        ),
       ),
       category: t.Object(
         {
@@ -503,7 +420,35 @@ export const accountingRelationsInputUpdate = t.Partial(
         },
         { additionalProperties: false },
       ),
-      secondNature: t.Object(
+      secondNature: t.Partial(
+        t.Object(
+          {
+            connect: t.Object(
+              {
+                id: t.String({ additionalProperties: false }),
+              },
+              { additionalProperties: false },
+            ),
+            disconnect: t.Boolean(),
+          },
+          { additionalProperties: false },
+        ),
+      ),
+      thirdNature: t.Partial(
+        t.Object(
+          {
+            connect: t.Object(
+              {
+                id: t.String({ additionalProperties: false }),
+              },
+              { additionalProperties: false },
+            ),
+            disconnect: t.Boolean(),
+          },
+          { additionalProperties: false },
+        ),
+      ),
+      user: t.Object(
         {
           connect: t.Object(
             {
@@ -514,16 +459,30 @@ export const accountingRelationsInputUpdate = t.Partial(
         },
         { additionalProperties: false },
       ),
-      thirdNature: t.Object(
-        {
-          connect: t.Object(
-            {
-              id: t.String({ additionalProperties: false }),
-            },
-            { additionalProperties: false },
-          ),
-        },
-        { additionalProperties: false },
+      notifications: t.Partial(
+        t.Object(
+          {
+            connect: t.Array(
+              t.Object(
+                {
+                  id: t.String({ additionalProperties: false }),
+                },
+                { additionalProperties: false },
+              ),
+              { additionalProperties: false },
+            ),
+            disconnect: t.Array(
+              t.Object(
+                {
+                  id: t.String({ additionalProperties: false }),
+                },
+                { additionalProperties: false },
+              ),
+              { additionalProperties: false },
+            ),
+          },
+          { additionalProperties: false },
+        ),
       ),
     },
     { additionalProperties: false },
@@ -551,13 +510,7 @@ export const accountingWhere = t.Partial(
           isTTC: t.Boolean(),
           checkNumber: t.String(),
           description: t.String(),
-          clientType: t.Union([t.Literal("OWNER"), t.Literal("TENANT")], {
-            additionalProperties: false,
-          }),
-          ownerId: t.String(),
-          tenantId: t.String(),
-          invoiceId: t.String(),
-          purchaseOrderId: t.String(),
+          period: t.Date(),
           unitId: t.String(),
           sourceId: t.String(),
           allocationId: t.String(),
@@ -565,6 +518,8 @@ export const accountingWhere = t.Partial(
           natureId: t.String(),
           secondNatureId: t.String(),
           thirdNatureId: t.String(),
+          userId: t.String(),
+          documents: t.Array(t.String(), { additionalProperties: false }),
           createdAt: t.Date(),
           updatedAt: t.Date(),
         },
@@ -615,13 +570,7 @@ export const accountingWhereUnique = t.Recursive(
               isTTC: t.Boolean(),
               checkNumber: t.String(),
               description: t.String(),
-              clientType: t.Union([t.Literal("OWNER"), t.Literal("TENANT")], {
-                additionalProperties: false,
-              }),
-              ownerId: t.String(),
-              tenantId: t.String(),
-              invoiceId: t.String(),
-              purchaseOrderId: t.String(),
+              period: t.Date(),
               unitId: t.String(),
               sourceId: t.String(),
               allocationId: t.String(),
@@ -629,6 +578,8 @@ export const accountingWhereUnique = t.Recursive(
               natureId: t.String(),
               secondNatureId: t.String(),
               thirdNatureId: t.String(),
+              userId: t.String(),
+              documents: t.Array(t.String(), { additionalProperties: false }),
               createdAt: t.Date(),
               updatedAt: t.Date(),
             },
@@ -652,15 +603,7 @@ export const accountingSelect = t.Partial(
       isTTC: t.Boolean(),
       checkNumber: t.Boolean(),
       description: t.Boolean(),
-      clientType: t.Boolean(),
-      ownerId: t.Boolean(),
-      owner: t.Boolean(),
-      tenantId: t.Boolean(),
-      tenant: t.Boolean(),
-      invoiceId: t.Boolean(),
-      invoice: t.Boolean(),
-      purchaseOrderId: t.Boolean(),
-      purchaseOrder: t.Boolean(),
+      period: t.Boolean(),
       unitId: t.Boolean(),
       unit: t.Boolean(),
       sourceId: t.Boolean(),
@@ -675,6 +618,10 @@ export const accountingSelect = t.Partial(
       secondNature: t.Boolean(),
       thirdNatureId: t.Boolean(),
       thirdNature: t.Boolean(),
+      userId: t.Boolean(),
+      user: t.Boolean(),
+      notifications: t.Boolean(),
+      documents: t.Boolean(),
       createdAt: t.Boolean(),
       updatedAt: t.Boolean(),
       _count: t.Boolean(),
@@ -688,11 +635,6 @@ export const accountingInclude = t.Partial(
     {
       type: t.Boolean(),
       paymentMode: t.Boolean(),
-      clientType: t.Boolean(),
-      owner: t.Boolean(),
-      tenant: t.Boolean(),
-      invoice: t.Boolean(),
-      purchaseOrder: t.Boolean(),
       unit: t.Boolean(),
       source: t.Boolean(),
       allocation: t.Boolean(),
@@ -700,6 +642,8 @@ export const accountingInclude = t.Partial(
       nature: t.Boolean(),
       secondNature: t.Boolean(),
       thirdNature: t.Boolean(),
+      user: t.Boolean(),
+      notifications: t.Boolean(),
       _count: t.Boolean(),
     },
     { additionalProperties: false },
@@ -727,16 +671,7 @@ export const accountingOrderBy = t.Partial(
       description: t.Union([t.Literal("asc"), t.Literal("desc")], {
         additionalProperties: false,
       }),
-      ownerId: t.Union([t.Literal("asc"), t.Literal("desc")], {
-        additionalProperties: false,
-      }),
-      tenantId: t.Union([t.Literal("asc"), t.Literal("desc")], {
-        additionalProperties: false,
-      }),
-      invoiceId: t.Union([t.Literal("asc"), t.Literal("desc")], {
-        additionalProperties: false,
-      }),
-      purchaseOrderId: t.Union([t.Literal("asc"), t.Literal("desc")], {
+      period: t.Union([t.Literal("asc"), t.Literal("desc")], {
         additionalProperties: false,
       }),
       unitId: t.Union([t.Literal("asc"), t.Literal("desc")], {
@@ -758,6 +693,12 @@ export const accountingOrderBy = t.Partial(
         additionalProperties: false,
       }),
       thirdNatureId: t.Union([t.Literal("asc"), t.Literal("desc")], {
+        additionalProperties: false,
+      }),
+      userId: t.Union([t.Literal("asc"), t.Literal("desc")], {
+        additionalProperties: false,
+      }),
+      documents: t.Union([t.Literal("asc"), t.Literal("desc")], {
         additionalProperties: false,
       }),
       createdAt: t.Union([t.Literal("asc"), t.Literal("desc")], {

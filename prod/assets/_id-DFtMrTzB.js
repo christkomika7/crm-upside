@@ -1,0 +1,1 @@
+import{b as t,j as n}from"./index-B33D0wKo.js";function c(){const e=t.c(1);let o;return e[0]===Symbol.for("react.memo_cache_sentinel")?(o=n.jsx("div",{children:'Hello "/dashboard/accounting/$id"!'}),e[0]=o):o=e[0],o}export{c as component};

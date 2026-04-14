@@ -1,0 +1,1 @@
+import{o as i,s as e,g as t}from"./index-B33D0wKo.js";const n=i({reference:e().min(1,"La référence est requise"),description:e().min(1,"La description est requise"),hasTax:t(),price:e().min(1,"Le prix est requis").refine(s=>{const r=parseFloat(s);return!isNaN(r)&&r>0},{message:"Le prix doit être supérieur à 0"})});export{n as p};

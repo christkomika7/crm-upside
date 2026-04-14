@@ -5,7 +5,13 @@ import { __transformDate__ } from "./__transformDate__";
 import { __nullable__ } from "./__nullable__";
 
 export const AllocationPlain = t.Object(
-  { id: t.String(), name: t.String() },
+  {
+    id: t.String(),
+    accountingType: t.Union([t.Literal("INFLOW"), t.Literal("OUTFLOW")], {
+      additionalProperties: false,
+    }),
+    name: t.String(),
+  },
   { additionalProperties: false },
 );
 
@@ -25,22 +31,18 @@ export const AllocationRelations = t.Object(
           ),
           amount: t.Number(),
           isTTC: t.Boolean(),
-          checkNumber: t.String(),
+          checkNumber: __nullable__(t.String()),
           description: t.String(),
-          clientType: t.Union([t.Literal("OWNER"), t.Literal("TENANT")], {
-            additionalProperties: false,
-          }),
-          ownerId: __nullable__(t.String()),
-          tenantId: __nullable__(t.String()),
-          invoiceId: __nullable__(t.String()),
-          purchaseOrderId: __nullable__(t.String()),
-          unitId: t.String(),
+          period: __nullable__(t.Date()),
+          unitId: __nullable__(t.String()),
           sourceId: t.String(),
-          allocationId: t.String(),
+          allocationId: __nullable__(t.String()),
           categoryId: t.String(),
           natureId: t.String(),
-          secondNatureId: t.String(),
-          thirdNatureId: t.String(),
+          secondNatureId: __nullable__(t.String()),
+          thirdNatureId: __nullable__(t.String()),
+          userId: t.String(),
+          documents: t.Array(t.String(), { additionalProperties: false }),
           createdAt: t.Date(),
           updatedAt: t.Date(),
         },
@@ -53,12 +55,26 @@ export const AllocationRelations = t.Object(
 );
 
 export const AllocationPlainInputCreate = t.Object(
-  { name: t.String() },
+  {
+    accountingType: t.Optional(
+      t.Union([t.Literal("INFLOW"), t.Literal("OUTFLOW")], {
+        additionalProperties: false,
+      }),
+    ),
+    name: t.String(),
+  },
   { additionalProperties: false },
 );
 
 export const AllocationPlainInputUpdate = t.Object(
-  { name: t.Optional(t.String()) },
+  {
+    accountingType: t.Optional(
+      t.Union([t.Literal("INFLOW"), t.Literal("OUTFLOW")], {
+        additionalProperties: false,
+      }),
+    ),
+    name: t.Optional(t.String()),
+  },
   { additionalProperties: false },
 );
 
@@ -126,6 +142,9 @@ export const AllocationWhere = t.Partial(
           NOT: t.Union([Self, t.Array(Self, { additionalProperties: false })]),
           OR: t.Array(Self, { additionalProperties: false }),
           id: t.String(),
+          accountingType: t.Union([t.Literal("INFLOW"), t.Literal("OUTFLOW")], {
+            additionalProperties: false,
+          }),
           name: t.String(),
         },
         { additionalProperties: false },
@@ -139,16 +158,12 @@ export const AllocationWhereUnique = t.Recursive(
     t.Intersect(
       [
         t.Partial(
-          t.Object(
-            { id: t.String(), name: t.String() },
-            { additionalProperties: false },
-          ),
+          t.Object({ id: t.String() }, { additionalProperties: false }),
           { additionalProperties: false },
         ),
-        t.Union(
-          [t.Object({ id: t.String() }), t.Object({ name: t.String() })],
-          { additionalProperties: false },
-        ),
+        t.Union([t.Object({ id: t.String() })], {
+          additionalProperties: false,
+        }),
         t.Partial(
           t.Object({
             AND: t.Union([
@@ -165,7 +180,14 @@ export const AllocationWhereUnique = t.Recursive(
         ),
         t.Partial(
           t.Object(
-            { id: t.String(), name: t.String() },
+            {
+              id: t.String(),
+              accountingType: t.Union(
+                [t.Literal("INFLOW"), t.Literal("OUTFLOW")],
+                { additionalProperties: false },
+              ),
+              name: t.String(),
+            },
             { additionalProperties: false },
           ),
         ),
@@ -179,6 +201,7 @@ export const AllocationSelect = t.Partial(
   t.Object(
     {
       id: t.Boolean(),
+      accountingType: t.Boolean(),
       name: t.Boolean(),
       accountings: t.Boolean(),
       _count: t.Boolean(),
@@ -189,7 +212,11 @@ export const AllocationSelect = t.Partial(
 
 export const AllocationInclude = t.Partial(
   t.Object(
-    { accountings: t.Boolean(), _count: t.Boolean() },
+    {
+      accountingType: t.Boolean(),
+      accountings: t.Boolean(),
+      _count: t.Boolean(),
+    },
     { additionalProperties: false },
   ),
 );

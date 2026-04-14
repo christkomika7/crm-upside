@@ -14,13 +14,14 @@ export const sourceRoutes = new Elysia({ prefix: "/source" })
         return await prisma.source.findMany({
             where: {
                 type: query.paymentMethod,
+                accountingType: query.accountingType,
             },
             orderBy: {
                 name: "desc",
             }
         })
 
-    }, { auth: true, query: t.Object({ paymentMethod: t.Enum({ CASH: "CASH", CHECK: "CHECK", BANK: "BANK" }, { error: "Aucune méthode de paiement trouvée." }) }) })
+    }, { auth: true, query: t.Object({ paymentMethod: t.Enum({ CASH: "CASH", CHECK: "CHECK", BANK: "BANK" }, { error: "Aucune méthode de paiement trouvée." }), accountingType: t.Enum({ INFLOW: "INFLOW", OUTFLOW: "OUTFLOW" }) }) })
     .get("/:id", async ({ permission, status, params }) => {
         if (!canAccess(permission, "accounting", ['create', 'update'])) {
             return status(403, { message: "Accès refusé" });
@@ -51,6 +52,7 @@ export const sourceRoutes = new Elysia({ prefix: "/source" })
             where: {
                 name: data.name,
                 type: data.paymentMethod,
+                accountingType: data.accountingType,
             }
         });
 
@@ -62,7 +64,8 @@ export const sourceRoutes = new Elysia({ prefix: "/source" })
         await prisma.source.create({
             data: {
                 name: data.name,
-                type: data.paymentMethod
+                type: data.paymentMethod,
+                accountingType: data.accountingType,
             }
         })
 
@@ -87,6 +90,7 @@ export const sourceRoutes = new Elysia({ prefix: "/source" })
             where: {
                 name: data.name,
                 type: data.paymentMethod,
+                accountingType: data.accountingType,
                 NOT: {
                     id: params.id,
                 },
@@ -103,7 +107,8 @@ export const sourceRoutes = new Elysia({ prefix: "/source" })
             },
             data: {
                 name: data.name,
-                type: data.paymentMethod
+                type: data.paymentMethod,
+                accountingType: data.accountingType,
             }
         })
 

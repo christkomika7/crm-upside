@@ -149,7 +149,9 @@ export default function Share({
             form.append("emails", JSON.stringify(data.emails));
             form.append("subject", data.subject ?? "");
             form.append("message", data.message ?? "");
-            form.append("document", data.document);
+            if (data.document) {
+                form.append("document", data.document);
+            }
             if (data.files && data.files.length > 0) {
                 data.files.forEach((file) => {
                     form.append("files", file);

@@ -27,18 +27,21 @@ export type AggregateNature = {
 export type NatureMinAggregateOutputType = {
   id: string | null
   name: string | null
+  accountingType: $Enums.AccountingType | null
   categoryId: string | null
 }
 
 export type NatureMaxAggregateOutputType = {
   id: string | null
   name: string | null
+  accountingType: $Enums.AccountingType | null
   categoryId: string | null
 }
 
 export type NatureCountAggregateOutputType = {
   id: number
   name: number
+  accountingType: number
   categoryId: number
   _all: number
 }
@@ -47,18 +50,21 @@ export type NatureCountAggregateOutputType = {
 export type NatureMinAggregateInputType = {
   id?: true
   name?: true
+  accountingType?: true
   categoryId?: true
 }
 
 export type NatureMaxAggregateInputType = {
   id?: true
   name?: true
+  accountingType?: true
   categoryId?: true
 }
 
 export type NatureCountAggregateInputType = {
   id?: true
   name?: true
+  accountingType?: true
   categoryId?: true
   _all?: true
 }
@@ -138,6 +144,7 @@ export type NatureGroupByArgs<ExtArgs extends runtime.Types.Extensions.InternalA
 export type NatureGroupByOutputType = {
   id: string
   name: string
+  accountingType: $Enums.AccountingType
   categoryId: string
   _count: NatureCountAggregateOutputType | null
   _min: NatureMinAggregateOutputType | null
@@ -165,6 +172,7 @@ export type NatureWhereInput = {
   NOT?: Prisma.NatureWhereInput | Prisma.NatureWhereInput[]
   id?: Prisma.StringFilter<"Nature"> | string
   name?: Prisma.StringFilter<"Nature"> | string
+  accountingType?: Prisma.EnumAccountingTypeFilter<"Nature"> | $Enums.AccountingType
   categoryId?: Prisma.StringFilter<"Nature"> | string
   category?: Prisma.XOR<Prisma.CategoryScalarRelationFilter, Prisma.CategoryWhereInput>
   secondNatures?: Prisma.SecondNatureListRelationFilter
@@ -174,6 +182,7 @@ export type NatureWhereInput = {
 export type NatureOrderByWithRelationInput = {
   id?: Prisma.SortOrder
   name?: Prisma.SortOrder
+  accountingType?: Prisma.SortOrder
   categoryId?: Prisma.SortOrder
   category?: Prisma.CategoryOrderByWithRelationInput
   secondNatures?: Prisma.SecondNatureOrderByRelationAggregateInput
@@ -186,6 +195,7 @@ export type NatureWhereUniqueInput = Prisma.AtLeast<{
   OR?: Prisma.NatureWhereInput[]
   NOT?: Prisma.NatureWhereInput | Prisma.NatureWhereInput[]
   name?: Prisma.StringFilter<"Nature"> | string
+  accountingType?: Prisma.EnumAccountingTypeFilter<"Nature"> | $Enums.AccountingType
   categoryId?: Prisma.StringFilter<"Nature"> | string
   category?: Prisma.XOR<Prisma.CategoryScalarRelationFilter, Prisma.CategoryWhereInput>
   secondNatures?: Prisma.SecondNatureListRelationFilter
@@ -195,6 +205,7 @@ export type NatureWhereUniqueInput = Prisma.AtLeast<{
 export type NatureOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
   name?: Prisma.SortOrder
+  accountingType?: Prisma.SortOrder
   categoryId?: Prisma.SortOrder
   _count?: Prisma.NatureCountOrderByAggregateInput
   _max?: Prisma.NatureMaxOrderByAggregateInput
@@ -207,12 +218,14 @@ export type NatureScalarWhereWithAggregatesInput = {
   NOT?: Prisma.NatureScalarWhereWithAggregatesInput | Prisma.NatureScalarWhereWithAggregatesInput[]
   id?: Prisma.StringWithAggregatesFilter<"Nature"> | string
   name?: Prisma.StringWithAggregatesFilter<"Nature"> | string
+  accountingType?: Prisma.EnumAccountingTypeWithAggregatesFilter<"Nature"> | $Enums.AccountingType
   categoryId?: Prisma.StringWithAggregatesFilter<"Nature"> | string
 }
 
 export type NatureCreateInput = {
   id?: string
   name: string
+  accountingType?: $Enums.AccountingType
   category: Prisma.CategoryCreateNestedOneWithoutNatureInput
   secondNatures?: Prisma.SecondNatureCreateNestedManyWithoutNatureInput
   accountings?: Prisma.accountingCreateNestedManyWithoutNatureInput
@@ -221,6 +234,7 @@ export type NatureCreateInput = {
 export type NatureUncheckedCreateInput = {
   id?: string
   name: string
+  accountingType?: $Enums.AccountingType
   categoryId: string
   secondNatures?: Prisma.SecondNatureUncheckedCreateNestedManyWithoutNatureInput
   accountings?: Prisma.accountingUncheckedCreateNestedManyWithoutNatureInput
@@ -229,6 +243,7 @@ export type NatureUncheckedCreateInput = {
 export type NatureUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
+  accountingType?: Prisma.EnumAccountingTypeFieldUpdateOperationsInput | $Enums.AccountingType
   category?: Prisma.CategoryUpdateOneRequiredWithoutNatureNestedInput
   secondNatures?: Prisma.SecondNatureUpdateManyWithoutNatureNestedInput
   accountings?: Prisma.accountingUpdateManyWithoutNatureNestedInput
@@ -237,6 +252,7 @@ export type NatureUpdateInput = {
 export type NatureUncheckedUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
+  accountingType?: Prisma.EnumAccountingTypeFieldUpdateOperationsInput | $Enums.AccountingType
   categoryId?: Prisma.StringFieldUpdateOperationsInput | string
   secondNatures?: Prisma.SecondNatureUncheckedUpdateManyWithoutNatureNestedInput
   accountings?: Prisma.accountingUncheckedUpdateManyWithoutNatureNestedInput
@@ -245,17 +261,20 @@ export type NatureUncheckedUpdateInput = {
 export type NatureCreateManyInput = {
   id?: string
   name: string
+  accountingType?: $Enums.AccountingType
   categoryId: string
 }
 
 export type NatureUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
+  accountingType?: Prisma.EnumAccountingTypeFieldUpdateOperationsInput | $Enums.AccountingType
 }
 
 export type NatureUncheckedUpdateManyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
+  accountingType?: Prisma.EnumAccountingTypeFieldUpdateOperationsInput | $Enums.AccountingType
   categoryId?: Prisma.StringFieldUpdateOperationsInput | string
 }
 
@@ -277,18 +296,21 @@ export type NatureOrderByRelationAggregateInput = {
 export type NatureCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
   name?: Prisma.SortOrder
+  accountingType?: Prisma.SortOrder
   categoryId?: Prisma.SortOrder
 }
 
 export type NatureMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
   name?: Prisma.SortOrder
+  accountingType?: Prisma.SortOrder
   categoryId?: Prisma.SortOrder
 }
 
 export type NatureMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
   name?: Prisma.SortOrder
+  accountingType?: Prisma.SortOrder
   categoryId?: Prisma.SortOrder
 }
 
@@ -365,6 +387,7 @@ export type NatureUpdateOneRequiredWithoutSecondNaturesNestedInput = {
 export type NatureCreateWithoutAccountingsInput = {
   id?: string
   name: string
+  accountingType?: $Enums.AccountingType
   category: Prisma.CategoryCreateNestedOneWithoutNatureInput
   secondNatures?: Prisma.SecondNatureCreateNestedManyWithoutNatureInput
 }
@@ -372,6 +395,7 @@ export type NatureCreateWithoutAccountingsInput = {
 export type NatureUncheckedCreateWithoutAccountingsInput = {
   id?: string
   name: string
+  accountingType?: $Enums.AccountingType
   categoryId: string
   secondNatures?: Prisma.SecondNatureUncheckedCreateNestedManyWithoutNatureInput
 }
@@ -395,6 +419,7 @@ export type NatureUpdateToOneWithWhereWithoutAccountingsInput = {
 export type NatureUpdateWithoutAccountingsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
+  accountingType?: Prisma.EnumAccountingTypeFieldUpdateOperationsInput | $Enums.AccountingType
   category?: Prisma.CategoryUpdateOneRequiredWithoutNatureNestedInput
   secondNatures?: Prisma.SecondNatureUpdateManyWithoutNatureNestedInput
 }
@@ -402,6 +427,7 @@ export type NatureUpdateWithoutAccountingsInput = {
 export type NatureUncheckedUpdateWithoutAccountingsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
+  accountingType?: Prisma.EnumAccountingTypeFieldUpdateOperationsInput | $Enums.AccountingType
   categoryId?: Prisma.StringFieldUpdateOperationsInput | string
   secondNatures?: Prisma.SecondNatureUncheckedUpdateManyWithoutNatureNestedInput
 }
@@ -409,6 +435,7 @@ export type NatureUncheckedUpdateWithoutAccountingsInput = {
 export type NatureCreateWithoutCategoryInput = {
   id?: string
   name: string
+  accountingType?: $Enums.AccountingType
   secondNatures?: Prisma.SecondNatureCreateNestedManyWithoutNatureInput
   accountings?: Prisma.accountingCreateNestedManyWithoutNatureInput
 }
@@ -416,6 +443,7 @@ export type NatureCreateWithoutCategoryInput = {
 export type NatureUncheckedCreateWithoutCategoryInput = {
   id?: string
   name: string
+  accountingType?: $Enums.AccountingType
   secondNatures?: Prisma.SecondNatureUncheckedCreateNestedManyWithoutNatureInput
   accountings?: Prisma.accountingUncheckedCreateNestedManyWithoutNatureInput
 }
@@ -452,12 +480,14 @@ export type NatureScalarWhereInput = {
   NOT?: Prisma.NatureScalarWhereInput | Prisma.NatureScalarWhereInput[]
   id?: Prisma.StringFilter<"Nature"> | string
   name?: Prisma.StringFilter<"Nature"> | string
+  accountingType?: Prisma.EnumAccountingTypeFilter<"Nature"> | $Enums.AccountingType
   categoryId?: Prisma.StringFilter<"Nature"> | string
 }
 
 export type NatureCreateWithoutSecondNaturesInput = {
   id?: string
   name: string
+  accountingType?: $Enums.AccountingType
   category: Prisma.CategoryCreateNestedOneWithoutNatureInput
   accountings?: Prisma.accountingCreateNestedManyWithoutNatureInput
 }
@@ -465,6 +495,7 @@ export type NatureCreateWithoutSecondNaturesInput = {
 export type NatureUncheckedCreateWithoutSecondNaturesInput = {
   id?: string
   name: string
+  accountingType?: $Enums.AccountingType
   categoryId: string
   accountings?: Prisma.accountingUncheckedCreateNestedManyWithoutNatureInput
 }
@@ -488,6 +519,7 @@ export type NatureUpdateToOneWithWhereWithoutSecondNaturesInput = {
 export type NatureUpdateWithoutSecondNaturesInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
+  accountingType?: Prisma.EnumAccountingTypeFieldUpdateOperationsInput | $Enums.AccountingType
   category?: Prisma.CategoryUpdateOneRequiredWithoutNatureNestedInput
   accountings?: Prisma.accountingUpdateManyWithoutNatureNestedInput
 }
@@ -495,6 +527,7 @@ export type NatureUpdateWithoutSecondNaturesInput = {
 export type NatureUncheckedUpdateWithoutSecondNaturesInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
+  accountingType?: Prisma.EnumAccountingTypeFieldUpdateOperationsInput | $Enums.AccountingType
   categoryId?: Prisma.StringFieldUpdateOperationsInput | string
   accountings?: Prisma.accountingUncheckedUpdateManyWithoutNatureNestedInput
 }
@@ -502,11 +535,13 @@ export type NatureUncheckedUpdateWithoutSecondNaturesInput = {
 export type NatureCreateManyCategoryInput = {
   id?: string
   name: string
+  accountingType?: $Enums.AccountingType
 }
 
 export type NatureUpdateWithoutCategoryInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
+  accountingType?: Prisma.EnumAccountingTypeFieldUpdateOperationsInput | $Enums.AccountingType
   secondNatures?: Prisma.SecondNatureUpdateManyWithoutNatureNestedInput
   accountings?: Prisma.accountingUpdateManyWithoutNatureNestedInput
 }
@@ -514,6 +549,7 @@ export type NatureUpdateWithoutCategoryInput = {
 export type NatureUncheckedUpdateWithoutCategoryInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
+  accountingType?: Prisma.EnumAccountingTypeFieldUpdateOperationsInput | $Enums.AccountingType
   secondNatures?: Prisma.SecondNatureUncheckedUpdateManyWithoutNatureNestedInput
   accountings?: Prisma.accountingUncheckedUpdateManyWithoutNatureNestedInput
 }
@@ -521,6 +557,7 @@ export type NatureUncheckedUpdateWithoutCategoryInput = {
 export type NatureUncheckedUpdateManyWithoutCategoryInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
+  accountingType?: Prisma.EnumAccountingTypeFieldUpdateOperationsInput | $Enums.AccountingType
 }
 
 
@@ -566,6 +603,7 @@ export type NatureCountOutputTypeCountAccountingsArgs<ExtArgs extends runtime.Ty
 export type NatureSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   name?: boolean
+  accountingType?: boolean
   categoryId?: boolean
   category?: boolean | Prisma.CategoryDefaultArgs<ExtArgs>
   secondNatures?: boolean | Prisma.Nature$secondNaturesArgs<ExtArgs>
@@ -576,6 +614,7 @@ export type NatureSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs =
 export type NatureSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   name?: boolean
+  accountingType?: boolean
   categoryId?: boolean
   category?: boolean | Prisma.CategoryDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["nature"]>
@@ -583,6 +622,7 @@ export type NatureSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extens
 export type NatureSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   name?: boolean
+  accountingType?: boolean
   categoryId?: boolean
   category?: boolean | Prisma.CategoryDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["nature"]>
@@ -590,10 +630,11 @@ export type NatureSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extens
 export type NatureSelectScalar = {
   id?: boolean
   name?: boolean
+  accountingType?: boolean
   categoryId?: boolean
 }
 
-export type NatureOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "categoryId", ExtArgs["result"]["nature"]>
+export type NatureOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "accountingType" | "categoryId", ExtArgs["result"]["nature"]>
 export type NatureInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   category?: boolean | Prisma.CategoryDefaultArgs<ExtArgs>
   secondNatures?: boolean | Prisma.Nature$secondNaturesArgs<ExtArgs>
@@ -617,6 +658,7 @@ export type $NaturePayload<ExtArgs extends runtime.Types.Extensions.InternalArgs
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
     name: string
+    accountingType: $Enums.AccountingType
     categoryId: string
   }, ExtArgs["result"]["nature"]>
   composites: {}
@@ -1046,6 +1088,7 @@ export interface Prisma__NatureClient<T, Null = never, ExtArgs extends runtime.T
 export interface NatureFieldRefs {
   readonly id: Prisma.FieldRef<"Nature", 'String'>
   readonly name: Prisma.FieldRef<"Nature", 'String'>
+  readonly accountingType: Prisma.FieldRef<"Nature", 'AccountingType'>
   readonly categoryId: Prisma.FieldRef<"Nature", 'String'>
 }
     

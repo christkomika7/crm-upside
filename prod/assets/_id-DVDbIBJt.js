@@ -1,0 +1,1 @@
+import{b as r,j as t}from"./index-B33D0wKo.js";import{A as m}from"./action-header-DMGwwfx7.js";import"./button-4N6zWXdF.js";import"./plus-Ch8b81pR.js";function p(){const o=r.c(1);let e;return o[0]===Symbol.for("react.memo_cache_sentinel")?(e=t.jsx("div",{className:"space-y-6",children:t.jsx(m,{})}),o[0]=e):e=o[0],e}export{p as component};

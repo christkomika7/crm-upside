@@ -24,21 +24,23 @@ import type { AccountElement } from "@/types/accounting";
 
 type NatureModalProps = {
     categoryId: string;
+    accountingType: "INFLOW" | "OUTFLOW";
 }
 
-export default function NatureModal({ categoryId }: NatureModalProps) {
+export default function NatureModal({ categoryId, accountingType }: NatureModalProps) {
 
     const form = useForm<NatureSchemaType>({
         resolver: zodResolver(natureSchema),
         defaultValues: {
             name: "",
             category: categoryId,
+            accountingType,
         },
     });
 
     const { isPending, data: natures } = useQuery<AccountElement[]>({
-        queryKey: ["natures", categoryId],
-        queryFn: () => apiFetch<AccountElement[]>(`/nature?category=${categoryId}`),
+        queryKey: ["natures", categoryId, accountingType],
+        queryFn: () => apiFetch<AccountElement[]>(`/nature?category=${categoryId}&accountingType=${accountingType}`),
     });
 
     const createNature = useMutation({
@@ -46,8 +48,8 @@ export default function NatureModal({ categoryId }: NatureModalProps) {
             crudService.post(`/nature`, data),
         onSuccess() {
             toast.success("Nature ajoutée avec succès");
-            queryClient.invalidateQueries({ queryKey: ["natures", categoryId] });
-            form.reset({ name: "", category: categoryId });
+            queryClient.invalidateQueries({ queryKey: ["natures", categoryId, accountingType] });
+            form.reset({ name: "", category: categoryId, accountingType });
         },
         onError: (error: Error) => {
             toast.error(error.message);
@@ -58,7 +60,6 @@ export default function NatureModal({ categoryId }: NatureModalProps) {
         const { success, data } = natureSchema.safeParse(formData);
         if (success) {
             createNature.mutate({ data });
-            form.reset({ name: "", category: categoryId });
         }
     }
 
@@ -85,7 +86,7 @@ export default function NatureModal({ categoryId }: NatureModalProps) {
             <Activity mode={natures && natures.length > 0 ? "visible" : "hidden"}>
                 <ScrollArea className="space-y-2 h-full max-h-70 pr-3">
                     {natures?.map((nature, index) => (
-                        <NatureItem key={index} nature={nature} categoryId={categoryId} />
+                        <NatureItem key={index} nature={nature} categoryId={categoryId} accountingType={accountingType} />
                     ))}
                 </ScrollArea>
             </Activity>
@@ -137,7 +138,7 @@ export default function NatureModal({ categoryId }: NatureModalProps) {
 }
 
 
-function NatureItem({ nature, categoryId }: { nature: AccountElement; categoryId: string }) {
+function NatureItem({ nature, categoryId, accountingType }: { nature: AccountElement; categoryId: string; accountingType: "INFLOW" | "OUTFLOW" }) {
     const [editing, setEditing] = useState(false);
 
     const form = useForm<NatureSchemaType>({
@@ -145,6 +146,7 @@ function NatureItem({ nature, categoryId }: { nature: AccountElement; categoryId
         defaultValues: {
             name: nature.name,
             category: categoryId,
+            accountingType,
         },
     });
 
@@ -153,9 +155,9 @@ function NatureItem({ nature, categoryId }: { nature: AccountElement; categoryId
             crudService.put(`/nature/${natureId}`, data),
         onSuccess() {
             toast.success("Nature modifiée avec succès");
-            queryClient.invalidateQueries({ queryKey: ["natures", categoryId] });
+            queryClient.invalidateQueries({ queryKey: ["natures", categoryId, accountingType] });
             setEditing(false);
-            form.reset({ name: nature.name, category: categoryId });
+            form.reset({ name: nature.name, category: categoryId, accountingType });
         },
         onError: (error: Error) => {
             toast.error(error.message);
@@ -167,7 +169,7 @@ function NatureItem({ nature, categoryId }: { nature: AccountElement; categoryId
             crudService.delete(`/nature/${natureId}`),
         onSuccess() {
             toast.success("Nature supprimée avec succès");
-            queryClient.invalidateQueries({ queryKey: ["natures", categoryId] });
+            queryClient.invalidateQueries({ queryKey: ["natures", categoryId, accountingType] });
         },
         onError: (error: Error) => {
             console.error("Erreur:", error.message);
@@ -177,12 +179,12 @@ function NatureItem({ nature, categoryId }: { nature: AccountElement; categoryId
 
     function edit() {
         setEditing(true);
-        form.reset({ name: nature.name, category: categoryId });
+        form.reset({ name: nature.name, category: categoryId, accountingType });
     }
 
     function cancel() {
         setEditing(false);
-        form.reset({ name: nature.name, category: categoryId });
+        form.reset({ name: nature.name, category: categoryId, accountingType });
     }
 
     async function submit(formData: NatureSchemaType) {

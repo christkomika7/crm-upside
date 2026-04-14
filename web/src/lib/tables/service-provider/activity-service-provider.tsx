@@ -142,7 +142,10 @@ export const columns: ColumnDef<Record<KeyType, string | number | Date>>[] = [
                 <div className="flex gap-x-2">
                     <Link to="/dashboard/contracts/edit-contract/$id"
                         params={{ id: `edit_contract-${row.original.id}` }}
-                        search={{ type: row.original.contract }}
+                        search={{
+                            type: row.original.contract as "CONTRACT" | "MANDATE",
+                            tab: "edit"
+                        }}
                     >
                         <Button variant="outline" className="size-7.5 rounded-lg"><Edit3Icon className="size-3.5" /></Button>
                     </Link>

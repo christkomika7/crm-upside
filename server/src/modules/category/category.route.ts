@@ -6,18 +6,21 @@ import { categorySchema } from "../../lib/zod/acounting";
 
 export const categoryRoutes = new Elysia({ prefix: "/category" })
     .use(authPlugin)
-    .get("/", async ({ permission, status }) => {
+    .get("/", async ({ permission, status, query }) => {
         if (!canAccess(permission, "accounting", ['create', 'update'])) {
             return status(403, { message: "Accès refusé" });
         }
 
         return await prisma.category.findMany({
+            where: {
+                accountingType: query.accountingType,
+            },
             orderBy: {
                 name: "desc",
             }
         })
 
-    }, { auth: true })
+    }, { auth: true, query: t.Object({ accountingType: t.Enum({ INFLOW: "INFLOW", OUTFLOW: "OUTFLOW" }) }) })
     .get("/:id", async ({ permission, status, params }) => {
         if (!canAccess(permission, "accounting", ['create', 'update'])) {
             return status(403, { message: "Accès refusé" });
@@ -44,9 +47,10 @@ export const categoryRoutes = new Elysia({ prefix: "/category" })
             return status(400, { message: "Catégorie invalide" });
         }
 
-        const alreadyExist = await prisma.category.findUnique({
+        const alreadyExist = await prisma.category.findFirst({
             where: {
                 name: data.name,
+                accountingType: data.accountingType,
             }
         })
 
@@ -57,6 +61,7 @@ export const categoryRoutes = new Elysia({ prefix: "/category" })
         await prisma.category.create({
             data: {
                 name: data.name,
+                accountingType: data.accountingType,
             }
         })
 
@@ -80,6 +85,7 @@ export const categoryRoutes = new Elysia({ prefix: "/category" })
         const alreadyExist = await prisma.category.findFirst({
             where: {
                 name: data.name,
+                accountingType: data.accountingType,
                 NOT: {
                     id: params.id,
                 },
@@ -96,6 +102,7 @@ export const categoryRoutes = new Elysia({ prefix: "/category" })
             },
             data: {
                 name: data.name,
+                accountingType: data.accountingType,
             }
         })
 

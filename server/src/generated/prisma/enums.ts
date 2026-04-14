@@ -17,6 +17,26 @@ export const Role = {
 export type Role = (typeof Role)[keyof typeof Role]
 
 
+export const NotificationType = {
+  ALERT: 'ALERT',
+  CONFIRM: 'CONFIRM'
+} as const
+
+export type NotificationType = (typeof NotificationType)[keyof typeof NotificationType]
+
+
+export const NotificationKindOf = {
+  APPOINTMENT: 'APPOINTMENT',
+  ACCOUNTING: 'ACCOUNTING',
+  INVOICING: 'INVOICING',
+  RENTAL: 'RENTAL',
+  PAYMENT: 'PAYMENT',
+  CONTRACT: 'CONTRACT'
+} as const
+
+export type NotificationKindOf = (typeof NotificationKindOf)[keyof typeof NotificationKindOf]
+
+
 export const DeletionState = {
   NOTHING: 'NOTHING',
   WAIT: 'WAIT',

@@ -328,7 +328,7 @@ export type InvoiceWhereInput = {
   tenant?: Prisma.XOR<Prisma.TenantNullableScalarRelationFilter, Prisma.TenantWhereInput> | null
   items?: Prisma.ItemListRelationFilter
   payments?: Prisma.PaymentListRelationFilter
-  accountings?: Prisma.AccountingListRelationFilter
+  notifications?: Prisma.NotificationListRelationFilter
 }
 
 export type InvoiceOrderByWithRelationInput = {
@@ -353,7 +353,7 @@ export type InvoiceOrderByWithRelationInput = {
   tenant?: Prisma.TenantOrderByWithRelationInput
   items?: Prisma.ItemOrderByRelationAggregateInput
   payments?: Prisma.PaymentOrderByRelationAggregateInput
-  accountings?: Prisma.accountingOrderByRelationAggregateInput
+  notifications?: Prisma.NotificationOrderByRelationAggregateInput
 }
 
 export type InvoiceWhereUniqueInput = Prisma.AtLeast<{
@@ -381,7 +381,7 @@ export type InvoiceWhereUniqueInput = Prisma.AtLeast<{
   tenant?: Prisma.XOR<Prisma.TenantNullableScalarRelationFilter, Prisma.TenantWhereInput> | null
   items?: Prisma.ItemListRelationFilter
   payments?: Prisma.PaymentListRelationFilter
-  accountings?: Prisma.AccountingListRelationFilter
+  notifications?: Prisma.NotificationListRelationFilter
 }, "id">
 
 export type InvoiceOrderByWithAggregationInput = {
@@ -452,7 +452,7 @@ export type InvoiceCreateInput = {
   tenant?: Prisma.TenantCreateNestedOneWithoutInvoicesInput
   items?: Prisma.ItemCreateNestedManyWithoutInvoiceInput
   payments?: Prisma.PaymentCreateNestedManyWithoutInvoiceInput
-  accountings?: Prisma.accountingCreateNestedManyWithoutInvoiceInput
+  notifications?: Prisma.NotificationCreateNestedManyWithoutInvoiceInput
 }
 
 export type InvoiceUncheckedCreateInput = {
@@ -475,7 +475,7 @@ export type InvoiceUncheckedCreateInput = {
   updatedAt?: Date | string
   items?: Prisma.ItemUncheckedCreateNestedManyWithoutInvoiceInput
   payments?: Prisma.PaymentUncheckedCreateNestedManyWithoutInvoiceInput
-  accountings?: Prisma.accountingUncheckedCreateNestedManyWithoutInvoiceInput
+  notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutInvoiceInput
 }
 
 export type InvoiceUpdateInput = {
@@ -498,7 +498,7 @@ export type InvoiceUpdateInput = {
   tenant?: Prisma.TenantUpdateOneWithoutInvoicesNestedInput
   items?: Prisma.ItemUpdateManyWithoutInvoiceNestedInput
   payments?: Prisma.PaymentUpdateManyWithoutInvoiceNestedInput
-  accountings?: Prisma.accountingUpdateManyWithoutInvoiceNestedInput
+  notifications?: Prisma.NotificationUpdateManyWithoutInvoiceNestedInput
 }
 
 export type InvoiceUncheckedUpdateInput = {
@@ -521,7 +521,7 @@ export type InvoiceUncheckedUpdateInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   items?: Prisma.ItemUncheckedUpdateManyWithoutInvoiceNestedInput
   payments?: Prisma.PaymentUncheckedUpdateManyWithoutInvoiceNestedInput
-  accountings?: Prisma.accountingUncheckedUpdateManyWithoutInvoiceNestedInput
+  notifications?: Prisma.NotificationUncheckedUpdateManyWithoutInvoiceNestedInput
 }
 
 export type InvoiceCreateManyInput = {
@@ -783,20 +783,20 @@ export type EnumClientTypeFieldUpdateOperationsInput = {
   set?: $Enums.ClientType
 }
 
-export type InvoiceCreateNestedOneWithoutAccountingsInput = {
-  create?: Prisma.XOR<Prisma.InvoiceCreateWithoutAccountingsInput, Prisma.InvoiceUncheckedCreateWithoutAccountingsInput>
-  connectOrCreate?: Prisma.InvoiceCreateOrConnectWithoutAccountingsInput
+export type InvoiceCreateNestedOneWithoutNotificationsInput = {
+  create?: Prisma.XOR<Prisma.InvoiceCreateWithoutNotificationsInput, Prisma.InvoiceUncheckedCreateWithoutNotificationsInput>
+  connectOrCreate?: Prisma.InvoiceCreateOrConnectWithoutNotificationsInput
   connect?: Prisma.InvoiceWhereUniqueInput
 }
 
-export type InvoiceUpdateOneWithoutAccountingsNestedInput = {
-  create?: Prisma.XOR<Prisma.InvoiceCreateWithoutAccountingsInput, Prisma.InvoiceUncheckedCreateWithoutAccountingsInput>
-  connectOrCreate?: Prisma.InvoiceCreateOrConnectWithoutAccountingsInput
-  upsert?: Prisma.InvoiceUpsertWithoutAccountingsInput
+export type InvoiceUpdateOneWithoutNotificationsNestedInput = {
+  create?: Prisma.XOR<Prisma.InvoiceCreateWithoutNotificationsInput, Prisma.InvoiceUncheckedCreateWithoutNotificationsInput>
+  connectOrCreate?: Prisma.InvoiceCreateOrConnectWithoutNotificationsInput
+  upsert?: Prisma.InvoiceUpsertWithoutNotificationsInput
   disconnect?: Prisma.InvoiceWhereInput | boolean
   delete?: Prisma.InvoiceWhereInput | boolean
   connect?: Prisma.InvoiceWhereUniqueInput
-  update?: Prisma.XOR<Prisma.XOR<Prisma.InvoiceUpdateToOneWithWhereWithoutAccountingsInput, Prisma.InvoiceUpdateWithoutAccountingsInput>, Prisma.InvoiceUncheckedUpdateWithoutAccountingsInput>
+  update?: Prisma.XOR<Prisma.XOR<Prisma.InvoiceUpdateToOneWithWhereWithoutNotificationsInput, Prisma.InvoiceUpdateWithoutNotificationsInput>, Prisma.InvoiceUncheckedUpdateWithoutNotificationsInput>
 }
 
 export type InvoiceCreateNestedOneWithoutPaymentsInput = {
@@ -834,7 +834,7 @@ export type InvoiceCreateWithoutOwnerInput = {
   tenant?: Prisma.TenantCreateNestedOneWithoutInvoicesInput
   items?: Prisma.ItemCreateNestedManyWithoutInvoiceInput
   payments?: Prisma.PaymentCreateNestedManyWithoutInvoiceInput
-  accountings?: Prisma.accountingCreateNestedManyWithoutInvoiceInput
+  notifications?: Prisma.NotificationCreateNestedManyWithoutInvoiceInput
 }
 
 export type InvoiceUncheckedCreateWithoutOwnerInput = {
@@ -856,7 +856,7 @@ export type InvoiceUncheckedCreateWithoutOwnerInput = {
   updatedAt?: Date | string
   items?: Prisma.ItemUncheckedCreateNestedManyWithoutInvoiceInput
   payments?: Prisma.PaymentUncheckedCreateNestedManyWithoutInvoiceInput
-  accountings?: Prisma.accountingUncheckedCreateNestedManyWithoutInvoiceInput
+  notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutInvoiceInput
 }
 
 export type InvoiceCreateOrConnectWithoutOwnerInput = {
@@ -927,7 +927,7 @@ export type InvoiceCreateWithoutTenantInput = {
   owner?: Prisma.OwnerCreateNestedOneWithoutInvoicesInput
   items?: Prisma.ItemCreateNestedManyWithoutInvoiceInput
   payments?: Prisma.PaymentCreateNestedManyWithoutInvoiceInput
-  accountings?: Prisma.accountingCreateNestedManyWithoutInvoiceInput
+  notifications?: Prisma.NotificationCreateNestedManyWithoutInvoiceInput
 }
 
 export type InvoiceUncheckedCreateWithoutTenantInput = {
@@ -949,7 +949,7 @@ export type InvoiceUncheckedCreateWithoutTenantInput = {
   updatedAt?: Date | string
   items?: Prisma.ItemUncheckedCreateNestedManyWithoutInvoiceInput
   payments?: Prisma.PaymentUncheckedCreateNestedManyWithoutInvoiceInput
-  accountings?: Prisma.accountingUncheckedCreateNestedManyWithoutInvoiceInput
+  notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutInvoiceInput
 }
 
 export type InvoiceCreateOrConnectWithoutTenantInput = {
@@ -997,7 +997,7 @@ export type InvoiceCreateWithoutItemsInput = {
   owner?: Prisma.OwnerCreateNestedOneWithoutInvoicesInput
   tenant?: Prisma.TenantCreateNestedOneWithoutInvoicesInput
   payments?: Prisma.PaymentCreateNestedManyWithoutInvoiceInput
-  accountings?: Prisma.accountingCreateNestedManyWithoutInvoiceInput
+  notifications?: Prisma.NotificationCreateNestedManyWithoutInvoiceInput
 }
 
 export type InvoiceUncheckedCreateWithoutItemsInput = {
@@ -1019,7 +1019,7 @@ export type InvoiceUncheckedCreateWithoutItemsInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   payments?: Prisma.PaymentUncheckedCreateNestedManyWithoutInvoiceInput
-  accountings?: Prisma.accountingUncheckedCreateNestedManyWithoutInvoiceInput
+  notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutInvoiceInput
 }
 
 export type InvoiceCreateOrConnectWithoutItemsInput = {
@@ -1057,7 +1057,7 @@ export type InvoiceUpdateWithoutItemsInput = {
   owner?: Prisma.OwnerUpdateOneWithoutInvoicesNestedInput
   tenant?: Prisma.TenantUpdateOneWithoutInvoicesNestedInput
   payments?: Prisma.PaymentUpdateManyWithoutInvoiceNestedInput
-  accountings?: Prisma.accountingUpdateManyWithoutInvoiceNestedInput
+  notifications?: Prisma.NotificationUpdateManyWithoutInvoiceNestedInput
 }
 
 export type InvoiceUncheckedUpdateWithoutItemsInput = {
@@ -1079,10 +1079,10 @@ export type InvoiceUncheckedUpdateWithoutItemsInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   payments?: Prisma.PaymentUncheckedUpdateManyWithoutInvoiceNestedInput
-  accountings?: Prisma.accountingUncheckedUpdateManyWithoutInvoiceNestedInput
+  notifications?: Prisma.NotificationUncheckedUpdateManyWithoutInvoiceNestedInput
 }
 
-export type InvoiceCreateWithoutAccountingsInput = {
+export type InvoiceCreateWithoutNotificationsInput = {
   id?: string
   reference?: number
   price?: runtime.Decimal | runtime.DecimalJsLike | number | string
@@ -1104,7 +1104,7 @@ export type InvoiceCreateWithoutAccountingsInput = {
   payments?: Prisma.PaymentCreateNestedManyWithoutInvoiceInput
 }
 
-export type InvoiceUncheckedCreateWithoutAccountingsInput = {
+export type InvoiceUncheckedCreateWithoutNotificationsInput = {
   id?: string
   reference?: number
   price?: runtime.Decimal | runtime.DecimalJsLike | number | string
@@ -1126,23 +1126,23 @@ export type InvoiceUncheckedCreateWithoutAccountingsInput = {
   payments?: Prisma.PaymentUncheckedCreateNestedManyWithoutInvoiceInput
 }
 
-export type InvoiceCreateOrConnectWithoutAccountingsInput = {
+export type InvoiceCreateOrConnectWithoutNotificationsInput = {
   where: Prisma.InvoiceWhereUniqueInput
-  create: Prisma.XOR<Prisma.InvoiceCreateWithoutAccountingsInput, Prisma.InvoiceUncheckedCreateWithoutAccountingsInput>
+  create: Prisma.XOR<Prisma.InvoiceCreateWithoutNotificationsInput, Prisma.InvoiceUncheckedCreateWithoutNotificationsInput>
 }
 
-export type InvoiceUpsertWithoutAccountingsInput = {
-  update: Prisma.XOR<Prisma.InvoiceUpdateWithoutAccountingsInput, Prisma.InvoiceUncheckedUpdateWithoutAccountingsInput>
-  create: Prisma.XOR<Prisma.InvoiceCreateWithoutAccountingsInput, Prisma.InvoiceUncheckedCreateWithoutAccountingsInput>
+export type InvoiceUpsertWithoutNotificationsInput = {
+  update: Prisma.XOR<Prisma.InvoiceUpdateWithoutNotificationsInput, Prisma.InvoiceUncheckedUpdateWithoutNotificationsInput>
+  create: Prisma.XOR<Prisma.InvoiceCreateWithoutNotificationsInput, Prisma.InvoiceUncheckedCreateWithoutNotificationsInput>
   where?: Prisma.InvoiceWhereInput
 }
 
-export type InvoiceUpdateToOneWithWhereWithoutAccountingsInput = {
+export type InvoiceUpdateToOneWithWhereWithoutNotificationsInput = {
   where?: Prisma.InvoiceWhereInput
-  data: Prisma.XOR<Prisma.InvoiceUpdateWithoutAccountingsInput, Prisma.InvoiceUncheckedUpdateWithoutAccountingsInput>
+  data: Prisma.XOR<Prisma.InvoiceUpdateWithoutNotificationsInput, Prisma.InvoiceUncheckedUpdateWithoutNotificationsInput>
 }
 
-export type InvoiceUpdateWithoutAccountingsInput = {
+export type InvoiceUpdateWithoutNotificationsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   reference?: Prisma.IntFieldUpdateOperationsInput | number
   price?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
@@ -1164,7 +1164,7 @@ export type InvoiceUpdateWithoutAccountingsInput = {
   payments?: Prisma.PaymentUpdateManyWithoutInvoiceNestedInput
 }
 
-export type InvoiceUncheckedUpdateWithoutAccountingsInput = {
+export type InvoiceUncheckedUpdateWithoutNotificationsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   reference?: Prisma.IntFieldUpdateOperationsInput | number
   price?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
@@ -1205,7 +1205,7 @@ export type InvoiceCreateWithoutPaymentsInput = {
   owner?: Prisma.OwnerCreateNestedOneWithoutInvoicesInput
   tenant?: Prisma.TenantCreateNestedOneWithoutInvoicesInput
   items?: Prisma.ItemCreateNestedManyWithoutInvoiceInput
-  accountings?: Prisma.accountingCreateNestedManyWithoutInvoiceInput
+  notifications?: Prisma.NotificationCreateNestedManyWithoutInvoiceInput
 }
 
 export type InvoiceUncheckedCreateWithoutPaymentsInput = {
@@ -1227,7 +1227,7 @@ export type InvoiceUncheckedCreateWithoutPaymentsInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   items?: Prisma.ItemUncheckedCreateNestedManyWithoutInvoiceInput
-  accountings?: Prisma.accountingUncheckedCreateNestedManyWithoutInvoiceInput
+  notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutInvoiceInput
 }
 
 export type InvoiceCreateOrConnectWithoutPaymentsInput = {
@@ -1265,7 +1265,7 @@ export type InvoiceUpdateWithoutPaymentsInput = {
   owner?: Prisma.OwnerUpdateOneWithoutInvoicesNestedInput
   tenant?: Prisma.TenantUpdateOneWithoutInvoicesNestedInput
   items?: Prisma.ItemUpdateManyWithoutInvoiceNestedInput
-  accountings?: Prisma.accountingUpdateManyWithoutInvoiceNestedInput
+  notifications?: Prisma.NotificationUpdateManyWithoutInvoiceNestedInput
 }
 
 export type InvoiceUncheckedUpdateWithoutPaymentsInput = {
@@ -1287,7 +1287,7 @@ export type InvoiceUncheckedUpdateWithoutPaymentsInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   items?: Prisma.ItemUncheckedUpdateManyWithoutInvoiceNestedInput
-  accountings?: Prisma.accountingUncheckedUpdateManyWithoutInvoiceNestedInput
+  notifications?: Prisma.NotificationUncheckedUpdateManyWithoutInvoiceNestedInput
 }
 
 export type InvoiceCreateManyOwnerInput = {
@@ -1328,7 +1328,7 @@ export type InvoiceUpdateWithoutOwnerInput = {
   tenant?: Prisma.TenantUpdateOneWithoutInvoicesNestedInput
   items?: Prisma.ItemUpdateManyWithoutInvoiceNestedInput
   payments?: Prisma.PaymentUpdateManyWithoutInvoiceNestedInput
-  accountings?: Prisma.accountingUpdateManyWithoutInvoiceNestedInput
+  notifications?: Prisma.NotificationUpdateManyWithoutInvoiceNestedInput
 }
 
 export type InvoiceUncheckedUpdateWithoutOwnerInput = {
@@ -1350,7 +1350,7 @@ export type InvoiceUncheckedUpdateWithoutOwnerInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   items?: Prisma.ItemUncheckedUpdateManyWithoutInvoiceNestedInput
   payments?: Prisma.PaymentUncheckedUpdateManyWithoutInvoiceNestedInput
-  accountings?: Prisma.accountingUncheckedUpdateManyWithoutInvoiceNestedInput
+  notifications?: Prisma.NotificationUncheckedUpdateManyWithoutInvoiceNestedInput
 }
 
 export type InvoiceUncheckedUpdateManyWithoutOwnerInput = {
@@ -1410,7 +1410,7 @@ export type InvoiceUpdateWithoutTenantInput = {
   owner?: Prisma.OwnerUpdateOneWithoutInvoicesNestedInput
   items?: Prisma.ItemUpdateManyWithoutInvoiceNestedInput
   payments?: Prisma.PaymentUpdateManyWithoutInvoiceNestedInput
-  accountings?: Prisma.accountingUpdateManyWithoutInvoiceNestedInput
+  notifications?: Prisma.NotificationUpdateManyWithoutInvoiceNestedInput
 }
 
 export type InvoiceUncheckedUpdateWithoutTenantInput = {
@@ -1432,7 +1432,7 @@ export type InvoiceUncheckedUpdateWithoutTenantInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   items?: Prisma.ItemUncheckedUpdateManyWithoutInvoiceNestedInput
   payments?: Prisma.PaymentUncheckedUpdateManyWithoutInvoiceNestedInput
-  accountings?: Prisma.accountingUncheckedUpdateManyWithoutInvoiceNestedInput
+  notifications?: Prisma.NotificationUncheckedUpdateManyWithoutInvoiceNestedInput
 }
 
 export type InvoiceUncheckedUpdateManyWithoutTenantInput = {
@@ -1462,13 +1462,13 @@ export type InvoiceUncheckedUpdateManyWithoutTenantInput = {
 export type InvoiceCountOutputType = {
   items: number
   payments: number
-  accountings: number
+  notifications: number
 }
 
 export type InvoiceCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   items?: boolean | InvoiceCountOutputTypeCountItemsArgs
   payments?: boolean | InvoiceCountOutputTypeCountPaymentsArgs
-  accountings?: boolean | InvoiceCountOutputTypeCountAccountingsArgs
+  notifications?: boolean | InvoiceCountOutputTypeCountNotificationsArgs
 }
 
 /**
@@ -1498,8 +1498,8 @@ export type InvoiceCountOutputTypeCountPaymentsArgs<ExtArgs extends runtime.Type
 /**
  * InvoiceCountOutputType without action
  */
-export type InvoiceCountOutputTypeCountAccountingsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  where?: Prisma.accountingWhereInput
+export type InvoiceCountOutputTypeCountNotificationsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.NotificationWhereInput
 }
 
 
@@ -1525,7 +1525,7 @@ export type InvoiceSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs 
   tenant?: boolean | Prisma.Invoice$tenantArgs<ExtArgs>
   items?: boolean | Prisma.Invoice$itemsArgs<ExtArgs>
   payments?: boolean | Prisma.Invoice$paymentsArgs<ExtArgs>
-  accountings?: boolean | Prisma.Invoice$accountingsArgs<ExtArgs>
+  notifications?: boolean | Prisma.Invoice$notificationsArgs<ExtArgs>
   _count?: boolean | Prisma.InvoiceCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["invoice"]>
 
@@ -1599,7 +1599,7 @@ export type InvoiceInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs
   tenant?: boolean | Prisma.Invoice$tenantArgs<ExtArgs>
   items?: boolean | Prisma.Invoice$itemsArgs<ExtArgs>
   payments?: boolean | Prisma.Invoice$paymentsArgs<ExtArgs>
-  accountings?: boolean | Prisma.Invoice$accountingsArgs<ExtArgs>
+  notifications?: boolean | Prisma.Invoice$notificationsArgs<ExtArgs>
   _count?: boolean | Prisma.InvoiceCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type InvoiceIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1618,7 +1618,7 @@ export type $InvoicePayload<ExtArgs extends runtime.Types.Extensions.InternalArg
     tenant: Prisma.$TenantPayload<ExtArgs> | null
     items: Prisma.$ItemPayload<ExtArgs>[]
     payments: Prisma.$PaymentPayload<ExtArgs>[]
-    accountings: Prisma.$accountingPayload<ExtArgs>[]
+    notifications: Prisma.$NotificationPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -2036,7 +2036,7 @@ export interface Prisma__InvoiceClient<T, Null = never, ExtArgs extends runtime.
   tenant<T extends Prisma.Invoice$tenantArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Invoice$tenantArgs<ExtArgs>>): Prisma.Prisma__TenantClient<runtime.Types.Result.GetResult<Prisma.$TenantPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   items<T extends Prisma.Invoice$itemsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Invoice$itemsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ItemPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   payments<T extends Prisma.Invoice$paymentsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Invoice$paymentsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$PaymentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-  accountings<T extends Prisma.Invoice$accountingsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Invoice$accountingsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$accountingPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  notifications<T extends Prisma.Invoice$notificationsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Invoice$notificationsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$NotificationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -2570,27 +2570,27 @@ export type Invoice$paymentsArgs<ExtArgs extends runtime.Types.Extensions.Intern
 }
 
 /**
- * Invoice.accountings
+ * Invoice.notifications
  */
-export type Invoice$accountingsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+export type Invoice$notificationsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   /**
-   * Select specific fields to fetch from the accounting
+   * Select specific fields to fetch from the Notification
    */
-  select?: Prisma.accountingSelect<ExtArgs> | null
+  select?: Prisma.NotificationSelect<ExtArgs> | null
   /**
-   * Omit specific fields from the accounting
+   * Omit specific fields from the Notification
    */
-  omit?: Prisma.accountingOmit<ExtArgs> | null
+  omit?: Prisma.NotificationOmit<ExtArgs> | null
   /**
    * Choose, which related nodes to fetch as well
    */
-  include?: Prisma.accountingInclude<ExtArgs> | null
-  where?: Prisma.accountingWhereInput
-  orderBy?: Prisma.accountingOrderByWithRelationInput | Prisma.accountingOrderByWithRelationInput[]
-  cursor?: Prisma.accountingWhereUniqueInput
+  include?: Prisma.NotificationInclude<ExtArgs> | null
+  where?: Prisma.NotificationWhereInput
+  orderBy?: Prisma.NotificationOrderByWithRelationInput | Prisma.NotificationOrderByWithRelationInput[]
+  cursor?: Prisma.NotificationWhereUniqueInput
   take?: number
   skip?: number
-  distinct?: Prisma.AccountingScalarFieldEnum | Prisma.AccountingScalarFieldEnum[]
+  distinct?: Prisma.NotificationScalarFieldEnum | Prisma.NotificationScalarFieldEnum[]
 }
 
 /**

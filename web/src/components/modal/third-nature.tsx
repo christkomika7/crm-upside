@@ -24,21 +24,23 @@ import type { AccountElement } from "@/types/accounting";
 
 type ThirdNatureModalProps = {
     secondNatureId: string;
+    accountingType: "INFLOW" | "OUTFLOW";
 }
 
-export default function ThirdNatureModal({ secondNatureId }: ThirdNatureModalProps) {
+export default function ThirdNatureModal({ secondNatureId, accountingType }: ThirdNatureModalProps) {
 
     const form = useForm<ThirdNatureSchemaType>({
         resolver: zodResolver(thirdNatureSchema),
         defaultValues: {
             name: "",
             secondNature: secondNatureId,
+            accountingType,
         },
     });
 
     const { isPending, data: thirdNatures } = useQuery<AccountElement[]>({
-        queryKey: ["thirdNatures", secondNatureId],
-        queryFn: () => apiFetch<AccountElement[]>(`/third-nature?secondNatureId=${secondNatureId}`),
+        queryKey: ["thirdNatures", secondNatureId, accountingType],
+        queryFn: () => apiFetch<AccountElement[]>(`/third-nature?secondNature=${secondNatureId}&accountingType=${accountingType}`),
     });
 
     const createThirdNature = useMutation({
@@ -46,8 +48,9 @@ export default function ThirdNatureModal({ secondNatureId }: ThirdNatureModalPro
             crudService.post(`/third-nature`, data),
         onSuccess() {
             toast.success("Sous-nature ajoutée avec succès");
-            queryClient.invalidateQueries({ queryKey: ["thirdNatures", secondNatureId] });
-            form.reset({ name: "", secondNature: secondNatureId });
+            queryClient.invalidateQueries({ queryKey: ["thirdNatures", accountingType] });
+            queryClient.invalidateQueries({ queryKey: ["thirdNatures", secondNatureId, accountingType] });
+            form.reset({ name: "", secondNature: secondNatureId, accountingType });
         },
         onError: (error: Error) => {
             toast.error(error.message);
@@ -58,7 +61,7 @@ export default function ThirdNatureModal({ secondNatureId }: ThirdNatureModalPro
         const { success, data } = thirdNatureSchema.safeParse(formData);
         if (success) {
             createThirdNature.mutate({ data });
-            form.reset({ name: "", secondNature: secondNatureId });
+            form.reset({ name: "", secondNature: secondNatureId, accountingType });
         }
     }
 
@@ -85,7 +88,7 @@ export default function ThirdNatureModal({ secondNatureId }: ThirdNatureModalPro
             <Activity mode={thirdNatures && thirdNatures.length > 0 ? "visible" : "hidden"}>
                 <ScrollArea className="space-y-2 h-full max-h-70 pr-3">
                     {thirdNatures?.map((thirdNature, index) => (
-                        <ThirdNatureItem key={index} thirdNature={thirdNature} secondNatureId={secondNatureId} />
+                        <ThirdNatureItem key={index} thirdNature={thirdNature} secondNatureId={secondNatureId} accountingType={accountingType} />
                     ))}
                 </ScrollArea>
             </Activity>
@@ -137,7 +140,7 @@ export default function ThirdNatureModal({ secondNatureId }: ThirdNatureModalPro
 }
 
 
-function ThirdNatureItem({ thirdNature, secondNatureId }: { thirdNature: AccountElement; secondNatureId: string }) {
+function ThirdNatureItem({ thirdNature, secondNatureId, accountingType }: { thirdNature: AccountElement; secondNatureId: string; accountingType: "INFLOW" | "OUTFLOW" }) {
     const [editing, setEditing] = useState(false);
 
     const form = useForm<ThirdNatureSchemaType>({
@@ -145,6 +148,7 @@ function ThirdNatureItem({ thirdNature, secondNatureId }: { thirdNature: Account
         defaultValues: {
             name: thirdNature.name,
             secondNature: secondNatureId,
+            accountingType,
         },
     });
 
@@ -153,9 +157,10 @@ function ThirdNatureItem({ thirdNature, secondNatureId }: { thirdNature: Account
             crudService.put(`/third-nature/${thirdNatureId}`, data),
         onSuccess() {
             toast.success("Sous-nature modifiée avec succès");
-            queryClient.invalidateQueries({ queryKey: ["thirdNatures", secondNatureId] });
+            queryClient.invalidateQueries({ queryKey: ["thirdNatures", accountingType] });
+            queryClient.invalidateQueries({ queryKey: ["thirdNatures", secondNatureId, accountingType] });
+            form.reset({ name: "", secondNature: secondNatureId, accountingType });
             setEditing(false);
-            form.reset({ name: thirdNature.name, secondNature: secondNatureId });
         },
         onError: (error: Error) => {
             toast.error(error.message);
@@ -167,7 +172,9 @@ function ThirdNatureItem({ thirdNature, secondNatureId }: { thirdNature: Account
             crudService.delete(`/third-nature/${thirdNatureId}`),
         onSuccess() {
             toast.success("Sous-nature supprimée avec succès");
-            queryClient.invalidateQueries({ queryKey: ["thirdNatures", secondNatureId] });
+            queryClient.invalidateQueries({ queryKey: ["thirdNatures", accountingType] });
+            queryClient.invalidateQueries({ queryKey: ["thirdNatures", secondNatureId, accountingType] });
+            form.reset({ name: "", secondNature: secondNatureId, accountingType });
         },
         onError: (error: Error) => {
             console.error("Erreur:", error.message);
@@ -177,12 +184,12 @@ function ThirdNatureItem({ thirdNature, secondNatureId }: { thirdNature: Account
 
     function edit() {
         setEditing(true);
-        form.reset({ name: thirdNature.name, secondNature: secondNatureId });
+        form.reset({ name: thirdNature.name, secondNature: secondNatureId, accountingType });
     }
 
     function cancel() {
         setEditing(false);
-        form.reset({ name: thirdNature.name, secondNature: secondNatureId });
+        form.reset({ name: thirdNature.name, secondNature: secondNatureId, accountingType });
     }
 
     async function submit(formData: ThirdNatureSchemaType) {

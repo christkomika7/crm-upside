@@ -39,7 +39,7 @@ export default function CreateTenant() {
                 address: "",
                 maritalStatus: "",
                 income: "",
-                paymentMode: "",
+                paymentMode: "CASH",
                 bankInfo: "",
                 documents: undefined,
             });

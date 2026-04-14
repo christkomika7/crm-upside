@@ -1,0 +1,1 @@
+async function n(t){const e=await fetch(t);if(!e.ok)throw new Error(`Impossible de récupérer le fichier: ${e.status}`);const o=await e.blob(),r=t.split("/").pop()??`${crypto.randomUUID()}`;return new File([o],r,{type:o.type})}export{n as u};

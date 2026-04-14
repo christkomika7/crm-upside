@@ -1,4 +1,6 @@
 export * from "./Role";
+export * from "./NotificationType";
+export * from "./NotificationKindOf";
 export * from "./DeletionState";
 export * from "./PaymentType";
 export * from "./RecordStatus";
@@ -35,6 +37,8 @@ export * from "./ServiceProvider";
 export * from "./Contract";
 export * from "./CheckInOut";
 export * from "./accounting";
+export * from "./Notification";
+export * from "./NotificationRead";
 export * from "./Source";
 export * from "./Allocation";
 export * from "./Category";

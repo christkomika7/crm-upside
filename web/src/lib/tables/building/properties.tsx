@@ -2,7 +2,7 @@ import { Button } from "@/components/ui/button";
 import { Link } from "@tanstack/react-router";
 import type { ColumnDef } from "@tanstack/react-table";
 import { ArrowUpDownIcon, Edit3Icon, EyeIcon, Trash2Icon } from "lucide-react";
-import PropertiesStatus, { type PropertiesStatusKey } from "@/components/ui/properties-status";
+import PropertiesStatus from "@/components/ui/properties-status";
 import { Status, StatusIndicator, StatusLabel } from "@/components/ui/status";
 import { Activity } from "react";
 
@@ -66,7 +66,7 @@ export const columns: ColumnDef<Record<KeyType, string | number | Date | string[
 
                 <div className="capitalize flex gap-x-2">{
                     properties.map((property, index) => (
-                        <PropertiesStatus key={index} value={property as PropertiesStatusKey} />
+                        <PropertiesStatus key={index} index={index} value={property} />
                     ))
                 }</div>
             )

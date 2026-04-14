@@ -19,7 +19,7 @@ export const Route = createFileRoute('/dashboard/')({
     if (!user) {
       throw redirect({ to: "/" });
     }
-    if (!hasAccess) throw redirect({ to: "/error" })
+    if (!hasAccess) throw redirect({ to: ".." })
   },
   component: RouteComponent,
 })

@@ -22,18 +22,19 @@ import { Activity, useState } from "react";
 import { categorySchema, type CategorySchemaType } from "@/lib/zod/accounting";
 import type { AccountElement } from "@/types/accounting";
 
-export default function CategoryModal() {
+export default function CategoryModal({ accountingType }: { accountingType: "INFLOW" | "OUTFLOW" }) {
 
     const form = useForm<CategorySchemaType>({
         resolver: zodResolver(categorySchema),
         defaultValues: {
             name: "",
+            accountingType,
         },
     });
 
     const { isPending, data: categories } = useQuery<AccountElement[]>({
-        queryKey: ["categories"],
-        queryFn: () => apiFetch<AccountElement[]>("/category/"),
+        queryKey: ["categories", accountingType],
+        queryFn: () => apiFetch<AccountElement[]>("/category?accountingType=" + accountingType),
     });
 
     const createCategory = useMutation({
@@ -41,8 +42,8 @@ export default function CategoryModal() {
             crudService.post(`/category`, data),
         onSuccess() {
             toast.success("Catégorie ajoutée avec succès");
-            queryClient.invalidateQueries({ queryKey: ["categories"] });
-            form.reset({ name: "" });
+            queryClient.invalidateQueries({ queryKey: ["categories", accountingType] });
+            form.reset({ name: "", accountingType });
         },
         onError: (error: Error) => {
             toast.error(error.message);
@@ -53,7 +54,6 @@ export default function CategoryModal() {
         const { success, data } = categorySchema.safeParse(formData);
         if (success) {
             createCategory.mutate({ data });
-            form.reset({ name: "" });
         }
     }
 
@@ -80,7 +80,7 @@ export default function CategoryModal() {
             <Activity mode={categories && categories.length > 0 ? "visible" : "hidden"}>
                 <ScrollArea className="space-y-2 h-full max-h-70 pr-3">
                     {categories?.map((category, index) => (
-                        <CategoryItem key={index} category={category} />
+                        <CategoryItem key={index} category={category} accountingType={accountingType} />
                     ))}
                 </ScrollArea>
             </Activity>
@@ -132,13 +132,14 @@ export default function CategoryModal() {
 }
 
 
-function CategoryItem({ category }: { category: AccountElement }) {
+function CategoryItem({ category, accountingType }: { category: AccountElement, accountingType: "INFLOW" | "OUTFLOW" }) {
     const [editing, setEditing] = useState(false);
 
     const form = useForm<CategorySchemaType>({
         resolver: zodResolver(categorySchema),
         defaultValues: {
             name: category.name,
+            accountingType,
         },
     });
 
@@ -147,9 +148,9 @@ function CategoryItem({ category }: { category: AccountElement }) {
             crudService.put(`/category/${categoryId}`, data),
         onSuccess() {
             toast.success("Catégorie modifiée avec succès");
-            queryClient.invalidateQueries({ queryKey: ["categories"] });
+            queryClient.invalidateQueries({ queryKey: ["categories", accountingType] });
             setEditing(false);
-            form.reset({ name: category.name });
+            form.reset({ name: category.name, accountingType });
         },
         onError: (error: Error) => {
             toast.error(error.message);
@@ -161,7 +162,7 @@ function CategoryItem({ category }: { category: AccountElement }) {
             crudService.delete(`/category/${categoryId}`),
         onSuccess() {
             toast.success("Catégorie supprimée avec succès");
-            queryClient.invalidateQueries({ queryKey: ["categories"] });
+            queryClient.invalidateQueries({ queryKey: ["categories", accountingType] });
         },
         onError: (error: Error) => {
             console.error("Erreur:", error.message);
@@ -171,13 +172,12 @@ function CategoryItem({ category }: { category: AccountElement }) {
 
     function edit() {
         setEditing(true);
-        form.reset({ name: category.name });
+        form.reset({ name: category.name, accountingType });
     }
 
     function cancel() {
         setEditing(false);
-        form.reset({ name: "" })
-        form.reset({ name: category.name });
+        form.reset({ name: category.name, accountingType });
     }
 
     async function submit(formData: CategorySchemaType) {

@@ -72,6 +72,40 @@ export const ContractRelations = t.Object(
         { additionalProperties: false },
       ),
     ),
+    notifications: t.Array(
+      t.Object(
+        {
+          id: t.String(),
+          type: t.Union([t.Literal("ALERT"), t.Literal("CONFIRM")], {
+            additionalProperties: false,
+          }),
+          active: t.Boolean(),
+          for: t.Union(
+            [
+              t.Literal("APPOINTMENT"),
+              t.Literal("ACCOUNTING"),
+              t.Literal("INVOICING"),
+              t.Literal("RENTAL"),
+              t.Literal("PAYMENT"),
+              t.Literal("CONTRACT"),
+            ],
+            { additionalProperties: false },
+          ),
+          message: __nullable__(t.String()),
+          accountingId: __nullable__(t.String()),
+          invoiceId: __nullable__(t.String()),
+          paymentId: __nullable__(t.String()),
+          rentalId: __nullable__(t.String()),
+          contractId: __nullable__(t.String()),
+          appointmentId: __nullable__(t.String()),
+          userId: t.String(),
+          createdAt: t.Date(),
+          updatedAt: t.Date(),
+        },
+        { additionalProperties: false },
+      ),
+      { additionalProperties: false },
+    ),
   },
   { additionalProperties: false },
 );
@@ -132,6 +166,22 @@ export const ContractRelationsInputCreate = t.Object(
         { additionalProperties: false },
       ),
     ),
+    notifications: t.Optional(
+      t.Object(
+        {
+          connect: t.Array(
+            t.Object(
+              {
+                id: t.String({ additionalProperties: false }),
+              },
+              { additionalProperties: false },
+            ),
+            { additionalProperties: false },
+          ),
+        },
+        { additionalProperties: false },
+      ),
+    ),
   },
   { additionalProperties: false },
 );
@@ -163,6 +213,31 @@ export const ContractRelationsInputUpdate = t.Partial(
               { additionalProperties: false },
             ),
             disconnect: t.Boolean(),
+          },
+          { additionalProperties: false },
+        ),
+      ),
+      notifications: t.Partial(
+        t.Object(
+          {
+            connect: t.Array(
+              t.Object(
+                {
+                  id: t.String({ additionalProperties: false }),
+                },
+                { additionalProperties: false },
+              ),
+              { additionalProperties: false },
+            ),
+            disconnect: t.Array(
+              t.Object(
+                {
+                  id: t.String({ additionalProperties: false }),
+                },
+                { additionalProperties: false },
+              ),
+              { additionalProperties: false },
+            ),
           },
           { additionalProperties: false },
         ),
@@ -264,6 +339,7 @@ export const ContractSelect = t.Partial(
       isDeleting: t.Boolean(),
       updatedAt: t.Boolean(),
       createdAt: t.Boolean(),
+      notifications: t.Boolean(),
       _count: t.Boolean(),
     },
     { additionalProperties: false },
@@ -276,6 +352,7 @@ export const ContractInclude = t.Partial(
       type: t.Boolean(),
       rental: t.Boolean(),
       building: t.Boolean(),
+      notifications: t.Boolean(),
       _count: t.Boolean(),
     },
     { additionalProperties: false },

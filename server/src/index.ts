@@ -9,6 +9,7 @@ import { wsPlugin } from "./lib/socket";
 
 
 const app = new Elysia()
+  .get("/", () => "Hello World")
   .use(envPlugin)
   .use(corsPlugin)
   .use(betterAuthPlugin)

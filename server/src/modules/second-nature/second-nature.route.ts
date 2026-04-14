@@ -13,14 +13,15 @@ export const secondNatureRoutes = new Elysia({ prefix: "/second-nature" })
 
         return await prisma.secondNature.findMany({
             where: {
-                natureId: query.nature
+                natureId: query.nature,
+                accountingType: query.accountingType,
             },
             orderBy: {
                 name: "desc",
             }
         });
 
-    }, { auth: true, query: t.Object({ nature: t.String({ error: "Aucune nature trouvée." }) }) })
+    }, { auth: true, query: t.Object({ nature: t.String({ error: "Aucune nature trouvée." }), accountingType: t.Enum({ INFLOW: "INFLOW", OUTFLOW: "OUTFLOW" }) }) })
     .get("/:id", async ({ permission, status, params }) => {
         if (!canAccess(permission, "accounting", ['create', 'update'])) {
             return status(403, { message: "Accès refusé" });
@@ -50,7 +51,8 @@ export const secondNatureRoutes = new Elysia({ prefix: "/second-nature" })
         const alreadyExist = await prisma.secondNature.findFirst({
             where: {
                 name: data.name,
-                natureId: data.nature
+                natureId: data.nature,
+                accountingType: data.accountingType,
             }
         });
 
@@ -62,7 +64,8 @@ export const secondNatureRoutes = new Elysia({ prefix: "/second-nature" })
         await prisma.secondNature.create({
             data: {
                 name: data.name,
-                natureId: data.nature
+                natureId: data.nature,
+                accountingType: data.accountingType,
             }
         })
 
@@ -87,6 +90,7 @@ export const secondNatureRoutes = new Elysia({ prefix: "/second-nature" })
             where: {
                 name: data.name,
                 natureId: data.nature,
+                accountingType: data.accountingType,
                 NOT: {
                     id: params.id,
                 },
@@ -103,7 +107,8 @@ export const secondNatureRoutes = new Elysia({ prefix: "/second-nature" })
             },
             data: {
                 name: data.name,
-                natureId: data.nature
+                natureId: data.nature,
+                accountingType: data.accountingType,
             }
         })
 

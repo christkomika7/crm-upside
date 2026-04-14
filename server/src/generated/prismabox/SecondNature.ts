@@ -5,19 +5,40 @@ import { __transformDate__ } from "./__transformDate__";
 import { __nullable__ } from "./__nullable__";
 
 export const SecondNaturePlain = t.Object(
-  { id: t.String(), name: t.String(), natureId: t.String() },
+  {
+    id: t.String(),
+    name: t.String(),
+    accountingType: t.Union([t.Literal("INFLOW"), t.Literal("OUTFLOW")], {
+      additionalProperties: false,
+    }),
+    natureId: t.String(),
+  },
   { additionalProperties: false },
 );
 
 export const SecondNatureRelations = t.Object(
   {
     nature: t.Object(
-      { id: t.String(), name: t.String(), categoryId: t.String() },
+      {
+        id: t.String(),
+        name: t.String(),
+        accountingType: t.Union([t.Literal("INFLOW"), t.Literal("OUTFLOW")], {
+          additionalProperties: false,
+        }),
+        categoryId: t.String(),
+      },
       { additionalProperties: false },
     ),
     thirdNatures: t.Array(
       t.Object(
-        { id: t.String(), name: t.String(), secondNatureId: t.String() },
+        {
+          id: t.String(),
+          name: t.String(),
+          accountingType: t.Union([t.Literal("INFLOW"), t.Literal("OUTFLOW")], {
+            additionalProperties: false,
+          }),
+          secondNatureId: t.String(),
+        },
         { additionalProperties: false },
       ),
       { additionalProperties: false },
@@ -36,22 +57,18 @@ export const SecondNatureRelations = t.Object(
           ),
           amount: t.Number(),
           isTTC: t.Boolean(),
-          checkNumber: t.String(),
+          checkNumber: __nullable__(t.String()),
           description: t.String(),
-          clientType: t.Union([t.Literal("OWNER"), t.Literal("TENANT")], {
-            additionalProperties: false,
-          }),
-          ownerId: __nullable__(t.String()),
-          tenantId: __nullable__(t.String()),
-          invoiceId: __nullable__(t.String()),
-          purchaseOrderId: __nullable__(t.String()),
-          unitId: t.String(),
+          period: __nullable__(t.Date()),
+          unitId: __nullable__(t.String()),
           sourceId: t.String(),
-          allocationId: t.String(),
+          allocationId: __nullable__(t.String()),
           categoryId: t.String(),
           natureId: t.String(),
-          secondNatureId: t.String(),
-          thirdNatureId: t.String(),
+          secondNatureId: __nullable__(t.String()),
+          thirdNatureId: __nullable__(t.String()),
+          userId: t.String(),
+          documents: t.Array(t.String(), { additionalProperties: false }),
           createdAt: t.Date(),
           updatedAt: t.Date(),
         },
@@ -64,12 +81,26 @@ export const SecondNatureRelations = t.Object(
 );
 
 export const SecondNaturePlainInputCreate = t.Object(
-  { name: t.String() },
+  {
+    name: t.String(),
+    accountingType: t.Optional(
+      t.Union([t.Literal("INFLOW"), t.Literal("OUTFLOW")], {
+        additionalProperties: false,
+      }),
+    ),
+  },
   { additionalProperties: false },
 );
 
 export const SecondNaturePlainInputUpdate = t.Object(
-  { name: t.Optional(t.String()) },
+  {
+    name: t.Optional(t.String()),
+    accountingType: t.Optional(
+      t.Union([t.Literal("INFLOW"), t.Literal("OUTFLOW")], {
+        additionalProperties: false,
+      }),
+    ),
+  },
   { additionalProperties: false },
 );
 
@@ -201,6 +232,9 @@ export const SecondNatureWhere = t.Partial(
           OR: t.Array(Self, { additionalProperties: false }),
           id: t.String(),
           name: t.String(),
+          accountingType: t.Union([t.Literal("INFLOW"), t.Literal("OUTFLOW")], {
+            additionalProperties: false,
+          }),
           natureId: t.String(),
         },
         { additionalProperties: false },
@@ -236,7 +270,15 @@ export const SecondNatureWhereUnique = t.Recursive(
         ),
         t.Partial(
           t.Object(
-            { id: t.String(), name: t.String(), natureId: t.String() },
+            {
+              id: t.String(),
+              name: t.String(),
+              accountingType: t.Union(
+                [t.Literal("INFLOW"), t.Literal("OUTFLOW")],
+                { additionalProperties: false },
+              ),
+              natureId: t.String(),
+            },
             { additionalProperties: false },
           ),
         ),
@@ -251,6 +293,7 @@ export const SecondNatureSelect = t.Partial(
     {
       id: t.Boolean(),
       name: t.Boolean(),
+      accountingType: t.Boolean(),
       natureId: t.Boolean(),
       nature: t.Boolean(),
       thirdNatures: t.Boolean(),
@@ -264,6 +307,7 @@ export const SecondNatureSelect = t.Partial(
 export const SecondNatureInclude = t.Partial(
   t.Object(
     {
+      accountingType: t.Boolean(),
       nature: t.Boolean(),
       thirdNatures: t.Boolean(),
       accountings: t.Boolean(),

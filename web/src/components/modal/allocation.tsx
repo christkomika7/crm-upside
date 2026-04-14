@@ -22,18 +22,23 @@ import { Activity, useState } from "react";
 import { allocationSchema, type AllocationSchemaType } from "@/lib/zod/accounting";
 import type { AccountElement } from "@/types/accounting";
 
-export default function AllocationModal() {
+type AllocationModalProps = {
+    accountingType: "INFLOW" | "OUTFLOW";
+}
+
+export default function AllocationModal({ accountingType }: AllocationModalProps) {
 
     const form = useForm<AllocationSchemaType>({
         resolver: zodResolver(allocationSchema),
         defaultValues: {
             name: "",
+            accountingType,
         },
     });
 
     const { isPending, data: allocations } = useQuery<AccountElement[]>({
-        queryKey: ["allocations"],
-        queryFn: () => apiFetch<AccountElement[]>("/allocation/"),
+        queryKey: ["allocations", accountingType],
+        queryFn: () => apiFetch<AccountElement[]>("/allocation?accountingType=" + accountingType),
     });
 
     const createAllocation = useMutation({
@@ -41,8 +46,8 @@ export default function AllocationModal() {
             crudService.post(`/allocation`, data),
         onSuccess() {
             toast.success("Allocation ajoutée avec succès");
-            queryClient.invalidateQueries({ queryKey: ["allocations"] });
-            form.reset({ name: "" });
+            queryClient.invalidateQueries({ queryKey: ["allocations", accountingType] });
+            form.reset({ name: "", accountingType });
         },
         onError: (error: Error) => {
             toast.error(error.message);
@@ -53,7 +58,7 @@ export default function AllocationModal() {
         const { success, data } = allocationSchema.safeParse(formData);
         if (success) {
             createAllocation.mutate({ data });
-            form.reset({ name: "" });
+            form.reset({ name: "", accountingType });
         }
     }
 
@@ -80,7 +85,7 @@ export default function AllocationModal() {
             <Activity mode={allocations && allocations.length > 0 ? "visible" : "hidden"}>
                 <ScrollArea className="space-y-2 h-full max-h-70 pr-3">
                     {allocations?.map((allocation, index) => (
-                        <AllocationItem key={index} allocation={allocation} />
+                        <AllocationItem key={index} allocation={allocation} accountingType={accountingType} />
                     ))}
                 </ScrollArea>
             </Activity>
@@ -132,13 +137,14 @@ export default function AllocationModal() {
 }
 
 
-function AllocationItem({ allocation }: { allocation: AccountElement }) {
+function AllocationItem({ allocation, accountingType }: { allocation: AccountElement, accountingType: "INFLOW" | "OUTFLOW" }) {
     const [editing, setEditing] = useState(false);
 
     const form = useForm<AllocationSchemaType>({
         resolver: zodResolver(allocationSchema),
         defaultValues: {
             name: allocation.name,
+            accountingType
         },
     });
 
@@ -147,9 +153,9 @@ function AllocationItem({ allocation }: { allocation: AccountElement }) {
             crudService.put(`/allocation/${allocationId}`, data),
         onSuccess() {
             toast.success("Allocation modifiée avec succès");
-            queryClient.invalidateQueries({ queryKey: ["allocations"] });
+            queryClient.invalidateQueries({ queryKey: ["allocations", accountingType] });
             setEditing(false);
-            form.reset({ name: allocation.name });
+            form.reset({ name: allocation.name, accountingType });
         },
         onError: (error: Error) => {
             toast.error(error.message);
@@ -161,7 +167,7 @@ function AllocationItem({ allocation }: { allocation: AccountElement }) {
             crudService.delete(`/allocation/${allocationId}`),
         onSuccess() {
             toast.success("Allocation supprimée avec succès");
-            queryClient.invalidateQueries({ queryKey: ["allocations"] });
+            queryClient.invalidateQueries({ queryKey: ["allocations", accountingType] });
         },
         onError: (error: Error) => {
             console.error("Erreur:", error.message);

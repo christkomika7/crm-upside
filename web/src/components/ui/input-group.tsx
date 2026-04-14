@@ -128,6 +128,7 @@ function InputGroupText({ className, ...props }: React.ComponentProps<"span">) {
 
 function InputGroupInput({
   className,
+  value,
   ...props
 }: React.ComponentProps<"input">) {
   return (
@@ -137,6 +138,7 @@ function InputGroupInput({
         "flex-1 rounded-none border-0 bg-transparent shadow-none focus-visible:ring-0 dark:bg-transparent",
         className
       )}
+      value={value as string | number | undefined}
       {...props}
     />
   )

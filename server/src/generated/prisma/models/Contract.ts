@@ -224,6 +224,7 @@ export type ContractWhereInput = {
   createdAt?: Prisma.DateTimeFilter<"Contract"> | Date | string
   rental?: Prisma.XOR<Prisma.RentalNullableScalarRelationFilter, Prisma.RentalWhereInput> | null
   building?: Prisma.XOR<Prisma.BuildingNullableScalarRelationFilter, Prisma.BuildingWhereInput> | null
+  notifications?: Prisma.NotificationListRelationFilter
 }
 
 export type ContractOrderByWithRelationInput = {
@@ -239,6 +240,7 @@ export type ContractOrderByWithRelationInput = {
   createdAt?: Prisma.SortOrder
   rental?: Prisma.RentalOrderByWithRelationInput
   building?: Prisma.BuildingOrderByWithRelationInput
+  notifications?: Prisma.NotificationOrderByRelationAggregateInput
 }
 
 export type ContractWhereUniqueInput = Prisma.AtLeast<{
@@ -257,6 +259,7 @@ export type ContractWhereUniqueInput = Prisma.AtLeast<{
   createdAt?: Prisma.DateTimeFilter<"Contract"> | Date | string
   rental?: Prisma.XOR<Prisma.RentalNullableScalarRelationFilter, Prisma.RentalWhereInput> | null
   building?: Prisma.XOR<Prisma.BuildingNullableScalarRelationFilter, Prisma.BuildingWhereInput> | null
+  notifications?: Prisma.NotificationListRelationFilter
 }, "id">
 
 export type ContractOrderByWithAggregationInput = {
@@ -302,6 +305,7 @@ export type ContractCreateInput = {
   createdAt?: Date | string
   rental?: Prisma.RentalCreateNestedOneWithoutContractsInput
   building?: Prisma.BuildingCreateNestedOneWithoutContractsInput
+  notifications?: Prisma.NotificationCreateNestedManyWithoutContractInput
 }
 
 export type ContractUncheckedCreateInput = {
@@ -315,6 +319,7 @@ export type ContractUncheckedCreateInput = {
   isDeleting?: boolean
   updatedAt?: Date | string
   createdAt?: Date | string
+  notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutContractInput
 }
 
 export type ContractUpdateInput = {
@@ -328,6 +333,7 @@ export type ContractUpdateInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   rental?: Prisma.RentalUpdateOneWithoutContractsNestedInput
   building?: Prisma.BuildingUpdateOneWithoutContractsNestedInput
+  notifications?: Prisma.NotificationUpdateManyWithoutContractNestedInput
 }
 
 export type ContractUncheckedUpdateInput = {
@@ -341,6 +347,7 @@ export type ContractUncheckedUpdateInput = {
   isDeleting?: Prisma.BoolFieldUpdateOperationsInput | boolean
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  notifications?: Prisma.NotificationUncheckedUpdateManyWithoutContractNestedInput
 }
 
 export type ContractCreateManyInput = {
@@ -427,6 +434,11 @@ export type ContractMinOrderByAggregateInput = {
   isDeleting?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
+}
+
+export type ContractNullableScalarRelationFilter = {
+  is?: Prisma.ContractWhereInput | null
+  isNot?: Prisma.ContractWhereInput | null
 }
 
 export type ContractCreateNestedManyWithoutBuildingInput = {
@@ -517,6 +529,22 @@ export type EnumContractTypeFieldUpdateOperationsInput = {
   set?: $Enums.ContractType
 }
 
+export type ContractCreateNestedOneWithoutNotificationsInput = {
+  create?: Prisma.XOR<Prisma.ContractCreateWithoutNotificationsInput, Prisma.ContractUncheckedCreateWithoutNotificationsInput>
+  connectOrCreate?: Prisma.ContractCreateOrConnectWithoutNotificationsInput
+  connect?: Prisma.ContractWhereUniqueInput
+}
+
+export type ContractUpdateOneWithoutNotificationsNestedInput = {
+  create?: Prisma.XOR<Prisma.ContractCreateWithoutNotificationsInput, Prisma.ContractUncheckedCreateWithoutNotificationsInput>
+  connectOrCreate?: Prisma.ContractCreateOrConnectWithoutNotificationsInput
+  upsert?: Prisma.ContractUpsertWithoutNotificationsInput
+  disconnect?: Prisma.ContractWhereInput | boolean
+  delete?: Prisma.ContractWhereInput | boolean
+  connect?: Prisma.ContractWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.ContractUpdateToOneWithWhereWithoutNotificationsInput, Prisma.ContractUpdateWithoutNotificationsInput>, Prisma.ContractUncheckedUpdateWithoutNotificationsInput>
+}
+
 export type ContractCreateWithoutBuildingInput = {
   id?: string
   type: $Enums.ContractType
@@ -527,6 +555,7 @@ export type ContractCreateWithoutBuildingInput = {
   updatedAt?: Date | string
   createdAt?: Date | string
   rental?: Prisma.RentalCreateNestedOneWithoutContractsInput
+  notifications?: Prisma.NotificationCreateNestedManyWithoutContractInput
 }
 
 export type ContractUncheckedCreateWithoutBuildingInput = {
@@ -539,6 +568,7 @@ export type ContractUncheckedCreateWithoutBuildingInput = {
   isDeleting?: boolean
   updatedAt?: Date | string
   createdAt?: Date | string
+  notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutContractInput
 }
 
 export type ContractCreateOrConnectWithoutBuildingInput = {
@@ -593,6 +623,7 @@ export type ContractCreateWithoutRentalInput = {
   updatedAt?: Date | string
   createdAt?: Date | string
   building?: Prisma.BuildingCreateNestedOneWithoutContractsInput
+  notifications?: Prisma.NotificationCreateNestedManyWithoutContractInput
 }
 
 export type ContractUncheckedCreateWithoutRentalInput = {
@@ -605,6 +636,7 @@ export type ContractUncheckedCreateWithoutRentalInput = {
   isDeleting?: boolean
   updatedAt?: Date | string
   createdAt?: Date | string
+  notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutContractInput
 }
 
 export type ContractCreateOrConnectWithoutRentalInput = {
@@ -633,6 +665,74 @@ export type ContractUpdateManyWithWhereWithoutRentalInput = {
   data: Prisma.XOR<Prisma.ContractUpdateManyMutationInput, Prisma.ContractUncheckedUpdateManyWithoutRentalInput>
 }
 
+export type ContractCreateWithoutNotificationsInput = {
+  id?: string
+  type: $Enums.ContractType
+  start: Date | string
+  end: Date | string
+  isCanceled?: boolean
+  isDeleting?: boolean
+  updatedAt?: Date | string
+  createdAt?: Date | string
+  rental?: Prisma.RentalCreateNestedOneWithoutContractsInput
+  building?: Prisma.BuildingCreateNestedOneWithoutContractsInput
+}
+
+export type ContractUncheckedCreateWithoutNotificationsInput = {
+  id?: string
+  type: $Enums.ContractType
+  start: Date | string
+  end: Date | string
+  rentalId?: string | null
+  buildingId?: string | null
+  isCanceled?: boolean
+  isDeleting?: boolean
+  updatedAt?: Date | string
+  createdAt?: Date | string
+}
+
+export type ContractCreateOrConnectWithoutNotificationsInput = {
+  where: Prisma.ContractWhereUniqueInput
+  create: Prisma.XOR<Prisma.ContractCreateWithoutNotificationsInput, Prisma.ContractUncheckedCreateWithoutNotificationsInput>
+}
+
+export type ContractUpsertWithoutNotificationsInput = {
+  update: Prisma.XOR<Prisma.ContractUpdateWithoutNotificationsInput, Prisma.ContractUncheckedUpdateWithoutNotificationsInput>
+  create: Prisma.XOR<Prisma.ContractCreateWithoutNotificationsInput, Prisma.ContractUncheckedCreateWithoutNotificationsInput>
+  where?: Prisma.ContractWhereInput
+}
+
+export type ContractUpdateToOneWithWhereWithoutNotificationsInput = {
+  where?: Prisma.ContractWhereInput
+  data: Prisma.XOR<Prisma.ContractUpdateWithoutNotificationsInput, Prisma.ContractUncheckedUpdateWithoutNotificationsInput>
+}
+
+export type ContractUpdateWithoutNotificationsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  type?: Prisma.EnumContractTypeFieldUpdateOperationsInput | $Enums.ContractType
+  start?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  end?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  isCanceled?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isDeleting?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  rental?: Prisma.RentalUpdateOneWithoutContractsNestedInput
+  building?: Prisma.BuildingUpdateOneWithoutContractsNestedInput
+}
+
+export type ContractUncheckedUpdateWithoutNotificationsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  type?: Prisma.EnumContractTypeFieldUpdateOperationsInput | $Enums.ContractType
+  start?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  end?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  rentalId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  buildingId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isCanceled?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isDeleting?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+}
+
 export type ContractCreateManyBuildingInput = {
   id?: string
   type: $Enums.ContractType
@@ -655,6 +755,7 @@ export type ContractUpdateWithoutBuildingInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   rental?: Prisma.RentalUpdateOneWithoutContractsNestedInput
+  notifications?: Prisma.NotificationUpdateManyWithoutContractNestedInput
 }
 
 export type ContractUncheckedUpdateWithoutBuildingInput = {
@@ -667,6 +768,7 @@ export type ContractUncheckedUpdateWithoutBuildingInput = {
   isDeleting?: Prisma.BoolFieldUpdateOperationsInput | boolean
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  notifications?: Prisma.NotificationUncheckedUpdateManyWithoutContractNestedInput
 }
 
 export type ContractUncheckedUpdateManyWithoutBuildingInput = {
@@ -703,6 +805,7 @@ export type ContractUpdateWithoutRentalInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   building?: Prisma.BuildingUpdateOneWithoutContractsNestedInput
+  notifications?: Prisma.NotificationUpdateManyWithoutContractNestedInput
 }
 
 export type ContractUncheckedUpdateWithoutRentalInput = {
@@ -715,6 +818,7 @@ export type ContractUncheckedUpdateWithoutRentalInput = {
   isDeleting?: Prisma.BoolFieldUpdateOperationsInput | boolean
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  notifications?: Prisma.NotificationUncheckedUpdateManyWithoutContractNestedInput
 }
 
 export type ContractUncheckedUpdateManyWithoutRentalInput = {
@@ -730,6 +834,35 @@ export type ContractUncheckedUpdateManyWithoutRentalInput = {
 }
 
 
+/**
+ * Count Type ContractCountOutputType
+ */
+
+export type ContractCountOutputType = {
+  notifications: number
+}
+
+export type ContractCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  notifications?: boolean | ContractCountOutputTypeCountNotificationsArgs
+}
+
+/**
+ * ContractCountOutputType without action
+ */
+export type ContractCountOutputTypeDefaultArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the ContractCountOutputType
+   */
+  select?: Prisma.ContractCountOutputTypeSelect<ExtArgs> | null
+}
+
+/**
+ * ContractCountOutputType without action
+ */
+export type ContractCountOutputTypeCountNotificationsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.NotificationWhereInput
+}
+
 
 export type ContractSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
@@ -744,6 +877,8 @@ export type ContractSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs
   createdAt?: boolean
   rental?: boolean | Prisma.Contract$rentalArgs<ExtArgs>
   building?: boolean | Prisma.Contract$buildingArgs<ExtArgs>
+  notifications?: boolean | Prisma.Contract$notificationsArgs<ExtArgs>
+  _count?: boolean | Prisma.ContractCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["contract"]>
 
 export type ContractSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -793,6 +928,8 @@ export type ContractOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs =
 export type ContractInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   rental?: boolean | Prisma.Contract$rentalArgs<ExtArgs>
   building?: boolean | Prisma.Contract$buildingArgs<ExtArgs>
+  notifications?: boolean | Prisma.Contract$notificationsArgs<ExtArgs>
+  _count?: boolean | Prisma.ContractCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type ContractIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   rental?: boolean | Prisma.Contract$rentalArgs<ExtArgs>
@@ -808,6 +945,7 @@ export type $ContractPayload<ExtArgs extends runtime.Types.Extensions.InternalAr
   objects: {
     rental: Prisma.$RentalPayload<ExtArgs> | null
     building: Prisma.$BuildingPayload<ExtArgs> | null
+    notifications: Prisma.$NotificationPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -1216,6 +1354,7 @@ export interface Prisma__ContractClient<T, Null = never, ExtArgs extends runtime
   readonly [Symbol.toStringTag]: "PrismaPromise"
   rental<T extends Prisma.Contract$rentalArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Contract$rentalArgs<ExtArgs>>): Prisma.Prisma__RentalClient<runtime.Types.Result.GetResult<Prisma.$RentalPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   building<T extends Prisma.Contract$buildingArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Contract$buildingArgs<ExtArgs>>): Prisma.Prisma__BuildingClient<runtime.Types.Result.GetResult<Prisma.$BuildingPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+  notifications<T extends Prisma.Contract$notificationsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Contract$notificationsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$NotificationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1691,6 +1830,30 @@ export type Contract$buildingArgs<ExtArgs extends runtime.Types.Extensions.Inter
    */
   include?: Prisma.BuildingInclude<ExtArgs> | null
   where?: Prisma.BuildingWhereInput
+}
+
+/**
+ * Contract.notifications
+ */
+export type Contract$notificationsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Notification
+   */
+  select?: Prisma.NotificationSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Notification
+   */
+  omit?: Prisma.NotificationOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.NotificationInclude<ExtArgs> | null
+  where?: Prisma.NotificationWhereInput
+  orderBy?: Prisma.NotificationOrderByWithRelationInput | Prisma.NotificationOrderByWithRelationInput[]
+  cursor?: Prisma.NotificationWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.NotificationScalarFieldEnum | Prisma.NotificationScalarFieldEnum[]
 }
 
 /**

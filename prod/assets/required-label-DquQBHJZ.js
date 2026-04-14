@@ -1,0 +1,1 @@
+import{b as r,j as s}from"./index-B33D0wKo.js";function n(){const t=r.c(1);let e;return t[0]===Symbol.for("react.memo_cache_sentinel")?(e=s.jsx("span",{className:"text-red-500",children:"*"}),t[0]=e):e=t[0],e}export{n as R};

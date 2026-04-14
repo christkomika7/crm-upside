@@ -26,16 +26,19 @@ export type AggregateCategory = {
 
 export type CategoryMinAggregateOutputType = {
   id: string | null
+  accountingType: $Enums.AccountingType | null
   name: string | null
 }
 
 export type CategoryMaxAggregateOutputType = {
   id: string | null
+  accountingType: $Enums.AccountingType | null
   name: string | null
 }
 
 export type CategoryCountAggregateOutputType = {
   id: number
+  accountingType: number
   name: number
   _all: number
 }
@@ -43,16 +46,19 @@ export type CategoryCountAggregateOutputType = {
 
 export type CategoryMinAggregateInputType = {
   id?: true
+  accountingType?: true
   name?: true
 }
 
 export type CategoryMaxAggregateInputType = {
   id?: true
+  accountingType?: true
   name?: true
 }
 
 export type CategoryCountAggregateInputType = {
   id?: true
+  accountingType?: true
   name?: true
   _all?: true
 }
@@ -131,6 +137,7 @@ export type CategoryGroupByArgs<ExtArgs extends runtime.Types.Extensions.Interna
 
 export type CategoryGroupByOutputType = {
   id: string
+  accountingType: $Enums.AccountingType
   name: string
   _count: CategoryCountAggregateOutputType | null
   _min: CategoryMinAggregateOutputType | null
@@ -157,6 +164,7 @@ export type CategoryWhereInput = {
   OR?: Prisma.CategoryWhereInput[]
   NOT?: Prisma.CategoryWhereInput | Prisma.CategoryWhereInput[]
   id?: Prisma.StringFilter<"Category"> | string
+  accountingType?: Prisma.EnumAccountingTypeFilter<"Category"> | $Enums.AccountingType
   name?: Prisma.StringFilter<"Category"> | string
   nature?: Prisma.NatureListRelationFilter
   accountings?: Prisma.AccountingListRelationFilter
@@ -164,6 +172,7 @@ export type CategoryWhereInput = {
 
 export type CategoryOrderByWithRelationInput = {
   id?: Prisma.SortOrder
+  accountingType?: Prisma.SortOrder
   name?: Prisma.SortOrder
   nature?: Prisma.NatureOrderByRelationAggregateInput
   accountings?: Prisma.accountingOrderByRelationAggregateInput
@@ -171,16 +180,18 @@ export type CategoryOrderByWithRelationInput = {
 
 export type CategoryWhereUniqueInput = Prisma.AtLeast<{
   id?: string
-  name?: string
   AND?: Prisma.CategoryWhereInput | Prisma.CategoryWhereInput[]
   OR?: Prisma.CategoryWhereInput[]
   NOT?: Prisma.CategoryWhereInput | Prisma.CategoryWhereInput[]
+  accountingType?: Prisma.EnumAccountingTypeFilter<"Category"> | $Enums.AccountingType
+  name?: Prisma.StringFilter<"Category"> | string
   nature?: Prisma.NatureListRelationFilter
   accountings?: Prisma.AccountingListRelationFilter
-}, "id" | "name">
+}, "id">
 
 export type CategoryOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
+  accountingType?: Prisma.SortOrder
   name?: Prisma.SortOrder
   _count?: Prisma.CategoryCountOrderByAggregateInput
   _max?: Prisma.CategoryMaxOrderByAggregateInput
@@ -192,11 +203,13 @@ export type CategoryScalarWhereWithAggregatesInput = {
   OR?: Prisma.CategoryScalarWhereWithAggregatesInput[]
   NOT?: Prisma.CategoryScalarWhereWithAggregatesInput | Prisma.CategoryScalarWhereWithAggregatesInput[]
   id?: Prisma.StringWithAggregatesFilter<"Category"> | string
+  accountingType?: Prisma.EnumAccountingTypeWithAggregatesFilter<"Category"> | $Enums.AccountingType
   name?: Prisma.StringWithAggregatesFilter<"Category"> | string
 }
 
 export type CategoryCreateInput = {
   id?: string
+  accountingType?: $Enums.AccountingType
   name: string
   nature?: Prisma.NatureCreateNestedManyWithoutCategoryInput
   accountings?: Prisma.accountingCreateNestedManyWithoutCategoryInput
@@ -204,6 +217,7 @@ export type CategoryCreateInput = {
 
 export type CategoryUncheckedCreateInput = {
   id?: string
+  accountingType?: $Enums.AccountingType
   name: string
   nature?: Prisma.NatureUncheckedCreateNestedManyWithoutCategoryInput
   accountings?: Prisma.accountingUncheckedCreateNestedManyWithoutCategoryInput
@@ -211,6 +225,7 @@ export type CategoryUncheckedCreateInput = {
 
 export type CategoryUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  accountingType?: Prisma.EnumAccountingTypeFieldUpdateOperationsInput | $Enums.AccountingType
   name?: Prisma.StringFieldUpdateOperationsInput | string
   nature?: Prisma.NatureUpdateManyWithoutCategoryNestedInput
   accountings?: Prisma.accountingUpdateManyWithoutCategoryNestedInput
@@ -218,6 +233,7 @@ export type CategoryUpdateInput = {
 
 export type CategoryUncheckedUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  accountingType?: Prisma.EnumAccountingTypeFieldUpdateOperationsInput | $Enums.AccountingType
   name?: Prisma.StringFieldUpdateOperationsInput | string
   nature?: Prisma.NatureUncheckedUpdateManyWithoutCategoryNestedInput
   accountings?: Prisma.accountingUncheckedUpdateManyWithoutCategoryNestedInput
@@ -225,16 +241,19 @@ export type CategoryUncheckedUpdateInput = {
 
 export type CategoryCreateManyInput = {
   id?: string
+  accountingType?: $Enums.AccountingType
   name: string
 }
 
 export type CategoryUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  accountingType?: Prisma.EnumAccountingTypeFieldUpdateOperationsInput | $Enums.AccountingType
   name?: Prisma.StringFieldUpdateOperationsInput | string
 }
 
 export type CategoryUncheckedUpdateManyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  accountingType?: Prisma.EnumAccountingTypeFieldUpdateOperationsInput | $Enums.AccountingType
   name?: Prisma.StringFieldUpdateOperationsInput | string
 }
 
@@ -245,16 +264,19 @@ export type CategoryScalarRelationFilter = {
 
 export type CategoryCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
+  accountingType?: Prisma.SortOrder
   name?: Prisma.SortOrder
 }
 
 export type CategoryMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
+  accountingType?: Prisma.SortOrder
   name?: Prisma.SortOrder
 }
 
 export type CategoryMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
+  accountingType?: Prisma.SortOrder
   name?: Prisma.SortOrder
 }
 
@@ -288,12 +310,14 @@ export type CategoryUpdateOneRequiredWithoutNatureNestedInput = {
 
 export type CategoryCreateWithoutAccountingsInput = {
   id?: string
+  accountingType?: $Enums.AccountingType
   name: string
   nature?: Prisma.NatureCreateNestedManyWithoutCategoryInput
 }
 
 export type CategoryUncheckedCreateWithoutAccountingsInput = {
   id?: string
+  accountingType?: $Enums.AccountingType
   name: string
   nature?: Prisma.NatureUncheckedCreateNestedManyWithoutCategoryInput
 }
@@ -316,24 +340,28 @@ export type CategoryUpdateToOneWithWhereWithoutAccountingsInput = {
 
 export type CategoryUpdateWithoutAccountingsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  accountingType?: Prisma.EnumAccountingTypeFieldUpdateOperationsInput | $Enums.AccountingType
   name?: Prisma.StringFieldUpdateOperationsInput | string
   nature?: Prisma.NatureUpdateManyWithoutCategoryNestedInput
 }
 
 export type CategoryUncheckedUpdateWithoutAccountingsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  accountingType?: Prisma.EnumAccountingTypeFieldUpdateOperationsInput | $Enums.AccountingType
   name?: Prisma.StringFieldUpdateOperationsInput | string
   nature?: Prisma.NatureUncheckedUpdateManyWithoutCategoryNestedInput
 }
 
 export type CategoryCreateWithoutNatureInput = {
   id?: string
+  accountingType?: $Enums.AccountingType
   name: string
   accountings?: Prisma.accountingCreateNestedManyWithoutCategoryInput
 }
 
 export type CategoryUncheckedCreateWithoutNatureInput = {
   id?: string
+  accountingType?: $Enums.AccountingType
   name: string
   accountings?: Prisma.accountingUncheckedCreateNestedManyWithoutCategoryInput
 }
@@ -356,12 +384,14 @@ export type CategoryUpdateToOneWithWhereWithoutNatureInput = {
 
 export type CategoryUpdateWithoutNatureInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  accountingType?: Prisma.EnumAccountingTypeFieldUpdateOperationsInput | $Enums.AccountingType
   name?: Prisma.StringFieldUpdateOperationsInput | string
   accountings?: Prisma.accountingUpdateManyWithoutCategoryNestedInput
 }
 
 export type CategoryUncheckedUpdateWithoutNatureInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  accountingType?: Prisma.EnumAccountingTypeFieldUpdateOperationsInput | $Enums.AccountingType
   name?: Prisma.StringFieldUpdateOperationsInput | string
   accountings?: Prisma.accountingUncheckedUpdateManyWithoutCategoryNestedInput
 }
@@ -408,6 +438,7 @@ export type CategoryCountOutputTypeCountAccountingsArgs<ExtArgs extends runtime.
 
 export type CategorySelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
+  accountingType?: boolean
   name?: boolean
   nature?: boolean | Prisma.Category$natureArgs<ExtArgs>
   accountings?: boolean | Prisma.Category$accountingsArgs<ExtArgs>
@@ -416,20 +447,23 @@ export type CategorySelect<ExtArgs extends runtime.Types.Extensions.InternalArgs
 
 export type CategorySelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
+  accountingType?: boolean
   name?: boolean
 }, ExtArgs["result"]["category"]>
 
 export type CategorySelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
+  accountingType?: boolean
   name?: boolean
 }, ExtArgs["result"]["category"]>
 
 export type CategorySelectScalar = {
   id?: boolean
+  accountingType?: boolean
   name?: boolean
 }
 
-export type CategoryOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name", ExtArgs["result"]["category"]>
+export type CategoryOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "accountingType" | "name", ExtArgs["result"]["category"]>
 export type CategoryInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   nature?: boolean | Prisma.Category$natureArgs<ExtArgs>
   accountings?: boolean | Prisma.Category$accountingsArgs<ExtArgs>
@@ -446,6 +480,7 @@ export type $CategoryPayload<ExtArgs extends runtime.Types.Extensions.InternalAr
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
+    accountingType: $Enums.AccountingType
     name: string
   }, ExtArgs["result"]["category"]>
   composites: {}
@@ -873,6 +908,7 @@ export interface Prisma__CategoryClient<T, Null = never, ExtArgs extends runtime
  */
 export interface CategoryFieldRefs {
   readonly id: Prisma.FieldRef<"Category", 'String'>
+  readonly accountingType: Prisma.FieldRef<"Category", 'AccountingType'>
   readonly name: Prisma.FieldRef<"Category", 'String'>
 }
     

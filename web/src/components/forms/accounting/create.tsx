@@ -9,10 +9,10 @@ export default function CreateAccounting() {
     return (
         <>
             <Activity mode={type === "income" ? "visible" : "hidden"}>
-                <IncomeForm />
+                <IncomeForm accountingType="INFLOW" />
             </Activity>
             <Activity mode={type === "outcome" ? "visible" : "hidden"}>
-                <OutcomeForm />
+                <OutcomeForm accountingType="OUTFLOW" />
             </Activity>
         </>
     )

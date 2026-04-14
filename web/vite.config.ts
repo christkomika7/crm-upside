@@ -37,6 +37,10 @@ export default defineConfig({
 		},
 
 	},
+	build: {
+		outDir: path.resolve(__dirname, "../prod"),
+		emptyOutDir: true
+	},
 	resolve: {
 		alias: {
 			"@": path.resolve(__dirname, "./src"),

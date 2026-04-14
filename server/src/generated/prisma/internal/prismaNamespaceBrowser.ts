@@ -77,6 +77,8 @@ export const ModelName = {
   Contract: 'Contract',
   CheckInOut: 'CheckInOut',
   accounting: 'accounting',
+  Notification: 'Notification',
+  NotificationRead: 'NotificationRead',
   Source: 'Source',
   Allocation: 'Allocation',
   Category: 'Category',
@@ -222,13 +224,14 @@ export const UnitScalarFieldEnum = {
   kitchen: 'kitchen',
   bedroom: 'bedroom',
   bathroom: 'bathroom',
-  rent: 'rent',
   furnished: 'furnished',
   wifi: 'wifi',
   water: 'water',
   electricity: 'electricity',
   tv: 'tv',
+  rent: 'rent',
   charges: 'charges',
+  amountGenerate: 'amountGenerate',
   documents: 'documents',
   isDeleting: 'isDeleting',
   buildingId: 'buildingId',
@@ -524,11 +527,7 @@ export const AccountingScalarFieldEnum = {
   isTTC: 'isTTC',
   checkNumber: 'checkNumber',
   description: 'description',
-  clientType: 'clientType',
-  ownerId: 'ownerId',
-  tenantId: 'tenantId',
-  invoiceId: 'invoiceId',
-  purchaseOrderId: 'purchaseOrderId',
+  period: 'period',
   unitId: 'unitId',
   sourceId: 'sourceId',
   allocationId: 'allocationId',
@@ -536,6 +535,8 @@ export const AccountingScalarFieldEnum = {
   natureId: 'natureId',
   secondNatureId: 'secondNatureId',
   thirdNatureId: 'thirdNatureId',
+  userId: 'userId',
+  documents: 'documents',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const
@@ -543,8 +544,39 @@ export const AccountingScalarFieldEnum = {
 export type AccountingScalarFieldEnum = (typeof AccountingScalarFieldEnum)[keyof typeof AccountingScalarFieldEnum]
 
 
+export const NotificationScalarFieldEnum = {
+  id: 'id',
+  type: 'type',
+  active: 'active',
+  for: 'for',
+  message: 'message',
+  accountingId: 'accountingId',
+  invoiceId: 'invoiceId',
+  paymentId: 'paymentId',
+  rentalId: 'rentalId',
+  contractId: 'contractId',
+  appointmentId: 'appointmentId',
+  userId: 'userId',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type NotificationScalarFieldEnum = (typeof NotificationScalarFieldEnum)[keyof typeof NotificationScalarFieldEnum]
+
+
+export const NotificationReadScalarFieldEnum = {
+  id: 'id',
+  notificationId: 'notificationId',
+  userId: 'userId',
+  readAt: 'readAt'
+} as const
+
+export type NotificationReadScalarFieldEnum = (typeof NotificationReadScalarFieldEnum)[keyof typeof NotificationReadScalarFieldEnum]
+
+
 export const SourceScalarFieldEnum = {
   id: 'id',
+  accountingType: 'accountingType',
   type: 'type',
   name: 'name'
 } as const
@@ -554,6 +586,7 @@ export type SourceScalarFieldEnum = (typeof SourceScalarFieldEnum)[keyof typeof 
 
 export const AllocationScalarFieldEnum = {
   id: 'id',
+  accountingType: 'accountingType',
   name: 'name'
 } as const
 
@@ -562,6 +595,7 @@ export type AllocationScalarFieldEnum = (typeof AllocationScalarFieldEnum)[keyof
 
 export const CategoryScalarFieldEnum = {
   id: 'id',
+  accountingType: 'accountingType',
   name: 'name'
 } as const
 
@@ -571,6 +605,7 @@ export type CategoryScalarFieldEnum = (typeof CategoryScalarFieldEnum)[keyof typ
 export const NatureScalarFieldEnum = {
   id: 'id',
   name: 'name',
+  accountingType: 'accountingType',
   categoryId: 'categoryId'
 } as const
 
@@ -580,6 +615,7 @@ export type NatureScalarFieldEnum = (typeof NatureScalarFieldEnum)[keyof typeof 
 export const SecondNatureScalarFieldEnum = {
   id: 'id',
   name: 'name',
+  accountingType: 'accountingType',
   natureId: 'natureId'
 } as const
 
@@ -589,6 +625,7 @@ export type SecondNatureScalarFieldEnum = (typeof SecondNatureScalarFieldEnum)[k
 export const ThirdNatureScalarFieldEnum = {
   id: 'id',
   name: 'name',
+  accountingType: 'accountingType',
   secondNatureId: 'secondNatureId'
 } as const
 

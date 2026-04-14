@@ -5,7 +5,13 @@ import { __transformDate__ } from "./__transformDate__";
 import { __nullable__ } from "./__nullable__";
 
 export const CategoryPlain = t.Object(
-  { id: t.String(), name: t.String() },
+  {
+    id: t.String(),
+    accountingType: t.Union([t.Literal("INFLOW"), t.Literal("OUTFLOW")], {
+      additionalProperties: false,
+    }),
+    name: t.String(),
+  },
   { additionalProperties: false },
 );
 
@@ -13,7 +19,14 @@ export const CategoryRelations = t.Object(
   {
     nature: t.Array(
       t.Object(
-        { id: t.String(), name: t.String(), categoryId: t.String() },
+        {
+          id: t.String(),
+          name: t.String(),
+          accountingType: t.Union([t.Literal("INFLOW"), t.Literal("OUTFLOW")], {
+            additionalProperties: false,
+          }),
+          categoryId: t.String(),
+        },
         { additionalProperties: false },
       ),
       { additionalProperties: false },
@@ -32,22 +45,18 @@ export const CategoryRelations = t.Object(
           ),
           amount: t.Number(),
           isTTC: t.Boolean(),
-          checkNumber: t.String(),
+          checkNumber: __nullable__(t.String()),
           description: t.String(),
-          clientType: t.Union([t.Literal("OWNER"), t.Literal("TENANT")], {
-            additionalProperties: false,
-          }),
-          ownerId: __nullable__(t.String()),
-          tenantId: __nullable__(t.String()),
-          invoiceId: __nullable__(t.String()),
-          purchaseOrderId: __nullable__(t.String()),
-          unitId: t.String(),
+          period: __nullable__(t.Date()),
+          unitId: __nullable__(t.String()),
           sourceId: t.String(),
-          allocationId: t.String(),
+          allocationId: __nullable__(t.String()),
           categoryId: t.String(),
           natureId: t.String(),
-          secondNatureId: t.String(),
-          thirdNatureId: t.String(),
+          secondNatureId: __nullable__(t.String()),
+          thirdNatureId: __nullable__(t.String()),
+          userId: t.String(),
+          documents: t.Array(t.String(), { additionalProperties: false }),
           createdAt: t.Date(),
           updatedAt: t.Date(),
         },
@@ -60,12 +69,26 @@ export const CategoryRelations = t.Object(
 );
 
 export const CategoryPlainInputCreate = t.Object(
-  { name: t.String() },
+  {
+    accountingType: t.Optional(
+      t.Union([t.Literal("INFLOW"), t.Literal("OUTFLOW")], {
+        additionalProperties: false,
+      }),
+    ),
+    name: t.String(),
+  },
   { additionalProperties: false },
 );
 
 export const CategoryPlainInputUpdate = t.Object(
-  { name: t.Optional(t.String()) },
+  {
+    accountingType: t.Optional(
+      t.Union([t.Literal("INFLOW"), t.Literal("OUTFLOW")], {
+        additionalProperties: false,
+      }),
+    ),
+    name: t.Optional(t.String()),
+  },
   { additionalProperties: false },
 );
 
@@ -174,6 +197,9 @@ export const CategoryWhere = t.Partial(
           NOT: t.Union([Self, t.Array(Self, { additionalProperties: false })]),
           OR: t.Array(Self, { additionalProperties: false }),
           id: t.String(),
+          accountingType: t.Union([t.Literal("INFLOW"), t.Literal("OUTFLOW")], {
+            additionalProperties: false,
+          }),
           name: t.String(),
         },
         { additionalProperties: false },
@@ -187,16 +213,12 @@ export const CategoryWhereUnique = t.Recursive(
     t.Intersect(
       [
         t.Partial(
-          t.Object(
-            { id: t.String(), name: t.String() },
-            { additionalProperties: false },
-          ),
+          t.Object({ id: t.String() }, { additionalProperties: false }),
           { additionalProperties: false },
         ),
-        t.Union(
-          [t.Object({ id: t.String() }), t.Object({ name: t.String() })],
-          { additionalProperties: false },
-        ),
+        t.Union([t.Object({ id: t.String() })], {
+          additionalProperties: false,
+        }),
         t.Partial(
           t.Object({
             AND: t.Union([
@@ -213,7 +235,14 @@ export const CategoryWhereUnique = t.Recursive(
         ),
         t.Partial(
           t.Object(
-            { id: t.String(), name: t.String() },
+            {
+              id: t.String(),
+              accountingType: t.Union(
+                [t.Literal("INFLOW"), t.Literal("OUTFLOW")],
+                { additionalProperties: false },
+              ),
+              name: t.String(),
+            },
             { additionalProperties: false },
           ),
         ),
@@ -227,6 +256,7 @@ export const CategorySelect = t.Partial(
   t.Object(
     {
       id: t.Boolean(),
+      accountingType: t.Boolean(),
       name: t.Boolean(),
       nature: t.Boolean(),
       accountings: t.Boolean(),
@@ -238,7 +268,12 @@ export const CategorySelect = t.Partial(
 
 export const CategoryInclude = t.Partial(
   t.Object(
-    { nature: t.Boolean(), accountings: t.Boolean(), _count: t.Boolean() },
+    {
+      accountingType: t.Boolean(),
+      nature: t.Boolean(),
+      accountings: t.Boolean(),
+      _count: t.Boolean(),
+    },
     { additionalProperties: false },
   ),
 );

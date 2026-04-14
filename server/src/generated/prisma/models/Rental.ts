@@ -251,6 +251,7 @@ export type RentalWhereInput = {
   tenant?: Prisma.XOR<Prisma.TenantScalarRelationFilter, Prisma.TenantWhereInput>
   unit?: Prisma.XOR<Prisma.UnitScalarRelationFilter, Prisma.UnitWhereInput>
   contracts?: Prisma.ContractListRelationFilter
+  notifications?: Prisma.NotificationListRelationFilter
 }
 
 export type RentalOrderByWithRelationInput = {
@@ -266,6 +267,7 @@ export type RentalOrderByWithRelationInput = {
   tenant?: Prisma.TenantOrderByWithRelationInput
   unit?: Prisma.UnitOrderByWithRelationInput
   contracts?: Prisma.ContractOrderByRelationAggregateInput
+  notifications?: Prisma.NotificationOrderByRelationAggregateInput
 }
 
 export type RentalWhereUniqueInput = Prisma.AtLeast<{
@@ -284,6 +286,7 @@ export type RentalWhereUniqueInput = Prisma.AtLeast<{
   tenant?: Prisma.XOR<Prisma.TenantScalarRelationFilter, Prisma.TenantWhereInput>
   unit?: Prisma.XOR<Prisma.UnitScalarRelationFilter, Prisma.UnitWhereInput>
   contracts?: Prisma.ContractListRelationFilter
+  notifications?: Prisma.NotificationListRelationFilter
 }, "id">
 
 export type RentalOrderByWithAggregationInput = {
@@ -329,6 +332,7 @@ export type RentalCreateInput = {
   tenant: Prisma.TenantCreateNestedOneWithoutRentalsInput
   unit: Prisma.UnitCreateNestedOneWithoutRentalsInput
   contracts?: Prisma.ContractCreateNestedManyWithoutRentalInput
+  notifications?: Prisma.NotificationCreateNestedManyWithoutRentalInput
 }
 
 export type RentalUncheckedCreateInput = {
@@ -342,6 +346,7 @@ export type RentalUncheckedCreateInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   contracts?: Prisma.ContractUncheckedCreateNestedManyWithoutRentalInput
+  notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutRentalInput
 }
 
 export type RentalUpdateInput = {
@@ -355,6 +360,7 @@ export type RentalUpdateInput = {
   tenant?: Prisma.TenantUpdateOneRequiredWithoutRentalsNestedInput
   unit?: Prisma.UnitUpdateOneRequiredWithoutRentalsNestedInput
   contracts?: Prisma.ContractUpdateManyWithoutRentalNestedInput
+  notifications?: Prisma.NotificationUpdateManyWithoutRentalNestedInput
 }
 
 export type RentalUncheckedUpdateInput = {
@@ -368,6 +374,7 @@ export type RentalUncheckedUpdateInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   contracts?: Prisma.ContractUncheckedUpdateManyWithoutRentalNestedInput
+  notifications?: Prisma.NotificationUncheckedUpdateManyWithoutRentalNestedInput
 }
 
 export type RentalCreateManyInput = {
@@ -563,6 +570,22 @@ export type RentalUpdateOneWithoutContractsNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.RentalUpdateToOneWithWhereWithoutContractsInput, Prisma.RentalUpdateWithoutContractsInput>, Prisma.RentalUncheckedUpdateWithoutContractsInput>
 }
 
+export type RentalCreateNestedOneWithoutNotificationsInput = {
+  create?: Prisma.XOR<Prisma.RentalCreateWithoutNotificationsInput, Prisma.RentalUncheckedCreateWithoutNotificationsInput>
+  connectOrCreate?: Prisma.RentalCreateOrConnectWithoutNotificationsInput
+  connect?: Prisma.RentalWhereUniqueInput
+}
+
+export type RentalUpdateOneWithoutNotificationsNestedInput = {
+  create?: Prisma.XOR<Prisma.RentalCreateWithoutNotificationsInput, Prisma.RentalUncheckedCreateWithoutNotificationsInput>
+  connectOrCreate?: Prisma.RentalCreateOrConnectWithoutNotificationsInput
+  upsert?: Prisma.RentalUpsertWithoutNotificationsInput
+  disconnect?: Prisma.RentalWhereInput | boolean
+  delete?: Prisma.RentalWhereInput | boolean
+  connect?: Prisma.RentalWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.RentalUpdateToOneWithWhereWithoutNotificationsInput, Prisma.RentalUpdateWithoutNotificationsInput>, Prisma.RentalUncheckedUpdateWithoutNotificationsInput>
+}
+
 export type RentalCreateWithoutUnitInput = {
   id?: string
   isDeleting?: boolean
@@ -573,6 +596,7 @@ export type RentalCreateWithoutUnitInput = {
   updatedAt?: Date | string
   tenant: Prisma.TenantCreateNestedOneWithoutRentalsInput
   contracts?: Prisma.ContractCreateNestedManyWithoutRentalInput
+  notifications?: Prisma.NotificationCreateNestedManyWithoutRentalInput
 }
 
 export type RentalUncheckedCreateWithoutUnitInput = {
@@ -585,6 +609,7 @@ export type RentalUncheckedCreateWithoutUnitInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   contracts?: Prisma.ContractUncheckedCreateNestedManyWithoutRentalInput
+  notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutRentalInput
 }
 
 export type RentalCreateOrConnectWithoutUnitInput = {
@@ -638,6 +663,7 @@ export type RentalCreateWithoutTenantInput = {
   updatedAt?: Date | string
   unit: Prisma.UnitCreateNestedOneWithoutRentalsInput
   contracts?: Prisma.ContractCreateNestedManyWithoutRentalInput
+  notifications?: Prisma.NotificationCreateNestedManyWithoutRentalInput
 }
 
 export type RentalUncheckedCreateWithoutTenantInput = {
@@ -650,6 +676,7 @@ export type RentalUncheckedCreateWithoutTenantInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   contracts?: Prisma.ContractUncheckedCreateNestedManyWithoutRentalInput
+  notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutRentalInput
 }
 
 export type RentalCreateOrConnectWithoutTenantInput = {
@@ -688,6 +715,7 @@ export type RentalCreateWithoutContractsInput = {
   updatedAt?: Date | string
   tenant: Prisma.TenantCreateNestedOneWithoutRentalsInput
   unit: Prisma.UnitCreateNestedOneWithoutRentalsInput
+  notifications?: Prisma.NotificationCreateNestedManyWithoutRentalInput
 }
 
 export type RentalUncheckedCreateWithoutContractsInput = {
@@ -700,6 +728,7 @@ export type RentalUncheckedCreateWithoutContractsInput = {
   end: Date | string
   createdAt?: Date | string
   updatedAt?: Date | string
+  notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutRentalInput
 }
 
 export type RentalCreateOrConnectWithoutContractsInput = {
@@ -728,6 +757,7 @@ export type RentalUpdateWithoutContractsInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   tenant?: Prisma.TenantUpdateOneRequiredWithoutRentalsNestedInput
   unit?: Prisma.UnitUpdateOneRequiredWithoutRentalsNestedInput
+  notifications?: Prisma.NotificationUpdateManyWithoutRentalNestedInput
 }
 
 export type RentalUncheckedUpdateWithoutContractsInput = {
@@ -740,6 +770,75 @@ export type RentalUncheckedUpdateWithoutContractsInput = {
   end?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  notifications?: Prisma.NotificationUncheckedUpdateManyWithoutRentalNestedInput
+}
+
+export type RentalCreateWithoutNotificationsInput = {
+  id?: string
+  isDeleting?: boolean
+  price?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  start: Date | string
+  end: Date | string
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  tenant: Prisma.TenantCreateNestedOneWithoutRentalsInput
+  unit: Prisma.UnitCreateNestedOneWithoutRentalsInput
+  contracts?: Prisma.ContractCreateNestedManyWithoutRentalInput
+}
+
+export type RentalUncheckedCreateWithoutNotificationsInput = {
+  id?: string
+  tenantId: string
+  unitId: string
+  isDeleting?: boolean
+  price?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  start: Date | string
+  end: Date | string
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  contracts?: Prisma.ContractUncheckedCreateNestedManyWithoutRentalInput
+}
+
+export type RentalCreateOrConnectWithoutNotificationsInput = {
+  where: Prisma.RentalWhereUniqueInput
+  create: Prisma.XOR<Prisma.RentalCreateWithoutNotificationsInput, Prisma.RentalUncheckedCreateWithoutNotificationsInput>
+}
+
+export type RentalUpsertWithoutNotificationsInput = {
+  update: Prisma.XOR<Prisma.RentalUpdateWithoutNotificationsInput, Prisma.RentalUncheckedUpdateWithoutNotificationsInput>
+  create: Prisma.XOR<Prisma.RentalCreateWithoutNotificationsInput, Prisma.RentalUncheckedCreateWithoutNotificationsInput>
+  where?: Prisma.RentalWhereInput
+}
+
+export type RentalUpdateToOneWithWhereWithoutNotificationsInput = {
+  where?: Prisma.RentalWhereInput
+  data: Prisma.XOR<Prisma.RentalUpdateWithoutNotificationsInput, Prisma.RentalUncheckedUpdateWithoutNotificationsInput>
+}
+
+export type RentalUpdateWithoutNotificationsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  isDeleting?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  price?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  start?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  end?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  tenant?: Prisma.TenantUpdateOneRequiredWithoutRentalsNestedInput
+  unit?: Prisma.UnitUpdateOneRequiredWithoutRentalsNestedInput
+  contracts?: Prisma.ContractUpdateManyWithoutRentalNestedInput
+}
+
+export type RentalUncheckedUpdateWithoutNotificationsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenantId?: Prisma.StringFieldUpdateOperationsInput | string
+  unitId?: Prisma.StringFieldUpdateOperationsInput | string
+  isDeleting?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  price?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  start?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  end?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  contracts?: Prisma.ContractUncheckedUpdateManyWithoutRentalNestedInput
 }
 
 export type RentalCreateManyUnitInput = {
@@ -763,6 +862,7 @@ export type RentalUpdateWithoutUnitInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   tenant?: Prisma.TenantUpdateOneRequiredWithoutRentalsNestedInput
   contracts?: Prisma.ContractUpdateManyWithoutRentalNestedInput
+  notifications?: Prisma.NotificationUpdateManyWithoutRentalNestedInput
 }
 
 export type RentalUncheckedUpdateWithoutUnitInput = {
@@ -775,6 +875,7 @@ export type RentalUncheckedUpdateWithoutUnitInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   contracts?: Prisma.ContractUncheckedUpdateManyWithoutRentalNestedInput
+  notifications?: Prisma.NotificationUncheckedUpdateManyWithoutRentalNestedInput
 }
 
 export type RentalUncheckedUpdateManyWithoutUnitInput = {
@@ -809,6 +910,7 @@ export type RentalUpdateWithoutTenantInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   unit?: Prisma.UnitUpdateOneRequiredWithoutRentalsNestedInput
   contracts?: Prisma.ContractUpdateManyWithoutRentalNestedInput
+  notifications?: Prisma.NotificationUpdateManyWithoutRentalNestedInput
 }
 
 export type RentalUncheckedUpdateWithoutTenantInput = {
@@ -821,6 +923,7 @@ export type RentalUncheckedUpdateWithoutTenantInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   contracts?: Prisma.ContractUncheckedUpdateManyWithoutRentalNestedInput
+  notifications?: Prisma.NotificationUncheckedUpdateManyWithoutRentalNestedInput
 }
 
 export type RentalUncheckedUpdateManyWithoutTenantInput = {
@@ -841,10 +944,12 @@ export type RentalUncheckedUpdateManyWithoutTenantInput = {
 
 export type RentalCountOutputType = {
   contracts: number
+  notifications: number
 }
 
 export type RentalCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   contracts?: boolean | RentalCountOutputTypeCountContractsArgs
+  notifications?: boolean | RentalCountOutputTypeCountNotificationsArgs
 }
 
 /**
@@ -864,6 +969,13 @@ export type RentalCountOutputTypeCountContractsArgs<ExtArgs extends runtime.Type
   where?: Prisma.ContractWhereInput
 }
 
+/**
+ * RentalCountOutputType without action
+ */
+export type RentalCountOutputTypeCountNotificationsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.NotificationWhereInput
+}
+
 
 export type RentalSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
@@ -878,6 +990,7 @@ export type RentalSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs =
   tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
   unit?: boolean | Prisma.UnitDefaultArgs<ExtArgs>
   contracts?: boolean | Prisma.Rental$contractsArgs<ExtArgs>
+  notifications?: boolean | Prisma.Rental$notificationsArgs<ExtArgs>
   _count?: boolean | Prisma.RentalCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["rental"]>
 
@@ -926,6 +1039,7 @@ export type RentalInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs 
   tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
   unit?: boolean | Prisma.UnitDefaultArgs<ExtArgs>
   contracts?: boolean | Prisma.Rental$contractsArgs<ExtArgs>
+  notifications?: boolean | Prisma.Rental$notificationsArgs<ExtArgs>
   _count?: boolean | Prisma.RentalCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type RentalIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -943,6 +1057,7 @@ export type $RentalPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs
     tenant: Prisma.$TenantPayload<ExtArgs>
     unit: Prisma.$UnitPayload<ExtArgs>
     contracts: Prisma.$ContractPayload<ExtArgs>[]
+    notifications: Prisma.$NotificationPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -1351,6 +1466,7 @@ export interface Prisma__RentalClient<T, Null = never, ExtArgs extends runtime.T
   tenant<T extends Prisma.TenantDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.TenantDefaultArgs<ExtArgs>>): Prisma.Prisma__TenantClient<runtime.Types.Result.GetResult<Prisma.$TenantPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   unit<T extends Prisma.UnitDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.UnitDefaultArgs<ExtArgs>>): Prisma.Prisma__UnitClient<runtime.Types.Result.GetResult<Prisma.$UnitPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   contracts<T extends Prisma.Rental$contractsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Rental$contractsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ContractPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  notifications<T extends Prisma.Rental$notificationsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Rental$notificationsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$NotificationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1811,6 +1927,30 @@ export type Rental$contractsArgs<ExtArgs extends runtime.Types.Extensions.Intern
   take?: number
   skip?: number
   distinct?: Prisma.ContractScalarFieldEnum | Prisma.ContractScalarFieldEnum[]
+}
+
+/**
+ * Rental.notifications
+ */
+export type Rental$notificationsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Notification
+   */
+  select?: Prisma.NotificationSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Notification
+   */
+  omit?: Prisma.NotificationOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.NotificationInclude<ExtArgs> | null
+  where?: Prisma.NotificationWhereInput
+  orderBy?: Prisma.NotificationOrderByWithRelationInput | Prisma.NotificationOrderByWithRelationInput[]
+  cursor?: Prisma.NotificationWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.NotificationScalarFieldEnum | Prisma.NotificationScalarFieldEnum[]
 }
 
 /**

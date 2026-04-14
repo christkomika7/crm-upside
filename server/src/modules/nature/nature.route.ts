@@ -13,14 +13,15 @@ export const natureRoutes = new Elysia({ prefix: "/nature" })
 
         return await prisma.nature.findMany({
             where: {
-                categoryId: query.category
+                categoryId: query.category,
+                accountingType: query.accountingType,
             },
             orderBy: {
                 name: "desc",
             }
         });
 
-    }, { auth: true, query: t.Object({ category: t.String({ error: "Aucune catégorie trouvée." }) }) })
+    }, { auth: true, query: t.Object({ category: t.String({ error: "Aucune catégorie trouvée." }), accountingType: t.Enum({ INFLOW: "INFLOW", OUTFLOW: "OUTFLOW" }) }) })
     .get("/:id", async ({ permission, status, params }) => {
         if (!canAccess(permission, "accounting", ['create', 'update'])) {
             return status(403, { message: "Accès refusé" });
@@ -50,7 +51,8 @@ export const natureRoutes = new Elysia({ prefix: "/nature" })
         const alreadyExist = await prisma.nature.findFirst({
             where: {
                 name: data.name,
-                categoryId: data.category
+                categoryId: data.category,
+                accountingType: data.accountingType,
             }
         });
 
@@ -62,7 +64,8 @@ export const natureRoutes = new Elysia({ prefix: "/nature" })
         await prisma.nature.create({
             data: {
                 name: data.name,
-                categoryId: data.category
+                categoryId: data.category,
+                accountingType: data.accountingType,
             }
         })
 
@@ -87,6 +90,7 @@ export const natureRoutes = new Elysia({ prefix: "/nature" })
             where: {
                 name: data.name,
                 categoryId: data.category,
+                accountingType: data.accountingType,
                 NOT: {
                     id: params.id,
                 },
@@ -103,7 +107,8 @@ export const natureRoutes = new Elysia({ prefix: "/nature" })
             },
             data: {
                 name: data.name,
-                categoryId: data.category
+                categoryId: data.category,
+                accountingType: data.accountingType,
             }
         })
 

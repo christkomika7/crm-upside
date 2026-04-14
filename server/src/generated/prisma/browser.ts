@@ -148,6 +148,16 @@ export type CheckInOut = Prisma.CheckInOutModel
  */
 export type accounting = Prisma.accountingModel
 /**
+ * Model Notification
+ * 
+ */
+export type Notification = Prisma.NotificationModel
+/**
+ * Model NotificationRead
+ * 
+ */
+export type NotificationRead = Prisma.NotificationReadModel
+/**
  * Model Source
  * 
  */

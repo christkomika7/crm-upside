@@ -13,14 +13,15 @@ export const thirdNatureRoutes = new Elysia({ prefix: "/third-nature" })
 
         return await prisma.thirdNature.findMany({
             where: {
-                secondNatureId: query.secondNature
+                secondNatureId: query.secondNature,
+                accountingType: query.accountingType,
             },
             orderBy: {
                 name: "desc",
             }
         })
 
-    }, { auth: true, query: t.Object({ secondNature: t.String({ error: "Aucune seconde nature trouvée." }) }) })
+    }, { auth: true, query: t.Object({ secondNature: t.String({ error: "Aucune seconde nature trouvée." }), accountingType: t.Enum({ INFLOW: "INFLOW", OUTFLOW: "OUTFLOW" }) }) })
     .get("/:id", async ({ permission, status, params }) => {
         if (!canAccess(permission, "accounting", ['create', 'update'])) {
             return status(403, { message: "Accès refusé" });
@@ -50,7 +51,8 @@ export const thirdNatureRoutes = new Elysia({ prefix: "/third-nature" })
         const alreadyExist = await prisma.thirdNature.findFirst({
             where: {
                 name: data.name,
-                secondNatureId: data.secondNature
+                secondNatureId: data.secondNature,
+                accountingType: data.accountingType,
             }
         });
 
@@ -62,7 +64,8 @@ export const thirdNatureRoutes = new Elysia({ prefix: "/third-nature" })
         await prisma.thirdNature.create({
             data: {
                 name: data.name,
-                secondNatureId: data.secondNature
+                secondNatureId: data.secondNature,
+                accountingType: data.accountingType,
             }
         })
 
@@ -87,6 +90,7 @@ export const thirdNatureRoutes = new Elysia({ prefix: "/third-nature" })
             where: {
                 name: data.name,
                 secondNatureId: data.secondNature,
+                accountingType: data.accountingType,
                 NOT: {
                     id: params.id,
                 },
@@ -103,7 +107,8 @@ export const thirdNatureRoutes = new Elysia({ prefix: "/third-nature" })
             },
             data: {
                 name: data.name,
-                secondNatureId: data.secondNature
+                secondNatureId: data.secondNature,
+                accountingType: data.accountingType,
             }
         })
 

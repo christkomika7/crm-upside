@@ -26,16 +26,19 @@ export type AggregateAllocation = {
 
 export type AllocationMinAggregateOutputType = {
   id: string | null
+  accountingType: $Enums.AccountingType | null
   name: string | null
 }
 
 export type AllocationMaxAggregateOutputType = {
   id: string | null
+  accountingType: $Enums.AccountingType | null
   name: string | null
 }
 
 export type AllocationCountAggregateOutputType = {
   id: number
+  accountingType: number
   name: number
   _all: number
 }
@@ -43,16 +46,19 @@ export type AllocationCountAggregateOutputType = {
 
 export type AllocationMinAggregateInputType = {
   id?: true
+  accountingType?: true
   name?: true
 }
 
 export type AllocationMaxAggregateInputType = {
   id?: true
+  accountingType?: true
   name?: true
 }
 
 export type AllocationCountAggregateInputType = {
   id?: true
+  accountingType?: true
   name?: true
   _all?: true
 }
@@ -131,6 +137,7 @@ export type AllocationGroupByArgs<ExtArgs extends runtime.Types.Extensions.Inter
 
 export type AllocationGroupByOutputType = {
   id: string
+  accountingType: $Enums.AccountingType
   name: string
   _count: AllocationCountAggregateOutputType | null
   _min: AllocationMinAggregateOutputType | null
@@ -157,27 +164,31 @@ export type AllocationWhereInput = {
   OR?: Prisma.AllocationWhereInput[]
   NOT?: Prisma.AllocationWhereInput | Prisma.AllocationWhereInput[]
   id?: Prisma.StringFilter<"Allocation"> | string
+  accountingType?: Prisma.EnumAccountingTypeFilter<"Allocation"> | $Enums.AccountingType
   name?: Prisma.StringFilter<"Allocation"> | string
   accountings?: Prisma.AccountingListRelationFilter
 }
 
 export type AllocationOrderByWithRelationInput = {
   id?: Prisma.SortOrder
+  accountingType?: Prisma.SortOrder
   name?: Prisma.SortOrder
   accountings?: Prisma.accountingOrderByRelationAggregateInput
 }
 
 export type AllocationWhereUniqueInput = Prisma.AtLeast<{
   id?: string
-  name?: string
   AND?: Prisma.AllocationWhereInput | Prisma.AllocationWhereInput[]
   OR?: Prisma.AllocationWhereInput[]
   NOT?: Prisma.AllocationWhereInput | Prisma.AllocationWhereInput[]
+  accountingType?: Prisma.EnumAccountingTypeFilter<"Allocation"> | $Enums.AccountingType
+  name?: Prisma.StringFilter<"Allocation"> | string
   accountings?: Prisma.AccountingListRelationFilter
-}, "id" | "name">
+}, "id">
 
 export type AllocationOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
+  accountingType?: Prisma.SortOrder
   name?: Prisma.SortOrder
   _count?: Prisma.AllocationCountOrderByAggregateInput
   _max?: Prisma.AllocationMaxOrderByAggregateInput
@@ -189,65 +200,76 @@ export type AllocationScalarWhereWithAggregatesInput = {
   OR?: Prisma.AllocationScalarWhereWithAggregatesInput[]
   NOT?: Prisma.AllocationScalarWhereWithAggregatesInput | Prisma.AllocationScalarWhereWithAggregatesInput[]
   id?: Prisma.StringWithAggregatesFilter<"Allocation"> | string
+  accountingType?: Prisma.EnumAccountingTypeWithAggregatesFilter<"Allocation"> | $Enums.AccountingType
   name?: Prisma.StringWithAggregatesFilter<"Allocation"> | string
 }
 
 export type AllocationCreateInput = {
   id?: string
+  accountingType?: $Enums.AccountingType
   name: string
   accountings?: Prisma.accountingCreateNestedManyWithoutAllocationInput
 }
 
 export type AllocationUncheckedCreateInput = {
   id?: string
+  accountingType?: $Enums.AccountingType
   name: string
   accountings?: Prisma.accountingUncheckedCreateNestedManyWithoutAllocationInput
 }
 
 export type AllocationUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  accountingType?: Prisma.EnumAccountingTypeFieldUpdateOperationsInput | $Enums.AccountingType
   name?: Prisma.StringFieldUpdateOperationsInput | string
   accountings?: Prisma.accountingUpdateManyWithoutAllocationNestedInput
 }
 
 export type AllocationUncheckedUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  accountingType?: Prisma.EnumAccountingTypeFieldUpdateOperationsInput | $Enums.AccountingType
   name?: Prisma.StringFieldUpdateOperationsInput | string
   accountings?: Prisma.accountingUncheckedUpdateManyWithoutAllocationNestedInput
 }
 
 export type AllocationCreateManyInput = {
   id?: string
+  accountingType?: $Enums.AccountingType
   name: string
 }
 
 export type AllocationUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  accountingType?: Prisma.EnumAccountingTypeFieldUpdateOperationsInput | $Enums.AccountingType
   name?: Prisma.StringFieldUpdateOperationsInput | string
 }
 
 export type AllocationUncheckedUpdateManyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  accountingType?: Prisma.EnumAccountingTypeFieldUpdateOperationsInput | $Enums.AccountingType
   name?: Prisma.StringFieldUpdateOperationsInput | string
 }
 
-export type AllocationScalarRelationFilter = {
-  is?: Prisma.AllocationWhereInput
-  isNot?: Prisma.AllocationWhereInput
+export type AllocationNullableScalarRelationFilter = {
+  is?: Prisma.AllocationWhereInput | null
+  isNot?: Prisma.AllocationWhereInput | null
 }
 
 export type AllocationCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
+  accountingType?: Prisma.SortOrder
   name?: Prisma.SortOrder
 }
 
 export type AllocationMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
+  accountingType?: Prisma.SortOrder
   name?: Prisma.SortOrder
 }
 
 export type AllocationMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
+  accountingType?: Prisma.SortOrder
   name?: Prisma.SortOrder
 }
 
@@ -257,21 +279,25 @@ export type AllocationCreateNestedOneWithoutAccountingsInput = {
   connect?: Prisma.AllocationWhereUniqueInput
 }
 
-export type AllocationUpdateOneRequiredWithoutAccountingsNestedInput = {
+export type AllocationUpdateOneWithoutAccountingsNestedInput = {
   create?: Prisma.XOR<Prisma.AllocationCreateWithoutAccountingsInput, Prisma.AllocationUncheckedCreateWithoutAccountingsInput>
   connectOrCreate?: Prisma.AllocationCreateOrConnectWithoutAccountingsInput
   upsert?: Prisma.AllocationUpsertWithoutAccountingsInput
+  disconnect?: Prisma.AllocationWhereInput | boolean
+  delete?: Prisma.AllocationWhereInput | boolean
   connect?: Prisma.AllocationWhereUniqueInput
   update?: Prisma.XOR<Prisma.XOR<Prisma.AllocationUpdateToOneWithWhereWithoutAccountingsInput, Prisma.AllocationUpdateWithoutAccountingsInput>, Prisma.AllocationUncheckedUpdateWithoutAccountingsInput>
 }
 
 export type AllocationCreateWithoutAccountingsInput = {
   id?: string
+  accountingType?: $Enums.AccountingType
   name: string
 }
 
 export type AllocationUncheckedCreateWithoutAccountingsInput = {
   id?: string
+  accountingType?: $Enums.AccountingType
   name: string
 }
 
@@ -293,11 +319,13 @@ export type AllocationUpdateToOneWithWhereWithoutAccountingsInput = {
 
 export type AllocationUpdateWithoutAccountingsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  accountingType?: Prisma.EnumAccountingTypeFieldUpdateOperationsInput | $Enums.AccountingType
   name?: Prisma.StringFieldUpdateOperationsInput | string
 }
 
 export type AllocationUncheckedUpdateWithoutAccountingsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  accountingType?: Prisma.EnumAccountingTypeFieldUpdateOperationsInput | $Enums.AccountingType
   name?: Prisma.StringFieldUpdateOperationsInput | string
 }
 
@@ -334,6 +362,7 @@ export type AllocationCountOutputTypeCountAccountingsArgs<ExtArgs extends runtim
 
 export type AllocationSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
+  accountingType?: boolean
   name?: boolean
   accountings?: boolean | Prisma.Allocation$accountingsArgs<ExtArgs>
   _count?: boolean | Prisma.AllocationCountOutputTypeDefaultArgs<ExtArgs>
@@ -341,20 +370,23 @@ export type AllocationSelect<ExtArgs extends runtime.Types.Extensions.InternalAr
 
 export type AllocationSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
+  accountingType?: boolean
   name?: boolean
 }, ExtArgs["result"]["allocation"]>
 
 export type AllocationSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
+  accountingType?: boolean
   name?: boolean
 }, ExtArgs["result"]["allocation"]>
 
 export type AllocationSelectScalar = {
   id?: boolean
+  accountingType?: boolean
   name?: boolean
 }
 
-export type AllocationOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name", ExtArgs["result"]["allocation"]>
+export type AllocationOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "accountingType" | "name", ExtArgs["result"]["allocation"]>
 export type AllocationInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   accountings?: boolean | Prisma.Allocation$accountingsArgs<ExtArgs>
   _count?: boolean | Prisma.AllocationCountOutputTypeDefaultArgs<ExtArgs>
@@ -369,6 +401,7 @@ export type $AllocationPayload<ExtArgs extends runtime.Types.Extensions.Internal
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
+    accountingType: $Enums.AccountingType
     name: string
   }, ExtArgs["result"]["allocation"]>
   composites: {}
@@ -795,6 +828,7 @@ export interface Prisma__AllocationClient<T, Null = never, ExtArgs extends runti
  */
 export interface AllocationFieldRefs {
   readonly id: Prisma.FieldRef<"Allocation", 'String'>
+  readonly accountingType: Prisma.FieldRef<"Allocation", 'AccountingType'>
   readonly name: Prisma.FieldRef<"Allocation", 'String'>
 }
     

@@ -7,6 +7,9 @@ import { __nullable__ } from "./__nullable__";
 export const SourcePlain = t.Object(
   {
     id: t.String(),
+    accountingType: t.Union([t.Literal("INFLOW"), t.Literal("OUTFLOW")], {
+      additionalProperties: false,
+    }),
     type: t.Union([t.Literal("CASH"), t.Literal("CHECK"), t.Literal("BANK")], {
       additionalProperties: false,
     }),
@@ -31,22 +34,18 @@ export const SourceRelations = t.Object(
           ),
           amount: t.Number(),
           isTTC: t.Boolean(),
-          checkNumber: t.String(),
+          checkNumber: __nullable__(t.String()),
           description: t.String(),
-          clientType: t.Union([t.Literal("OWNER"), t.Literal("TENANT")], {
-            additionalProperties: false,
-          }),
-          ownerId: __nullable__(t.String()),
-          tenantId: __nullable__(t.String()),
-          invoiceId: __nullable__(t.String()),
-          purchaseOrderId: __nullable__(t.String()),
-          unitId: t.String(),
+          period: __nullable__(t.Date()),
+          unitId: __nullable__(t.String()),
           sourceId: t.String(),
-          allocationId: t.String(),
+          allocationId: __nullable__(t.String()),
           categoryId: t.String(),
           natureId: t.String(),
-          secondNatureId: t.String(),
-          thirdNatureId: t.String(),
+          secondNatureId: __nullable__(t.String()),
+          thirdNatureId: __nullable__(t.String()),
+          userId: t.String(),
+          documents: t.Array(t.String(), { additionalProperties: false }),
           createdAt: t.Date(),
           updatedAt: t.Date(),
         },
@@ -60,6 +59,11 @@ export const SourceRelations = t.Object(
 
 export const SourcePlainInputCreate = t.Object(
   {
+    accountingType: t.Optional(
+      t.Union([t.Literal("INFLOW"), t.Literal("OUTFLOW")], {
+        additionalProperties: false,
+      }),
+    ),
     type: t.Union([t.Literal("CASH"), t.Literal("CHECK"), t.Literal("BANK")], {
       additionalProperties: false,
     }),
@@ -70,6 +74,11 @@ export const SourcePlainInputCreate = t.Object(
 
 export const SourcePlainInputUpdate = t.Object(
   {
+    accountingType: t.Optional(
+      t.Union([t.Literal("INFLOW"), t.Literal("OUTFLOW")], {
+        additionalProperties: false,
+      }),
+    ),
     type: t.Optional(
       t.Union([t.Literal("CASH"), t.Literal("CHECK"), t.Literal("BANK")], {
         additionalProperties: false,
@@ -144,6 +153,9 @@ export const SourceWhere = t.Partial(
           NOT: t.Union([Self, t.Array(Self, { additionalProperties: false })]),
           OR: t.Array(Self, { additionalProperties: false }),
           id: t.String(),
+          accountingType: t.Union([t.Literal("INFLOW"), t.Literal("OUTFLOW")], {
+            additionalProperties: false,
+          }),
           type: t.Union(
             [t.Literal("CASH"), t.Literal("CHECK"), t.Literal("BANK")],
             { additionalProperties: false },
@@ -185,6 +197,10 @@ export const SourceWhereUnique = t.Recursive(
           t.Object(
             {
               id: t.String(),
+              accountingType: t.Union(
+                [t.Literal("INFLOW"), t.Literal("OUTFLOW")],
+                { additionalProperties: false },
+              ),
               type: t.Union(
                 [t.Literal("CASH"), t.Literal("CHECK"), t.Literal("BANK")],
                 { additionalProperties: false },
@@ -204,6 +220,7 @@ export const SourceSelect = t.Partial(
   t.Object(
     {
       id: t.Boolean(),
+      accountingType: t.Boolean(),
       type: t.Boolean(),
       name: t.Boolean(),
       accountings: t.Boolean(),
@@ -215,7 +232,12 @@ export const SourceSelect = t.Partial(
 
 export const SourceInclude = t.Partial(
   t.Object(
-    { type: t.Boolean(), accountings: t.Boolean(), _count: t.Boolean() },
+    {
+      accountingType: t.Boolean(),
+      type: t.Boolean(),
+      accountings: t.Boolean(),
+      _count: t.Boolean(),
+    },
     { additionalProperties: false },
   ),
 );

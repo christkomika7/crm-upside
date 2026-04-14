@@ -121,6 +121,24 @@ export const unitRoutes = new Elysia({ prefix: "/unit" })
         auth: true,
         query: request.queryFilter,
     })
+    .get("/list", async ({ permission, status, server, query }) => {
+        if (!canAccess(permission, "units", "read")) {
+            return status(403, { message: "Accès refusé" });
+        }
+
+        return await prisma.unit.findMany({
+            where: {
+                isDeleting: false
+            },
+            select: {
+                id: true,
+                reference: true,
+            }
+        });
+
+    }, {
+        auth: true,
+    })
     .get("/valid", async ({ permission, status, server }) => {
         if (!canAccess(permission, "units", "read")) {
             return status(403, { message: "Accès refusé" });

@@ -26,6 +26,8 @@ enum NotificationType {
 }
 
 enum NotificationKindOf {
+  APPOINTMENT
+  ACCOUNTING
   INVOICING
   RENTAL
   PAYMENT
@@ -114,8 +116,11 @@ model User {
   accounts      Account[]
   appointments  Appointment[]
 
-  permission Permission?
-  deletions  Deletion[]
+  permission        Permission?
+  deletions         Deletion[]
+  notifications     Notification[]
+  notificationReads NotificationRead[]
+  accountings       accounting[]
 
   @@map("user")
 }
@@ -217,23 +222,24 @@ model Building {
 }
 
 model Unit {
-  id           String   @id @default(cuid())
-  reference    String   @unique
-  rentalStatus String
-  surface      Float    @default(0)
-  livingroom   Int      @default(0)
-  dining       Int      @default(0)
-  kitchen      Int      @default(0)
-  bedroom      Int      @default(0)
-  bathroom     Int      @default(0)
-  rent         Decimal
-  furnished    String
-  wifi         Boolean
-  water        Boolean
-  electricity  Boolean
-  tv           Boolean
-  charges      Decimal
-  documents    String[]
+  id             String   @id @default(cuid())
+  reference      String   @unique
+  rentalStatus   String
+  surface        Float    @default(0)
+  livingroom     Int      @default(0)
+  dining         Int      @default(0)
+  kitchen        Int      @default(0)
+  bedroom        Int      @default(0)
+  bathroom       Int      @default(0)
+  furnished      String
+  wifi           Boolean
+  water          Boolean
+  electricity    Boolean
+  tv             Boolean
+  rent           Decimal  @default(0) @db.Decimal(15, 2)
+  charges        Decimal  @default(0) @db.Decimal(15, 2)
+  amountGenerate Decimal  @default(0) @db.Decimal(15, 2)
+  documents      String[]
 
   isDeleting Boolean @default(false)
 
@@ -315,7 +321,6 @@ model Owner {
   invoices     Invoice[]
   quotes       Quote[]
   appointments Appointment[]
-  accountings  accounting[]
 
   @@map("owner")
 }
@@ -343,7 +348,6 @@ model Tenant {
   quotes       Quote[]
   appointments Appointment[]
   checkInOuts  CheckInOut[]
-  accountings  accounting[]
 
   @@map("tenant")
 }
@@ -365,8 +369,9 @@ model Rental {
 
   contracts Contract[]
 
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  createdAt     DateTime       @default(now())
+  updatedAt     DateTime       @updatedAt
+  notifications Notification[]
 
   @@map("rental")
 }
@@ -476,10 +481,10 @@ model Invoice {
 
   isDeleting Boolean @default(false)
 
-  createdAt   DateTime     @default(now())
-  updatedAt   DateTime     @updatedAt
-  payments    Payment[]
-  accountings accounting[]
+  createdAt     DateTime       @default(now())
+  updatedAt     DateTime       @updatedAt
+  payments      Payment[]
+  notifications Notification[]
 
   @@map("invoice")
 }
@@ -507,9 +512,8 @@ model purchaseOrder {
 
   isDeleting Boolean @default(false)
 
-  createdAt   DateTime     @default(now())
-  updatedAt   DateTime     @updatedAt
-  accountings accounting[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
   @@map("purchase_order")
 }
@@ -592,8 +596,9 @@ model Contract {
   isCanceled Boolean @default(false)
   isDeleting Boolean @default(false)
 
-  updatedAt DateTime @updatedAt
-  createdAt DateTime @default(now())
+  updatedAt     DateTime       @updatedAt
+  createdAt     DateTime       @default(now())
+  notifications Notification[]
 
   @@map("contract")
 }
@@ -630,16 +635,16 @@ model accounting {
   isTTC       Boolean
   checkNumber String?
   description String
-  period      String?
+  period      DateTime?
 
-  unitId String
-  unit   Unit   @relation(fields: [unitId], references: [id])
+  unitId String?
+  unit   Unit?   @relation(fields: [unitId], references: [id])
 
   sourceId String
   source   Source @relation(fields: [sourceId], references: [id])
 
-  allocationId String
-  allocation   Allocation @relation(fields: [allocationId], references: [id])
+  allocationId String?
+  allocation   Allocation? @relation(fields: [allocationId], references: [id])
 
   categoryId String
   category   Category @relation(fields: [categoryId], references: [id])
@@ -647,31 +652,54 @@ model accounting {
   natureId String
   nature   Nature @relation(fields: [natureId], references: [id])
 
-  secondNatureId String
-  secondNature   SecondNature @relation(fields: [secondNatureId], references: [id])
+  secondNatureId String?
+  secondNature   SecondNature? @relation(fields: [secondNatureId], references: [id])
 
-  thirdNatureId String
-  thirdNature   ThirdNature @relation(fields: [thirdNatureId], references: [id])
+  thirdNatureId String?
+  thirdNature   ThirdNature? @relation(fields: [thirdNatureId], references: [id])
 
-  createdAt       DateTime       @default(now())
-  updatedAt       DateTime       @updatedAt
-  owner           Owner?         @relation(fields: [ownerId], references: [id])
-  ownerId         String?
-  tenant          Tenant?        @relation(fields: [tenantId], references: [id])
-  tenantId        String?
-  invoice         Invoice?       @relation(fields: [invoiceId], references: [id])
-  invoiceId       String?
-  purchaseOrder   purchaseOrder? @relation(fields: [purchaseOrderId], references: [id])
-  purchaseOrderId String?
+  userId String
+  user   User   @relation(fields: [userId], references: [id])
+
+  notifications Notification[]
+
+  documents String[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
   @@map("accounting")
 }
 
 model Notification {
-  id     String             @id @default(cuid())
-  type   NotificationType   @default(ALERT)
-  active Boolean            @default(true)
-  for    NotificationKindOf
+  id      String             @id @default(cuid())
+  type    NotificationType   @default(ALERT)
+  active  Boolean            @default(true)
+  for     NotificationKindOf
+  message String?
+
+  accountingId String?
+  accounting   accounting? @relation(fields: [accountingId], references: [id])
+
+  invoiceId String?
+  invoice   Invoice? @relation(fields: [invoiceId], references: [id])
+
+  paymentId String?
+  payment   Payment? @relation(fields: [paymentId], references: [id])
+
+  rentalId String?
+  rental   Rental? @relation(fields: [rentalId], references: [id])
+
+  contractId String?
+  contract   Contract? @relation(fields: [contractId], references: [id])
+
+  appointmentId String?
+  appointment   Appointment? @relation(fields: [appointmentId], references: [id])
+
+  userId String
+  user   User   @relation(fields: [userId], references: [id])
+
+  notificationReads NotificationRead[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -679,26 +707,44 @@ model Notification {
   @@map("notification")
 }
 
+model NotificationRead {
+  id String @id @default(uuid())
+
+  notificationId String
+  notification   Notification @relation(fields: [notificationId], references: [id], onDelete: Cascade)
+
+  userId String
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  readAt DateTime @default(now())
+
+  @@unique([notificationId, userId])
+  @@map("notification_read")
+}
+
 model Source {
-  id          String       @id @default(cuid())
-  type        PaymentType
-  name        String
-  accountings accounting[]
+  id             String         @id @default(cuid())
+  accountingType AccountingType @default(INFLOW)
+  type           PaymentType
+  name           String
+  accountings    accounting[]
 
   @@map("source")
 }
 
 model Allocation {
-  id          String       @id @default(cuid())
-  name        String       @unique
-  accountings accounting[]
+  id             String         @id @default(cuid())
+  accountingType AccountingType @default(INFLOW)
+  name           String
+  accountings    accounting[]
 
   @@map("allocation")
 }
 
 model Category {
-  id   String @id @default(cuid())
-  name String @unique
+  id             String         @id @default(cuid())
+  accountingType AccountingType @default(INFLOW)
+  name           String
 
   nature      Nature[]
   accountings accounting[]
@@ -707,8 +753,9 @@ model Category {
 }
 
 model Nature {
-  id   String @id @default(cuid())
-  name String
+  id             String         @id @default(cuid())
+  name           String
+  accountingType AccountingType @default(INFLOW)
 
   categoryId String
   category   Category @relation(fields: [categoryId], references: [id])
@@ -720,8 +767,9 @@ model Nature {
 }
 
 model SecondNature {
-  id   String @id @default(cuid())
-  name String
+  id             String         @id @default(cuid())
+  name           String
+  accountingType AccountingType @default(INFLOW)
 
   natureId String
   nature   Nature @relation(fields: [natureId], references: [id])
@@ -733,8 +781,9 @@ model SecondNature {
 }
 
 model ThirdNature {
-  id   String @id @default(cuid())
-  name String
+  id             String         @id @default(cuid())
+  name           String
+  accountingType AccountingType @default(INFLOW)
 
   secondNatureId String
   secondNature   SecondNature @relation(fields: [secondNatureId], references: [id])
@@ -763,8 +812,9 @@ model Appointment {
 
   isDeleting Boolean @default(false)
 
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  createdAt     DateTime       @default(now())
+  updatedAt     DateTime       @updatedAt
+  notifications Notification[]
 
   @@map("appointment")
 }
@@ -783,8 +833,9 @@ model Payment {
   purchaseOrder   purchaseOrder? @relation(fields: [purchaseOrderId], references: [id])
   purchaseOrderId String?
 
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  createdAt     DateTime       @default(now())
+  updatedAt     DateTime       @updatedAt
+  notifications Notification[]
 
   @@map("payment")
 }

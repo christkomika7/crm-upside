@@ -24,21 +24,23 @@ import type { AccountElement } from "@/types/accounting";
 
 type SecondNatureModalProps = {
     natureId: string;
+    accountingType: "INFLOW" | "OUTFLOW";
 }
 
-export default function SecondNatureModal({ natureId }: SecondNatureModalProps) {
+export default function SecondNatureModal({ natureId, accountingType }: SecondNatureModalProps) {
 
     const form = useForm<SecondNatureSchemaType>({
         resolver: zodResolver(secondNatureSchema),
         defaultValues: {
             name: "",
             nature: natureId,
+            accountingType,
         },
     });
 
     const { isPending, data: secondNatures } = useQuery<AccountElement[]>({
-        queryKey: ["secondNatures", natureId],
-        queryFn: () => apiFetch<AccountElement[]>(`/second-nature?natureId=${natureId}`),
+        queryKey: ["secondNatures", natureId, accountingType],
+        queryFn: () => apiFetch<AccountElement[]>(`/second-nature?nature=${natureId}&accountingType=${accountingType}`),
     });
 
     const createSecondNature = useMutation({
@@ -46,8 +48,9 @@ export default function SecondNatureModal({ natureId }: SecondNatureModalProps) 
             crudService.post(`/second-nature`, data),
         onSuccess() {
             toast.success("Sous-nature ajoutée avec succès");
-            queryClient.invalidateQueries({ queryKey: ["secondNatures", natureId] });
-            form.reset({ name: "", nature: natureId });
+            queryClient.invalidateQueries({ queryKey: ["secondNatures", accountingType] });
+            queryClient.invalidateQueries({ queryKey: ["secondNatures", natureId, accountingType] });
+            form.reset({ name: "", nature: natureId, accountingType });
         },
         onError: (error: Error) => {
             toast.error(error.message);
@@ -58,7 +61,6 @@ export default function SecondNatureModal({ natureId }: SecondNatureModalProps) 
         const { success, data } = secondNatureSchema.safeParse(formData);
         if (success) {
             createSecondNature.mutate({ data });
-            form.reset({ name: "", nature: natureId });
         }
     }
 
@@ -85,7 +87,7 @@ export default function SecondNatureModal({ natureId }: SecondNatureModalProps) 
             <Activity mode={secondNatures && secondNatures.length > 0 ? "visible" : "hidden"}>
                 <ScrollArea className="space-y-2 h-full max-h-70 pr-3">
                     {secondNatures?.map((secondNature, index) => (
-                        <SecondNatureItem key={index} secondNature={secondNature} natureId={natureId} />
+                        <SecondNatureItem key={index} secondNature={secondNature} natureId={natureId} accountingType={accountingType} />
                     ))}
                 </ScrollArea>
             </Activity>
@@ -137,7 +139,7 @@ export default function SecondNatureModal({ natureId }: SecondNatureModalProps) 
 }
 
 
-function SecondNatureItem({ secondNature, natureId }: { secondNature: AccountElement; natureId: string }) {
+function SecondNatureItem({ secondNature, natureId, accountingType }: { secondNature: AccountElement; natureId: string, accountingType: "INFLOW" | "OUTFLOW" }) {
     const [editing, setEditing] = useState(false);
 
     const form = useForm<SecondNatureSchemaType>({
@@ -145,6 +147,7 @@ function SecondNatureItem({ secondNature, natureId }: { secondNature: AccountEle
         defaultValues: {
             name: secondNature.name,
             nature: natureId,
+            accountingType,
         },
     });
 
@@ -153,9 +156,10 @@ function SecondNatureItem({ secondNature, natureId }: { secondNature: AccountEle
             crudService.put(`/second-nature/${secondNatureId}`, data),
         onSuccess() {
             toast.success("Sous-nature modifiée avec succès");
-            queryClient.invalidateQueries({ queryKey: ["secondNatures", natureId] });
+            queryClient.invalidateQueries({ queryKey: ["secondNatures", accountingType] });
+            queryClient.invalidateQueries({ queryKey: ["secondNatures", natureId, accountingType] });
             setEditing(false);
-            form.reset({ name: secondNature.name, nature: natureId });
+            form.reset({ name: secondNature.name, nature: natureId, accountingType });
         },
         onError: (error: Error) => {
             toast.error(error.message);
@@ -167,7 +171,8 @@ function SecondNatureItem({ secondNature, natureId }: { secondNature: AccountEle
             crudService.delete(`/second-nature/${secondNatureId}`),
         onSuccess() {
             toast.success("Sous-nature supprimée avec succès");
-            queryClient.invalidateQueries({ queryKey: ["secondNatures", natureId] });
+            queryClient.invalidateQueries({ queryKey: ["secondNatures", accountingType] });
+            queryClient.invalidateQueries({ queryKey: ["secondNatures", natureId, accountingType] });
         },
         onError: (error: Error) => {
             console.error("Erreur:", error.message);
@@ -177,12 +182,12 @@ function SecondNatureItem({ secondNature, natureId }: { secondNature: AccountEle
 
     function edit() {
         setEditing(true);
-        form.reset({ name: secondNature.name, nature: natureId });
+        form.reset({ name: secondNature.name, nature: natureId, accountingType });
     }
 
     function cancel() {
         setEditing(false);
-        form.reset({ name: secondNature.name, nature: natureId });
+        form.reset({ name: secondNature.name, nature: natureId, accountingType });
     }
 
     async function submit(formData: SecondNatureSchemaType) {

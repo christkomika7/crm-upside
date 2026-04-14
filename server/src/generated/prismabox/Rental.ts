@@ -55,13 +55,14 @@ export const RentalRelations = t.Object(
         kitchen: t.Integer(),
         bedroom: t.Integer(),
         bathroom: t.Integer(),
-        rent: t.Number(),
         furnished: t.String(),
         wifi: t.Boolean(),
         water: t.Boolean(),
         electricity: t.Boolean(),
         tv: t.Boolean(),
+        rent: t.Number(),
         charges: t.Number(),
+        amountGenerate: t.Number(),
         documents: t.Array(t.String(), { additionalProperties: false }),
         isDeleting: t.Boolean(),
         buildingId: t.String(),
@@ -86,6 +87,40 @@ export const RentalRelations = t.Object(
           isDeleting: t.Boolean(),
           updatedAt: t.Date(),
           createdAt: t.Date(),
+        },
+        { additionalProperties: false },
+      ),
+      { additionalProperties: false },
+    ),
+    notifications: t.Array(
+      t.Object(
+        {
+          id: t.String(),
+          type: t.Union([t.Literal("ALERT"), t.Literal("CONFIRM")], {
+            additionalProperties: false,
+          }),
+          active: t.Boolean(),
+          for: t.Union(
+            [
+              t.Literal("APPOINTMENT"),
+              t.Literal("ACCOUNTING"),
+              t.Literal("INVOICING"),
+              t.Literal("RENTAL"),
+              t.Literal("PAYMENT"),
+              t.Literal("CONTRACT"),
+            ],
+            { additionalProperties: false },
+          ),
+          message: __nullable__(t.String()),
+          accountingId: __nullable__(t.String()),
+          invoiceId: __nullable__(t.String()),
+          paymentId: __nullable__(t.String()),
+          rentalId: __nullable__(t.String()),
+          contractId: __nullable__(t.String()),
+          appointmentId: __nullable__(t.String()),
+          userId: t.String(),
+          createdAt: t.Date(),
+          updatedAt: t.Date(),
         },
         { additionalProperties: false },
       ),
@@ -155,6 +190,22 @@ export const RentalRelationsInputCreate = t.Object(
         { additionalProperties: false },
       ),
     ),
+    notifications: t.Optional(
+      t.Object(
+        {
+          connect: t.Array(
+            t.Object(
+              {
+                id: t.String({ additionalProperties: false }),
+              },
+              { additionalProperties: false },
+            ),
+            { additionalProperties: false },
+          ),
+        },
+        { additionalProperties: false },
+      ),
+    ),
   },
   { additionalProperties: false },
 );
@@ -185,6 +236,31 @@ export const RentalRelationsInputUpdate = t.Partial(
         { additionalProperties: false },
       ),
       contracts: t.Partial(
+        t.Object(
+          {
+            connect: t.Array(
+              t.Object(
+                {
+                  id: t.String({ additionalProperties: false }),
+                },
+                { additionalProperties: false },
+              ),
+              { additionalProperties: false },
+            ),
+            disconnect: t.Array(
+              t.Object(
+                {
+                  id: t.String({ additionalProperties: false }),
+                },
+                { additionalProperties: false },
+              ),
+              { additionalProperties: false },
+            ),
+          },
+          { additionalProperties: false },
+        ),
+      ),
+      notifications: t.Partial(
         t.Object(
           {
             connect: t.Array(
@@ -300,6 +376,7 @@ export const RentalSelect = t.Partial(
       contracts: t.Boolean(),
       createdAt: t.Boolean(),
       updatedAt: t.Boolean(),
+      notifications: t.Boolean(),
       _count: t.Boolean(),
     },
     { additionalProperties: false },
@@ -312,6 +389,7 @@ export const RentalInclude = t.Partial(
       tenant: t.Boolean(),
       unit: t.Boolean(),
       contracts: t.Boolean(),
+      notifications: t.Boolean(),
       _count: t.Boolean(),
     },
     { additionalProperties: false },

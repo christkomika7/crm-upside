@@ -51,5 +51,5 @@ export default {
         pageSize: t.Optional(t.String()),
         search: t.Optional(t.String()),
         filter: t.Optional(t.String()),
-    })
+    }),
 } 

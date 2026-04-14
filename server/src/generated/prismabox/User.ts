@@ -135,6 +135,85 @@ export const UserRelations = t.Object(
       ),
       { additionalProperties: false },
     ),
+    notifications: t.Array(
+      t.Object(
+        {
+          id: t.String(),
+          type: t.Union([t.Literal("ALERT"), t.Literal("CONFIRM")], {
+            additionalProperties: false,
+          }),
+          active: t.Boolean(),
+          for: t.Union(
+            [
+              t.Literal("APPOINTMENT"),
+              t.Literal("ACCOUNTING"),
+              t.Literal("INVOICING"),
+              t.Literal("RENTAL"),
+              t.Literal("PAYMENT"),
+              t.Literal("CONTRACT"),
+            ],
+            { additionalProperties: false },
+          ),
+          message: __nullable__(t.String()),
+          accountingId: __nullable__(t.String()),
+          invoiceId: __nullable__(t.String()),
+          paymentId: __nullable__(t.String()),
+          rentalId: __nullable__(t.String()),
+          contractId: __nullable__(t.String()),
+          appointmentId: __nullable__(t.String()),
+          userId: t.String(),
+          createdAt: t.Date(),
+          updatedAt: t.Date(),
+        },
+        { additionalProperties: false },
+      ),
+      { additionalProperties: false },
+    ),
+    notificationReads: t.Array(
+      t.Object(
+        {
+          id: t.String(),
+          notificationId: t.String(),
+          userId: t.String(),
+          readAt: t.Date(),
+        },
+        { additionalProperties: false },
+      ),
+      { additionalProperties: false },
+    ),
+    accountings: t.Array(
+      t.Object(
+        {
+          id: t.String(),
+          date: t.Date(),
+          type: t.Union([t.Literal("INFLOW"), t.Literal("OUTFLOW")], {
+            additionalProperties: false,
+          }),
+          paymentMode: t.Union(
+            [t.Literal("CASH"), t.Literal("CHECK"), t.Literal("BANK")],
+            { additionalProperties: false },
+          ),
+          amount: t.Number(),
+          isTTC: t.Boolean(),
+          checkNumber: __nullable__(t.String()),
+          description: t.String(),
+          period: __nullable__(t.Date()),
+          unitId: __nullable__(t.String()),
+          sourceId: t.String(),
+          allocationId: __nullable__(t.String()),
+          categoryId: t.String(),
+          natureId: t.String(),
+          secondNatureId: __nullable__(t.String()),
+          thirdNatureId: __nullable__(t.String()),
+          userId: t.String(),
+          documents: t.Array(t.String(), { additionalProperties: false }),
+          createdAt: t.Date(),
+          updatedAt: t.Date(),
+        },
+        { additionalProperties: false },
+      ),
+      { additionalProperties: false },
+    ),
   },
   { additionalProperties: false },
 );
@@ -237,6 +316,54 @@ export const UserRelationsInputCreate = t.Object(
       ),
     ),
     deletions: t.Optional(
+      t.Object(
+        {
+          connect: t.Array(
+            t.Object(
+              {
+                id: t.String({ additionalProperties: false }),
+              },
+              { additionalProperties: false },
+            ),
+            { additionalProperties: false },
+          ),
+        },
+        { additionalProperties: false },
+      ),
+    ),
+    notifications: t.Optional(
+      t.Object(
+        {
+          connect: t.Array(
+            t.Object(
+              {
+                id: t.String({ additionalProperties: false }),
+              },
+              { additionalProperties: false },
+            ),
+            { additionalProperties: false },
+          ),
+        },
+        { additionalProperties: false },
+      ),
+    ),
+    notificationReads: t.Optional(
+      t.Object(
+        {
+          connect: t.Array(
+            t.Object(
+              {
+                id: t.String({ additionalProperties: false }),
+              },
+              { additionalProperties: false },
+            ),
+            { additionalProperties: false },
+          ),
+        },
+        { additionalProperties: false },
+      ),
+    ),
+    accountings: t.Optional(
       t.Object(
         {
           connect: t.Array(
@@ -373,6 +500,81 @@ export const UserRelationsInputUpdate = t.Partial(
           { additionalProperties: false },
         ),
       ),
+      notifications: t.Partial(
+        t.Object(
+          {
+            connect: t.Array(
+              t.Object(
+                {
+                  id: t.String({ additionalProperties: false }),
+                },
+                { additionalProperties: false },
+              ),
+              { additionalProperties: false },
+            ),
+            disconnect: t.Array(
+              t.Object(
+                {
+                  id: t.String({ additionalProperties: false }),
+                },
+                { additionalProperties: false },
+              ),
+              { additionalProperties: false },
+            ),
+          },
+          { additionalProperties: false },
+        ),
+      ),
+      notificationReads: t.Partial(
+        t.Object(
+          {
+            connect: t.Array(
+              t.Object(
+                {
+                  id: t.String({ additionalProperties: false }),
+                },
+                { additionalProperties: false },
+              ),
+              { additionalProperties: false },
+            ),
+            disconnect: t.Array(
+              t.Object(
+                {
+                  id: t.String({ additionalProperties: false }),
+                },
+                { additionalProperties: false },
+              ),
+              { additionalProperties: false },
+            ),
+          },
+          { additionalProperties: false },
+        ),
+      ),
+      accountings: t.Partial(
+        t.Object(
+          {
+            connect: t.Array(
+              t.Object(
+                {
+                  id: t.String({ additionalProperties: false }),
+                },
+                { additionalProperties: false },
+              ),
+              { additionalProperties: false },
+            ),
+            disconnect: t.Array(
+              t.Object(
+                {
+                  id: t.String({ additionalProperties: false }),
+                },
+                { additionalProperties: false },
+              ),
+              { additionalProperties: false },
+            ),
+          },
+          { additionalProperties: false },
+        ),
+      ),
     },
     { additionalProperties: false },
   ),
@@ -477,6 +679,9 @@ export const UserSelect = t.Partial(
       appointments: t.Boolean(),
       permission: t.Boolean(),
       deletions: t.Boolean(),
+      notifications: t.Boolean(),
+      notificationReads: t.Boolean(),
+      accountings: t.Boolean(),
       _count: t.Boolean(),
     },
     { additionalProperties: false },
@@ -492,6 +697,9 @@ export const UserInclude = t.Partial(
       appointments: t.Boolean(),
       permission: t.Boolean(),
       deletions: t.Boolean(),
+      notifications: t.Boolean(),
+      notificationReads: t.Boolean(),
+      accountings: t.Boolean(),
       _count: t.Boolean(),
     },
     { additionalProperties: false },
