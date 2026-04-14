@@ -225,7 +225,7 @@ function DocumentList({ files }: { files: ResolvedFile[] }) {
 }
 
 export default function PropertyCard({
-    files = [],
+    files = undefined,
     urlToFile,
     title,
     about,
@@ -237,17 +237,18 @@ export default function PropertyCard({
     const [resolving, setResolving] = useState(false);
 
     useEffect(() => {
-        if (files.length === 0) return;
-        if (urlToFile) {
-            setResolving(true);
-            Promise.all(
-                files.map(async (url) => {
-                    const file = await urlToFile(url);
-                    return { url, file, isImage: IMAGE_MIME.test(file.type) } satisfies ResolvedFile;
-                })
-            )
-                .then(setResolvedFiles)
-                .finally(() => setResolving(false));
+        if (files && files.length > 0) {
+            if (urlToFile) {
+                setResolving(true);
+                Promise.all(
+                    files.map(async (url) => {
+                        const file = await urlToFile(url);
+                        return { url, file, isImage: IMAGE_MIME.test(file.type) } satisfies ResolvedFile;
+                    })
+                )
+                    .then(setResolvedFiles)
+                    .finally(() => setResolving(false));
+            }
         }
     }, [files, urlToFile]);
 
@@ -255,14 +256,20 @@ export default function PropertyCard({
     const documents = resolvedFiles.filter((f) => !f.isImage);
 
     if (isLoading || resolving) {
-        return <PropertyCardSkeleton hasFiles={files.length > 0} />;
+        return <PropertyCardSkeleton hasFiles={files && files.length > 0} />;
     }
 
     return (
-        <div className="bg-white h-full rounded-md shadow-md shadow-neutral-300/10 overflow-hidden w-full">
+        <div className="bg-white min-h-32 rounded-md shadow-md shadow-neutral-300/10 overflow-hidden w-full">
             <div className="flex">
-                {images.length > 0 && <ImageCarousel images={images} />}
-
+                {files && images.length > 0 && <ImageCarousel images={images} />}
+                {files && images.length === 0 && <div className="relative w-[350px] h-[300px] shrink-0 group overflow-hidden rounded-tl-md">
+                    <img
+                        src={PLACEHOLDER}
+                        alt="Placeholder"
+                        className="w-full h-full object-cover block transition-opacity duration-200"
+                    />
+                </div>}
                 <div className="flex-1 relative min-w-0 p-5 pb-4">
                     {images.length > 0 &&
                         <div className="absolute top-2 right-2">

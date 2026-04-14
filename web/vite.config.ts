@@ -31,6 +31,7 @@ export default defineConfig({
 		proxy: {
 			"/api": {
 				target: "https://api.upside-gabon.com",
+				// target: "http://localhost:3001",
 				changeOrigin: true,
 			},
 		},

@@ -23,7 +23,7 @@ export async function apiFetch<T = unknown>(
 ): Promise<T> {
     const { responseType = "json", ...fetchOptions } = options || {};
 
-    const res = await fetch(`${BASE_URL}/${path}`, {
+    const res = await fetch(`${BASE_URL}${path}`, {
         ...fetchOptions,
         credentials: "include",
         headers: {
@@ -55,7 +55,7 @@ export async function apiClient<TRequest = unknown, TResponse = unknown>(
     { method = "GET", body, headers }: ApiOptions<TRequest> = {}
 ): Promise<ApiResponse<TResponse>> {
     const isFormData = body instanceof FormData;
-    const response = await fetch(`${BASE_URL}/${path}`, {
+    const response = await fetch(`${BASE_URL}${path}`, {
         method,
         credentials: "include",
         headers: {

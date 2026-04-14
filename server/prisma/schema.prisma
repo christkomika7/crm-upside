@@ -20,6 +20,18 @@ enum Role {
   USER
 }
 
+enum NotificationType {
+  ALERT
+  CONFIRM
+}
+
+enum NotificationKindOf {
+  INVOICING
+  RENTAL
+  PAYMENT
+  CONTRACT
+}
+
 enum DeletionState {
   NOTHING
   WAIT
@@ -616,22 +628,9 @@ model accounting {
   paymentMode PaymentType
   amount      Decimal     @default(0) @db.Decimal(15, 2)
   isTTC       Boolean
-  checkNumber String
+  checkNumber String?
   description String
-
-  clientType ClientType
-
-  ownerId String?
-  owner   Owner?  @relation(fields: [ownerId], references: [id])
-
-  tenantId String?
-  tenant   Tenant? @relation(fields: [tenantId], references: [id])
-
-  invoiceId String?
-  invoice   Invoice? @relation(fields: [invoiceId], references: [id])
-
-  purchaseOrderId String?
-  purchaseOrder   purchaseOrder? @relation(fields: [purchaseOrderId], references: [id])
+  period      String?
 
   unitId String
   unit   Unit   @relation(fields: [unitId], references: [id])
@@ -654,10 +653,30 @@ model accounting {
   thirdNatureId String
   thirdNature   ThirdNature @relation(fields: [thirdNatureId], references: [id])
 
+  createdAt       DateTime       @default(now())
+  updatedAt       DateTime       @updatedAt
+  owner           Owner?         @relation(fields: [ownerId], references: [id])
+  ownerId         String?
+  tenant          Tenant?        @relation(fields: [tenantId], references: [id])
+  tenantId        String?
+  invoice         Invoice?       @relation(fields: [invoiceId], references: [id])
+  invoiceId       String?
+  purchaseOrder   purchaseOrder? @relation(fields: [purchaseOrderId], references: [id])
+  purchaseOrderId String?
+
+  @@map("accounting")
+}
+
+model Notification {
+  id     String             @id @default(cuid())
+  type   NotificationType   @default(ALERT)
+  active Boolean            @default(true)
+  for    NotificationKindOf
+
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  @@map("accounting")
+  @@map("notification")
 }
 
 model Source {

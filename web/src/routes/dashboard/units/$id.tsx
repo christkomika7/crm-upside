@@ -1,4 +1,4 @@
-import PropertyCard, { type DataRow } from '@/components/card/property-card';
+import PropertyCard from '@/components/card/property-card';
 import ActionHeader from '@/components/header/action-header'
 import { Status, StatusIndicator, StatusLabel } from '@/components/ui/status';
 import { apiFetch } from '@/lib/api';
@@ -68,12 +68,12 @@ function RouteComponent() {
 
       ]}
     />
-    <div className='grid grid-cols-3 gap-6'>
+    <div className='grid grid-cols-3 gap-x-6'>
       <div className='space-y-1'>
         <h2 className='font-medium'>Information du locataire</h2>
         <PropertyCard
           isLoading={isPending}
-          size={100}
+          size={150}
           data={[
             { property: "Nom", value: unit?.tenantName || "" },
             { property: "Email", value: unit?.tenantEmail || "" },
@@ -85,7 +85,7 @@ function RouteComponent() {
         <h2 className='font-medium'>Loyer & Charges</h2>
         <PropertyCard
           isLoading={isPending}
-          size={100}
+          size={150}
           data={[
             { property: "Loyer mensuel", value: `${formatNumber(unit?.rent)} FCFA` || "" },
             { property: "Charges", value: `${formatNumber(unit?.charges)} FCFA` || "" },
@@ -96,14 +96,13 @@ function RouteComponent() {
         <h2 className='font-medium'>Due par le locataire</h2>
         <PropertyCard
           isLoading={isPending}
-          size={100}
+          size={150}
           data={[
-            { property: "TSIL", value: unit?.building.name || "" },
-            { property: "Frais d’enregistrement", value: unit?.reference || "" },
+            { property: "TSIL", value: "xxxxxxx" },
+            { property: "Frais d’enregistrement", value: "xxxxxxx" },
           ]}
         />
       </div>
-
     </div>
   </div>
 }
