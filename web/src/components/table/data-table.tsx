@@ -3,32 +3,17 @@ import Filter from "../input/filter";
 import Search from "../input/search";
 
 import {
-    Table,
-    TableBody,
-    TableCell,
-    TableHead,
-    TableHeader,
-    TableRow,
+    Table, TableBody, TableCell, TableHead,
+    TableHeader, TableRow,
 } from "@/components/ui/table"
 import {
-    flexRender,
-    getCoreRowModel,
-    getFilteredRowModel,
-    getPaginationRowModel,
-    getSortedRowModel,
-    useReactTable,
-    type ColumnDef,
-    type SortingState,
+    flexRender, getCoreRowModel, getFilteredRowModel,
+    getPaginationRowModel, getSortedRowModel, useReactTable,
+    type ColumnDef, type SortingState,
 } from "@tanstack/react-table"
-
 import {
-    Pagination,
-    PaginationContent,
-    PaginationEllipsis,
-    PaginationItem,
-    PaginationLink,
-    PaginationNext,
-    PaginationPrevious,
+    Pagination, PaginationContent, PaginationEllipsis,
+    PaginationItem, PaginationLink, PaginationNext, PaginationPrevious,
 } from "@/components/ui/pagination"
 import { PAGE_SIZE } from "@/lib/constant";
 import PaginationInfo from "./pagination-info";
@@ -36,6 +21,7 @@ import { Spinner } from "../ui/spinner";
 import { cn } from "@/lib/utils";
 
 type FilterType = "alpha" | "asc" | "desc";
+type SortState = { id: string; desc: boolean } | null;
 
 type DataTableProps = {
     data: any[];
@@ -54,6 +40,7 @@ type DataTableProps = {
     onSearchChange?: (search: string) => void;
     filter?: FilterType;
     onFilterChange?: (filter: FilterType) => void;
+    onSortChange?: (sort: SortState) => void;
 }
 
 export default function DataTable({
@@ -73,6 +60,7 @@ export default function DataTable({
     onSearchChange,
     filter: externalFilter,
     onFilterChange,
+    onSortChange,
 }: DataTableProps) {
     const [localFilter, setLocalFilter] = useState<FilterType>("alpha");
     const [localSearch, setLocalSearch] = useState("");
@@ -85,6 +73,15 @@ export default function DataTable({
 
     const activeSearch = serverSide ? externalSearch ?? "" : localSearch;
     const activeFilter = serverSide ? externalFilter ?? "alpha" : localFilter;
+
+    const handleSortingChange = (updater: any) => {
+        const next: SortingState =
+            typeof updater === "function" ? updater(sorting) : updater;
+        setSorting(next);
+        if (serverSide) {
+            onSortChange?.(next[0] ?? null);
+        }
+    };
 
     const table = useReactTable({
         data,
@@ -100,7 +97,7 @@ export default function DataTable({
                 : localPagination,
             globalFilter: serverSide ? undefined : localSearch,
         },
-        onSortingChange: setSorting,
+        onSortingChange: handleSortingChange,
         onGlobalFilterChange: serverSide ? undefined : setLocalSearch,
         globalFilterFn: serverSide
             ? undefined
@@ -120,7 +117,6 @@ export default function DataTable({
 
     useEffect(() => {
         if (serverSide) return;
-
         if (localFilter === "alpha") {
             setSorting([{ id: sort, desc: false }]);
         } else if (localFilter === "asc") {
@@ -131,27 +127,18 @@ export default function DataTable({
     }, [localFilter, serverSide, sort]);
 
     const handleSearchChange = (value: string) => {
-        if (serverSide) {
-            onSearchChange?.(value);
-        } else {
-            setLocalSearch(value);
-        }
+        if (serverSide) onSearchChange?.(value);
+        else setLocalSearch(value);
     };
 
     const handleFilterChange = (value: FilterType) => {
-        if (serverSide) {
-            onFilterChange?.(value);
-        } else {
-            setLocalFilter(value);
-        }
+        if (serverSide) onFilterChange?.(value);
+        else setLocalFilter(value);
     };
 
     const handlePageChange = (newPage: number) => {
-        if (serverSide) {
-            onPageChange?.(newPage);
-        } else {
-            setLocalPagination((prev) => ({ ...prev, pageIndex: newPage }));
-        }
+        if (serverSide) onPageChange?.(newPage);
+        else setLocalPagination((prev) => ({ ...prev, pageIndex: newPage }));
     };
 
     const resolvedPageCount = serverSide ? pageCount : table.getPageCount();

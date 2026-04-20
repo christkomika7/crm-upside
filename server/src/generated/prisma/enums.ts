@@ -81,6 +81,7 @@ export type ContractType = (typeof ContractType)[keyof typeof ContractType]
 
 
 export const DeletionType = {
+  ACCOUNTING: 'ACCOUNTING',
   OWNER: 'OWNER',
   BUILDING: 'BUILDING',
   TENANT: 'TENANT',

@@ -737,6 +737,10 @@ export type ServiceProviderUpdateOneRequiredWithoutPurchaseOrdersNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.ServiceProviderUpdateToOneWithWhereWithoutPurchaseOrdersInput, Prisma.ServiceProviderUpdateWithoutPurchaseOrdersInput>, Prisma.ServiceProviderUncheckedUpdateWithoutPurchaseOrdersInput>
 }
 
+export type EnumPaymentTypeFieldUpdateOperationsInput = {
+  set?: $Enums.PaymentType
+}
+
 export type ServiceProviderCreateWithoutProfessionInput = {
   id?: string
   firstname: string

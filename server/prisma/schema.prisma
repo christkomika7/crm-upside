@@ -63,6 +63,7 @@ enum ContractType {
 }
 
 enum DeletionType {
+  ACCOUNTING
   OWNER
   BUILDING
   TENANT
@@ -188,8 +189,6 @@ model Building {
   name             String
   location         String
   constructionDate DateTime
-  door             Int
-  parkingPrice     Decimal  @default(0) @db.Decimal(15, 2)
   security         Boolean  @default(false)
   camera           Boolean  @default(false)
   elevator         Boolean  @default(false)
@@ -238,6 +237,7 @@ model Unit {
   tv             Boolean
   rent           Decimal  @default(0) @db.Decimal(15, 2)
   charges        Decimal  @default(0) @db.Decimal(15, 2)
+  extraCharges   Decimal  @default(0) @db.Decimal(15, 2)
   amountGenerate Decimal  @default(0) @db.Decimal(15, 2)
   documents      String[]
 
@@ -326,28 +326,35 @@ model Owner {
 }
 
 model Tenant {
-  id            String      @id @default(cuid())
+  id            String   @id @default(cuid())
+  isDiplomatic  Boolean  @default(false)
+  isPersonal    Boolean  @default(true)
   firstname     String
   lastname      String
-  company       String
+  company       String?
   phone         String
   email         String
   address       String
   maritalStatus String?
-  income        Decimal     @default(0) @db.Decimal(15, 2)
+  income        Decimal? @db.Decimal(15, 2)
   bankInfo      String
-  paymentMode   PaymentType
+  paymentMode   String[]
   documents     String[]
 
-  isDeleting Boolean @default(false)
+  monthlyRent    Decimal @default(0) @db.Decimal(15, 2)
+  monthlyCharges Decimal @default(0) @db.Decimal(15, 2)
+  depositPaid    Decimal @default(0) @db.Decimal(15, 2)
 
-  createdAt    DateTime      @default(now())
-  updatedAt    DateTime      @updatedAt
   rentals      Rental[]
   invoices     Invoice[]
   quotes       Quote[]
   appointments Appointment[]
   checkInOuts  CheckInOut[]
+
+  isDeleting Boolean @default(false)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
   @@map("tenant")
 }
@@ -367,11 +374,11 @@ model Rental {
   start DateTime
   end   DateTime
 
-  contracts Contract[]
-
-  createdAt     DateTime       @default(now())
-  updatedAt     DateTime       @updatedAt
+  contracts     Contract[]
   notifications Notification[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
   @@map("rental")
 }
@@ -664,6 +671,8 @@ model accounting {
   notifications Notification[]
 
   documents String[]
+
+  isDeleting Boolean @default(false)
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt

@@ -16,7 +16,6 @@ import InputFile from "@/components/ui/input-file";
 import { unitSchema, type UnitSchemaType } from "@/lib/zod/units";
 import { apiFetch, crudService } from "@/lib/api";
 import type { Type } from "@/types/type";
-import type { Building } from "@/types/building";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { LayersPlusIcon } from "lucide-react";
 import { furnishedOptions } from "@/lib/data";
@@ -27,6 +26,9 @@ import { queryClient } from "@/lib/query-client";
 import type { UnitClient, Unit } from "@/types/unit";
 import { urlToFile } from "@/lib/upload";
 import RequiredLabel from "@/components/ui/required-label";
+import { SelectField } from "@/components/ui/select-field";
+import { DEFAULT_VALUES } from "./lib/utils";
+import type { LabelType } from "@/types/utils";
 
 
 type EditUnitProps = {
@@ -40,28 +42,9 @@ export default function EditUnit({ id }: EditUnitProps) {
 
     const form = useForm<UnitSchemaType>({
         resolver: zodResolver(unitSchema),
-        defaultValues: {
-            reference: "",
-            type: "",
-            building: "",
-            rentalStatus: "",
-            surface: 0,
-            livingroom: 0,
-            dining: 0,
-            kitchen: 0,
-            bedroom: 0,
-            bathroom: 0,
-            rent: 0,
-            furnished: "",
-            wifi: false,
-            water: false,
-            electricity: false,
-            tv: false,
-            charges: "",
-            documents: [],
-        }
+        defaultValues: DEFAULT_VALUES
     });
-    const { isPending: isGettingType, data: typeOptions } = useQuery({
+    const { isPending: isLoadingTypes, data: types } = useQuery({
         queryKey: ["types"],
         queryFn: () => apiFetch<Type[]>("/type/"),
         select: (data) => data.map((type) => ({
@@ -71,11 +54,12 @@ export default function EditUnit({ id }: EditUnitProps) {
         placeholderData: (prev) => prev,
     });
 
-    const { isPending: isGettingBuilding, data: buildingOptions } = useQuery({
+
+    const { isPending: isLoadingBuildings, data: buildings } = useQuery({
         queryKey: ["buildings"],
-        queryFn: () => apiFetch<Building[]>("/building/"),
-        placeholderData: (prev) => prev,
+        queryFn: () => apiFetch<LabelType[]>("/building/list"),
     });
+
 
     const { isPending: isLoadingUnit, data: unit } = useQuery<UnitClient>({
         queryKey: ["unit", id],
@@ -107,7 +91,7 @@ export default function EditUnit({ id }: EditUnitProps) {
     });
 
     useEffect(() => {
-        if (unit && typeOptions && buildingOptions) {
+        if (unit && types && buildings) {
             form.reset({
                 type: unit.typeId,
                 building: unit.buildingId,
@@ -126,11 +110,12 @@ export default function EditUnit({ id }: EditUnitProps) {
                 electricity: unit.electricity,
                 tv: unit.tv,
                 charges: unit.charges,
+                extraCharges: unit.extraCharges,
                 documents: unit.documents,
             });
             setFormKey(prev => prev + 1);
         }
-    }, [unit, typeOptions, buildingOptions]);
+    }, [unit, types, buildings]);
 
     async function submit(formData: UnitSchemaType) {
         const { success, data } = unitSchema.safeParse({
@@ -156,6 +141,7 @@ export default function EditUnit({ id }: EditUnitProps) {
             form.append("electricity", data.electricity.toString());
             form.append("tv", data.tv.toString());
             form.append("charges", data.charges);
+            form.append("extraCharges", data.extraCharges);
 
             if (data.documents && data.documents.length > 0) {
                 data.documents.forEach((file) => {
@@ -185,7 +171,7 @@ export default function EditUnit({ id }: EditUnitProps) {
                                 <FormItem >
                                     <FormLabel className="text-neutral-600">Référence<RequiredLabel /></FormLabel>
                                     <FormControl>
-                                        <Input placeholder="" {...field} />
+                                        <Input placeholder="Référence de l'unité" {...field} />
                                     </FormControl>
                                     <FormMessage />
                                 </FormItem>
@@ -194,74 +180,40 @@ export default function EditUnit({ id }: EditUnitProps) {
                         <FormField
                             control={form.control}
                             name="type"
-                            render={({ field }) => (
-                                <FormItem >
-                                    <FormLabel className="text-neutral-600">Type<RequiredLabel /></FormLabel>
-                                    <FormControl>
-                                        <div className="flex gap-x-2">
-                                            <Select onValueChange={e => field.onChange(e)} value={field.value} >
-                                                <SelectTrigger className="w-full" aria-invalid={!!form.formState.errors.type}>
-                                                    <SelectValue placeholder="" />
-                                                </SelectTrigger>
-                                                <SelectContent position="popper" align="end">
-                                                    {isGettingType ? (
-                                                        <div className="flex justify-center items-center">
-                                                            <Spinner />
-                                                        </div>
-                                                    ) : typeOptions && typeOptions.length > 0 ? (
-                                                        typeOptions.map((type) => (
-                                                            <SelectItem key={type.value} value={type.value}>
-                                                                {type.label}
-                                                            </SelectItem>
-                                                        ))
-                                                    ) : (
-                                                        <SelectItem value="none" disabled>
-                                                            Aucun type disponible
-                                                        </SelectItem>
-                                                    )}
-                                                </SelectContent>
-                                            </Select>
-                                            <Button onClick={() => setOpen(true)} type='button' variant="outline" className="h-10 shadow-none">
-                                                <LayersPlusIcon />
-                                            </Button>
-                                        </div>
-                                    </FormControl>
-                                    <FormMessage />
-                                </FormItem>
+                            render={({ field, formState }) => (
+                                <div className="grid grid-cols-[1fr_40px] items-end gap-x-2">
+                                    <SelectField
+                                        label="Type"
+                                        required
+                                        placeholder="Sélectionner un type"
+                                        value={field.value ?? ""}
+                                        onChange={field.onChange}
+                                        options={types}
+                                        isLoading={isLoadingTypes}
+                                        hasError={!!formState.errors.type}
+                                        emptyMessage="Aucun type disponible"
+                                    />
+                                    <Button onClick={() => setOpen(true)} type='button' variant="outline" className="h-10 shadow-none">
+                                        <LayersPlusIcon />
+                                    </Button>
+                                </div>
                             )}
                         />
                         <FormField
                             control={form.control}
                             name="building"
-                            render={({ field }) => (
-                                <FormItem >
-                                    <FormLabel className="text-neutral-600">Bâtiment<RequiredLabel /></FormLabel>
-                                    <FormControl>
-                                        <Select onValueChange={e => field.onChange(e)} value={field.value} >
-                                            <SelectTrigger className="w-full" aria-invalid={!!form.formState.errors.building}>
-                                                <SelectValue placeholder="" />
-                                            </SelectTrigger>
-                                            <SelectContent position="popper" align="end">
-                                                {isGettingBuilding ? (
-                                                    <div className="flex justify-center items-center">
-                                                        <Spinner />
-                                                    </div>
-                                                ) : buildingOptions && buildingOptions.length > 0 ? (
-                                                    buildingOptions.map((building) => (
-                                                        <SelectItem key={building.id} value={building.id}>
-                                                            {building.reference}
-                                                        </SelectItem>
-                                                    ))
-                                                ) : (
-                                                    <div className="p-2 text-sm text-muted-foreground text-center">
-                                                        Aucun bâtiment disponible
-                                                    </div>
-                                                )}
-                                            </SelectContent>
-                                        </Select>
-                                    </FormControl>
-                                    <FormMessage />
-                                </FormItem>
+                            render={({ field, formState }) => (
+                                <SelectField
+                                    label="Bâtiment"
+                                    required
+                                    placeholder="Sélectionner un bâtiment"
+                                    value={field.value ?? ""}
+                                    onChange={field.onChange}
+                                    options={buildings}
+                                    isLoading={isLoadingBuildings}
+                                    hasError={!!formState.errors.building}
+                                    emptyMessage="Aucun bâtiment disponible"
+                                />
                             )}
                         />
                         <FormField
@@ -271,13 +223,13 @@ export default function EditUnit({ id }: EditUnitProps) {
                                 <FormItem >
                                     <FormLabel className="text-neutral-600">Statut de location<RequiredLabel /></FormLabel>
                                     <FormControl>
-                                        <Select onValueChange={field.onChange} value={field.value} >
+                                        <Select onValueChange={e => field.onChange(e === "yes" ? true : false)} value={field.value ? "yes" : "no"} >
                                             <SelectTrigger className="w-full" aria-invalid={!!form.formState.errors.rentalStatus}>
-                                                <SelectValue placeholder="Selectionner un statut" />
+                                                <SelectValue placeholder="" />
                                             </SelectTrigger>
                                             <SelectContent position="popper" align="end">
-                                                <SelectItem value="yes">Oui</SelectItem>
-                                                <SelectItem value="no">No</SelectItem>
+                                                <SelectItem value="yes">Libre</SelectItem>
+                                                <SelectItem value="no">Occupé</SelectItem>
                                             </SelectContent>
                                         </Select>
                                     </FormControl>
@@ -402,46 +354,19 @@ export default function EditUnit({ id }: EditUnitProps) {
                         />
                         <FormField
                             control={form.control}
-                            name="rent"
-                            render={({ field }) => (
-                                <FormItem >
-                                    <FormLabel className="text-neutral-600">Prix de location<RequiredLabel /></FormLabel>
-                                    <FormControl>
-                                        <Input
-                                            type="number"
-                                            suffix="FCFA"
-                                            placeholder="Entrer le prix de la location"
-                                            value={field.value}
-                                            aria-invalid={!!form.formState.errors.rent}
-                                            onChange={e => field.onChange(Number(e.target.value))}
-                                        />
-                                    </FormControl>
-                                    <FormMessage />
-                                </FormItem>
-                            )}
-                        />
-                        <FormField
-                            control={form.control}
                             name="furnished"
-                            render={({ field }) => (
-                                <FormItem >
-                                    <FormLabel className="text-neutral-600">Meublé<RequiredLabel /></FormLabel>
-                                    <FormControl>
-                                        <Select onValueChange={e => field.onChange(e)} value={field.value} >
-                                            <SelectTrigger className="w-full" aria-invalid={!!form.formState.errors.furnished}>
-                                                <SelectValue placeholder="Sélectionner l'état de l'unité" />
-                                            </SelectTrigger>
-                                            <SelectContent position="popper" align="end">
-                                                {furnishedOptions.map((furnished) => (
-                                                    <SelectItem key={furnished.value} value={furnished.value}>
-                                                        {furnished.label}
-                                                    </SelectItem>
-                                                ))}
-                                            </SelectContent>
-                                        </Select>
-                                    </FormControl>
-                                    <FormMessage />
-                                </FormItem>
+                            render={({ field, formState }) => (
+                                <SelectField
+                                    label="Meublé"
+                                    required
+                                    placeholder="Sélectionner l'état de l'unité"
+                                    value={field.value ?? ""}
+                                    onChange={field.onChange}
+                                    options={furnishedOptions}
+                                    hasError={!!formState.errors.furnished}
+                                    emptyMessage="Aucun état disponible"
+                                />
+
                             )}
                         />
                         <FormField
@@ -449,7 +374,7 @@ export default function EditUnit({ id }: EditUnitProps) {
                             name="wifi"
                             render={({ field }) => (
                                 <FormItem >
-                                    <FormLabel className="text-neutral-600">Wifi</FormLabel>
+                                    <FormLabel className="text-neutral-600">Wifi<RequiredLabel /></FormLabel>
                                     <FormControl>
                                         <Select onValueChange={e => field.onChange(e === "yes" ? true : false)} value={field.value ? "yes" : "no"} >
                                             <SelectTrigger className="w-full" aria-invalid={!!form.formState.errors.wifi}>
@@ -470,7 +395,7 @@ export default function EditUnit({ id }: EditUnitProps) {
                             name="water"
                             render={({ field }) => (
                                 <FormItem >
-                                    <FormLabel className="text-neutral-600">Eau</FormLabel>
+                                    <FormLabel className="text-neutral-600">Eau<RequiredLabel /></FormLabel>
                                     <FormControl>
                                         <Select onValueChange={e => field.onChange(e === "yes" ? true : false)} value={field.value ? "yes" : "no"} >
                                             <SelectTrigger className="w-full" aria-invalid={!!form.formState.errors.water}>
@@ -491,7 +416,7 @@ export default function EditUnit({ id }: EditUnitProps) {
                             name="electricity"
                             render={({ field }) => (
                                 <FormItem >
-                                    <FormLabel className="text-neutral-600">Electricité</FormLabel>
+                                    <FormLabel className="text-neutral-600">Electricité<RequiredLabel /></FormLabel>
                                     <FormControl>
                                         <Select onValueChange={e => field.onChange(e === "yes" ? true : false)} value={field.value ? "yes" : "no"} >
                                             <SelectTrigger className="w-full" aria-invalid={!!form.formState.errors.electricity}>
@@ -512,7 +437,7 @@ export default function EditUnit({ id }: EditUnitProps) {
                             name="tv"
                             render={({ field }) => (
                                 <FormItem >
-                                    <FormLabel className="text-neutral-600">TV</FormLabel>
+                                    <FormLabel className="text-neutral-600">TV<RequiredLabel /></FormLabel>
                                     <FormControl>
                                         <Select onValueChange={e => field.onChange(e === "yes" ? true : false)} value={field.value ? "yes" : "no"} >
                                             <SelectTrigger className="w-full" aria-invalid={!!form.formState.errors.tv}>
@@ -523,6 +448,26 @@ export default function EditUnit({ id }: EditUnitProps) {
                                                 <SelectItem value="no">Non</SelectItem>
                                             </SelectContent>
                                         </Select>
+                                    </FormControl>
+                                    <FormMessage />
+                                </FormItem>
+                            )}
+                        />
+                        <FormField
+                            control={form.control}
+                            name="rent"
+                            render={({ field }) => (
+                                <FormItem >
+                                    <FormLabel className="text-neutral-600">Prix de location<RequiredLabel /></FormLabel>
+                                    <FormControl>
+                                        <Input
+                                            type="number"
+                                            suffix="FCFA"
+                                            placeholder="Entrer le prix de la location"
+                                            value={field.value}
+                                            aria-invalid={!!form.formState.errors.rent}
+                                            onChange={e => field.onChange(Number(e.target.value))}
+                                        />
                                     </FormControl>
                                     <FormMessage />
                                 </FormItem>
@@ -541,6 +486,26 @@ export default function EditUnit({ id }: EditUnitProps) {
                                             placeholder="Entrer le prix des charges"
                                             value={field.value}
                                             aria-invalid={!!form.formState.errors.charges}
+                                            onChange={field.onChange}
+                                        />
+                                    </FormControl>
+                                    <FormMessage />
+                                </FormItem>
+                            )}
+                        />
+                        <FormField
+                            control={form.control}
+                            name="extraCharges"
+                            render={({ field }) => (
+                                <FormItem >
+                                    <FormLabel className="text-neutral-600">Prix des charges ponctuelles<RequiredLabel /></FormLabel>
+                                    <FormControl>
+                                        <Input
+                                            type="number"
+                                            suffix="FCFA"
+                                            placeholder="Entrer le prix des charges ponctuelles"
+                                            value={field.value}
+                                            aria-invalid={!!form.formState.errors.extraCharges}
                                             onChange={field.onChange}
                                         />
                                     </FormControl>

@@ -2,10 +2,10 @@ import { z } from "zod";
 import { ALLOWED_TYPES, MAX_FILE_SIZE } from "../constant";
 
 export const unitSchema = z.object({
-    type: z.string({ error: "Le type est requis." }),
-    reference: z.string({ error: "La référence est requise." }),
-    building: z.string({ error: "Veuillez selectionner le bâtiment" }),
-    rentalStatus: z.string({ error: "Le statut de la location est requis." }),
+    type: z.string().min(1, { error: "Le type est requis." }),
+    reference: z.string().min(1, { error: "La référence est requise." }),
+    building: z.string().min(1, { error: "Veuillez selectionner le bâtiment" }),
+    rentalStatus: z.string().min(1, { error: "Le statut de la location est requis." }),
     surface: z.number({ error: "La surface est requise." }),
     livingroom: z.number({ error: "Le nombre de salon est requis." }),
     rent: z.number({ error: "Le prix de la location est requis." }),
@@ -13,12 +13,13 @@ export const unitSchema = z.object({
     kitchen: z.number({ error: "Le nombre de cuisine est requis." }),
     bedroom: z.number({ error: "Le nombre de chambre est requis." }),
     bathroom: z.number({ error: "Le nombre de salle de bain est requis." }),
-    furnished: z.string({ error: "Le statut de la location est requis." }),
+    furnished: z.string().min(1, { error: "Le statut de la location est requis." }),
     wifi: z.boolean(),
     water: z.boolean(),
     electricity: z.boolean(),
     tv: z.boolean(),
-    charges: z.string({ error: "Le prix des charges est requis." }),
+    charges: z.string().min(1, { error: "Le prix des charges est requis." }),
+    extraCharges: z.string().min(1, { error: "Le prix des extras charges est requis." }),
     documents: z.array(
         z
             .instanceof(File)

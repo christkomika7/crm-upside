@@ -123,12 +123,12 @@ export default function Sidebar({ open, setOpen }: SidebarProps) {
                 </ScrollArea>
             </div>
 
-            <div className="h-14 px-2 mb-4 flex items-center">
+            <div className="h-14 px-2 mb-4 flex items-center pl-6">
                 <Button
                     onClick={handleLogout}
                     disabled={isPending}
                     variant="logout"
-                    className={`w-full flex items-center gap-2 ${open ? "" : "px-0"}`}
+                    className={`w-full size-11 flex items-center gap-2 ${open ? "" : "px-0"}`}
                 >
                     {isPending ? <Spinner /> : <LogOutIcon className="size-4" />}
                     {open && <span>Déconnexion</span>}

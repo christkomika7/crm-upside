@@ -42,6 +42,7 @@ export default {
             .Decode((value) => JSON.parse(value))
             .Encode((value) => value.toString()),
         charges: t.String({ error: "Veuillez saisir les charges" }),
+        extraCharges: t.String({ error: "Veuillez saisir les extras charges" }),
         documents: t.Optional(t.Union([t.Files(), t.Array(t.Files())])),
     }),
     params: t.Object({ id: t.String({ error: "Veuillez saisir l'identifiant" }) }),

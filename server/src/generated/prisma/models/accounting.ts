@@ -52,6 +52,7 @@ export type AccountingMinAggregateOutputType = {
   secondNatureId: string | null
   thirdNatureId: string | null
   userId: string | null
+  isDeleting: boolean | null
   createdAt: Date | null
   updatedAt: Date | null
 }
@@ -74,6 +75,7 @@ export type AccountingMaxAggregateOutputType = {
   secondNatureId: string | null
   thirdNatureId: string | null
   userId: string | null
+  isDeleting: boolean | null
   createdAt: Date | null
   updatedAt: Date | null
 }
@@ -97,6 +99,7 @@ export type AccountingCountAggregateOutputType = {
   thirdNatureId: number
   userId: number
   documents: number
+  isDeleting: number
   createdAt: number
   updatedAt: number
   _all: number
@@ -129,6 +132,7 @@ export type AccountingMinAggregateInputType = {
   secondNatureId?: true
   thirdNatureId?: true
   userId?: true
+  isDeleting?: true
   createdAt?: true
   updatedAt?: true
 }
@@ -151,6 +155,7 @@ export type AccountingMaxAggregateInputType = {
   secondNatureId?: true
   thirdNatureId?: true
   userId?: true
+  isDeleting?: true
   createdAt?: true
   updatedAt?: true
 }
@@ -174,6 +179,7 @@ export type AccountingCountAggregateInputType = {
   thirdNatureId?: true
   userId?: true
   documents?: true
+  isDeleting?: true
   createdAt?: true
   updatedAt?: true
   _all?: true
@@ -284,6 +290,7 @@ export type AccountingGroupByOutputType = {
   thirdNatureId: string | null
   userId: string
   documents: string[]
+  isDeleting: boolean
   createdAt: Date
   updatedAt: Date
   _count: AccountingCountAggregateOutputType | null
@@ -330,6 +337,7 @@ export type accountingWhereInput = {
   thirdNatureId?: Prisma.StringNullableFilter<"accounting"> | string | null
   userId?: Prisma.StringFilter<"accounting"> | string
   documents?: Prisma.StringNullableListFilter<"accounting">
+  isDeleting?: Prisma.BoolFilter<"accounting"> | boolean
   createdAt?: Prisma.DateTimeFilter<"accounting"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"accounting"> | Date | string
   unit?: Prisma.XOR<Prisma.UnitNullableScalarRelationFilter, Prisma.UnitWhereInput> | null
@@ -362,6 +370,7 @@ export type accountingOrderByWithRelationInput = {
   thirdNatureId?: Prisma.SortOrderInput | Prisma.SortOrder
   userId?: Prisma.SortOrder
   documents?: Prisma.SortOrder
+  isDeleting?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   unit?: Prisma.UnitOrderByWithRelationInput
@@ -397,6 +406,7 @@ export type accountingWhereUniqueInput = Prisma.AtLeast<{
   thirdNatureId?: Prisma.StringNullableFilter<"accounting"> | string | null
   userId?: Prisma.StringFilter<"accounting"> | string
   documents?: Prisma.StringNullableListFilter<"accounting">
+  isDeleting?: Prisma.BoolFilter<"accounting"> | boolean
   createdAt?: Prisma.DateTimeFilter<"accounting"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"accounting"> | Date | string
   unit?: Prisma.XOR<Prisma.UnitNullableScalarRelationFilter, Prisma.UnitWhereInput> | null
@@ -429,6 +439,7 @@ export type accountingOrderByWithAggregationInput = {
   thirdNatureId?: Prisma.SortOrderInput | Prisma.SortOrder
   userId?: Prisma.SortOrder
   documents?: Prisma.SortOrder
+  isDeleting?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   _count?: Prisma.accountingCountOrderByAggregateInput
@@ -460,6 +471,7 @@ export type accountingScalarWhereWithAggregatesInput = {
   thirdNatureId?: Prisma.StringNullableWithAggregatesFilter<"accounting"> | string | null
   userId?: Prisma.StringWithAggregatesFilter<"accounting"> | string
   documents?: Prisma.StringNullableListFilter<"accounting">
+  isDeleting?: Prisma.BoolWithAggregatesFilter<"accounting"> | boolean
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"accounting"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"accounting"> | Date | string
 }
@@ -475,6 +487,7 @@ export type accountingCreateInput = {
   description: string
   period?: Date | string | null
   documents?: Prisma.accountingCreatedocumentsInput | string[]
+  isDeleting?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
   unit?: Prisma.UnitCreateNestedOneWithoutAccountingsInput
@@ -507,6 +520,7 @@ export type accountingUncheckedCreateInput = {
   thirdNatureId?: string | null
   userId: string
   documents?: Prisma.accountingCreatedocumentsInput | string[]
+  isDeleting?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
   notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutAccountingInput
@@ -523,6 +537,7 @@ export type accountingUpdateInput = {
   description?: Prisma.StringFieldUpdateOperationsInput | string
   period?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   documents?: Prisma.accountingUpdatedocumentsInput | string[]
+  isDeleting?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   unit?: Prisma.UnitUpdateOneWithoutAccountingsNestedInput
@@ -555,6 +570,7 @@ export type accountingUncheckedUpdateInput = {
   thirdNatureId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   userId?: Prisma.StringFieldUpdateOperationsInput | string
   documents?: Prisma.accountingUpdatedocumentsInput | string[]
+  isDeleting?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   notifications?: Prisma.NotificationUncheckedUpdateManyWithoutAccountingNestedInput
@@ -579,6 +595,7 @@ export type accountingCreateManyInput = {
   thirdNatureId?: string | null
   userId: string
   documents?: Prisma.accountingCreatedocumentsInput | string[]
+  isDeleting?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -594,6 +611,7 @@ export type accountingUpdateManyMutationInput = {
   description?: Prisma.StringFieldUpdateOperationsInput | string
   period?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   documents?: Prisma.accountingUpdatedocumentsInput | string[]
+  isDeleting?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -617,6 +635,7 @@ export type accountingUncheckedUpdateManyInput = {
   thirdNatureId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   userId?: Prisma.StringFieldUpdateOperationsInput | string
   documents?: Prisma.accountingUpdatedocumentsInput | string[]
+  isDeleting?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -650,6 +669,7 @@ export type accountingCountOrderByAggregateInput = {
   thirdNatureId?: Prisma.SortOrder
   userId?: Prisma.SortOrder
   documents?: Prisma.SortOrder
+  isDeleting?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -676,6 +696,7 @@ export type accountingMaxOrderByAggregateInput = {
   secondNatureId?: Prisma.SortOrder
   thirdNatureId?: Prisma.SortOrder
   userId?: Prisma.SortOrder
+  isDeleting?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -698,6 +719,7 @@ export type accountingMinOrderByAggregateInput = {
   secondNatureId?: Prisma.SortOrder
   thirdNatureId?: Prisma.SortOrder
   userId?: Prisma.SortOrder
+  isDeleting?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -1091,6 +1113,7 @@ export type accountingCreateWithoutUserInput = {
   description: string
   period?: Date | string | null
   documents?: Prisma.accountingCreatedocumentsInput | string[]
+  isDeleting?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
   unit?: Prisma.UnitCreateNestedOneWithoutAccountingsInput
@@ -1121,6 +1144,7 @@ export type accountingUncheckedCreateWithoutUserInput = {
   secondNatureId?: string | null
   thirdNatureId?: string | null
   documents?: Prisma.accountingCreatedocumentsInput | string[]
+  isDeleting?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
   notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutAccountingInput
@@ -1174,6 +1198,7 @@ export type accountingScalarWhereInput = {
   thirdNatureId?: Prisma.StringNullableFilter<"accounting"> | string | null
   userId?: Prisma.StringFilter<"accounting"> | string
   documents?: Prisma.StringNullableListFilter<"accounting">
+  isDeleting?: Prisma.BoolFilter<"accounting"> | boolean
   createdAt?: Prisma.DateTimeFilter<"accounting"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"accounting"> | Date | string
 }
@@ -1189,6 +1214,7 @@ export type accountingCreateWithoutUnitInput = {
   description: string
   period?: Date | string | null
   documents?: Prisma.accountingCreatedocumentsInput | string[]
+  isDeleting?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
   source: Prisma.SourceCreateNestedOneWithoutAccountingsInput
@@ -1219,6 +1245,7 @@ export type accountingUncheckedCreateWithoutUnitInput = {
   thirdNatureId?: string | null
   userId: string
   documents?: Prisma.accountingCreatedocumentsInput | string[]
+  isDeleting?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
   notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutAccountingInput
@@ -1261,6 +1288,7 @@ export type accountingCreateWithoutNotificationsInput = {
   description: string
   period?: Date | string | null
   documents?: Prisma.accountingCreatedocumentsInput | string[]
+  isDeleting?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
   unit?: Prisma.UnitCreateNestedOneWithoutAccountingsInput
@@ -1292,6 +1320,7 @@ export type accountingUncheckedCreateWithoutNotificationsInput = {
   thirdNatureId?: string | null
   userId: string
   documents?: Prisma.accountingCreatedocumentsInput | string[]
+  isDeleting?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -1323,6 +1352,7 @@ export type accountingUpdateWithoutNotificationsInput = {
   description?: Prisma.StringFieldUpdateOperationsInput | string
   period?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   documents?: Prisma.accountingUpdatedocumentsInput | string[]
+  isDeleting?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   unit?: Prisma.UnitUpdateOneWithoutAccountingsNestedInput
@@ -1354,6 +1384,7 @@ export type accountingUncheckedUpdateWithoutNotificationsInput = {
   thirdNatureId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   userId?: Prisma.StringFieldUpdateOperationsInput | string
   documents?: Prisma.accountingUpdatedocumentsInput | string[]
+  isDeleting?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -1369,6 +1400,7 @@ export type accountingCreateWithoutSourceInput = {
   description: string
   period?: Date | string | null
   documents?: Prisma.accountingCreatedocumentsInput | string[]
+  isDeleting?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
   unit?: Prisma.UnitCreateNestedOneWithoutAccountingsInput
@@ -1399,6 +1431,7 @@ export type accountingUncheckedCreateWithoutSourceInput = {
   thirdNatureId?: string | null
   userId: string
   documents?: Prisma.accountingCreatedocumentsInput | string[]
+  isDeleting?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
   notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutAccountingInput
@@ -1441,6 +1474,7 @@ export type accountingCreateWithoutAllocationInput = {
   description: string
   period?: Date | string | null
   documents?: Prisma.accountingCreatedocumentsInput | string[]
+  isDeleting?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
   unit?: Prisma.UnitCreateNestedOneWithoutAccountingsInput
@@ -1471,6 +1505,7 @@ export type accountingUncheckedCreateWithoutAllocationInput = {
   thirdNatureId?: string | null
   userId: string
   documents?: Prisma.accountingCreatedocumentsInput | string[]
+  isDeleting?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
   notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutAccountingInput
@@ -1513,6 +1548,7 @@ export type accountingCreateWithoutCategoryInput = {
   description: string
   period?: Date | string | null
   documents?: Prisma.accountingCreatedocumentsInput | string[]
+  isDeleting?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
   unit?: Prisma.UnitCreateNestedOneWithoutAccountingsInput
@@ -1543,6 +1579,7 @@ export type accountingUncheckedCreateWithoutCategoryInput = {
   thirdNatureId?: string | null
   userId: string
   documents?: Prisma.accountingCreatedocumentsInput | string[]
+  isDeleting?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
   notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutAccountingInput
@@ -1585,6 +1622,7 @@ export type accountingCreateWithoutNatureInput = {
   description: string
   period?: Date | string | null
   documents?: Prisma.accountingCreatedocumentsInput | string[]
+  isDeleting?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
   unit?: Prisma.UnitCreateNestedOneWithoutAccountingsInput
@@ -1615,6 +1653,7 @@ export type accountingUncheckedCreateWithoutNatureInput = {
   thirdNatureId?: string | null
   userId: string
   documents?: Prisma.accountingCreatedocumentsInput | string[]
+  isDeleting?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
   notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutAccountingInput
@@ -1657,6 +1696,7 @@ export type accountingCreateWithoutSecondNatureInput = {
   description: string
   period?: Date | string | null
   documents?: Prisma.accountingCreatedocumentsInput | string[]
+  isDeleting?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
   unit?: Prisma.UnitCreateNestedOneWithoutAccountingsInput
@@ -1687,6 +1727,7 @@ export type accountingUncheckedCreateWithoutSecondNatureInput = {
   thirdNatureId?: string | null
   userId: string
   documents?: Prisma.accountingCreatedocumentsInput | string[]
+  isDeleting?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
   notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutAccountingInput
@@ -1729,6 +1770,7 @@ export type accountingCreateWithoutThirdNatureInput = {
   description: string
   period?: Date | string | null
   documents?: Prisma.accountingCreatedocumentsInput | string[]
+  isDeleting?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
   unit?: Prisma.UnitCreateNestedOneWithoutAccountingsInput
@@ -1759,6 +1801,7 @@ export type accountingUncheckedCreateWithoutThirdNatureInput = {
   secondNatureId?: string | null
   userId: string
   documents?: Prisma.accountingCreatedocumentsInput | string[]
+  isDeleting?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
   notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutAccountingInput
@@ -1808,6 +1851,7 @@ export type accountingCreateManyUserInput = {
   secondNatureId?: string | null
   thirdNatureId?: string | null
   documents?: Prisma.accountingCreatedocumentsInput | string[]
+  isDeleting?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -1823,6 +1867,7 @@ export type accountingUpdateWithoutUserInput = {
   description?: Prisma.StringFieldUpdateOperationsInput | string
   period?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   documents?: Prisma.accountingUpdatedocumentsInput | string[]
+  isDeleting?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   unit?: Prisma.UnitUpdateOneWithoutAccountingsNestedInput
@@ -1853,6 +1898,7 @@ export type accountingUncheckedUpdateWithoutUserInput = {
   secondNatureId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   thirdNatureId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   documents?: Prisma.accountingUpdatedocumentsInput | string[]
+  isDeleting?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   notifications?: Prisma.NotificationUncheckedUpdateManyWithoutAccountingNestedInput
@@ -1876,6 +1922,7 @@ export type accountingUncheckedUpdateManyWithoutUserInput = {
   secondNatureId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   thirdNatureId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   documents?: Prisma.accountingUpdatedocumentsInput | string[]
+  isDeleting?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -1898,6 +1945,7 @@ export type accountingCreateManyUnitInput = {
   thirdNatureId?: string | null
   userId: string
   documents?: Prisma.accountingCreatedocumentsInput | string[]
+  isDeleting?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -1913,6 +1961,7 @@ export type accountingUpdateWithoutUnitInput = {
   description?: Prisma.StringFieldUpdateOperationsInput | string
   period?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   documents?: Prisma.accountingUpdatedocumentsInput | string[]
+  isDeleting?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   source?: Prisma.SourceUpdateOneRequiredWithoutAccountingsNestedInput
@@ -1943,6 +1992,7 @@ export type accountingUncheckedUpdateWithoutUnitInput = {
   thirdNatureId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   userId?: Prisma.StringFieldUpdateOperationsInput | string
   documents?: Prisma.accountingUpdatedocumentsInput | string[]
+  isDeleting?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   notifications?: Prisma.NotificationUncheckedUpdateManyWithoutAccountingNestedInput
@@ -1966,6 +2016,7 @@ export type accountingUncheckedUpdateManyWithoutUnitInput = {
   thirdNatureId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   userId?: Prisma.StringFieldUpdateOperationsInput | string
   documents?: Prisma.accountingUpdatedocumentsInput | string[]
+  isDeleting?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -1988,6 +2039,7 @@ export type accountingCreateManySourceInput = {
   thirdNatureId?: string | null
   userId: string
   documents?: Prisma.accountingCreatedocumentsInput | string[]
+  isDeleting?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -2003,6 +2055,7 @@ export type accountingUpdateWithoutSourceInput = {
   description?: Prisma.StringFieldUpdateOperationsInput | string
   period?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   documents?: Prisma.accountingUpdatedocumentsInput | string[]
+  isDeleting?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   unit?: Prisma.UnitUpdateOneWithoutAccountingsNestedInput
@@ -2033,6 +2086,7 @@ export type accountingUncheckedUpdateWithoutSourceInput = {
   thirdNatureId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   userId?: Prisma.StringFieldUpdateOperationsInput | string
   documents?: Prisma.accountingUpdatedocumentsInput | string[]
+  isDeleting?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   notifications?: Prisma.NotificationUncheckedUpdateManyWithoutAccountingNestedInput
@@ -2056,6 +2110,7 @@ export type accountingUncheckedUpdateManyWithoutSourceInput = {
   thirdNatureId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   userId?: Prisma.StringFieldUpdateOperationsInput | string
   documents?: Prisma.accountingUpdatedocumentsInput | string[]
+  isDeleting?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -2078,6 +2133,7 @@ export type accountingCreateManyAllocationInput = {
   thirdNatureId?: string | null
   userId: string
   documents?: Prisma.accountingCreatedocumentsInput | string[]
+  isDeleting?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -2093,6 +2149,7 @@ export type accountingUpdateWithoutAllocationInput = {
   description?: Prisma.StringFieldUpdateOperationsInput | string
   period?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   documents?: Prisma.accountingUpdatedocumentsInput | string[]
+  isDeleting?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   unit?: Prisma.UnitUpdateOneWithoutAccountingsNestedInput
@@ -2123,6 +2180,7 @@ export type accountingUncheckedUpdateWithoutAllocationInput = {
   thirdNatureId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   userId?: Prisma.StringFieldUpdateOperationsInput | string
   documents?: Prisma.accountingUpdatedocumentsInput | string[]
+  isDeleting?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   notifications?: Prisma.NotificationUncheckedUpdateManyWithoutAccountingNestedInput
@@ -2146,6 +2204,7 @@ export type accountingUncheckedUpdateManyWithoutAllocationInput = {
   thirdNatureId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   userId?: Prisma.StringFieldUpdateOperationsInput | string
   documents?: Prisma.accountingUpdatedocumentsInput | string[]
+  isDeleting?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -2168,6 +2227,7 @@ export type accountingCreateManyCategoryInput = {
   thirdNatureId?: string | null
   userId: string
   documents?: Prisma.accountingCreatedocumentsInput | string[]
+  isDeleting?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -2183,6 +2243,7 @@ export type accountingUpdateWithoutCategoryInput = {
   description?: Prisma.StringFieldUpdateOperationsInput | string
   period?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   documents?: Prisma.accountingUpdatedocumentsInput | string[]
+  isDeleting?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   unit?: Prisma.UnitUpdateOneWithoutAccountingsNestedInput
@@ -2213,6 +2274,7 @@ export type accountingUncheckedUpdateWithoutCategoryInput = {
   thirdNatureId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   userId?: Prisma.StringFieldUpdateOperationsInput | string
   documents?: Prisma.accountingUpdatedocumentsInput | string[]
+  isDeleting?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   notifications?: Prisma.NotificationUncheckedUpdateManyWithoutAccountingNestedInput
@@ -2236,6 +2298,7 @@ export type accountingUncheckedUpdateManyWithoutCategoryInput = {
   thirdNatureId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   userId?: Prisma.StringFieldUpdateOperationsInput | string
   documents?: Prisma.accountingUpdatedocumentsInput | string[]
+  isDeleting?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -2258,6 +2321,7 @@ export type accountingCreateManyNatureInput = {
   thirdNatureId?: string | null
   userId: string
   documents?: Prisma.accountingCreatedocumentsInput | string[]
+  isDeleting?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -2273,6 +2337,7 @@ export type accountingUpdateWithoutNatureInput = {
   description?: Prisma.StringFieldUpdateOperationsInput | string
   period?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   documents?: Prisma.accountingUpdatedocumentsInput | string[]
+  isDeleting?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   unit?: Prisma.UnitUpdateOneWithoutAccountingsNestedInput
@@ -2303,6 +2368,7 @@ export type accountingUncheckedUpdateWithoutNatureInput = {
   thirdNatureId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   userId?: Prisma.StringFieldUpdateOperationsInput | string
   documents?: Prisma.accountingUpdatedocumentsInput | string[]
+  isDeleting?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   notifications?: Prisma.NotificationUncheckedUpdateManyWithoutAccountingNestedInput
@@ -2326,6 +2392,7 @@ export type accountingUncheckedUpdateManyWithoutNatureInput = {
   thirdNatureId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   userId?: Prisma.StringFieldUpdateOperationsInput | string
   documents?: Prisma.accountingUpdatedocumentsInput | string[]
+  isDeleting?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -2348,6 +2415,7 @@ export type accountingCreateManySecondNatureInput = {
   thirdNatureId?: string | null
   userId: string
   documents?: Prisma.accountingCreatedocumentsInput | string[]
+  isDeleting?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -2363,6 +2431,7 @@ export type accountingUpdateWithoutSecondNatureInput = {
   description?: Prisma.StringFieldUpdateOperationsInput | string
   period?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   documents?: Prisma.accountingUpdatedocumentsInput | string[]
+  isDeleting?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   unit?: Prisma.UnitUpdateOneWithoutAccountingsNestedInput
@@ -2393,6 +2462,7 @@ export type accountingUncheckedUpdateWithoutSecondNatureInput = {
   thirdNatureId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   userId?: Prisma.StringFieldUpdateOperationsInput | string
   documents?: Prisma.accountingUpdatedocumentsInput | string[]
+  isDeleting?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   notifications?: Prisma.NotificationUncheckedUpdateManyWithoutAccountingNestedInput
@@ -2416,6 +2486,7 @@ export type accountingUncheckedUpdateManyWithoutSecondNatureInput = {
   thirdNatureId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   userId?: Prisma.StringFieldUpdateOperationsInput | string
   documents?: Prisma.accountingUpdatedocumentsInput | string[]
+  isDeleting?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -2438,6 +2509,7 @@ export type accountingCreateManyThirdNatureInput = {
   secondNatureId?: string | null
   userId: string
   documents?: Prisma.accountingCreatedocumentsInput | string[]
+  isDeleting?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -2453,6 +2525,7 @@ export type accountingUpdateWithoutThirdNatureInput = {
   description?: Prisma.StringFieldUpdateOperationsInput | string
   period?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   documents?: Prisma.accountingUpdatedocumentsInput | string[]
+  isDeleting?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   unit?: Prisma.UnitUpdateOneWithoutAccountingsNestedInput
@@ -2483,6 +2556,7 @@ export type accountingUncheckedUpdateWithoutThirdNatureInput = {
   secondNatureId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   userId?: Prisma.StringFieldUpdateOperationsInput | string
   documents?: Prisma.accountingUpdatedocumentsInput | string[]
+  isDeleting?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   notifications?: Prisma.NotificationUncheckedUpdateManyWithoutAccountingNestedInput
@@ -2506,6 +2580,7 @@ export type accountingUncheckedUpdateManyWithoutThirdNatureInput = {
   secondNatureId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   userId?: Prisma.StringFieldUpdateOperationsInput | string
   documents?: Prisma.accountingUpdatedocumentsInput | string[]
+  isDeleting?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -2560,6 +2635,7 @@ export type accountingSelect<ExtArgs extends runtime.Types.Extensions.InternalAr
   thirdNatureId?: boolean
   userId?: boolean
   documents?: boolean
+  isDeleting?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   unit?: boolean | Prisma.accounting$unitArgs<ExtArgs>
@@ -2593,6 +2669,7 @@ export type accountingSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Ex
   thirdNatureId?: boolean
   userId?: boolean
   documents?: boolean
+  isDeleting?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   unit?: boolean | Prisma.accounting$unitArgs<ExtArgs>
@@ -2624,6 +2701,7 @@ export type accountingSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Ex
   thirdNatureId?: boolean
   userId?: boolean
   documents?: boolean
+  isDeleting?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   unit?: boolean | Prisma.accounting$unitArgs<ExtArgs>
@@ -2655,11 +2733,12 @@ export type accountingSelectScalar = {
   thirdNatureId?: boolean
   userId?: boolean
   documents?: boolean
+  isDeleting?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }
 
-export type accountingOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "date" | "type" | "paymentMode" | "amount" | "isTTC" | "checkNumber" | "description" | "period" | "unitId" | "sourceId" | "allocationId" | "categoryId" | "natureId" | "secondNatureId" | "thirdNatureId" | "userId" | "documents" | "createdAt" | "updatedAt", ExtArgs["result"]["accounting"]>
+export type accountingOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "date" | "type" | "paymentMode" | "amount" | "isTTC" | "checkNumber" | "description" | "period" | "unitId" | "sourceId" | "allocationId" | "categoryId" | "natureId" | "secondNatureId" | "thirdNatureId" | "userId" | "documents" | "isDeleting" | "createdAt" | "updatedAt", ExtArgs["result"]["accounting"]>
 export type accountingInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   unit?: boolean | Prisma.accounting$unitArgs<ExtArgs>
   source?: boolean | Prisma.SourceDefaultArgs<ExtArgs>
@@ -2725,6 +2804,7 @@ export type $accountingPayload<ExtArgs extends runtime.Types.Extensions.Internal
     thirdNatureId: string | null
     userId: string
     documents: string[]
+    isDeleting: boolean
     createdAt: Date
     updatedAt: Date
   }, ExtArgs["result"]["accounting"]>
@@ -3177,6 +3257,7 @@ export interface accountingFieldRefs {
   readonly thirdNatureId: Prisma.FieldRef<"accounting", 'String'>
   readonly userId: Prisma.FieldRef<"accounting", 'String'>
   readonly documents: Prisma.FieldRef<"accounting", 'String[]'>
+  readonly isDeleting: Prisma.FieldRef<"accounting", 'Boolean'>
   readonly createdAt: Prisma.FieldRef<"accounting", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"accounting", 'DateTime'>
 }

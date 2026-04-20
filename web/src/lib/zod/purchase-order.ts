@@ -6,7 +6,7 @@ export const purchaseOrderSchema = z.object({
     discount: z.string().refine((val) => val === "" || (!isNaN(Number(val)) && Number(val) >= 0), { message: "La réduction doit être un nombre positif." }).optional(),
     discountType: z.enum(["PERCENT", "MONEY"]),
     hasTax: z.boolean(),
-    serviceProvider: z.string({ error: "Le fournisseur est requis." }),
+    serviceProvider: z.string().min(1, { error: "Le fournisseur est requis." }),
     items: z.array(itemSchema).min(1, { error: "Au moins un article est requis." }),
     start: z.date({ error: "La date d'émission de la commande est requise." }),
     end: z.date({ error: "La date d'échéance de la commande est requise." }),

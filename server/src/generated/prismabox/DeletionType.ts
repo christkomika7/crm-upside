@@ -6,6 +6,7 @@ import { __nullable__ } from "./__nullable__";
 
 export const DeletionType = t.Union(
   [
+    t.Literal("ACCOUNTING"),
     t.Literal("OWNER"),
     t.Literal("BUILDING"),
     t.Literal("TENANT"),

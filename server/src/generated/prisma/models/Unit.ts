@@ -35,6 +35,7 @@ export type UnitAvgAggregateOutputType = {
   bathroom: number | null
   rent: runtime.Decimal | null
   charges: runtime.Decimal | null
+  extraCharges: runtime.Decimal | null
   amountGenerate: runtime.Decimal | null
 }
 
@@ -47,6 +48,7 @@ export type UnitSumAggregateOutputType = {
   bathroom: number | null
   rent: runtime.Decimal | null
   charges: runtime.Decimal | null
+  extraCharges: runtime.Decimal | null
   amountGenerate: runtime.Decimal | null
 }
 
@@ -67,6 +69,7 @@ export type UnitMinAggregateOutputType = {
   tv: boolean | null
   rent: runtime.Decimal | null
   charges: runtime.Decimal | null
+  extraCharges: runtime.Decimal | null
   amountGenerate: runtime.Decimal | null
   isDeleting: boolean | null
   buildingId: string | null
@@ -92,6 +95,7 @@ export type UnitMaxAggregateOutputType = {
   tv: boolean | null
   rent: runtime.Decimal | null
   charges: runtime.Decimal | null
+  extraCharges: runtime.Decimal | null
   amountGenerate: runtime.Decimal | null
   isDeleting: boolean | null
   buildingId: string | null
@@ -117,6 +121,7 @@ export type UnitCountAggregateOutputType = {
   tv: number
   rent: number
   charges: number
+  extraCharges: number
   amountGenerate: number
   documents: number
   isDeleting: number
@@ -137,6 +142,7 @@ export type UnitAvgAggregateInputType = {
   bathroom?: true
   rent?: true
   charges?: true
+  extraCharges?: true
   amountGenerate?: true
 }
 
@@ -149,6 +155,7 @@ export type UnitSumAggregateInputType = {
   bathroom?: true
   rent?: true
   charges?: true
+  extraCharges?: true
   amountGenerate?: true
 }
 
@@ -169,6 +176,7 @@ export type UnitMinAggregateInputType = {
   tv?: true
   rent?: true
   charges?: true
+  extraCharges?: true
   amountGenerate?: true
   isDeleting?: true
   buildingId?: true
@@ -194,6 +202,7 @@ export type UnitMaxAggregateInputType = {
   tv?: true
   rent?: true
   charges?: true
+  extraCharges?: true
   amountGenerate?: true
   isDeleting?: true
   buildingId?: true
@@ -219,6 +228,7 @@ export type UnitCountAggregateInputType = {
   tv?: true
   rent?: true
   charges?: true
+  extraCharges?: true
   amountGenerate?: true
   documents?: true
   isDeleting?: true
@@ -332,6 +342,7 @@ export type UnitGroupByOutputType = {
   tv: boolean
   rent: runtime.Decimal
   charges: runtime.Decimal
+  extraCharges: runtime.Decimal
   amountGenerate: runtime.Decimal
   documents: string[]
   isDeleting: boolean
@@ -381,6 +392,7 @@ export type UnitWhereInput = {
   tv?: Prisma.BoolFilter<"Unit"> | boolean
   rent?: Prisma.DecimalFilter<"Unit"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   charges?: Prisma.DecimalFilter<"Unit"> | runtime.Decimal | runtime.DecimalJsLike | number | string
+  extraCharges?: Prisma.DecimalFilter<"Unit"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   amountGenerate?: Prisma.DecimalFilter<"Unit"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   documents?: Prisma.StringNullableListFilter<"Unit">
   isDeleting?: Prisma.BoolFilter<"Unit"> | boolean
@@ -414,6 +426,7 @@ export type UnitOrderByWithRelationInput = {
   tv?: Prisma.SortOrder
   rent?: Prisma.SortOrder
   charges?: Prisma.SortOrder
+  extraCharges?: Prisma.SortOrder
   amountGenerate?: Prisma.SortOrder
   documents?: Prisma.SortOrder
   isDeleting?: Prisma.SortOrder
@@ -450,6 +463,7 @@ export type UnitWhereUniqueInput = Prisma.AtLeast<{
   tv?: Prisma.BoolFilter<"Unit"> | boolean
   rent?: Prisma.DecimalFilter<"Unit"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   charges?: Prisma.DecimalFilter<"Unit"> | runtime.Decimal | runtime.DecimalJsLike | number | string
+  extraCharges?: Prisma.DecimalFilter<"Unit"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   amountGenerate?: Prisma.DecimalFilter<"Unit"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   documents?: Prisma.StringNullableListFilter<"Unit">
   isDeleting?: Prisma.BoolFilter<"Unit"> | boolean
@@ -483,6 +497,7 @@ export type UnitOrderByWithAggregationInput = {
   tv?: Prisma.SortOrder
   rent?: Prisma.SortOrder
   charges?: Prisma.SortOrder
+  extraCharges?: Prisma.SortOrder
   amountGenerate?: Prisma.SortOrder
   documents?: Prisma.SortOrder
   isDeleting?: Prisma.SortOrder
@@ -517,6 +532,7 @@ export type UnitScalarWhereWithAggregatesInput = {
   tv?: Prisma.BoolWithAggregatesFilter<"Unit"> | boolean
   rent?: Prisma.DecimalWithAggregatesFilter<"Unit"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   charges?: Prisma.DecimalWithAggregatesFilter<"Unit"> | runtime.Decimal | runtime.DecimalJsLike | number | string
+  extraCharges?: Prisma.DecimalWithAggregatesFilter<"Unit"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   amountGenerate?: Prisma.DecimalWithAggregatesFilter<"Unit"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   documents?: Prisma.StringNullableListFilter<"Unit">
   isDeleting?: Prisma.BoolWithAggregatesFilter<"Unit"> | boolean
@@ -543,6 +559,7 @@ export type UnitCreateInput = {
   tv: boolean
   rent?: runtime.Decimal | runtime.DecimalJsLike | number | string
   charges?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  extraCharges?: runtime.Decimal | runtime.DecimalJsLike | number | string
   amountGenerate?: runtime.Decimal | runtime.DecimalJsLike | number | string
   documents?: Prisma.UnitCreatedocumentsInput | string[]
   isDeleting?: boolean
@@ -574,6 +591,7 @@ export type UnitUncheckedCreateInput = {
   tv: boolean
   rent?: runtime.Decimal | runtime.DecimalJsLike | number | string
   charges?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  extraCharges?: runtime.Decimal | runtime.DecimalJsLike | number | string
   amountGenerate?: runtime.Decimal | runtime.DecimalJsLike | number | string
   documents?: Prisma.UnitCreatedocumentsInput | string[]
   isDeleting?: boolean
@@ -605,6 +623,7 @@ export type UnitUpdateInput = {
   tv?: Prisma.BoolFieldUpdateOperationsInput | boolean
   rent?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   charges?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  extraCharges?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   amountGenerate?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   documents?: Prisma.UnitUpdatedocumentsInput | string[]
   isDeleting?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -636,6 +655,7 @@ export type UnitUncheckedUpdateInput = {
   tv?: Prisma.BoolFieldUpdateOperationsInput | boolean
   rent?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   charges?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  extraCharges?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   amountGenerate?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   documents?: Prisma.UnitUpdatedocumentsInput | string[]
   isDeleting?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -667,6 +687,7 @@ export type UnitCreateManyInput = {
   tv: boolean
   rent?: runtime.Decimal | runtime.DecimalJsLike | number | string
   charges?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  extraCharges?: runtime.Decimal | runtime.DecimalJsLike | number | string
   amountGenerate?: runtime.Decimal | runtime.DecimalJsLike | number | string
   documents?: Prisma.UnitCreatedocumentsInput | string[]
   isDeleting?: boolean
@@ -693,6 +714,7 @@ export type UnitUpdateManyMutationInput = {
   tv?: Prisma.BoolFieldUpdateOperationsInput | boolean
   rent?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   charges?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  extraCharges?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   amountGenerate?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   documents?: Prisma.UnitUpdatedocumentsInput | string[]
   isDeleting?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -717,6 +739,7 @@ export type UnitUncheckedUpdateManyInput = {
   tv?: Prisma.BoolFieldUpdateOperationsInput | boolean
   rent?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   charges?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  extraCharges?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   amountGenerate?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   documents?: Prisma.UnitUpdatedocumentsInput | string[]
   isDeleting?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -753,6 +776,7 @@ export type UnitCountOrderByAggregateInput = {
   tv?: Prisma.SortOrder
   rent?: Prisma.SortOrder
   charges?: Prisma.SortOrder
+  extraCharges?: Prisma.SortOrder
   amountGenerate?: Prisma.SortOrder
   documents?: Prisma.SortOrder
   isDeleting?: Prisma.SortOrder
@@ -771,6 +795,7 @@ export type UnitAvgOrderByAggregateInput = {
   bathroom?: Prisma.SortOrder
   rent?: Prisma.SortOrder
   charges?: Prisma.SortOrder
+  extraCharges?: Prisma.SortOrder
   amountGenerate?: Prisma.SortOrder
 }
 
@@ -791,6 +816,7 @@ export type UnitMaxOrderByAggregateInput = {
   tv?: Prisma.SortOrder
   rent?: Prisma.SortOrder
   charges?: Prisma.SortOrder
+  extraCharges?: Prisma.SortOrder
   amountGenerate?: Prisma.SortOrder
   isDeleting?: Prisma.SortOrder
   buildingId?: Prisma.SortOrder
@@ -816,6 +842,7 @@ export type UnitMinOrderByAggregateInput = {
   tv?: Prisma.SortOrder
   rent?: Prisma.SortOrder
   charges?: Prisma.SortOrder
+  extraCharges?: Prisma.SortOrder
   amountGenerate?: Prisma.SortOrder
   isDeleting?: Prisma.SortOrder
   buildingId?: Prisma.SortOrder
@@ -833,6 +860,7 @@ export type UnitSumOrderByAggregateInput = {
   bathroom?: Prisma.SortOrder
   rent?: Prisma.SortOrder
   charges?: Prisma.SortOrder
+  extraCharges?: Prisma.SortOrder
   amountGenerate?: Prisma.SortOrder
 }
 
@@ -898,6 +926,22 @@ export type FloatFieldUpdateOperationsInput = {
   decrement?: number
   multiply?: number
   divide?: number
+}
+
+export type IntFieldUpdateOperationsInput = {
+  set?: number
+  increment?: number
+  decrement?: number
+  multiply?: number
+  divide?: number
+}
+
+export type DecimalFieldUpdateOperationsInput = {
+  set?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  increment?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  decrement?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  multiply?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  divide?: runtime.Decimal | runtime.DecimalJsLike | number | string
 }
 
 export type UnitUpdatedocumentsInput = {
@@ -1036,6 +1080,7 @@ export type UnitCreateWithoutBuildingInput = {
   tv: boolean
   rent?: runtime.Decimal | runtime.DecimalJsLike | number | string
   charges?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  extraCharges?: runtime.Decimal | runtime.DecimalJsLike | number | string
   amountGenerate?: runtime.Decimal | runtime.DecimalJsLike | number | string
   documents?: Prisma.UnitCreatedocumentsInput | string[]
   isDeleting?: boolean
@@ -1066,6 +1111,7 @@ export type UnitUncheckedCreateWithoutBuildingInput = {
   tv: boolean
   rent?: runtime.Decimal | runtime.DecimalJsLike | number | string
   charges?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  extraCharges?: runtime.Decimal | runtime.DecimalJsLike | number | string
   amountGenerate?: runtime.Decimal | runtime.DecimalJsLike | number | string
   documents?: Prisma.UnitCreatedocumentsInput | string[]
   isDeleting?: boolean
@@ -1125,6 +1171,7 @@ export type UnitScalarWhereInput = {
   tv?: Prisma.BoolFilter<"Unit"> | boolean
   rent?: Prisma.DecimalFilter<"Unit"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   charges?: Prisma.DecimalFilter<"Unit"> | runtime.Decimal | runtime.DecimalJsLike | number | string
+  extraCharges?: Prisma.DecimalFilter<"Unit"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   amountGenerate?: Prisma.DecimalFilter<"Unit"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   documents?: Prisma.StringNullableListFilter<"Unit">
   isDeleting?: Prisma.BoolFilter<"Unit"> | boolean
@@ -1151,6 +1198,7 @@ export type UnitCreateWithoutTypeInput = {
   tv: boolean
   rent?: runtime.Decimal | runtime.DecimalJsLike | number | string
   charges?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  extraCharges?: runtime.Decimal | runtime.DecimalJsLike | number | string
   amountGenerate?: runtime.Decimal | runtime.DecimalJsLike | number | string
   documents?: Prisma.UnitCreatedocumentsInput | string[]
   isDeleting?: boolean
@@ -1181,6 +1229,7 @@ export type UnitUncheckedCreateWithoutTypeInput = {
   tv: boolean
   rent?: runtime.Decimal | runtime.DecimalJsLike | number | string
   charges?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  extraCharges?: runtime.Decimal | runtime.DecimalJsLike | number | string
   amountGenerate?: runtime.Decimal | runtime.DecimalJsLike | number | string
   documents?: Prisma.UnitCreatedocumentsInput | string[]
   isDeleting?: boolean
@@ -1237,6 +1286,7 @@ export type UnitCreateWithoutRentalsInput = {
   tv: boolean
   rent?: runtime.Decimal | runtime.DecimalJsLike | number | string
   charges?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  extraCharges?: runtime.Decimal | runtime.DecimalJsLike | number | string
   amountGenerate?: runtime.Decimal | runtime.DecimalJsLike | number | string
   documents?: Prisma.UnitCreatedocumentsInput | string[]
   isDeleting?: boolean
@@ -1267,6 +1317,7 @@ export type UnitUncheckedCreateWithoutRentalsInput = {
   tv: boolean
   rent?: runtime.Decimal | runtime.DecimalJsLike | number | string
   charges?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  extraCharges?: runtime.Decimal | runtime.DecimalJsLike | number | string
   amountGenerate?: runtime.Decimal | runtime.DecimalJsLike | number | string
   documents?: Prisma.UnitCreatedocumentsInput | string[]
   isDeleting?: boolean
@@ -1313,6 +1364,7 @@ export type UnitUpdateWithoutRentalsInput = {
   tv?: Prisma.BoolFieldUpdateOperationsInput | boolean
   rent?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   charges?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  extraCharges?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   amountGenerate?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   documents?: Prisma.UnitUpdatedocumentsInput | string[]
   isDeleting?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -1343,6 +1395,7 @@ export type UnitUncheckedUpdateWithoutRentalsInput = {
   tv?: Prisma.BoolFieldUpdateOperationsInput | boolean
   rent?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   charges?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  extraCharges?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   amountGenerate?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   documents?: Prisma.UnitUpdatedocumentsInput | string[]
   isDeleting?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -1373,6 +1426,7 @@ export type UnitCreateWithoutReservationsInput = {
   tv: boolean
   rent?: runtime.Decimal | runtime.DecimalJsLike | number | string
   charges?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  extraCharges?: runtime.Decimal | runtime.DecimalJsLike | number | string
   amountGenerate?: runtime.Decimal | runtime.DecimalJsLike | number | string
   documents?: Prisma.UnitCreatedocumentsInput | string[]
   isDeleting?: boolean
@@ -1403,6 +1457,7 @@ export type UnitUncheckedCreateWithoutReservationsInput = {
   tv: boolean
   rent?: runtime.Decimal | runtime.DecimalJsLike | number | string
   charges?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  extraCharges?: runtime.Decimal | runtime.DecimalJsLike | number | string
   amountGenerate?: runtime.Decimal | runtime.DecimalJsLike | number | string
   documents?: Prisma.UnitCreatedocumentsInput | string[]
   isDeleting?: boolean
@@ -1449,6 +1504,7 @@ export type UnitUpdateWithoutReservationsInput = {
   tv?: Prisma.BoolFieldUpdateOperationsInput | boolean
   rent?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   charges?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  extraCharges?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   amountGenerate?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   documents?: Prisma.UnitUpdatedocumentsInput | string[]
   isDeleting?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -1479,6 +1535,7 @@ export type UnitUncheckedUpdateWithoutReservationsInput = {
   tv?: Prisma.BoolFieldUpdateOperationsInput | boolean
   rent?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   charges?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  extraCharges?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   amountGenerate?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   documents?: Prisma.UnitUpdatedocumentsInput | string[]
   isDeleting?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -1509,6 +1566,7 @@ export type UnitCreateWithoutPropertyManagementsInput = {
   tv: boolean
   rent?: runtime.Decimal | runtime.DecimalJsLike | number | string
   charges?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  extraCharges?: runtime.Decimal | runtime.DecimalJsLike | number | string
   amountGenerate?: runtime.Decimal | runtime.DecimalJsLike | number | string
   documents?: Prisma.UnitCreatedocumentsInput | string[]
   isDeleting?: boolean
@@ -1539,6 +1597,7 @@ export type UnitUncheckedCreateWithoutPropertyManagementsInput = {
   tv: boolean
   rent?: runtime.Decimal | runtime.DecimalJsLike | number | string
   charges?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  extraCharges?: runtime.Decimal | runtime.DecimalJsLike | number | string
   amountGenerate?: runtime.Decimal | runtime.DecimalJsLike | number | string
   documents?: Prisma.UnitCreatedocumentsInput | string[]
   isDeleting?: boolean
@@ -1585,6 +1644,7 @@ export type UnitUpdateWithoutPropertyManagementsInput = {
   tv?: Prisma.BoolFieldUpdateOperationsInput | boolean
   rent?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   charges?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  extraCharges?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   amountGenerate?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   documents?: Prisma.UnitUpdatedocumentsInput | string[]
   isDeleting?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -1615,6 +1675,7 @@ export type UnitUncheckedUpdateWithoutPropertyManagementsInput = {
   tv?: Prisma.BoolFieldUpdateOperationsInput | boolean
   rent?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   charges?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  extraCharges?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   amountGenerate?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   documents?: Prisma.UnitUpdatedocumentsInput | string[]
   isDeleting?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -1645,6 +1706,7 @@ export type UnitCreateWithoutCheckInOutsInput = {
   tv: boolean
   rent?: runtime.Decimal | runtime.DecimalJsLike | number | string
   charges?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  extraCharges?: runtime.Decimal | runtime.DecimalJsLike | number | string
   amountGenerate?: runtime.Decimal | runtime.DecimalJsLike | number | string
   documents?: Prisma.UnitCreatedocumentsInput | string[]
   isDeleting?: boolean
@@ -1675,6 +1737,7 @@ export type UnitUncheckedCreateWithoutCheckInOutsInput = {
   tv: boolean
   rent?: runtime.Decimal | runtime.DecimalJsLike | number | string
   charges?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  extraCharges?: runtime.Decimal | runtime.DecimalJsLike | number | string
   amountGenerate?: runtime.Decimal | runtime.DecimalJsLike | number | string
   documents?: Prisma.UnitCreatedocumentsInput | string[]
   isDeleting?: boolean
@@ -1721,6 +1784,7 @@ export type UnitUpdateWithoutCheckInOutsInput = {
   tv?: Prisma.BoolFieldUpdateOperationsInput | boolean
   rent?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   charges?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  extraCharges?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   amountGenerate?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   documents?: Prisma.UnitUpdatedocumentsInput | string[]
   isDeleting?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -1751,6 +1815,7 @@ export type UnitUncheckedUpdateWithoutCheckInOutsInput = {
   tv?: Prisma.BoolFieldUpdateOperationsInput | boolean
   rent?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   charges?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  extraCharges?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   amountGenerate?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   documents?: Prisma.UnitUpdatedocumentsInput | string[]
   isDeleting?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -1781,6 +1846,7 @@ export type UnitCreateWithoutAccountingsInput = {
   tv: boolean
   rent?: runtime.Decimal | runtime.DecimalJsLike | number | string
   charges?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  extraCharges?: runtime.Decimal | runtime.DecimalJsLike | number | string
   amountGenerate?: runtime.Decimal | runtime.DecimalJsLike | number | string
   documents?: Prisma.UnitCreatedocumentsInput | string[]
   isDeleting?: boolean
@@ -1811,6 +1877,7 @@ export type UnitUncheckedCreateWithoutAccountingsInput = {
   tv: boolean
   rent?: runtime.Decimal | runtime.DecimalJsLike | number | string
   charges?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  extraCharges?: runtime.Decimal | runtime.DecimalJsLike | number | string
   amountGenerate?: runtime.Decimal | runtime.DecimalJsLike | number | string
   documents?: Prisma.UnitCreatedocumentsInput | string[]
   isDeleting?: boolean
@@ -1857,6 +1924,7 @@ export type UnitUpdateWithoutAccountingsInput = {
   tv?: Prisma.BoolFieldUpdateOperationsInput | boolean
   rent?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   charges?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  extraCharges?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   amountGenerate?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   documents?: Prisma.UnitUpdatedocumentsInput | string[]
   isDeleting?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -1887,6 +1955,7 @@ export type UnitUncheckedUpdateWithoutAccountingsInput = {
   tv?: Prisma.BoolFieldUpdateOperationsInput | boolean
   rent?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   charges?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  extraCharges?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   amountGenerate?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   documents?: Prisma.UnitUpdatedocumentsInput | string[]
   isDeleting?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -1917,6 +1986,7 @@ export type UnitCreateManyBuildingInput = {
   tv: boolean
   rent?: runtime.Decimal | runtime.DecimalJsLike | number | string
   charges?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  extraCharges?: runtime.Decimal | runtime.DecimalJsLike | number | string
   amountGenerate?: runtime.Decimal | runtime.DecimalJsLike | number | string
   documents?: Prisma.UnitCreatedocumentsInput | string[]
   isDeleting?: boolean
@@ -1942,6 +2012,7 @@ export type UnitUpdateWithoutBuildingInput = {
   tv?: Prisma.BoolFieldUpdateOperationsInput | boolean
   rent?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   charges?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  extraCharges?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   amountGenerate?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   documents?: Prisma.UnitUpdatedocumentsInput | string[]
   isDeleting?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -1972,6 +2043,7 @@ export type UnitUncheckedUpdateWithoutBuildingInput = {
   tv?: Prisma.BoolFieldUpdateOperationsInput | boolean
   rent?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   charges?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  extraCharges?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   amountGenerate?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   documents?: Prisma.UnitUpdatedocumentsInput | string[]
   isDeleting?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -2002,6 +2074,7 @@ export type UnitUncheckedUpdateManyWithoutBuildingInput = {
   tv?: Prisma.BoolFieldUpdateOperationsInput | boolean
   rent?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   charges?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  extraCharges?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   amountGenerate?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   documents?: Prisma.UnitUpdatedocumentsInput | string[]
   isDeleting?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -2027,6 +2100,7 @@ export type UnitCreateManyTypeInput = {
   tv: boolean
   rent?: runtime.Decimal | runtime.DecimalJsLike | number | string
   charges?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  extraCharges?: runtime.Decimal | runtime.DecimalJsLike | number | string
   amountGenerate?: runtime.Decimal | runtime.DecimalJsLike | number | string
   documents?: Prisma.UnitCreatedocumentsInput | string[]
   isDeleting?: boolean
@@ -2052,6 +2126,7 @@ export type UnitUpdateWithoutTypeInput = {
   tv?: Prisma.BoolFieldUpdateOperationsInput | boolean
   rent?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   charges?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  extraCharges?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   amountGenerate?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   documents?: Prisma.UnitUpdatedocumentsInput | string[]
   isDeleting?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -2082,6 +2157,7 @@ export type UnitUncheckedUpdateWithoutTypeInput = {
   tv?: Prisma.BoolFieldUpdateOperationsInput | boolean
   rent?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   charges?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  extraCharges?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   amountGenerate?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   documents?: Prisma.UnitUpdatedocumentsInput | string[]
   isDeleting?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -2112,6 +2188,7 @@ export type UnitUncheckedUpdateManyWithoutTypeInput = {
   tv?: Prisma.BoolFieldUpdateOperationsInput | boolean
   rent?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   charges?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  extraCharges?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   amountGenerate?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   documents?: Prisma.UnitUpdatedocumentsInput | string[]
   isDeleting?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -2204,6 +2281,7 @@ export type UnitSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   tv?: boolean
   rent?: boolean
   charges?: boolean
+  extraCharges?: boolean
   amountGenerate?: boolean
   documents?: boolean
   isDeleting?: boolean
@@ -2238,6 +2316,7 @@ export type UnitSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensio
   tv?: boolean
   rent?: boolean
   charges?: boolean
+  extraCharges?: boolean
   amountGenerate?: boolean
   documents?: boolean
   isDeleting?: boolean
@@ -2266,6 +2345,7 @@ export type UnitSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensio
   tv?: boolean
   rent?: boolean
   charges?: boolean
+  extraCharges?: boolean
   amountGenerate?: boolean
   documents?: boolean
   isDeleting?: boolean
@@ -2294,6 +2374,7 @@ export type UnitSelectScalar = {
   tv?: boolean
   rent?: boolean
   charges?: boolean
+  extraCharges?: boolean
   amountGenerate?: boolean
   documents?: boolean
   isDeleting?: boolean
@@ -2303,7 +2384,7 @@ export type UnitSelectScalar = {
   updatedAt?: boolean
 }
 
-export type UnitOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "reference" | "rentalStatus" | "surface" | "livingroom" | "dining" | "kitchen" | "bedroom" | "bathroom" | "furnished" | "wifi" | "water" | "electricity" | "tv" | "rent" | "charges" | "amountGenerate" | "documents" | "isDeleting" | "buildingId" | "typeId" | "createdAt" | "updatedAt", ExtArgs["result"]["unit"]>
+export type UnitOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "reference" | "rentalStatus" | "surface" | "livingroom" | "dining" | "kitchen" | "bedroom" | "bathroom" | "furnished" | "wifi" | "water" | "electricity" | "tv" | "rent" | "charges" | "extraCharges" | "amountGenerate" | "documents" | "isDeleting" | "buildingId" | "typeId" | "createdAt" | "updatedAt", ExtArgs["result"]["unit"]>
 export type UnitInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   rentals?: boolean | Prisma.Unit$rentalsArgs<ExtArgs>
   building?: boolean | Prisma.BuildingDefaultArgs<ExtArgs>
@@ -2351,6 +2432,7 @@ export type $UnitPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
     tv: boolean
     rent: runtime.Decimal
     charges: runtime.Decimal
+    extraCharges: runtime.Decimal
     amountGenerate: runtime.Decimal
     documents: string[]
     isDeleting: boolean
@@ -2804,6 +2886,7 @@ export interface UnitFieldRefs {
   readonly tv: Prisma.FieldRef<"Unit", 'Boolean'>
   readonly rent: Prisma.FieldRef<"Unit", 'Decimal'>
   readonly charges: Prisma.FieldRef<"Unit", 'Decimal'>
+  readonly extraCharges: Prisma.FieldRef<"Unit", 'Decimal'>
   readonly amountGenerate: Prisma.FieldRef<"Unit", 'Decimal'>
   readonly documents: Prisma.FieldRef<"Unit", 'String[]'>
   readonly isDeleting: Prisma.FieldRef<"Unit", 'Boolean'>

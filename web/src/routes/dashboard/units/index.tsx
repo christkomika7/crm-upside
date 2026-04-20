@@ -29,7 +29,7 @@ function RouteComponent() {
   const hasReadAccess = canAccess(permission, "units", ['read']);
 
   const {
-    units,
+    data,
     total,
     pageCount,
     page,
@@ -39,7 +39,7 @@ function RouteComponent() {
     onPageChange,
     onSearchChange,
     onFilterChange,
-  } = useApiData<Units>({ url: "/unit" });
+  } = useApiData<Units>({ url: "/unit", key: "units" });
 
   return <div className='space-y-6'>
     <div className='space-y-6'>
@@ -52,7 +52,7 @@ function RouteComponent() {
         showSecond={hasReadAccess}
       />
       <DataTable
-        data={units}
+        data={data}
         columns={columns}
         filters={["reference", "building", "owner", "tenant"]}
         sort="reference"
@@ -68,9 +68,11 @@ function RouteComponent() {
         filter={filter}
         onFilterChange={onFilterChange}
       />
-      <div className='flex justify-center'>
-        <Button variant="inset-action" className='max-w-md'>Envoyer un mail</Button>
-      </div>
+      {hasCreateAccess && (
+        <div className='flex justify-center'>
+          <Button variant="inset-action" className='max-w-md'>Envoyer un mail</Button>
+        </div>
+      )}
     </div>
   </div>
 }

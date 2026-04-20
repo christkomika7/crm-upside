@@ -31,7 +31,7 @@ function RouteComponent() {
   const hasReadAccess = canAccess(permission, "accounting", ['read']);
 
   const {
-    units,
+    data,
     total,
     pageCount,
     page,
@@ -41,7 +41,7 @@ function RouteComponent() {
     onPageChange,
     onSearchChange,
     onFilterChange,
-  } = useApiData<AccountingTab>({ url: "/accounting" });
+  } = useApiData<AccountingTab>({ url: "/accounting", key: "accountings" });
 
   return <div className='space-y-6'>
     <ActionHeader type='modal'
@@ -73,7 +73,7 @@ function RouteComponent() {
       </ExportTo>} />
     <AccountingCards />
     <DataTable
-      data={units}
+      data={data}
       columns={columns}
       filters={["unit", "category", "nature", "secondNature", "thirdNature", "allocation", "source"]}
       sort="date"
@@ -88,5 +88,6 @@ function RouteComponent() {
       onSearchChange={onSearchChange}
       filter={filter}
       onFilterChange={onFilterChange}
-    />  </div>
+    />
+  </div>
 }

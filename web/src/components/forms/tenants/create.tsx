@@ -4,14 +4,6 @@ import { Input } from "@/components/ui/input";
 import { Spinner } from "@/components/ui/spinner";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import {
-    Select,
-    SelectContent,
-    SelectItem,
-    SelectTrigger,
-    SelectValue,
-} from "@/components/ui/select"
-import InputFile from "@/components/ui/input-file";
 import { tenantSchema, type TenantSchemaType } from "@/lib/zod/tenants";
 import { useMutation } from "@tanstack/react-query";
 import { crudService } from "@/lib/api";
@@ -19,30 +11,23 @@ import { toast } from "sonner";
 import { queryClient } from "@/lib/query-client";
 import { paymentMode } from "@/lib/data";
 import { Textarea } from "@/components/ui/textarea";
-import RequiredLabel from "@/components/ui/required-label";
+import { Switch } from "@/components/ui/switch";
+import { cn } from "@/lib/utils";
+import { Label } from "@/components/ui/label";
+import { DEFAULT_VALUES } from "./lib/utils";
 
+import InputFile from "@/components/ui/input-file";
+import RequiredLabel from "@/components/ui/required-label";
+import MultipleSelector from "@/components/ui/mullti-select";
 
 export default function CreateTenant() {
-
     const mutation = useMutation({
         mutationFn: (data: FormData) =>
             crudService.post<FormData, any>("/tenant/", data),
         onSuccess() {
             toast.success("Locataire créé avec succès");
             queryClient.invalidateQueries({ queryKey: ["tenants"] });
-            form.reset({
-                firstname: "",
-                lastname: "",
-                company: "",
-                phone: "",
-                email: "",
-                address: "",
-                maritalStatus: "",
-                income: "",
-                paymentMode: "CASH",
-                bankInfo: "",
-                documents: undefined,
-            });
+            form.reset(DEFAULT_VALUES);
         },
         onError: (error: Error) => {
             console.error("Erreur:", error.message);
@@ -52,21 +37,24 @@ export default function CreateTenant() {
 
     const form = useForm<TenantSchemaType>({
         resolver: zodResolver(tenantSchema),
+        defaultValues: DEFAULT_VALUES,
     });
 
     async function submit(formData: TenantSchemaType) {
         const { success, data } = tenantSchema.safeParse(formData);
         if (success) {
             const form = new FormData();
+            form.append("isPersonal", JSON.stringify(data.isPersonal));
+            form.append("isDiplomatic", JSON.stringify(data.isDiplomatic));
             form.append("firstname", data.firstname);
             form.append("lastname", data.lastname);
-            form.append("company", data.company);
+            data.company && form.append("company", data.company);
             form.append("phone", data.phone);
             form.append("email", data.email);
             form.append("address", data.address);
             form.append("maritalStatus", data.maritalStatus || "");
-            form.append("income", data.income);
-            form.append("paymentMode", data.paymentMode);
+            data.income && form.append("income", data.income);
+            form.append("paymentMode", JSON.stringify(data.paymentMode));
             form.append("bankInfo", data.bankInfo);
 
             if (data.documents && data.documents.length > 0) {
@@ -87,6 +75,45 @@ export default function CreateTenant() {
                     className="space-y-4.5 w-full"
                 >
                     <div className="grid grid-cols-3 gap-4">
+                        <div className="flex flex-col">
+                            <Label className="text-neutral-600 mb-0.5 relative -top-0.5 text-sm font-medium p-0">
+                                Type de locataire
+                            </Label>
+                            <FormField
+                                control={form.control}
+                                name="isPersonal"
+                                render={({ field }) => (
+                                    <FormItem className="flex flex-row gap-x-1 p-1 h-10 bg-neutral-50/50 border border-neutral-200 rounded-lg">
+                                        <div className="flex items-center  gap-0.5 w-full">
+                                            {(
+                                                [
+                                                    { value: true, label: "Personne physique" },
+                                                    { value: false, label: "Personne morale" },
+                                                ] as const
+                                            ).map(({ value, label }) => {
+                                                const isActive = field.value === value;
+                                                return (
+                                                    <button
+                                                        key={label}
+                                                        type="button"
+                                                        onClick={() => field.onChange(value)}
+                                                        className={cn(
+                                                            "flex-1 rounded-md text-sm h-8 font-medium transition-all duration-150",
+                                                            isActive
+                                                                ? "bg-white text-emerald-600 border border-emerald-200 shadow-sm"
+                                                                : "text-neutral-400 hover:text-neutral-600"
+                                                        )}
+                                                    >
+                                                        {label}
+                                                    </button>
+                                                );
+                                            })}
+                                        </div>
+                                        <FormMessage />
+                                    </FormItem>
+                                )}
+                            />
+                        </div>
                         <FormField
                             control={form.control}
                             name="firstname"
@@ -123,12 +150,47 @@ export default function CreateTenant() {
                                 </FormItem>
                             )}
                         />
+                        <div className="flex flex-col">
+                            <Label className="text-neutral-600 mb-0.5 relative -top-0.5 text-sm font-medium p-0">
+                                Statut diplomatique
+                            </Label>
+                            <FormField
+                                control={form.control}
+                                name="isDiplomatic"
+                                render={({ field }) => (
+                                    <FormItem
+                                        className={cn(
+                                            "flex flex-row gap-x-2 justify-between items-center px-3 h-10 border border-border rounded-md transition-all duration-150",
+                                            field.value
+                                                ? "border-emerald-background ring-emerald-background/50 ring-[3px]"
+                                                : "bg-white"
+                                        )}
+                                    >
+                                        <div className="flex items-center gap-2">
+                                            <FormLabel className={cn(
+                                                "text-sm font-medium transition-colors duration-150 cursor-pointer",
+                                                field.value ? "text-emerald-700" : "text-neutral-600"
+                                            )}>
+                                                {field.value ? "Cas diplomatique" : "Non diplomatique"}
+                                            </FormLabel>
+                                        </div>
+                                        <FormControl>
+                                            <Switch
+                                                checked={field.value}
+                                                onCheckedChange={field.onChange}
+                                            />
+                                        </FormControl>
+                                        <FormMessage />
+                                    </FormItem>
+                                )}
+                            />
+                        </div>
                         <FormField
                             control={form.control}
                             name="company"
                             render={({ field }) => (
                                 <FormItem >
-                                    <FormLabel className="text-neutral-600">Entreprise<RequiredLabel /></FormLabel>
+                                    <FormLabel className="text-neutral-600">Entreprise</FormLabel>
                                     <FormControl>
                                         <Input
                                             placeholder="Entrer le nom de l'enterprise"
@@ -200,7 +262,7 @@ export default function CreateTenant() {
                             name="income"
                             render={({ field }) => (
                                 <FormItem >
-                                    <FormLabel className="text-neutral-600">Revenu<RequiredLabel /></FormLabel>
+                                    <FormLabel className="text-neutral-600">Revenu</FormLabel>
                                     <FormControl>
                                         <Input
                                             placeholder="Entrer le revenu"
@@ -219,7 +281,7 @@ export default function CreateTenant() {
                             name="maritalStatus"
                             render={({ field }) => (
                                 <FormItem >
-                                    <FormLabel className="text-neutral-600">Situation familliale<RequiredLabel /></FormLabel>
+                                    <FormLabel className="text-neutral-600">Situation familliale</FormLabel>
                                     <FormControl>
                                         <Input
                                             placeholder="Veuillez saisir la situation familliale"
@@ -239,18 +301,26 @@ export default function CreateTenant() {
                                 <FormItem >
                                     <FormLabel className="text-neutral-600">Mode de paiement<RequiredLabel /></FormLabel>
                                     <FormControl>
-                                        <Select onValueChange={field.onChange} value={field.value} >
-                                            <SelectTrigger className="w-full" aria-invalid={!!form.formState.errors.paymentMode}>
-                                                <SelectValue placeholder="Selectionner une valeur" />
-                                            </SelectTrigger>
-                                            <SelectContent position="popper" align="end">
-                                                {paymentMode.map((item) => (
-                                                    <SelectItem key={item.value} value={item.value}>
-                                                        {item.label}
-                                                    </SelectItem>
-                                                ))}
-                                            </SelectContent>
-                                        </Select>
+                                        <MultipleSelector
+                                            commandProps={{
+                                                label: 'Selection des modes de paiement'
+                                            }}
+                                            value={
+                                                field.value?.map((item: string) => ({
+                                                    value: item,
+                                                    label: item,
+                                                })) ?? []
+                                            }
+                                            onChange={(options) => {
+                                                field.onChange(options.map((opt) => opt.value))
+                                            }}
+                                            defaultOptions={paymentMode}
+                                            placeholder='Selectionnez des modes de paiement'
+                                            hideClearAllButton
+                                            hidePlaceholderWhenSelected
+                                            emptyIndicator={<p className='text-center text-sm'>Aucun mode de paiement sélectionné</p>}
+                                            className='w-full'
+                                        />
                                     </FormControl>
                                     <FormMessage />
                                 </FormItem>

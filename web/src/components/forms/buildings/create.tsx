@@ -27,26 +27,14 @@ import type { LotType } from "@/types/lot-type";
 import { toast } from "sonner";
 import { queryClient } from "@/lib/query-client";
 import RequiredLabel from "@/components/ui/required-label";
+import { DEFAULT_VALUES } from "./lib/utils";
 
 export default function CreateBuilding() {
     const [open, setOpen] = useState(false);
 
     const form = useForm<BuildingSchemaType>({
         resolver: zodResolver(buildingSchema),
-        defaultValues: {
-            constructionDate: new Date(),
-            camera: false,
-            security: false,
-            elevator: false,
-            parking: false,
-            pool: false,
-            generator: false,
-            waterBorehole: false,
-            gym: false,
-            garden: false,
-            lotType: [],
-            status: [],
-        }
+        defaultValues: DEFAULT_VALUES
     });
 
     const { isPending, data: lotTypeOptions } = useQuery({
@@ -64,29 +52,7 @@ export default function CreateBuilding() {
         onSuccess() {
             toast.success("Bâtiment créé avec succès");
             queryClient.invalidateQueries({ queryKey: ["buildings"] });
-            form.reset({
-                constructionDate: new Date(),
-                parkingPrice: "",
-                reference: "",
-                door: "",
-                camera: false,
-                security: false,
-                elevator: false,
-                parking: false,
-                pool: false,
-                generator: false,
-                waterBorehole: false,
-                gym: false,
-                garden: false,
-                name: "",
-                location: "",
-                lotType: [],
-                status: [],
-                map: "",
-                photos: undefined,
-                deeds: undefined,
-                documents: undefined,
-            });
+            form.reset(DEFAULT_VALUES);
         },
         onError: (error: Error) => {
             console.error("Erreur:", error.message);
@@ -107,12 +73,10 @@ export default function CreateBuilding() {
             form.append("location", data.location);
             form.append("constructionDate", data.constructionDate.toISOString());
             form.append("lotType", JSON.stringify(data.lotType));
-            form.append("door", data.door.toString());
             form.append("security", data.security.toString());
             form.append("camera", data.camera.toString());
             form.append("elevator", data.elevator.toString());
             form.append("parking", data.parking.toString());
-            form.append("parkingPrice", data.parkingPrice?.toString() || "0");
             form.append("pool", data.pool.toString());
             form.append("generator", data.generator.toString());
             form.append("waterBorehole", data.waterBorehole.toString());
@@ -254,25 +218,6 @@ export default function CreateBuilding() {
                         />
                         <FormField
                             control={form.control}
-                            name="door"
-                            render={({ field }) => (
-                                <FormItem >
-                                    <FormLabel className="text-neutral-600">Nombre de porte<RequiredLabel /></FormLabel>
-                                    <FormControl>
-                                        <Input
-                                            type="number"
-                                            placeholder="Entrer le nombre de porte"
-                                            value={field.value}
-                                            aria-invalid={!!form.formState.errors.door}
-                                            onChange={field.onChange}
-                                        />
-                                    </FormControl>
-                                    <FormMessage />
-                                </FormItem>
-                            )}
-                        />
-                        <FormField
-                            control={form.control}
                             name="security"
                             render={({ field }) => (
                                 <FormItem >
@@ -350,25 +295,6 @@ export default function CreateBuilding() {
                                                 <SelectItem value="no">Non</SelectItem>
                                             </SelectContent>
                                         </Select>
-                                    </FormControl>
-                                    <FormMessage />
-                                </FormItem>
-                            )}
-                        />
-                        <FormField
-                            control={form.control}
-                            name="parkingPrice"
-                            render={({ field }) => (
-                                <FormItem >
-                                    <FormLabel className="text-neutral-600">Prix de l'espace parking<RequiredLabel /></FormLabel>
-                                    <FormControl>
-                                        <Input
-                                            type="number"
-                                            placeholder="Entrer le prix de l'espace parking"
-                                            value={field.value}
-                                            aria-invalid={!!form.formState.errors.parkingPrice}
-                                            onChange={field.onChange}
-                                        />
                                     </FormControl>
                                     <FormMessage />
                                 </FormItem>
@@ -484,7 +410,7 @@ export default function CreateBuilding() {
                             name="status"
                             render={({ field }) => (
                                 <FormItem >
-                                    <FormLabel className="text-neutral-600">Gestion du status<RequiredLabel /></FormLabel>
+                                    <FormLabel className="text-neutral-600">Type de gestion<RequiredLabel /></FormLabel>
                                     <FormControl>
                                         <MultipleSelector
                                             commandProps={{
@@ -500,10 +426,10 @@ export default function CreateBuilding() {
                                                 field.onChange(options.map((opt) => opt.value))
                                             }}
                                             defaultOptions={buildingManagementStatus}
-                                            placeholder='Selectionnez des statuts'
+                                            placeholder='Selectionnez des types de gestions'
                                             hideClearAllButton
                                             hidePlaceholderWhenSelected
-                                            emptyIndicator={<p className='text-center text-sm'>Aucun statut sélectionné</p>}
+                                            emptyIndicator={<p className='text-center text-sm'>Aucun types sélectionné</p>}
                                             className='w-full'
                                         />
                                     </FormControl>

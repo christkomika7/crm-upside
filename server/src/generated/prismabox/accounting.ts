@@ -29,6 +29,7 @@ export const accountingPlain = t.Object(
     thirdNatureId: __nullable__(t.String()),
     userId: t.String(),
     documents: t.Array(t.String(), { additionalProperties: false }),
+    isDeleting: t.Boolean(),
     createdAt: t.Date(),
     updatedAt: t.Date(),
   },
@@ -56,6 +57,7 @@ export const accountingRelations = t.Object(
           tv: t.Boolean(),
           rent: t.Number(),
           charges: t.Number(),
+          extraCharges: t.Number(),
           amountGenerate: t.Number(),
           documents: t.Array(t.String(), { additionalProperties: false }),
           isDeleting: t.Boolean(),
@@ -211,6 +213,7 @@ export const accountingPlainInputCreate = t.Object(
     description: t.String(),
     period: t.Optional(__nullable__(t.Date())),
     documents: t.Array(t.String(), { additionalProperties: false }),
+    isDeleting: t.Optional(t.Boolean()),
   },
   { additionalProperties: false },
 );
@@ -234,6 +237,7 @@ export const accountingPlainInputUpdate = t.Object(
     description: t.Optional(t.String()),
     period: t.Optional(__nullable__(t.Date())),
     documents: t.Optional(t.Array(t.String(), { additionalProperties: false })),
+    isDeleting: t.Optional(t.Boolean()),
   },
   { additionalProperties: false },
 );
@@ -520,6 +524,7 @@ export const accountingWhere = t.Partial(
           thirdNatureId: t.String(),
           userId: t.String(),
           documents: t.Array(t.String(), { additionalProperties: false }),
+          isDeleting: t.Boolean(),
           createdAt: t.Date(),
           updatedAt: t.Date(),
         },
@@ -580,6 +585,7 @@ export const accountingWhereUnique = t.Recursive(
               thirdNatureId: t.String(),
               userId: t.String(),
               documents: t.Array(t.String(), { additionalProperties: false }),
+              isDeleting: t.Boolean(),
               createdAt: t.Date(),
               updatedAt: t.Date(),
             },
@@ -622,6 +628,7 @@ export const accountingSelect = t.Partial(
       user: t.Boolean(),
       notifications: t.Boolean(),
       documents: t.Boolean(),
+      isDeleting: t.Boolean(),
       createdAt: t.Boolean(),
       updatedAt: t.Boolean(),
       _count: t.Boolean(),
@@ -699,6 +706,9 @@ export const accountingOrderBy = t.Partial(
         additionalProperties: false,
       }),
       documents: t.Union([t.Literal("asc"), t.Literal("desc")], {
+        additionalProperties: false,
+      }),
+      isDeleting: t.Union([t.Literal("asc"), t.Literal("desc")], {
         additionalProperties: false,
       }),
       createdAt: t.Union([t.Literal("asc"), t.Literal("desc")], {

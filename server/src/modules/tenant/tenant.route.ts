@@ -3,7 +3,7 @@ import { authPlugin } from "../auth/auth";
 import { prisma } from "../../lib/prisma";
 import { canAccess } from "../auth/permission";
 import { deleteFile, uploadFiles } from "../../lib/storage";
-import { safeSignedUrls } from "../../lib/utils";
+import { hasOverdueRentals, safeSignedUrls } from "../../lib/utils";
 import { tenantSchema } from "../../lib/zod/tenants";
 
 import Decimal from "decimal.js";
@@ -11,42 +11,111 @@ import request from "./type";
 
 export const tenantRoutes = new Elysia({ prefix: "/tenant" })
     .use(authPlugin)
-    .get("/", async ({ permission, status, server }) => {
+    .get("/", async ({ permission, status, server, query }) => {
+        if (!canAccess(permission, "tenants", "read")) {
+            return status(403, { message: "Accès refusé" });
+        }
 
+        const {
+            page = "0",
+            pageSize = "10",
+            search = "",
+            filter = "alpha",
+            sortBy = "",
+            sortOrder = "asc",
+        } = query;
+
+        const pageNum = parseInt(page);
+        const pageSizeNum = parseInt(pageSize);
+        const skip = pageNum * pageSizeNum;
+
+        const searchCondition = search
+            ? {
+                OR: [
+                    { firstname: { contains: search, mode: "insensitive" as const } },
+                    { lastname: { contains: search, mode: "insensitive" as const } },
+                    { company: { contains: search, mode: "insensitive" as const } },
+                ],
+            }
+            : {};
+
+        const allowedSortFields: Record<string, any> = {
+            name: { firstname: sortOrder as "asc" | "desc" },
+            company: { company: sortOrder as "asc" | "desc" },
+            rent: { rentals: { _count: sortOrder as "asc" | "desc" } },
+            monthlyRent: { monthlyRent: sortOrder as "asc" | "desc" },
+            monthlyCharges: { monthlyCharges: sortOrder as "asc" | "desc" },
+            depositPaid: { depositPaid: sortOrder as "asc" | "desc" },
+            status: { rentals: { end: sortOrder as "asc" | "desc" } },
+            createdAt: { createdAt: sortOrder as "asc" | "desc" },
+        };
+
+        const orderBy = (() => {
+            if (sortBy && allowedSortFields[sortBy]) {
+                return allowedSortFields[sortBy];
+            }
+            if (filter === "asc") return { createdAt: "asc" as const };
+            if (filter === "desc") return { createdAt: "desc" as const };
+            return { firstname: "asc" as const };
+        })();
+
+        const total = await prisma.tenant.count({ where: searchCondition });
+
+        const tenants = await prisma.tenant.findMany({
+            where: searchCondition,
+            include: {
+                rentals: true
+            },
+            orderBy,
+            skip,
+            take: pageSizeNum,
+        });
+
+        const data = await Promise.all(
+            tenants.map(async (tenant) => {
+                const rentals = tenant.rentals.length;
+                return {
+                    id: tenant.id,
+                    name: `${tenant.firstname} ${tenant.lastname}`,
+                    company: tenant.company || "",
+                    rentedUnit: rentals,
+                    monthlyRent: tenant.monthlyRent.toString(),
+                    monthlyCharges: tenant.monthlyCharges.toString(),
+                    depositPaid: tenant.depositPaid.toString(),
+                    status: hasOverdueRentals(tenant.rentals) ? "OVERDUE" : "UP_TO_DATE",
+                    createdAt: tenant.createdAt
+                };
+            })
+        );
+
+        return {
+            data: data,
+            total: data.length,
+            pageSize: pageSizeNum,
+            pageCount: Math.ceil(total / pageSizeNum),
+        };
+
+    }, {
+        auth: true,
+        query: request.queryFilter,
+    })
+    .get("/list", async ({ permission, status, server, query }) => {
         if (!canAccess(permission, "tenants", "read")) {
             return status(403, { message: "Accès refusé" });
         }
 
         const tenants = await prisma.tenant.findMany({
-            orderBy: { createdAt: "desc" },
+            select: {
+                id: true,
+                firstname: true,
+                lastname: true,
+            }
         });
 
-        const tenantsWithSignedUrl = await Promise.all(
-            tenants.map(async (tenant) => {
-                const documents = await safeSignedUrls(tenant.documents);
-
-                if (documents.error) {
-                    server?.publish("storage-error",
-                        "Certaines images n'ont pas pu être chargées depuis le storage"
-                    );
-
-                }
-
-                return {
-                    ...tenant,
-                    name: `${tenant.firstname} ${tenant.lastname}`,
-                    rentedUnit: "-",
-                    monthlyRent: "-",
-                    charges: "-",
-                    depositPaid: "-",
-                    status: "-",
-                    documents: documents.urls,
-                };
-            })
-        );
-
-        return tenantsWithSignedUrl;
-
+        return tenants.map(tenant => ({
+            value: tenant.id,
+            label: `${tenant.firstname} ${tenant.lastname}`
+        }))
     }, {
         auth: true,
     })
@@ -108,7 +177,7 @@ export const tenantRoutes = new Elysia({ prefix: "/tenant" })
                     phone: data.phone,
                     email: data.email,
                     address: data.address,
-                    income: new Decimal(data.income),
+                    income: data.income ? new Decimal(data.income) : undefined,
                     bankInfo: data.bankInfo,
                     maritalStatus: data.maritalStatus,
                     paymentMode: data.paymentMode,
@@ -186,7 +255,7 @@ export const tenantRoutes = new Elysia({ prefix: "/tenant" })
                         phone: data.phone,
                         email: data.email,
                         address: data.address,
-                        income: new Decimal(data.income),
+                        income: data.income ? new Decimal(data.income) : undefined,
                         bankInfo: data.bankInfo,
                         maritalStatus: data.maritalStatus,
                         paymentMode: data.paymentMode,
@@ -250,7 +319,7 @@ export const tenantRoutes = new Elysia({ prefix: "/tenant" })
         if (tenant.invoices.length > 0) return status(400, { message: "Impossible de supprimer ce locataire : des factures sont associées à son compte." });
         if (tenant.quotes.length > 0) return status(400, { message: "Impossible de supprimer ce locataire : des devis sont encore liés à ce locataire." });
         if (tenant.appointments.length > 0) return status(400, { message: "Impossible de supprimer ce locataire : des rendez-vous sont encore planifiés." });
-        if (tenant.checkInOuts.length > 0) return status(400, { message: "Impossible de supprimer ce locataire : des entrées/sorties sont enregistrées." });
+        if (tenant.checkInOuts.length > 0) return status(400, { message: "Impossible de supprimer ce locataire : des états des lieux y sont enregistrés." });
 
         await prisma.$transaction([
             prisma.deletion.create({

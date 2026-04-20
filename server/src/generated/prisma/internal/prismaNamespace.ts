@@ -3596,8 +3596,6 @@ export const BuildingScalarFieldEnum = {
   name: 'name',
   location: 'location',
   constructionDate: 'constructionDate',
-  door: 'door',
-  parkingPrice: 'parkingPrice',
   security: 'security',
   camera: 'camera',
   elevator: 'elevator',
@@ -3638,6 +3636,7 @@ export const UnitScalarFieldEnum = {
   tv: 'tv',
   rent: 'rent',
   charges: 'charges',
+  extraCharges: 'extraCharges',
   amountGenerate: 'amountGenerate',
   documents: 'documents',
   isDeleting: 'isDeleting',
@@ -3702,6 +3701,8 @@ export type OwnerScalarFieldEnum = (typeof OwnerScalarFieldEnum)[keyof typeof Ow
 
 export const TenantScalarFieldEnum = {
   id: 'id',
+  isDiplomatic: 'isDiplomatic',
+  isPersonal: 'isPersonal',
   firstname: 'firstname',
   lastname: 'lastname',
   company: 'company',
@@ -3713,6 +3714,9 @@ export const TenantScalarFieldEnum = {
   bankInfo: 'bankInfo',
   paymentMode: 'paymentMode',
   documents: 'documents',
+  monthlyRent: 'monthlyRent',
+  monthlyCharges: 'monthlyCharges',
+  depositPaid: 'depositPaid',
   isDeleting: 'isDeleting',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
@@ -3944,6 +3948,7 @@ export const AccountingScalarFieldEnum = {
   thirdNatureId: 'thirdNatureId',
   userId: 'userId',
   documents: 'documents',
+  isDeleting: 'isDeleting',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const
@@ -4251,6 +4256,20 @@ export type EnumQueryModeFieldRefInput<$PrismaModel> = FieldRefInputType<$Prisma
 
 
 /**
+ * Reference to a field of type 'Float'
+ */
+export type FloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Float'>
+    
+
+
+/**
+ * Reference to a field of type 'Float[]'
+ */
+export type ListFloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Float[]'>
+    
+
+
+/**
  * Reference to a field of type 'Int'
  */
 export type IntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Int'>
@@ -4275,34 +4294,6 @@ export type DecimalFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel,
  * Reference to a field of type 'Decimal[]'
  */
 export type ListDecimalFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Decimal[]'>
-    
-
-
-/**
- * Reference to a field of type 'Float'
- */
-export type FloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Float'>
-    
-
-
-/**
- * Reference to a field of type 'Float[]'
- */
-export type ListFloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Float[]'>
-    
-
-
-/**
- * Reference to a field of type 'PaymentType'
- */
-export type EnumPaymentTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'PaymentType'>
-    
-
-
-/**
- * Reference to a field of type 'PaymentType[]'
- */
-export type ListEnumPaymentTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'PaymentType[]'>
     
 
 
@@ -4359,6 +4350,20 @@ export type EnumClientTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$Prism
  * Reference to a field of type 'ClientType[]'
  */
 export type ListEnumClientTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ClientType[]'>
+    
+
+
+/**
+ * Reference to a field of type 'PaymentType'
+ */
+export type EnumPaymentTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'PaymentType'>
+    
+
+
+/**
+ * Reference to a field of type 'PaymentType[]'
+ */
+export type ListEnumPaymentTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'PaymentType[]'>
     
 
 

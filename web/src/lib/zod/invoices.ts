@@ -7,7 +7,7 @@ export const invoiceSchema = z.object({
     discountType: z.enum(["PERCENT", "MONEY"]),
     hasTax: z.boolean(),
     type: z.enum(["OWNER", "TENANT"], { error: "Le type de client est requis." }),
-    client: z.string({ error: "Le client est requis." }),
+    client: z.string().min(1, { error: "Le client est requis." }),
     items: z.array(itemSchema).min(1, { error: "Au moins un article est requis." }),
     start: z.date({ error: "La date d'émission de la facture est requise." }),
     end: z.date({ error: "La date d'échéance de la facture est requise." }),

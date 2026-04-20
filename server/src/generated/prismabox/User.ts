@@ -103,6 +103,7 @@ export const UserRelations = t.Object(
           id: t.String(),
           type: t.Union(
             [
+              t.Literal("ACCOUNTING"),
               t.Literal("OWNER"),
               t.Literal("BUILDING"),
               t.Literal("TENANT"),
@@ -207,6 +208,7 @@ export const UserRelations = t.Object(
           thirdNatureId: __nullable__(t.String()),
           userId: t.String(),
           documents: t.Array(t.String(), { additionalProperties: false }),
+          isDeleting: t.Boolean(),
           createdAt: t.Date(),
           updatedAt: t.Date(),
         },

@@ -350,6 +350,43 @@ export const deletionRoutes = new Elysia({ prefix: "/deletion" })
                 }
                 return serviceProviderParsed;
             case "COMMUNICATION":
+            // const communicationParsed = [];
+            // for (const deletion of deletions) {
+            //     const communication = await prisma.communication.findUnique({
+            //         where: { id: deletion.recordId },
+            //     });
+
+            //     if (!communication) return status(400, { message: "Aucune communication trouvée." });
+
+            //     communicationParsed.push({
+            //         id: deletion.id,
+            //         reference: "-",
+            //         type: deletion.type,
+            //         name: `${communication.subject}`,
+            //         date: formatDateToString(deletion.createdAt),
+            //         actionBy: user.name
+            //     });
+            // }
+            // return communicationParsed;
+            case "ACCOUNTING":
+                const accountingParsed = [];
+                for (const deletion of deletions) {
+                    const accounting = await prisma.accounting.findUnique({
+                        where: { id: deletion.recordId },
+                    });
+
+                    if (!accounting) return status(400, { message: "Aucune opération comptable trouvée." });
+
+                    accountingParsed.push({
+                        id: deletion.id,
+                        reference: "-",
+                        type: deletion.type,
+                        name: `${accounting.description}`,
+                        date: formatDateToString(deletion.createdAt),
+                        actionBy: user.name
+                    });
+                }
+                return accountingParsed;
         }
     }, { auth: true, query: request.query })
     .put("/:id", async ({ status, params, body, permission, user }) => {
@@ -588,6 +625,19 @@ export const deletionRoutes = new Elysia({ prefix: "/deletion" })
                                 })
                             ]);
                             return status(200, { message: `La suppression du prestataire ${serviceProvider.firstname} ${serviceProvider.lastname} a été annulé avec succès.` });
+                        case "ACCOUNTING":
+                            const [accounting] = await prisma.$transaction([
+                                prisma.accounting.update({
+                                    where: { id: deletion.recordId },
+                                    data: {
+                                        isDeleting: false
+                                    }
+                                }),
+                                prisma.deletion.delete({
+                                    where: { id: deletion.id }
+                                })
+                            ]);
+                            return status(200, { message: `La suppression de l'opération comptable a été annulé avec succès.` });
                         case "COMMUNICATION":
                         // const [communication] = await prisma.$transaction([
                         //     prisma.communication.update({
@@ -962,7 +1012,46 @@ export const deletionRoutes = new Elysia({ prefix: "/deletion" })
                             ])
 
                             return status(200, { message: `Le prestataire ${serviceProvider.firstname} ${serviceProvider.lastname} a été supprimé avec succès.` });
+                        case "ACCOUNTING":
+                            const accounting = await prisma.accounting.findUnique({
+                                where: { id: deletion.recordId },
+                            });
+
+                            if (!accounting) return status(400, { message: "Aucune comptabilité trouvée." })
+
+                            await prisma.$transaction([
+                                prisma.deletion.update({
+                                    where: {
+                                        id: deletion.id
+                                    },
+                                    data: {
+                                        state: "TERMINED"
+                                    }
+                                }),
+                                prisma.accounting.delete({ where: { id: accounting.id } })
+                            ])
+
+                            return status(200, { message: `La comptabilité a été supprimé avec succès.` });
                         case "COMMUNICATION":
+                        // const communication = await prisma.communication.findUnique({
+                        //     where: { id: deletion.recordId },
+                        // });
+
+                        // if (!communication) return status(400, { message: "Aucune communication trouvée." })
+
+                        // await prisma.$transaction([
+                        //     prisma.deletion.update({
+                        //         where: {
+                        //             id: deletion.id
+                        //         },
+                        //         data: {
+                        //             state: "TERMINED"
+                        //         }
+                        //     }),
+                        //     prisma.communication.delete({ where: { id: communication.id } })
+                        // ])
+
+                        // return status(200, { message: `La communication a été supprimé avec succès.` });
                     }
 
                 } catch (e) {

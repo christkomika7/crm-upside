@@ -1,5 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
+import { paymentMode } from "@/lib/data";
 import { cn, cutText, formatNumber } from "@/lib/utils";
 import type { AccountingTab } from "@/types/accounting";
 import { Link } from "@tanstack/react-router";
@@ -198,7 +199,7 @@ export const columns: ColumnDef<AccountingTab>[] = [
             )
         },
         cell: ({ row }) => (
-            <div className="capitalize">{row.getValue("paymentMode")}</div>
+            <div className="capitalize">{paymentMode.find((item) => item.value === row.getValue("paymentMode"))?.label || "-"}</div>
         ),
     },
     {

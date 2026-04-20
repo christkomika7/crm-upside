@@ -9,6 +9,7 @@ export const DeletionPlain = t.Object(
     id: t.String(),
     type: t.Union(
       [
+        t.Literal("ACCOUNTING"),
         t.Literal("OWNER"),
         t.Literal("BUILDING"),
         t.Literal("TENANT"),
@@ -67,6 +68,7 @@ export const DeletionPlainInputCreate = t.Object(
   {
     type: t.Union(
       [
+        t.Literal("ACCOUNTING"),
         t.Literal("OWNER"),
         t.Literal("BUILDING"),
         t.Literal("TENANT"),
@@ -101,6 +103,7 @@ export const DeletionPlainInputUpdate = t.Object(
     type: t.Optional(
       t.Union(
         [
+          t.Literal("ACCOUNTING"),
           t.Literal("OWNER"),
           t.Literal("BUILDING"),
           t.Literal("TENANT"),
@@ -178,6 +181,7 @@ export const DeletionWhere = t.Partial(
           id: t.String(),
           type: t.Union(
             [
+              t.Literal("ACCOUNTING"),
               t.Literal("OWNER"),
               t.Literal("BUILDING"),
               t.Literal("TENANT"),
@@ -247,6 +251,7 @@ export const DeletionWhereUnique = t.Recursive(
               id: t.String(),
               type: t.Union(
                 [
+                  t.Literal("ACCOUNTING"),
                   t.Literal("OWNER"),
                   t.Literal("BUILDING"),
                   t.Literal("TENANT"),

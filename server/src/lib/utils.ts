@@ -1,5 +1,13 @@
-import { Unit } from "../generated/prisma/client";
+import { Rental, Unit } from "../generated/prisma/client";
 import { getSignedFileUrl } from "./storage";
+
+export function hasOverdueRentals(rentals: Rental[]): boolean {
+    const now = new Date();
+
+    return rentals.some(rental => {
+        return new Date(rental.end) < now;
+    });
+}
 
 export async function safeSignedUrls(keys?: string | string[]) {
     if (!keys) {

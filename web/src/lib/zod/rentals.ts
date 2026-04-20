@@ -1,9 +1,9 @@
 import { z } from "zod";
 
 export const rentalSchema = z.object({
-    tenant: z.string({ error: "Le nom du locataire est requis." }),
-    unit: z.string({ error: "La valeur de l'unité est requise." }),
-    price: z.string({ error: "Le prix est requis." }),
+    tenant: z.string().min(1, { error: "Le nom du locataire est requis." }),
+    unit: z.string().min(1, { error: "La valeur de l'unité est requise." }),
+    price: z.string().min(1, { error: "Le prix est requis." }),
     start: z.date({ error: "La date de début est requise." }),
     end: z.date({ error: "La date de début est requise." }),
 }).refine((data) => data.start.getTime() >= data.end.getDate(), {

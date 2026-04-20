@@ -5,13 +5,6 @@ import { Spinner } from "@/components/ui/spinner";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useState } from "react"
 import { useForm } from "react-hook-form";
-import {
-    Select,
-    SelectContent,
-    SelectItem,
-    SelectTrigger,
-    SelectValue,
-} from "@/components/ui/select"
 import { DatePicker } from "@/components/ui/date-picker";
 import { incomeAccountingSchema, type IncomeAccountingSchemaType } from "@/lib/zod/accounting";
 import { Textarea } from "@/components/ui/textarea";
@@ -19,10 +12,9 @@ import InputFile from "@/components/ui/input-file";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { apiFetch, crudService } from "@/lib/api";
 import type { AccountElement } from "@/types/accounting";
-import { LayersPlusIcon } from "lucide-react";
 import { cn } from "@/lib/utils";
 import RequiredLabel from "@/components/ui/required-label";
-import { paymentMode } from "@/lib/data";
+import { paymentMode as paymentModeData } from "@/lib/data";
 import Modal from "@/components/modal/modal";
 import AllocationModal from "@/components/modal/allocation";
 import CategoryModal from "@/components/modal/category";
@@ -32,34 +24,36 @@ import SecondNatureModal from "@/components/modal/second-nature";
 import ThirdNatureModal from "@/components/modal/third-nature";
 import { toast } from "sonner";
 import { queryClient } from "@/lib/query-client";
+import { SelectField } from "@/components/ui/select-field";
+
+type ModalKey =
+    | "allocation"
+    | "source"
+    | "category"
+    | "nature"
+    | "secondNature"
+    | "thirdNature";
 
 type Props = {
     accountingType: "INFLOW" | "OUTFLOW";
 }
 
 export default function IncomeForm({ accountingType }: Props) {
-    const [element, setElement] = useState<{
-        paymentMode: "CASH" | "BANK" | "CHECK";
-        category: string;
-        nature: string;
-        secondNature: string;
-        thirdNature: string;
-    }>({
-        paymentMode: "CASH",
-        category: "",
-        nature: "",
-        secondNature: "",
-        thirdNature: "",
+    const [openModal, setOpenModal] = useState<ModalKey | null>(null);
+
+    const form = useForm<IncomeAccountingSchemaType>({
+        resolver: zodResolver(incomeAccountingSchema),
+        defaultValues: {
+            date: new Date(),
+            taxType: "HT",
+            paymentMode: "CASH",
+        }
     });
 
-    const [open, setOpen] = useState({
-        allocation: false,
-        source: false,
-        category: false,
-        nature: false,
-        secondNature: false,
-        thirdNature: false,
-    });
+    const paymentMode = form.watch("paymentMode");
+    const category = form.watch("category");
+    const nature = form.watch("nature");
+    const secondNature = form.watch("secondNature");
 
     const { isPending: isGettingCategories, data: categories } = useQuery({
         queryKey: ["categories", accountingType],
@@ -81,8 +75,9 @@ export default function IncomeForm({ accountingType }: Props) {
 
 
     const { isPending: isGettingSources, data: sources } = useQuery({
-        queryKey: ["sources", element.paymentMode, accountingType],
-        queryFn: () => apiFetch<AccountElement[]>(`/source?paymentMethod=${element.paymentMode}&accountingType=${accountingType}`),
+        queryKey: ["sources", paymentMode, accountingType],
+        enabled: !!paymentMode,
+        queryFn: () => apiFetch<AccountElement[]>(`/source?paymentMethod=${paymentMode}&accountingType=${accountingType}`),
         select: (data) => data.map((source) => ({
             value: source.id,
             label: source.name,
@@ -90,8 +85,9 @@ export default function IncomeForm({ accountingType }: Props) {
     });
 
     const { isPending: isGettingNature, data: natures } = useQuery({
-        queryKey: ["natures", element.category, accountingType],
-        queryFn: () => apiFetch<AccountElement[]>(`/nature?category=${element.category}&accountingType=${accountingType}`),
+        queryKey: ["natures", category, accountingType],
+        enabled: !!category,
+        queryFn: () => apiFetch<AccountElement[]>(`/nature?category=${category}&accountingType=${accountingType}`),
         select: (data) => data.map((nature) => ({
             value: nature.id,
             label: nature.name,
@@ -99,8 +95,9 @@ export default function IncomeForm({ accountingType }: Props) {
     });
 
     const { isPending: isGettingSecondNatures, data: secondNatures } = useQuery({
-        queryKey: ["secondNatures", element.nature, accountingType],
-        queryFn: () => apiFetch<AccountElement[]>(`/second-nature?nature=${element.nature}&accountingType=${accountingType}`),
+        queryKey: ["secondNatures", nature, accountingType],
+        enabled: !!nature,
+        queryFn: () => apiFetch<AccountElement[]>(`/second-nature?nature=${nature}&accountingType=${accountingType}`),
         select: (data) => data.map((nature) => ({
             value: nature.id,
             label: nature.name,
@@ -108,21 +105,13 @@ export default function IncomeForm({ accountingType }: Props) {
     });
 
     const { isPending: isGettingThirdNatures, data: thirdNatures } = useQuery({
-        queryKey: ["thirdNatures", element.secondNature, accountingType],
-        queryFn: () => apiFetch<AccountElement[]>(`/third-nature?secondNature=${element.secondNature}&accountingType=${accountingType}`),
+        queryKey: ["thirdNatures", secondNature, accountingType],
+        enabled: !!secondNature,
+        queryFn: () => apiFetch<AccountElement[]>(`/third-nature?secondNature=${secondNature}&accountingType=${accountingType}`),
         select: (data) => data.map((nature) => ({
             value: nature.id,
             label: nature.name,
         })),
-    });
-
-    const form = useForm<IncomeAccountingSchemaType>({
-        resolver: zodResolver(incomeAccountingSchema),
-        defaultValues: {
-            date: new Date(),
-            taxType: "HT",
-            paymentMode: "CASH",
-        }
     });
 
     const mutation = useMutation({
@@ -145,13 +134,6 @@ export default function IncomeForm({ accountingType }: Props) {
                 source: "",
                 documents: [],
             });
-            setElement({
-                paymentMode: "CASH",
-                category: "",
-                nature: "",
-                secondNature: "",
-                thirdNature: "",
-            })
         },
         onError: (error: Error) => {
             console.error("Erreur:", error.message);
@@ -159,11 +141,13 @@ export default function IncomeForm({ accountingType }: Props) {
         },
     });
 
+    const openModalHelper = (key: ModalKey) => setOpenModal(key);
+    const closeModal = () => setOpenModal(null);
+
 
     async function submit(formData: IncomeAccountingSchemaType) {
         const { success, data } = incomeAccountingSchema.safeParse(formData);
         if (success) {
-            console.log(data);
             const formData = new FormData();
             formData.append("date", data.date.toISOString());
             formData.append("taxType", data.taxType);
@@ -207,212 +191,109 @@ export default function IncomeForm({ accountingType }: Props) {
                                 </FormItem>
                             )}
                         />
-                        <FormField
-                            control={form.control}
-                            name="category"
-                            render={({ field }) => (
-                                <FormItem >
-                                    <FormLabel className="text-neutral-600">Catégorie<RequiredLabel /></FormLabel>
-                                    <FormControl>
-                                        <div className="flex gap-x-2">
-                                            <Select onValueChange={e => {
-                                                setElement({ ...element, category: e })
-                                                field.onChange(e)
-                                            }} value={field.value} >
-                                                <SelectTrigger className="w-full" aria-invalid={!!form.formState.errors.category}>
-                                                    <SelectValue placeholder="Selectionner une catégorie" />
-                                                </SelectTrigger>
-                                                <SelectContent position="popper" align="end">
-                                                    {isGettingCategories ? (
-                                                        <div className="flex justify-center items-center">
-                                                            <Spinner />
-                                                        </div>
-                                                    ) : categories && categories.length > 0 ? (
-                                                        categories.map((category) => (
-                                                            <SelectItem key={category.value} value={category.value}>
-                                                                {category.label}
-                                                            </SelectItem>
-                                                        ))
-                                                    ) : (
-                                                        <SelectItem value="none" disabled>
-                                                            Aucune catégorie disponible
-                                                        </SelectItem>
-                                                    )}
-                                                </SelectContent>
-                                            </Select>
-                                            <Button onClick={() => setOpen({ ...open, category: true })} type='button' variant="outline" className="h-10 shadow-none">
-                                                <LayersPlusIcon />
-                                            </Button>
-                                        </div>
-                                    </FormControl>
-                                    <FormMessage />
-                                </FormItem>
-                            )}
-                        />
 
                         <FormField
                             control={form.control}
+                            name="category"
+                            render={({ field, formState }) => (
+                                <SelectField
+                                    label="Catégorie"
+                                    required
+                                    placeholder="Sélectionner une catégorie"
+                                    value={field.value ?? ""}
+                                    onChange={(val) => {
+                                        field.onChange(val);
+                                        form.setValue("secondNature", "");
+                                        form.setValue("thirdNature", "");
+                                    }}
+                                    options={categories}
+                                    isLoading={isGettingCategories}
+                                    hasError={!!formState.errors.category}
+                                    onAdd={() => openModalHelper("category")}
+                                    emptyMessage="Aucune catégorie disponible"
+                                />
+                            )}
+                        />
+                        <FormField
+                            control={form.control}
                             name="nature"
-                            render={({ field }) => (
-                                <FormItem >
-                                    <FormLabel className="text-neutral-600">Nature<RequiredLabel /></FormLabel>
-                                    <FormControl>
-                                        <div className="flex gap-x-2">
-                                            <Select onValueChange={e => {
-                                                setElement({ ...element, nature: e })
-                                                field.onChange(e)
-                                            }} value={field.value} >
-                                                <SelectTrigger disabled={!element.category} className="w-full" aria-invalid={!!form.formState.errors.nature}>
-                                                    <SelectValue placeholder="Sélectionner la nature" />
-                                                </SelectTrigger>
-                                                <SelectContent position="popper" align="end">
-                                                    {isGettingNature ? (
-                                                        <div className="flex justify-center items-center">
-                                                            <Spinner />
-                                                        </div>
-                                                    ) : natures && natures.length > 0 ? (
-                                                        natures.map((nature) => (
-                                                            <SelectItem key={nature.value} value={nature.value}>
-                                                                {nature.label}
-                                                            </SelectItem>
-                                                        ))
-                                                    ) : (
-                                                        <SelectItem value="none" disabled>
-                                                            Aucune nature disponible
-                                                        </SelectItem>
-                                                    )}
-                                                </SelectContent>
-                                            </Select>
-                                            <Button onClick={() => setOpen({ ...open, nature: true })} type='button' variant="outline" className="h-10 shadow-none">
-                                                <LayersPlusIcon />
-                                            </Button>
-                                        </div>
-                                    </FormControl>
-                                    <FormMessage />
-                                </FormItem>
+                            render={({ field, formState }) => (
+                                <SelectField
+                                    label="Nature"
+                                    required
+                                    placeholder="Sélectionner la nature"
+                                    value={field.value ?? ""}
+                                    onChange={(val) => {
+                                        field.onChange(val);
+                                        form.setValue("secondNature", "");
+                                        form.setValue("thirdNature", "");
+                                    }}
+                                    options={natures}
+                                    isLoading={isGettingNature}
+                                    disabled={!category}
+                                    hasError={!!formState.errors.nature}
+                                    onAdd={() => openModalHelper("nature")}
+                                    emptyMessage="Aucune nature disponible"
+                                />
                             )}
                         />
 
                         <FormField
                             control={form.control}
                             name="secondNature"
-                            render={({ field }) => (
-                                <FormItem >
-                                    <FormLabel className="text-neutral-600">Seconde Nature</FormLabel>
-                                    <FormControl>
-                                        <div className="flex gap-x-2">
-                                            <Select onValueChange={e => {
-                                                setElement({ ...element, secondNature: e })
-                                                field.onChange(e)
-                                            }} value={field.value} >
-                                                <SelectTrigger disabled={!element.nature} className="w-full" aria-invalid={!!form.formState.errors.secondNature}>
-                                                    <SelectValue placeholder="Sélectionner la seconde nature" />
-                                                </SelectTrigger>
-                                                <SelectContent position="popper" align="end">
-                                                    {isGettingSecondNatures ? (
-                                                        <div className="flex justify-center items-center">
-                                                            <Spinner />
-                                                        </div>
-                                                    ) : secondNatures && secondNatures.length > 0 ? (
-                                                        secondNatures.map((secondNature) => (
-                                                            <SelectItem key={secondNature.value} value={secondNature.value}>
-                                                                {secondNature.label}
-                                                            </SelectItem>
-                                                        ))
-                                                    ) : (
-                                                        <SelectItem value="none" disabled>
-                                                            Aucune seconde nature disponible
-                                                        </SelectItem>
-                                                    )}
-                                                </SelectContent>
-                                            </Select>
-                                            <Button onClick={() => setOpen({ ...open, secondNature: true })} type='button' variant="outline" className="h-10 shadow-none">
-                                                <LayersPlusIcon />
-                                            </Button>
-                                        </div>
-                                    </FormControl>
-                                    <FormMessage />
-                                </FormItem>
+                            render={({ field, formState }) => (
+                                <SelectField
+                                    label="Seconde Nature"
+                                    placeholder="Sélectionner la seconde nature"
+                                    value={field.value ?? ""}
+                                    onChange={(val) => {
+                                        field.onChange(val);
+                                        form.setValue("thirdNature", "");
+                                    }}
+                                    options={secondNatures}
+                                    isLoading={isGettingSecondNatures}
+                                    disabled={!nature}
+                                    hasError={!!formState.errors.secondNature}
+                                    onAdd={() => openModalHelper("secondNature")}
+                                    emptyMessage="Aucune seconde nature disponible"
+                                />
                             )}
                         />
 
                         <FormField
                             control={form.control}
                             name="thirdNature"
-                            render={({ field }) => (
-                                <FormItem >
-                                    <FormLabel className="text-neutral-600">Troisième Nature</FormLabel>
-                                    <FormControl>
-                                        <div className="flex gap-x-2">
-                                            <Select onValueChange={e => field.onChange(e)} value={field.value} >
-                                                <SelectTrigger disabled={!element.secondNature} className="w-full" aria-invalid={!!form.formState.errors.thirdNature}>
-                                                    <SelectValue placeholder="Sélectionner la troisième nature" />
-                                                </SelectTrigger>
-                                                <SelectContent position="popper" align="end">
-                                                    {isGettingThirdNatures ? (
-                                                        <div className="flex justify-center items-center">
-                                                            <Spinner />
-                                                        </div>
-                                                    ) : thirdNatures && thirdNatures.length > 0 ? (
-                                                        thirdNatures.map((thirdNature) => (
-                                                            <SelectItem key={thirdNature.value} value={thirdNature.value}>
-                                                                {thirdNature.label}
-                                                            </SelectItem>
-                                                        ))
-                                                    ) : (
-                                                        <SelectItem value="none" disabled>
-                                                            Aucune troisième nature disponible
-                                                        </SelectItem>
-                                                    )}
-                                                </SelectContent>
-                                            </Select>
-                                            <Button onClick={() => setOpen({ ...open, thirdNature: true })} type='button' variant="outline" className="h-10 shadow-none">
-                                                <LayersPlusIcon />
-                                            </Button>
-                                        </div>
-                                    </FormControl>
-                                    <FormMessage />
-                                </FormItem>
+                            render={({ field, formState }) => (
+                                <SelectField
+                                    label="Troisième Nature"
+                                    placeholder="Sélectionner la troisième nature"
+                                    value={field.value ?? ""}
+                                    onChange={field.onChange}
+                                    options={thirdNatures}
+                                    isLoading={isGettingThirdNatures}
+                                    disabled={!secondNature}
+                                    hasError={!!formState.errors.thirdNature}
+                                    onAdd={() => openModalHelper("thirdNature")}
+                                    emptyMessage="Aucune troisième nature disponible"
+                                />
                             )}
                         />
 
                         <FormField
                             control={form.control}
                             name="allocation"
-                            render={({ field }) => (
-                                <FormItem >
-                                    <FormLabel className="text-neutral-600">Allocation</FormLabel>
-                                    <FormControl>
-                                        <div className="flex gap-x-2">
-                                            <Select onValueChange={e => field.onChange(e)} value={field.value} >
-                                                <SelectTrigger className="w-full" aria-invalid={!!form.formState.errors.allocation}>
-                                                    <SelectValue placeholder="Sélectionner une allocation" />
-                                                </SelectTrigger>
-                                                <SelectContent position="popper" align="end">
-                                                    {isGettingAllocations ? (
-                                                        <div className="flex justify-center items-center">
-                                                            <Spinner />
-                                                        </div>
-                                                    ) : allocations && allocations.length > 0 ? (
-                                                        allocations.map((allocation) => (
-                                                            <SelectItem key={allocation.value} value={allocation.value}>
-                                                                {allocation.label}
-                                                            </SelectItem>
-                                                        ))
-                                                    ) : (
-                                                        <SelectItem value="none" disabled>
-                                                            Aucune allocation disponible
-                                                        </SelectItem>
-                                                    )}
-                                                </SelectContent>
-                                            </Select>
-                                            <Button onClick={() => setOpen({ ...open, allocation: true })} type='button' variant="outline" className="h-10 shadow-none">
-                                                <LayersPlusIcon />
-                                            </Button>
-                                        </div>
-                                    </FormControl>
-                                    <FormMessage />
-                                </FormItem>
+                            render={({ field, formState }) => (
+                                <SelectField
+                                    label="Allocation"
+                                    placeholder="Sélectionner une allocation"
+                                    value={field.value ?? ""}
+                                    onChange={field.onChange}
+                                    options={allocations}
+                                    isLoading={isGettingAllocations}
+                                    hasError={!!formState.errors.allocation}
+                                    onAdd={() => openModalHelper("allocation")}
+                                    emptyMessage="Aucune allocation disponible"
+                                />
                             )}
                         />
 
@@ -477,70 +358,39 @@ export default function IncomeForm({ accountingType }: Props) {
                         <FormField
                             control={form.control}
                             name="paymentMode"
-                            render={({ field }) => (
-                                <FormItem >
-                                    <FormLabel className="text-neutral-600">Mode de paiement<RequiredLabel /></FormLabel>
-                                    <FormControl>
-                                        <Select onValueChange={e => {
-                                            field.onChange(e);
-                                            setElement(prev => ({
-                                                ...prev,
-                                                paymentMode: e as "CASH" | "BANK" | "CHECK",
-                                            }));
-                                        }} value={field.value} >
-                                            <SelectTrigger className="w-full" aria-invalid={!!form.formState.errors.paymentMode}>
-                                                <SelectValue placeholder="Selectionner une valeur" />
-                                            </SelectTrigger>
-                                            <SelectContent position="popper" align="end">
-                                                {paymentMode.map((item) => (
-                                                    <SelectItem key={item.value} value={item.value}>
-                                                        {item.label}
-                                                    </SelectItem>
-                                                ))}
-                                            </SelectContent>
-                                        </Select>
-                                    </FormControl>
-                                    <FormMessage />
-                                </FormItem>
+                            render={({ field, formState }) => (
+                                <SelectField
+                                    label="Mode de paiement"
+                                    required
+                                    placeholder="Sélectionner une valeur"
+                                    value={field.value}
+                                    onChange={(val) => {
+                                        field.onChange(val);
+                                        form.setValue("source", "");
+                                    }}
+                                    options={paymentModeData}
+                                    hasError={!!formState.errors.paymentMode}
+                                    emptyMessage="Aucun mode de paiement disponible"
+                                />
                             )}
                         />
+
                         <FormField
                             control={form.control}
                             name="source"
-                            render={({ field }) => (
-                                <FormItem >
-                                    <FormLabel className="text-neutral-600">Source<RequiredLabel /></FormLabel>
-                                    <FormControl>
-                                        <div className="flex gap-x-2">
-                                            <Select onValueChange={field.onChange} value={field.value} >
-                                                <SelectTrigger className="w-full" aria-invalid={!!form.formState.errors.source}>
-                                                    <SelectValue placeholder="Selectionner une source" />
-                                                </SelectTrigger>
-                                                <SelectContent position="popper" align="end">
-                                                    {isGettingSources ? (
-                                                        <div className="flex justify-center items-center">
-                                                            <Spinner />
-                                                        </div>
-                                                    ) : sources && sources.length > 0 ? (
-                                                        sources.map((source) => (
-                                                            <SelectItem key={source.value} value={source.value}>
-                                                                {source.label}
-                                                            </SelectItem>
-                                                        ))
-                                                    ) : (
-                                                        <SelectItem value="none" disabled>
-                                                            Aucune source disponible
-                                                        </SelectItem>
-                                                    )}
-                                                </SelectContent>
-                                            </Select>
-                                            <Button onClick={() => setOpen({ ...open, source: true })} type='button' variant="outline" className="h-10 shadow-none">
-                                                <LayersPlusIcon />
-                                            </Button>
-                                        </div>
-                                    </FormControl>
-                                    <FormMessage />
-                                </FormItem>
+                            render={({ field, formState }) => (
+                                <SelectField
+                                    label="Source"
+                                    required
+                                    placeholder="Sélectionner une source"
+                                    value={field.value ?? ""}
+                                    onChange={field.onChange}
+                                    options={sources}
+                                    isLoading={isGettingSources}
+                                    hasError={!!formState.errors.source}
+                                    onAdd={() => openModalHelper("source")}
+                                    emptyMessage="Aucune source disponible"
+                                />
                             )}
                         />
                     </div>
@@ -587,23 +437,50 @@ export default function IncomeForm({ accountingType }: Props) {
                     </div>
                 </form>
             </Form>
-            <Modal open={open.allocation} setOpen={(e) => setOpen({ ...open, allocation: e })} title='Gestion des allocations'>
+            <Modal
+                open={openModal === "allocation"}
+                setOpen={(e) => !e && closeModal()}
+                title="Gestion des allocations"
+            >
                 <AllocationModal accountingType={accountingType} />
             </Modal>
-            <Modal open={open.category} setOpen={(e) => setOpen({ ...open, category: e })} title='Gestion des catégories'>
+            <Modal
+                open={openModal === "category"}
+                setOpen={(e) => !e && closeModal()}
+                title="Gestion des catégories"
+            >
                 <CategoryModal accountingType={accountingType} />
             </Modal>
-            <Modal open={open.source} setOpen={(e) => setOpen({ ...open, source: e })} title='Gestion des sources'>
-                <SourceModal paymentMode={element.paymentMode} accountingType={accountingType} />
+            <Modal
+                open={openModal === "source"}
+                setOpen={(e) => !e && closeModal()}
+                title="Gestion des sources"
+            >
+                <SourceModal paymentMode={paymentMode} accountingType={accountingType} />
             </Modal>
-            <Modal open={open.nature} setOpen={(e) => setOpen({ ...open, nature: e })} title='Gestion des natures'>
-                <NatureModal categoryId={element.category} accountingType={accountingType} />
+            <Modal
+                open={openModal === "nature"}
+                setOpen={(e) => !e && closeModal()}
+                title="Gestion des natures"
+            >
+                <NatureModal categoryId={category} accountingType={accountingType} />
             </Modal>
-            <Modal open={open.secondNature} setOpen={(e) => setOpen({ ...open, secondNature: e })} title='Gestion des natures secondes'>
-                <SecondNatureModal natureId={element.nature} accountingType={accountingType} />
+            <Modal
+                open={openModal === "secondNature"}
+                setOpen={(e) => !e && closeModal()}
+                title="Gestion des natures secondes"
+            >
+                <SecondNatureModal natureId={nature} accountingType={accountingType} />
             </Modal>
-            <Modal open={open.thirdNature} setOpen={(e) => setOpen({ ...open, thirdNature: e })} title='Gestion des natures troisièmes'>
-                <ThirdNatureModal secondNatureId={element.secondNature} accountingType={accountingType} />
+            <Modal
+                open={openModal === "thirdNature"}
+                setOpen={(e) => !e && closeModal()}
+                title="Gestion des natures troisièmes"
+            >
+                <ThirdNatureModal
+                    secondNatureId={secondNature ?? ""}
+                    accountingType={accountingType}
+                />
             </Modal>
         </div>
     )

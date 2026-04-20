@@ -9,8 +9,6 @@ export type Building = {
     unit: string;
     occupancy: string;
     constructionDate: Date;
-    door: number;
-    parkingPrice: number;
     security: boolean;
     camera: boolean;
     elevator: boolean;

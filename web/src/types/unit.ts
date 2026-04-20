@@ -33,6 +33,7 @@ export type Unit = {
     electricity: boolean;
     tv: boolean;
     charges: string;
+    extraCharges: string;
     buildingId: string;
     building: Building;
     service: string;

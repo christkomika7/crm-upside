@@ -73,19 +73,13 @@ export const unitRoutes = new Elysia({ prefix: "/unit" })
             take: pageSizeNum,
         });
 
-        let hasImageError = false;
 
         const unitsWithSignedUrl = await Promise.all(
             units.map(async (unit) => {
-                const documents = await safeSignedUrls(unit.documents);
                 const tenant = unit.rentals.find((r) => r.unitId === unit.id)?.tenant;
 
-                if (documents.error) {
-                    hasImageError = true
-                }
-
                 return {
-                    ...unit,
+                    id: unit.id,
                     building: unit.building.name,
                     owner: unit.building.owner
                         ? `${unit.building.owner.firstname} ${unit.building.owner.lastname}`
@@ -95,20 +89,10 @@ export const unitRoutes = new Elysia({ prefix: "/unit" })
                     status: tenant ? "rented" : "vacant",
                     rent: (new Decimal(unit.rent).plus(unit.charges)).toNumber(),
                     service: getUnitAmenities(unit),
-                    documents: documents.urls,
+                    createdAt: unit.createdAt
                 };
             })
         );
-
-        if (hasImageError) {
-            server?.publish(
-                "error",
-                JSON.stringify({
-                    type: "error",
-                    message: "Certaines images n'ont pas pu être chargées.",
-                })
-            );
-        }
 
         return {
             data: unitsWithSignedUrl,
@@ -121,7 +105,7 @@ export const unitRoutes = new Elysia({ prefix: "/unit" })
         auth: true,
         query: request.queryFilter,
     })
-    .get("/list", async ({ permission, status, server, query }) => {
+    .get("/list", async ({ permission, status }) => {
         if (!canAccess(permission, "units", "read")) {
             return status(403, { message: "Accès refusé" });
         }
@@ -339,6 +323,7 @@ export const unitRoutes = new Elysia({ prefix: "/unit" })
                     electricity: data.electricity,
                     tv: data.tv,
                     charges: data.charges,
+                    extraCharges: data.extraCharges,
                     documents,
                 },
             });
@@ -445,6 +430,7 @@ export const unitRoutes = new Elysia({ prefix: "/unit" })
                         electricity: data.electricity,
                         tv: data.tv,
                         charges: data.charges,
+                        extraCharges: data.extraCharges,
                         documents,
                     },
                 });

@@ -3,8 +3,8 @@ import { ALLOWED_TYPES, MAX_FILE_SIZE } from "../constant";
 
 export const reportSchema = z.object({
     date: z.date({ error: "La date est requise." }),
-    tenant: z.string({ error: "Le nom du locataire est requis." }),
-    unit: z.string({ error: "Veuillez selectionner une unité." }),
+    tenant: z.string().min(1, { error: "Le nom du locataire est requis." }),
+    unit: z.string().min(1, { error: "Veuillez selectionner une unité." }),
     note: z.string().optional(),
     documents: z.array(
         z

@@ -28,14 +28,22 @@ export type AggregateTenant = {
 
 export type TenantAvgAggregateOutputType = {
   income: runtime.Decimal | null
+  monthlyRent: runtime.Decimal | null
+  monthlyCharges: runtime.Decimal | null
+  depositPaid: runtime.Decimal | null
 }
 
 export type TenantSumAggregateOutputType = {
   income: runtime.Decimal | null
+  monthlyRent: runtime.Decimal | null
+  monthlyCharges: runtime.Decimal | null
+  depositPaid: runtime.Decimal | null
 }
 
 export type TenantMinAggregateOutputType = {
   id: string | null
+  isDiplomatic: boolean | null
+  isPersonal: boolean | null
   firstname: string | null
   lastname: string | null
   company: string | null
@@ -45,7 +53,9 @@ export type TenantMinAggregateOutputType = {
   maritalStatus: string | null
   income: runtime.Decimal | null
   bankInfo: string | null
-  paymentMode: $Enums.PaymentType | null
+  monthlyRent: runtime.Decimal | null
+  monthlyCharges: runtime.Decimal | null
+  depositPaid: runtime.Decimal | null
   isDeleting: boolean | null
   createdAt: Date | null
   updatedAt: Date | null
@@ -53,6 +63,8 @@ export type TenantMinAggregateOutputType = {
 
 export type TenantMaxAggregateOutputType = {
   id: string | null
+  isDiplomatic: boolean | null
+  isPersonal: boolean | null
   firstname: string | null
   lastname: string | null
   company: string | null
@@ -62,7 +74,9 @@ export type TenantMaxAggregateOutputType = {
   maritalStatus: string | null
   income: runtime.Decimal | null
   bankInfo: string | null
-  paymentMode: $Enums.PaymentType | null
+  monthlyRent: runtime.Decimal | null
+  monthlyCharges: runtime.Decimal | null
+  depositPaid: runtime.Decimal | null
   isDeleting: boolean | null
   createdAt: Date | null
   updatedAt: Date | null
@@ -70,6 +84,8 @@ export type TenantMaxAggregateOutputType = {
 
 export type TenantCountAggregateOutputType = {
   id: number
+  isDiplomatic: number
+  isPersonal: number
   firstname: number
   lastname: number
   company: number
@@ -81,6 +97,9 @@ export type TenantCountAggregateOutputType = {
   bankInfo: number
   paymentMode: number
   documents: number
+  monthlyRent: number
+  monthlyCharges: number
+  depositPaid: number
   isDeleting: number
   createdAt: number
   updatedAt: number
@@ -90,14 +109,22 @@ export type TenantCountAggregateOutputType = {
 
 export type TenantAvgAggregateInputType = {
   income?: true
+  monthlyRent?: true
+  monthlyCharges?: true
+  depositPaid?: true
 }
 
 export type TenantSumAggregateInputType = {
   income?: true
+  monthlyRent?: true
+  monthlyCharges?: true
+  depositPaid?: true
 }
 
 export type TenantMinAggregateInputType = {
   id?: true
+  isDiplomatic?: true
+  isPersonal?: true
   firstname?: true
   lastname?: true
   company?: true
@@ -107,7 +134,9 @@ export type TenantMinAggregateInputType = {
   maritalStatus?: true
   income?: true
   bankInfo?: true
-  paymentMode?: true
+  monthlyRent?: true
+  monthlyCharges?: true
+  depositPaid?: true
   isDeleting?: true
   createdAt?: true
   updatedAt?: true
@@ -115,6 +144,8 @@ export type TenantMinAggregateInputType = {
 
 export type TenantMaxAggregateInputType = {
   id?: true
+  isDiplomatic?: true
+  isPersonal?: true
   firstname?: true
   lastname?: true
   company?: true
@@ -124,7 +155,9 @@ export type TenantMaxAggregateInputType = {
   maritalStatus?: true
   income?: true
   bankInfo?: true
-  paymentMode?: true
+  monthlyRent?: true
+  monthlyCharges?: true
+  depositPaid?: true
   isDeleting?: true
   createdAt?: true
   updatedAt?: true
@@ -132,6 +165,8 @@ export type TenantMaxAggregateInputType = {
 
 export type TenantCountAggregateInputType = {
   id?: true
+  isDiplomatic?: true
+  isPersonal?: true
   firstname?: true
   lastname?: true
   company?: true
@@ -143,6 +178,9 @@ export type TenantCountAggregateInputType = {
   bankInfo?: true
   paymentMode?: true
   documents?: true
+  monthlyRent?: true
+  monthlyCharges?: true
+  depositPaid?: true
   isDeleting?: true
   createdAt?: true
   updatedAt?: true
@@ -237,17 +275,22 @@ export type TenantGroupByArgs<ExtArgs extends runtime.Types.Extensions.InternalA
 
 export type TenantGroupByOutputType = {
   id: string
+  isDiplomatic: boolean
+  isPersonal: boolean
   firstname: string
   lastname: string
-  company: string
+  company: string | null
   phone: string
   email: string
   address: string
   maritalStatus: string | null
-  income: runtime.Decimal
+  income: runtime.Decimal | null
   bankInfo: string
-  paymentMode: $Enums.PaymentType
+  paymentMode: string[]
   documents: string[]
+  monthlyRent: runtime.Decimal
+  monthlyCharges: runtime.Decimal
+  depositPaid: runtime.Decimal
   isDeleting: boolean
   createdAt: Date
   updatedAt: Date
@@ -278,17 +321,22 @@ export type TenantWhereInput = {
   OR?: Prisma.TenantWhereInput[]
   NOT?: Prisma.TenantWhereInput | Prisma.TenantWhereInput[]
   id?: Prisma.StringFilter<"Tenant"> | string
+  isDiplomatic?: Prisma.BoolFilter<"Tenant"> | boolean
+  isPersonal?: Prisma.BoolFilter<"Tenant"> | boolean
   firstname?: Prisma.StringFilter<"Tenant"> | string
   lastname?: Prisma.StringFilter<"Tenant"> | string
-  company?: Prisma.StringFilter<"Tenant"> | string
+  company?: Prisma.StringNullableFilter<"Tenant"> | string | null
   phone?: Prisma.StringFilter<"Tenant"> | string
   email?: Prisma.StringFilter<"Tenant"> | string
   address?: Prisma.StringFilter<"Tenant"> | string
   maritalStatus?: Prisma.StringNullableFilter<"Tenant"> | string | null
-  income?: Prisma.DecimalFilter<"Tenant"> | runtime.Decimal | runtime.DecimalJsLike | number | string
+  income?: Prisma.DecimalNullableFilter<"Tenant"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   bankInfo?: Prisma.StringFilter<"Tenant"> | string
-  paymentMode?: Prisma.EnumPaymentTypeFilter<"Tenant"> | $Enums.PaymentType
+  paymentMode?: Prisma.StringNullableListFilter<"Tenant">
   documents?: Prisma.StringNullableListFilter<"Tenant">
+  monthlyRent?: Prisma.DecimalFilter<"Tenant"> | runtime.Decimal | runtime.DecimalJsLike | number | string
+  monthlyCharges?: Prisma.DecimalFilter<"Tenant"> | runtime.Decimal | runtime.DecimalJsLike | number | string
+  depositPaid?: Prisma.DecimalFilter<"Tenant"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   isDeleting?: Prisma.BoolFilter<"Tenant"> | boolean
   createdAt?: Prisma.DateTimeFilter<"Tenant"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Tenant"> | Date | string
@@ -301,17 +349,22 @@ export type TenantWhereInput = {
 
 export type TenantOrderByWithRelationInput = {
   id?: Prisma.SortOrder
+  isDiplomatic?: Prisma.SortOrder
+  isPersonal?: Prisma.SortOrder
   firstname?: Prisma.SortOrder
   lastname?: Prisma.SortOrder
-  company?: Prisma.SortOrder
+  company?: Prisma.SortOrderInput | Prisma.SortOrder
   phone?: Prisma.SortOrder
   email?: Prisma.SortOrder
   address?: Prisma.SortOrder
   maritalStatus?: Prisma.SortOrderInput | Prisma.SortOrder
-  income?: Prisma.SortOrder
+  income?: Prisma.SortOrderInput | Prisma.SortOrder
   bankInfo?: Prisma.SortOrder
   paymentMode?: Prisma.SortOrder
   documents?: Prisma.SortOrder
+  monthlyRent?: Prisma.SortOrder
+  monthlyCharges?: Prisma.SortOrder
+  depositPaid?: Prisma.SortOrder
   isDeleting?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
@@ -327,17 +380,22 @@ export type TenantWhereUniqueInput = Prisma.AtLeast<{
   AND?: Prisma.TenantWhereInput | Prisma.TenantWhereInput[]
   OR?: Prisma.TenantWhereInput[]
   NOT?: Prisma.TenantWhereInput | Prisma.TenantWhereInput[]
+  isDiplomatic?: Prisma.BoolFilter<"Tenant"> | boolean
+  isPersonal?: Prisma.BoolFilter<"Tenant"> | boolean
   firstname?: Prisma.StringFilter<"Tenant"> | string
   lastname?: Prisma.StringFilter<"Tenant"> | string
-  company?: Prisma.StringFilter<"Tenant"> | string
+  company?: Prisma.StringNullableFilter<"Tenant"> | string | null
   phone?: Prisma.StringFilter<"Tenant"> | string
   email?: Prisma.StringFilter<"Tenant"> | string
   address?: Prisma.StringFilter<"Tenant"> | string
   maritalStatus?: Prisma.StringNullableFilter<"Tenant"> | string | null
-  income?: Prisma.DecimalFilter<"Tenant"> | runtime.Decimal | runtime.DecimalJsLike | number | string
+  income?: Prisma.DecimalNullableFilter<"Tenant"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   bankInfo?: Prisma.StringFilter<"Tenant"> | string
-  paymentMode?: Prisma.EnumPaymentTypeFilter<"Tenant"> | $Enums.PaymentType
+  paymentMode?: Prisma.StringNullableListFilter<"Tenant">
   documents?: Prisma.StringNullableListFilter<"Tenant">
+  monthlyRent?: Prisma.DecimalFilter<"Tenant"> | runtime.Decimal | runtime.DecimalJsLike | number | string
+  monthlyCharges?: Prisma.DecimalFilter<"Tenant"> | runtime.Decimal | runtime.DecimalJsLike | number | string
+  depositPaid?: Prisma.DecimalFilter<"Tenant"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   isDeleting?: Prisma.BoolFilter<"Tenant"> | boolean
   createdAt?: Prisma.DateTimeFilter<"Tenant"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Tenant"> | Date | string
@@ -350,17 +408,22 @@ export type TenantWhereUniqueInput = Prisma.AtLeast<{
 
 export type TenantOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
+  isDiplomatic?: Prisma.SortOrder
+  isPersonal?: Prisma.SortOrder
   firstname?: Prisma.SortOrder
   lastname?: Prisma.SortOrder
-  company?: Prisma.SortOrder
+  company?: Prisma.SortOrderInput | Prisma.SortOrder
   phone?: Prisma.SortOrder
   email?: Prisma.SortOrder
   address?: Prisma.SortOrder
   maritalStatus?: Prisma.SortOrderInput | Prisma.SortOrder
-  income?: Prisma.SortOrder
+  income?: Prisma.SortOrderInput | Prisma.SortOrder
   bankInfo?: Prisma.SortOrder
   paymentMode?: Prisma.SortOrder
   documents?: Prisma.SortOrder
+  monthlyRent?: Prisma.SortOrder
+  monthlyCharges?: Prisma.SortOrder
+  depositPaid?: Prisma.SortOrder
   isDeleting?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
@@ -376,17 +439,22 @@ export type TenantScalarWhereWithAggregatesInput = {
   OR?: Prisma.TenantScalarWhereWithAggregatesInput[]
   NOT?: Prisma.TenantScalarWhereWithAggregatesInput | Prisma.TenantScalarWhereWithAggregatesInput[]
   id?: Prisma.StringWithAggregatesFilter<"Tenant"> | string
+  isDiplomatic?: Prisma.BoolWithAggregatesFilter<"Tenant"> | boolean
+  isPersonal?: Prisma.BoolWithAggregatesFilter<"Tenant"> | boolean
   firstname?: Prisma.StringWithAggregatesFilter<"Tenant"> | string
   lastname?: Prisma.StringWithAggregatesFilter<"Tenant"> | string
-  company?: Prisma.StringWithAggregatesFilter<"Tenant"> | string
+  company?: Prisma.StringNullableWithAggregatesFilter<"Tenant"> | string | null
   phone?: Prisma.StringWithAggregatesFilter<"Tenant"> | string
   email?: Prisma.StringWithAggregatesFilter<"Tenant"> | string
   address?: Prisma.StringWithAggregatesFilter<"Tenant"> | string
   maritalStatus?: Prisma.StringNullableWithAggregatesFilter<"Tenant"> | string | null
-  income?: Prisma.DecimalWithAggregatesFilter<"Tenant"> | runtime.Decimal | runtime.DecimalJsLike | number | string
+  income?: Prisma.DecimalNullableWithAggregatesFilter<"Tenant"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   bankInfo?: Prisma.StringWithAggregatesFilter<"Tenant"> | string
-  paymentMode?: Prisma.EnumPaymentTypeWithAggregatesFilter<"Tenant"> | $Enums.PaymentType
+  paymentMode?: Prisma.StringNullableListFilter<"Tenant">
   documents?: Prisma.StringNullableListFilter<"Tenant">
+  monthlyRent?: Prisma.DecimalWithAggregatesFilter<"Tenant"> | runtime.Decimal | runtime.DecimalJsLike | number | string
+  monthlyCharges?: Prisma.DecimalWithAggregatesFilter<"Tenant"> | runtime.Decimal | runtime.DecimalJsLike | number | string
+  depositPaid?: Prisma.DecimalWithAggregatesFilter<"Tenant"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   isDeleting?: Prisma.BoolWithAggregatesFilter<"Tenant"> | boolean
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"Tenant"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"Tenant"> | Date | string
@@ -394,17 +462,22 @@ export type TenantScalarWhereWithAggregatesInput = {
 
 export type TenantCreateInput = {
   id?: string
+  isDiplomatic?: boolean
+  isPersonal?: boolean
   firstname: string
   lastname: string
-  company: string
+  company?: string | null
   phone: string
   email: string
   address: string
   maritalStatus?: string | null
-  income?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  income?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   bankInfo: string
-  paymentMode: $Enums.PaymentType
+  paymentMode?: Prisma.TenantCreatepaymentModeInput | string[]
   documents?: Prisma.TenantCreatedocumentsInput | string[]
+  monthlyRent?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  monthlyCharges?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  depositPaid?: runtime.Decimal | runtime.DecimalJsLike | number | string
   isDeleting?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -417,17 +490,22 @@ export type TenantCreateInput = {
 
 export type TenantUncheckedCreateInput = {
   id?: string
+  isDiplomatic?: boolean
+  isPersonal?: boolean
   firstname: string
   lastname: string
-  company: string
+  company?: string | null
   phone: string
   email: string
   address: string
   maritalStatus?: string | null
-  income?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  income?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   bankInfo: string
-  paymentMode: $Enums.PaymentType
+  paymentMode?: Prisma.TenantCreatepaymentModeInput | string[]
   documents?: Prisma.TenantCreatedocumentsInput | string[]
+  monthlyRent?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  monthlyCharges?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  depositPaid?: runtime.Decimal | runtime.DecimalJsLike | number | string
   isDeleting?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -440,17 +518,22 @@ export type TenantUncheckedCreateInput = {
 
 export type TenantUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  isDiplomatic?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isPersonal?: Prisma.BoolFieldUpdateOperationsInput | boolean
   firstname?: Prisma.StringFieldUpdateOperationsInput | string
   lastname?: Prisma.StringFieldUpdateOperationsInput | string
-  company?: Prisma.StringFieldUpdateOperationsInput | string
+  company?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   phone?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
   address?: Prisma.StringFieldUpdateOperationsInput | string
   maritalStatus?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  income?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  income?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   bankInfo?: Prisma.StringFieldUpdateOperationsInput | string
-  paymentMode?: Prisma.EnumPaymentTypeFieldUpdateOperationsInput | $Enums.PaymentType
+  paymentMode?: Prisma.TenantUpdatepaymentModeInput | string[]
   documents?: Prisma.TenantUpdatedocumentsInput | string[]
+  monthlyRent?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  monthlyCharges?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  depositPaid?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   isDeleting?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -463,17 +546,22 @@ export type TenantUpdateInput = {
 
 export type TenantUncheckedUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  isDiplomatic?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isPersonal?: Prisma.BoolFieldUpdateOperationsInput | boolean
   firstname?: Prisma.StringFieldUpdateOperationsInput | string
   lastname?: Prisma.StringFieldUpdateOperationsInput | string
-  company?: Prisma.StringFieldUpdateOperationsInput | string
+  company?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   phone?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
   address?: Prisma.StringFieldUpdateOperationsInput | string
   maritalStatus?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  income?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  income?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   bankInfo?: Prisma.StringFieldUpdateOperationsInput | string
-  paymentMode?: Prisma.EnumPaymentTypeFieldUpdateOperationsInput | $Enums.PaymentType
+  paymentMode?: Prisma.TenantUpdatepaymentModeInput | string[]
   documents?: Prisma.TenantUpdatedocumentsInput | string[]
+  monthlyRent?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  monthlyCharges?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  depositPaid?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   isDeleting?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -486,17 +574,22 @@ export type TenantUncheckedUpdateInput = {
 
 export type TenantCreateManyInput = {
   id?: string
+  isDiplomatic?: boolean
+  isPersonal?: boolean
   firstname: string
   lastname: string
-  company: string
+  company?: string | null
   phone: string
   email: string
   address: string
   maritalStatus?: string | null
-  income?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  income?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   bankInfo: string
-  paymentMode: $Enums.PaymentType
+  paymentMode?: Prisma.TenantCreatepaymentModeInput | string[]
   documents?: Prisma.TenantCreatedocumentsInput | string[]
+  monthlyRent?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  monthlyCharges?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  depositPaid?: runtime.Decimal | runtime.DecimalJsLike | number | string
   isDeleting?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -504,17 +597,22 @@ export type TenantCreateManyInput = {
 
 export type TenantUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  isDiplomatic?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isPersonal?: Prisma.BoolFieldUpdateOperationsInput | boolean
   firstname?: Prisma.StringFieldUpdateOperationsInput | string
   lastname?: Prisma.StringFieldUpdateOperationsInput | string
-  company?: Prisma.StringFieldUpdateOperationsInput | string
+  company?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   phone?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
   address?: Prisma.StringFieldUpdateOperationsInput | string
   maritalStatus?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  income?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  income?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   bankInfo?: Prisma.StringFieldUpdateOperationsInput | string
-  paymentMode?: Prisma.EnumPaymentTypeFieldUpdateOperationsInput | $Enums.PaymentType
+  paymentMode?: Prisma.TenantUpdatepaymentModeInput | string[]
   documents?: Prisma.TenantUpdatedocumentsInput | string[]
+  monthlyRent?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  monthlyCharges?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  depositPaid?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   isDeleting?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -522,17 +620,22 @@ export type TenantUpdateManyMutationInput = {
 
 export type TenantUncheckedUpdateManyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  isDiplomatic?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isPersonal?: Prisma.BoolFieldUpdateOperationsInput | boolean
   firstname?: Prisma.StringFieldUpdateOperationsInput | string
   lastname?: Prisma.StringFieldUpdateOperationsInput | string
-  company?: Prisma.StringFieldUpdateOperationsInput | string
+  company?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   phone?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
   address?: Prisma.StringFieldUpdateOperationsInput | string
   maritalStatus?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  income?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  income?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   bankInfo?: Prisma.StringFieldUpdateOperationsInput | string
-  paymentMode?: Prisma.EnumPaymentTypeFieldUpdateOperationsInput | $Enums.PaymentType
+  paymentMode?: Prisma.TenantUpdatepaymentModeInput | string[]
   documents?: Prisma.TenantUpdatedocumentsInput | string[]
+  monthlyRent?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  monthlyCharges?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  depositPaid?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   isDeleting?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -540,6 +643,8 @@ export type TenantUncheckedUpdateManyInput = {
 
 export type TenantCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
+  isDiplomatic?: Prisma.SortOrder
+  isPersonal?: Prisma.SortOrder
   firstname?: Prisma.SortOrder
   lastname?: Prisma.SortOrder
   company?: Prisma.SortOrder
@@ -551,6 +656,9 @@ export type TenantCountOrderByAggregateInput = {
   bankInfo?: Prisma.SortOrder
   paymentMode?: Prisma.SortOrder
   documents?: Prisma.SortOrder
+  monthlyRent?: Prisma.SortOrder
+  monthlyCharges?: Prisma.SortOrder
+  depositPaid?: Prisma.SortOrder
   isDeleting?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
@@ -558,10 +666,15 @@ export type TenantCountOrderByAggregateInput = {
 
 export type TenantAvgOrderByAggregateInput = {
   income?: Prisma.SortOrder
+  monthlyRent?: Prisma.SortOrder
+  monthlyCharges?: Prisma.SortOrder
+  depositPaid?: Prisma.SortOrder
 }
 
 export type TenantMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
+  isDiplomatic?: Prisma.SortOrder
+  isPersonal?: Prisma.SortOrder
   firstname?: Prisma.SortOrder
   lastname?: Prisma.SortOrder
   company?: Prisma.SortOrder
@@ -571,7 +684,9 @@ export type TenantMaxOrderByAggregateInput = {
   maritalStatus?: Prisma.SortOrder
   income?: Prisma.SortOrder
   bankInfo?: Prisma.SortOrder
-  paymentMode?: Prisma.SortOrder
+  monthlyRent?: Prisma.SortOrder
+  monthlyCharges?: Prisma.SortOrder
+  depositPaid?: Prisma.SortOrder
   isDeleting?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
@@ -579,6 +694,8 @@ export type TenantMaxOrderByAggregateInput = {
 
 export type TenantMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
+  isDiplomatic?: Prisma.SortOrder
+  isPersonal?: Prisma.SortOrder
   firstname?: Prisma.SortOrder
   lastname?: Prisma.SortOrder
   company?: Prisma.SortOrder
@@ -588,7 +705,9 @@ export type TenantMinOrderByAggregateInput = {
   maritalStatus?: Prisma.SortOrder
   income?: Prisma.SortOrder
   bankInfo?: Prisma.SortOrder
-  paymentMode?: Prisma.SortOrder
+  monthlyRent?: Prisma.SortOrder
+  monthlyCharges?: Prisma.SortOrder
+  depositPaid?: Prisma.SortOrder
   isDeleting?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
@@ -596,6 +715,9 @@ export type TenantMinOrderByAggregateInput = {
 
 export type TenantSumOrderByAggregateInput = {
   income?: Prisma.SortOrder
+  monthlyRent?: Prisma.SortOrder
+  monthlyCharges?: Prisma.SortOrder
+  depositPaid?: Prisma.SortOrder
 }
 
 export type TenantScalarRelationFilter = {
@@ -608,12 +730,25 @@ export type TenantNullableScalarRelationFilter = {
   isNot?: Prisma.TenantWhereInput | null
 }
 
+export type TenantCreatepaymentModeInput = {
+  set: string[]
+}
+
 export type TenantCreatedocumentsInput = {
   set: string[]
 }
 
-export type EnumPaymentTypeFieldUpdateOperationsInput = {
-  set?: $Enums.PaymentType
+export type NullableDecimalFieldUpdateOperationsInput = {
+  set?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  increment?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  decrement?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  multiply?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  divide?: runtime.Decimal | runtime.DecimalJsLike | number | string
+}
+
+export type TenantUpdatepaymentModeInput = {
+  set?: string[]
+  push?: string | string[]
 }
 
 export type TenantUpdatedocumentsInput = {
@@ -699,17 +834,22 @@ export type TenantUpdateOneWithoutAppointmentsNestedInput = {
 
 export type TenantCreateWithoutRentalsInput = {
   id?: string
+  isDiplomatic?: boolean
+  isPersonal?: boolean
   firstname: string
   lastname: string
-  company: string
+  company?: string | null
   phone: string
   email: string
   address: string
   maritalStatus?: string | null
-  income?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  income?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   bankInfo: string
-  paymentMode: $Enums.PaymentType
+  paymentMode?: Prisma.TenantCreatepaymentModeInput | string[]
   documents?: Prisma.TenantCreatedocumentsInput | string[]
+  monthlyRent?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  monthlyCharges?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  depositPaid?: runtime.Decimal | runtime.DecimalJsLike | number | string
   isDeleting?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -721,17 +861,22 @@ export type TenantCreateWithoutRentalsInput = {
 
 export type TenantUncheckedCreateWithoutRentalsInput = {
   id?: string
+  isDiplomatic?: boolean
+  isPersonal?: boolean
   firstname: string
   lastname: string
-  company: string
+  company?: string | null
   phone: string
   email: string
   address: string
   maritalStatus?: string | null
-  income?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  income?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   bankInfo: string
-  paymentMode: $Enums.PaymentType
+  paymentMode?: Prisma.TenantCreatepaymentModeInput | string[]
   documents?: Prisma.TenantCreatedocumentsInput | string[]
+  monthlyRent?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  monthlyCharges?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  depositPaid?: runtime.Decimal | runtime.DecimalJsLike | number | string
   isDeleting?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -759,17 +904,22 @@ export type TenantUpdateToOneWithWhereWithoutRentalsInput = {
 
 export type TenantUpdateWithoutRentalsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  isDiplomatic?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isPersonal?: Prisma.BoolFieldUpdateOperationsInput | boolean
   firstname?: Prisma.StringFieldUpdateOperationsInput | string
   lastname?: Prisma.StringFieldUpdateOperationsInput | string
-  company?: Prisma.StringFieldUpdateOperationsInput | string
+  company?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   phone?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
   address?: Prisma.StringFieldUpdateOperationsInput | string
   maritalStatus?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  income?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  income?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   bankInfo?: Prisma.StringFieldUpdateOperationsInput | string
-  paymentMode?: Prisma.EnumPaymentTypeFieldUpdateOperationsInput | $Enums.PaymentType
+  paymentMode?: Prisma.TenantUpdatepaymentModeInput | string[]
   documents?: Prisma.TenantUpdatedocumentsInput | string[]
+  monthlyRent?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  monthlyCharges?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  depositPaid?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   isDeleting?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -781,17 +931,22 @@ export type TenantUpdateWithoutRentalsInput = {
 
 export type TenantUncheckedUpdateWithoutRentalsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  isDiplomatic?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isPersonal?: Prisma.BoolFieldUpdateOperationsInput | boolean
   firstname?: Prisma.StringFieldUpdateOperationsInput | string
   lastname?: Prisma.StringFieldUpdateOperationsInput | string
-  company?: Prisma.StringFieldUpdateOperationsInput | string
+  company?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   phone?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
   address?: Prisma.StringFieldUpdateOperationsInput | string
   maritalStatus?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  income?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  income?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   bankInfo?: Prisma.StringFieldUpdateOperationsInput | string
-  paymentMode?: Prisma.EnumPaymentTypeFieldUpdateOperationsInput | $Enums.PaymentType
+  paymentMode?: Prisma.TenantUpdatepaymentModeInput | string[]
   documents?: Prisma.TenantUpdatedocumentsInput | string[]
+  monthlyRent?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  monthlyCharges?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  depositPaid?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   isDeleting?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -803,17 +958,22 @@ export type TenantUncheckedUpdateWithoutRentalsInput = {
 
 export type TenantCreateWithoutInvoicesInput = {
   id?: string
+  isDiplomatic?: boolean
+  isPersonal?: boolean
   firstname: string
   lastname: string
-  company: string
+  company?: string | null
   phone: string
   email: string
   address: string
   maritalStatus?: string | null
-  income?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  income?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   bankInfo: string
-  paymentMode: $Enums.PaymentType
+  paymentMode?: Prisma.TenantCreatepaymentModeInput | string[]
   documents?: Prisma.TenantCreatedocumentsInput | string[]
+  monthlyRent?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  monthlyCharges?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  depositPaid?: runtime.Decimal | runtime.DecimalJsLike | number | string
   isDeleting?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -825,17 +985,22 @@ export type TenantCreateWithoutInvoicesInput = {
 
 export type TenantUncheckedCreateWithoutInvoicesInput = {
   id?: string
+  isDiplomatic?: boolean
+  isPersonal?: boolean
   firstname: string
   lastname: string
-  company: string
+  company?: string | null
   phone: string
   email: string
   address: string
   maritalStatus?: string | null
-  income?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  income?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   bankInfo: string
-  paymentMode: $Enums.PaymentType
+  paymentMode?: Prisma.TenantCreatepaymentModeInput | string[]
   documents?: Prisma.TenantCreatedocumentsInput | string[]
+  monthlyRent?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  monthlyCharges?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  depositPaid?: runtime.Decimal | runtime.DecimalJsLike | number | string
   isDeleting?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -863,17 +1028,22 @@ export type TenantUpdateToOneWithWhereWithoutInvoicesInput = {
 
 export type TenantUpdateWithoutInvoicesInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  isDiplomatic?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isPersonal?: Prisma.BoolFieldUpdateOperationsInput | boolean
   firstname?: Prisma.StringFieldUpdateOperationsInput | string
   lastname?: Prisma.StringFieldUpdateOperationsInput | string
-  company?: Prisma.StringFieldUpdateOperationsInput | string
+  company?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   phone?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
   address?: Prisma.StringFieldUpdateOperationsInput | string
   maritalStatus?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  income?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  income?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   bankInfo?: Prisma.StringFieldUpdateOperationsInput | string
-  paymentMode?: Prisma.EnumPaymentTypeFieldUpdateOperationsInput | $Enums.PaymentType
+  paymentMode?: Prisma.TenantUpdatepaymentModeInput | string[]
   documents?: Prisma.TenantUpdatedocumentsInput | string[]
+  monthlyRent?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  monthlyCharges?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  depositPaid?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   isDeleting?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -885,17 +1055,22 @@ export type TenantUpdateWithoutInvoicesInput = {
 
 export type TenantUncheckedUpdateWithoutInvoicesInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  isDiplomatic?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isPersonal?: Prisma.BoolFieldUpdateOperationsInput | boolean
   firstname?: Prisma.StringFieldUpdateOperationsInput | string
   lastname?: Prisma.StringFieldUpdateOperationsInput | string
-  company?: Prisma.StringFieldUpdateOperationsInput | string
+  company?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   phone?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
   address?: Prisma.StringFieldUpdateOperationsInput | string
   maritalStatus?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  income?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  income?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   bankInfo?: Prisma.StringFieldUpdateOperationsInput | string
-  paymentMode?: Prisma.EnumPaymentTypeFieldUpdateOperationsInput | $Enums.PaymentType
+  paymentMode?: Prisma.TenantUpdatepaymentModeInput | string[]
   documents?: Prisma.TenantUpdatedocumentsInput | string[]
+  monthlyRent?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  monthlyCharges?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  depositPaid?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   isDeleting?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -907,17 +1082,22 @@ export type TenantUncheckedUpdateWithoutInvoicesInput = {
 
 export type TenantCreateWithoutQuotesInput = {
   id?: string
+  isDiplomatic?: boolean
+  isPersonal?: boolean
   firstname: string
   lastname: string
-  company: string
+  company?: string | null
   phone: string
   email: string
   address: string
   maritalStatus?: string | null
-  income?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  income?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   bankInfo: string
-  paymentMode: $Enums.PaymentType
+  paymentMode?: Prisma.TenantCreatepaymentModeInput | string[]
   documents?: Prisma.TenantCreatedocumentsInput | string[]
+  monthlyRent?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  monthlyCharges?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  depositPaid?: runtime.Decimal | runtime.DecimalJsLike | number | string
   isDeleting?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -929,17 +1109,22 @@ export type TenantCreateWithoutQuotesInput = {
 
 export type TenantUncheckedCreateWithoutQuotesInput = {
   id?: string
+  isDiplomatic?: boolean
+  isPersonal?: boolean
   firstname: string
   lastname: string
-  company: string
+  company?: string | null
   phone: string
   email: string
   address: string
   maritalStatus?: string | null
-  income?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  income?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   bankInfo: string
-  paymentMode: $Enums.PaymentType
+  paymentMode?: Prisma.TenantCreatepaymentModeInput | string[]
   documents?: Prisma.TenantCreatedocumentsInput | string[]
+  monthlyRent?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  monthlyCharges?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  depositPaid?: runtime.Decimal | runtime.DecimalJsLike | number | string
   isDeleting?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -967,17 +1152,22 @@ export type TenantUpdateToOneWithWhereWithoutQuotesInput = {
 
 export type TenantUpdateWithoutQuotesInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  isDiplomatic?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isPersonal?: Prisma.BoolFieldUpdateOperationsInput | boolean
   firstname?: Prisma.StringFieldUpdateOperationsInput | string
   lastname?: Prisma.StringFieldUpdateOperationsInput | string
-  company?: Prisma.StringFieldUpdateOperationsInput | string
+  company?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   phone?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
   address?: Prisma.StringFieldUpdateOperationsInput | string
   maritalStatus?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  income?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  income?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   bankInfo?: Prisma.StringFieldUpdateOperationsInput | string
-  paymentMode?: Prisma.EnumPaymentTypeFieldUpdateOperationsInput | $Enums.PaymentType
+  paymentMode?: Prisma.TenantUpdatepaymentModeInput | string[]
   documents?: Prisma.TenantUpdatedocumentsInput | string[]
+  monthlyRent?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  monthlyCharges?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  depositPaid?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   isDeleting?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -989,17 +1179,22 @@ export type TenantUpdateWithoutQuotesInput = {
 
 export type TenantUncheckedUpdateWithoutQuotesInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  isDiplomatic?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isPersonal?: Prisma.BoolFieldUpdateOperationsInput | boolean
   firstname?: Prisma.StringFieldUpdateOperationsInput | string
   lastname?: Prisma.StringFieldUpdateOperationsInput | string
-  company?: Prisma.StringFieldUpdateOperationsInput | string
+  company?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   phone?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
   address?: Prisma.StringFieldUpdateOperationsInput | string
   maritalStatus?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  income?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  income?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   bankInfo?: Prisma.StringFieldUpdateOperationsInput | string
-  paymentMode?: Prisma.EnumPaymentTypeFieldUpdateOperationsInput | $Enums.PaymentType
+  paymentMode?: Prisma.TenantUpdatepaymentModeInput | string[]
   documents?: Prisma.TenantUpdatedocumentsInput | string[]
+  monthlyRent?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  monthlyCharges?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  depositPaid?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   isDeleting?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1011,17 +1206,22 @@ export type TenantUncheckedUpdateWithoutQuotesInput = {
 
 export type TenantCreateWithoutCheckInOutsInput = {
   id?: string
+  isDiplomatic?: boolean
+  isPersonal?: boolean
   firstname: string
   lastname: string
-  company: string
+  company?: string | null
   phone: string
   email: string
   address: string
   maritalStatus?: string | null
-  income?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  income?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   bankInfo: string
-  paymentMode: $Enums.PaymentType
+  paymentMode?: Prisma.TenantCreatepaymentModeInput | string[]
   documents?: Prisma.TenantCreatedocumentsInput | string[]
+  monthlyRent?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  monthlyCharges?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  depositPaid?: runtime.Decimal | runtime.DecimalJsLike | number | string
   isDeleting?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -1033,17 +1233,22 @@ export type TenantCreateWithoutCheckInOutsInput = {
 
 export type TenantUncheckedCreateWithoutCheckInOutsInput = {
   id?: string
+  isDiplomatic?: boolean
+  isPersonal?: boolean
   firstname: string
   lastname: string
-  company: string
+  company?: string | null
   phone: string
   email: string
   address: string
   maritalStatus?: string | null
-  income?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  income?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   bankInfo: string
-  paymentMode: $Enums.PaymentType
+  paymentMode?: Prisma.TenantCreatepaymentModeInput | string[]
   documents?: Prisma.TenantCreatedocumentsInput | string[]
+  monthlyRent?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  monthlyCharges?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  depositPaid?: runtime.Decimal | runtime.DecimalJsLike | number | string
   isDeleting?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -1071,17 +1276,22 @@ export type TenantUpdateToOneWithWhereWithoutCheckInOutsInput = {
 
 export type TenantUpdateWithoutCheckInOutsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  isDiplomatic?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isPersonal?: Prisma.BoolFieldUpdateOperationsInput | boolean
   firstname?: Prisma.StringFieldUpdateOperationsInput | string
   lastname?: Prisma.StringFieldUpdateOperationsInput | string
-  company?: Prisma.StringFieldUpdateOperationsInput | string
+  company?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   phone?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
   address?: Prisma.StringFieldUpdateOperationsInput | string
   maritalStatus?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  income?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  income?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   bankInfo?: Prisma.StringFieldUpdateOperationsInput | string
-  paymentMode?: Prisma.EnumPaymentTypeFieldUpdateOperationsInput | $Enums.PaymentType
+  paymentMode?: Prisma.TenantUpdatepaymentModeInput | string[]
   documents?: Prisma.TenantUpdatedocumentsInput | string[]
+  monthlyRent?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  monthlyCharges?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  depositPaid?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   isDeleting?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1093,17 +1303,22 @@ export type TenantUpdateWithoutCheckInOutsInput = {
 
 export type TenantUncheckedUpdateWithoutCheckInOutsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  isDiplomatic?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isPersonal?: Prisma.BoolFieldUpdateOperationsInput | boolean
   firstname?: Prisma.StringFieldUpdateOperationsInput | string
   lastname?: Prisma.StringFieldUpdateOperationsInput | string
-  company?: Prisma.StringFieldUpdateOperationsInput | string
+  company?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   phone?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
   address?: Prisma.StringFieldUpdateOperationsInput | string
   maritalStatus?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  income?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  income?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   bankInfo?: Prisma.StringFieldUpdateOperationsInput | string
-  paymentMode?: Prisma.EnumPaymentTypeFieldUpdateOperationsInput | $Enums.PaymentType
+  paymentMode?: Prisma.TenantUpdatepaymentModeInput | string[]
   documents?: Prisma.TenantUpdatedocumentsInput | string[]
+  monthlyRent?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  monthlyCharges?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  depositPaid?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   isDeleting?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1115,17 +1330,22 @@ export type TenantUncheckedUpdateWithoutCheckInOutsInput = {
 
 export type TenantCreateWithoutAppointmentsInput = {
   id?: string
+  isDiplomatic?: boolean
+  isPersonal?: boolean
   firstname: string
   lastname: string
-  company: string
+  company?: string | null
   phone: string
   email: string
   address: string
   maritalStatus?: string | null
-  income?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  income?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   bankInfo: string
-  paymentMode: $Enums.PaymentType
+  paymentMode?: Prisma.TenantCreatepaymentModeInput | string[]
   documents?: Prisma.TenantCreatedocumentsInput | string[]
+  monthlyRent?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  monthlyCharges?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  depositPaid?: runtime.Decimal | runtime.DecimalJsLike | number | string
   isDeleting?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -1137,17 +1357,22 @@ export type TenantCreateWithoutAppointmentsInput = {
 
 export type TenantUncheckedCreateWithoutAppointmentsInput = {
   id?: string
+  isDiplomatic?: boolean
+  isPersonal?: boolean
   firstname: string
   lastname: string
-  company: string
+  company?: string | null
   phone: string
   email: string
   address: string
   maritalStatus?: string | null
-  income?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  income?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   bankInfo: string
-  paymentMode: $Enums.PaymentType
+  paymentMode?: Prisma.TenantCreatepaymentModeInput | string[]
   documents?: Prisma.TenantCreatedocumentsInput | string[]
+  monthlyRent?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  monthlyCharges?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  depositPaid?: runtime.Decimal | runtime.DecimalJsLike | number | string
   isDeleting?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -1175,17 +1400,22 @@ export type TenantUpdateToOneWithWhereWithoutAppointmentsInput = {
 
 export type TenantUpdateWithoutAppointmentsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  isDiplomatic?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isPersonal?: Prisma.BoolFieldUpdateOperationsInput | boolean
   firstname?: Prisma.StringFieldUpdateOperationsInput | string
   lastname?: Prisma.StringFieldUpdateOperationsInput | string
-  company?: Prisma.StringFieldUpdateOperationsInput | string
+  company?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   phone?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
   address?: Prisma.StringFieldUpdateOperationsInput | string
   maritalStatus?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  income?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  income?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   bankInfo?: Prisma.StringFieldUpdateOperationsInput | string
-  paymentMode?: Prisma.EnumPaymentTypeFieldUpdateOperationsInput | $Enums.PaymentType
+  paymentMode?: Prisma.TenantUpdatepaymentModeInput | string[]
   documents?: Prisma.TenantUpdatedocumentsInput | string[]
+  monthlyRent?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  monthlyCharges?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  depositPaid?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   isDeleting?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1197,17 +1427,22 @@ export type TenantUpdateWithoutAppointmentsInput = {
 
 export type TenantUncheckedUpdateWithoutAppointmentsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  isDiplomatic?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isPersonal?: Prisma.BoolFieldUpdateOperationsInput | boolean
   firstname?: Prisma.StringFieldUpdateOperationsInput | string
   lastname?: Prisma.StringFieldUpdateOperationsInput | string
-  company?: Prisma.StringFieldUpdateOperationsInput | string
+  company?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   phone?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
   address?: Prisma.StringFieldUpdateOperationsInput | string
   maritalStatus?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  income?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  income?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   bankInfo?: Prisma.StringFieldUpdateOperationsInput | string
-  paymentMode?: Prisma.EnumPaymentTypeFieldUpdateOperationsInput | $Enums.PaymentType
+  paymentMode?: Prisma.TenantUpdatepaymentModeInput | string[]
   documents?: Prisma.TenantUpdatedocumentsInput | string[]
+  monthlyRent?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  monthlyCharges?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  depositPaid?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   isDeleting?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1286,6 +1521,8 @@ export type TenantCountOutputTypeCountCheckInOutsArgs<ExtArgs extends runtime.Ty
 
 export type TenantSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
+  isDiplomatic?: boolean
+  isPersonal?: boolean
   firstname?: boolean
   lastname?: boolean
   company?: boolean
@@ -1297,6 +1534,9 @@ export type TenantSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs =
   bankInfo?: boolean
   paymentMode?: boolean
   documents?: boolean
+  monthlyRent?: boolean
+  monthlyCharges?: boolean
+  depositPaid?: boolean
   isDeleting?: boolean
   createdAt?: boolean
   updatedAt?: boolean
@@ -1310,6 +1550,8 @@ export type TenantSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs =
 
 export type TenantSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
+  isDiplomatic?: boolean
+  isPersonal?: boolean
   firstname?: boolean
   lastname?: boolean
   company?: boolean
@@ -1321,6 +1563,9 @@ export type TenantSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extens
   bankInfo?: boolean
   paymentMode?: boolean
   documents?: boolean
+  monthlyRent?: boolean
+  monthlyCharges?: boolean
+  depositPaid?: boolean
   isDeleting?: boolean
   createdAt?: boolean
   updatedAt?: boolean
@@ -1328,6 +1573,8 @@ export type TenantSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extens
 
 export type TenantSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
+  isDiplomatic?: boolean
+  isPersonal?: boolean
   firstname?: boolean
   lastname?: boolean
   company?: boolean
@@ -1339,6 +1586,9 @@ export type TenantSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extens
   bankInfo?: boolean
   paymentMode?: boolean
   documents?: boolean
+  monthlyRent?: boolean
+  monthlyCharges?: boolean
+  depositPaid?: boolean
   isDeleting?: boolean
   createdAt?: boolean
   updatedAt?: boolean
@@ -1346,6 +1596,8 @@ export type TenantSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extens
 
 export type TenantSelectScalar = {
   id?: boolean
+  isDiplomatic?: boolean
+  isPersonal?: boolean
   firstname?: boolean
   lastname?: boolean
   company?: boolean
@@ -1357,12 +1609,15 @@ export type TenantSelectScalar = {
   bankInfo?: boolean
   paymentMode?: boolean
   documents?: boolean
+  monthlyRent?: boolean
+  monthlyCharges?: boolean
+  depositPaid?: boolean
   isDeleting?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }
 
-export type TenantOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "firstname" | "lastname" | "company" | "phone" | "email" | "address" | "maritalStatus" | "income" | "bankInfo" | "paymentMode" | "documents" | "isDeleting" | "createdAt" | "updatedAt", ExtArgs["result"]["tenant"]>
+export type TenantOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "isDiplomatic" | "isPersonal" | "firstname" | "lastname" | "company" | "phone" | "email" | "address" | "maritalStatus" | "income" | "bankInfo" | "paymentMode" | "documents" | "monthlyRent" | "monthlyCharges" | "depositPaid" | "isDeleting" | "createdAt" | "updatedAt", ExtArgs["result"]["tenant"]>
 export type TenantInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   rentals?: boolean | Prisma.Tenant$rentalsArgs<ExtArgs>
   invoices?: boolean | Prisma.Tenant$invoicesArgs<ExtArgs>
@@ -1385,17 +1640,22 @@ export type $TenantPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
+    isDiplomatic: boolean
+    isPersonal: boolean
     firstname: string
     lastname: string
-    company: string
+    company: string | null
     phone: string
     email: string
     address: string
     maritalStatus: string | null
-    income: runtime.Decimal
+    income: runtime.Decimal | null
     bankInfo: string
-    paymentMode: $Enums.PaymentType
+    paymentMode: string[]
     documents: string[]
+    monthlyRent: runtime.Decimal
+    monthlyCharges: runtime.Decimal
+    depositPaid: runtime.Decimal
     isDeleting: boolean
     createdAt: Date
     updatedAt: Date
@@ -1828,6 +2088,8 @@ export interface Prisma__TenantClient<T, Null = never, ExtArgs extends runtime.T
  */
 export interface TenantFieldRefs {
   readonly id: Prisma.FieldRef<"Tenant", 'String'>
+  readonly isDiplomatic: Prisma.FieldRef<"Tenant", 'Boolean'>
+  readonly isPersonal: Prisma.FieldRef<"Tenant", 'Boolean'>
   readonly firstname: Prisma.FieldRef<"Tenant", 'String'>
   readonly lastname: Prisma.FieldRef<"Tenant", 'String'>
   readonly company: Prisma.FieldRef<"Tenant", 'String'>
@@ -1837,8 +2099,11 @@ export interface TenantFieldRefs {
   readonly maritalStatus: Prisma.FieldRef<"Tenant", 'String'>
   readonly income: Prisma.FieldRef<"Tenant", 'Decimal'>
   readonly bankInfo: Prisma.FieldRef<"Tenant", 'String'>
-  readonly paymentMode: Prisma.FieldRef<"Tenant", 'PaymentType'>
+  readonly paymentMode: Prisma.FieldRef<"Tenant", 'String[]'>
   readonly documents: Prisma.FieldRef<"Tenant", 'String[]'>
+  readonly monthlyRent: Prisma.FieldRef<"Tenant", 'Decimal'>
+  readonly monthlyCharges: Prisma.FieldRef<"Tenant", 'Decimal'>
+  readonly depositPaid: Prisma.FieldRef<"Tenant", 'Decimal'>
   readonly isDeleting: Prisma.FieldRef<"Tenant", 'Boolean'>
   readonly createdAt: Prisma.FieldRef<"Tenant", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"Tenant", 'DateTime'>

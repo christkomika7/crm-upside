@@ -18,7 +18,6 @@ export default {
         lotType: t.Transform(t.String({ error: "Le type de lot est requis" }))
             .Decode((value) => JSON.parse(value))
             .Encode((value) => JSON.stringify(value)),
-        door: t.String({ error: "La porte est requise" }),
         elevator: t.Transform(t.String({ error: "L'ascenseur est requis" }))
             .Decode((value) => JSON.parse(value))
             .Encode((value) => JSON.stringify(value)),
@@ -46,7 +45,6 @@ export default {
         garden: t.Transform(t.String({ error: "Le jardin est requis" }))
             .Decode((value) => JSON.parse(value))
             .Encode((value) => JSON.stringify(value)),
-        parkingPrice: t.String({ error: "Le prix du parking est requis" }),
         status: t.Transform(t.String())
             .Decode((value) => JSON.parse(value))
             .Encode((value) => JSON.stringify(value)),

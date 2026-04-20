@@ -21,8 +21,6 @@ export const accountingRoutes = new Elysia({ prefix: "/accounting" })
         const search = (query.search as string)?.trim() || "";
         const sort = (query.sort as string) || "alpha";
 
-        console.log({ sort })
-
         const orderBy =
             sort === "asc"
                 ? { date: "asc" as const }
@@ -229,7 +227,10 @@ export const accountingRoutes = new Elysia({ prefix: "/accounting" })
         const uploadedKeys: string[] = [];
 
         try {
-            const { success, data } = outcomeAccountingSchema.safeParse(body);
+            const { success, data, error } = outcomeAccountingSchema.safeParse(body);
+
+            console.log(data);
+            console.log(error);
 
             if (!success) {
                 return status(400, { message: "Les informations de l'opération comptable sont invalides." });
@@ -311,147 +312,256 @@ export const accountingRoutes = new Elysia({ prefix: "/accounting" })
     },
         {
             auth: true,
-            body: request.incomeBody
+            body: request.outcomeBody
         })
-// .put("/:id", async ({ params, body, permission, status }) => {
-//     if (!canAccess(permission, "owners", "update")) {
-//         return status(403, { message: "Accès refusé" });
-//     }
+    .put("/income/:id", async ({ params, body, permission, status }) => {
+        if (!canAccess(permission, "accounting", "update")) {
+            return status(403, { message: "Accès refusé" });
+        }
 
-//     const id = params.id;
+        const id = params.id;
 
-//     const owner = await prisma.owner.findUnique({
-//         where: { id },
-//     });
-
-
-//     if (!owner) {
-//         return status(404, { message: "Propriétaire non trouvé" });
-//     }
-
-//     const oldKeys = [...owner.documents];
-
-//     const uploadedKeys: string[] = [];
-
-//     try {
-//         const { success, data } = ownerSchema.safeParse(body);
-
-//         if (!success) {
-//             return status(400, { message: "Les informations du propriétaire sont invalide" });
-//         }
-
-//         const existingOwner = await prisma.owner.findFirst({
-//             where: {
-//                 reference: data.reference,
-//                 NOT: { id: params.id }
-//             }
-//         });
-
-//         if (existingOwner) {
-//             return status(400, {
-//                 message: `La référence ${data.reference} est déjà utilisée.`
-//             });
-//         }
+        const accounting = await prisma.accounting.findUnique({
+            where: { id },
+        });
 
 
-//         let documents: string[] = [];
+        if (!accounting) {
+            return status(404, { message: "Opération comptable non trouvé" });
+        }
 
-//         try {
-//             documents = await uploadFiles(uploadedKeys, data.documents);
-//         } catch (error) {
-//             console.error(JSON.stringify(error));
-//             return status(500, { message: "Erreur lors de l'upload des fichiers, veuillez réessayer" });
-//         }
+        const oldKeys = [...accounting.documents];
 
-//         await prisma.owner.update({
-//             where: {
-//                 id: params.id
-//             },
-//             data: {
-//                 reference: data.reference,
-//                 firstname: data.firstname,
-//                 lastname: data.lastname,
-//                 company: data.company,
-//                 phone: data.phone,
-//                 email: data.email,
-//                 address: data.address,
-//                 actionnary: data.actionnary,
-//                 bankInfo: data.bankInfo,
-//                 documents,
-//                 buildings: {
-//                     set: data.buildings.map((building) => ({ id: building })),
-//                 }
-//             },
-//         });
+        const uploadedKeys: string[] = [];
 
-//         await Promise.all(
-//             oldKeys.map(async (key) => {
-//                 try {
-//                     await deleteFile(key);
-//                 } catch (e) {
-//                     console.error("Erreur suppression fichier:", key, e);
-//                 }
-//             })
-//         );
+        try {
+            const { success, data } = incomeAccountingSchema.safeParse(body);
 
-//         return status(201, { message: "Propriétaire modifié avec succès" });
+            if (!success) {
+                return status(400, { message: "Les informations de l'opération comptable sont invalides." });
+            }
 
-//     } catch (error) {
+            let documents: string[] = [];
 
-//         await Promise.all(
-//             uploadedKeys.map(async (key) => {
-//                 try {
-//                     await deleteFile(key);
-//                 } catch (e) {
-//                     console.error("Erreur suppression fichier:", key, e);
-//                 }
-//             })
-//         );
+            try {
+                documents = await uploadFiles(uploadedKeys, data.documents);
+            } catch (error) {
+                console.error(JSON.stringify(error));
+                return status(500, { message: "Erreur lors de l'upload des fichiers, veuillez réessayer" });
+            }
 
-//         if (error instanceof Prisma.PrismaClientKnownRequestError) {
-//             if (error.code === "P2002") {
-//                 return status(400, {
-//                     message: "Cette référence existe déjà"
-//                 });
-//             }
-//         }
+            await prisma.$transaction([
+                prisma.accounting.update({
+                    where: {
+                        id: params.id
+                    },
+                    data: {
+                        date: data.date,
+                        type: "INFLOW",
+                        paymentMode: data.paymentMode,
+                        amount: new Decimal(data.amount),
+                        description: data.description,
+                        sourceId: data.source,
+                        allocationId: data.allocation || null,
+                        isTTC: data.taxType === "TTC",
+                        categoryId: data.category,
+                        natureId: data.nature,
+                        secondNatureId: data.secondNature || null,
+                        thirdNatureId: data.thirdNature || null,
+                        documents,
+                    },
+                }),
+            ])
 
-//         return status(500, {
-//             message: "Erreur lors de la modification du propriétaire",
-//         });
-//     }
-// }, { auth: true, body: request.body, params: request.params })
-// .delete("/:id", async ({ params, permission, user, status }) => {
-//     if (!canAccess(permission, "owners", "update")) {
-//         return status(403, { message: "Accès refusé" });
-//     }
+            await Promise.all(
+                oldKeys.map(async (key) => {
+                    try {
+                        await deleteFile(key);
+                    } catch (e) {
+                        console.error("Erreur suppression fichier:", key, e);
+                    }
+                })
+            );
 
-//     const id = params.id;
-//     const owner = await prisma.owner.findUnique({
-//         where: { id },
-//     });
+            return status(201, { message: "Opération comptable modifié avec succès" });
 
-//     if (!owner) return status(400, { message: "Aucun propriétaire trouvé." });
+        } catch (error) {
 
-//     await prisma.$transaction([
-//         prisma.deletion.create({
-//             data: {
-//                 recordId: owner.id,
-//                 type: "OWNER",
-//                 state: "WAIT",
-//                 user: {
-//                     connect: { id: user.id }
-//                 }
-//             }
-//         }),
-//         prisma.owner.update({
-//             where: { id: owner.id },
-//             data: {
-//                 isDeleting: true
-//             }
-//         })
-//     ]);
+            await Promise.all(
+                uploadedKeys.map(async (key) => {
+                    try {
+                        await deleteFile(key);
+                    } catch (e) {
+                        console.error("Erreur suppression fichier:", key, e);
+                    }
+                })
+            );
 
-//     return status(200, { message: `La suppression du propriétaire ${owner.firstname} ${owner.lastname} est en attente de validation.` });
-// }, { auth: true, params: request.params })
+            return status(500, {
+                message: "Erreur lors de la modification de l'opération comptable",
+            });
+        }
+    }, { auth: true, body: request.incomeBody, params: request.params })
+    .put("/outcome/:id", async ({ params, body, permission, status }) => {
+        if (!canAccess(permission, "accounting", "update")) {
+            return status(403, { message: "Accès refusé" });
+        }
+
+        const id = params.id;
+
+        const accounting = await prisma.accounting.findUnique({
+            where: { id },
+        });
+
+        if (!accounting) {
+            return status(404, { message: "Opération comptable non trouvée" });
+        }
+
+        const uploadedKeys: string[] = [];
+        const oldKeys = [...accounting.documents];
+
+        try {
+            const { success, data } = outcomeAccountingSchema.safeParse(body);
+
+            console.log(data);
+            if (!success) {
+                return status(400, {
+                    message: "Les informations de l'opération comptable sont invalides."
+                });
+            }
+
+            let documents: string[] = [];
+
+            try {
+                documents = await uploadFiles(uploadedKeys, data.documents);
+            } catch (error) {
+                console.error(error);
+                return status(500, {
+                    message: "Erreur lors de l'upload des fichiers, veuillez réessayer"
+                });
+            }
+
+            await prisma.$transaction(async (tx) => {
+                await tx.accounting.update({
+                    where: { id },
+                    data: {
+                        date: data.date,
+                        type: "OUTFLOW",
+                        paymentMode: data.paymentMode,
+                        amount: new Decimal(data.amount),
+                        checkNumber: data.checkNumber,
+                        period: data.period,
+                        description: data.description,
+                        sourceId: data.source,
+
+                        allocationId: data.allocation || null,
+
+                        isTTC: data.taxType === "TTC",
+                        categoryId: data.category,
+                        natureId: data.nature,
+
+                        secondNatureId: data.secondNature || null,
+                        thirdNatureId: data.thirdNature || null,
+                        unitId: data.unit || null,
+
+                        documents,
+                    },
+                });
+
+                if (data.unit) {
+                    await prisma.$transaction(async (tx) => {
+                        if (accounting.unitId) {
+                            await tx.unit.update({
+                                where: { id: accounting.unitId },
+                                data: {
+                                    amountGenerate: {
+                                        decrement: new Decimal(accounting.amount),
+                                    },
+                                },
+                            });
+                        }
+                        if (data.unit) {
+                            await tx.unit.update({
+                                where: { id: data.unit },
+                                data: {
+                                    amountGenerate: {
+                                        increment: new Decimal(data.amount),
+                                    },
+                                },
+                            });
+                        }
+                    });
+                }
+            });
+
+            await Promise.all(
+                oldKeys.map(async (key) => {
+                    try {
+                        await deleteFile(key);
+                    } catch (e) {
+                        console.error("Erreur suppression fichier:", key, e);
+                    }
+                })
+            );
+
+            return status(200, {
+                message: "Opération comptable modifiée avec succès"
+            });
+
+        } catch (error) {
+            console.error(error);
+
+            await Promise.all(
+                uploadedKeys.map(async (key) => {
+                    try {
+                        await deleteFile(key);
+                    } catch (e) {
+                        console.error("Erreur suppression fichier:", key, e);
+                    }
+                })
+            );
+
+            return status(500, {
+                message: "Erreur lors de la modification de l'opération comptable",
+            });
+        }
+    },
+        {
+            auth: true,
+            body: request.outcomeBody,
+            params: request.params
+        })
+    .delete("/:id", async ({ params, permission, user, status }) => {
+        if (!canAccess(permission, "accounting", "update")) {
+            return status(403, { message: "Accès refusé" });
+        }
+
+        const id = params.id;
+        const accounting = await prisma.accounting.findUnique({
+            where: { id },
+        });
+
+        if (!accounting) return status(400, { message: "Aucune opération comptable trouvée." });
+
+        await prisma.$transaction([
+            prisma.deletion.create({
+                data: {
+                    recordId: accounting.id,
+                    type: "ACCOUNTING",
+                    state: "WAIT",
+                    user: {
+                        connect: { id: user.id }
+                    }
+                }
+            }),
+            prisma.accounting.update({
+                where: { id: accounting.id },
+                data: {
+                    isDeleting: true
+                }
+            })
+        ]);
+
+        return status(200, { message: `La suppression de l'opération comptable est en attente de validation.` });
+    }, { auth: true, params: request.params })
 

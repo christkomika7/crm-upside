@@ -48,8 +48,6 @@ export const ContractRelations = t.Object(
           name: t.String(),
           location: t.String(),
           constructionDate: t.Date(),
-          door: t.Integer(),
-          parkingPrice: t.Number(),
           security: t.Boolean(),
           camera: t.Boolean(),
           elevator: t.Boolean(),

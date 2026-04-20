@@ -4,9 +4,7 @@ import { prisma } from "../../lib/prisma";
 import { canAccess } from "../auth/permission";
 import { deleteFile, getSignedFileUrl, uploadFiles } from "../../lib/storage";
 import { buildingSchema } from "../../lib/zod/building";
-import { Decimal } from "decimal.js"
 import request from "./type";
-import { safeSignedUrls } from "../../lib/utils";
 import { Prisma } from "../../generated/prisma/client";
 
 export const buildingRoutes = new Elysia({ prefix: "/building" })
@@ -47,8 +45,6 @@ export const buildingRoutes = new Elysia({ prefix: "/building" })
 
         const total = await prisma.building.count({ where: searchCondition });
 
-
-
         const buildings = await prisma.building.findMany({
             include: { lotTypes: true, owner: true, units: true },
             orderBy,
@@ -56,43 +52,20 @@ export const buildingRoutes = new Elysia({ prefix: "/building" })
             take: pageSizeNum,
         });
 
-        let hasImageError = false
-
-        const buildingsWithSignedUrl = await Promise.all(
+        const data = await Promise.all(
             buildings.map(async (building) => {
-
-                const photos = await safeSignedUrls(building.photos);
-                const deeds = await safeSignedUrls(building.deeds);
-                const documents = await safeSignedUrls(building.documents);
-
-                if (documents.error) {
-                    hasImageError = true
-                }
-
                 return {
-                    ...building,
-                    owner: building.owner ? `${building.owner?.firstname} ${building.owner?.lastname}` : "-",
+                    id: building.id,
+                    owner: building.owner ? `${building.owner?.firstname} ${building.owner?.lastname}` : "",
                     unit: building.units.length,
-                    occupancy: "-",
-                    photos: photos.urls,
-                    deeds: deeds.urls,
-                    documents: documents.urls,
+                    occupancy: "",
+                    createdAt: building.createdAt
                 };
             })
         );
 
-        if (hasImageError) {
-            server?.publish(
-                "error",
-                JSON.stringify({
-                    type: "error",
-                    message: "Certaines images n'ont pas pu être chargées.",
-                })
-            );
-        }
-
         return {
-            data: buildingsWithSignedUrl,
+            data: data,
             total,
             page: pageNum,
             pageSize: pageSizeNum,
@@ -102,6 +75,25 @@ export const buildingRoutes = new Elysia({ prefix: "/building" })
     }, {
         auth: true,
         query: request.queryFilter
+    })
+    .get("/list", async ({ permission, status, server, query }) => {
+        if (!canAccess(permission, "tenants", "read")) {
+            return status(403, { message: "Accès refusé" });
+        }
+
+        const buildings = await prisma.building.findMany({
+            select: {
+                id: true,
+                reference: true
+            }
+        });
+
+        return buildings.map(building => ({
+            value: building.id,
+            label: building.reference
+        }))
+    }, {
+        auth: true,
     })
     .get("/without-owner", async ({ permission, status, server }) => {
 
@@ -238,12 +230,10 @@ export const buildingRoutes = new Elysia({ prefix: "/building" })
                     reference: data.reference,
                     location: data.location,
                     constructionDate: data.constructionDate,
-                    door: Number(data.door),
                     elevator: data.elevator,
                     parking: data.parking,
                     security: data.security,
                     camera: data.camera,
-                    parkingPrice: new Decimal(data.parkingPrice),
                     pool: data.pool,
                     generator: data.generator,
                     waterBorehole: data.waterBorehole,
@@ -356,12 +346,10 @@ export const buildingRoutes = new Elysia({ prefix: "/building" })
                     reference: data.reference,
                     location: data.location,
                     constructionDate: data.constructionDate,
-                    door: Number(data.door),
                     elevator: data.elevator,
                     parking: data.parking,
                     security: data.security,
                     camera: data.camera,
-                    parkingPrice: new Decimal(data.parkingPrice),
                     pool: data.pool,
                     generator: data.generator,
                     waterBorehole: data.waterBorehole,

@@ -3,8 +3,8 @@ import { z } from "zod";
 export const paymentSchema = z.object({
     markAsPaid: z.boolean(),
     date: z.date({ error: "La date est requise." }),
-    amount: z.string({ error: "La somme est requise." }),
-    paymentMode: z.string({ error: "Le mode de paiement est requis." }),
+    amount: z.string().min(1, { error: "La somme est requise." }),
+    paymentMode: z.string().min(1, { error: "Le mode de paiement est requis." }),
     note: z.string().optional(),
 });
 

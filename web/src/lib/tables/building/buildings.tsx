@@ -11,6 +11,10 @@ import { toast } from "sonner";
 import { queryClient } from "@/lib/query-client";
 import { Spinner } from "@/components/ui/spinner";
 import { Activity } from "react";
+import type { User } from "@/types/user";
+import { Route } from "@/routes/dashboard/buildings";
+import { canAccess } from "@/lib/permission";
+import EmptyColumn from "@/components/ui/empty-column";
 
 
 export const columns: ColumnDef<Building>[] = [
@@ -65,7 +69,7 @@ export const columns: ColumnDef<Building>[] = [
             )
         },
         cell: ({ row }) => (
-            <div className="capitalize">{row.getValue("owner")}</div>
+            <div className="capitalize">{row.getValue("owner") || <EmptyColumn />}</div>
         ),
     },
     {
@@ -84,24 +88,6 @@ export const columns: ColumnDef<Building>[] = [
         },
         cell: ({ row }) => (
             <div className="capitalize">{row.getValue("unit")}</div>
-        ),
-    },
-    {
-        accessorKey: "occupancy",
-        header: ({ column }) => {
-            return (
-                <Button
-                    variant="ghost"
-                    className="text-sm! font-medium cursor-pointer text-left pl-0!"
-                    onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-                >
-                    Occupancy rate
-                    <ArrowUpDownIcon className="size-3.5 text-neutral-500" />
-                </Button>
-            )
-        },
-        cell: ({ row }) => (
-            <div className="capitalize">{row.getValue("occupancy")}</div>
         ),
     },
     {
@@ -131,10 +117,33 @@ export const columns: ColumnDef<Building>[] = [
         }
     },
     {
+        accessorKey: "occupancy",
+        header: ({ column }) => {
+            return (
+                <Button
+                    variant="ghost"
+                    className="text-sm! font-medium cursor-pointer text-left pl-0!"
+                    onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+                >
+                    Occupancy rate
+                    <ArrowUpDownIcon className="size-3.5 text-neutral-500" />
+                </Button>
+            )
+        },
+        cell: ({ row }) => (
+            <div className="capitalize">{row.getValue("occupancy") || <EmptyColumn />}</div>
+        ),
+    },
+    {
         id: "id",
         header: "Action",
         enableHiding: false,
         cell: ({ row }) => {
+            const { session } = Route.useRouteContext();
+            const permission = (session.data?.user as unknown as User).permission?.permissions;
+
+            const hasReadAccess = canAccess(permission, "buildings", ['read']);
+            const hasUpdateAccess = canAccess(permission, "buildings", ['update']);
 
             const remove = useMutation({
                 mutationFn: ({ buildingId }: { buildingId: string }) =>
@@ -153,15 +162,19 @@ export const columns: ColumnDef<Building>[] = [
             return (
                 <div className="flex gap-x-2">
                     <Activity mode={row.original.isDeleting ? "hidden" : 'visible'}>
-                        <Link to='/dashboard/buildings/edit-building/$id' params={{ id: `edit_building-${row.original.id}` }} >
-                            <Button variant="secondary" className="size-7.5 rounded-lg"><Edit3Icon className="size-3.5" /></Button>
-                        </Link>
-                        <Link to='/dashboard/buildings/$id' params={{ id: `view_building-${row.original.id}` }} >
-                            <Button variant="secondary" className="size-7.5 rounded-lg"><EyeIcon className="size-3.5" /></Button>
-                        </Link>
-                        <Button onClick={() => remove.mutate({ buildingId: row.original.id })} variant="destructive" className="size-7.5 rounded-lg bg-red-400">
-                            {remove.isPending ? <Spinner className="text-white size-3.5" /> : <Trash2Icon className="size-3.5" />}
-                        </Button>
+                        <Activity mode={hasReadAccess ? "visible" : "hidden"}>
+                            <Link to='/dashboard/buildings/$id' params={{ id: `view_building-${row.original.id}` }} >
+                                <Button variant="secondary" className="size-7.5 rounded-lg"><EyeIcon className="size-3.5" /></Button>
+                            </Link>
+                        </Activity>
+                        <Activity mode={hasUpdateAccess ? "visible" : "hidden"} >
+                            <Link to='/dashboard/buildings/edit-building/$id' params={{ id: `edit_building-${row.original.id}` }} >
+                                <Button variant="secondary" className="size-7.5 rounded-lg"><Edit3Icon className="size-3.5" /></Button>
+                            </Link>
+                            <Button onClick={() => remove.mutate({ buildingId: row.original.id })} variant="destructive" className="size-7.5 rounded-lg bg-red-400">
+                                {remove.isPending ? <Spinner className="text-white size-3.5" /> : <Trash2Icon className="size-3.5" />}
+                            </Button>
+                        </Activity>
                     </Activity>
                 </div>
             )

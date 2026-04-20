@@ -35,6 +35,7 @@ export const TypeRelations = t.Object(
           tv: t.Boolean(),
           rent: t.Number(),
           charges: t.Number(),
+          extraCharges: t.Number(),
           amountGenerate: t.Number(),
           documents: t.Array(t.String(), { additionalProperties: false }),
           isDeleting: t.Boolean(),

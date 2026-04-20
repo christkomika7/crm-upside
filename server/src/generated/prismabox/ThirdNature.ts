@@ -55,6 +55,7 @@ export const ThirdNatureRelations = t.Object(
           thirdNatureId: __nullable__(t.String()),
           userId: t.String(),
           documents: t.Array(t.String(), { additionalProperties: false }),
+          isDeleting: t.Boolean(),
           createdAt: t.Date(),
           updatedAt: t.Date(),
         },

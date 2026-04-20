@@ -9,7 +9,8 @@
   "scripts": {
     "web:dev": "cd web && bun run dev",
     "web:build": "cd web && bun run build",
-    "server:dev": "cd server && bun run dev"
+    "server:dev": "cd server && bun run dev",
+    "server:build": "cd server && bun run build"
   },
   "peerDependencies": {
     "typescript": "^5"

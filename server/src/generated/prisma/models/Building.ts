@@ -20,20 +20,8 @@ export type BuildingModel = runtime.Types.Result.DefaultSelection<Prisma.$Buildi
 
 export type AggregateBuilding = {
   _count: BuildingCountAggregateOutputType | null
-  _avg: BuildingAvgAggregateOutputType | null
-  _sum: BuildingSumAggregateOutputType | null
   _min: BuildingMinAggregateOutputType | null
   _max: BuildingMaxAggregateOutputType | null
-}
-
-export type BuildingAvgAggregateOutputType = {
-  door: number | null
-  parkingPrice: runtime.Decimal | null
-}
-
-export type BuildingSumAggregateOutputType = {
-  door: number | null
-  parkingPrice: runtime.Decimal | null
 }
 
 export type BuildingMinAggregateOutputType = {
@@ -42,8 +30,6 @@ export type BuildingMinAggregateOutputType = {
   name: string | null
   location: string | null
   constructionDate: Date | null
-  door: number | null
-  parkingPrice: runtime.Decimal | null
   security: boolean | null
   camera: boolean | null
   elevator: boolean | null
@@ -66,8 +52,6 @@ export type BuildingMaxAggregateOutputType = {
   name: string | null
   location: string | null
   constructionDate: Date | null
-  door: number | null
-  parkingPrice: runtime.Decimal | null
   security: boolean | null
   camera: boolean | null
   elevator: boolean | null
@@ -90,8 +74,6 @@ export type BuildingCountAggregateOutputType = {
   name: number
   location: number
   constructionDate: number
-  door: number
-  parkingPrice: number
   security: number
   camera: number
   elevator: number
@@ -114,24 +96,12 @@ export type BuildingCountAggregateOutputType = {
 }
 
 
-export type BuildingAvgAggregateInputType = {
-  door?: true
-  parkingPrice?: true
-}
-
-export type BuildingSumAggregateInputType = {
-  door?: true
-  parkingPrice?: true
-}
-
 export type BuildingMinAggregateInputType = {
   id?: true
   reference?: true
   name?: true
   location?: true
   constructionDate?: true
-  door?: true
-  parkingPrice?: true
   security?: true
   camera?: true
   elevator?: true
@@ -154,8 +124,6 @@ export type BuildingMaxAggregateInputType = {
   name?: true
   location?: true
   constructionDate?: true
-  door?: true
-  parkingPrice?: true
   security?: true
   camera?: true
   elevator?: true
@@ -178,8 +146,6 @@ export type BuildingCountAggregateInputType = {
   name?: true
   location?: true
   constructionDate?: true
-  door?: true
-  parkingPrice?: true
   security?: true
   camera?: true
   elevator?: true
@@ -239,18 +205,6 @@ export type BuildingAggregateArgs<ExtArgs extends runtime.Types.Extensions.Inter
   /**
    * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
    * 
-   * Select which fields to average
-  **/
-  _avg?: BuildingAvgAggregateInputType
-  /**
-   * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-   * 
-   * Select which fields to sum
-  **/
-  _sum?: BuildingSumAggregateInputType
-  /**
-   * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-   * 
    * Select which fields to find the minimum value
   **/
   _min?: BuildingMinAggregateInputType
@@ -281,8 +235,6 @@ export type BuildingGroupByArgs<ExtArgs extends runtime.Types.Extensions.Interna
   take?: number
   skip?: number
   _count?: BuildingCountAggregateInputType | true
-  _avg?: BuildingAvgAggregateInputType
-  _sum?: BuildingSumAggregateInputType
   _min?: BuildingMinAggregateInputType
   _max?: BuildingMaxAggregateInputType
 }
@@ -293,8 +245,6 @@ export type BuildingGroupByOutputType = {
   name: string
   location: string
   constructionDate: Date
-  door: number
-  parkingPrice: runtime.Decimal
   security: boolean
   camera: boolean
   elevator: boolean
@@ -314,8 +264,6 @@ export type BuildingGroupByOutputType = {
   createdAt: Date
   updatedAt: Date
   _count: BuildingCountAggregateOutputType | null
-  _avg: BuildingAvgAggregateOutputType | null
-  _sum: BuildingSumAggregateOutputType | null
   _min: BuildingMinAggregateOutputType | null
   _max: BuildingMaxAggregateOutputType | null
 }
@@ -344,8 +292,6 @@ export type BuildingWhereInput = {
   name?: Prisma.StringFilter<"Building"> | string
   location?: Prisma.StringFilter<"Building"> | string
   constructionDate?: Prisma.DateTimeFilter<"Building"> | Date | string
-  door?: Prisma.IntFilter<"Building"> | number
-  parkingPrice?: Prisma.DecimalFilter<"Building"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   security?: Prisma.BoolFilter<"Building"> | boolean
   camera?: Prisma.BoolFilter<"Building"> | boolean
   elevator?: Prisma.BoolFilter<"Building"> | boolean
@@ -377,8 +323,6 @@ export type BuildingOrderByWithRelationInput = {
   name?: Prisma.SortOrder
   location?: Prisma.SortOrder
   constructionDate?: Prisma.SortOrder
-  door?: Prisma.SortOrder
-  parkingPrice?: Prisma.SortOrder
   security?: Prisma.SortOrder
   camera?: Prisma.SortOrder
   elevator?: Prisma.SortOrder
@@ -413,8 +357,6 @@ export type BuildingWhereUniqueInput = Prisma.AtLeast<{
   name?: Prisma.StringFilter<"Building"> | string
   location?: Prisma.StringFilter<"Building"> | string
   constructionDate?: Prisma.DateTimeFilter<"Building"> | Date | string
-  door?: Prisma.IntFilter<"Building"> | number
-  parkingPrice?: Prisma.DecimalFilter<"Building"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   security?: Prisma.BoolFilter<"Building"> | boolean
   camera?: Prisma.BoolFilter<"Building"> | boolean
   elevator?: Prisma.BoolFilter<"Building"> | boolean
@@ -446,8 +388,6 @@ export type BuildingOrderByWithAggregationInput = {
   name?: Prisma.SortOrder
   location?: Prisma.SortOrder
   constructionDate?: Prisma.SortOrder
-  door?: Prisma.SortOrder
-  parkingPrice?: Prisma.SortOrder
   security?: Prisma.SortOrder
   camera?: Prisma.SortOrder
   elevator?: Prisma.SortOrder
@@ -467,10 +407,8 @@ export type BuildingOrderByWithAggregationInput = {
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   _count?: Prisma.BuildingCountOrderByAggregateInput
-  _avg?: Prisma.BuildingAvgOrderByAggregateInput
   _max?: Prisma.BuildingMaxOrderByAggregateInput
   _min?: Prisma.BuildingMinOrderByAggregateInput
-  _sum?: Prisma.BuildingSumOrderByAggregateInput
 }
 
 export type BuildingScalarWhereWithAggregatesInput = {
@@ -482,8 +420,6 @@ export type BuildingScalarWhereWithAggregatesInput = {
   name?: Prisma.StringWithAggregatesFilter<"Building"> | string
   location?: Prisma.StringWithAggregatesFilter<"Building"> | string
   constructionDate?: Prisma.DateTimeWithAggregatesFilter<"Building"> | Date | string
-  door?: Prisma.IntWithAggregatesFilter<"Building"> | number
-  parkingPrice?: Prisma.DecimalWithAggregatesFilter<"Building"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   security?: Prisma.BoolWithAggregatesFilter<"Building"> | boolean
   camera?: Prisma.BoolWithAggregatesFilter<"Building"> | boolean
   elevator?: Prisma.BoolWithAggregatesFilter<"Building"> | boolean
@@ -510,8 +446,6 @@ export type BuildingCreateInput = {
   name: string
   location: string
   constructionDate: Date | string
-  door: number
-  parkingPrice?: runtime.Decimal | runtime.DecimalJsLike | number | string
   security?: boolean
   camera?: boolean
   elevator?: boolean
@@ -542,8 +476,6 @@ export type BuildingUncheckedCreateInput = {
   name: string
   location: string
   constructionDate: Date | string
-  door: number
-  parkingPrice?: runtime.Decimal | runtime.DecimalJsLike | number | string
   security?: boolean
   camera?: boolean
   elevator?: boolean
@@ -574,8 +506,6 @@ export type BuildingUpdateInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   location?: Prisma.StringFieldUpdateOperationsInput | string
   constructionDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  door?: Prisma.IntFieldUpdateOperationsInput | number
-  parkingPrice?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   security?: Prisma.BoolFieldUpdateOperationsInput | boolean
   camera?: Prisma.BoolFieldUpdateOperationsInput | boolean
   elevator?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -606,8 +536,6 @@ export type BuildingUncheckedUpdateInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   location?: Prisma.StringFieldUpdateOperationsInput | string
   constructionDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  door?: Prisma.IntFieldUpdateOperationsInput | number
-  parkingPrice?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   security?: Prisma.BoolFieldUpdateOperationsInput | boolean
   camera?: Prisma.BoolFieldUpdateOperationsInput | boolean
   elevator?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -638,8 +566,6 @@ export type BuildingCreateManyInput = {
   name: string
   location: string
   constructionDate: Date | string
-  door: number
-  parkingPrice?: runtime.Decimal | runtime.DecimalJsLike | number | string
   security?: boolean
   camera?: boolean
   elevator?: boolean
@@ -666,8 +592,6 @@ export type BuildingUpdateManyMutationInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   location?: Prisma.StringFieldUpdateOperationsInput | string
   constructionDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  door?: Prisma.IntFieldUpdateOperationsInput | number
-  parkingPrice?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   security?: Prisma.BoolFieldUpdateOperationsInput | boolean
   camera?: Prisma.BoolFieldUpdateOperationsInput | boolean
   elevator?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -693,8 +617,6 @@ export type BuildingUncheckedUpdateManyInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   location?: Prisma.StringFieldUpdateOperationsInput | string
   constructionDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  door?: Prisma.IntFieldUpdateOperationsInput | number
-  parkingPrice?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   security?: Prisma.BoolFieldUpdateOperationsInput | boolean
   camera?: Prisma.BoolFieldUpdateOperationsInput | boolean
   elevator?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -729,8 +651,6 @@ export type BuildingCountOrderByAggregateInput = {
   name?: Prisma.SortOrder
   location?: Prisma.SortOrder
   constructionDate?: Prisma.SortOrder
-  door?: Prisma.SortOrder
-  parkingPrice?: Prisma.SortOrder
   security?: Prisma.SortOrder
   camera?: Prisma.SortOrder
   elevator?: Prisma.SortOrder
@@ -751,19 +671,12 @@ export type BuildingCountOrderByAggregateInput = {
   updatedAt?: Prisma.SortOrder
 }
 
-export type BuildingAvgOrderByAggregateInput = {
-  door?: Prisma.SortOrder
-  parkingPrice?: Prisma.SortOrder
-}
-
 export type BuildingMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
   reference?: Prisma.SortOrder
   name?: Prisma.SortOrder
   location?: Prisma.SortOrder
   constructionDate?: Prisma.SortOrder
-  door?: Prisma.SortOrder
-  parkingPrice?: Prisma.SortOrder
   security?: Prisma.SortOrder
   camera?: Prisma.SortOrder
   elevator?: Prisma.SortOrder
@@ -786,8 +699,6 @@ export type BuildingMinOrderByAggregateInput = {
   name?: Prisma.SortOrder
   location?: Prisma.SortOrder
   constructionDate?: Prisma.SortOrder
-  door?: Prisma.SortOrder
-  parkingPrice?: Prisma.SortOrder
   security?: Prisma.SortOrder
   camera?: Prisma.SortOrder
   elevator?: Prisma.SortOrder
@@ -802,11 +713,6 @@ export type BuildingMinOrderByAggregateInput = {
   ownerId?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
-}
-
-export type BuildingSumOrderByAggregateInput = {
-  door?: Prisma.SortOrder
-  parkingPrice?: Prisma.SortOrder
 }
 
 export type BuildingScalarRelationFilter = {
@@ -843,22 +749,6 @@ export type BuildingCreatedeedsInput = {
 
 export type BuildingCreatedocumentsInput = {
   set: string[]
-}
-
-export type IntFieldUpdateOperationsInput = {
-  set?: number
-  increment?: number
-  decrement?: number
-  multiply?: number
-  divide?: number
-}
-
-export type DecimalFieldUpdateOperationsInput = {
-  set?: runtime.Decimal | runtime.DecimalJsLike | number | string
-  increment?: runtime.Decimal | runtime.DecimalJsLike | number | string
-  decrement?: runtime.Decimal | runtime.DecimalJsLike | number | string
-  multiply?: runtime.Decimal | runtime.DecimalJsLike | number | string
-  divide?: runtime.Decimal | runtime.DecimalJsLike | number | string
 }
 
 export type BuildingUpdatestatusInput = {
@@ -1011,8 +901,6 @@ export type BuildingCreateWithoutUnitsInput = {
   name: string
   location: string
   constructionDate: Date | string
-  door: number
-  parkingPrice?: runtime.Decimal | runtime.DecimalJsLike | number | string
   security?: boolean
   camera?: boolean
   elevator?: boolean
@@ -1042,8 +930,6 @@ export type BuildingUncheckedCreateWithoutUnitsInput = {
   name: string
   location: string
   constructionDate: Date | string
-  door: number
-  parkingPrice?: runtime.Decimal | runtime.DecimalJsLike | number | string
   security?: boolean
   camera?: boolean
   elevator?: boolean
@@ -1089,8 +975,6 @@ export type BuildingUpdateWithoutUnitsInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   location?: Prisma.StringFieldUpdateOperationsInput | string
   constructionDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  door?: Prisma.IntFieldUpdateOperationsInput | number
-  parkingPrice?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   security?: Prisma.BoolFieldUpdateOperationsInput | boolean
   camera?: Prisma.BoolFieldUpdateOperationsInput | boolean
   elevator?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -1120,8 +1004,6 @@ export type BuildingUncheckedUpdateWithoutUnitsInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   location?: Prisma.StringFieldUpdateOperationsInput | string
   constructionDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  door?: Prisma.IntFieldUpdateOperationsInput | number
-  parkingPrice?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   security?: Prisma.BoolFieldUpdateOperationsInput | boolean
   camera?: Prisma.BoolFieldUpdateOperationsInput | boolean
   elevator?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -1151,8 +1033,6 @@ export type BuildingCreateWithoutLotTypesInput = {
   name: string
   location: string
   constructionDate: Date | string
-  door: number
-  parkingPrice?: runtime.Decimal | runtime.DecimalJsLike | number | string
   security?: boolean
   camera?: boolean
   elevator?: boolean
@@ -1182,8 +1062,6 @@ export type BuildingUncheckedCreateWithoutLotTypesInput = {
   name: string
   location: string
   constructionDate: Date | string
-  door: number
-  parkingPrice?: runtime.Decimal | runtime.DecimalJsLike | number | string
   security?: boolean
   camera?: boolean
   elevator?: boolean
@@ -1237,8 +1115,6 @@ export type BuildingScalarWhereInput = {
   name?: Prisma.StringFilter<"Building"> | string
   location?: Prisma.StringFilter<"Building"> | string
   constructionDate?: Prisma.DateTimeFilter<"Building"> | Date | string
-  door?: Prisma.IntFilter<"Building"> | number
-  parkingPrice?: Prisma.DecimalFilter<"Building"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   security?: Prisma.BoolFilter<"Building"> | boolean
   camera?: Prisma.BoolFilter<"Building"> | boolean
   elevator?: Prisma.BoolFilter<"Building"> | boolean
@@ -1265,8 +1141,6 @@ export type BuildingCreateWithoutOwnerInput = {
   name: string
   location: string
   constructionDate: Date | string
-  door: number
-  parkingPrice?: runtime.Decimal | runtime.DecimalJsLike | number | string
   security?: boolean
   camera?: boolean
   elevator?: boolean
@@ -1296,8 +1170,6 @@ export type BuildingUncheckedCreateWithoutOwnerInput = {
   name: string
   location: string
   constructionDate: Date | string
-  door: number
-  parkingPrice?: runtime.Decimal | runtime.DecimalJsLike | number | string
   security?: boolean
   camera?: boolean
   elevator?: boolean
@@ -1353,8 +1225,6 @@ export type BuildingCreateWithoutPropertyManagementsInput = {
   name: string
   location: string
   constructionDate: Date | string
-  door: number
-  parkingPrice?: runtime.Decimal | runtime.DecimalJsLike | number | string
   security?: boolean
   camera?: boolean
   elevator?: boolean
@@ -1384,8 +1254,6 @@ export type BuildingUncheckedCreateWithoutPropertyManagementsInput = {
   name: string
   location: string
   constructionDate: Date | string
-  door: number
-  parkingPrice?: runtime.Decimal | runtime.DecimalJsLike | number | string
   security?: boolean
   camera?: boolean
   elevator?: boolean
@@ -1431,8 +1299,6 @@ export type BuildingUpdateWithoutPropertyManagementsInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   location?: Prisma.StringFieldUpdateOperationsInput | string
   constructionDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  door?: Prisma.IntFieldUpdateOperationsInput | number
-  parkingPrice?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   security?: Prisma.BoolFieldUpdateOperationsInput | boolean
   camera?: Prisma.BoolFieldUpdateOperationsInput | boolean
   elevator?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -1462,8 +1328,6 @@ export type BuildingUncheckedUpdateWithoutPropertyManagementsInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   location?: Prisma.StringFieldUpdateOperationsInput | string
   constructionDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  door?: Prisma.IntFieldUpdateOperationsInput | number
-  parkingPrice?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   security?: Prisma.BoolFieldUpdateOperationsInput | boolean
   camera?: Prisma.BoolFieldUpdateOperationsInput | boolean
   elevator?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -1493,8 +1357,6 @@ export type BuildingCreateWithoutContractsInput = {
   name: string
   location: string
   constructionDate: Date | string
-  door: number
-  parkingPrice?: runtime.Decimal | runtime.DecimalJsLike | number | string
   security?: boolean
   camera?: boolean
   elevator?: boolean
@@ -1524,8 +1386,6 @@ export type BuildingUncheckedCreateWithoutContractsInput = {
   name: string
   location: string
   constructionDate: Date | string
-  door: number
-  parkingPrice?: runtime.Decimal | runtime.DecimalJsLike | number | string
   security?: boolean
   camera?: boolean
   elevator?: boolean
@@ -1571,8 +1431,6 @@ export type BuildingUpdateWithoutContractsInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   location?: Prisma.StringFieldUpdateOperationsInput | string
   constructionDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  door?: Prisma.IntFieldUpdateOperationsInput | number
-  parkingPrice?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   security?: Prisma.BoolFieldUpdateOperationsInput | boolean
   camera?: Prisma.BoolFieldUpdateOperationsInput | boolean
   elevator?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -1602,8 +1460,6 @@ export type BuildingUncheckedUpdateWithoutContractsInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   location?: Prisma.StringFieldUpdateOperationsInput | string
   constructionDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  door?: Prisma.IntFieldUpdateOperationsInput | number
-  parkingPrice?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   security?: Prisma.BoolFieldUpdateOperationsInput | boolean
   camera?: Prisma.BoolFieldUpdateOperationsInput | boolean
   elevator?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -1633,8 +1489,6 @@ export type BuildingUpdateWithoutLotTypesInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   location?: Prisma.StringFieldUpdateOperationsInput | string
   constructionDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  door?: Prisma.IntFieldUpdateOperationsInput | number
-  parkingPrice?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   security?: Prisma.BoolFieldUpdateOperationsInput | boolean
   camera?: Prisma.BoolFieldUpdateOperationsInput | boolean
   elevator?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -1664,8 +1518,6 @@ export type BuildingUncheckedUpdateWithoutLotTypesInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   location?: Prisma.StringFieldUpdateOperationsInput | string
   constructionDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  door?: Prisma.IntFieldUpdateOperationsInput | number
-  parkingPrice?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   security?: Prisma.BoolFieldUpdateOperationsInput | boolean
   camera?: Prisma.BoolFieldUpdateOperationsInput | boolean
   elevator?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -1695,8 +1547,6 @@ export type BuildingUncheckedUpdateManyWithoutLotTypesInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   location?: Prisma.StringFieldUpdateOperationsInput | string
   constructionDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  door?: Prisma.IntFieldUpdateOperationsInput | number
-  parkingPrice?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   security?: Prisma.BoolFieldUpdateOperationsInput | boolean
   camera?: Prisma.BoolFieldUpdateOperationsInput | boolean
   elevator?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -1723,8 +1573,6 @@ export type BuildingCreateManyOwnerInput = {
   name: string
   location: string
   constructionDate: Date | string
-  door: number
-  parkingPrice?: runtime.Decimal | runtime.DecimalJsLike | number | string
   security?: boolean
   camera?: boolean
   elevator?: boolean
@@ -1750,8 +1598,6 @@ export type BuildingUpdateWithoutOwnerInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   location?: Prisma.StringFieldUpdateOperationsInput | string
   constructionDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  door?: Prisma.IntFieldUpdateOperationsInput | number
-  parkingPrice?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   security?: Prisma.BoolFieldUpdateOperationsInput | boolean
   camera?: Prisma.BoolFieldUpdateOperationsInput | boolean
   elevator?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -1781,8 +1627,6 @@ export type BuildingUncheckedUpdateWithoutOwnerInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   location?: Prisma.StringFieldUpdateOperationsInput | string
   constructionDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  door?: Prisma.IntFieldUpdateOperationsInput | number
-  parkingPrice?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   security?: Prisma.BoolFieldUpdateOperationsInput | boolean
   camera?: Prisma.BoolFieldUpdateOperationsInput | boolean
   elevator?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -1812,8 +1656,6 @@ export type BuildingUncheckedUpdateManyWithoutOwnerInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   location?: Prisma.StringFieldUpdateOperationsInput | string
   constructionDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  door?: Prisma.IntFieldUpdateOperationsInput | number
-  parkingPrice?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   security?: Prisma.BoolFieldUpdateOperationsInput | boolean
   camera?: Prisma.BoolFieldUpdateOperationsInput | boolean
   elevator?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -1897,8 +1739,6 @@ export type BuildingSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs
   name?: boolean
   location?: boolean
   constructionDate?: boolean
-  door?: boolean
-  parkingPrice?: boolean
   security?: boolean
   camera?: boolean
   elevator?: boolean
@@ -1931,8 +1771,6 @@ export type BuildingSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Exte
   name?: boolean
   location?: boolean
   constructionDate?: boolean
-  door?: boolean
-  parkingPrice?: boolean
   security?: boolean
   camera?: boolean
   elevator?: boolean
@@ -1960,8 +1798,6 @@ export type BuildingSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Exte
   name?: boolean
   location?: boolean
   constructionDate?: boolean
-  door?: boolean
-  parkingPrice?: boolean
   security?: boolean
   camera?: boolean
   elevator?: boolean
@@ -1989,8 +1825,6 @@ export type BuildingSelectScalar = {
   name?: boolean
   location?: boolean
   constructionDate?: boolean
-  door?: boolean
-  parkingPrice?: boolean
   security?: boolean
   camera?: boolean
   elevator?: boolean
@@ -2011,7 +1845,7 @@ export type BuildingSelectScalar = {
   updatedAt?: boolean
 }
 
-export type BuildingOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "reference" | "name" | "location" | "constructionDate" | "door" | "parkingPrice" | "security" | "camera" | "elevator" | "parking" | "pool" | "generator" | "waterBorehole" | "gym" | "garden" | "status" | "map" | "photos" | "deeds" | "documents" | "isDeleting" | "ownerId" | "createdAt" | "updatedAt", ExtArgs["result"]["building"]>
+export type BuildingOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "reference" | "name" | "location" | "constructionDate" | "security" | "camera" | "elevator" | "parking" | "pool" | "generator" | "waterBorehole" | "gym" | "garden" | "status" | "map" | "photos" | "deeds" | "documents" | "isDeleting" | "ownerId" | "createdAt" | "updatedAt", ExtArgs["result"]["building"]>
 export type BuildingInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   lotTypes?: boolean | Prisma.Building$lotTypesArgs<ExtArgs>
   units?: boolean | Prisma.Building$unitsArgs<ExtArgs>
@@ -2042,8 +1876,6 @@ export type $BuildingPayload<ExtArgs extends runtime.Types.Extensions.InternalAr
     name: string
     location: string
     constructionDate: Date
-    door: number
-    parkingPrice: runtime.Decimal
     security: boolean
     camera: boolean
     elevator: boolean
@@ -2495,8 +2327,6 @@ export interface BuildingFieldRefs {
   readonly name: Prisma.FieldRef<"Building", 'String'>
   readonly location: Prisma.FieldRef<"Building", 'String'>
   readonly constructionDate: Prisma.FieldRef<"Building", 'DateTime'>
-  readonly door: Prisma.FieldRef<"Building", 'Int'>
-  readonly parkingPrice: Prisma.FieldRef<"Building", 'Decimal'>
   readonly security: Prisma.FieldRef<"Building", 'Boolean'>
   readonly camera: Prisma.FieldRef<"Building", 'Boolean'>
   readonly elevator: Prisma.FieldRef<"Building", 'Boolean'>

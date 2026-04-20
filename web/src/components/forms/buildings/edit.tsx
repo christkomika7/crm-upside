@@ -29,6 +29,7 @@ import { toast } from "sonner";
 import { queryClient } from "@/lib/query-client";
 import { urlToFile } from "@/lib/upload";
 import RequiredLabel from "@/components/ui/required-label";
+import { DEFAULT_VALUES } from "./lib/utils";
 
 type EditBuildingProps = {
     id: string
@@ -82,29 +83,7 @@ export default function EditBuilding({ id }: EditBuildingProps) {
 
     const form = useForm<BuildingSchemaType>({
         resolver: zodResolver(buildingSchema),
-        defaultValues: {
-            name: "",
-            reference: "",
-            location: "",
-            constructionDate: new Date(),
-            door: "",
-            parkingPrice: "",
-            lotType: [],
-            security: false,
-            camera: false,
-            elevator: false,
-            parking: false,
-            pool: false,
-            generator: false,
-            waterBorehole: false,
-            gym: false,
-            garden: false,
-            map: "",
-            status: [],
-            photos: [],
-            deeds: [],
-            documents: [],
-        }
+        defaultValues: DEFAULT_VALUES
     });
 
     useEffect(() => {
@@ -114,8 +93,6 @@ export default function EditBuilding({ id }: EditBuildingProps) {
                 reference: building.reference,
                 location: building.location,
                 constructionDate: new Date(building.constructionDate),
-                door: String(building.door),
-                parkingPrice: String(building.parkingPrice),
                 lotType: building.lotTypes.map(lotType => lotType.id),
                 security: building.security,
                 camera: building.camera,
@@ -149,12 +126,10 @@ export default function EditBuilding({ id }: EditBuildingProps) {
             form.append("location", data.location);
             form.append("constructionDate", data.constructionDate.toISOString());
             form.append("lotType", JSON.stringify(data.lotType));
-            form.append("door", data.door.toString());
             form.append("security", data.security.toString());
             form.append("camera", data.camera.toString());
             form.append("elevator", data.elevator.toString());
             form.append("parking", data.parking.toString());
-            form.append("parkingPrice", data.parkingPrice?.toString() || "0");
             form.append("pool", data.pool.toString());
             form.append("generator", data.generator.toString());
             form.append("waterBorehole", data.waterBorehole.toString());
@@ -300,25 +275,6 @@ export default function EditBuilding({ id }: EditBuildingProps) {
                         />
                         <FormField
                             control={form.control}
-                            name="door"
-                            render={({ field }) => (
-                                <FormItem >
-                                    <FormLabel className="text-neutral-600">Nombre de porte<RequiredLabel /></FormLabel>
-                                    <FormControl>
-                                        <Input
-                                            type="number"
-                                            placeholder="Entrer le nombre de porte"
-                                            value={field.value}
-                                            aria-invalid={!!form.formState.errors.door}
-                                            onChange={field.onChange}
-                                        />
-                                    </FormControl>
-                                    <FormMessage />
-                                </FormItem>
-                            )}
-                        />
-                        <FormField
-                            control={form.control}
                             name="security"
                             render={({ field }) => (
                                 <FormItem >
@@ -396,25 +352,6 @@ export default function EditBuilding({ id }: EditBuildingProps) {
                                                 <SelectItem value="no">Non</SelectItem>
                                             </SelectContent>
                                         </Select>
-                                    </FormControl>
-                                    <FormMessage />
-                                </FormItem>
-                            )}
-                        />
-                        <FormField
-                            control={form.control}
-                            name="parkingPrice"
-                            render={({ field }) => (
-                                <FormItem >
-                                    <FormLabel className="text-neutral-600">Prix de l'espace parking<RequiredLabel /></FormLabel>
-                                    <FormControl>
-                                        <Input
-                                            type="number"
-                                            placeholder="Entrer le prix de l'espace parking"
-                                            value={field.value}
-                                            aria-invalid={!!form.formState.errors.parkingPrice}
-                                            onChange={field.onChange}
-                                        />
                                     </FormControl>
                                     <FormMessage />
                                 </FormItem>
