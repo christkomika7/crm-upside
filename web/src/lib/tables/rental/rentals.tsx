@@ -9,6 +9,7 @@ import { crudService } from "@/lib/api";
 import { toast } from "sonner";
 import { queryClient } from "@/lib/query-client";
 import { Spinner } from "@/components/ui/spinner";
+import { formatNumber } from "@/lib/utils";
 
 
 
@@ -134,13 +135,13 @@ export const columns: ColumnDef<Rental>[] = [
                     className="text-sm! font-medium cursor-pointer text-left pl-0!"
                     onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
                 >
-                    Location
+                    Loyer
                     <ArrowUpDownIcon className="size-3.5 text-neutral-500" />
                 </Button>
             )
         },
         cell: ({ row }) => (
-            <div className="capitalize text-blue-600">{row.getValue("rentPrice")}</div>
+            <div className="capitalize text-blue-600">{formatNumber(row.getValue("rentPrice"))} FCFA</div>
         ),
     },
     {
@@ -158,7 +159,25 @@ export const columns: ColumnDef<Rental>[] = [
             )
         },
         cell: ({ row }) => (
-            <div className="capitalize text-amber-400">{row.getValue("charges")}</div>
+            <div className="capitalize text-amber-400">{formatNumber(row.getValue("charges"))} FCFA</div>
+        ),
+    },
+    {
+        accessorKey: "extraCharges",
+        header: ({ column }) => {
+            return (
+                <Button
+                    variant="ghost"
+                    className="text-sm! font-medium cursor-pointer text-left pl-0!"
+                    onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+                >
+                    Charges ponctuelles
+                    <ArrowUpDownIcon className="size-3.5 text-neutral-500" />
+                </Button>
+            )
+        },
+        cell: ({ row }) => (
+            <div className="capitalize text-indigo-400">{formatNumber(row.getValue("extraCharges"))} FCFA</div>
         ),
     },
     {
@@ -176,7 +195,7 @@ export const columns: ColumnDef<Rental>[] = [
             )
         },
         cell: ({ row }) => (
-            <div className="capitalize text-emerald-600">{row.getValue("deposit")}</div>
+            <div className="capitalize text-emerald-600">{formatNumber(row.getValue("deposit"))} FCFA</div>
         ),
     },
     {

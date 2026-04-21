@@ -7,10 +7,8 @@ import { DatePicker } from "@/components/ui/date-picker";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { apiFetch, crudService } from "@/lib/api";
 import type { Unit } from "@/types/unit";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { toast } from "sonner";
 import { queryClient } from "@/lib/query-client";
-import type { Building } from "@/types/building";
 import { useState } from "react";
 import { propertyManagementSchema, type PropertyManagementSchemaType } from "@/lib/zod/property-management";
 import { Checkbox } from "@/components/ui/checkbox";
@@ -22,12 +20,21 @@ import Modal from "@/components/modal/modal";
 import PersonalServiceModal from "@/components/modal/personal-service";
 import { Textarea } from "@/components/ui/textarea";
 import { Switch } from "@/components/ui/switch";
+import type { LabelType } from "@/types/utils";
+import { SelectField } from "@/components/ui/select-field";
+import { DEFAULT_VALUES } from "./lib/utils";
+import RequiredLabel from "@/components/ui/required-label";
 
 
 export default function CreatePropertyManagement() {
-    const [open, setOpen] = useState<boolean>(false);
-    const [buildindId, setBuildingId] = useState<string>("");
+    const form = useForm<PropertyManagementSchemaType>({
+        resolver: zodResolver(propertyManagementSchema),
+        defaultValues: DEFAULT_VALUES
+    });
 
+    const [open, setOpen] = useState<boolean>(false);
+
+    const building = form.watch("building");
 
     const { isPending, data: personalServiceOptions } = useQuery({
         queryKey: ["personal-services"],
@@ -40,26 +47,21 @@ export default function CreatePropertyManagement() {
 
     const { isPending: isGettingBuildings, data: buildings } = useQuery({
         queryKey: ["buildings"],
-        queryFn: () => apiFetch<Building[]>("/building/"),
+        queryFn: () => apiFetch<LabelType[]>("/building/list"),
         select: (data) => data.map((building) => ({
-            value: building.id,
-            label: building.name,
+            value: building.value,
+            label: building.label,
         })),
     });
 
     const { isPending: isGettingUnits, data: units = [] } = useQuery({
-        queryKey: ["units", buildindId],
-        queryFn: () => {
-            if (!buildindId || buildindId.trim() === "") {
-                return Promise.resolve([]);
-            }
-            return apiFetch<Unit[]>(`/unit/by?id=${buildindId}`);
-        },
-        enabled: typeof buildindId === "string" && buildindId.trim() !== "",
+        queryKey: ["units", building],
+        queryFn: () => apiFetch<Unit[]>(`/unit/building?id=${building}`),
+        enabled: !!building,
         select: (data) =>
             data.map((unit) => ({
                 value: unit.id,
-                label: unit.type.name,
+                label: unit.reference,
             })),
     });
 
@@ -69,17 +71,7 @@ export default function CreatePropertyManagement() {
         onSuccess() {
             toast.success("Gestion de propriété créé avec succès");
             queryClient.invalidateQueries({ queryKey: ["property-managements"] });
-            form.reset({
-                building: "",
-                unit: "",
-                administrativeManagement: false,
-                technicalManagement: false,
-                services: [],
-                start: undefined,
-                end: undefined,
-                active: false,
-                observation: "",
-            });
+            form.reset(DEFAULT_VALUES);
         },
         onError: (error: Error) => {
             console.error("Erreur:", error.message);
@@ -87,20 +79,6 @@ export default function CreatePropertyManagement() {
         },
     });
 
-    const form = useForm<PropertyManagementSchemaType>({
-        resolver: zodResolver(propertyManagementSchema),
-        defaultValues: {
-            building: "",
-            unit: "",
-            administrativeManagement: false,
-            technicalManagement: false,
-            services: [],
-            start: undefined,
-            end: undefined,
-            active: false,
-            observation: ""
-        }
-    });
 
     async function submit(formData: PropertyManagementSchemaType) {
         const { success, data } = propertyManagementSchema.safeParse(formData);
@@ -111,7 +89,7 @@ export default function CreatePropertyManagement() {
 
     return (
         <div className="bg-white rounded-md space-y-4 p-4">
-            <h2 className="font-medium">Informations de la reservation</h2>
+            <h2 className="font-medium">Informations de la gestion</h2>
             <Form {...form}>
                 <form
                     onSubmit={form.handleSubmit(submit)}
@@ -121,75 +99,49 @@ export default function CreatePropertyManagement() {
                         <FormField
                             control={form.control}
                             name="building"
-                            render={({ field }) => (
-                                <FormItem >
-                                    <FormLabel className="text-neutral-600">Bâtiment</FormLabel>
-                                    <FormControl>
-                                        <Select
-                                            onValueChange={(e) => {
-                                                field.onChange(e);
-                                                setBuildingId(e);
-                                            }}
-                                            value={field.value} >
-                                            <SelectTrigger className="w-full" aria-invalid={!!form.formState.errors.building}>
-                                                <SelectValue placeholder="" />
-                                            </SelectTrigger>
-                                            <SelectContent position="popper" align="end">
-                                                {isGettingBuildings ? (
-                                                    <div className="flex justify-center items-center">
-                                                        <Spinner />
-                                                    </div>
-                                                ) : buildings && buildings.length > 0 ? (
-                                                    buildings.map((building) => (
-                                                        <SelectItem key={building.value} value={building.value}>
-                                                            {building.label}
-                                                        </SelectItem>
-                                                    ))
-                                                ) : (
-                                                    <SelectItem value="none" disabled>
-                                                        Aucun bâtiment disponible
-                                                    </SelectItem>
-                                                )}
-                                            </SelectContent>
-                                        </Select>
-                                    </FormControl>
-                                    <FormMessage />
-                                </FormItem>
+                            render={({ field, formState }) => (
+                                <SelectField
+                                    label="Bâtiment"
+                                    required
+                                    placeholder="Sélectionner un bâtiment"
+                                    value={field.value}
+                                    onChange={field.onChange}
+                                    options={buildings}
+                                    isLoading={isGettingBuildings}
+                                    hasError={!!formState.errors.building}
+                                    emptyMessage=" Aucun bâtiment disponible"
+                                />
                             )}
                         />
                         <FormField
                             control={form.control}
-                            name="unit"
+                            name="units"
                             render={({ field }) => (
                                 <FormItem>
-                                    <FormLabel className="text-neutral-600">Unité</FormLabel>
+                                    <FormLabel className="text-neutral-600">Unité<RequiredLabel /></FormLabel>
                                     <FormControl>
-                                        <Select
-                                            onValueChange={field.onChange}
-                                            value={field.value}
-                                            disabled={!buildindId}
-                                        >
-                                            <SelectTrigger className="w-full" aria-invalid={!!form.formState.errors.unit}>
-                                                <SelectValue placeholder="" />
-                                            </SelectTrigger>
-                                            <SelectContent position="popper" align="end">
-                                                {isGettingUnits ? (
-                                                    <div className="flex justify-center items-center">
-                                                        <Spinner />
-                                                    </div>
-                                                ) : units && units.length > 0 ? (
-                                                    units.map((unit) => (
-                                                        <SelectItem key={unit.value} value={unit.value}>
-                                                            {unit.label}
-                                                        </SelectItem>
-                                                    ))
-                                                ) : (
-                                                    <SelectItem value="none" disabled>
-                                                        Aucune unité disponible
-                                                    </SelectItem>
-                                                )}
-                                            </SelectContent>
-                                        </Select>
+                                        <MultipleSelector
+                                            commandProps={{
+                                                label: 'Unité'
+                                            }}
+                                            value={
+                                                field.value?.map((item: string) => ({
+                                                    value: item,
+                                                    label: item,
+                                                })) ?? []
+                                            }
+                                            disabled={!building}
+                                            isGettingData={isGettingUnits}
+                                            onChange={(options) => {
+                                                field.onChange(options.map((opt) => opt.value))
+                                            }}
+                                            defaultOptions={units ?? []}
+                                            placeholder='Selectionnez des unités'
+                                            hideClearAllButton={false}
+                                            hidePlaceholderWhenSelected
+                                            emptyIndicator={<p className='text-center text-sm'>Aucune unité disponible</p>}
+                                            className='w-full'
+                                        />
                                     </FormControl>
                                     <FormMessage />
                                 </FormItem>
@@ -206,7 +158,7 @@ export default function CreatePropertyManagement() {
                                             "bg-emerald-50 border-emerald-background ring-emerald-background/50 ring-[3px]": field.value,
                                             "border-destructive ring-[3px] ring-destructive/20": form.formState.errors.administrativeManagement
                                         })}>
-                                            <FormLabel className="text-neutral-600! w-full h-full ">Gestion administrative</FormLabel>
+                                            <FormLabel className="text-neutral-600! w-full h-full ">G. administrative</FormLabel>
                                             <FormControl>
                                                 <Checkbox checked={field.value} onCheckedChange={field.onChange} className="border-border!" />
                                             </FormControl>
@@ -222,7 +174,7 @@ export default function CreatePropertyManagement() {
                                             "border-destructive ring-[3px] ring-destructive/20": form.formState.errors.administrativeManagement
 
                                         })}>
-                                            <FormLabel className="text-neutral-600">Gestion technique</FormLabel>
+                                            <FormLabel className="text-neutral-600">G. technique</FormLabel>
                                             <FormControl>
                                                 <Checkbox checked={field.value} onCheckedChange={field.onChange} />
                                             </FormControl>
@@ -279,7 +231,7 @@ export default function CreatePropertyManagement() {
                             name="start"
                             render={({ field }) => (
                                 <FormItem >
-                                    <FormLabel className="text-neutral-600">Début du mandat</FormLabel>
+                                    <FormLabel className="text-neutral-600">Début du mandat<RequiredLabel /></FormLabel>
                                     <FormControl>
                                         <DatePicker date={field.value} setDate={field.onChange} error={!!form.formState.errors.start} hasIcon={true} />
                                     </FormControl>
@@ -292,7 +244,7 @@ export default function CreatePropertyManagement() {
                             name="end"
                             render={({ field }) => (
                                 <FormItem >
-                                    <FormLabel className="text-neutral-600">Fin du mandat</FormLabel>
+                                    <FormLabel className="text-neutral-600">Fin du mandat<RequiredLabel /></FormLabel>
                                     <FormControl>
                                         <DatePicker date={field.value} setDate={field.onChange} error={!!form.formState.errors.end} hasIcon={true} />
                                     </FormControl>

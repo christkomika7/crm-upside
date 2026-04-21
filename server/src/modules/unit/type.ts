@@ -6,7 +6,10 @@ export default {
         type: t.String({ error: "Veuillez saisir le type" }),
         reference: t.String({ error: "Veuillez saisir la référence" }),
         building: t.String({ error: "Veuillez saisir le bâtiment" }),
-        rentalStatus: t.String({ error: "Veuillez saisir le statut de location" }),
+        rentalStatus: t.Enum({
+            OCCUPED: "OCCUPED",
+            FREE: "FREE"
+        }, { error: "Veuillez saisir le statut de location" }),
         surface: t.Transform(t.String({ error: "Veuillez saisir la surface" }))
             .Decode((value) => JSON.parse(value))
             .Encode((value) => value.toString()),
@@ -52,5 +55,8 @@ export default {
         pageSize: t.Optional(t.String()),
         search: t.Optional(t.String()),
         filter: t.Optional(t.String()),
+    }),
+    queryExcept: t.Object({
+        except: t.Optional(t.String()),
     }),
 } 

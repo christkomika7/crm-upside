@@ -4,22 +4,19 @@ import ManageDeletion from '@/components/dashboard/settings/manage-deletion'
 import ReferenceText from '@/components/dashboard/settings/reference-text'
 import Taxes from '@/components/dashboard/settings/taxes'
 import UserManagement from '@/components/dashboard/settings/user-management'
-import { hasAccess } from '@/types/permissions'
-import type { AuthSession } from '@/types/session'
-import { createFileRoute, redirect } from '@tanstack/react-router'
+import { canAccess } from '@/lib/permission'
+import type { User } from '@/types/user'
+import { createFileRoute, notFound, redirect } from '@tanstack/react-router'
 
 export const Route = createFileRoute('/dashboard/settings/')({
-  beforeLoad({ context }) {
-    const session = context.session as AuthSession;
-    const settings = session.data?.user.permission?.permissions.settings;
-    const access = hasAccess(
-      !!context.session?.data?.user,
-      settings as unknown as string[],
-    );
-
-    if (!access) {
-      throw redirect({ to: "/" });
+  beforeLoad: ({ context }) => {
+    const user = context.session.data?.user as unknown as User;
+    const permission = user.permission?.permissions;
+    const hasAccess = canAccess(permission, 'settings', ['read']);
+    if (!user) {
+      throw redirect({ to: "/", search: { redirect: location.href } });
     }
+    if (!hasAccess) throw notFound()
   },
   component: RouteComponent,
 })

@@ -2,7 +2,8 @@ import InputFile from "@/components/ui/input-file";
 import { FileUpIcon, ImageIcon } from "lucide-react";
 import { useState } from "react";
 
-export default function Attachment() {
+export default function Attachment({ id }: { id: string }) {
+    console.log(id)
     const [upload, setUpload] = useState<Record<string, File[]>>({
         photos: [],
         deeds: [],

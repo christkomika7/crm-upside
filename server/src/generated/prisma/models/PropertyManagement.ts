@@ -27,7 +27,6 @@ export type AggregatePropertyManagement = {
 export type PropertyManagementMinAggregateOutputType = {
   id: string | null
   buildingId: string | null
-  unitId: string | null
   administrativeManagement: boolean | null
   technicalManagement: boolean | null
   start: Date | null
@@ -41,7 +40,6 @@ export type PropertyManagementMinAggregateOutputType = {
 export type PropertyManagementMaxAggregateOutputType = {
   id: string | null
   buildingId: string | null
-  unitId: string | null
   administrativeManagement: boolean | null
   technicalManagement: boolean | null
   start: Date | null
@@ -55,7 +53,6 @@ export type PropertyManagementMaxAggregateOutputType = {
 export type PropertyManagementCountAggregateOutputType = {
   id: number
   buildingId: number
-  unitId: number
   administrativeManagement: number
   technicalManagement: number
   start: number
@@ -71,7 +68,6 @@ export type PropertyManagementCountAggregateOutputType = {
 export type PropertyManagementMinAggregateInputType = {
   id?: true
   buildingId?: true
-  unitId?: true
   administrativeManagement?: true
   technicalManagement?: true
   start?: true
@@ -85,7 +81,6 @@ export type PropertyManagementMinAggregateInputType = {
 export type PropertyManagementMaxAggregateInputType = {
   id?: true
   buildingId?: true
-  unitId?: true
   administrativeManagement?: true
   technicalManagement?: true
   start?: true
@@ -99,7 +94,6 @@ export type PropertyManagementMaxAggregateInputType = {
 export type PropertyManagementCountAggregateInputType = {
   id?: true
   buildingId?: true
-  unitId?: true
   administrativeManagement?: true
   technicalManagement?: true
   start?: true
@@ -186,7 +180,6 @@ export type PropertyManagementGroupByArgs<ExtArgs extends runtime.Types.Extensio
 export type PropertyManagementGroupByOutputType = {
   id: string
   buildingId: string
-  unitId: string
   administrativeManagement: boolean
   technicalManagement: boolean
   start: Date
@@ -221,7 +214,6 @@ export type PropertyManagementWhereInput = {
   NOT?: Prisma.PropertyManagementWhereInput | Prisma.PropertyManagementWhereInput[]
   id?: Prisma.StringFilter<"PropertyManagement"> | string
   buildingId?: Prisma.StringFilter<"PropertyManagement"> | string
-  unitId?: Prisma.StringFilter<"PropertyManagement"> | string
   administrativeManagement?: Prisma.BoolFilter<"PropertyManagement"> | boolean
   technicalManagement?: Prisma.BoolFilter<"PropertyManagement"> | boolean
   start?: Prisma.DateTimeFilter<"PropertyManagement"> | Date | string
@@ -231,14 +223,13 @@ export type PropertyManagementWhereInput = {
   isDeleting?: Prisma.BoolFilter<"PropertyManagement"> | boolean
   createdAt?: Prisma.DateTimeFilter<"PropertyManagement"> | Date | string
   building?: Prisma.XOR<Prisma.BuildingScalarRelationFilter, Prisma.BuildingWhereInput>
-  unit?: Prisma.XOR<Prisma.UnitScalarRelationFilter, Prisma.UnitWhereInput>
+  units?: Prisma.UnitListRelationFilter
   services?: Prisma.PersonalServiceListRelationFilter
 }
 
 export type PropertyManagementOrderByWithRelationInput = {
   id?: Prisma.SortOrder
   buildingId?: Prisma.SortOrder
-  unitId?: Prisma.SortOrder
   administrativeManagement?: Prisma.SortOrder
   technicalManagement?: Prisma.SortOrder
   start?: Prisma.SortOrder
@@ -248,7 +239,7 @@ export type PropertyManagementOrderByWithRelationInput = {
   isDeleting?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   building?: Prisma.BuildingOrderByWithRelationInput
-  unit?: Prisma.UnitOrderByWithRelationInput
+  units?: Prisma.UnitOrderByRelationAggregateInput
   services?: Prisma.PersonalServiceOrderByRelationAggregateInput
 }
 
@@ -258,7 +249,6 @@ export type PropertyManagementWhereUniqueInput = Prisma.AtLeast<{
   OR?: Prisma.PropertyManagementWhereInput[]
   NOT?: Prisma.PropertyManagementWhereInput | Prisma.PropertyManagementWhereInput[]
   buildingId?: Prisma.StringFilter<"PropertyManagement"> | string
-  unitId?: Prisma.StringFilter<"PropertyManagement"> | string
   administrativeManagement?: Prisma.BoolFilter<"PropertyManagement"> | boolean
   technicalManagement?: Prisma.BoolFilter<"PropertyManagement"> | boolean
   start?: Prisma.DateTimeFilter<"PropertyManagement"> | Date | string
@@ -268,14 +258,13 @@ export type PropertyManagementWhereUniqueInput = Prisma.AtLeast<{
   isDeleting?: Prisma.BoolFilter<"PropertyManagement"> | boolean
   createdAt?: Prisma.DateTimeFilter<"PropertyManagement"> | Date | string
   building?: Prisma.XOR<Prisma.BuildingScalarRelationFilter, Prisma.BuildingWhereInput>
-  unit?: Prisma.XOR<Prisma.UnitScalarRelationFilter, Prisma.UnitWhereInput>
+  units?: Prisma.UnitListRelationFilter
   services?: Prisma.PersonalServiceListRelationFilter
 }, "id">
 
 export type PropertyManagementOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
   buildingId?: Prisma.SortOrder
-  unitId?: Prisma.SortOrder
   administrativeManagement?: Prisma.SortOrder
   technicalManagement?: Prisma.SortOrder
   start?: Prisma.SortOrder
@@ -295,7 +284,6 @@ export type PropertyManagementScalarWhereWithAggregatesInput = {
   NOT?: Prisma.PropertyManagementScalarWhereWithAggregatesInput | Prisma.PropertyManagementScalarWhereWithAggregatesInput[]
   id?: Prisma.StringWithAggregatesFilter<"PropertyManagement"> | string
   buildingId?: Prisma.StringWithAggregatesFilter<"PropertyManagement"> | string
-  unitId?: Prisma.StringWithAggregatesFilter<"PropertyManagement"> | string
   administrativeManagement?: Prisma.BoolWithAggregatesFilter<"PropertyManagement"> | boolean
   technicalManagement?: Prisma.BoolWithAggregatesFilter<"PropertyManagement"> | boolean
   start?: Prisma.DateTimeWithAggregatesFilter<"PropertyManagement"> | Date | string
@@ -317,14 +305,13 @@ export type PropertyManagementCreateInput = {
   isDeleting?: boolean
   createdAt?: Date | string
   building: Prisma.BuildingCreateNestedOneWithoutPropertyManagementsInput
-  unit: Prisma.UnitCreateNestedOneWithoutPropertyManagementsInput
+  units?: Prisma.UnitCreateNestedManyWithoutPropertyManagementInput
   services?: Prisma.PersonalServiceCreateNestedManyWithoutPropertyManagementsInput
 }
 
 export type PropertyManagementUncheckedCreateInput = {
   id?: string
   buildingId: string
-  unitId: string
   administrativeManagement?: boolean
   technicalManagement?: boolean
   start: Date | string
@@ -333,6 +320,7 @@ export type PropertyManagementUncheckedCreateInput = {
   active?: boolean
   isDeleting?: boolean
   createdAt?: Date | string
+  units?: Prisma.UnitUncheckedCreateNestedManyWithoutPropertyManagementInput
   services?: Prisma.PersonalServiceUncheckedCreateNestedManyWithoutPropertyManagementsInput
 }
 
@@ -347,14 +335,13 @@ export type PropertyManagementUpdateInput = {
   isDeleting?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   building?: Prisma.BuildingUpdateOneRequiredWithoutPropertyManagementsNestedInput
-  unit?: Prisma.UnitUpdateOneRequiredWithoutPropertyManagementsNestedInput
+  units?: Prisma.UnitUpdateManyWithoutPropertyManagementNestedInput
   services?: Prisma.PersonalServiceUpdateManyWithoutPropertyManagementsNestedInput
 }
 
 export type PropertyManagementUncheckedUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   buildingId?: Prisma.StringFieldUpdateOperationsInput | string
-  unitId?: Prisma.StringFieldUpdateOperationsInput | string
   administrativeManagement?: Prisma.BoolFieldUpdateOperationsInput | boolean
   technicalManagement?: Prisma.BoolFieldUpdateOperationsInput | boolean
   start?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -363,13 +350,13 @@ export type PropertyManagementUncheckedUpdateInput = {
   active?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isDeleting?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  units?: Prisma.UnitUncheckedUpdateManyWithoutPropertyManagementNestedInput
   services?: Prisma.PersonalServiceUncheckedUpdateManyWithoutPropertyManagementsNestedInput
 }
 
 export type PropertyManagementCreateManyInput = {
   id?: string
   buildingId: string
-  unitId: string
   administrativeManagement?: boolean
   technicalManagement?: boolean
   start: Date | string
@@ -395,7 +382,6 @@ export type PropertyManagementUpdateManyMutationInput = {
 export type PropertyManagementUncheckedUpdateManyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   buildingId?: Prisma.StringFieldUpdateOperationsInput | string
-  unitId?: Prisma.StringFieldUpdateOperationsInput | string
   administrativeManagement?: Prisma.BoolFieldUpdateOperationsInput | boolean
   technicalManagement?: Prisma.BoolFieldUpdateOperationsInput | boolean
   start?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -416,10 +402,14 @@ export type PropertyManagementOrderByRelationAggregateInput = {
   _count?: Prisma.SortOrder
 }
 
+export type PropertyManagementNullableScalarRelationFilter = {
+  is?: Prisma.PropertyManagementWhereInput | null
+  isNot?: Prisma.PropertyManagementWhereInput | null
+}
+
 export type PropertyManagementCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
   buildingId?: Prisma.SortOrder
-  unitId?: Prisma.SortOrder
   administrativeManagement?: Prisma.SortOrder
   technicalManagement?: Prisma.SortOrder
   start?: Prisma.SortOrder
@@ -433,7 +423,6 @@ export type PropertyManagementCountOrderByAggregateInput = {
 export type PropertyManagementMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
   buildingId?: Prisma.SortOrder
-  unitId?: Prisma.SortOrder
   administrativeManagement?: Prisma.SortOrder
   technicalManagement?: Prisma.SortOrder
   start?: Prisma.SortOrder
@@ -447,7 +436,6 @@ export type PropertyManagementMaxOrderByAggregateInput = {
 export type PropertyManagementMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
   buildingId?: Prisma.SortOrder
-  unitId?: Prisma.SortOrder
   administrativeManagement?: Prisma.SortOrder
   technicalManagement?: Prisma.SortOrder
   start?: Prisma.SortOrder
@@ -500,46 +488,20 @@ export type PropertyManagementUncheckedUpdateManyWithoutBuildingNestedInput = {
   deleteMany?: Prisma.PropertyManagementScalarWhereInput | Prisma.PropertyManagementScalarWhereInput[]
 }
 
-export type PropertyManagementCreateNestedManyWithoutUnitInput = {
-  create?: Prisma.XOR<Prisma.PropertyManagementCreateWithoutUnitInput, Prisma.PropertyManagementUncheckedCreateWithoutUnitInput> | Prisma.PropertyManagementCreateWithoutUnitInput[] | Prisma.PropertyManagementUncheckedCreateWithoutUnitInput[]
-  connectOrCreate?: Prisma.PropertyManagementCreateOrConnectWithoutUnitInput | Prisma.PropertyManagementCreateOrConnectWithoutUnitInput[]
-  createMany?: Prisma.PropertyManagementCreateManyUnitInputEnvelope
-  connect?: Prisma.PropertyManagementWhereUniqueInput | Prisma.PropertyManagementWhereUniqueInput[]
+export type PropertyManagementCreateNestedOneWithoutUnitsInput = {
+  create?: Prisma.XOR<Prisma.PropertyManagementCreateWithoutUnitsInput, Prisma.PropertyManagementUncheckedCreateWithoutUnitsInput>
+  connectOrCreate?: Prisma.PropertyManagementCreateOrConnectWithoutUnitsInput
+  connect?: Prisma.PropertyManagementWhereUniqueInput
 }
 
-export type PropertyManagementUncheckedCreateNestedManyWithoutUnitInput = {
-  create?: Prisma.XOR<Prisma.PropertyManagementCreateWithoutUnitInput, Prisma.PropertyManagementUncheckedCreateWithoutUnitInput> | Prisma.PropertyManagementCreateWithoutUnitInput[] | Prisma.PropertyManagementUncheckedCreateWithoutUnitInput[]
-  connectOrCreate?: Prisma.PropertyManagementCreateOrConnectWithoutUnitInput | Prisma.PropertyManagementCreateOrConnectWithoutUnitInput[]
-  createMany?: Prisma.PropertyManagementCreateManyUnitInputEnvelope
-  connect?: Prisma.PropertyManagementWhereUniqueInput | Prisma.PropertyManagementWhereUniqueInput[]
-}
-
-export type PropertyManagementUpdateManyWithoutUnitNestedInput = {
-  create?: Prisma.XOR<Prisma.PropertyManagementCreateWithoutUnitInput, Prisma.PropertyManagementUncheckedCreateWithoutUnitInput> | Prisma.PropertyManagementCreateWithoutUnitInput[] | Prisma.PropertyManagementUncheckedCreateWithoutUnitInput[]
-  connectOrCreate?: Prisma.PropertyManagementCreateOrConnectWithoutUnitInput | Prisma.PropertyManagementCreateOrConnectWithoutUnitInput[]
-  upsert?: Prisma.PropertyManagementUpsertWithWhereUniqueWithoutUnitInput | Prisma.PropertyManagementUpsertWithWhereUniqueWithoutUnitInput[]
-  createMany?: Prisma.PropertyManagementCreateManyUnitInputEnvelope
-  set?: Prisma.PropertyManagementWhereUniqueInput | Prisma.PropertyManagementWhereUniqueInput[]
-  disconnect?: Prisma.PropertyManagementWhereUniqueInput | Prisma.PropertyManagementWhereUniqueInput[]
-  delete?: Prisma.PropertyManagementWhereUniqueInput | Prisma.PropertyManagementWhereUniqueInput[]
-  connect?: Prisma.PropertyManagementWhereUniqueInput | Prisma.PropertyManagementWhereUniqueInput[]
-  update?: Prisma.PropertyManagementUpdateWithWhereUniqueWithoutUnitInput | Prisma.PropertyManagementUpdateWithWhereUniqueWithoutUnitInput[]
-  updateMany?: Prisma.PropertyManagementUpdateManyWithWhereWithoutUnitInput | Prisma.PropertyManagementUpdateManyWithWhereWithoutUnitInput[]
-  deleteMany?: Prisma.PropertyManagementScalarWhereInput | Prisma.PropertyManagementScalarWhereInput[]
-}
-
-export type PropertyManagementUncheckedUpdateManyWithoutUnitNestedInput = {
-  create?: Prisma.XOR<Prisma.PropertyManagementCreateWithoutUnitInput, Prisma.PropertyManagementUncheckedCreateWithoutUnitInput> | Prisma.PropertyManagementCreateWithoutUnitInput[] | Prisma.PropertyManagementUncheckedCreateWithoutUnitInput[]
-  connectOrCreate?: Prisma.PropertyManagementCreateOrConnectWithoutUnitInput | Prisma.PropertyManagementCreateOrConnectWithoutUnitInput[]
-  upsert?: Prisma.PropertyManagementUpsertWithWhereUniqueWithoutUnitInput | Prisma.PropertyManagementUpsertWithWhereUniqueWithoutUnitInput[]
-  createMany?: Prisma.PropertyManagementCreateManyUnitInputEnvelope
-  set?: Prisma.PropertyManagementWhereUniqueInput | Prisma.PropertyManagementWhereUniqueInput[]
-  disconnect?: Prisma.PropertyManagementWhereUniqueInput | Prisma.PropertyManagementWhereUniqueInput[]
-  delete?: Prisma.PropertyManagementWhereUniqueInput | Prisma.PropertyManagementWhereUniqueInput[]
-  connect?: Prisma.PropertyManagementWhereUniqueInput | Prisma.PropertyManagementWhereUniqueInput[]
-  update?: Prisma.PropertyManagementUpdateWithWhereUniqueWithoutUnitInput | Prisma.PropertyManagementUpdateWithWhereUniqueWithoutUnitInput[]
-  updateMany?: Prisma.PropertyManagementUpdateManyWithWhereWithoutUnitInput | Prisma.PropertyManagementUpdateManyWithWhereWithoutUnitInput[]
-  deleteMany?: Prisma.PropertyManagementScalarWhereInput | Prisma.PropertyManagementScalarWhereInput[]
+export type PropertyManagementUpdateOneWithoutUnitsNestedInput = {
+  create?: Prisma.XOR<Prisma.PropertyManagementCreateWithoutUnitsInput, Prisma.PropertyManagementUncheckedCreateWithoutUnitsInput>
+  connectOrCreate?: Prisma.PropertyManagementCreateOrConnectWithoutUnitsInput
+  upsert?: Prisma.PropertyManagementUpsertWithoutUnitsInput
+  disconnect?: Prisma.PropertyManagementWhereInput | boolean
+  delete?: Prisma.PropertyManagementWhereInput | boolean
+  connect?: Prisma.PropertyManagementWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.PropertyManagementUpdateToOneWithWhereWithoutUnitsInput, Prisma.PropertyManagementUpdateWithoutUnitsInput>, Prisma.PropertyManagementUncheckedUpdateWithoutUnitsInput>
 }
 
 export type PropertyManagementCreateNestedManyWithoutServicesInput = {
@@ -590,13 +552,12 @@ export type PropertyManagementCreateWithoutBuildingInput = {
   active?: boolean
   isDeleting?: boolean
   createdAt?: Date | string
-  unit: Prisma.UnitCreateNestedOneWithoutPropertyManagementsInput
+  units?: Prisma.UnitCreateNestedManyWithoutPropertyManagementInput
   services?: Prisma.PersonalServiceCreateNestedManyWithoutPropertyManagementsInput
 }
 
 export type PropertyManagementUncheckedCreateWithoutBuildingInput = {
   id?: string
-  unitId: string
   administrativeManagement?: boolean
   technicalManagement?: boolean
   start: Date | string
@@ -605,6 +566,7 @@ export type PropertyManagementUncheckedCreateWithoutBuildingInput = {
   active?: boolean
   isDeleting?: boolean
   createdAt?: Date | string
+  units?: Prisma.UnitUncheckedCreateNestedManyWithoutPropertyManagementInput
   services?: Prisma.PersonalServiceUncheckedCreateNestedManyWithoutPropertyManagementsInput
 }
 
@@ -640,7 +602,6 @@ export type PropertyManagementScalarWhereInput = {
   NOT?: Prisma.PropertyManagementScalarWhereInput | Prisma.PropertyManagementScalarWhereInput[]
   id?: Prisma.StringFilter<"PropertyManagement"> | string
   buildingId?: Prisma.StringFilter<"PropertyManagement"> | string
-  unitId?: Prisma.StringFilter<"PropertyManagement"> | string
   administrativeManagement?: Prisma.BoolFilter<"PropertyManagement"> | boolean
   technicalManagement?: Prisma.BoolFilter<"PropertyManagement"> | boolean
   start?: Prisma.DateTimeFilter<"PropertyManagement"> | Date | string
@@ -651,7 +612,7 @@ export type PropertyManagementScalarWhereInput = {
   createdAt?: Prisma.DateTimeFilter<"PropertyManagement"> | Date | string
 }
 
-export type PropertyManagementCreateWithoutUnitInput = {
+export type PropertyManagementCreateWithoutUnitsInput = {
   id?: string
   administrativeManagement?: boolean
   technicalManagement?: boolean
@@ -665,7 +626,7 @@ export type PropertyManagementCreateWithoutUnitInput = {
   services?: Prisma.PersonalServiceCreateNestedManyWithoutPropertyManagementsInput
 }
 
-export type PropertyManagementUncheckedCreateWithoutUnitInput = {
+export type PropertyManagementUncheckedCreateWithoutUnitsInput = {
   id?: string
   buildingId: string
   administrativeManagement?: boolean
@@ -679,30 +640,48 @@ export type PropertyManagementUncheckedCreateWithoutUnitInput = {
   services?: Prisma.PersonalServiceUncheckedCreateNestedManyWithoutPropertyManagementsInput
 }
 
-export type PropertyManagementCreateOrConnectWithoutUnitInput = {
+export type PropertyManagementCreateOrConnectWithoutUnitsInput = {
   where: Prisma.PropertyManagementWhereUniqueInput
-  create: Prisma.XOR<Prisma.PropertyManagementCreateWithoutUnitInput, Prisma.PropertyManagementUncheckedCreateWithoutUnitInput>
+  create: Prisma.XOR<Prisma.PropertyManagementCreateWithoutUnitsInput, Prisma.PropertyManagementUncheckedCreateWithoutUnitsInput>
 }
 
-export type PropertyManagementCreateManyUnitInputEnvelope = {
-  data: Prisma.PropertyManagementCreateManyUnitInput | Prisma.PropertyManagementCreateManyUnitInput[]
-  skipDuplicates?: boolean
+export type PropertyManagementUpsertWithoutUnitsInput = {
+  update: Prisma.XOR<Prisma.PropertyManagementUpdateWithoutUnitsInput, Prisma.PropertyManagementUncheckedUpdateWithoutUnitsInput>
+  create: Prisma.XOR<Prisma.PropertyManagementCreateWithoutUnitsInput, Prisma.PropertyManagementUncheckedCreateWithoutUnitsInput>
+  where?: Prisma.PropertyManagementWhereInput
 }
 
-export type PropertyManagementUpsertWithWhereUniqueWithoutUnitInput = {
-  where: Prisma.PropertyManagementWhereUniqueInput
-  update: Prisma.XOR<Prisma.PropertyManagementUpdateWithoutUnitInput, Prisma.PropertyManagementUncheckedUpdateWithoutUnitInput>
-  create: Prisma.XOR<Prisma.PropertyManagementCreateWithoutUnitInput, Prisma.PropertyManagementUncheckedCreateWithoutUnitInput>
+export type PropertyManagementUpdateToOneWithWhereWithoutUnitsInput = {
+  where?: Prisma.PropertyManagementWhereInput
+  data: Prisma.XOR<Prisma.PropertyManagementUpdateWithoutUnitsInput, Prisma.PropertyManagementUncheckedUpdateWithoutUnitsInput>
 }
 
-export type PropertyManagementUpdateWithWhereUniqueWithoutUnitInput = {
-  where: Prisma.PropertyManagementWhereUniqueInput
-  data: Prisma.XOR<Prisma.PropertyManagementUpdateWithoutUnitInput, Prisma.PropertyManagementUncheckedUpdateWithoutUnitInput>
+export type PropertyManagementUpdateWithoutUnitsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  administrativeManagement?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  technicalManagement?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  start?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  end?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  observations?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  active?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isDeleting?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  building?: Prisma.BuildingUpdateOneRequiredWithoutPropertyManagementsNestedInput
+  services?: Prisma.PersonalServiceUpdateManyWithoutPropertyManagementsNestedInput
 }
 
-export type PropertyManagementUpdateManyWithWhereWithoutUnitInput = {
-  where: Prisma.PropertyManagementScalarWhereInput
-  data: Prisma.XOR<Prisma.PropertyManagementUpdateManyMutationInput, Prisma.PropertyManagementUncheckedUpdateManyWithoutUnitInput>
+export type PropertyManagementUncheckedUpdateWithoutUnitsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  buildingId?: Prisma.StringFieldUpdateOperationsInput | string
+  administrativeManagement?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  technicalManagement?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  start?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  end?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  observations?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  active?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isDeleting?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  services?: Prisma.PersonalServiceUncheckedUpdateManyWithoutPropertyManagementsNestedInput
 }
 
 export type PropertyManagementCreateWithoutServicesInput = {
@@ -716,13 +695,12 @@ export type PropertyManagementCreateWithoutServicesInput = {
   isDeleting?: boolean
   createdAt?: Date | string
   building: Prisma.BuildingCreateNestedOneWithoutPropertyManagementsInput
-  unit: Prisma.UnitCreateNestedOneWithoutPropertyManagementsInput
+  units?: Prisma.UnitCreateNestedManyWithoutPropertyManagementInput
 }
 
 export type PropertyManagementUncheckedCreateWithoutServicesInput = {
   id?: string
   buildingId: string
-  unitId: string
   administrativeManagement?: boolean
   technicalManagement?: boolean
   start: Date | string
@@ -731,6 +709,7 @@ export type PropertyManagementUncheckedCreateWithoutServicesInput = {
   active?: boolean
   isDeleting?: boolean
   createdAt?: Date | string
+  units?: Prisma.UnitUncheckedCreateNestedManyWithoutPropertyManagementInput
 }
 
 export type PropertyManagementCreateOrConnectWithoutServicesInput = {
@@ -756,7 +735,6 @@ export type PropertyManagementUpdateManyWithWhereWithoutServicesInput = {
 
 export type PropertyManagementCreateManyBuildingInput = {
   id?: string
-  unitId: string
   administrativeManagement?: boolean
   technicalManagement?: boolean
   start: Date | string
@@ -777,13 +755,12 @@ export type PropertyManagementUpdateWithoutBuildingInput = {
   active?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isDeleting?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  unit?: Prisma.UnitUpdateOneRequiredWithoutPropertyManagementsNestedInput
+  units?: Prisma.UnitUpdateManyWithoutPropertyManagementNestedInput
   services?: Prisma.PersonalServiceUpdateManyWithoutPropertyManagementsNestedInput
 }
 
 export type PropertyManagementUncheckedUpdateWithoutBuildingInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  unitId?: Prisma.StringFieldUpdateOperationsInput | string
   administrativeManagement?: Prisma.BoolFieldUpdateOperationsInput | boolean
   technicalManagement?: Prisma.BoolFieldUpdateOperationsInput | boolean
   start?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -792,66 +769,12 @@ export type PropertyManagementUncheckedUpdateWithoutBuildingInput = {
   active?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isDeleting?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  units?: Prisma.UnitUncheckedUpdateManyWithoutPropertyManagementNestedInput
   services?: Prisma.PersonalServiceUncheckedUpdateManyWithoutPropertyManagementsNestedInput
 }
 
 export type PropertyManagementUncheckedUpdateManyWithoutBuildingInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  unitId?: Prisma.StringFieldUpdateOperationsInput | string
-  administrativeManagement?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  technicalManagement?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  start?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  end?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  observations?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  active?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  isDeleting?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-}
-
-export type PropertyManagementCreateManyUnitInput = {
-  id?: string
-  buildingId: string
-  administrativeManagement?: boolean
-  technicalManagement?: boolean
-  start: Date | string
-  end: Date | string
-  observations?: string | null
-  active?: boolean
-  isDeleting?: boolean
-  createdAt?: Date | string
-}
-
-export type PropertyManagementUpdateWithoutUnitInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  administrativeManagement?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  technicalManagement?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  start?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  end?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  observations?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  active?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  isDeleting?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  building?: Prisma.BuildingUpdateOneRequiredWithoutPropertyManagementsNestedInput
-  services?: Prisma.PersonalServiceUpdateManyWithoutPropertyManagementsNestedInput
-}
-
-export type PropertyManagementUncheckedUpdateWithoutUnitInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  buildingId?: Prisma.StringFieldUpdateOperationsInput | string
-  administrativeManagement?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  technicalManagement?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  start?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  end?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  observations?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  active?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  isDeleting?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  services?: Prisma.PersonalServiceUncheckedUpdateManyWithoutPropertyManagementsNestedInput
-}
-
-export type PropertyManagementUncheckedUpdateManyWithoutUnitInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  buildingId?: Prisma.StringFieldUpdateOperationsInput | string
   administrativeManagement?: Prisma.BoolFieldUpdateOperationsInput | boolean
   technicalManagement?: Prisma.BoolFieldUpdateOperationsInput | boolean
   start?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -873,13 +796,12 @@ export type PropertyManagementUpdateWithoutServicesInput = {
   isDeleting?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   building?: Prisma.BuildingUpdateOneRequiredWithoutPropertyManagementsNestedInput
-  unit?: Prisma.UnitUpdateOneRequiredWithoutPropertyManagementsNestedInput
+  units?: Prisma.UnitUpdateManyWithoutPropertyManagementNestedInput
 }
 
 export type PropertyManagementUncheckedUpdateWithoutServicesInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   buildingId?: Prisma.StringFieldUpdateOperationsInput | string
-  unitId?: Prisma.StringFieldUpdateOperationsInput | string
   administrativeManagement?: Prisma.BoolFieldUpdateOperationsInput | boolean
   technicalManagement?: Prisma.BoolFieldUpdateOperationsInput | boolean
   start?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -888,12 +810,12 @@ export type PropertyManagementUncheckedUpdateWithoutServicesInput = {
   active?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isDeleting?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  units?: Prisma.UnitUncheckedUpdateManyWithoutPropertyManagementNestedInput
 }
 
 export type PropertyManagementUncheckedUpdateManyWithoutServicesInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   buildingId?: Prisma.StringFieldUpdateOperationsInput | string
-  unitId?: Prisma.StringFieldUpdateOperationsInput | string
   administrativeManagement?: Prisma.BoolFieldUpdateOperationsInput | boolean
   technicalManagement?: Prisma.BoolFieldUpdateOperationsInput | boolean
   start?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -910,10 +832,12 @@ export type PropertyManagementUncheckedUpdateManyWithoutServicesInput = {
  */
 
 export type PropertyManagementCountOutputType = {
+  units: number
   services: number
 }
 
 export type PropertyManagementCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  units?: boolean | PropertyManagementCountOutputTypeCountUnitsArgs
   services?: boolean | PropertyManagementCountOutputTypeCountServicesArgs
 }
 
@@ -930,6 +854,13 @@ export type PropertyManagementCountOutputTypeDefaultArgs<ExtArgs extends runtime
 /**
  * PropertyManagementCountOutputType without action
  */
+export type PropertyManagementCountOutputTypeCountUnitsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.UnitWhereInput
+}
+
+/**
+ * PropertyManagementCountOutputType without action
+ */
 export type PropertyManagementCountOutputTypeCountServicesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   where?: Prisma.PersonalServiceWhereInput
 }
@@ -938,7 +869,6 @@ export type PropertyManagementCountOutputTypeCountServicesArgs<ExtArgs extends r
 export type PropertyManagementSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   buildingId?: boolean
-  unitId?: boolean
   administrativeManagement?: boolean
   technicalManagement?: boolean
   start?: boolean
@@ -948,7 +878,7 @@ export type PropertyManagementSelect<ExtArgs extends runtime.Types.Extensions.In
   isDeleting?: boolean
   createdAt?: boolean
   building?: boolean | Prisma.BuildingDefaultArgs<ExtArgs>
-  unit?: boolean | Prisma.UnitDefaultArgs<ExtArgs>
+  units?: boolean | Prisma.PropertyManagement$unitsArgs<ExtArgs>
   services?: boolean | Prisma.PropertyManagement$servicesArgs<ExtArgs>
   _count?: boolean | Prisma.PropertyManagementCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["propertyManagement"]>
@@ -956,7 +886,6 @@ export type PropertyManagementSelect<ExtArgs extends runtime.Types.Extensions.In
 export type PropertyManagementSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   buildingId?: boolean
-  unitId?: boolean
   administrativeManagement?: boolean
   technicalManagement?: boolean
   start?: boolean
@@ -966,13 +895,11 @@ export type PropertyManagementSelectCreateManyAndReturn<ExtArgs extends runtime.
   isDeleting?: boolean
   createdAt?: boolean
   building?: boolean | Prisma.BuildingDefaultArgs<ExtArgs>
-  unit?: boolean | Prisma.UnitDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["propertyManagement"]>
 
 export type PropertyManagementSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   buildingId?: boolean
-  unitId?: boolean
   administrativeManagement?: boolean
   technicalManagement?: boolean
   start?: boolean
@@ -982,13 +909,11 @@ export type PropertyManagementSelectUpdateManyAndReturn<ExtArgs extends runtime.
   isDeleting?: boolean
   createdAt?: boolean
   building?: boolean | Prisma.BuildingDefaultArgs<ExtArgs>
-  unit?: boolean | Prisma.UnitDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["propertyManagement"]>
 
 export type PropertyManagementSelectScalar = {
   id?: boolean
   buildingId?: boolean
-  unitId?: boolean
   administrativeManagement?: boolean
   technicalManagement?: boolean
   start?: boolean
@@ -999,33 +924,30 @@ export type PropertyManagementSelectScalar = {
   createdAt?: boolean
 }
 
-export type PropertyManagementOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "buildingId" | "unitId" | "administrativeManagement" | "technicalManagement" | "start" | "end" | "observations" | "active" | "isDeleting" | "createdAt", ExtArgs["result"]["propertyManagement"]>
+export type PropertyManagementOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "buildingId" | "administrativeManagement" | "technicalManagement" | "start" | "end" | "observations" | "active" | "isDeleting" | "createdAt", ExtArgs["result"]["propertyManagement"]>
 export type PropertyManagementInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   building?: boolean | Prisma.BuildingDefaultArgs<ExtArgs>
-  unit?: boolean | Prisma.UnitDefaultArgs<ExtArgs>
+  units?: boolean | Prisma.PropertyManagement$unitsArgs<ExtArgs>
   services?: boolean | Prisma.PropertyManagement$servicesArgs<ExtArgs>
   _count?: boolean | Prisma.PropertyManagementCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type PropertyManagementIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   building?: boolean | Prisma.BuildingDefaultArgs<ExtArgs>
-  unit?: boolean | Prisma.UnitDefaultArgs<ExtArgs>
 }
 export type PropertyManagementIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   building?: boolean | Prisma.BuildingDefaultArgs<ExtArgs>
-  unit?: boolean | Prisma.UnitDefaultArgs<ExtArgs>
 }
 
 export type $PropertyManagementPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "PropertyManagement"
   objects: {
     building: Prisma.$BuildingPayload<ExtArgs>
-    unit: Prisma.$UnitPayload<ExtArgs>
+    units: Prisma.$UnitPayload<ExtArgs>[]
     services: Prisma.$PersonalServicePayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
     buildingId: string
-    unitId: string
     administrativeManagement: boolean
     technicalManagement: boolean
     start: Date
@@ -1429,7 +1351,7 @@ readonly fields: PropertyManagementFieldRefs;
 export interface Prisma__PropertyManagementClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
   building<T extends Prisma.BuildingDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.BuildingDefaultArgs<ExtArgs>>): Prisma.Prisma__BuildingClient<runtime.Types.Result.GetResult<Prisma.$BuildingPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
-  unit<T extends Prisma.UnitDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.UnitDefaultArgs<ExtArgs>>): Prisma.Prisma__UnitClient<runtime.Types.Result.GetResult<Prisma.$UnitPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+  units<T extends Prisma.PropertyManagement$unitsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.PropertyManagement$unitsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$UnitPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   services<T extends Prisma.PropertyManagement$servicesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.PropertyManagement$servicesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$PersonalServicePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
@@ -1462,7 +1384,6 @@ export interface Prisma__PropertyManagementClient<T, Null = never, ExtArgs exten
 export interface PropertyManagementFieldRefs {
   readonly id: Prisma.FieldRef<"PropertyManagement", 'String'>
   readonly buildingId: Prisma.FieldRef<"PropertyManagement", 'String'>
-  readonly unitId: Prisma.FieldRef<"PropertyManagement", 'String'>
   readonly administrativeManagement: Prisma.FieldRef<"PropertyManagement", 'Boolean'>
   readonly technicalManagement: Prisma.FieldRef<"PropertyManagement", 'Boolean'>
   readonly start: Prisma.FieldRef<"PropertyManagement", 'DateTime'>
@@ -1869,6 +1790,30 @@ export type PropertyManagementDeleteManyArgs<ExtArgs extends runtime.Types.Exten
    * Limit how many PropertyManagements to delete.
    */
   limit?: number
+}
+
+/**
+ * PropertyManagement.units
+ */
+export type PropertyManagement$unitsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Unit
+   */
+  select?: Prisma.UnitSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Unit
+   */
+  omit?: Prisma.UnitOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.UnitInclude<ExtArgs> | null
+  where?: Prisma.UnitWhereInput
+  orderBy?: Prisma.UnitOrderByWithRelationInput | Prisma.UnitOrderByWithRelationInput[]
+  cursor?: Prisma.UnitWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.UnitScalarFieldEnum | Prisma.UnitScalarFieldEnum[]
 }
 
 /**

@@ -11,6 +11,7 @@ export * from "./ItemStatus";
 export * from "./ClientType";
 export * from "./AccountingType";
 export * from "./DiscountType";
+export * from "./UnitStatus";
 export * from "./User";
 export * from "./Permission";
 export * from "./Cumul";

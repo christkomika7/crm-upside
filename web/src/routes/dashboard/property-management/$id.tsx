@@ -1,30 +1,29 @@
 import Info from '@/components/dashboard/current/info'
 import TabDataList from '@/components/dashboard/property-management/tab-data-list'
 import ActionHeader from '@/components/header/action-header'
-import { hasAccess } from '@/types/permissions'
-import type { AuthSession } from '@/types/session'
-import { createFileRoute, redirect } from '@tanstack/react-router'
+import { canAccess } from '@/lib/permission'
+import type { User } from '@/types/user'
+import { createFileRoute, notFound, redirect, useParams } from '@tanstack/react-router'
 
 export const Route = createFileRoute('/dashboard/property-management/$id')({
-  beforeLoad({ context }) {
-    const session = context.session as AuthSession;
-    const buildings = session.data?.user.permission?.permissions.buildings;
-    const access = hasAccess(
-      !!context.session?.data?.user,
-      buildings as unknown as string[],
-    );
-
-    if (!access) {
-      throw redirect({ to: "/" });
+  beforeLoad: ({ context }) => {
+    const user = context.session.data?.user as unknown as User;
+    const permission = user.permission?.permissions;
+    const hasAccess = canAccess(permission, "propertyManagement", ['read']);
+    if (!user) {
+      throw redirect({ to: "/", search: { redirect: location.href } });
     }
+    if (!hasAccess) throw notFound()
   },
   component: RouteComponent,
 })
 
 function RouteComponent() {
+  const { id } = useParams({ from: "/dashboard/property-management/$id" });
+
   return <div className='space-y-6'>
     <ActionHeader title='Generate a Breakdown' url='/' type='url' hasIcon={false} />
-    <Info />
-    <TabDataList />
+    <Info id={id} />
+    <TabDataList id={id} />
   </div>
 }

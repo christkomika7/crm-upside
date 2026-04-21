@@ -27,6 +27,7 @@ export type AggregateTenant = {
 }
 
 export type TenantAvgAggregateOutputType = {
+  reference: number | null
   income: runtime.Decimal | null
   monthlyRent: runtime.Decimal | null
   monthlyCharges: runtime.Decimal | null
@@ -34,6 +35,7 @@ export type TenantAvgAggregateOutputType = {
 }
 
 export type TenantSumAggregateOutputType = {
+  reference: number | null
   income: runtime.Decimal | null
   monthlyRent: runtime.Decimal | null
   monthlyCharges: runtime.Decimal | null
@@ -42,6 +44,7 @@ export type TenantSumAggregateOutputType = {
 
 export type TenantMinAggregateOutputType = {
   id: string | null
+  reference: number | null
   isDiplomatic: boolean | null
   isPersonal: boolean | null
   firstname: string | null
@@ -63,6 +66,7 @@ export type TenantMinAggregateOutputType = {
 
 export type TenantMaxAggregateOutputType = {
   id: string | null
+  reference: number | null
   isDiplomatic: boolean | null
   isPersonal: boolean | null
   firstname: string | null
@@ -84,6 +88,7 @@ export type TenantMaxAggregateOutputType = {
 
 export type TenantCountAggregateOutputType = {
   id: number
+  reference: number
   isDiplomatic: number
   isPersonal: number
   firstname: number
@@ -108,6 +113,7 @@ export type TenantCountAggregateOutputType = {
 
 
 export type TenantAvgAggregateInputType = {
+  reference?: true
   income?: true
   monthlyRent?: true
   monthlyCharges?: true
@@ -115,6 +121,7 @@ export type TenantAvgAggregateInputType = {
 }
 
 export type TenantSumAggregateInputType = {
+  reference?: true
   income?: true
   monthlyRent?: true
   monthlyCharges?: true
@@ -123,6 +130,7 @@ export type TenantSumAggregateInputType = {
 
 export type TenantMinAggregateInputType = {
   id?: true
+  reference?: true
   isDiplomatic?: true
   isPersonal?: true
   firstname?: true
@@ -144,6 +152,7 @@ export type TenantMinAggregateInputType = {
 
 export type TenantMaxAggregateInputType = {
   id?: true
+  reference?: true
   isDiplomatic?: true
   isPersonal?: true
   firstname?: true
@@ -165,6 +174,7 @@ export type TenantMaxAggregateInputType = {
 
 export type TenantCountAggregateInputType = {
   id?: true
+  reference?: true
   isDiplomatic?: true
   isPersonal?: true
   firstname?: true
@@ -275,6 +285,7 @@ export type TenantGroupByArgs<ExtArgs extends runtime.Types.Extensions.InternalA
 
 export type TenantGroupByOutputType = {
   id: string
+  reference: number
   isDiplomatic: boolean
   isPersonal: boolean
   firstname: string
@@ -321,6 +332,7 @@ export type TenantWhereInput = {
   OR?: Prisma.TenantWhereInput[]
   NOT?: Prisma.TenantWhereInput | Prisma.TenantWhereInput[]
   id?: Prisma.StringFilter<"Tenant"> | string
+  reference?: Prisma.IntFilter<"Tenant"> | number
   isDiplomatic?: Prisma.BoolFilter<"Tenant"> | boolean
   isPersonal?: Prisma.BoolFilter<"Tenant"> | boolean
   firstname?: Prisma.StringFilter<"Tenant"> | string
@@ -349,6 +361,7 @@ export type TenantWhereInput = {
 
 export type TenantOrderByWithRelationInput = {
   id?: Prisma.SortOrder
+  reference?: Prisma.SortOrder
   isDiplomatic?: Prisma.SortOrder
   isPersonal?: Prisma.SortOrder
   firstname?: Prisma.SortOrder
@@ -380,6 +393,7 @@ export type TenantWhereUniqueInput = Prisma.AtLeast<{
   AND?: Prisma.TenantWhereInput | Prisma.TenantWhereInput[]
   OR?: Prisma.TenantWhereInput[]
   NOT?: Prisma.TenantWhereInput | Prisma.TenantWhereInput[]
+  reference?: Prisma.IntFilter<"Tenant"> | number
   isDiplomatic?: Prisma.BoolFilter<"Tenant"> | boolean
   isPersonal?: Prisma.BoolFilter<"Tenant"> | boolean
   firstname?: Prisma.StringFilter<"Tenant"> | string
@@ -408,6 +422,7 @@ export type TenantWhereUniqueInput = Prisma.AtLeast<{
 
 export type TenantOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
+  reference?: Prisma.SortOrder
   isDiplomatic?: Prisma.SortOrder
   isPersonal?: Prisma.SortOrder
   firstname?: Prisma.SortOrder
@@ -439,6 +454,7 @@ export type TenantScalarWhereWithAggregatesInput = {
   OR?: Prisma.TenantScalarWhereWithAggregatesInput[]
   NOT?: Prisma.TenantScalarWhereWithAggregatesInput | Prisma.TenantScalarWhereWithAggregatesInput[]
   id?: Prisma.StringWithAggregatesFilter<"Tenant"> | string
+  reference?: Prisma.IntWithAggregatesFilter<"Tenant"> | number
   isDiplomatic?: Prisma.BoolWithAggregatesFilter<"Tenant"> | boolean
   isPersonal?: Prisma.BoolWithAggregatesFilter<"Tenant"> | boolean
   firstname?: Prisma.StringWithAggregatesFilter<"Tenant"> | string
@@ -462,6 +478,7 @@ export type TenantScalarWhereWithAggregatesInput = {
 
 export type TenantCreateInput = {
   id?: string
+  reference?: number
   isDiplomatic?: boolean
   isPersonal?: boolean
   firstname: string
@@ -490,6 +507,7 @@ export type TenantCreateInput = {
 
 export type TenantUncheckedCreateInput = {
   id?: string
+  reference?: number
   isDiplomatic?: boolean
   isPersonal?: boolean
   firstname: string
@@ -518,6 +536,7 @@ export type TenantUncheckedCreateInput = {
 
 export type TenantUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  reference?: Prisma.IntFieldUpdateOperationsInput | number
   isDiplomatic?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isPersonal?: Prisma.BoolFieldUpdateOperationsInput | boolean
   firstname?: Prisma.StringFieldUpdateOperationsInput | string
@@ -546,6 +565,7 @@ export type TenantUpdateInput = {
 
 export type TenantUncheckedUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  reference?: Prisma.IntFieldUpdateOperationsInput | number
   isDiplomatic?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isPersonal?: Prisma.BoolFieldUpdateOperationsInput | boolean
   firstname?: Prisma.StringFieldUpdateOperationsInput | string
@@ -574,6 +594,7 @@ export type TenantUncheckedUpdateInput = {
 
 export type TenantCreateManyInput = {
   id?: string
+  reference?: number
   isDiplomatic?: boolean
   isPersonal?: boolean
   firstname: string
@@ -597,6 +618,7 @@ export type TenantCreateManyInput = {
 
 export type TenantUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  reference?: Prisma.IntFieldUpdateOperationsInput | number
   isDiplomatic?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isPersonal?: Prisma.BoolFieldUpdateOperationsInput | boolean
   firstname?: Prisma.StringFieldUpdateOperationsInput | string
@@ -620,6 +642,7 @@ export type TenantUpdateManyMutationInput = {
 
 export type TenantUncheckedUpdateManyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  reference?: Prisma.IntFieldUpdateOperationsInput | number
   isDiplomatic?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isPersonal?: Prisma.BoolFieldUpdateOperationsInput | boolean
   firstname?: Prisma.StringFieldUpdateOperationsInput | string
@@ -643,6 +666,7 @@ export type TenantUncheckedUpdateManyInput = {
 
 export type TenantCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
+  reference?: Prisma.SortOrder
   isDiplomatic?: Prisma.SortOrder
   isPersonal?: Prisma.SortOrder
   firstname?: Prisma.SortOrder
@@ -665,6 +689,7 @@ export type TenantCountOrderByAggregateInput = {
 }
 
 export type TenantAvgOrderByAggregateInput = {
+  reference?: Prisma.SortOrder
   income?: Prisma.SortOrder
   monthlyRent?: Prisma.SortOrder
   monthlyCharges?: Prisma.SortOrder
@@ -673,6 +698,7 @@ export type TenantAvgOrderByAggregateInput = {
 
 export type TenantMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
+  reference?: Prisma.SortOrder
   isDiplomatic?: Prisma.SortOrder
   isPersonal?: Prisma.SortOrder
   firstname?: Prisma.SortOrder
@@ -694,6 +720,7 @@ export type TenantMaxOrderByAggregateInput = {
 
 export type TenantMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
+  reference?: Prisma.SortOrder
   isDiplomatic?: Prisma.SortOrder
   isPersonal?: Prisma.SortOrder
   firstname?: Prisma.SortOrder
@@ -714,6 +741,7 @@ export type TenantMinOrderByAggregateInput = {
 }
 
 export type TenantSumOrderByAggregateInput = {
+  reference?: Prisma.SortOrder
   income?: Prisma.SortOrder
   monthlyRent?: Prisma.SortOrder
   monthlyCharges?: Prisma.SortOrder
@@ -834,6 +862,7 @@ export type TenantUpdateOneWithoutAppointmentsNestedInput = {
 
 export type TenantCreateWithoutRentalsInput = {
   id?: string
+  reference?: number
   isDiplomatic?: boolean
   isPersonal?: boolean
   firstname: string
@@ -861,6 +890,7 @@ export type TenantCreateWithoutRentalsInput = {
 
 export type TenantUncheckedCreateWithoutRentalsInput = {
   id?: string
+  reference?: number
   isDiplomatic?: boolean
   isPersonal?: boolean
   firstname: string
@@ -904,6 +934,7 @@ export type TenantUpdateToOneWithWhereWithoutRentalsInput = {
 
 export type TenantUpdateWithoutRentalsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  reference?: Prisma.IntFieldUpdateOperationsInput | number
   isDiplomatic?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isPersonal?: Prisma.BoolFieldUpdateOperationsInput | boolean
   firstname?: Prisma.StringFieldUpdateOperationsInput | string
@@ -931,6 +962,7 @@ export type TenantUpdateWithoutRentalsInput = {
 
 export type TenantUncheckedUpdateWithoutRentalsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  reference?: Prisma.IntFieldUpdateOperationsInput | number
   isDiplomatic?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isPersonal?: Prisma.BoolFieldUpdateOperationsInput | boolean
   firstname?: Prisma.StringFieldUpdateOperationsInput | string
@@ -958,6 +990,7 @@ export type TenantUncheckedUpdateWithoutRentalsInput = {
 
 export type TenantCreateWithoutInvoicesInput = {
   id?: string
+  reference?: number
   isDiplomatic?: boolean
   isPersonal?: boolean
   firstname: string
@@ -985,6 +1018,7 @@ export type TenantCreateWithoutInvoicesInput = {
 
 export type TenantUncheckedCreateWithoutInvoicesInput = {
   id?: string
+  reference?: number
   isDiplomatic?: boolean
   isPersonal?: boolean
   firstname: string
@@ -1028,6 +1062,7 @@ export type TenantUpdateToOneWithWhereWithoutInvoicesInput = {
 
 export type TenantUpdateWithoutInvoicesInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  reference?: Prisma.IntFieldUpdateOperationsInput | number
   isDiplomatic?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isPersonal?: Prisma.BoolFieldUpdateOperationsInput | boolean
   firstname?: Prisma.StringFieldUpdateOperationsInput | string
@@ -1055,6 +1090,7 @@ export type TenantUpdateWithoutInvoicesInput = {
 
 export type TenantUncheckedUpdateWithoutInvoicesInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  reference?: Prisma.IntFieldUpdateOperationsInput | number
   isDiplomatic?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isPersonal?: Prisma.BoolFieldUpdateOperationsInput | boolean
   firstname?: Prisma.StringFieldUpdateOperationsInput | string
@@ -1082,6 +1118,7 @@ export type TenantUncheckedUpdateWithoutInvoicesInput = {
 
 export type TenantCreateWithoutQuotesInput = {
   id?: string
+  reference?: number
   isDiplomatic?: boolean
   isPersonal?: boolean
   firstname: string
@@ -1109,6 +1146,7 @@ export type TenantCreateWithoutQuotesInput = {
 
 export type TenantUncheckedCreateWithoutQuotesInput = {
   id?: string
+  reference?: number
   isDiplomatic?: boolean
   isPersonal?: boolean
   firstname: string
@@ -1152,6 +1190,7 @@ export type TenantUpdateToOneWithWhereWithoutQuotesInput = {
 
 export type TenantUpdateWithoutQuotesInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  reference?: Prisma.IntFieldUpdateOperationsInput | number
   isDiplomatic?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isPersonal?: Prisma.BoolFieldUpdateOperationsInput | boolean
   firstname?: Prisma.StringFieldUpdateOperationsInput | string
@@ -1179,6 +1218,7 @@ export type TenantUpdateWithoutQuotesInput = {
 
 export type TenantUncheckedUpdateWithoutQuotesInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  reference?: Prisma.IntFieldUpdateOperationsInput | number
   isDiplomatic?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isPersonal?: Prisma.BoolFieldUpdateOperationsInput | boolean
   firstname?: Prisma.StringFieldUpdateOperationsInput | string
@@ -1206,6 +1246,7 @@ export type TenantUncheckedUpdateWithoutQuotesInput = {
 
 export type TenantCreateWithoutCheckInOutsInput = {
   id?: string
+  reference?: number
   isDiplomatic?: boolean
   isPersonal?: boolean
   firstname: string
@@ -1233,6 +1274,7 @@ export type TenantCreateWithoutCheckInOutsInput = {
 
 export type TenantUncheckedCreateWithoutCheckInOutsInput = {
   id?: string
+  reference?: number
   isDiplomatic?: boolean
   isPersonal?: boolean
   firstname: string
@@ -1276,6 +1318,7 @@ export type TenantUpdateToOneWithWhereWithoutCheckInOutsInput = {
 
 export type TenantUpdateWithoutCheckInOutsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  reference?: Prisma.IntFieldUpdateOperationsInput | number
   isDiplomatic?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isPersonal?: Prisma.BoolFieldUpdateOperationsInput | boolean
   firstname?: Prisma.StringFieldUpdateOperationsInput | string
@@ -1303,6 +1346,7 @@ export type TenantUpdateWithoutCheckInOutsInput = {
 
 export type TenantUncheckedUpdateWithoutCheckInOutsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  reference?: Prisma.IntFieldUpdateOperationsInput | number
   isDiplomatic?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isPersonal?: Prisma.BoolFieldUpdateOperationsInput | boolean
   firstname?: Prisma.StringFieldUpdateOperationsInput | string
@@ -1330,6 +1374,7 @@ export type TenantUncheckedUpdateWithoutCheckInOutsInput = {
 
 export type TenantCreateWithoutAppointmentsInput = {
   id?: string
+  reference?: number
   isDiplomatic?: boolean
   isPersonal?: boolean
   firstname: string
@@ -1357,6 +1402,7 @@ export type TenantCreateWithoutAppointmentsInput = {
 
 export type TenantUncheckedCreateWithoutAppointmentsInput = {
   id?: string
+  reference?: number
   isDiplomatic?: boolean
   isPersonal?: boolean
   firstname: string
@@ -1400,6 +1446,7 @@ export type TenantUpdateToOneWithWhereWithoutAppointmentsInput = {
 
 export type TenantUpdateWithoutAppointmentsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  reference?: Prisma.IntFieldUpdateOperationsInput | number
   isDiplomatic?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isPersonal?: Prisma.BoolFieldUpdateOperationsInput | boolean
   firstname?: Prisma.StringFieldUpdateOperationsInput | string
@@ -1427,6 +1474,7 @@ export type TenantUpdateWithoutAppointmentsInput = {
 
 export type TenantUncheckedUpdateWithoutAppointmentsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  reference?: Prisma.IntFieldUpdateOperationsInput | number
   isDiplomatic?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isPersonal?: Prisma.BoolFieldUpdateOperationsInput | boolean
   firstname?: Prisma.StringFieldUpdateOperationsInput | string
@@ -1521,6 +1569,7 @@ export type TenantCountOutputTypeCountCheckInOutsArgs<ExtArgs extends runtime.Ty
 
 export type TenantSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
+  reference?: boolean
   isDiplomatic?: boolean
   isPersonal?: boolean
   firstname?: boolean
@@ -1550,6 +1599,7 @@ export type TenantSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs =
 
 export type TenantSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
+  reference?: boolean
   isDiplomatic?: boolean
   isPersonal?: boolean
   firstname?: boolean
@@ -1573,6 +1623,7 @@ export type TenantSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extens
 
 export type TenantSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
+  reference?: boolean
   isDiplomatic?: boolean
   isPersonal?: boolean
   firstname?: boolean
@@ -1596,6 +1647,7 @@ export type TenantSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extens
 
 export type TenantSelectScalar = {
   id?: boolean
+  reference?: boolean
   isDiplomatic?: boolean
   isPersonal?: boolean
   firstname?: boolean
@@ -1617,7 +1669,7 @@ export type TenantSelectScalar = {
   updatedAt?: boolean
 }
 
-export type TenantOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "isDiplomatic" | "isPersonal" | "firstname" | "lastname" | "company" | "phone" | "email" | "address" | "maritalStatus" | "income" | "bankInfo" | "paymentMode" | "documents" | "monthlyRent" | "monthlyCharges" | "depositPaid" | "isDeleting" | "createdAt" | "updatedAt", ExtArgs["result"]["tenant"]>
+export type TenantOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "reference" | "isDiplomatic" | "isPersonal" | "firstname" | "lastname" | "company" | "phone" | "email" | "address" | "maritalStatus" | "income" | "bankInfo" | "paymentMode" | "documents" | "monthlyRent" | "monthlyCharges" | "depositPaid" | "isDeleting" | "createdAt" | "updatedAt", ExtArgs["result"]["tenant"]>
 export type TenantInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   rentals?: boolean | Prisma.Tenant$rentalsArgs<ExtArgs>
   invoices?: boolean | Prisma.Tenant$invoicesArgs<ExtArgs>
@@ -1640,6 +1692,7 @@ export type $TenantPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
+    reference: number
     isDiplomatic: boolean
     isPersonal: boolean
     firstname: string
@@ -2088,6 +2141,7 @@ export interface Prisma__TenantClient<T, Null = never, ExtArgs extends runtime.T
  */
 export interface TenantFieldRefs {
   readonly id: Prisma.FieldRef<"Tenant", 'String'>
+  readonly reference: Prisma.FieldRef<"Tenant", 'Int'>
   readonly isDiplomatic: Prisma.FieldRef<"Tenant", 'Boolean'>
   readonly isPersonal: Prisma.FieldRef<"Tenant", 'Boolean'>
   readonly firstname: Prisma.FieldRef<"Tenant", 'String'>

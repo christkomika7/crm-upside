@@ -2,7 +2,7 @@ import { z } from "zod"
 
 export const propertyManagementSchema = z.object({
     building: z.string().min(1, { error: "Le bâtiment est requis." }),
-    unit: z.string().min(1, { error: "L'unité est requise." }),
+    units: z.array(z.string()).min(1, { error: "L'unité est requise." }),
     administrativeManagement: z.boolean(),
     technicalManagement: z.boolean(),
     services: z.array(z.string()).optional(),

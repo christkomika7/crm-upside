@@ -43,7 +43,9 @@ export const accountingRelations = t.Object(
         {
           id: t.String(),
           reference: t.String(),
-          rentalStatus: t.String(),
+          rentalStatus: t.Union([t.Literal("FREE"), t.Literal("OCCUPED")], {
+            additionalProperties: false,
+          }),
           surface: t.Number(),
           livingroom: t.Integer(),
           dining: t.Integer(),
@@ -65,6 +67,7 @@ export const accountingRelations = t.Object(
           typeId: t.String(),
           createdAt: t.Date(),
           updatedAt: t.Date(),
+          propertyManagementId: __nullable__(t.String()),
         },
         { additionalProperties: false },
       ),

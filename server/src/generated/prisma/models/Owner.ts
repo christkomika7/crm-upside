@@ -20,13 +20,23 @@ export type OwnerModel = runtime.Types.Result.DefaultSelection<Prisma.$OwnerPayl
 
 export type AggregateOwner = {
   _count: OwnerCountAggregateOutputType | null
+  _avg: OwnerAvgAggregateOutputType | null
+  _sum: OwnerSumAggregateOutputType | null
   _min: OwnerMinAggregateOutputType | null
   _max: OwnerMaxAggregateOutputType | null
 }
 
+export type OwnerAvgAggregateOutputType = {
+  reference: number | null
+}
+
+export type OwnerSumAggregateOutputType = {
+  reference: number | null
+}
+
 export type OwnerMinAggregateOutputType = {
   id: string | null
-  reference: string | null
+  reference: number | null
   firstname: string | null
   lastname: string | null
   company: string | null
@@ -42,7 +52,7 @@ export type OwnerMinAggregateOutputType = {
 
 export type OwnerMaxAggregateOutputType = {
   id: string | null
-  reference: string | null
+  reference: number | null
   firstname: string | null
   lastname: string | null
   company: string | null
@@ -74,6 +84,14 @@ export type OwnerCountAggregateOutputType = {
   _all: number
 }
 
+
+export type OwnerAvgAggregateInputType = {
+  reference?: true
+}
+
+export type OwnerSumAggregateInputType = {
+  reference?: true
+}
 
 export type OwnerMinAggregateInputType = {
   id?: true
@@ -163,6 +181,18 @@ export type OwnerAggregateArgs<ExtArgs extends runtime.Types.Extensions.Internal
   /**
    * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
    * 
+   * Select which fields to average
+  **/
+  _avg?: OwnerAvgAggregateInputType
+  /**
+   * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+   * 
+   * Select which fields to sum
+  **/
+  _sum?: OwnerSumAggregateInputType
+  /**
+   * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+   * 
    * Select which fields to find the minimum value
   **/
   _min?: OwnerMinAggregateInputType
@@ -193,26 +223,30 @@ export type OwnerGroupByArgs<ExtArgs extends runtime.Types.Extensions.InternalAr
   take?: number
   skip?: number
   _count?: OwnerCountAggregateInputType | true
+  _avg?: OwnerAvgAggregateInputType
+  _sum?: OwnerSumAggregateInputType
   _min?: OwnerMinAggregateInputType
   _max?: OwnerMaxAggregateInputType
 }
 
 export type OwnerGroupByOutputType = {
   id: string
-  reference: string
+  reference: number
   firstname: string
   lastname: string
-  company: string
+  company: string | null
   phone: string
   email: string
   address: string
-  actionnary: string
+  actionnary: string | null
   isDeleting: boolean
   bankInfo: string
   documents: string[]
   createdAt: Date
   updatedAt: Date
   _count: OwnerCountAggregateOutputType | null
+  _avg: OwnerAvgAggregateOutputType | null
+  _sum: OwnerSumAggregateOutputType | null
   _min: OwnerMinAggregateOutputType | null
   _max: OwnerMaxAggregateOutputType | null
 }
@@ -237,14 +271,14 @@ export type OwnerWhereInput = {
   OR?: Prisma.OwnerWhereInput[]
   NOT?: Prisma.OwnerWhereInput | Prisma.OwnerWhereInput[]
   id?: Prisma.StringFilter<"Owner"> | string
-  reference?: Prisma.StringFilter<"Owner"> | string
+  reference?: Prisma.IntFilter<"Owner"> | number
   firstname?: Prisma.StringFilter<"Owner"> | string
   lastname?: Prisma.StringFilter<"Owner"> | string
-  company?: Prisma.StringFilter<"Owner"> | string
+  company?: Prisma.StringNullableFilter<"Owner"> | string | null
   phone?: Prisma.StringFilter<"Owner"> | string
   email?: Prisma.StringFilter<"Owner"> | string
   address?: Prisma.StringFilter<"Owner"> | string
-  actionnary?: Prisma.StringFilter<"Owner"> | string
+  actionnary?: Prisma.StringNullableFilter<"Owner"> | string | null
   isDeleting?: Prisma.BoolFilter<"Owner"> | boolean
   bankInfo?: Prisma.StringFilter<"Owner"> | string
   documents?: Prisma.StringNullableListFilter<"Owner">
@@ -261,11 +295,11 @@ export type OwnerOrderByWithRelationInput = {
   reference?: Prisma.SortOrder
   firstname?: Prisma.SortOrder
   lastname?: Prisma.SortOrder
-  company?: Prisma.SortOrder
+  company?: Prisma.SortOrderInput | Prisma.SortOrder
   phone?: Prisma.SortOrder
   email?: Prisma.SortOrder
   address?: Prisma.SortOrder
-  actionnary?: Prisma.SortOrder
+  actionnary?: Prisma.SortOrderInput | Prisma.SortOrder
   isDeleting?: Prisma.SortOrder
   bankInfo?: Prisma.SortOrder
   documents?: Prisma.SortOrder
@@ -279,17 +313,17 @@ export type OwnerOrderByWithRelationInput = {
 
 export type OwnerWhereUniqueInput = Prisma.AtLeast<{
   id?: string
-  reference?: string
   AND?: Prisma.OwnerWhereInput | Prisma.OwnerWhereInput[]
   OR?: Prisma.OwnerWhereInput[]
   NOT?: Prisma.OwnerWhereInput | Prisma.OwnerWhereInput[]
+  reference?: Prisma.IntFilter<"Owner"> | number
   firstname?: Prisma.StringFilter<"Owner"> | string
   lastname?: Prisma.StringFilter<"Owner"> | string
-  company?: Prisma.StringFilter<"Owner"> | string
+  company?: Prisma.StringNullableFilter<"Owner"> | string | null
   phone?: Prisma.StringFilter<"Owner"> | string
   email?: Prisma.StringFilter<"Owner"> | string
   address?: Prisma.StringFilter<"Owner"> | string
-  actionnary?: Prisma.StringFilter<"Owner"> | string
+  actionnary?: Prisma.StringNullableFilter<"Owner"> | string | null
   isDeleting?: Prisma.BoolFilter<"Owner"> | boolean
   bankInfo?: Prisma.StringFilter<"Owner"> | string
   documents?: Prisma.StringNullableListFilter<"Owner">
@@ -299,26 +333,28 @@ export type OwnerWhereUniqueInput = Prisma.AtLeast<{
   invoices?: Prisma.InvoiceListRelationFilter
   quotes?: Prisma.QuoteListRelationFilter
   appointments?: Prisma.AppointmentListRelationFilter
-}, "id" | "reference">
+}, "id">
 
 export type OwnerOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
   reference?: Prisma.SortOrder
   firstname?: Prisma.SortOrder
   lastname?: Prisma.SortOrder
-  company?: Prisma.SortOrder
+  company?: Prisma.SortOrderInput | Prisma.SortOrder
   phone?: Prisma.SortOrder
   email?: Prisma.SortOrder
   address?: Prisma.SortOrder
-  actionnary?: Prisma.SortOrder
+  actionnary?: Prisma.SortOrderInput | Prisma.SortOrder
   isDeleting?: Prisma.SortOrder
   bankInfo?: Prisma.SortOrder
   documents?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   _count?: Prisma.OwnerCountOrderByAggregateInput
+  _avg?: Prisma.OwnerAvgOrderByAggregateInput
   _max?: Prisma.OwnerMaxOrderByAggregateInput
   _min?: Prisma.OwnerMinOrderByAggregateInput
+  _sum?: Prisma.OwnerSumOrderByAggregateInput
 }
 
 export type OwnerScalarWhereWithAggregatesInput = {
@@ -326,14 +362,14 @@ export type OwnerScalarWhereWithAggregatesInput = {
   OR?: Prisma.OwnerScalarWhereWithAggregatesInput[]
   NOT?: Prisma.OwnerScalarWhereWithAggregatesInput | Prisma.OwnerScalarWhereWithAggregatesInput[]
   id?: Prisma.StringWithAggregatesFilter<"Owner"> | string
-  reference?: Prisma.StringWithAggregatesFilter<"Owner"> | string
+  reference?: Prisma.IntWithAggregatesFilter<"Owner"> | number
   firstname?: Prisma.StringWithAggregatesFilter<"Owner"> | string
   lastname?: Prisma.StringWithAggregatesFilter<"Owner"> | string
-  company?: Prisma.StringWithAggregatesFilter<"Owner"> | string
+  company?: Prisma.StringNullableWithAggregatesFilter<"Owner"> | string | null
   phone?: Prisma.StringWithAggregatesFilter<"Owner"> | string
   email?: Prisma.StringWithAggregatesFilter<"Owner"> | string
   address?: Prisma.StringWithAggregatesFilter<"Owner"> | string
-  actionnary?: Prisma.StringWithAggregatesFilter<"Owner"> | string
+  actionnary?: Prisma.StringNullableWithAggregatesFilter<"Owner"> | string | null
   isDeleting?: Prisma.BoolWithAggregatesFilter<"Owner"> | boolean
   bankInfo?: Prisma.StringWithAggregatesFilter<"Owner"> | string
   documents?: Prisma.StringNullableListFilter<"Owner">
@@ -343,14 +379,14 @@ export type OwnerScalarWhereWithAggregatesInput = {
 
 export type OwnerCreateInput = {
   id?: string
-  reference: string
+  reference?: number
   firstname: string
   lastname: string
-  company: string
+  company?: string | null
   phone: string
   email: string
   address: string
-  actionnary: string
+  actionnary?: string | null
   isDeleting?: boolean
   bankInfo: string
   documents?: Prisma.OwnerCreatedocumentsInput | string[]
@@ -364,14 +400,14 @@ export type OwnerCreateInput = {
 
 export type OwnerUncheckedCreateInput = {
   id?: string
-  reference: string
+  reference?: number
   firstname: string
   lastname: string
-  company: string
+  company?: string | null
   phone: string
   email: string
   address: string
-  actionnary: string
+  actionnary?: string | null
   isDeleting?: boolean
   bankInfo: string
   documents?: Prisma.OwnerCreatedocumentsInput | string[]
@@ -385,14 +421,14 @@ export type OwnerUncheckedCreateInput = {
 
 export type OwnerUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  reference?: Prisma.StringFieldUpdateOperationsInput | string
+  reference?: Prisma.IntFieldUpdateOperationsInput | number
   firstname?: Prisma.StringFieldUpdateOperationsInput | string
   lastname?: Prisma.StringFieldUpdateOperationsInput | string
-  company?: Prisma.StringFieldUpdateOperationsInput | string
+  company?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   phone?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
   address?: Prisma.StringFieldUpdateOperationsInput | string
-  actionnary?: Prisma.StringFieldUpdateOperationsInput | string
+  actionnary?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isDeleting?: Prisma.BoolFieldUpdateOperationsInput | boolean
   bankInfo?: Prisma.StringFieldUpdateOperationsInput | string
   documents?: Prisma.OwnerUpdatedocumentsInput | string[]
@@ -406,14 +442,14 @@ export type OwnerUpdateInput = {
 
 export type OwnerUncheckedUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  reference?: Prisma.StringFieldUpdateOperationsInput | string
+  reference?: Prisma.IntFieldUpdateOperationsInput | number
   firstname?: Prisma.StringFieldUpdateOperationsInput | string
   lastname?: Prisma.StringFieldUpdateOperationsInput | string
-  company?: Prisma.StringFieldUpdateOperationsInput | string
+  company?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   phone?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
   address?: Prisma.StringFieldUpdateOperationsInput | string
-  actionnary?: Prisma.StringFieldUpdateOperationsInput | string
+  actionnary?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isDeleting?: Prisma.BoolFieldUpdateOperationsInput | boolean
   bankInfo?: Prisma.StringFieldUpdateOperationsInput | string
   documents?: Prisma.OwnerUpdatedocumentsInput | string[]
@@ -427,14 +463,14 @@ export type OwnerUncheckedUpdateInput = {
 
 export type OwnerCreateManyInput = {
   id?: string
-  reference: string
+  reference?: number
   firstname: string
   lastname: string
-  company: string
+  company?: string | null
   phone: string
   email: string
   address: string
-  actionnary: string
+  actionnary?: string | null
   isDeleting?: boolean
   bankInfo: string
   documents?: Prisma.OwnerCreatedocumentsInput | string[]
@@ -444,14 +480,14 @@ export type OwnerCreateManyInput = {
 
 export type OwnerUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  reference?: Prisma.StringFieldUpdateOperationsInput | string
+  reference?: Prisma.IntFieldUpdateOperationsInput | number
   firstname?: Prisma.StringFieldUpdateOperationsInput | string
   lastname?: Prisma.StringFieldUpdateOperationsInput | string
-  company?: Prisma.StringFieldUpdateOperationsInput | string
+  company?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   phone?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
   address?: Prisma.StringFieldUpdateOperationsInput | string
-  actionnary?: Prisma.StringFieldUpdateOperationsInput | string
+  actionnary?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isDeleting?: Prisma.BoolFieldUpdateOperationsInput | boolean
   bankInfo?: Prisma.StringFieldUpdateOperationsInput | string
   documents?: Prisma.OwnerUpdatedocumentsInput | string[]
@@ -461,14 +497,14 @@ export type OwnerUpdateManyMutationInput = {
 
 export type OwnerUncheckedUpdateManyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  reference?: Prisma.StringFieldUpdateOperationsInput | string
+  reference?: Prisma.IntFieldUpdateOperationsInput | number
   firstname?: Prisma.StringFieldUpdateOperationsInput | string
   lastname?: Prisma.StringFieldUpdateOperationsInput | string
-  company?: Prisma.StringFieldUpdateOperationsInput | string
+  company?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   phone?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
   address?: Prisma.StringFieldUpdateOperationsInput | string
-  actionnary?: Prisma.StringFieldUpdateOperationsInput | string
+  actionnary?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isDeleting?: Prisma.BoolFieldUpdateOperationsInput | boolean
   bankInfo?: Prisma.StringFieldUpdateOperationsInput | string
   documents?: Prisma.OwnerUpdatedocumentsInput | string[]
@@ -496,6 +532,10 @@ export type OwnerCountOrderByAggregateInput = {
   documents?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+}
+
+export type OwnerAvgOrderByAggregateInput = {
+  reference?: Prisma.SortOrder
 }
 
 export type OwnerMaxOrderByAggregateInput = {
@@ -528,6 +568,10 @@ export type OwnerMinOrderByAggregateInput = {
   bankInfo?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+}
+
+export type OwnerSumOrderByAggregateInput = {
+  reference?: Prisma.SortOrder
 }
 
 export type OwnerCreateNestedOneWithoutBuildingsInput = {
@@ -605,14 +649,14 @@ export type OwnerUpdateOneWithoutAppointmentsNestedInput = {
 
 export type OwnerCreateWithoutBuildingsInput = {
   id?: string
-  reference: string
+  reference?: number
   firstname: string
   lastname: string
-  company: string
+  company?: string | null
   phone: string
   email: string
   address: string
-  actionnary: string
+  actionnary?: string | null
   isDeleting?: boolean
   bankInfo: string
   documents?: Prisma.OwnerCreatedocumentsInput | string[]
@@ -625,14 +669,14 @@ export type OwnerCreateWithoutBuildingsInput = {
 
 export type OwnerUncheckedCreateWithoutBuildingsInput = {
   id?: string
-  reference: string
+  reference?: number
   firstname: string
   lastname: string
-  company: string
+  company?: string | null
   phone: string
   email: string
   address: string
-  actionnary: string
+  actionnary?: string | null
   isDeleting?: boolean
   bankInfo: string
   documents?: Prisma.OwnerCreatedocumentsInput | string[]
@@ -661,14 +705,14 @@ export type OwnerUpdateToOneWithWhereWithoutBuildingsInput = {
 
 export type OwnerUpdateWithoutBuildingsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  reference?: Prisma.StringFieldUpdateOperationsInput | string
+  reference?: Prisma.IntFieldUpdateOperationsInput | number
   firstname?: Prisma.StringFieldUpdateOperationsInput | string
   lastname?: Prisma.StringFieldUpdateOperationsInput | string
-  company?: Prisma.StringFieldUpdateOperationsInput | string
+  company?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   phone?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
   address?: Prisma.StringFieldUpdateOperationsInput | string
-  actionnary?: Prisma.StringFieldUpdateOperationsInput | string
+  actionnary?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isDeleting?: Prisma.BoolFieldUpdateOperationsInput | boolean
   bankInfo?: Prisma.StringFieldUpdateOperationsInput | string
   documents?: Prisma.OwnerUpdatedocumentsInput | string[]
@@ -681,14 +725,14 @@ export type OwnerUpdateWithoutBuildingsInput = {
 
 export type OwnerUncheckedUpdateWithoutBuildingsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  reference?: Prisma.StringFieldUpdateOperationsInput | string
+  reference?: Prisma.IntFieldUpdateOperationsInput | number
   firstname?: Prisma.StringFieldUpdateOperationsInput | string
   lastname?: Prisma.StringFieldUpdateOperationsInput | string
-  company?: Prisma.StringFieldUpdateOperationsInput | string
+  company?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   phone?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
   address?: Prisma.StringFieldUpdateOperationsInput | string
-  actionnary?: Prisma.StringFieldUpdateOperationsInput | string
+  actionnary?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isDeleting?: Prisma.BoolFieldUpdateOperationsInput | boolean
   bankInfo?: Prisma.StringFieldUpdateOperationsInput | string
   documents?: Prisma.OwnerUpdatedocumentsInput | string[]
@@ -701,14 +745,14 @@ export type OwnerUncheckedUpdateWithoutBuildingsInput = {
 
 export type OwnerCreateWithoutInvoicesInput = {
   id?: string
-  reference: string
+  reference?: number
   firstname: string
   lastname: string
-  company: string
+  company?: string | null
   phone: string
   email: string
   address: string
-  actionnary: string
+  actionnary?: string | null
   isDeleting?: boolean
   bankInfo: string
   documents?: Prisma.OwnerCreatedocumentsInput | string[]
@@ -721,14 +765,14 @@ export type OwnerCreateWithoutInvoicesInput = {
 
 export type OwnerUncheckedCreateWithoutInvoicesInput = {
   id?: string
-  reference: string
+  reference?: number
   firstname: string
   lastname: string
-  company: string
+  company?: string | null
   phone: string
   email: string
   address: string
-  actionnary: string
+  actionnary?: string | null
   isDeleting?: boolean
   bankInfo: string
   documents?: Prisma.OwnerCreatedocumentsInput | string[]
@@ -757,14 +801,14 @@ export type OwnerUpdateToOneWithWhereWithoutInvoicesInput = {
 
 export type OwnerUpdateWithoutInvoicesInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  reference?: Prisma.StringFieldUpdateOperationsInput | string
+  reference?: Prisma.IntFieldUpdateOperationsInput | number
   firstname?: Prisma.StringFieldUpdateOperationsInput | string
   lastname?: Prisma.StringFieldUpdateOperationsInput | string
-  company?: Prisma.StringFieldUpdateOperationsInput | string
+  company?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   phone?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
   address?: Prisma.StringFieldUpdateOperationsInput | string
-  actionnary?: Prisma.StringFieldUpdateOperationsInput | string
+  actionnary?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isDeleting?: Prisma.BoolFieldUpdateOperationsInput | boolean
   bankInfo?: Prisma.StringFieldUpdateOperationsInput | string
   documents?: Prisma.OwnerUpdatedocumentsInput | string[]
@@ -777,14 +821,14 @@ export type OwnerUpdateWithoutInvoicesInput = {
 
 export type OwnerUncheckedUpdateWithoutInvoicesInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  reference?: Prisma.StringFieldUpdateOperationsInput | string
+  reference?: Prisma.IntFieldUpdateOperationsInput | number
   firstname?: Prisma.StringFieldUpdateOperationsInput | string
   lastname?: Prisma.StringFieldUpdateOperationsInput | string
-  company?: Prisma.StringFieldUpdateOperationsInput | string
+  company?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   phone?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
   address?: Prisma.StringFieldUpdateOperationsInput | string
-  actionnary?: Prisma.StringFieldUpdateOperationsInput | string
+  actionnary?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isDeleting?: Prisma.BoolFieldUpdateOperationsInput | boolean
   bankInfo?: Prisma.StringFieldUpdateOperationsInput | string
   documents?: Prisma.OwnerUpdatedocumentsInput | string[]
@@ -797,14 +841,14 @@ export type OwnerUncheckedUpdateWithoutInvoicesInput = {
 
 export type OwnerCreateWithoutQuotesInput = {
   id?: string
-  reference: string
+  reference?: number
   firstname: string
   lastname: string
-  company: string
+  company?: string | null
   phone: string
   email: string
   address: string
-  actionnary: string
+  actionnary?: string | null
   isDeleting?: boolean
   bankInfo: string
   documents?: Prisma.OwnerCreatedocumentsInput | string[]
@@ -817,14 +861,14 @@ export type OwnerCreateWithoutQuotesInput = {
 
 export type OwnerUncheckedCreateWithoutQuotesInput = {
   id?: string
-  reference: string
+  reference?: number
   firstname: string
   lastname: string
-  company: string
+  company?: string | null
   phone: string
   email: string
   address: string
-  actionnary: string
+  actionnary?: string | null
   isDeleting?: boolean
   bankInfo: string
   documents?: Prisma.OwnerCreatedocumentsInput | string[]
@@ -853,14 +897,14 @@ export type OwnerUpdateToOneWithWhereWithoutQuotesInput = {
 
 export type OwnerUpdateWithoutQuotesInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  reference?: Prisma.StringFieldUpdateOperationsInput | string
+  reference?: Prisma.IntFieldUpdateOperationsInput | number
   firstname?: Prisma.StringFieldUpdateOperationsInput | string
   lastname?: Prisma.StringFieldUpdateOperationsInput | string
-  company?: Prisma.StringFieldUpdateOperationsInput | string
+  company?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   phone?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
   address?: Prisma.StringFieldUpdateOperationsInput | string
-  actionnary?: Prisma.StringFieldUpdateOperationsInput | string
+  actionnary?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isDeleting?: Prisma.BoolFieldUpdateOperationsInput | boolean
   bankInfo?: Prisma.StringFieldUpdateOperationsInput | string
   documents?: Prisma.OwnerUpdatedocumentsInput | string[]
@@ -873,14 +917,14 @@ export type OwnerUpdateWithoutQuotesInput = {
 
 export type OwnerUncheckedUpdateWithoutQuotesInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  reference?: Prisma.StringFieldUpdateOperationsInput | string
+  reference?: Prisma.IntFieldUpdateOperationsInput | number
   firstname?: Prisma.StringFieldUpdateOperationsInput | string
   lastname?: Prisma.StringFieldUpdateOperationsInput | string
-  company?: Prisma.StringFieldUpdateOperationsInput | string
+  company?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   phone?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
   address?: Prisma.StringFieldUpdateOperationsInput | string
-  actionnary?: Prisma.StringFieldUpdateOperationsInput | string
+  actionnary?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isDeleting?: Prisma.BoolFieldUpdateOperationsInput | boolean
   bankInfo?: Prisma.StringFieldUpdateOperationsInput | string
   documents?: Prisma.OwnerUpdatedocumentsInput | string[]
@@ -893,14 +937,14 @@ export type OwnerUncheckedUpdateWithoutQuotesInput = {
 
 export type OwnerCreateWithoutAppointmentsInput = {
   id?: string
-  reference: string
+  reference?: number
   firstname: string
   lastname: string
-  company: string
+  company?: string | null
   phone: string
   email: string
   address: string
-  actionnary: string
+  actionnary?: string | null
   isDeleting?: boolean
   bankInfo: string
   documents?: Prisma.OwnerCreatedocumentsInput | string[]
@@ -913,14 +957,14 @@ export type OwnerCreateWithoutAppointmentsInput = {
 
 export type OwnerUncheckedCreateWithoutAppointmentsInput = {
   id?: string
-  reference: string
+  reference?: number
   firstname: string
   lastname: string
-  company: string
+  company?: string | null
   phone: string
   email: string
   address: string
-  actionnary: string
+  actionnary?: string | null
   isDeleting?: boolean
   bankInfo: string
   documents?: Prisma.OwnerCreatedocumentsInput | string[]
@@ -949,14 +993,14 @@ export type OwnerUpdateToOneWithWhereWithoutAppointmentsInput = {
 
 export type OwnerUpdateWithoutAppointmentsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  reference?: Prisma.StringFieldUpdateOperationsInput | string
+  reference?: Prisma.IntFieldUpdateOperationsInput | number
   firstname?: Prisma.StringFieldUpdateOperationsInput | string
   lastname?: Prisma.StringFieldUpdateOperationsInput | string
-  company?: Prisma.StringFieldUpdateOperationsInput | string
+  company?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   phone?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
   address?: Prisma.StringFieldUpdateOperationsInput | string
-  actionnary?: Prisma.StringFieldUpdateOperationsInput | string
+  actionnary?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isDeleting?: Prisma.BoolFieldUpdateOperationsInput | boolean
   bankInfo?: Prisma.StringFieldUpdateOperationsInput | string
   documents?: Prisma.OwnerUpdatedocumentsInput | string[]
@@ -969,14 +1013,14 @@ export type OwnerUpdateWithoutAppointmentsInput = {
 
 export type OwnerUncheckedUpdateWithoutAppointmentsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  reference?: Prisma.StringFieldUpdateOperationsInput | string
+  reference?: Prisma.IntFieldUpdateOperationsInput | number
   firstname?: Prisma.StringFieldUpdateOperationsInput | string
   lastname?: Prisma.StringFieldUpdateOperationsInput | string
-  company?: Prisma.StringFieldUpdateOperationsInput | string
+  company?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   phone?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
   address?: Prisma.StringFieldUpdateOperationsInput | string
-  actionnary?: Prisma.StringFieldUpdateOperationsInput | string
+  actionnary?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isDeleting?: Prisma.BoolFieldUpdateOperationsInput | boolean
   bankInfo?: Prisma.StringFieldUpdateOperationsInput | string
   documents?: Prisma.OwnerUpdatedocumentsInput | string[]
@@ -1139,14 +1183,14 @@ export type $OwnerPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs 
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
-    reference: string
+    reference: number
     firstname: string
     lastname: string
-    company: string
+    company: string | null
     phone: string
     email: string
     address: string
-    actionnary: string
+    actionnary: string | null
     isDeleting: boolean
     bankInfo: string
     documents: string[]
@@ -1580,7 +1624,7 @@ export interface Prisma__OwnerClient<T, Null = never, ExtArgs extends runtime.Ty
  */
 export interface OwnerFieldRefs {
   readonly id: Prisma.FieldRef<"Owner", 'String'>
-  readonly reference: Prisma.FieldRef<"Owner", 'String'>
+  readonly reference: Prisma.FieldRef<"Owner", 'Int'>
   readonly firstname: Prisma.FieldRef<"Owner", 'String'>
   readonly lastname: Prisma.FieldRef<"Owner", 'String'>
   readonly company: Prisma.FieldRef<"Owner", 'String'>

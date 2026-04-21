@@ -1,59 +1,56 @@
 import { Button } from "@/components/ui/button";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
 import { Spinner } from "@/components/ui/spinner";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useState } from "react"
 import { useForm } from "react-hook-form";
-import {
-    Select,
-    SelectContent,
-    SelectItem,
-    SelectTrigger,
-    SelectValue,
-} from "@/components/ui/select"
 import InputFile from "@/components/ui/input-file";
 import { reportSchema, type ReportSchemaType } from "@/lib/zod/reports";
 import { Textarea } from "@/components/ui/textarea";
 import { useMutation, useQuery } from "@tanstack/react-query";
-import type { Tenant } from "@/types/tenant";
 import { apiFetch, crudService } from "@/lib/api";
 import type { Unit } from "@/types/unit";
-import { Label } from "@/components/ui/label";
 import { toast } from "sonner";
 import { queryClient } from "@/lib/query-client";
 import { DatePicker } from "@/components/ui/date-picker";
+import type { LabelType } from "@/types/utils";
+import { DEFAULT_VALUES } from "./lib/utils";
+import RequiredLabel from "@/components/ui/required-label";
+import { SelectField } from "@/components/ui/select-field";
 
 
 export default function CreateReport() {
-    const [unit, setUnit] = useState<Partial<Unit> | null>(null);
+    const form = useForm<ReportSchemaType>({
+        resolver: zodResolver(reportSchema),
+        defaultValues: DEFAULT_VALUES
+    });
+
+    const tenant = form.watch("tenant");
 
     const { isPending: isGettingTenants, data: tenants } = useQuery({
         queryKey: ["tenants"],
-        queryFn: () => apiFetch<Tenant[]>("/tenant"),
+        queryFn: () => apiFetch<LabelType[]>("/tenant/list"),
         select: (data) => data.map((tenant) => ({
-            value: tenant.id,
-            label: `${tenant.firstname} ${tenant.lastname}`,
+            value: tenant.value,
+            label: tenant.label,
         })),
+        staleTime: 0,
+        gcTime: 0,
+        refetchOnMount: "always" as const,
+        refetchOnWindowFocus: true,
     });
 
     const { isPending: isGettingUnits, data: units } = useQuery({
-        queryKey: ["units"],
-        queryFn: () => apiFetch<Unit[]>(`/unit`),
+        queryKey: ["units", tenant],
+        enabled: !!tenant,
+        queryFn: () => apiFetch<Unit[]>(`/unit/tenant?id=${tenant}`),
         select: (data) => data.map((unit) => ({
             value: unit.id,
             label: `${unit.reference}`,
-            surface: unit.surface,
-            livingroom: unit.livingroom,
-            dining: unit.dining,
-            bedroom: unit.bedroom,
-            kitchen: unit.kitchen,
-            bathroom: unit.bathroom,
         })),
-    });
-
-    const form = useForm<ReportSchemaType>({
-        resolver: zodResolver(reportSchema),
+        staleTime: 0,
+        gcTime: 0,
+        refetchOnMount: "always" as const,
+        refetchOnWindowFocus: true,
     });
 
 
@@ -63,13 +60,7 @@ export default function CreateReport() {
         onSuccess() {
             toast.success("État des lieux créé avec succès");
             queryClient.invalidateQueries({ queryKey: ["reports"] });
-            form.reset({
-                tenant: "",
-                unit: "",
-                note: "",
-                documents: undefined,
-            });
-            setUnit(null)
+            form.reset(DEFAULT_VALUES);
         },
         onError: (error: Error) => {
             console.error("Erreur:", error.message);
@@ -111,7 +102,7 @@ export default function CreateReport() {
                             name="date"
                             render={({ field }) => (
                                 <FormItem >
-                                    <FormLabel className="text-neutral-600">Date</FormLabel>
+                                    <FormLabel className="text-neutral-600">Date<RequiredLabel /></FormLabel>
                                     <FormControl>
                                         <DatePicker date={field.value} setDate={field.onChange} error={!!form.formState.errors.date} />
                                     </FormControl>
@@ -122,143 +113,44 @@ export default function CreateReport() {
                         <FormField
                             control={form.control}
                             name="tenant"
-                            render={({ field }) => (
-                                <FormItem >
-                                    <FormLabel className="text-neutral-600">Nom du locataire</FormLabel>
-                                    <FormControl>
-                                        <Select
-                                            onValueChange={field.onChange}
-                                            value={field.value}
-                                        >
-                                            <SelectTrigger
-                                                className="w-full"
-                                                aria-invalid={!!form.formState.errors.tenant}
-                                            >
-                                                <SelectValue placeholder="Selectionner un locataire" />
-                                            </SelectTrigger>
-                                            <SelectContent position="popper" align="end">
-                                                {isGettingTenants ? (
-                                                    <div className="flex justify-center items-center">
-                                                        <Spinner />
-                                                    </div>
-                                                ) : tenants && tenants.length > 0 ? (
-                                                    tenants.map((tenant) => (
-                                                        <SelectItem key={tenant.value} value={tenant.value}>
-                                                            {tenant.label}
-                                                        </SelectItem>
-                                                    ))
-                                                ) : (
-                                                    <SelectItem value="none" disabled>
-                                                        Aucun locataire disponible
-                                                    </SelectItem>
-                                                )}
-                                            </SelectContent>
-                                        </Select>
-                                    </FormControl>
-                                    <FormMessage />
-                                </FormItem>
+                            render={({ field, formState }) => (
+                                <SelectField
+                                    label="Nom du locataire"
+                                    required
+                                    placeholder="Sélectionner un locataire"
+                                    value={field.value}
+                                    onChange={field.onChange}
+                                    options={tenants}
+                                    isLoading={isGettingTenants}
+                                    hasError={!!formState.errors.tenant}
+                                    emptyMessage="  Aucun locataire disponible"
+                                />
                             )}
                         />
                         <FormField
                             control={form.control}
                             name="unit"
-                            render={({ field }) => (
-                                <FormItem >
-                                    <FormLabel className="text-neutral-600">Unité</FormLabel>
-                                    <FormControl>
-                                        <Select
-                                            onValueChange={(e) => {
-                                                field.onChange(e)
-                                                setUnit(units?.find((unit) => unit.value === e) || null)
-                                            }}
-                                            value={field.value}
-                                        >
-                                            <SelectTrigger
-                                                className="w-full"
-                                                aria-invalid={!!form.formState.errors.unit}
-                                            >
-                                                <SelectValue placeholder="Selectionner une unité" />
-                                            </SelectTrigger>
-                                            <SelectContent position="popper" align="end">
-                                                {isGettingUnits ? (
-                                                    <div className="flex justify-center items-center">
-                                                        <Spinner />
-                                                    </div>
-                                                ) : units && units.length > 0 ? (
-                                                    units.map((unit) => (
-                                                        <SelectItem key={unit.value} value={unit.value}>
-                                                            {unit.label}
-                                                        </SelectItem>
-                                                    ))
-                                                ) : (
-                                                    <SelectItem value="none" disabled>
-                                                        Aucune unité disponible
-                                                    </SelectItem>
-                                                )}
-                                            </SelectContent>
-                                        </Select>
-                                    </FormControl>
-                                    <FormMessage />
-                                </FormItem>
+                            render={({ field, formState }) => (
+                                <SelectField
+                                    label="Unité"
+                                    required
+                                    placeholder="Selectionner une unité"
+                                    value={field.value}
+                                    onChange={field.onChange}
+                                    options={units}
+                                    isLoading={isGettingUnits}
+                                    hasError={!!formState.errors.unit}
+                                    emptyMessage=" Aucune unité disponible"
+                                />
                             )}
                         />
-                        <div className="space-y-2">
-                            <Label className="text-neutral-600">Dimensions</Label>
-                            <Input
-                                suffix="m²"
-                                type="number"
-                                disabled
-                                value={unit?.surface}
-                            />
-                        </div>
-                        <div className="space-y-2">
-                            <Label className="text-neutral-600">Salon</Label>
-                            <Input
-                                type="number"
-                                disabled
-                                value={unit?.livingroom}
-                            />
-                        </div>
-                        <div className="space-y-2">
-                            <Label className="text-neutral-600">Salle à manger</Label>
-                            <Input
-                                type="number"
-                                disabled
-                                value={unit?.dining}
-                            />
-                        </div>
-                        <div className="space-y-2">
-                            <Label className="text-neutral-600">Cuisine</Label>
-                            <Input
-                                type="number"
-                                disabled
-                                value={unit?.kitchen}
-                            />
-                        </div>
-                        <div className="space-y-2">
-                            <Label className="text-neutral-600">Chambre</Label>
-                            <Input
-                                type="number"
-                                disabled
-                                value={unit?.bedroom}
-                            />
-                        </div>
-                        <div className="space-y-2">
-                            <Label className="text-neutral-600">Salle de bain</Label>
-                            <Input
-                                type="number"
-                                disabled
-                                value={unit?.bathroom}
-                            />
-                        </div>
-
                     </div>
                     <FormField
                         control={form.control}
                         name="note"
                         render={({ field }) => (
                             <FormItem >
-                                <FormLabel className="text-neutral-600">Note</FormLabel>
+                                <FormLabel className="text-neutral-600">Note<RequiredLabel /></FormLabel>
                                 <FormControl>
                                     <Textarea
                                         placeholder="Entrer la note"

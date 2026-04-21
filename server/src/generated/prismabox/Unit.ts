@@ -8,7 +8,9 @@ export const UnitPlain = t.Object(
   {
     id: t.String(),
     reference: t.String(),
-    rentalStatus: t.String(),
+    rentalStatus: t.Union([t.Literal("FREE"), t.Literal("OCCUPED")], {
+      additionalProperties: false,
+    }),
     surface: t.Number(),
     livingroom: t.Integer(),
     dining: t.Integer(),
@@ -30,6 +32,7 @@ export const UnitPlain = t.Object(
     typeId: t.String(),
     createdAt: t.Date(),
     updatedAt: t.Date(),
+    propertyManagementId: __nullable__(t.String()),
   },
   { additionalProperties: false },
 );
@@ -40,10 +43,14 @@ export const UnitRelations = t.Object(
       t.Object(
         {
           id: t.String(),
+          reference: t.Integer(),
           tenantId: t.String(),
           unitId: t.String(),
           isDeleting: t.Boolean(),
           price: t.Number(),
+          charges: t.Number(),
+          extrasCharges: t.Number(),
+          furnished: t.String(),
           start: t.Date(),
           end: t.Date(),
           createdAt: t.Date(),
@@ -51,43 +58,6 @@ export const UnitRelations = t.Object(
         },
         { additionalProperties: false },
       ),
-      { additionalProperties: false },
-    ),
-    building: t.Object(
-      {
-        id: t.String(),
-        reference: t.String(),
-        name: t.String(),
-        location: t.String(),
-        constructionDate: t.Date(),
-        security: t.Boolean(),
-        camera: t.Boolean(),
-        elevator: t.Boolean(),
-        parking: t.Boolean(),
-        pool: t.Boolean(),
-        generator: t.Boolean(),
-        waterBorehole: t.Boolean(),
-        gym: t.Boolean(),
-        garden: t.Boolean(),
-        status: t.Array(t.String(), { additionalProperties: false }),
-        map: t.String(),
-        photos: t.Array(t.String(), { additionalProperties: false }),
-        deeds: t.Array(t.String(), { additionalProperties: false }),
-        documents: t.Array(t.String(), { additionalProperties: false }),
-        isDeleting: t.Boolean(),
-        ownerId: __nullable__(t.String()),
-        createdAt: t.Date(),
-        updatedAt: t.Date(),
-      },
-      { additionalProperties: false },
-    ),
-    type: t.Object(
-      {
-        id: t.String(),
-        name: t.String(),
-        createdAt: t.Date(),
-        updatedAt: t.Date(),
-      },
       { additionalProperties: false },
     ),
     reservations: t.Array(
@@ -103,25 +73,6 @@ export const UnitRelations = t.Object(
           unitId: t.String(),
           createdAt: t.Date(),
           updatedAt: t.Date(),
-        },
-        { additionalProperties: false },
-      ),
-      { additionalProperties: false },
-    ),
-    propertyManagements: t.Array(
-      t.Object(
-        {
-          id: t.String(),
-          buildingId: t.String(),
-          unitId: t.String(),
-          administrativeManagement: t.Boolean(),
-          technicalManagement: t.Boolean(),
-          start: t.Date(),
-          end: t.Date(),
-          observations: __nullable__(t.String()),
-          active: t.Boolean(),
-          isDeleting: t.Boolean(),
-          createdAt: t.Date(),
         },
         { additionalProperties: false },
       ),
@@ -179,6 +130,60 @@ export const UnitRelations = t.Object(
       ),
       { additionalProperties: false },
     ),
+    building: t.Object(
+      {
+        id: t.String(),
+        reference: t.String(),
+        name: t.String(),
+        location: t.String(),
+        constructionDate: t.Date(),
+        security: t.Boolean(),
+        camera: t.Boolean(),
+        elevator: t.Boolean(),
+        parking: t.Boolean(),
+        pool: t.Boolean(),
+        generator: t.Boolean(),
+        waterBorehole: t.Boolean(),
+        gym: t.Boolean(),
+        garden: t.Boolean(),
+        status: t.Array(t.String(), { additionalProperties: false }),
+        map: t.String(),
+        photos: t.Array(t.String(), { additionalProperties: false }),
+        deeds: t.Array(t.String(), { additionalProperties: false }),
+        documents: t.Array(t.String(), { additionalProperties: false }),
+        isDeleting: t.Boolean(),
+        ownerId: __nullable__(t.String()),
+        createdAt: t.Date(),
+        updatedAt: t.Date(),
+      },
+      { additionalProperties: false },
+    ),
+    type: t.Object(
+      {
+        id: t.String(),
+        name: t.String(),
+        createdAt: t.Date(),
+        updatedAt: t.Date(),
+      },
+      { additionalProperties: false },
+    ),
+    propertyManagement: __nullable__(
+      t.Object(
+        {
+          id: t.String(),
+          buildingId: t.String(),
+          administrativeManagement: t.Boolean(),
+          technicalManagement: t.Boolean(),
+          start: t.Date(),
+          end: t.Date(),
+          observations: __nullable__(t.String()),
+          active: t.Boolean(),
+          isDeleting: t.Boolean(),
+          createdAt: t.Date(),
+        },
+        { additionalProperties: false },
+      ),
+    ),
   },
   { additionalProperties: false },
 );
@@ -186,7 +191,11 @@ export const UnitRelations = t.Object(
 export const UnitPlainInputCreate = t.Object(
   {
     reference: t.String(),
-    rentalStatus: t.String(),
+    rentalStatus: t.Optional(
+      t.Union([t.Literal("FREE"), t.Literal("OCCUPED")], {
+        additionalProperties: false,
+      }),
+    ),
     surface: t.Optional(t.Number()),
     livingroom: t.Optional(t.Integer()),
     dining: t.Optional(t.Integer()),
@@ -211,7 +220,11 @@ export const UnitPlainInputCreate = t.Object(
 export const UnitPlainInputUpdate = t.Object(
   {
     reference: t.Optional(t.String()),
-    rentalStatus: t.Optional(t.String()),
+    rentalStatus: t.Optional(
+      t.Union([t.Literal("FREE"), t.Literal("OCCUPED")], {
+        additionalProperties: false,
+      }),
+    ),
     surface: t.Optional(t.Number()),
     livingroom: t.Optional(t.Integer()),
     dining: t.Optional(t.Integer()),
@@ -251,45 +264,7 @@ export const UnitRelationsInputCreate = t.Object(
         { additionalProperties: false },
       ),
     ),
-    building: t.Object(
-      {
-        connect: t.Object(
-          {
-            id: t.String({ additionalProperties: false }),
-          },
-          { additionalProperties: false },
-        ),
-      },
-      { additionalProperties: false },
-    ),
-    type: t.Object(
-      {
-        connect: t.Object(
-          {
-            id: t.String({ additionalProperties: false }),
-          },
-          { additionalProperties: false },
-        ),
-      },
-      { additionalProperties: false },
-    ),
     reservations: t.Optional(
-      t.Object(
-        {
-          connect: t.Array(
-            t.Object(
-              {
-                id: t.String({ additionalProperties: false }),
-              },
-              { additionalProperties: false },
-            ),
-            { additionalProperties: false },
-          ),
-        },
-        { additionalProperties: false },
-      ),
-    ),
-    propertyManagements: t.Optional(
       t.Object(
         {
           connect: t.Array(
@@ -337,6 +312,41 @@ export const UnitRelationsInputCreate = t.Object(
         { additionalProperties: false },
       ),
     ),
+    building: t.Object(
+      {
+        connect: t.Object(
+          {
+            id: t.String({ additionalProperties: false }),
+          },
+          { additionalProperties: false },
+        ),
+      },
+      { additionalProperties: false },
+    ),
+    type: t.Object(
+      {
+        connect: t.Object(
+          {
+            id: t.String({ additionalProperties: false }),
+          },
+          { additionalProperties: false },
+        ),
+      },
+      { additionalProperties: false },
+    ),
+    propertyManagement: t.Optional(
+      t.Object(
+        {
+          connect: t.Object(
+            {
+              id: t.String({ additionalProperties: false }),
+            },
+            { additionalProperties: false },
+          ),
+        },
+        { additionalProperties: false },
+      ),
+    ),
   },
   { additionalProperties: false },
 );
@@ -369,54 +379,7 @@ export const UnitRelationsInputUpdate = t.Partial(
           { additionalProperties: false },
         ),
       ),
-      building: t.Object(
-        {
-          connect: t.Object(
-            {
-              id: t.String({ additionalProperties: false }),
-            },
-            { additionalProperties: false },
-          ),
-        },
-        { additionalProperties: false },
-      ),
-      type: t.Object(
-        {
-          connect: t.Object(
-            {
-              id: t.String({ additionalProperties: false }),
-            },
-            { additionalProperties: false },
-          ),
-        },
-        { additionalProperties: false },
-      ),
       reservations: t.Partial(
-        t.Object(
-          {
-            connect: t.Array(
-              t.Object(
-                {
-                  id: t.String({ additionalProperties: false }),
-                },
-                { additionalProperties: false },
-              ),
-              { additionalProperties: false },
-            ),
-            disconnect: t.Array(
-              t.Object(
-                {
-                  id: t.String({ additionalProperties: false }),
-                },
-                { additionalProperties: false },
-              ),
-              { additionalProperties: false },
-            ),
-          },
-          { additionalProperties: false },
-        ),
-      ),
-      propertyManagements: t.Partial(
         t.Object(
           {
             connect: t.Array(
@@ -491,6 +454,42 @@ export const UnitRelationsInputUpdate = t.Partial(
           { additionalProperties: false },
         ),
       ),
+      building: t.Object(
+        {
+          connect: t.Object(
+            {
+              id: t.String({ additionalProperties: false }),
+            },
+            { additionalProperties: false },
+          ),
+        },
+        { additionalProperties: false },
+      ),
+      type: t.Object(
+        {
+          connect: t.Object(
+            {
+              id: t.String({ additionalProperties: false }),
+            },
+            { additionalProperties: false },
+          ),
+        },
+        { additionalProperties: false },
+      ),
+      propertyManagement: t.Partial(
+        t.Object(
+          {
+            connect: t.Object(
+              {
+                id: t.String({ additionalProperties: false }),
+              },
+              { additionalProperties: false },
+            ),
+            disconnect: t.Boolean(),
+          },
+          { additionalProperties: false },
+        ),
+      ),
     },
     { additionalProperties: false },
   ),
@@ -506,7 +505,9 @@ export const UnitWhere = t.Partial(
           OR: t.Array(Self, { additionalProperties: false }),
           id: t.String(),
           reference: t.String(),
-          rentalStatus: t.String(),
+          rentalStatus: t.Union([t.Literal("FREE"), t.Literal("OCCUPED")], {
+            additionalProperties: false,
+          }),
           surface: t.Number(),
           livingroom: t.Integer(),
           dining: t.Integer(),
@@ -528,6 +529,7 @@ export const UnitWhere = t.Partial(
           typeId: t.String(),
           createdAt: t.Date(),
           updatedAt: t.Date(),
+          propertyManagementId: t.String(),
         },
         { additionalProperties: false },
       ),
@@ -569,7 +571,9 @@ export const UnitWhereUnique = t.Recursive(
             {
               id: t.String(),
               reference: t.String(),
-              rentalStatus: t.String(),
+              rentalStatus: t.Union([t.Literal("FREE"), t.Literal("OCCUPED")], {
+                additionalProperties: false,
+              }),
               surface: t.Number(),
               livingroom: t.Integer(),
               dining: t.Integer(),
@@ -591,6 +595,7 @@ export const UnitWhereUnique = t.Recursive(
               typeId: t.String(),
               createdAt: t.Date(),
               updatedAt: t.Date(),
+              propertyManagementId: t.String(),
             },
             { additionalProperties: false },
           ),
@@ -625,16 +630,17 @@ export const UnitSelect = t.Partial(
       documents: t.Boolean(),
       isDeleting: t.Boolean(),
       rentals: t.Boolean(),
+      reservations: t.Boolean(),
+      checkInOuts: t.Boolean(),
+      accountings: t.Boolean(),
       building: t.Boolean(),
       buildingId: t.Boolean(),
       typeId: t.Boolean(),
       type: t.Boolean(),
-      reservations: t.Boolean(),
-      propertyManagements: t.Boolean(),
-      checkInOuts: t.Boolean(),
       createdAt: t.Boolean(),
       updatedAt: t.Boolean(),
-      accountings: t.Boolean(),
+      propertyManagement: t.Boolean(),
+      propertyManagementId: t.Boolean(),
       _count: t.Boolean(),
     },
     { additionalProperties: false },
@@ -644,13 +650,14 @@ export const UnitSelect = t.Partial(
 export const UnitInclude = t.Partial(
   t.Object(
     {
+      rentalStatus: t.Boolean(),
       rentals: t.Boolean(),
-      building: t.Boolean(),
-      type: t.Boolean(),
       reservations: t.Boolean(),
-      propertyManagements: t.Boolean(),
       checkInOuts: t.Boolean(),
       accountings: t.Boolean(),
+      building: t.Boolean(),
+      type: t.Boolean(),
+      propertyManagement: t.Boolean(),
       _count: t.Boolean(),
     },
     { additionalProperties: false },
@@ -664,9 +671,6 @@ export const UnitOrderBy = t.Partial(
         additionalProperties: false,
       }),
       reference: t.Union([t.Literal("asc"), t.Literal("desc")], {
-        additionalProperties: false,
-      }),
-      rentalStatus: t.Union([t.Literal("asc"), t.Literal("desc")], {
         additionalProperties: false,
       }),
       surface: t.Union([t.Literal("asc"), t.Literal("desc")], {
@@ -730,6 +734,9 @@ export const UnitOrderBy = t.Partial(
         additionalProperties: false,
       }),
       updatedAt: t.Union([t.Literal("asc"), t.Literal("desc")], {
+        additionalProperties: false,
+      }),
+      propertyManagementId: t.Union([t.Literal("asc"), t.Literal("desc")], {
         additionalProperties: false,
       }),
     },

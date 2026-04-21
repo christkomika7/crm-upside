@@ -1,8 +1,19 @@
 import InvoiceTabs from '@/components/dashboard/invoice/invoice-tabs'
 import ActionHeader from '@/components/header/action-header'
-import { createFileRoute, useParams } from '@tanstack/react-router'
+import { canAccess } from '@/lib/permission'
+import type { User } from '@/types/user'
+import { createFileRoute, notFound, redirect, useParams } from '@tanstack/react-router'
 
 export const Route = createFileRoute('/dashboard/invoices/edit-invoice/$id')({
+  beforeLoad: ({ context }) => {
+    const user = context.session.data?.user as unknown as User;
+    const permission = user.permission?.permissions;
+    const hasAccess = canAccess(permission, "invoicing", ['update']);
+    if (!user) {
+      throw redirect({ to: "/", search: { redirect: location.href } });
+    }
+    if (!hasAccess) throw notFound()
+  },
   component: RouteComponent,
   validateSearch: (search: Record<string, unknown>) => {
     return {

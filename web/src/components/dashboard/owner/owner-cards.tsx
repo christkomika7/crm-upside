@@ -5,8 +5,12 @@ import Task from "@/assets/icons/task.png";
 import Money from "@/assets/icons/money.png";
 import ArrowDollars from "@/assets/icons/arrow-dollars.png";
 
+type OwnerCards = {
+    id: string;
+}
 
-export default function OwnerCards() {
+export default function OwnerCards({ id }: OwnerCards) {
+    console.log(id);
     return (
         <div className="grid grid-cols-5 gap-4">
             <Card icon={Task} title="Unités totales" value="12" color="bg-(--card-purple)" />

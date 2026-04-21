@@ -1,6 +1,11 @@
 import CardAttachment from "@/components/card/card-attachment";
 
-export default function Attachments() {
+type Attachments = {
+    id: string;
+}
+
+export default function Attachments({ id }: Attachments) {
+    console.log(id);
     return (
         <div className="space-y-2">
             <h2 className="font-medium">Pièces jointes</h2>

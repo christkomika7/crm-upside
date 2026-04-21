@@ -20,15 +20,24 @@ export type ContractModel = runtime.Types.Result.DefaultSelection<Prisma.$Contra
 
 export type AggregateContract = {
   _count: ContractCountAggregateOutputType | null
+  _avg: ContractAvgAggregateOutputType | null
+  _sum: ContractSumAggregateOutputType | null
   _min: ContractMinAggregateOutputType | null
   _max: ContractMaxAggregateOutputType | null
 }
 
+export type ContractAvgAggregateOutputType = {
+  reference: number | null
+}
+
+export type ContractSumAggregateOutputType = {
+  reference: number | null
+}
+
 export type ContractMinAggregateOutputType = {
   id: string | null
+  reference: number | null
   type: $Enums.ContractType | null
-  start: Date | null
-  end: Date | null
   rentalId: string | null
   buildingId: string | null
   isCanceled: boolean | null
@@ -39,9 +48,8 @@ export type ContractMinAggregateOutputType = {
 
 export type ContractMaxAggregateOutputType = {
   id: string | null
+  reference: number | null
   type: $Enums.ContractType | null
-  start: Date | null
-  end: Date | null
   rentalId: string | null
   buildingId: string | null
   isCanceled: boolean | null
@@ -52,9 +60,8 @@ export type ContractMaxAggregateOutputType = {
 
 export type ContractCountAggregateOutputType = {
   id: number
+  reference: number
   type: number
-  start: number
-  end: number
   rentalId: number
   buildingId: number
   isCanceled: number
@@ -65,11 +72,18 @@ export type ContractCountAggregateOutputType = {
 }
 
 
+export type ContractAvgAggregateInputType = {
+  reference?: true
+}
+
+export type ContractSumAggregateInputType = {
+  reference?: true
+}
+
 export type ContractMinAggregateInputType = {
   id?: true
+  reference?: true
   type?: true
-  start?: true
-  end?: true
   rentalId?: true
   buildingId?: true
   isCanceled?: true
@@ -80,9 +94,8 @@ export type ContractMinAggregateInputType = {
 
 export type ContractMaxAggregateInputType = {
   id?: true
+  reference?: true
   type?: true
-  start?: true
-  end?: true
   rentalId?: true
   buildingId?: true
   isCanceled?: true
@@ -93,9 +106,8 @@ export type ContractMaxAggregateInputType = {
 
 export type ContractCountAggregateInputType = {
   id?: true
+  reference?: true
   type?: true
-  start?: true
-  end?: true
   rentalId?: true
   buildingId?: true
   isCanceled?: true
@@ -143,6 +155,18 @@ export type ContractAggregateArgs<ExtArgs extends runtime.Types.Extensions.Inter
   /**
    * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
    * 
+   * Select which fields to average
+  **/
+  _avg?: ContractAvgAggregateInputType
+  /**
+   * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+   * 
+   * Select which fields to sum
+  **/
+  _sum?: ContractSumAggregateInputType
+  /**
+   * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+   * 
    * Select which fields to find the minimum value
   **/
   _min?: ContractMinAggregateInputType
@@ -173,15 +197,16 @@ export type ContractGroupByArgs<ExtArgs extends runtime.Types.Extensions.Interna
   take?: number
   skip?: number
   _count?: ContractCountAggregateInputType | true
+  _avg?: ContractAvgAggregateInputType
+  _sum?: ContractSumAggregateInputType
   _min?: ContractMinAggregateInputType
   _max?: ContractMaxAggregateInputType
 }
 
 export type ContractGroupByOutputType = {
   id: string
+  reference: number
   type: $Enums.ContractType
-  start: Date
-  end: Date
   rentalId: string | null
   buildingId: string | null
   isCanceled: boolean
@@ -189,6 +214,8 @@ export type ContractGroupByOutputType = {
   updatedAt: Date
   createdAt: Date
   _count: ContractCountAggregateOutputType | null
+  _avg: ContractAvgAggregateOutputType | null
+  _sum: ContractSumAggregateOutputType | null
   _min: ContractMinAggregateOutputType | null
   _max: ContractMaxAggregateOutputType | null
 }
@@ -213,9 +240,8 @@ export type ContractWhereInput = {
   OR?: Prisma.ContractWhereInput[]
   NOT?: Prisma.ContractWhereInput | Prisma.ContractWhereInput[]
   id?: Prisma.StringFilter<"Contract"> | string
+  reference?: Prisma.IntFilter<"Contract"> | number
   type?: Prisma.EnumContractTypeFilter<"Contract"> | $Enums.ContractType
-  start?: Prisma.DateTimeFilter<"Contract"> | Date | string
-  end?: Prisma.DateTimeFilter<"Contract"> | Date | string
   rentalId?: Prisma.StringNullableFilter<"Contract"> | string | null
   buildingId?: Prisma.StringNullableFilter<"Contract"> | string | null
   isCanceled?: Prisma.BoolFilter<"Contract"> | boolean
@@ -229,9 +255,8 @@ export type ContractWhereInput = {
 
 export type ContractOrderByWithRelationInput = {
   id?: Prisma.SortOrder
+  reference?: Prisma.SortOrder
   type?: Prisma.SortOrder
-  start?: Prisma.SortOrder
-  end?: Prisma.SortOrder
   rentalId?: Prisma.SortOrderInput | Prisma.SortOrder
   buildingId?: Prisma.SortOrderInput | Prisma.SortOrder
   isCanceled?: Prisma.SortOrder
@@ -248,9 +273,8 @@ export type ContractWhereUniqueInput = Prisma.AtLeast<{
   AND?: Prisma.ContractWhereInput | Prisma.ContractWhereInput[]
   OR?: Prisma.ContractWhereInput[]
   NOT?: Prisma.ContractWhereInput | Prisma.ContractWhereInput[]
+  reference?: Prisma.IntFilter<"Contract"> | number
   type?: Prisma.EnumContractTypeFilter<"Contract"> | $Enums.ContractType
-  start?: Prisma.DateTimeFilter<"Contract"> | Date | string
-  end?: Prisma.DateTimeFilter<"Contract"> | Date | string
   rentalId?: Prisma.StringNullableFilter<"Contract"> | string | null
   buildingId?: Prisma.StringNullableFilter<"Contract"> | string | null
   isCanceled?: Prisma.BoolFilter<"Contract"> | boolean
@@ -264,9 +288,8 @@ export type ContractWhereUniqueInput = Prisma.AtLeast<{
 
 export type ContractOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
+  reference?: Prisma.SortOrder
   type?: Prisma.SortOrder
-  start?: Prisma.SortOrder
-  end?: Prisma.SortOrder
   rentalId?: Prisma.SortOrderInput | Prisma.SortOrder
   buildingId?: Prisma.SortOrderInput | Prisma.SortOrder
   isCanceled?: Prisma.SortOrder
@@ -274,8 +297,10 @@ export type ContractOrderByWithAggregationInput = {
   updatedAt?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   _count?: Prisma.ContractCountOrderByAggregateInput
+  _avg?: Prisma.ContractAvgOrderByAggregateInput
   _max?: Prisma.ContractMaxOrderByAggregateInput
   _min?: Prisma.ContractMinOrderByAggregateInput
+  _sum?: Prisma.ContractSumOrderByAggregateInput
 }
 
 export type ContractScalarWhereWithAggregatesInput = {
@@ -283,9 +308,8 @@ export type ContractScalarWhereWithAggregatesInput = {
   OR?: Prisma.ContractScalarWhereWithAggregatesInput[]
   NOT?: Prisma.ContractScalarWhereWithAggregatesInput | Prisma.ContractScalarWhereWithAggregatesInput[]
   id?: Prisma.StringWithAggregatesFilter<"Contract"> | string
+  reference?: Prisma.IntWithAggregatesFilter<"Contract"> | number
   type?: Prisma.EnumContractTypeWithAggregatesFilter<"Contract"> | $Enums.ContractType
-  start?: Prisma.DateTimeWithAggregatesFilter<"Contract"> | Date | string
-  end?: Prisma.DateTimeWithAggregatesFilter<"Contract"> | Date | string
   rentalId?: Prisma.StringNullableWithAggregatesFilter<"Contract"> | string | null
   buildingId?: Prisma.StringNullableWithAggregatesFilter<"Contract"> | string | null
   isCanceled?: Prisma.BoolWithAggregatesFilter<"Contract"> | boolean
@@ -296,9 +320,8 @@ export type ContractScalarWhereWithAggregatesInput = {
 
 export type ContractCreateInput = {
   id?: string
+  reference?: number
   type: $Enums.ContractType
-  start: Date | string
-  end: Date | string
   isCanceled?: boolean
   isDeleting?: boolean
   updatedAt?: Date | string
@@ -310,9 +333,8 @@ export type ContractCreateInput = {
 
 export type ContractUncheckedCreateInput = {
   id?: string
+  reference?: number
   type: $Enums.ContractType
-  start: Date | string
-  end: Date | string
   rentalId?: string | null
   buildingId?: string | null
   isCanceled?: boolean
@@ -324,9 +346,8 @@ export type ContractUncheckedCreateInput = {
 
 export type ContractUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  reference?: Prisma.IntFieldUpdateOperationsInput | number
   type?: Prisma.EnumContractTypeFieldUpdateOperationsInput | $Enums.ContractType
-  start?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  end?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   isCanceled?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isDeleting?: Prisma.BoolFieldUpdateOperationsInput | boolean
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -338,9 +359,8 @@ export type ContractUpdateInput = {
 
 export type ContractUncheckedUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  reference?: Prisma.IntFieldUpdateOperationsInput | number
   type?: Prisma.EnumContractTypeFieldUpdateOperationsInput | $Enums.ContractType
-  start?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  end?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   rentalId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   buildingId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isCanceled?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -352,9 +372,8 @@ export type ContractUncheckedUpdateInput = {
 
 export type ContractCreateManyInput = {
   id?: string
+  reference?: number
   type: $Enums.ContractType
-  start: Date | string
-  end: Date | string
   rentalId?: string | null
   buildingId?: string | null
   isCanceled?: boolean
@@ -365,9 +384,8 @@ export type ContractCreateManyInput = {
 
 export type ContractUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  reference?: Prisma.IntFieldUpdateOperationsInput | number
   type?: Prisma.EnumContractTypeFieldUpdateOperationsInput | $Enums.ContractType
-  start?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  end?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   isCanceled?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isDeleting?: Prisma.BoolFieldUpdateOperationsInput | boolean
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -376,9 +394,8 @@ export type ContractUpdateManyMutationInput = {
 
 export type ContractUncheckedUpdateManyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  reference?: Prisma.IntFieldUpdateOperationsInput | number
   type?: Prisma.EnumContractTypeFieldUpdateOperationsInput | $Enums.ContractType
-  start?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  end?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   rentalId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   buildingId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isCanceled?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -399,9 +416,8 @@ export type ContractOrderByRelationAggregateInput = {
 
 export type ContractCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
+  reference?: Prisma.SortOrder
   type?: Prisma.SortOrder
-  start?: Prisma.SortOrder
-  end?: Prisma.SortOrder
   rentalId?: Prisma.SortOrder
   buildingId?: Prisma.SortOrder
   isCanceled?: Prisma.SortOrder
@@ -410,11 +426,14 @@ export type ContractCountOrderByAggregateInput = {
   createdAt?: Prisma.SortOrder
 }
 
+export type ContractAvgOrderByAggregateInput = {
+  reference?: Prisma.SortOrder
+}
+
 export type ContractMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
+  reference?: Prisma.SortOrder
   type?: Prisma.SortOrder
-  start?: Prisma.SortOrder
-  end?: Prisma.SortOrder
   rentalId?: Prisma.SortOrder
   buildingId?: Prisma.SortOrder
   isCanceled?: Prisma.SortOrder
@@ -425,15 +444,18 @@ export type ContractMaxOrderByAggregateInput = {
 
 export type ContractMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
+  reference?: Prisma.SortOrder
   type?: Prisma.SortOrder
-  start?: Prisma.SortOrder
-  end?: Prisma.SortOrder
   rentalId?: Prisma.SortOrder
   buildingId?: Prisma.SortOrder
   isCanceled?: Prisma.SortOrder
   isDeleting?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
+}
+
+export type ContractSumOrderByAggregateInput = {
+  reference?: Prisma.SortOrder
 }
 
 export type ContractNullableScalarRelationFilter = {
@@ -547,9 +569,8 @@ export type ContractUpdateOneWithoutNotificationsNestedInput = {
 
 export type ContractCreateWithoutBuildingInput = {
   id?: string
+  reference?: number
   type: $Enums.ContractType
-  start: Date | string
-  end: Date | string
   isCanceled?: boolean
   isDeleting?: boolean
   updatedAt?: Date | string
@@ -560,9 +581,8 @@ export type ContractCreateWithoutBuildingInput = {
 
 export type ContractUncheckedCreateWithoutBuildingInput = {
   id?: string
+  reference?: number
   type: $Enums.ContractType
-  start: Date | string
-  end: Date | string
   rentalId?: string | null
   isCanceled?: boolean
   isDeleting?: boolean
@@ -602,9 +622,8 @@ export type ContractScalarWhereInput = {
   OR?: Prisma.ContractScalarWhereInput[]
   NOT?: Prisma.ContractScalarWhereInput | Prisma.ContractScalarWhereInput[]
   id?: Prisma.StringFilter<"Contract"> | string
+  reference?: Prisma.IntFilter<"Contract"> | number
   type?: Prisma.EnumContractTypeFilter<"Contract"> | $Enums.ContractType
-  start?: Prisma.DateTimeFilter<"Contract"> | Date | string
-  end?: Prisma.DateTimeFilter<"Contract"> | Date | string
   rentalId?: Prisma.StringNullableFilter<"Contract"> | string | null
   buildingId?: Prisma.StringNullableFilter<"Contract"> | string | null
   isCanceled?: Prisma.BoolFilter<"Contract"> | boolean
@@ -615,9 +634,8 @@ export type ContractScalarWhereInput = {
 
 export type ContractCreateWithoutRentalInput = {
   id?: string
+  reference?: number
   type: $Enums.ContractType
-  start: Date | string
-  end: Date | string
   isCanceled?: boolean
   isDeleting?: boolean
   updatedAt?: Date | string
@@ -628,9 +646,8 @@ export type ContractCreateWithoutRentalInput = {
 
 export type ContractUncheckedCreateWithoutRentalInput = {
   id?: string
+  reference?: number
   type: $Enums.ContractType
-  start: Date | string
-  end: Date | string
   buildingId?: string | null
   isCanceled?: boolean
   isDeleting?: boolean
@@ -667,9 +684,8 @@ export type ContractUpdateManyWithWhereWithoutRentalInput = {
 
 export type ContractCreateWithoutNotificationsInput = {
   id?: string
+  reference?: number
   type: $Enums.ContractType
-  start: Date | string
-  end: Date | string
   isCanceled?: boolean
   isDeleting?: boolean
   updatedAt?: Date | string
@@ -680,9 +696,8 @@ export type ContractCreateWithoutNotificationsInput = {
 
 export type ContractUncheckedCreateWithoutNotificationsInput = {
   id?: string
+  reference?: number
   type: $Enums.ContractType
-  start: Date | string
-  end: Date | string
   rentalId?: string | null
   buildingId?: string | null
   isCanceled?: boolean
@@ -709,9 +724,8 @@ export type ContractUpdateToOneWithWhereWithoutNotificationsInput = {
 
 export type ContractUpdateWithoutNotificationsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  reference?: Prisma.IntFieldUpdateOperationsInput | number
   type?: Prisma.EnumContractTypeFieldUpdateOperationsInput | $Enums.ContractType
-  start?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  end?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   isCanceled?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isDeleting?: Prisma.BoolFieldUpdateOperationsInput | boolean
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -722,9 +736,8 @@ export type ContractUpdateWithoutNotificationsInput = {
 
 export type ContractUncheckedUpdateWithoutNotificationsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  reference?: Prisma.IntFieldUpdateOperationsInput | number
   type?: Prisma.EnumContractTypeFieldUpdateOperationsInput | $Enums.ContractType
-  start?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  end?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   rentalId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   buildingId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isCanceled?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -735,9 +748,8 @@ export type ContractUncheckedUpdateWithoutNotificationsInput = {
 
 export type ContractCreateManyBuildingInput = {
   id?: string
+  reference?: number
   type: $Enums.ContractType
-  start: Date | string
-  end: Date | string
   rentalId?: string | null
   isCanceled?: boolean
   isDeleting?: boolean
@@ -747,9 +759,8 @@ export type ContractCreateManyBuildingInput = {
 
 export type ContractUpdateWithoutBuildingInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  reference?: Prisma.IntFieldUpdateOperationsInput | number
   type?: Prisma.EnumContractTypeFieldUpdateOperationsInput | $Enums.ContractType
-  start?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  end?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   isCanceled?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isDeleting?: Prisma.BoolFieldUpdateOperationsInput | boolean
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -760,9 +771,8 @@ export type ContractUpdateWithoutBuildingInput = {
 
 export type ContractUncheckedUpdateWithoutBuildingInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  reference?: Prisma.IntFieldUpdateOperationsInput | number
   type?: Prisma.EnumContractTypeFieldUpdateOperationsInput | $Enums.ContractType
-  start?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  end?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   rentalId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isCanceled?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isDeleting?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -773,9 +783,8 @@ export type ContractUncheckedUpdateWithoutBuildingInput = {
 
 export type ContractUncheckedUpdateManyWithoutBuildingInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  reference?: Prisma.IntFieldUpdateOperationsInput | number
   type?: Prisma.EnumContractTypeFieldUpdateOperationsInput | $Enums.ContractType
-  start?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  end?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   rentalId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isCanceled?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isDeleting?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -785,9 +794,8 @@ export type ContractUncheckedUpdateManyWithoutBuildingInput = {
 
 export type ContractCreateManyRentalInput = {
   id?: string
+  reference?: number
   type: $Enums.ContractType
-  start: Date | string
-  end: Date | string
   buildingId?: string | null
   isCanceled?: boolean
   isDeleting?: boolean
@@ -797,9 +805,8 @@ export type ContractCreateManyRentalInput = {
 
 export type ContractUpdateWithoutRentalInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  reference?: Prisma.IntFieldUpdateOperationsInput | number
   type?: Prisma.EnumContractTypeFieldUpdateOperationsInput | $Enums.ContractType
-  start?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  end?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   isCanceled?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isDeleting?: Prisma.BoolFieldUpdateOperationsInput | boolean
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -810,9 +817,8 @@ export type ContractUpdateWithoutRentalInput = {
 
 export type ContractUncheckedUpdateWithoutRentalInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  reference?: Prisma.IntFieldUpdateOperationsInput | number
   type?: Prisma.EnumContractTypeFieldUpdateOperationsInput | $Enums.ContractType
-  start?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  end?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   buildingId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isCanceled?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isDeleting?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -823,9 +829,8 @@ export type ContractUncheckedUpdateWithoutRentalInput = {
 
 export type ContractUncheckedUpdateManyWithoutRentalInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  reference?: Prisma.IntFieldUpdateOperationsInput | number
   type?: Prisma.EnumContractTypeFieldUpdateOperationsInput | $Enums.ContractType
-  start?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  end?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   buildingId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isCanceled?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isDeleting?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -866,9 +871,8 @@ export type ContractCountOutputTypeCountNotificationsArgs<ExtArgs extends runtim
 
 export type ContractSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
+  reference?: boolean
   type?: boolean
-  start?: boolean
-  end?: boolean
   rentalId?: boolean
   buildingId?: boolean
   isCanceled?: boolean
@@ -883,9 +887,8 @@ export type ContractSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs
 
 export type ContractSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
+  reference?: boolean
   type?: boolean
-  start?: boolean
-  end?: boolean
   rentalId?: boolean
   buildingId?: boolean
   isCanceled?: boolean
@@ -898,9 +901,8 @@ export type ContractSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Exte
 
 export type ContractSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
+  reference?: boolean
   type?: boolean
-  start?: boolean
-  end?: boolean
   rentalId?: boolean
   buildingId?: boolean
   isCanceled?: boolean
@@ -913,9 +915,8 @@ export type ContractSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Exte
 
 export type ContractSelectScalar = {
   id?: boolean
+  reference?: boolean
   type?: boolean
-  start?: boolean
-  end?: boolean
   rentalId?: boolean
   buildingId?: boolean
   isCanceled?: boolean
@@ -924,7 +925,7 @@ export type ContractSelectScalar = {
   createdAt?: boolean
 }
 
-export type ContractOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "type" | "start" | "end" | "rentalId" | "buildingId" | "isCanceled" | "isDeleting" | "updatedAt" | "createdAt", ExtArgs["result"]["contract"]>
+export type ContractOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "reference" | "type" | "rentalId" | "buildingId" | "isCanceled" | "isDeleting" | "updatedAt" | "createdAt", ExtArgs["result"]["contract"]>
 export type ContractInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   rental?: boolean | Prisma.Contract$rentalArgs<ExtArgs>
   building?: boolean | Prisma.Contract$buildingArgs<ExtArgs>
@@ -949,9 +950,8 @@ export type $ContractPayload<ExtArgs extends runtime.Types.Extensions.InternalAr
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
+    reference: number
     type: $Enums.ContractType
-    start: Date
-    end: Date
     rentalId: string | null
     buildingId: string | null
     isCanceled: boolean
@@ -1385,9 +1385,8 @@ export interface Prisma__ContractClient<T, Null = never, ExtArgs extends runtime
  */
 export interface ContractFieldRefs {
   readonly id: Prisma.FieldRef<"Contract", 'String'>
+  readonly reference: Prisma.FieldRef<"Contract", 'Int'>
   readonly type: Prisma.FieldRef<"Contract", 'ContractType'>
-  readonly start: Prisma.FieldRef<"Contract", 'DateTime'>
-  readonly end: Prisma.FieldRef<"Contract", 'DateTime'>
   readonly rentalId: Prisma.FieldRef<"Contract", 'String'>
   readonly buildingId: Prisma.FieldRef<"Contract", 'String'>
   readonly isCanceled: Prisma.FieldRef<"Contract", 'Boolean'>

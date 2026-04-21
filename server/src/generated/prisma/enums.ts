@@ -133,3 +133,11 @@ export const DiscountType = {
 } as const
 
 export type DiscountType = (typeof DiscountType)[keyof typeof DiscountType]
+
+
+export const UnitStatus = {
+  FREE: 'FREE',
+  OCCUPED: 'OCCUPED'
+} as const
+
+export type UnitStatus = (typeof UnitStatus)[keyof typeof UnitStatus]

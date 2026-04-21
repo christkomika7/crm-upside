@@ -14,6 +14,8 @@ import MultipleSelector from "@/components/ui/mullti-select";
 import { toast } from "sonner";
 import { queryClient } from "@/lib/query-client";
 import RequiredLabel from "@/components/ui/required-label";
+import { DEFAULT_VALUES } from "./lib/utils";
+import { useEffect } from "react";
 
 
 export default function CreateOwners() {
@@ -22,8 +24,8 @@ export default function CreateOwners() {
         queryFn: () => apiFetch<Building[]>("/building/without-owner"),
         select: (data) => data.map((building) => ({
             value: building.id,
-            label: building.reference,
-        })),
+            label: building.name,
+        }))
     });
 
     const mutation = useMutation({
@@ -32,19 +34,7 @@ export default function CreateOwners() {
         onSuccess() {
             toast.success("Propriétaire créé avec succès");
             queryClient.invalidateQueries({ queryKey: ["owners"] });
-            form.reset({
-                buildings: [],
-                reference: "",
-                firstname: "",
-                lastname: "",
-                company: "",
-                phone: "",
-                email: "",
-                address: "",
-                actionnary: "",
-                bankInfo: "",
-                documents: undefined,
-            });
+            form.reset(DEFAULT_VALUES);
         },
         onError: (error: Error) => {
             console.error("Erreur:", error.message);
@@ -55,10 +45,12 @@ export default function CreateOwners() {
 
     const form = useForm<OwnerSchemaType>({
         resolver: zodResolver(ownerSchema),
-        defaultValues: {
-            buildings: []
-        }
+        defaultValues: DEFAULT_VALUES
     });
+
+    useEffect(() => {
+        form.watch(() => console.log({ errors: form.formState.errors }))
+    }, [form.watch])
 
     async function submit(formData: OwnerSchemaType) {
         const { success, data } = ownerSchema.safeParse(formData);
@@ -67,13 +59,12 @@ export default function CreateOwners() {
 
             form.append("buildings", JSON.stringify(data.buildings));
             form.append("firstname", data.firstname);
-            form.append("reference", data.reference);
             form.append("lastname", data.lastname);
-            form.append("company", data.company);
+            data.company && form.append("company", data.company);
             form.append("phone", data.phone);
             form.append("email", data.email);
             form.append("address", data.address);
-            form.append("actionnary", data.actionnary);
+            data.actionnary && form.append("actionnary", data.actionnary);
             form.append("bankInfo", data.bankInfo);
 
             if (data.documents && data.documents.length > 0) {
@@ -94,24 +85,6 @@ export default function CreateOwners() {
                     className="space-y-4.5 w-full"
                 >
                     <div className="grid grid-cols-3 gap-4">
-                        <FormField
-                            control={form.control}
-                            name="reference"
-                            render={({ field }) => (
-                                <FormItem >
-                                    <FormLabel className="text-neutral-600">Référence<RequiredLabel /></FormLabel>
-                                    <FormControl>
-                                        <Input
-                                            placeholder="Entrer la référence"
-                                            value={field.value}
-                                            aria-invalid={!!form.formState.errors.reference}
-                                            onChange={field.onChange}
-                                        />
-                                    </FormControl>
-                                    <FormMessage />
-                                </FormItem>
-                            )}
-                        />
                         <FormField
                             control={form.control}
                             name="firstname"
@@ -153,7 +126,7 @@ export default function CreateOwners() {
                             name="company"
                             render={({ field }) => (
                                 <FormItem >
-                                    <FormLabel className="text-neutral-600">Entreprise<RequiredLabel /></FormLabel>
+                                    <FormLabel className="text-neutral-600">Entreprise</FormLabel>
                                     <FormControl>
                                         <Input
                                             placeholder="Entrer le nom de l'enterprise"
@@ -225,7 +198,7 @@ export default function CreateOwners() {
                             name="actionnary"
                             render={({ field }) => (
                                 <FormItem >
-                                    <FormLabel className="text-neutral-600">Actionnaire<RequiredLabel /></FormLabel>
+                                    <FormLabel className="text-neutral-600">Actionnaire</FormLabel>
                                     <FormControl>
                                         <Input
                                             placeholder="Entrer l'actionnaire (séparer par des points-virgules)"

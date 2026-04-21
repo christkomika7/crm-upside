@@ -78,3 +78,13 @@ export function duration(start: Date, end: Date): string {
 
     return parts.join(" & ") || "0 jour";
 }
+
+
+export function durationInMonths(start: Date, end: Date): string {
+    const diffTime = Math.max(0, end.getTime() - start.getTime());
+    const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
+
+    const months = Math.floor(diffDays / 30);
+
+    return `${months} mois`;
+}

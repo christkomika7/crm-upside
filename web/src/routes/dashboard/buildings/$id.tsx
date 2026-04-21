@@ -4,7 +4,7 @@ import Info from '@/components/dashboard/current/info'
 import ActionHeader from '@/components/header/action-header'
 import { canAccess } from '@/lib/permission'
 import type { User } from '@/types/user'
-import { createFileRoute, notFound, redirect } from '@tanstack/react-router'
+import { createFileRoute, notFound, redirect, useParams } from '@tanstack/react-router'
 
 export const Route = createFileRoute('/dashboard/buildings/$id')({
   beforeLoad({ context }) {
@@ -20,10 +20,16 @@ export const Route = createFileRoute('/dashboard/buildings/$id')({
 })
 
 function RouteComponent() {
+  const { session } = Route.useRouteContext();
+  const permission = (session.data?.user as unknown as User).permission?.permissions;
+  const hasUpdateAccess = canAccess(permission, "buildings", ['update']);
+
+  const { id } = useParams({ from: '/dashboard/buildings/$id' });
+
   return <div className='space-y-6'>
-    <ActionHeader title='Owner statement' url='/' type='url' hasIcon={false} />
-    <Info />
-    <Attachment />
-    <DataList />
+    <ActionHeader title='Owner statement' url='/' type='url' hasIcon={false} showAction={hasUpdateAccess} />
+    <Info id={id as string} />
+    <Attachment id={id as string} />
+    <DataList id={id as string} />
   </div>
 }

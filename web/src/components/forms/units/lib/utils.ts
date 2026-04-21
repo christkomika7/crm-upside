@@ -1,8 +1,10 @@
-export const DEFAULT_VALUES = {
+import type { UnitSchemaType } from "@/lib/zod/units";
+
+export const DEFAULT_VALUES: UnitSchemaType = {
     type: "",
     reference: "",
     building: "",
-    rentalStatus: "",
+    rentalStatus: "FREE",
     surface: 0,
     livingroom: 0,
     rent: 0,

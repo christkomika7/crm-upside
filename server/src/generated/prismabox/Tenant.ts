@@ -7,6 +7,7 @@ import { __nullable__ } from "./__nullable__";
 export const TenantPlain = t.Object(
   {
     id: t.String(),
+    reference: t.Integer(),
     isDiplomatic: t.Boolean(),
     isPersonal: t.Boolean(),
     firstname: t.String(),
@@ -36,10 +37,14 @@ export const TenantRelations = t.Object(
       t.Object(
         {
           id: t.String(),
+          reference: t.Integer(),
           tenantId: t.String(),
           unitId: t.String(),
           isDeleting: t.Boolean(),
           price: t.Number(),
+          charges: t.Number(),
+          extrasCharges: t.Number(),
+          furnished: t.String(),
           start: t.Date(),
           end: t.Date(),
           createdAt: t.Date(),
@@ -157,6 +162,7 @@ export const TenantRelations = t.Object(
 
 export const TenantPlainInputCreate = t.Object(
   {
+    reference: t.Optional(t.Integer()),
     isDiplomatic: t.Optional(t.Boolean()),
     isPersonal: t.Optional(t.Boolean()),
     firstname: t.String(),
@@ -179,6 +185,7 @@ export const TenantPlainInputCreate = t.Object(
 
 export const TenantPlainInputUpdate = t.Object(
   {
+    reference: t.Optional(t.Integer()),
     isDiplomatic: t.Optional(t.Boolean()),
     isPersonal: t.Optional(t.Boolean()),
     firstname: t.Optional(t.String()),
@@ -429,6 +436,7 @@ export const TenantWhere = t.Partial(
           NOT: t.Union([Self, t.Array(Self, { additionalProperties: false })]),
           OR: t.Array(Self, { additionalProperties: false }),
           id: t.String(),
+          reference: t.Integer(),
           isDiplomatic: t.Boolean(),
           isPersonal: t.Boolean(),
           firstname: t.String(),
@@ -484,6 +492,7 @@ export const TenantWhereUnique = t.Recursive(
           t.Object(
             {
               id: t.String(),
+              reference: t.Integer(),
               isDiplomatic: t.Boolean(),
               isPersonal: t.Boolean(),
               firstname: t.String(),
@@ -517,6 +526,7 @@ export const TenantSelect = t.Partial(
   t.Object(
     {
       id: t.Boolean(),
+      reference: t.Boolean(),
       isDiplomatic: t.Boolean(),
       isPersonal: t.Boolean(),
       firstname: t.Boolean(),
@@ -565,6 +575,9 @@ export const TenantOrderBy = t.Partial(
   t.Object(
     {
       id: t.Union([t.Literal("asc"), t.Literal("desc")], {
+        additionalProperties: false,
+      }),
+      reference: t.Union([t.Literal("asc"), t.Literal("desc")], {
         additionalProperties: false,
       }),
       isDiplomatic: t.Union([t.Literal("asc"), t.Literal("desc")], {

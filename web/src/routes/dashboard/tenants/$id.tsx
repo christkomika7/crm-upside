@@ -4,7 +4,7 @@ import ActionHeader from '@/components/header/action-header'
 import StatementModal from '@/components/modal/statement'
 import { canAccess } from '@/lib/permission'
 import type { User } from '@/types/user'
-import { createFileRoute, notFound, redirect } from '@tanstack/react-router'
+import { createFileRoute, notFound, redirect, useParams } from '@tanstack/react-router'
 
 export const Route = createFileRoute('/dashboard/tenants/$id')({
   beforeLoad({ context }) {
@@ -20,10 +20,16 @@ export const Route = createFileRoute('/dashboard/tenants/$id')({
 })
 
 function RouteComponent() {
-  const title = "Statement";
+  const { session } = Route.useRouteContext();
+  const permission = (session.data?.user as unknown as User).permission?.permissions;
+  const hasCreateAccess = canAccess(permission, 'tenants', ['create']);
+
+  const params = useParams({ from: "/dashboard/tenants/$id" });
+  const id = params.id.split("tenant-")[1];
+
   return <div className='space-y-6'>
-    <ActionHeader title={title} type='modal' hasIcon={false} component={<StatementModal title={title} />} />
-    <TenantCards />
-    <TabDataList />
+    <ActionHeader title="Statement" type='modal' hasIcon={false} showComponent={hasCreateAccess} component={<StatementModal title="Statement" />} />
+    <TenantCards id={id} />
+    <TabDataList id={id} />
   </div>
 }

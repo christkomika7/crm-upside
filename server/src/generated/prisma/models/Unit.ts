@@ -55,7 +55,7 @@ export type UnitSumAggregateOutputType = {
 export type UnitMinAggregateOutputType = {
   id: string | null
   reference: string | null
-  rentalStatus: string | null
+  rentalStatus: $Enums.UnitStatus | null
   surface: number | null
   livingroom: number | null
   dining: number | null
@@ -76,12 +76,13 @@ export type UnitMinAggregateOutputType = {
   typeId: string | null
   createdAt: Date | null
   updatedAt: Date | null
+  propertyManagementId: string | null
 }
 
 export type UnitMaxAggregateOutputType = {
   id: string | null
   reference: string | null
-  rentalStatus: string | null
+  rentalStatus: $Enums.UnitStatus | null
   surface: number | null
   livingroom: number | null
   dining: number | null
@@ -102,6 +103,7 @@ export type UnitMaxAggregateOutputType = {
   typeId: string | null
   createdAt: Date | null
   updatedAt: Date | null
+  propertyManagementId: string | null
 }
 
 export type UnitCountAggregateOutputType = {
@@ -129,6 +131,7 @@ export type UnitCountAggregateOutputType = {
   typeId: number
   createdAt: number
   updatedAt: number
+  propertyManagementId: number
   _all: number
 }
 
@@ -183,6 +186,7 @@ export type UnitMinAggregateInputType = {
   typeId?: true
   createdAt?: true
   updatedAt?: true
+  propertyManagementId?: true
 }
 
 export type UnitMaxAggregateInputType = {
@@ -209,6 +213,7 @@ export type UnitMaxAggregateInputType = {
   typeId?: true
   createdAt?: true
   updatedAt?: true
+  propertyManagementId?: true
 }
 
 export type UnitCountAggregateInputType = {
@@ -236,6 +241,7 @@ export type UnitCountAggregateInputType = {
   typeId?: true
   createdAt?: true
   updatedAt?: true
+  propertyManagementId?: true
   _all?: true
 }
 
@@ -328,7 +334,7 @@ export type UnitGroupByArgs<ExtArgs extends runtime.Types.Extensions.InternalArg
 export type UnitGroupByOutputType = {
   id: string
   reference: string
-  rentalStatus: string
+  rentalStatus: $Enums.UnitStatus
   surface: number
   livingroom: number
   dining: number
@@ -350,6 +356,7 @@ export type UnitGroupByOutputType = {
   typeId: string
   createdAt: Date
   updatedAt: Date
+  propertyManagementId: string | null
   _count: UnitCountAggregateOutputType | null
   _avg: UnitAvgAggregateOutputType | null
   _sum: UnitSumAggregateOutputType | null
@@ -378,7 +385,7 @@ export type UnitWhereInput = {
   NOT?: Prisma.UnitWhereInput | Prisma.UnitWhereInput[]
   id?: Prisma.StringFilter<"Unit"> | string
   reference?: Prisma.StringFilter<"Unit"> | string
-  rentalStatus?: Prisma.StringFilter<"Unit"> | string
+  rentalStatus?: Prisma.EnumUnitStatusFilter<"Unit"> | $Enums.UnitStatus
   surface?: Prisma.FloatFilter<"Unit"> | number
   livingroom?: Prisma.IntFilter<"Unit"> | number
   dining?: Prisma.IntFilter<"Unit"> | number
@@ -400,13 +407,14 @@ export type UnitWhereInput = {
   typeId?: Prisma.StringFilter<"Unit"> | string
   createdAt?: Prisma.DateTimeFilter<"Unit"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Unit"> | Date | string
+  propertyManagementId?: Prisma.StringNullableFilter<"Unit"> | string | null
   rentals?: Prisma.RentalListRelationFilter
-  building?: Prisma.XOR<Prisma.BuildingScalarRelationFilter, Prisma.BuildingWhereInput>
-  type?: Prisma.XOR<Prisma.TypeScalarRelationFilter, Prisma.TypeWhereInput>
   reservations?: Prisma.ReservationListRelationFilter
-  propertyManagements?: Prisma.PropertyManagementListRelationFilter
   checkInOuts?: Prisma.CheckInOutListRelationFilter
   accountings?: Prisma.AccountingListRelationFilter
+  building?: Prisma.XOR<Prisma.BuildingScalarRelationFilter, Prisma.BuildingWhereInput>
+  type?: Prisma.XOR<Prisma.TypeScalarRelationFilter, Prisma.TypeWhereInput>
+  propertyManagement?: Prisma.XOR<Prisma.PropertyManagementNullableScalarRelationFilter, Prisma.PropertyManagementWhereInput> | null
 }
 
 export type UnitOrderByWithRelationInput = {
@@ -434,13 +442,14 @@ export type UnitOrderByWithRelationInput = {
   typeId?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  propertyManagementId?: Prisma.SortOrderInput | Prisma.SortOrder
   rentals?: Prisma.RentalOrderByRelationAggregateInput
-  building?: Prisma.BuildingOrderByWithRelationInput
-  type?: Prisma.TypeOrderByWithRelationInput
   reservations?: Prisma.ReservationOrderByRelationAggregateInput
-  propertyManagements?: Prisma.PropertyManagementOrderByRelationAggregateInput
   checkInOuts?: Prisma.CheckInOutOrderByRelationAggregateInput
   accountings?: Prisma.accountingOrderByRelationAggregateInput
+  building?: Prisma.BuildingOrderByWithRelationInput
+  type?: Prisma.TypeOrderByWithRelationInput
+  propertyManagement?: Prisma.PropertyManagementOrderByWithRelationInput
 }
 
 export type UnitWhereUniqueInput = Prisma.AtLeast<{
@@ -449,7 +458,7 @@ export type UnitWhereUniqueInput = Prisma.AtLeast<{
   AND?: Prisma.UnitWhereInput | Prisma.UnitWhereInput[]
   OR?: Prisma.UnitWhereInput[]
   NOT?: Prisma.UnitWhereInput | Prisma.UnitWhereInput[]
-  rentalStatus?: Prisma.StringFilter<"Unit"> | string
+  rentalStatus?: Prisma.EnumUnitStatusFilter<"Unit"> | $Enums.UnitStatus
   surface?: Prisma.FloatFilter<"Unit"> | number
   livingroom?: Prisma.IntFilter<"Unit"> | number
   dining?: Prisma.IntFilter<"Unit"> | number
@@ -471,13 +480,14 @@ export type UnitWhereUniqueInput = Prisma.AtLeast<{
   typeId?: Prisma.StringFilter<"Unit"> | string
   createdAt?: Prisma.DateTimeFilter<"Unit"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Unit"> | Date | string
+  propertyManagementId?: Prisma.StringNullableFilter<"Unit"> | string | null
   rentals?: Prisma.RentalListRelationFilter
-  building?: Prisma.XOR<Prisma.BuildingScalarRelationFilter, Prisma.BuildingWhereInput>
-  type?: Prisma.XOR<Prisma.TypeScalarRelationFilter, Prisma.TypeWhereInput>
   reservations?: Prisma.ReservationListRelationFilter
-  propertyManagements?: Prisma.PropertyManagementListRelationFilter
   checkInOuts?: Prisma.CheckInOutListRelationFilter
   accountings?: Prisma.AccountingListRelationFilter
+  building?: Prisma.XOR<Prisma.BuildingScalarRelationFilter, Prisma.BuildingWhereInput>
+  type?: Prisma.XOR<Prisma.TypeScalarRelationFilter, Prisma.TypeWhereInput>
+  propertyManagement?: Prisma.XOR<Prisma.PropertyManagementNullableScalarRelationFilter, Prisma.PropertyManagementWhereInput> | null
 }, "id" | "reference">
 
 export type UnitOrderByWithAggregationInput = {
@@ -505,6 +515,7 @@ export type UnitOrderByWithAggregationInput = {
   typeId?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  propertyManagementId?: Prisma.SortOrderInput | Prisma.SortOrder
   _count?: Prisma.UnitCountOrderByAggregateInput
   _avg?: Prisma.UnitAvgOrderByAggregateInput
   _max?: Prisma.UnitMaxOrderByAggregateInput
@@ -518,7 +529,7 @@ export type UnitScalarWhereWithAggregatesInput = {
   NOT?: Prisma.UnitScalarWhereWithAggregatesInput | Prisma.UnitScalarWhereWithAggregatesInput[]
   id?: Prisma.StringWithAggregatesFilter<"Unit"> | string
   reference?: Prisma.StringWithAggregatesFilter<"Unit"> | string
-  rentalStatus?: Prisma.StringWithAggregatesFilter<"Unit"> | string
+  rentalStatus?: Prisma.EnumUnitStatusWithAggregatesFilter<"Unit"> | $Enums.UnitStatus
   surface?: Prisma.FloatWithAggregatesFilter<"Unit"> | number
   livingroom?: Prisma.IntWithAggregatesFilter<"Unit"> | number
   dining?: Prisma.IntWithAggregatesFilter<"Unit"> | number
@@ -540,12 +551,13 @@ export type UnitScalarWhereWithAggregatesInput = {
   typeId?: Prisma.StringWithAggregatesFilter<"Unit"> | string
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"Unit"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"Unit"> | Date | string
+  propertyManagementId?: Prisma.StringNullableWithAggregatesFilter<"Unit"> | string | null
 }
 
 export type UnitCreateInput = {
   id?: string
   reference: string
-  rentalStatus: string
+  rentalStatus?: $Enums.UnitStatus
   surface?: number
   livingroom?: number
   dining?: number
@@ -566,18 +578,18 @@ export type UnitCreateInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   rentals?: Prisma.RentalCreateNestedManyWithoutUnitInput
-  building: Prisma.BuildingCreateNestedOneWithoutUnitsInput
-  type: Prisma.TypeCreateNestedOneWithoutUnitInput
   reservations?: Prisma.ReservationCreateNestedManyWithoutUnitInput
-  propertyManagements?: Prisma.PropertyManagementCreateNestedManyWithoutUnitInput
   checkInOuts?: Prisma.CheckInOutCreateNestedManyWithoutUnitInput
   accountings?: Prisma.accountingCreateNestedManyWithoutUnitInput
+  building: Prisma.BuildingCreateNestedOneWithoutUnitsInput
+  type: Prisma.TypeCreateNestedOneWithoutUnitInput
+  propertyManagement?: Prisma.PropertyManagementCreateNestedOneWithoutUnitsInput
 }
 
 export type UnitUncheckedCreateInput = {
   id?: string
   reference: string
-  rentalStatus: string
+  rentalStatus?: $Enums.UnitStatus
   surface?: number
   livingroom?: number
   dining?: number
@@ -599,9 +611,9 @@ export type UnitUncheckedCreateInput = {
   typeId: string
   createdAt?: Date | string
   updatedAt?: Date | string
+  propertyManagementId?: string | null
   rentals?: Prisma.RentalUncheckedCreateNestedManyWithoutUnitInput
   reservations?: Prisma.ReservationUncheckedCreateNestedManyWithoutUnitInput
-  propertyManagements?: Prisma.PropertyManagementUncheckedCreateNestedManyWithoutUnitInput
   checkInOuts?: Prisma.CheckInOutUncheckedCreateNestedManyWithoutUnitInput
   accountings?: Prisma.accountingUncheckedCreateNestedManyWithoutUnitInput
 }
@@ -609,7 +621,7 @@ export type UnitUncheckedCreateInput = {
 export type UnitUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   reference?: Prisma.StringFieldUpdateOperationsInput | string
-  rentalStatus?: Prisma.StringFieldUpdateOperationsInput | string
+  rentalStatus?: Prisma.EnumUnitStatusFieldUpdateOperationsInput | $Enums.UnitStatus
   surface?: Prisma.FloatFieldUpdateOperationsInput | number
   livingroom?: Prisma.IntFieldUpdateOperationsInput | number
   dining?: Prisma.IntFieldUpdateOperationsInput | number
@@ -630,18 +642,18 @@ export type UnitUpdateInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   rentals?: Prisma.RentalUpdateManyWithoutUnitNestedInput
-  building?: Prisma.BuildingUpdateOneRequiredWithoutUnitsNestedInput
-  type?: Prisma.TypeUpdateOneRequiredWithoutUnitNestedInput
   reservations?: Prisma.ReservationUpdateManyWithoutUnitNestedInput
-  propertyManagements?: Prisma.PropertyManagementUpdateManyWithoutUnitNestedInput
   checkInOuts?: Prisma.CheckInOutUpdateManyWithoutUnitNestedInput
   accountings?: Prisma.accountingUpdateManyWithoutUnitNestedInput
+  building?: Prisma.BuildingUpdateOneRequiredWithoutUnitsNestedInput
+  type?: Prisma.TypeUpdateOneRequiredWithoutUnitNestedInput
+  propertyManagement?: Prisma.PropertyManagementUpdateOneWithoutUnitsNestedInput
 }
 
 export type UnitUncheckedUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   reference?: Prisma.StringFieldUpdateOperationsInput | string
-  rentalStatus?: Prisma.StringFieldUpdateOperationsInput | string
+  rentalStatus?: Prisma.EnumUnitStatusFieldUpdateOperationsInput | $Enums.UnitStatus
   surface?: Prisma.FloatFieldUpdateOperationsInput | number
   livingroom?: Prisma.IntFieldUpdateOperationsInput | number
   dining?: Prisma.IntFieldUpdateOperationsInput | number
@@ -663,9 +675,9 @@ export type UnitUncheckedUpdateInput = {
   typeId?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  propertyManagementId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   rentals?: Prisma.RentalUncheckedUpdateManyWithoutUnitNestedInput
   reservations?: Prisma.ReservationUncheckedUpdateManyWithoutUnitNestedInput
-  propertyManagements?: Prisma.PropertyManagementUncheckedUpdateManyWithoutUnitNestedInput
   checkInOuts?: Prisma.CheckInOutUncheckedUpdateManyWithoutUnitNestedInput
   accountings?: Prisma.accountingUncheckedUpdateManyWithoutUnitNestedInput
 }
@@ -673,7 +685,7 @@ export type UnitUncheckedUpdateInput = {
 export type UnitCreateManyInput = {
   id?: string
   reference: string
-  rentalStatus: string
+  rentalStatus?: $Enums.UnitStatus
   surface?: number
   livingroom?: number
   dining?: number
@@ -695,12 +707,13 @@ export type UnitCreateManyInput = {
   typeId: string
   createdAt?: Date | string
   updatedAt?: Date | string
+  propertyManagementId?: string | null
 }
 
 export type UnitUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   reference?: Prisma.StringFieldUpdateOperationsInput | string
-  rentalStatus?: Prisma.StringFieldUpdateOperationsInput | string
+  rentalStatus?: Prisma.EnumUnitStatusFieldUpdateOperationsInput | $Enums.UnitStatus
   surface?: Prisma.FloatFieldUpdateOperationsInput | number
   livingroom?: Prisma.IntFieldUpdateOperationsInput | number
   dining?: Prisma.IntFieldUpdateOperationsInput | number
@@ -725,7 +738,7 @@ export type UnitUpdateManyMutationInput = {
 export type UnitUncheckedUpdateManyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   reference?: Prisma.StringFieldUpdateOperationsInput | string
-  rentalStatus?: Prisma.StringFieldUpdateOperationsInput | string
+  rentalStatus?: Prisma.EnumUnitStatusFieldUpdateOperationsInput | $Enums.UnitStatus
   surface?: Prisma.FloatFieldUpdateOperationsInput | number
   livingroom?: Prisma.IntFieldUpdateOperationsInput | number
   dining?: Prisma.IntFieldUpdateOperationsInput | number
@@ -747,6 +760,7 @@ export type UnitUncheckedUpdateManyInput = {
   typeId?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  propertyManagementId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type UnitListRelationFilter = {
@@ -784,6 +798,7 @@ export type UnitCountOrderByAggregateInput = {
   typeId?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  propertyManagementId?: Prisma.SortOrder
 }
 
 export type UnitAvgOrderByAggregateInput = {
@@ -823,6 +838,7 @@ export type UnitMaxOrderByAggregateInput = {
   typeId?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  propertyManagementId?: Prisma.SortOrder
 }
 
 export type UnitMinOrderByAggregateInput = {
@@ -849,6 +865,7 @@ export type UnitMinOrderByAggregateInput = {
   typeId?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  propertyManagementId?: Prisma.SortOrder
 }
 
 export type UnitSumOrderByAggregateInput = {
@@ -918,6 +935,10 @@ export type UnitUncheckedUpdateManyWithoutBuildingNestedInput = {
 
 export type UnitCreatedocumentsInput = {
   set: string[]
+}
+
+export type EnumUnitStatusFieldUpdateOperationsInput = {
+  set?: $Enums.UnitStatus
 }
 
 export type FloatFieldUpdateOperationsInput = {
@@ -1019,18 +1040,46 @@ export type UnitUpdateOneRequiredWithoutReservationsNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.UnitUpdateToOneWithWhereWithoutReservationsInput, Prisma.UnitUpdateWithoutReservationsInput>, Prisma.UnitUncheckedUpdateWithoutReservationsInput>
 }
 
-export type UnitCreateNestedOneWithoutPropertyManagementsInput = {
-  create?: Prisma.XOR<Prisma.UnitCreateWithoutPropertyManagementsInput, Prisma.UnitUncheckedCreateWithoutPropertyManagementsInput>
-  connectOrCreate?: Prisma.UnitCreateOrConnectWithoutPropertyManagementsInput
-  connect?: Prisma.UnitWhereUniqueInput
+export type UnitCreateNestedManyWithoutPropertyManagementInput = {
+  create?: Prisma.XOR<Prisma.UnitCreateWithoutPropertyManagementInput, Prisma.UnitUncheckedCreateWithoutPropertyManagementInput> | Prisma.UnitCreateWithoutPropertyManagementInput[] | Prisma.UnitUncheckedCreateWithoutPropertyManagementInput[]
+  connectOrCreate?: Prisma.UnitCreateOrConnectWithoutPropertyManagementInput | Prisma.UnitCreateOrConnectWithoutPropertyManagementInput[]
+  createMany?: Prisma.UnitCreateManyPropertyManagementInputEnvelope
+  connect?: Prisma.UnitWhereUniqueInput | Prisma.UnitWhereUniqueInput[]
 }
 
-export type UnitUpdateOneRequiredWithoutPropertyManagementsNestedInput = {
-  create?: Prisma.XOR<Prisma.UnitCreateWithoutPropertyManagementsInput, Prisma.UnitUncheckedCreateWithoutPropertyManagementsInput>
-  connectOrCreate?: Prisma.UnitCreateOrConnectWithoutPropertyManagementsInput
-  upsert?: Prisma.UnitUpsertWithoutPropertyManagementsInput
-  connect?: Prisma.UnitWhereUniqueInput
-  update?: Prisma.XOR<Prisma.XOR<Prisma.UnitUpdateToOneWithWhereWithoutPropertyManagementsInput, Prisma.UnitUpdateWithoutPropertyManagementsInput>, Prisma.UnitUncheckedUpdateWithoutPropertyManagementsInput>
+export type UnitUncheckedCreateNestedManyWithoutPropertyManagementInput = {
+  create?: Prisma.XOR<Prisma.UnitCreateWithoutPropertyManagementInput, Prisma.UnitUncheckedCreateWithoutPropertyManagementInput> | Prisma.UnitCreateWithoutPropertyManagementInput[] | Prisma.UnitUncheckedCreateWithoutPropertyManagementInput[]
+  connectOrCreate?: Prisma.UnitCreateOrConnectWithoutPropertyManagementInput | Prisma.UnitCreateOrConnectWithoutPropertyManagementInput[]
+  createMany?: Prisma.UnitCreateManyPropertyManagementInputEnvelope
+  connect?: Prisma.UnitWhereUniqueInput | Prisma.UnitWhereUniqueInput[]
+}
+
+export type UnitUpdateManyWithoutPropertyManagementNestedInput = {
+  create?: Prisma.XOR<Prisma.UnitCreateWithoutPropertyManagementInput, Prisma.UnitUncheckedCreateWithoutPropertyManagementInput> | Prisma.UnitCreateWithoutPropertyManagementInput[] | Prisma.UnitUncheckedCreateWithoutPropertyManagementInput[]
+  connectOrCreate?: Prisma.UnitCreateOrConnectWithoutPropertyManagementInput | Prisma.UnitCreateOrConnectWithoutPropertyManagementInput[]
+  upsert?: Prisma.UnitUpsertWithWhereUniqueWithoutPropertyManagementInput | Prisma.UnitUpsertWithWhereUniqueWithoutPropertyManagementInput[]
+  createMany?: Prisma.UnitCreateManyPropertyManagementInputEnvelope
+  set?: Prisma.UnitWhereUniqueInput | Prisma.UnitWhereUniqueInput[]
+  disconnect?: Prisma.UnitWhereUniqueInput | Prisma.UnitWhereUniqueInput[]
+  delete?: Prisma.UnitWhereUniqueInput | Prisma.UnitWhereUniqueInput[]
+  connect?: Prisma.UnitWhereUniqueInput | Prisma.UnitWhereUniqueInput[]
+  update?: Prisma.UnitUpdateWithWhereUniqueWithoutPropertyManagementInput | Prisma.UnitUpdateWithWhereUniqueWithoutPropertyManagementInput[]
+  updateMany?: Prisma.UnitUpdateManyWithWhereWithoutPropertyManagementInput | Prisma.UnitUpdateManyWithWhereWithoutPropertyManagementInput[]
+  deleteMany?: Prisma.UnitScalarWhereInput | Prisma.UnitScalarWhereInput[]
+}
+
+export type UnitUncheckedUpdateManyWithoutPropertyManagementNestedInput = {
+  create?: Prisma.XOR<Prisma.UnitCreateWithoutPropertyManagementInput, Prisma.UnitUncheckedCreateWithoutPropertyManagementInput> | Prisma.UnitCreateWithoutPropertyManagementInput[] | Prisma.UnitUncheckedCreateWithoutPropertyManagementInput[]
+  connectOrCreate?: Prisma.UnitCreateOrConnectWithoutPropertyManagementInput | Prisma.UnitCreateOrConnectWithoutPropertyManagementInput[]
+  upsert?: Prisma.UnitUpsertWithWhereUniqueWithoutPropertyManagementInput | Prisma.UnitUpsertWithWhereUniqueWithoutPropertyManagementInput[]
+  createMany?: Prisma.UnitCreateManyPropertyManagementInputEnvelope
+  set?: Prisma.UnitWhereUniqueInput | Prisma.UnitWhereUniqueInput[]
+  disconnect?: Prisma.UnitWhereUniqueInput | Prisma.UnitWhereUniqueInput[]
+  delete?: Prisma.UnitWhereUniqueInput | Prisma.UnitWhereUniqueInput[]
+  connect?: Prisma.UnitWhereUniqueInput | Prisma.UnitWhereUniqueInput[]
+  update?: Prisma.UnitUpdateWithWhereUniqueWithoutPropertyManagementInput | Prisma.UnitUpdateWithWhereUniqueWithoutPropertyManagementInput[]
+  updateMany?: Prisma.UnitUpdateManyWithWhereWithoutPropertyManagementInput | Prisma.UnitUpdateManyWithWhereWithoutPropertyManagementInput[]
+  deleteMany?: Prisma.UnitScalarWhereInput | Prisma.UnitScalarWhereInput[]
 }
 
 export type UnitCreateNestedOneWithoutCheckInOutsInput = {
@@ -1066,7 +1115,7 @@ export type UnitUpdateOneWithoutAccountingsNestedInput = {
 export type UnitCreateWithoutBuildingInput = {
   id?: string
   reference: string
-  rentalStatus: string
+  rentalStatus?: $Enums.UnitStatus
   surface?: number
   livingroom?: number
   dining?: number
@@ -1087,17 +1136,17 @@ export type UnitCreateWithoutBuildingInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   rentals?: Prisma.RentalCreateNestedManyWithoutUnitInput
-  type: Prisma.TypeCreateNestedOneWithoutUnitInput
   reservations?: Prisma.ReservationCreateNestedManyWithoutUnitInput
-  propertyManagements?: Prisma.PropertyManagementCreateNestedManyWithoutUnitInput
   checkInOuts?: Prisma.CheckInOutCreateNestedManyWithoutUnitInput
   accountings?: Prisma.accountingCreateNestedManyWithoutUnitInput
+  type: Prisma.TypeCreateNestedOneWithoutUnitInput
+  propertyManagement?: Prisma.PropertyManagementCreateNestedOneWithoutUnitsInput
 }
 
 export type UnitUncheckedCreateWithoutBuildingInput = {
   id?: string
   reference: string
-  rentalStatus: string
+  rentalStatus?: $Enums.UnitStatus
   surface?: number
   livingroom?: number
   dining?: number
@@ -1118,9 +1167,9 @@ export type UnitUncheckedCreateWithoutBuildingInput = {
   typeId: string
   createdAt?: Date | string
   updatedAt?: Date | string
+  propertyManagementId?: string | null
   rentals?: Prisma.RentalUncheckedCreateNestedManyWithoutUnitInput
   reservations?: Prisma.ReservationUncheckedCreateNestedManyWithoutUnitInput
-  propertyManagements?: Prisma.PropertyManagementUncheckedCreateNestedManyWithoutUnitInput
   checkInOuts?: Prisma.CheckInOutUncheckedCreateNestedManyWithoutUnitInput
   accountings?: Prisma.accountingUncheckedCreateNestedManyWithoutUnitInput
 }
@@ -1157,7 +1206,7 @@ export type UnitScalarWhereInput = {
   NOT?: Prisma.UnitScalarWhereInput | Prisma.UnitScalarWhereInput[]
   id?: Prisma.StringFilter<"Unit"> | string
   reference?: Prisma.StringFilter<"Unit"> | string
-  rentalStatus?: Prisma.StringFilter<"Unit"> | string
+  rentalStatus?: Prisma.EnumUnitStatusFilter<"Unit"> | $Enums.UnitStatus
   surface?: Prisma.FloatFilter<"Unit"> | number
   livingroom?: Prisma.IntFilter<"Unit"> | number
   dining?: Prisma.IntFilter<"Unit"> | number
@@ -1179,12 +1228,13 @@ export type UnitScalarWhereInput = {
   typeId?: Prisma.StringFilter<"Unit"> | string
   createdAt?: Prisma.DateTimeFilter<"Unit"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Unit"> | Date | string
+  propertyManagementId?: Prisma.StringNullableFilter<"Unit"> | string | null
 }
 
 export type UnitCreateWithoutTypeInput = {
   id?: string
   reference: string
-  rentalStatus: string
+  rentalStatus?: $Enums.UnitStatus
   surface?: number
   livingroom?: number
   dining?: number
@@ -1205,17 +1255,17 @@ export type UnitCreateWithoutTypeInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   rentals?: Prisma.RentalCreateNestedManyWithoutUnitInput
-  building: Prisma.BuildingCreateNestedOneWithoutUnitsInput
   reservations?: Prisma.ReservationCreateNestedManyWithoutUnitInput
-  propertyManagements?: Prisma.PropertyManagementCreateNestedManyWithoutUnitInput
   checkInOuts?: Prisma.CheckInOutCreateNestedManyWithoutUnitInput
   accountings?: Prisma.accountingCreateNestedManyWithoutUnitInput
+  building: Prisma.BuildingCreateNestedOneWithoutUnitsInput
+  propertyManagement?: Prisma.PropertyManagementCreateNestedOneWithoutUnitsInput
 }
 
 export type UnitUncheckedCreateWithoutTypeInput = {
   id?: string
   reference: string
-  rentalStatus: string
+  rentalStatus?: $Enums.UnitStatus
   surface?: number
   livingroom?: number
   dining?: number
@@ -1236,9 +1286,9 @@ export type UnitUncheckedCreateWithoutTypeInput = {
   buildingId: string
   createdAt?: Date | string
   updatedAt?: Date | string
+  propertyManagementId?: string | null
   rentals?: Prisma.RentalUncheckedCreateNestedManyWithoutUnitInput
   reservations?: Prisma.ReservationUncheckedCreateNestedManyWithoutUnitInput
-  propertyManagements?: Prisma.PropertyManagementUncheckedCreateNestedManyWithoutUnitInput
   checkInOuts?: Prisma.CheckInOutUncheckedCreateNestedManyWithoutUnitInput
   accountings?: Prisma.accountingUncheckedCreateNestedManyWithoutUnitInput
 }
@@ -1272,7 +1322,7 @@ export type UnitUpdateManyWithWhereWithoutTypeInput = {
 export type UnitCreateWithoutRentalsInput = {
   id?: string
   reference: string
-  rentalStatus: string
+  rentalStatus?: $Enums.UnitStatus
   surface?: number
   livingroom?: number
   dining?: number
@@ -1292,18 +1342,18 @@ export type UnitCreateWithoutRentalsInput = {
   isDeleting?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
-  building: Prisma.BuildingCreateNestedOneWithoutUnitsInput
-  type: Prisma.TypeCreateNestedOneWithoutUnitInput
   reservations?: Prisma.ReservationCreateNestedManyWithoutUnitInput
-  propertyManagements?: Prisma.PropertyManagementCreateNestedManyWithoutUnitInput
   checkInOuts?: Prisma.CheckInOutCreateNestedManyWithoutUnitInput
   accountings?: Prisma.accountingCreateNestedManyWithoutUnitInput
+  building: Prisma.BuildingCreateNestedOneWithoutUnitsInput
+  type: Prisma.TypeCreateNestedOneWithoutUnitInput
+  propertyManagement?: Prisma.PropertyManagementCreateNestedOneWithoutUnitsInput
 }
 
 export type UnitUncheckedCreateWithoutRentalsInput = {
   id?: string
   reference: string
-  rentalStatus: string
+  rentalStatus?: $Enums.UnitStatus
   surface?: number
   livingroom?: number
   dining?: number
@@ -1325,8 +1375,8 @@ export type UnitUncheckedCreateWithoutRentalsInput = {
   typeId: string
   createdAt?: Date | string
   updatedAt?: Date | string
+  propertyManagementId?: string | null
   reservations?: Prisma.ReservationUncheckedCreateNestedManyWithoutUnitInput
-  propertyManagements?: Prisma.PropertyManagementUncheckedCreateNestedManyWithoutUnitInput
   checkInOuts?: Prisma.CheckInOutUncheckedCreateNestedManyWithoutUnitInput
   accountings?: Prisma.accountingUncheckedCreateNestedManyWithoutUnitInput
 }
@@ -1350,7 +1400,7 @@ export type UnitUpdateToOneWithWhereWithoutRentalsInput = {
 export type UnitUpdateWithoutRentalsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   reference?: Prisma.StringFieldUpdateOperationsInput | string
-  rentalStatus?: Prisma.StringFieldUpdateOperationsInput | string
+  rentalStatus?: Prisma.EnumUnitStatusFieldUpdateOperationsInput | $Enums.UnitStatus
   surface?: Prisma.FloatFieldUpdateOperationsInput | number
   livingroom?: Prisma.IntFieldUpdateOperationsInput | number
   dining?: Prisma.IntFieldUpdateOperationsInput | number
@@ -1370,18 +1420,18 @@ export type UnitUpdateWithoutRentalsInput = {
   isDeleting?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  building?: Prisma.BuildingUpdateOneRequiredWithoutUnitsNestedInput
-  type?: Prisma.TypeUpdateOneRequiredWithoutUnitNestedInput
   reservations?: Prisma.ReservationUpdateManyWithoutUnitNestedInput
-  propertyManagements?: Prisma.PropertyManagementUpdateManyWithoutUnitNestedInput
   checkInOuts?: Prisma.CheckInOutUpdateManyWithoutUnitNestedInput
   accountings?: Prisma.accountingUpdateManyWithoutUnitNestedInput
+  building?: Prisma.BuildingUpdateOneRequiredWithoutUnitsNestedInput
+  type?: Prisma.TypeUpdateOneRequiredWithoutUnitNestedInput
+  propertyManagement?: Prisma.PropertyManagementUpdateOneWithoutUnitsNestedInput
 }
 
 export type UnitUncheckedUpdateWithoutRentalsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   reference?: Prisma.StringFieldUpdateOperationsInput | string
-  rentalStatus?: Prisma.StringFieldUpdateOperationsInput | string
+  rentalStatus?: Prisma.EnumUnitStatusFieldUpdateOperationsInput | $Enums.UnitStatus
   surface?: Prisma.FloatFieldUpdateOperationsInput | number
   livingroom?: Prisma.IntFieldUpdateOperationsInput | number
   dining?: Prisma.IntFieldUpdateOperationsInput | number
@@ -1403,8 +1453,8 @@ export type UnitUncheckedUpdateWithoutRentalsInput = {
   typeId?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  propertyManagementId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   reservations?: Prisma.ReservationUncheckedUpdateManyWithoutUnitNestedInput
-  propertyManagements?: Prisma.PropertyManagementUncheckedUpdateManyWithoutUnitNestedInput
   checkInOuts?: Prisma.CheckInOutUncheckedUpdateManyWithoutUnitNestedInput
   accountings?: Prisma.accountingUncheckedUpdateManyWithoutUnitNestedInput
 }
@@ -1412,7 +1462,7 @@ export type UnitUncheckedUpdateWithoutRentalsInput = {
 export type UnitCreateWithoutReservationsInput = {
   id?: string
   reference: string
-  rentalStatus: string
+  rentalStatus?: $Enums.UnitStatus
   surface?: number
   livingroom?: number
   dining?: number
@@ -1433,17 +1483,17 @@ export type UnitCreateWithoutReservationsInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   rentals?: Prisma.RentalCreateNestedManyWithoutUnitInput
-  building: Prisma.BuildingCreateNestedOneWithoutUnitsInput
-  type: Prisma.TypeCreateNestedOneWithoutUnitInput
-  propertyManagements?: Prisma.PropertyManagementCreateNestedManyWithoutUnitInput
   checkInOuts?: Prisma.CheckInOutCreateNestedManyWithoutUnitInput
   accountings?: Prisma.accountingCreateNestedManyWithoutUnitInput
+  building: Prisma.BuildingCreateNestedOneWithoutUnitsInput
+  type: Prisma.TypeCreateNestedOneWithoutUnitInput
+  propertyManagement?: Prisma.PropertyManagementCreateNestedOneWithoutUnitsInput
 }
 
 export type UnitUncheckedCreateWithoutReservationsInput = {
   id?: string
   reference: string
-  rentalStatus: string
+  rentalStatus?: $Enums.UnitStatus
   surface?: number
   livingroom?: number
   dining?: number
@@ -1465,8 +1515,8 @@ export type UnitUncheckedCreateWithoutReservationsInput = {
   typeId: string
   createdAt?: Date | string
   updatedAt?: Date | string
+  propertyManagementId?: string | null
   rentals?: Prisma.RentalUncheckedCreateNestedManyWithoutUnitInput
-  propertyManagements?: Prisma.PropertyManagementUncheckedCreateNestedManyWithoutUnitInput
   checkInOuts?: Prisma.CheckInOutUncheckedCreateNestedManyWithoutUnitInput
   accountings?: Prisma.accountingUncheckedCreateNestedManyWithoutUnitInput
 }
@@ -1490,7 +1540,7 @@ export type UnitUpdateToOneWithWhereWithoutReservationsInput = {
 export type UnitUpdateWithoutReservationsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   reference?: Prisma.StringFieldUpdateOperationsInput | string
-  rentalStatus?: Prisma.StringFieldUpdateOperationsInput | string
+  rentalStatus?: Prisma.EnumUnitStatusFieldUpdateOperationsInput | $Enums.UnitStatus
   surface?: Prisma.FloatFieldUpdateOperationsInput | number
   livingroom?: Prisma.IntFieldUpdateOperationsInput | number
   dining?: Prisma.IntFieldUpdateOperationsInput | number
@@ -1511,17 +1561,17 @@ export type UnitUpdateWithoutReservationsInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   rentals?: Prisma.RentalUpdateManyWithoutUnitNestedInput
-  building?: Prisma.BuildingUpdateOneRequiredWithoutUnitsNestedInput
-  type?: Prisma.TypeUpdateOneRequiredWithoutUnitNestedInput
-  propertyManagements?: Prisma.PropertyManagementUpdateManyWithoutUnitNestedInput
   checkInOuts?: Prisma.CheckInOutUpdateManyWithoutUnitNestedInput
   accountings?: Prisma.accountingUpdateManyWithoutUnitNestedInput
+  building?: Prisma.BuildingUpdateOneRequiredWithoutUnitsNestedInput
+  type?: Prisma.TypeUpdateOneRequiredWithoutUnitNestedInput
+  propertyManagement?: Prisma.PropertyManagementUpdateOneWithoutUnitsNestedInput
 }
 
 export type UnitUncheckedUpdateWithoutReservationsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   reference?: Prisma.StringFieldUpdateOperationsInput | string
-  rentalStatus?: Prisma.StringFieldUpdateOperationsInput | string
+  rentalStatus?: Prisma.EnumUnitStatusFieldUpdateOperationsInput | $Enums.UnitStatus
   surface?: Prisma.FloatFieldUpdateOperationsInput | number
   livingroom?: Prisma.IntFieldUpdateOperationsInput | number
   dining?: Prisma.IntFieldUpdateOperationsInput | number
@@ -1543,16 +1593,16 @@ export type UnitUncheckedUpdateWithoutReservationsInput = {
   typeId?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  propertyManagementId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   rentals?: Prisma.RentalUncheckedUpdateManyWithoutUnitNestedInput
-  propertyManagements?: Prisma.PropertyManagementUncheckedUpdateManyWithoutUnitNestedInput
   checkInOuts?: Prisma.CheckInOutUncheckedUpdateManyWithoutUnitNestedInput
   accountings?: Prisma.accountingUncheckedUpdateManyWithoutUnitNestedInput
 }
 
-export type UnitCreateWithoutPropertyManagementsInput = {
+export type UnitCreateWithoutPropertyManagementInput = {
   id?: string
   reference: string
-  rentalStatus: string
+  rentalStatus?: $Enums.UnitStatus
   surface?: number
   livingroom?: number
   dining?: number
@@ -1573,17 +1623,17 @@ export type UnitCreateWithoutPropertyManagementsInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   rentals?: Prisma.RentalCreateNestedManyWithoutUnitInput
-  building: Prisma.BuildingCreateNestedOneWithoutUnitsInput
-  type: Prisma.TypeCreateNestedOneWithoutUnitInput
   reservations?: Prisma.ReservationCreateNestedManyWithoutUnitInput
   checkInOuts?: Prisma.CheckInOutCreateNestedManyWithoutUnitInput
   accountings?: Prisma.accountingCreateNestedManyWithoutUnitInput
+  building: Prisma.BuildingCreateNestedOneWithoutUnitsInput
+  type: Prisma.TypeCreateNestedOneWithoutUnitInput
 }
 
-export type UnitUncheckedCreateWithoutPropertyManagementsInput = {
+export type UnitUncheckedCreateWithoutPropertyManagementInput = {
   id?: string
   reference: string
-  rentalStatus: string
+  rentalStatus?: $Enums.UnitStatus
   surface?: number
   livingroom?: number
   dining?: number
@@ -1611,88 +1661,36 @@ export type UnitUncheckedCreateWithoutPropertyManagementsInput = {
   accountings?: Prisma.accountingUncheckedCreateNestedManyWithoutUnitInput
 }
 
-export type UnitCreateOrConnectWithoutPropertyManagementsInput = {
+export type UnitCreateOrConnectWithoutPropertyManagementInput = {
   where: Prisma.UnitWhereUniqueInput
-  create: Prisma.XOR<Prisma.UnitCreateWithoutPropertyManagementsInput, Prisma.UnitUncheckedCreateWithoutPropertyManagementsInput>
+  create: Prisma.XOR<Prisma.UnitCreateWithoutPropertyManagementInput, Prisma.UnitUncheckedCreateWithoutPropertyManagementInput>
 }
 
-export type UnitUpsertWithoutPropertyManagementsInput = {
-  update: Prisma.XOR<Prisma.UnitUpdateWithoutPropertyManagementsInput, Prisma.UnitUncheckedUpdateWithoutPropertyManagementsInput>
-  create: Prisma.XOR<Prisma.UnitCreateWithoutPropertyManagementsInput, Prisma.UnitUncheckedCreateWithoutPropertyManagementsInput>
-  where?: Prisma.UnitWhereInput
+export type UnitCreateManyPropertyManagementInputEnvelope = {
+  data: Prisma.UnitCreateManyPropertyManagementInput | Prisma.UnitCreateManyPropertyManagementInput[]
+  skipDuplicates?: boolean
 }
 
-export type UnitUpdateToOneWithWhereWithoutPropertyManagementsInput = {
-  where?: Prisma.UnitWhereInput
-  data: Prisma.XOR<Prisma.UnitUpdateWithoutPropertyManagementsInput, Prisma.UnitUncheckedUpdateWithoutPropertyManagementsInput>
+export type UnitUpsertWithWhereUniqueWithoutPropertyManagementInput = {
+  where: Prisma.UnitWhereUniqueInput
+  update: Prisma.XOR<Prisma.UnitUpdateWithoutPropertyManagementInput, Prisma.UnitUncheckedUpdateWithoutPropertyManagementInput>
+  create: Prisma.XOR<Prisma.UnitCreateWithoutPropertyManagementInput, Prisma.UnitUncheckedCreateWithoutPropertyManagementInput>
 }
 
-export type UnitUpdateWithoutPropertyManagementsInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  reference?: Prisma.StringFieldUpdateOperationsInput | string
-  rentalStatus?: Prisma.StringFieldUpdateOperationsInput | string
-  surface?: Prisma.FloatFieldUpdateOperationsInput | number
-  livingroom?: Prisma.IntFieldUpdateOperationsInput | number
-  dining?: Prisma.IntFieldUpdateOperationsInput | number
-  kitchen?: Prisma.IntFieldUpdateOperationsInput | number
-  bedroom?: Prisma.IntFieldUpdateOperationsInput | number
-  bathroom?: Prisma.IntFieldUpdateOperationsInput | number
-  furnished?: Prisma.StringFieldUpdateOperationsInput | string
-  wifi?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  water?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  electricity?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  tv?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  rent?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  charges?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  extraCharges?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  amountGenerate?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  documents?: Prisma.UnitUpdatedocumentsInput | string[]
-  isDeleting?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  rentals?: Prisma.RentalUpdateManyWithoutUnitNestedInput
-  building?: Prisma.BuildingUpdateOneRequiredWithoutUnitsNestedInput
-  type?: Prisma.TypeUpdateOneRequiredWithoutUnitNestedInput
-  reservations?: Prisma.ReservationUpdateManyWithoutUnitNestedInput
-  checkInOuts?: Prisma.CheckInOutUpdateManyWithoutUnitNestedInput
-  accountings?: Prisma.accountingUpdateManyWithoutUnitNestedInput
+export type UnitUpdateWithWhereUniqueWithoutPropertyManagementInput = {
+  where: Prisma.UnitWhereUniqueInput
+  data: Prisma.XOR<Prisma.UnitUpdateWithoutPropertyManagementInput, Prisma.UnitUncheckedUpdateWithoutPropertyManagementInput>
 }
 
-export type UnitUncheckedUpdateWithoutPropertyManagementsInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  reference?: Prisma.StringFieldUpdateOperationsInput | string
-  rentalStatus?: Prisma.StringFieldUpdateOperationsInput | string
-  surface?: Prisma.FloatFieldUpdateOperationsInput | number
-  livingroom?: Prisma.IntFieldUpdateOperationsInput | number
-  dining?: Prisma.IntFieldUpdateOperationsInput | number
-  kitchen?: Prisma.IntFieldUpdateOperationsInput | number
-  bedroom?: Prisma.IntFieldUpdateOperationsInput | number
-  bathroom?: Prisma.IntFieldUpdateOperationsInput | number
-  furnished?: Prisma.StringFieldUpdateOperationsInput | string
-  wifi?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  water?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  electricity?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  tv?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  rent?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  charges?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  extraCharges?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  amountGenerate?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  documents?: Prisma.UnitUpdatedocumentsInput | string[]
-  isDeleting?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  buildingId?: Prisma.StringFieldUpdateOperationsInput | string
-  typeId?: Prisma.StringFieldUpdateOperationsInput | string
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  rentals?: Prisma.RentalUncheckedUpdateManyWithoutUnitNestedInput
-  reservations?: Prisma.ReservationUncheckedUpdateManyWithoutUnitNestedInput
-  checkInOuts?: Prisma.CheckInOutUncheckedUpdateManyWithoutUnitNestedInput
-  accountings?: Prisma.accountingUncheckedUpdateManyWithoutUnitNestedInput
+export type UnitUpdateManyWithWhereWithoutPropertyManagementInput = {
+  where: Prisma.UnitScalarWhereInput
+  data: Prisma.XOR<Prisma.UnitUpdateManyMutationInput, Prisma.UnitUncheckedUpdateManyWithoutPropertyManagementInput>
 }
 
 export type UnitCreateWithoutCheckInOutsInput = {
   id?: string
   reference: string
-  rentalStatus: string
+  rentalStatus?: $Enums.UnitStatus
   surface?: number
   livingroom?: number
   dining?: number
@@ -1713,17 +1711,17 @@ export type UnitCreateWithoutCheckInOutsInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   rentals?: Prisma.RentalCreateNestedManyWithoutUnitInput
+  reservations?: Prisma.ReservationCreateNestedManyWithoutUnitInput
+  accountings?: Prisma.accountingCreateNestedManyWithoutUnitInput
   building: Prisma.BuildingCreateNestedOneWithoutUnitsInput
   type: Prisma.TypeCreateNestedOneWithoutUnitInput
-  reservations?: Prisma.ReservationCreateNestedManyWithoutUnitInput
-  propertyManagements?: Prisma.PropertyManagementCreateNestedManyWithoutUnitInput
-  accountings?: Prisma.accountingCreateNestedManyWithoutUnitInput
+  propertyManagement?: Prisma.PropertyManagementCreateNestedOneWithoutUnitsInput
 }
 
 export type UnitUncheckedCreateWithoutCheckInOutsInput = {
   id?: string
   reference: string
-  rentalStatus: string
+  rentalStatus?: $Enums.UnitStatus
   surface?: number
   livingroom?: number
   dining?: number
@@ -1745,9 +1743,9 @@ export type UnitUncheckedCreateWithoutCheckInOutsInput = {
   typeId: string
   createdAt?: Date | string
   updatedAt?: Date | string
+  propertyManagementId?: string | null
   rentals?: Prisma.RentalUncheckedCreateNestedManyWithoutUnitInput
   reservations?: Prisma.ReservationUncheckedCreateNestedManyWithoutUnitInput
-  propertyManagements?: Prisma.PropertyManagementUncheckedCreateNestedManyWithoutUnitInput
   accountings?: Prisma.accountingUncheckedCreateNestedManyWithoutUnitInput
 }
 
@@ -1770,7 +1768,7 @@ export type UnitUpdateToOneWithWhereWithoutCheckInOutsInput = {
 export type UnitUpdateWithoutCheckInOutsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   reference?: Prisma.StringFieldUpdateOperationsInput | string
-  rentalStatus?: Prisma.StringFieldUpdateOperationsInput | string
+  rentalStatus?: Prisma.EnumUnitStatusFieldUpdateOperationsInput | $Enums.UnitStatus
   surface?: Prisma.FloatFieldUpdateOperationsInput | number
   livingroom?: Prisma.IntFieldUpdateOperationsInput | number
   dining?: Prisma.IntFieldUpdateOperationsInput | number
@@ -1791,17 +1789,17 @@ export type UnitUpdateWithoutCheckInOutsInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   rentals?: Prisma.RentalUpdateManyWithoutUnitNestedInput
+  reservations?: Prisma.ReservationUpdateManyWithoutUnitNestedInput
+  accountings?: Prisma.accountingUpdateManyWithoutUnitNestedInput
   building?: Prisma.BuildingUpdateOneRequiredWithoutUnitsNestedInput
   type?: Prisma.TypeUpdateOneRequiredWithoutUnitNestedInput
-  reservations?: Prisma.ReservationUpdateManyWithoutUnitNestedInput
-  propertyManagements?: Prisma.PropertyManagementUpdateManyWithoutUnitNestedInput
-  accountings?: Prisma.accountingUpdateManyWithoutUnitNestedInput
+  propertyManagement?: Prisma.PropertyManagementUpdateOneWithoutUnitsNestedInput
 }
 
 export type UnitUncheckedUpdateWithoutCheckInOutsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   reference?: Prisma.StringFieldUpdateOperationsInput | string
-  rentalStatus?: Prisma.StringFieldUpdateOperationsInput | string
+  rentalStatus?: Prisma.EnumUnitStatusFieldUpdateOperationsInput | $Enums.UnitStatus
   surface?: Prisma.FloatFieldUpdateOperationsInput | number
   livingroom?: Prisma.IntFieldUpdateOperationsInput | number
   dining?: Prisma.IntFieldUpdateOperationsInput | number
@@ -1823,16 +1821,16 @@ export type UnitUncheckedUpdateWithoutCheckInOutsInput = {
   typeId?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  propertyManagementId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   rentals?: Prisma.RentalUncheckedUpdateManyWithoutUnitNestedInput
   reservations?: Prisma.ReservationUncheckedUpdateManyWithoutUnitNestedInput
-  propertyManagements?: Prisma.PropertyManagementUncheckedUpdateManyWithoutUnitNestedInput
   accountings?: Prisma.accountingUncheckedUpdateManyWithoutUnitNestedInput
 }
 
 export type UnitCreateWithoutAccountingsInput = {
   id?: string
   reference: string
-  rentalStatus: string
+  rentalStatus?: $Enums.UnitStatus
   surface?: number
   livingroom?: number
   dining?: number
@@ -1853,17 +1851,17 @@ export type UnitCreateWithoutAccountingsInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   rentals?: Prisma.RentalCreateNestedManyWithoutUnitInput
+  reservations?: Prisma.ReservationCreateNestedManyWithoutUnitInput
+  checkInOuts?: Prisma.CheckInOutCreateNestedManyWithoutUnitInput
   building: Prisma.BuildingCreateNestedOneWithoutUnitsInput
   type: Prisma.TypeCreateNestedOneWithoutUnitInput
-  reservations?: Prisma.ReservationCreateNestedManyWithoutUnitInput
-  propertyManagements?: Prisma.PropertyManagementCreateNestedManyWithoutUnitInput
-  checkInOuts?: Prisma.CheckInOutCreateNestedManyWithoutUnitInput
+  propertyManagement?: Prisma.PropertyManagementCreateNestedOneWithoutUnitsInput
 }
 
 export type UnitUncheckedCreateWithoutAccountingsInput = {
   id?: string
   reference: string
-  rentalStatus: string
+  rentalStatus?: $Enums.UnitStatus
   surface?: number
   livingroom?: number
   dining?: number
@@ -1885,9 +1883,9 @@ export type UnitUncheckedCreateWithoutAccountingsInput = {
   typeId: string
   createdAt?: Date | string
   updatedAt?: Date | string
+  propertyManagementId?: string | null
   rentals?: Prisma.RentalUncheckedCreateNestedManyWithoutUnitInput
   reservations?: Prisma.ReservationUncheckedCreateNestedManyWithoutUnitInput
-  propertyManagements?: Prisma.PropertyManagementUncheckedCreateNestedManyWithoutUnitInput
   checkInOuts?: Prisma.CheckInOutUncheckedCreateNestedManyWithoutUnitInput
 }
 
@@ -1910,7 +1908,7 @@ export type UnitUpdateToOneWithWhereWithoutAccountingsInput = {
 export type UnitUpdateWithoutAccountingsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   reference?: Prisma.StringFieldUpdateOperationsInput | string
-  rentalStatus?: Prisma.StringFieldUpdateOperationsInput | string
+  rentalStatus?: Prisma.EnumUnitStatusFieldUpdateOperationsInput | $Enums.UnitStatus
   surface?: Prisma.FloatFieldUpdateOperationsInput | number
   livingroom?: Prisma.IntFieldUpdateOperationsInput | number
   dining?: Prisma.IntFieldUpdateOperationsInput | number
@@ -1931,17 +1929,17 @@ export type UnitUpdateWithoutAccountingsInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   rentals?: Prisma.RentalUpdateManyWithoutUnitNestedInput
+  reservations?: Prisma.ReservationUpdateManyWithoutUnitNestedInput
+  checkInOuts?: Prisma.CheckInOutUpdateManyWithoutUnitNestedInput
   building?: Prisma.BuildingUpdateOneRequiredWithoutUnitsNestedInput
   type?: Prisma.TypeUpdateOneRequiredWithoutUnitNestedInput
-  reservations?: Prisma.ReservationUpdateManyWithoutUnitNestedInput
-  propertyManagements?: Prisma.PropertyManagementUpdateManyWithoutUnitNestedInput
-  checkInOuts?: Prisma.CheckInOutUpdateManyWithoutUnitNestedInput
+  propertyManagement?: Prisma.PropertyManagementUpdateOneWithoutUnitsNestedInput
 }
 
 export type UnitUncheckedUpdateWithoutAccountingsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   reference?: Prisma.StringFieldUpdateOperationsInput | string
-  rentalStatus?: Prisma.StringFieldUpdateOperationsInput | string
+  rentalStatus?: Prisma.EnumUnitStatusFieldUpdateOperationsInput | $Enums.UnitStatus
   surface?: Prisma.FloatFieldUpdateOperationsInput | number
   livingroom?: Prisma.IntFieldUpdateOperationsInput | number
   dining?: Prisma.IntFieldUpdateOperationsInput | number
@@ -1963,16 +1961,16 @@ export type UnitUncheckedUpdateWithoutAccountingsInput = {
   typeId?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  propertyManagementId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   rentals?: Prisma.RentalUncheckedUpdateManyWithoutUnitNestedInput
   reservations?: Prisma.ReservationUncheckedUpdateManyWithoutUnitNestedInput
-  propertyManagements?: Prisma.PropertyManagementUncheckedUpdateManyWithoutUnitNestedInput
   checkInOuts?: Prisma.CheckInOutUncheckedUpdateManyWithoutUnitNestedInput
 }
 
 export type UnitCreateManyBuildingInput = {
   id?: string
   reference: string
-  rentalStatus: string
+  rentalStatus?: $Enums.UnitStatus
   surface?: number
   livingroom?: number
   dining?: number
@@ -1993,12 +1991,13 @@ export type UnitCreateManyBuildingInput = {
   typeId: string
   createdAt?: Date | string
   updatedAt?: Date | string
+  propertyManagementId?: string | null
 }
 
 export type UnitUpdateWithoutBuildingInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   reference?: Prisma.StringFieldUpdateOperationsInput | string
-  rentalStatus?: Prisma.StringFieldUpdateOperationsInput | string
+  rentalStatus?: Prisma.EnumUnitStatusFieldUpdateOperationsInput | $Enums.UnitStatus
   surface?: Prisma.FloatFieldUpdateOperationsInput | number
   livingroom?: Prisma.IntFieldUpdateOperationsInput | number
   dining?: Prisma.IntFieldUpdateOperationsInput | number
@@ -2019,17 +2018,17 @@ export type UnitUpdateWithoutBuildingInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   rentals?: Prisma.RentalUpdateManyWithoutUnitNestedInput
-  type?: Prisma.TypeUpdateOneRequiredWithoutUnitNestedInput
   reservations?: Prisma.ReservationUpdateManyWithoutUnitNestedInput
-  propertyManagements?: Prisma.PropertyManagementUpdateManyWithoutUnitNestedInput
   checkInOuts?: Prisma.CheckInOutUpdateManyWithoutUnitNestedInput
   accountings?: Prisma.accountingUpdateManyWithoutUnitNestedInput
+  type?: Prisma.TypeUpdateOneRequiredWithoutUnitNestedInput
+  propertyManagement?: Prisma.PropertyManagementUpdateOneWithoutUnitsNestedInput
 }
 
 export type UnitUncheckedUpdateWithoutBuildingInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   reference?: Prisma.StringFieldUpdateOperationsInput | string
-  rentalStatus?: Prisma.StringFieldUpdateOperationsInput | string
+  rentalStatus?: Prisma.EnumUnitStatusFieldUpdateOperationsInput | $Enums.UnitStatus
   surface?: Prisma.FloatFieldUpdateOperationsInput | number
   livingroom?: Prisma.IntFieldUpdateOperationsInput | number
   dining?: Prisma.IntFieldUpdateOperationsInput | number
@@ -2050,9 +2049,9 @@ export type UnitUncheckedUpdateWithoutBuildingInput = {
   typeId?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  propertyManagementId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   rentals?: Prisma.RentalUncheckedUpdateManyWithoutUnitNestedInput
   reservations?: Prisma.ReservationUncheckedUpdateManyWithoutUnitNestedInput
-  propertyManagements?: Prisma.PropertyManagementUncheckedUpdateManyWithoutUnitNestedInput
   checkInOuts?: Prisma.CheckInOutUncheckedUpdateManyWithoutUnitNestedInput
   accountings?: Prisma.accountingUncheckedUpdateManyWithoutUnitNestedInput
 }
@@ -2060,7 +2059,7 @@ export type UnitUncheckedUpdateWithoutBuildingInput = {
 export type UnitUncheckedUpdateManyWithoutBuildingInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   reference?: Prisma.StringFieldUpdateOperationsInput | string
-  rentalStatus?: Prisma.StringFieldUpdateOperationsInput | string
+  rentalStatus?: Prisma.EnumUnitStatusFieldUpdateOperationsInput | $Enums.UnitStatus
   surface?: Prisma.FloatFieldUpdateOperationsInput | number
   livingroom?: Prisma.IntFieldUpdateOperationsInput | number
   dining?: Prisma.IntFieldUpdateOperationsInput | number
@@ -2081,12 +2080,13 @@ export type UnitUncheckedUpdateManyWithoutBuildingInput = {
   typeId?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  propertyManagementId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type UnitCreateManyTypeInput = {
   id?: string
   reference: string
-  rentalStatus: string
+  rentalStatus?: $Enums.UnitStatus
   surface?: number
   livingroom?: number
   dining?: number
@@ -2107,12 +2107,13 @@ export type UnitCreateManyTypeInput = {
   buildingId: string
   createdAt?: Date | string
   updatedAt?: Date | string
+  propertyManagementId?: string | null
 }
 
 export type UnitUpdateWithoutTypeInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   reference?: Prisma.StringFieldUpdateOperationsInput | string
-  rentalStatus?: Prisma.StringFieldUpdateOperationsInput | string
+  rentalStatus?: Prisma.EnumUnitStatusFieldUpdateOperationsInput | $Enums.UnitStatus
   surface?: Prisma.FloatFieldUpdateOperationsInput | number
   livingroom?: Prisma.IntFieldUpdateOperationsInput | number
   dining?: Prisma.IntFieldUpdateOperationsInput | number
@@ -2133,17 +2134,17 @@ export type UnitUpdateWithoutTypeInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   rentals?: Prisma.RentalUpdateManyWithoutUnitNestedInput
-  building?: Prisma.BuildingUpdateOneRequiredWithoutUnitsNestedInput
   reservations?: Prisma.ReservationUpdateManyWithoutUnitNestedInput
-  propertyManagements?: Prisma.PropertyManagementUpdateManyWithoutUnitNestedInput
   checkInOuts?: Prisma.CheckInOutUpdateManyWithoutUnitNestedInput
   accountings?: Prisma.accountingUpdateManyWithoutUnitNestedInput
+  building?: Prisma.BuildingUpdateOneRequiredWithoutUnitsNestedInput
+  propertyManagement?: Prisma.PropertyManagementUpdateOneWithoutUnitsNestedInput
 }
 
 export type UnitUncheckedUpdateWithoutTypeInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   reference?: Prisma.StringFieldUpdateOperationsInput | string
-  rentalStatus?: Prisma.StringFieldUpdateOperationsInput | string
+  rentalStatus?: Prisma.EnumUnitStatusFieldUpdateOperationsInput | $Enums.UnitStatus
   surface?: Prisma.FloatFieldUpdateOperationsInput | number
   livingroom?: Prisma.IntFieldUpdateOperationsInput | number
   dining?: Prisma.IntFieldUpdateOperationsInput | number
@@ -2164,9 +2165,9 @@ export type UnitUncheckedUpdateWithoutTypeInput = {
   buildingId?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  propertyManagementId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   rentals?: Prisma.RentalUncheckedUpdateManyWithoutUnitNestedInput
   reservations?: Prisma.ReservationUncheckedUpdateManyWithoutUnitNestedInput
-  propertyManagements?: Prisma.PropertyManagementUncheckedUpdateManyWithoutUnitNestedInput
   checkInOuts?: Prisma.CheckInOutUncheckedUpdateManyWithoutUnitNestedInput
   accountings?: Prisma.accountingUncheckedUpdateManyWithoutUnitNestedInput
 }
@@ -2174,7 +2175,7 @@ export type UnitUncheckedUpdateWithoutTypeInput = {
 export type UnitUncheckedUpdateManyWithoutTypeInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   reference?: Prisma.StringFieldUpdateOperationsInput | string
-  rentalStatus?: Prisma.StringFieldUpdateOperationsInput | string
+  rentalStatus?: Prisma.EnumUnitStatusFieldUpdateOperationsInput | $Enums.UnitStatus
   surface?: Prisma.FloatFieldUpdateOperationsInput | number
   livingroom?: Prisma.IntFieldUpdateOperationsInput | number
   dining?: Prisma.IntFieldUpdateOperationsInput | number
@@ -2193,6 +2194,123 @@ export type UnitUncheckedUpdateManyWithoutTypeInput = {
   documents?: Prisma.UnitUpdatedocumentsInput | string[]
   isDeleting?: Prisma.BoolFieldUpdateOperationsInput | boolean
   buildingId?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  propertyManagementId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+}
+
+export type UnitCreateManyPropertyManagementInput = {
+  id?: string
+  reference: string
+  rentalStatus?: $Enums.UnitStatus
+  surface?: number
+  livingroom?: number
+  dining?: number
+  kitchen?: number
+  bedroom?: number
+  bathroom?: number
+  furnished: string
+  wifi: boolean
+  water: boolean
+  electricity: boolean
+  tv: boolean
+  rent?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  charges?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  extraCharges?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  amountGenerate?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  documents?: Prisma.UnitCreatedocumentsInput | string[]
+  isDeleting?: boolean
+  buildingId: string
+  typeId: string
+  createdAt?: Date | string
+  updatedAt?: Date | string
+}
+
+export type UnitUpdateWithoutPropertyManagementInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  reference?: Prisma.StringFieldUpdateOperationsInput | string
+  rentalStatus?: Prisma.EnumUnitStatusFieldUpdateOperationsInput | $Enums.UnitStatus
+  surface?: Prisma.FloatFieldUpdateOperationsInput | number
+  livingroom?: Prisma.IntFieldUpdateOperationsInput | number
+  dining?: Prisma.IntFieldUpdateOperationsInput | number
+  kitchen?: Prisma.IntFieldUpdateOperationsInput | number
+  bedroom?: Prisma.IntFieldUpdateOperationsInput | number
+  bathroom?: Prisma.IntFieldUpdateOperationsInput | number
+  furnished?: Prisma.StringFieldUpdateOperationsInput | string
+  wifi?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  water?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  electricity?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  tv?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  rent?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  charges?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  extraCharges?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  amountGenerate?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  documents?: Prisma.UnitUpdatedocumentsInput | string[]
+  isDeleting?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  rentals?: Prisma.RentalUpdateManyWithoutUnitNestedInput
+  reservations?: Prisma.ReservationUpdateManyWithoutUnitNestedInput
+  checkInOuts?: Prisma.CheckInOutUpdateManyWithoutUnitNestedInput
+  accountings?: Prisma.accountingUpdateManyWithoutUnitNestedInput
+  building?: Prisma.BuildingUpdateOneRequiredWithoutUnitsNestedInput
+  type?: Prisma.TypeUpdateOneRequiredWithoutUnitNestedInput
+}
+
+export type UnitUncheckedUpdateWithoutPropertyManagementInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  reference?: Prisma.StringFieldUpdateOperationsInput | string
+  rentalStatus?: Prisma.EnumUnitStatusFieldUpdateOperationsInput | $Enums.UnitStatus
+  surface?: Prisma.FloatFieldUpdateOperationsInput | number
+  livingroom?: Prisma.IntFieldUpdateOperationsInput | number
+  dining?: Prisma.IntFieldUpdateOperationsInput | number
+  kitchen?: Prisma.IntFieldUpdateOperationsInput | number
+  bedroom?: Prisma.IntFieldUpdateOperationsInput | number
+  bathroom?: Prisma.IntFieldUpdateOperationsInput | number
+  furnished?: Prisma.StringFieldUpdateOperationsInput | string
+  wifi?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  water?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  electricity?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  tv?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  rent?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  charges?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  extraCharges?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  amountGenerate?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  documents?: Prisma.UnitUpdatedocumentsInput | string[]
+  isDeleting?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  buildingId?: Prisma.StringFieldUpdateOperationsInput | string
+  typeId?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  rentals?: Prisma.RentalUncheckedUpdateManyWithoutUnitNestedInput
+  reservations?: Prisma.ReservationUncheckedUpdateManyWithoutUnitNestedInput
+  checkInOuts?: Prisma.CheckInOutUncheckedUpdateManyWithoutUnitNestedInput
+  accountings?: Prisma.accountingUncheckedUpdateManyWithoutUnitNestedInput
+}
+
+export type UnitUncheckedUpdateManyWithoutPropertyManagementInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  reference?: Prisma.StringFieldUpdateOperationsInput | string
+  rentalStatus?: Prisma.EnumUnitStatusFieldUpdateOperationsInput | $Enums.UnitStatus
+  surface?: Prisma.FloatFieldUpdateOperationsInput | number
+  livingroom?: Prisma.IntFieldUpdateOperationsInput | number
+  dining?: Prisma.IntFieldUpdateOperationsInput | number
+  kitchen?: Prisma.IntFieldUpdateOperationsInput | number
+  bedroom?: Prisma.IntFieldUpdateOperationsInput | number
+  bathroom?: Prisma.IntFieldUpdateOperationsInput | number
+  furnished?: Prisma.StringFieldUpdateOperationsInput | string
+  wifi?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  water?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  electricity?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  tv?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  rent?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  charges?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  extraCharges?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  amountGenerate?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  documents?: Prisma.UnitUpdatedocumentsInput | string[]
+  isDeleting?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  buildingId?: Prisma.StringFieldUpdateOperationsInput | string
+  typeId?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -2205,7 +2323,6 @@ export type UnitUncheckedUpdateManyWithoutTypeInput = {
 export type UnitCountOutputType = {
   rentals: number
   reservations: number
-  propertyManagements: number
   checkInOuts: number
   accountings: number
 }
@@ -2213,7 +2330,6 @@ export type UnitCountOutputType = {
 export type UnitCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   rentals?: boolean | UnitCountOutputTypeCountRentalsArgs
   reservations?: boolean | UnitCountOutputTypeCountReservationsArgs
-  propertyManagements?: boolean | UnitCountOutputTypeCountPropertyManagementsArgs
   checkInOuts?: boolean | UnitCountOutputTypeCountCheckInOutsArgs
   accountings?: boolean | UnitCountOutputTypeCountAccountingsArgs
 }
@@ -2240,13 +2356,6 @@ export type UnitCountOutputTypeCountRentalsArgs<ExtArgs extends runtime.Types.Ex
  */
 export type UnitCountOutputTypeCountReservationsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   where?: Prisma.ReservationWhereInput
-}
-
-/**
- * UnitCountOutputType without action
- */
-export type UnitCountOutputTypeCountPropertyManagementsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  where?: Prisma.PropertyManagementWhereInput
 }
 
 /**
@@ -2289,13 +2398,14 @@ export type UnitSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   typeId?: boolean
   createdAt?: boolean
   updatedAt?: boolean
+  propertyManagementId?: boolean
   rentals?: boolean | Prisma.Unit$rentalsArgs<ExtArgs>
-  building?: boolean | Prisma.BuildingDefaultArgs<ExtArgs>
-  type?: boolean | Prisma.TypeDefaultArgs<ExtArgs>
   reservations?: boolean | Prisma.Unit$reservationsArgs<ExtArgs>
-  propertyManagements?: boolean | Prisma.Unit$propertyManagementsArgs<ExtArgs>
   checkInOuts?: boolean | Prisma.Unit$checkInOutsArgs<ExtArgs>
   accountings?: boolean | Prisma.Unit$accountingsArgs<ExtArgs>
+  building?: boolean | Prisma.BuildingDefaultArgs<ExtArgs>
+  type?: boolean | Prisma.TypeDefaultArgs<ExtArgs>
+  propertyManagement?: boolean | Prisma.Unit$propertyManagementArgs<ExtArgs>
   _count?: boolean | Prisma.UnitCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["unit"]>
 
@@ -2324,8 +2434,10 @@ export type UnitSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensio
   typeId?: boolean
   createdAt?: boolean
   updatedAt?: boolean
+  propertyManagementId?: boolean
   building?: boolean | Prisma.BuildingDefaultArgs<ExtArgs>
   type?: boolean | Prisma.TypeDefaultArgs<ExtArgs>
+  propertyManagement?: boolean | Prisma.Unit$propertyManagementArgs<ExtArgs>
 }, ExtArgs["result"]["unit"]>
 
 export type UnitSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -2353,8 +2465,10 @@ export type UnitSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensio
   typeId?: boolean
   createdAt?: boolean
   updatedAt?: boolean
+  propertyManagementId?: boolean
   building?: boolean | Prisma.BuildingDefaultArgs<ExtArgs>
   type?: boolean | Prisma.TypeDefaultArgs<ExtArgs>
+  propertyManagement?: boolean | Prisma.Unit$propertyManagementArgs<ExtArgs>
 }, ExtArgs["result"]["unit"]>
 
 export type UnitSelectScalar = {
@@ -2382,43 +2496,46 @@ export type UnitSelectScalar = {
   typeId?: boolean
   createdAt?: boolean
   updatedAt?: boolean
+  propertyManagementId?: boolean
 }
 
-export type UnitOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "reference" | "rentalStatus" | "surface" | "livingroom" | "dining" | "kitchen" | "bedroom" | "bathroom" | "furnished" | "wifi" | "water" | "electricity" | "tv" | "rent" | "charges" | "extraCharges" | "amountGenerate" | "documents" | "isDeleting" | "buildingId" | "typeId" | "createdAt" | "updatedAt", ExtArgs["result"]["unit"]>
+export type UnitOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "reference" | "rentalStatus" | "surface" | "livingroom" | "dining" | "kitchen" | "bedroom" | "bathroom" | "furnished" | "wifi" | "water" | "electricity" | "tv" | "rent" | "charges" | "extraCharges" | "amountGenerate" | "documents" | "isDeleting" | "buildingId" | "typeId" | "createdAt" | "updatedAt" | "propertyManagementId", ExtArgs["result"]["unit"]>
 export type UnitInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   rentals?: boolean | Prisma.Unit$rentalsArgs<ExtArgs>
-  building?: boolean | Prisma.BuildingDefaultArgs<ExtArgs>
-  type?: boolean | Prisma.TypeDefaultArgs<ExtArgs>
   reservations?: boolean | Prisma.Unit$reservationsArgs<ExtArgs>
-  propertyManagements?: boolean | Prisma.Unit$propertyManagementsArgs<ExtArgs>
   checkInOuts?: boolean | Prisma.Unit$checkInOutsArgs<ExtArgs>
   accountings?: boolean | Prisma.Unit$accountingsArgs<ExtArgs>
+  building?: boolean | Prisma.BuildingDefaultArgs<ExtArgs>
+  type?: boolean | Prisma.TypeDefaultArgs<ExtArgs>
+  propertyManagement?: boolean | Prisma.Unit$propertyManagementArgs<ExtArgs>
   _count?: boolean | Prisma.UnitCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type UnitIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   building?: boolean | Prisma.BuildingDefaultArgs<ExtArgs>
   type?: boolean | Prisma.TypeDefaultArgs<ExtArgs>
+  propertyManagement?: boolean | Prisma.Unit$propertyManagementArgs<ExtArgs>
 }
 export type UnitIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   building?: boolean | Prisma.BuildingDefaultArgs<ExtArgs>
   type?: boolean | Prisma.TypeDefaultArgs<ExtArgs>
+  propertyManagement?: boolean | Prisma.Unit$propertyManagementArgs<ExtArgs>
 }
 
 export type $UnitPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "Unit"
   objects: {
     rentals: Prisma.$RentalPayload<ExtArgs>[]
-    building: Prisma.$BuildingPayload<ExtArgs>
-    type: Prisma.$TypePayload<ExtArgs>
     reservations: Prisma.$ReservationPayload<ExtArgs>[]
-    propertyManagements: Prisma.$PropertyManagementPayload<ExtArgs>[]
     checkInOuts: Prisma.$CheckInOutPayload<ExtArgs>[]
     accountings: Prisma.$accountingPayload<ExtArgs>[]
+    building: Prisma.$BuildingPayload<ExtArgs>
+    type: Prisma.$TypePayload<ExtArgs>
+    propertyManagement: Prisma.$PropertyManagementPayload<ExtArgs> | null
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
     reference: string
-    rentalStatus: string
+    rentalStatus: $Enums.UnitStatus
     surface: number
     livingroom: number
     dining: number
@@ -2440,6 +2557,7 @@ export type $UnitPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
     typeId: string
     createdAt: Date
     updatedAt: Date
+    propertyManagementId: string | null
   }, ExtArgs["result"]["unit"]>
   composites: {}
 }
@@ -2835,12 +2953,12 @@ readonly fields: UnitFieldRefs;
 export interface Prisma__UnitClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
   rentals<T extends Prisma.Unit$rentalsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Unit$rentalsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$RentalPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-  building<T extends Prisma.BuildingDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.BuildingDefaultArgs<ExtArgs>>): Prisma.Prisma__BuildingClient<runtime.Types.Result.GetResult<Prisma.$BuildingPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
-  type<T extends Prisma.TypeDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.TypeDefaultArgs<ExtArgs>>): Prisma.Prisma__TypeClient<runtime.Types.Result.GetResult<Prisma.$TypePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   reservations<T extends Prisma.Unit$reservationsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Unit$reservationsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ReservationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-  propertyManagements<T extends Prisma.Unit$propertyManagementsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Unit$propertyManagementsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$PropertyManagementPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   checkInOuts<T extends Prisma.Unit$checkInOutsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Unit$checkInOutsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$CheckInOutPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   accountings<T extends Prisma.Unit$accountingsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Unit$accountingsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$accountingPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  building<T extends Prisma.BuildingDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.BuildingDefaultArgs<ExtArgs>>): Prisma.Prisma__BuildingClient<runtime.Types.Result.GetResult<Prisma.$BuildingPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+  type<T extends Prisma.TypeDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.TypeDefaultArgs<ExtArgs>>): Prisma.Prisma__TypeClient<runtime.Types.Result.GetResult<Prisma.$TypePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+  propertyManagement<T extends Prisma.Unit$propertyManagementArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Unit$propertyManagementArgs<ExtArgs>>): Prisma.Prisma__PropertyManagementClient<runtime.Types.Result.GetResult<Prisma.$PropertyManagementPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -2872,7 +2990,7 @@ export interface Prisma__UnitClient<T, Null = never, ExtArgs extends runtime.Typ
 export interface UnitFieldRefs {
   readonly id: Prisma.FieldRef<"Unit", 'String'>
   readonly reference: Prisma.FieldRef<"Unit", 'String'>
-  readonly rentalStatus: Prisma.FieldRef<"Unit", 'String'>
+  readonly rentalStatus: Prisma.FieldRef<"Unit", 'UnitStatus'>
   readonly surface: Prisma.FieldRef<"Unit", 'Float'>
   readonly livingroom: Prisma.FieldRef<"Unit", 'Int'>
   readonly dining: Prisma.FieldRef<"Unit", 'Int'>
@@ -2894,6 +3012,7 @@ export interface UnitFieldRefs {
   readonly typeId: Prisma.FieldRef<"Unit", 'String'>
   readonly createdAt: Prisma.FieldRef<"Unit", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"Unit", 'DateTime'>
+  readonly propertyManagementId: Prisma.FieldRef<"Unit", 'String'>
 }
     
 
@@ -3343,30 +3462,6 @@ export type Unit$reservationsArgs<ExtArgs extends runtime.Types.Extensions.Inter
 }
 
 /**
- * Unit.propertyManagements
- */
-export type Unit$propertyManagementsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the PropertyManagement
-   */
-  select?: Prisma.PropertyManagementSelect<ExtArgs> | null
-  /**
-   * Omit specific fields from the PropertyManagement
-   */
-  omit?: Prisma.PropertyManagementOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.PropertyManagementInclude<ExtArgs> | null
-  where?: Prisma.PropertyManagementWhereInput
-  orderBy?: Prisma.PropertyManagementOrderByWithRelationInput | Prisma.PropertyManagementOrderByWithRelationInput[]
-  cursor?: Prisma.PropertyManagementWhereUniqueInput
-  take?: number
-  skip?: number
-  distinct?: Prisma.PropertyManagementScalarFieldEnum | Prisma.PropertyManagementScalarFieldEnum[]
-}
-
-/**
  * Unit.checkInOuts
  */
 export type Unit$checkInOutsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -3412,6 +3507,25 @@ export type Unit$accountingsArgs<ExtArgs extends runtime.Types.Extensions.Intern
   take?: number
   skip?: number
   distinct?: Prisma.AccountingScalarFieldEnum | Prisma.AccountingScalarFieldEnum[]
+}
+
+/**
+ * Unit.propertyManagement
+ */
+export type Unit$propertyManagementArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the PropertyManagement
+   */
+  select?: Prisma.PropertyManagementSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the PropertyManagement
+   */
+  omit?: Prisma.PropertyManagementOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.PropertyManagementInclude<ExtArgs> | null
+  where?: Prisma.PropertyManagementWhereInput
 }
 
 /**

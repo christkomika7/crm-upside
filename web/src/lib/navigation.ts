@@ -35,7 +35,7 @@ export const sidebar = [
     {
         id: 6,
         icon: KeySquareIcon,
-        title: "Loyers",
+        title: "Locations",
         path: "/dashboard/rentals"
     },
     {
@@ -83,7 +83,7 @@ export const sidebar = [
     {
         id: 14,
         icon: ListCheckIcon,
-        title: "Mouvements",
+        title: "État des lieux",
         path: "/dashboard/reports"
     },
     {

@@ -8,7 +8,6 @@ export const PropertyManagementPlain = t.Object(
   {
     id: t.String(),
     buildingId: t.String(),
-    unitId: t.String(),
     administrativeManagement: t.Boolean(),
     technicalManagement: t.Boolean(),
     start: t.Date(),
@@ -51,33 +50,39 @@ export const PropertyManagementRelations = t.Object(
       },
       { additionalProperties: false },
     ),
-    unit: t.Object(
-      {
-        id: t.String(),
-        reference: t.String(),
-        rentalStatus: t.String(),
-        surface: t.Number(),
-        livingroom: t.Integer(),
-        dining: t.Integer(),
-        kitchen: t.Integer(),
-        bedroom: t.Integer(),
-        bathroom: t.Integer(),
-        furnished: t.String(),
-        wifi: t.Boolean(),
-        water: t.Boolean(),
-        electricity: t.Boolean(),
-        tv: t.Boolean(),
-        rent: t.Number(),
-        charges: t.Number(),
-        extraCharges: t.Number(),
-        amountGenerate: t.Number(),
-        documents: t.Array(t.String(), { additionalProperties: false }),
-        isDeleting: t.Boolean(),
-        buildingId: t.String(),
-        typeId: t.String(),
-        createdAt: t.Date(),
-        updatedAt: t.Date(),
-      },
+    units: t.Array(
+      t.Object(
+        {
+          id: t.String(),
+          reference: t.String(),
+          rentalStatus: t.Union([t.Literal("FREE"), t.Literal("OCCUPED")], {
+            additionalProperties: false,
+          }),
+          surface: t.Number(),
+          livingroom: t.Integer(),
+          dining: t.Integer(),
+          kitchen: t.Integer(),
+          bedroom: t.Integer(),
+          bathroom: t.Integer(),
+          furnished: t.String(),
+          wifi: t.Boolean(),
+          water: t.Boolean(),
+          electricity: t.Boolean(),
+          tv: t.Boolean(),
+          rent: t.Number(),
+          charges: t.Number(),
+          extraCharges: t.Number(),
+          amountGenerate: t.Number(),
+          documents: t.Array(t.String(), { additionalProperties: false }),
+          isDeleting: t.Boolean(),
+          buildingId: t.String(),
+          typeId: t.String(),
+          createdAt: t.Date(),
+          updatedAt: t.Date(),
+          propertyManagementId: __nullable__(t.String()),
+        },
+        { additionalProperties: false },
+      ),
       { additionalProperties: false },
     ),
     services: t.Array(
@@ -130,16 +135,21 @@ export const PropertyManagementRelationsInputCreate = t.Object(
       },
       { additionalProperties: false },
     ),
-    unit: t.Object(
-      {
-        connect: t.Object(
-          {
-            id: t.String({ additionalProperties: false }),
-          },
-          { additionalProperties: false },
-        ),
-      },
-      { additionalProperties: false },
+    units: t.Optional(
+      t.Object(
+        {
+          connect: t.Array(
+            t.Object(
+              {
+                id: t.String({ additionalProperties: false }),
+              },
+              { additionalProperties: false },
+            ),
+            { additionalProperties: false },
+          ),
+        },
+        { additionalProperties: false },
+      ),
     ),
     services: t.Optional(
       t.Object(
@@ -175,16 +185,30 @@ export const PropertyManagementRelationsInputUpdate = t.Partial(
         },
         { additionalProperties: false },
       ),
-      unit: t.Object(
-        {
-          connect: t.Object(
-            {
-              id: t.String({ additionalProperties: false }),
-            },
-            { additionalProperties: false },
-          ),
-        },
-        { additionalProperties: false },
+      units: t.Partial(
+        t.Object(
+          {
+            connect: t.Array(
+              t.Object(
+                {
+                  id: t.String({ additionalProperties: false }),
+                },
+                { additionalProperties: false },
+              ),
+              { additionalProperties: false },
+            ),
+            disconnect: t.Array(
+              t.Object(
+                {
+                  id: t.String({ additionalProperties: false }),
+                },
+                { additionalProperties: false },
+              ),
+              { additionalProperties: false },
+            ),
+          },
+          { additionalProperties: false },
+        ),
       ),
       services: t.Partial(
         t.Object(
@@ -226,7 +250,6 @@ export const PropertyManagementWhere = t.Partial(
           OR: t.Array(Self, { additionalProperties: false }),
           id: t.String(),
           buildingId: t.String(),
-          unitId: t.String(),
           administrativeManagement: t.Boolean(),
           technicalManagement: t.Boolean(),
           start: t.Date(),
@@ -272,7 +295,6 @@ export const PropertyManagementWhereUnique = t.Recursive(
             {
               id: t.String(),
               buildingId: t.String(),
-              unitId: t.String(),
               administrativeManagement: t.Boolean(),
               technicalManagement: t.Boolean(),
               start: t.Date(),
@@ -297,10 +319,9 @@ export const PropertyManagementSelect = t.Partial(
       id: t.Boolean(),
       buildingId: t.Boolean(),
       building: t.Boolean(),
-      unitId: t.Boolean(),
-      unit: t.Boolean(),
       administrativeManagement: t.Boolean(),
       technicalManagement: t.Boolean(),
+      units: t.Boolean(),
       services: t.Boolean(),
       start: t.Boolean(),
       end: t.Boolean(),
@@ -318,7 +339,7 @@ export const PropertyManagementInclude = t.Partial(
   t.Object(
     {
       building: t.Boolean(),
-      unit: t.Boolean(),
+      units: t.Boolean(),
       services: t.Boolean(),
       _count: t.Boolean(),
     },
@@ -333,9 +354,6 @@ export const PropertyManagementOrderBy = t.Partial(
         additionalProperties: false,
       }),
       buildingId: t.Union([t.Literal("asc"), t.Literal("desc")], {
-        additionalProperties: false,
-      }),
-      unitId: t.Union([t.Literal("asc"), t.Literal("desc")], {
         additionalProperties: false,
       }),
       administrativeManagement: t.Union([t.Literal("asc"), t.Literal("desc")], {

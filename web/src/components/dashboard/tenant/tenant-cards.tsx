@@ -4,7 +4,8 @@ import Pocket from "@/assets/icons/pocket.png";
 import Task from "@/assets/icons/task.png";
 import ArrowDollars from "@/assets/icons/arrow-dollars.png";
 
-export default function TenantCards() {
+export default function TenantCards({ id }: { id: string }) {
+    console.log(id)
     return (
         <div className="grid grid-cols-4 gap-4">
             <Card icon={Task} title="Unpaid rent for" value="3 mois" color="bg-(--card-purple)" status="warning" />

@@ -1,8 +1,19 @@
 import CreatePurchaseOrder from '@/components/forms/purchase-orders/create'
 import ActionHeader from '@/components/header/action-header'
-import { createFileRoute } from '@tanstack/react-router'
+import { canAccess } from '@/lib/permission'
+import type { User } from '@/types/user'
+import { createFileRoute, notFound, redirect } from '@tanstack/react-router'
 
 export const Route = createFileRoute('/dashboard/purchase-orders/new-purchase-order')({
+  beforeLoad: ({ context }) => {
+    const user = context.session.data?.user as unknown as User;
+    const permission = user.permission?.permissions;
+    const hasAccess = canAccess(permission, "purchaseOrders", ['create']);
+    if (!user) {
+      throw redirect({ to: "/", search: { redirect: location.href } });
+    }
+    if (!hasAccess) throw notFound()
+  },
   component: RouteComponent,
 })
 

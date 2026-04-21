@@ -1,4 +1,5 @@
-export default function Info() {
+export default function Info({ id }: { id: string }) {
+    console.log(id)
     return (
         <div className="bg-white rounded-md shadow-md shadow-neutral-300/10 p-4 gap-6 flex ">
             <div className="size-40 bg-neutral-50 rounded-md"></div>

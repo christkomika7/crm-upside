@@ -41,6 +41,8 @@ function RouteComponent() {
     onFilterChange,
   } = useApiData<Units>({ url: "/unit", key: "units" });
 
+  console.log({ data })
+
   return <div className='space-y-6'>
     <div className='space-y-6'>
       <ActionHeader

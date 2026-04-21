@@ -3,7 +3,7 @@ import { authPlugin } from "../auth/auth";
 import { prisma } from "../../lib/prisma";
 import { canAccess } from "../auth/permission";
 import { deleteFile, getSignedFileUrl, uploadFiles } from "../../lib/storage";
-import { getUnitAmenities, safeSignedUrls } from "../../lib/utils";
+import { getUnitAmenities } from "../../lib/utils";
 import request from "./type";
 import Decimal from "decimal.js";
 import { unitSchema } from "../../lib/zod/units";
@@ -11,7 +11,7 @@ import { Prisma } from "../../generated/prisma/client";
 
 export const unitRoutes = new Elysia({ prefix: "/unit" })
     .use(authPlugin)
-    .get("/", async ({ permission, status, server, query }) => {
+    .get("/", async ({ permission, status, query }) => {
         if (!canAccess(permission, "units", "read")) {
             return status(403, { message: "Accès refusé" });
         }
@@ -80,6 +80,7 @@ export const unitRoutes = new Elysia({ prefix: "/unit" })
 
                 return {
                     id: unit.id,
+                    reference: unit.reference,
                     building: unit.building.name,
                     owner: unit.building.owner
                         ? `${unit.building.owner.firstname} ${unit.building.owner.lastname}`
@@ -87,8 +88,7 @@ export const unitRoutes = new Elysia({ prefix: "/unit" })
                     isDeleting: unit.isDeleting,
                     tenant: tenant ? `${tenant.firstname} ${tenant.lastname}` : "-",
                     status: tenant ? "rented" : "vacant",
-                    rent: (new Decimal(unit.rent).plus(unit.charges)).toNumber(),
-                    service: getUnitAmenities(unit),
+                    charges: (new Decimal(unit.rent).plus(unit.charges).plus(unit.extraCharges)).toNumber(),
                     createdAt: unit.createdAt
                 };
             })
@@ -123,50 +123,86 @@ export const unitRoutes = new Elysia({ prefix: "/unit" })
     }, {
         auth: true,
     })
-    .get("/valid", async ({ permission, status, server }) => {
+    .get("/valid", async ({ permission, status, query }) => {
         if (!canAccess(permission, "units", "read")) {
             return status(403, { message: "Accès refusé" });
         }
 
-        const now = new Date();
+        const except = query.except;
 
         const units = await prisma.unit.findMany({
             where: {
-                OR: [
-                    {
-                        rentals: {
-                            none: {},
-                        },
-                    },
-                    {
-                        rentals: {
-                            some: {
-                                end: {
-                                    lt: now,
-                                },
-                            },
-                        },
-                    },
-                ],
+                rentalStatus: "FREE",
             },
             select: {
                 id: true,
                 reference: true,
+                rent: true,
+                charges: true,
+                extraCharges: true,
+                furnished: true
             },
         });
+
+        if (except) {
+            const rental = await prisma.rental.findUnique({
+                where: {
+                    id: except,
+                },
+                select: {
+                    unit: {
+                        select: {
+                            id: true,
+                            reference: true,
+                            rent: true,
+                            charges: true,
+                            extraCharges: true,
+                            furnished: true
+                        }
+                    }
+                },
+            });
+
+            if (!rental?.unit) return status(400, { message: "Aucune unité trouvée." })
+
+            return [...units, rental.unit]
+        }
+
         return units;
+
 
     }, {
         auth: true,
+        query: request.queryExcept
     })
-    .get("/by", async ({ permission, status, query }) => {
+    .get("/building", async ({ permission, status, query }) => {
+
+        if (!canAccess(permission, "units", "read")) {
+            return status(403, { message: "Accès refusé" });
+        }
+        return await prisma.unit.findMany({
+            where: {
+                buildingId: query.id
+            },
+            include: { type: true, building: true },
+            orderBy: { createdAt: "desc" },
+        });
+    }, {
+        auth: true,
+        query: request.query
+    })
+    .get("/tenant", async ({ permission, status, query }) => {
 
         if (!canAccess(permission, "units", "read")) {
             return status(403, { message: "Accès refusé" });
         }
         const units = await prisma.unit.findMany({
             where: {
-                buildingId: query.id
+                rentals: {
+                    some: {
+                        tenantId: query.id
+                    }
+                }
             },
             include: { type: true, building: true },
             orderBy: { createdAt: "desc" },
@@ -481,13 +517,13 @@ export const unitRoutes = new Elysia({ prefix: "/unit" })
             include: {
                 rentals: true,
                 reservations: true,
-                propertyManagements: true,
+                propertyManagement: true,
                 checkInOuts: true
             }
         });
 
         if (!unit) return status(400, { message: "Aucune unité trouvée." });
-        if (unit.rentals.length > 0 || unit.reservations.length > 0 || unit.propertyManagements.length > 0 || unit.checkInOuts.length > 0) return status(400, { message: "L'unité est déjà louée, réservée, en attente de visite pour l'état des lieux ou en cours de gestion." });
+        if (unit.rentals.length > 0 || unit.reservations.length > 0 || unit.propertyManagement || unit.checkInOuts.length > 0) return status(400, { message: "L'unité est déjà louée, réservée, en attente de visite pour l'état des lieux ou en cours de gestion." });
 
         await prisma.$transaction([
             prisma.deletion.create({

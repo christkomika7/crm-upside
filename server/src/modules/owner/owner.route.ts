@@ -3,10 +3,11 @@ import { authPlugin } from "../auth/auth";
 import { prisma } from "../../lib/prisma";
 import { canAccess } from "../auth/permission";
 import { deleteFile, uploadFiles } from "../../lib/storage";
-import { safeSignedUrls } from "../../lib/utils";
+import { generateRef, safeSignedUrls } from "../../lib/utils";
 import request from "./type";
 import { ownerSchema } from "../../lib/zod/owners";
 import { Prisma } from "../../generated/prisma/client";
+import Decimal from "decimal.js";
 
 export const ownerRoutes = new Elysia({ prefix: "/owner" })
     .use(authPlugin)
@@ -33,7 +34,6 @@ export const ownerRoutes = new Elysia({ prefix: "/owner" })
                 OR: [
                     { firstname: { contains: search, mode: "insensitive" as const } },
                     { lastname: { contains: search, mode: "insensitive" as const } },
-                    { reference: { contains: search, mode: "insensitive" as const } },
                     { email: { contains: search, mode: "insensitive" as const } },
                     { phone: { contains: search, mode: "insensitive" as const } },
                 ],
@@ -48,7 +48,12 @@ export const ownerRoutes = new Elysia({ prefix: "/owner" })
             include: {
                 buildings: {
                     include: {
-                        units: true,
+                        _count: true,
+                        units: {
+                            include: {
+                                rentals: true,
+                            },
+                        },
                     },
                 },
             },
@@ -57,33 +62,24 @@ export const ownerRoutes = new Elysia({ prefix: "/owner" })
             take: PAGE_SIZE,
         });
 
-        const ownersWithSignedUrl = await Promise.all(
-            owners.map(async (owner) => {
-                const documents = await safeSignedUrls(owner.documents);
-
-                if (documents.error) {
-                    server?.publish(
-                        "storage-error",
-                        "Certaines images n'ont pas pu être chargées depuis le storage"
-                    );
-                }
-
+        const data = await Promise.all(
+            owners.map(async (owner, index) => {
+                const rentals = owner.buildings.flatMap(building => building.units.flatMap(unit => unit.rentals));
+                const units = (owner.buildings.flatMap(building => building._count)).reduce((acc, building) => acc + building.units, 0)
+                const revenue = rentals.reduce((acc, rental) => new Decimal(acc).plus(rental.price).plus(rental.charges).plus(rental.extrasCharges), new Decimal(0))
                 return {
                     ...owner,
+                    reference: generateRef("US-PRO", owner.reference),
                     name: `${owner.firstname} ${owner.lastname}`,
                     properties: owner.buildings.length || 0,
-                    units: owner.buildings.reduce(
-                        (acc, building) => acc + building.units.length,
-                        0
-                    ),
-                    revenue: "-",
-                    documents: documents.urls,
+                    units,
+                    revenue,
                 };
             })
         );
 
         return {
-            data: ownersWithSignedUrl,
+            data: data,
             total,
             pageCount,
             page,
@@ -145,16 +141,6 @@ export const ownerRoutes = new Elysia({ prefix: "/owner" })
                 return status(400, { message: "Les informations du propriétaire sont invalide" });
             }
 
-            const existingOwner = await prisma.owner.findUnique({
-                where: { reference: data.reference },
-            });
-
-            if (existingOwner) {
-                return status(400, {
-                    message: `La référence ${data.reference} est déjà utilisée.`,
-                });
-            }
-
             let documents: string[] = [];
 
             try {
@@ -166,14 +152,13 @@ export const ownerRoutes = new Elysia({ prefix: "/owner" })
 
             await prisma.owner.create({
                 data: {
-                    reference: data.reference,
                     firstname: data.firstname,
                     lastname: data.lastname,
-                    company: data.company,
+                    company: data.company || "",
                     phone: data.phone,
                     email: data.email,
                     address: data.address,
-                    actionnary: data.actionnary,
+                    actionnary: data.actionnary || "",
                     bankInfo: data.bankInfo,
                     documents,
                     buildings: {
@@ -196,14 +181,6 @@ export const ownerRoutes = new Elysia({ prefix: "/owner" })
                     }
                 })
             );
-
-            if (error instanceof Prisma.PrismaClientKnownRequestError) {
-                if (error.code === "P2002") {
-                    return status(400, {
-                        message: "Cette référence existe déjà"
-                    });
-                }
-            }
 
             return status(500, {
                 message: "Erreur lors de la création du propriétaire",
@@ -241,19 +218,6 @@ export const ownerRoutes = new Elysia({ prefix: "/owner" })
                 return status(400, { message: "Les informations du propriétaire sont invalide" });
             }
 
-            const existingOwner = await prisma.owner.findFirst({
-                where: {
-                    reference: data.reference,
-                    NOT: { id: params.id }
-                }
-            });
-
-            if (existingOwner) {
-                return status(400, {
-                    message: `La référence ${data.reference} est déjà utilisée.`
-                });
-            }
-
 
             let documents: string[] = [];
 
@@ -269,14 +233,13 @@ export const ownerRoutes = new Elysia({ prefix: "/owner" })
                     id: params.id
                 },
                 data: {
-                    reference: data.reference,
                     firstname: data.firstname,
                     lastname: data.lastname,
-                    company: data.company,
+                    company: data.company || "",
                     phone: data.phone,
                     email: data.email,
                     address: data.address,
-                    actionnary: data.actionnary,
+                    actionnary: data.actionnary || "",
                     bankInfo: data.bankInfo,
                     documents,
                     buildings: {

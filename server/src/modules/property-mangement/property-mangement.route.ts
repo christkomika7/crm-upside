@@ -14,7 +14,7 @@ export const propertyManagementRoutes = new Elysia({ prefix: "/property-manageme
         }
 
         const propertyManagements = await prisma.propertyManagement.findMany({
-            include: { unit: true, building: true, services: true },
+            include: { units: true, building: true, services: true },
             orderBy: { createdAt: "desc" },
         });
 
@@ -23,7 +23,7 @@ export const propertyManagementRoutes = new Elysia({ prefix: "/property-manageme
                 return {
                     ...propertyManagement,
                     building: propertyManagement.building.name,
-                    unit: propertyManagement.unit.reference,
+                    unit: propertyManagement.units.map(unit => unit.reference).join(", "),
                     management: propertyManagement.active ? "Oui" : "Non",
                     services: propertyManagement.services.map(service => service.name),
                     commission: "-"
@@ -45,7 +45,7 @@ export const propertyManagementRoutes = new Elysia({ prefix: "/property-manageme
         const propertyManagement = await prisma.propertyManagement.findUnique({
             where: { id: params.id },
             include: {
-                unit: true,
+                units: true,
                 building: true,
                 services: true
             }
@@ -55,7 +55,7 @@ export const propertyManagementRoutes = new Elysia({ prefix: "/property-manageme
             return status(404, { message: "Aucune gestion de propriété trouvée" });
         }
 
-        return propertyManagement;
+        return { ...propertyManagement, units: propertyManagement.units.map(unit => unit.id) };
 
     }, { auth: true, params: request.params })
     .post("/", async ({ body, permission, status }) => {
@@ -75,8 +75,12 @@ export const propertyManagementRoutes = new Elysia({ prefix: "/property-manageme
                     building: {
                         connect: { id: data.building }
                     },
-                    unit: {
-                        connect: { id: data.unit }
+                    units: {
+                        connect: [
+                            ...data.units.map(unit => ({
+                                id: unit
+                            }))
+                        ]
                     },
                     administrativeManagement: data.administrativeManagement,
                     technicalManagement: data.technicalManagement,
@@ -133,8 +137,12 @@ export const propertyManagementRoutes = new Elysia({ prefix: "/property-manageme
                     building: {
                         connect: { id: data.building }
                     },
-                    unit: {
-                        connect: { id: data.unit }
+                    units: {
+                        set: [
+                            ...data.units.map(unit => ({
+                                id: unit
+                            }))
+                        ]
                     },
                     administrativeManagement: data.administrativeManagement,
                     technicalManagement: data.technicalManagement,
@@ -169,7 +177,7 @@ export const propertyManagementRoutes = new Elysia({ prefix: "/property-manageme
         const propertyManagement = await prisma.propertyManagement.findUnique({
             where: { id },
             include: {
-                unit: true,
+                building: true,
             }
         });
 
@@ -194,6 +202,6 @@ export const propertyManagementRoutes = new Elysia({ prefix: "/property-manageme
             })
         ]);
 
-        return status(200, { message: `La gestion de propriété de l'appartement ${propertyManagement.unit.reference} est en attente de suppression.` });
+        return status(200, { message: `La gestion de propriété du bâtiment ${propertyManagement.building.name} est en attente de suppression.` });
     }, { auth: true, params: request.params })
 

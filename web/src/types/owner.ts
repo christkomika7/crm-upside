@@ -2,6 +2,7 @@ export type Owner = {
     id: string;
     reference: string;
     buildings: string[];
+    properties: number;
     firstname: string;
     lastname: string;
     company: string;

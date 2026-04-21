@@ -36,14 +36,14 @@ export const QuoteRelations = t.Object(
       t.Object(
         {
           id: t.String(),
-          reference: t.String(),
+          reference: t.Integer(),
           firstname: t.String(),
           lastname: t.String(),
-          company: t.String(),
+          company: __nullable__(t.String()),
           phone: t.String(),
           email: t.String(),
           address: t.String(),
-          actionnary: t.String(),
+          actionnary: __nullable__(t.String()),
           isDeleting: t.Boolean(),
           bankInfo: t.String(),
           documents: t.Array(t.String(), { additionalProperties: false }),
@@ -57,6 +57,7 @@ export const QuoteRelations = t.Object(
       t.Object(
         {
           id: t.String(),
+          reference: t.Integer(),
           isDiplomatic: t.Boolean(),
           isPersonal: t.Boolean(),
           firstname: t.String(),

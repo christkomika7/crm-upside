@@ -36,11 +36,12 @@ export function cutText(name: string, limit?: number, hasPoint = true) {
   return name;
 }
 
-export function withMinDelay<T>(promise: Promise<T>, delay = 700): Promise<T> {
-  return Promise.all([
+export async function withMinDelay<T>(promise: Promise<T>, delay = 700): Promise<T> {
+  const [result] = await Promise.all([
     promise,
     new Promise((resolve) => setTimeout(resolve, delay)),
-  ]).then(([result]) => result);
+  ]);
+  return result;
 }
 
 

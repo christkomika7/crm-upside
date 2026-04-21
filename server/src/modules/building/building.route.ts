@@ -9,7 +9,7 @@ import { Prisma } from "../../generated/prisma/client";
 
 export const buildingRoutes = new Elysia({ prefix: "/building" })
     .use(authPlugin)
-    .get("/", async ({ permission, status, server, query }) => {
+    .get("/", async ({ permission, status, query }) => {
 
         if (!canAccess(permission, "buildings", "read")) {
             return status(403, { message: "Accès refusé" });
@@ -56,6 +56,9 @@ export const buildingRoutes = new Elysia({ prefix: "/building" })
             buildings.map(async (building) => {
                 return {
                     id: building.id,
+                    reference: building.reference,
+                    name: building.name,
+                    lotTypes: building.lotTypes,
                     owner: building.owner ? `${building.owner?.firstname} ${building.owner?.lastname}` : "",
                     unit: building.units.length,
                     occupancy: "",
@@ -76,7 +79,7 @@ export const buildingRoutes = new Elysia({ prefix: "/building" })
         auth: true,
         query: request.queryFilter
     })
-    .get("/list", async ({ permission, status, server, query }) => {
+    .get("/list", async ({ permission, status }) => {
         if (!canAccess(permission, "tenants", "read")) {
             return status(403, { message: "Accès refusé" });
         }

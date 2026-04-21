@@ -52,7 +52,9 @@ export const BuildingRelations = t.Object(
         {
           id: t.String(),
           reference: t.String(),
-          rentalStatus: t.String(),
+          rentalStatus: t.Union([t.Literal("FREE"), t.Literal("OCCUPED")], {
+            additionalProperties: false,
+          }),
           surface: t.Number(),
           livingroom: t.Integer(),
           dining: t.Integer(),
@@ -74,6 +76,7 @@ export const BuildingRelations = t.Object(
           typeId: t.String(),
           createdAt: t.Date(),
           updatedAt: t.Date(),
+          propertyManagementId: __nullable__(t.String()),
         },
         { additionalProperties: false },
       ),
@@ -83,14 +86,14 @@ export const BuildingRelations = t.Object(
       t.Object(
         {
           id: t.String(),
-          reference: t.String(),
+          reference: t.Integer(),
           firstname: t.String(),
           lastname: t.String(),
-          company: t.String(),
+          company: __nullable__(t.String()),
           phone: t.String(),
           email: t.String(),
           address: t.String(),
-          actionnary: t.String(),
+          actionnary: __nullable__(t.String()),
           isDeleting: t.Boolean(),
           bankInfo: t.String(),
           documents: t.Array(t.String(), { additionalProperties: false }),
@@ -105,7 +108,6 @@ export const BuildingRelations = t.Object(
         {
           id: t.String(),
           buildingId: t.String(),
-          unitId: t.String(),
           administrativeManagement: t.Boolean(),
           technicalManagement: t.Boolean(),
           start: t.Date(),
@@ -123,11 +125,10 @@ export const BuildingRelations = t.Object(
       t.Object(
         {
           id: t.String(),
+          reference: t.Integer(),
           type: t.Union([t.Literal("CONTRACT"), t.Literal("MANDATE")], {
             additionalProperties: false,
           }),
-          start: t.Date(),
-          end: t.Date(),
           rentalId: __nullable__(t.String()),
           buildingId: __nullable__(t.String()),
           isCanceled: t.Boolean(),

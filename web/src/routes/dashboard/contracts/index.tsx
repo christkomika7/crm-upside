@@ -3,15 +3,30 @@ import ContractDataTable from '@/components/dashboard/contract/contract-data-tab
 import ActionHeader from '@/components/header/action-header'
 import { Button } from '@/components/ui/button'
 import { Popover, PopoverArrow, PopoverContent, PopoverTrigger } from '@/components/ui/popover'
-import { createFileRoute, Link } from '@tanstack/react-router'
+import { canAccess } from '@/lib/permission'
+import type { User } from '@/types/user'
+import { createFileRoute, Link, notFound, redirect } from '@tanstack/react-router'
 
 export const Route = createFileRoute('/dashboard/contracts/')({
+  beforeLoad: ({ context }) => {
+    const user = context.session.data?.user as unknown as User;
+    const permission = user.permission?.permissions;
+    const hasAccess = canAccess(permission, "contracts", ['read']);
+    if (!user) {
+      throw redirect({ to: "/", search: { redirect: location.href } });
+    }
+    if (!hasAccess) throw notFound()
+  },
   component: RouteComponent,
 })
 
 function RouteComponent() {
+  const { session } = Route.useRouteContext();
+  const permission = (session.data?.user as unknown as User).permission?.permissions;
+  const hasCreateAccess = canAccess(permission, "contracts", ['create']);
+
   return <div className='space-y-6'>
-    <ActionHeader title='Hello' type="modal"
+    <ActionHeader title='Hello' type="modal" showComponent={hasCreateAccess}
       component={
         <Popover>
           <PopoverTrigger asChild>

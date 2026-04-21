@@ -2,7 +2,8 @@ import DataTable from "@/components/table/data-table";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { columns, data } from "@/lib/tables/service-provider/activity-service-provider";
 
-export default function ProviderDataTable() {
+export default function ProviderDataTable({ id }: { id: string }) {
+    console.log(id)
     return (
         <div className="bg-white">
             <Tabs defaultValue='current' className='gap-x-4 gap-y-0 w-full'>

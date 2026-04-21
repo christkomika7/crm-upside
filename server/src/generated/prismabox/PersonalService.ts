@@ -16,7 +16,6 @@ export const PersonalServiceRelations = t.Object(
         {
           id: t.String(),
           buildingId: t.String(),
-          unitId: t.String(),
           administrativeManagement: t.Boolean(),
           technicalManagement: t.Boolean(),
           start: t.Date(),

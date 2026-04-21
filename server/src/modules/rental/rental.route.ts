@@ -1,4 +1,4 @@
-import { Elysia, t } from "elysia";
+import { Elysia } from "elysia";
 import { authPlugin } from "../auth/auth";
 import { prisma } from "../../lib/prisma";
 import { canAccess } from "../auth/permission";
@@ -38,12 +38,13 @@ export const rentalRoutes = new Elysia({ prefix: "/rental" })
                     reference: rental.unit.building.owner ? `${rental.unit.building.owner.firstname} ${rental.unit.building.owner.lastname}` : "-",
                     unit: rental.unit.reference,
                     tenant: `${rental.tenant.firstname} ${rental.tenant.lastname}`,
-                    type: rental.unit.furnished,
+                    type: rental.furnished,
                     start: formatDateToString(rental.start),
                     duration: duration(rental.start, rental.end),
                     rentPrice: rental.price,
-                    charges: rental.unit.charges,
-                    desposit: new Decimal(rental.price).plus(rental.unit.charges).toString()
+                    charges: rental.charges,
+                    extraCharges: rental.extrasCharges,
+                    deposit: new Decimal(rental.price).plus(rental.charges).plus(rental.extrasCharges).toString()
                 };
             })
         );
@@ -69,6 +70,19 @@ export const rentalRoutes = new Elysia({ prefix: "/rental" })
         return rental
 
     }, { auth: true, params: request.params })
+    .get("/list", async ({ params, permission, status, server }) => {
+        if (!canAccess(permission, "rentals", "read")) {
+            return status(403, { message: "Accès refusé" });
+        }
+
+        return await prisma.rental.findMany({
+            include: {
+                unit: true,
+                tenant: true
+            }
+        });
+
+    }, { auth: true })
     .post("/", async ({ body, permission, status }) => {
         if (!canAccess(permission, "rentals", "create")) {
             return status(403, { message: "Accès refusé" });
@@ -81,24 +95,42 @@ export const rentalRoutes = new Elysia({ prefix: "/rental" })
                 return status(400, { message: "Les informations de la location sont invalide" });
             }
 
-            await prisma.rental.create({
-                data: {
-                    price: data.price,
-                    start: data.start,
-                    end: data.end,
-                    tenant: {
-                        connect: {
-                            id: data.tenant
+            await prisma.$transaction(async tx => {
+                const unit = await tx.unit.findUnique({
+                    where: { id: data.unit }
+                });
+
+                if (!unit) return status(400, "Aucune unité trouvée.");
+
+                await tx.rental.create({
+                    data: {
+                        price: data.price || unit.rent,
+                        charges: data.charges || unit.charges,
+                        extrasCharges: data.extrasCharges || unit.extraCharges,
+                        furnished: data.furnished || unit.furnished,
+                        start: data.start,
+                        end: data.end,
+                        tenant: {
+                            connect: {
+                                id: data.tenant
+                            }
+                        },
+                        unit: {
+                            connect: {
+                                id: data.unit
+                            }
                         }
                     },
-                    unit: {
-                        connect: {
-                            id: data.unit
-                        }
-                    }
-                },
-            });
+                });
 
+                await tx.unit.update({
+                    where: { id: data.unit },
+                    data: {
+                        rentalStatus: "OCCUPED"
+                    }
+                });
+
+            });
             return status(201, { message: "Location créée avec succès" });
 
         } catch (error) {
@@ -125,9 +157,8 @@ export const rentalRoutes = new Elysia({ prefix: "/rental" })
         });
 
         if (!rental) {
-            return status(404, { message: "Location non trouvée" });
+            return status(404, { message: "Location non trouvée." });
         }
-
 
         try {
             const { success, data } = rentalSchema.safeParse(body);
@@ -136,26 +167,56 @@ export const rentalRoutes = new Elysia({ prefix: "/rental" })
                 return status(400, { message: "Les informations de la location sont invalide" });
             }
 
-            await prisma.rental.update({
-                where: {
-                    id: params.id
-                },
-                data: {
-                    price: data.price,
-                    start: data.start,
-                    end: data.end,
-                    tenant: {
-                        connect: {
-                            id: data.tenant
+            await prisma.$transaction(async tx => {
+                const unit = await tx.unit.findUnique({
+                    where: { id: data.unit }
+                });
+
+                const rental = await prisma.rental.findUnique({
+                    where: { id: params.id }
+                });
+
+                if (!rental) return status(400, { message: "Aucune location trouvée." })
+                if (!unit) return status(400, { message: "Aucune unité trouvée." });
+
+                await tx.rental.update({
+                    where: {
+                        id: params.id
+                    },
+                    data: {
+                        price: data.price || unit.rent,
+                        charges: data.charges || unit.charges,
+                        extrasCharges: data.extrasCharges || unit.extraCharges,
+                        furnished: data.furnished || unit.furnished,
+                        start: data.start,
+                        end: data.end,
+                        tenant: {
+                            connect: {
+                                id: data.tenant
+                            }
+                        },
+                        unit: {
+                            connect: {
+                                id: data.unit
+                            }
                         }
                     },
-                    unit: {
-                        connect: {
-                            id: data.unit
-                        }
+                });
+
+                await tx.unit.update({
+                    where: { id: rental.unitId },
+                    data: {
+                        rentalStatus: "FREE"
                     }
-                },
-            });
+                });
+
+                await tx.unit.update({
+                    where: { id: data.unit },
+                    data: {
+                        rentalStatus: "OCCUPED"
+                    }
+                });
+            })
 
             return status(201, { message: "Location modifiée avec succès" });
 
@@ -166,9 +227,6 @@ export const rentalRoutes = new Elysia({ prefix: "/rental" })
                 message: "Erreur lors de la modification de la location",
             });
         }
-
-
-
     }, { auth: true, body: request.body, params: request.params })
     .delete("/:id", async ({ params, permission, status, user }) => {
         if (!canAccess(permission, "rentals", "update")) {

@@ -3643,7 +3643,8 @@ export const UnitScalarFieldEnum = {
   buildingId: 'buildingId',
   typeId: 'typeId',
   createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
+  updatedAt: 'updatedAt',
+  propertyManagementId: 'propertyManagementId'
 } as const
 
 export type UnitScalarFieldEnum = (typeof UnitScalarFieldEnum)[keyof typeof UnitScalarFieldEnum]
@@ -3701,6 +3702,7 @@ export type OwnerScalarFieldEnum = (typeof OwnerScalarFieldEnum)[keyof typeof Ow
 
 export const TenantScalarFieldEnum = {
   id: 'id',
+  reference: 'reference',
   isDiplomatic: 'isDiplomatic',
   isPersonal: 'isPersonal',
   firstname: 'firstname',
@@ -3727,10 +3729,14 @@ export type TenantScalarFieldEnum = (typeof TenantScalarFieldEnum)[keyof typeof 
 
 export const RentalScalarFieldEnum = {
   id: 'id',
+  reference: 'reference',
   tenantId: 'tenantId',
   unitId: 'unitId',
   isDeleting: 'isDeleting',
   price: 'price',
+  charges: 'charges',
+  extrasCharges: 'extrasCharges',
+  furnished: 'furnished',
   start: 'start',
   end: 'end',
   createdAt: 'createdAt',
@@ -3759,7 +3765,6 @@ export type ReservationScalarFieldEnum = (typeof ReservationScalarFieldEnum)[key
 export const PropertyManagementScalarFieldEnum = {
   id: 'id',
   buildingId: 'buildingId',
-  unitId: 'unitId',
   administrativeManagement: 'administrativeManagement',
   technicalManagement: 'technicalManagement',
   start: 'start',
@@ -3899,9 +3904,8 @@ export type ServiceProviderScalarFieldEnum = (typeof ServiceProviderScalarFieldE
 
 export const ContractScalarFieldEnum = {
   id: 'id',
+  reference: 'reference',
   type: 'type',
-  start: 'start',
-  end: 'end',
   rentalId: 'rentalId',
   buildingId: 'buildingId',
   isCanceled: 'isCanceled',
@@ -4252,6 +4256,20 @@ export type JsonFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'J
  * Reference to a field of type 'QueryMode'
  */
 export type EnumQueryModeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'QueryMode'>
+    
+
+
+/**
+ * Reference to a field of type 'UnitStatus'
+ */
+export type EnumUnitStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'UnitStatus'>
+    
+
+
+/**
+ * Reference to a field of type 'UnitStatus[]'
+ */
+export type ListEnumUnitStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'UnitStatus[]'>
     
 
 

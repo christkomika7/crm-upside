@@ -19,7 +19,7 @@ export type Units = {
 export type Unit = {
     id: string;
     reference: string;
-    rentalStatus: string;
+    rentalStatus: "FREE" | "OCCUPED";
     surface: number;
     livingroom: number;
     dining: number;

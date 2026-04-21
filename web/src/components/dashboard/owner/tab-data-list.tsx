@@ -40,7 +40,12 @@ const tabs = [
     }
 ]
 
-export default function TabDataList() {
+type TabDataList = {
+    id: string;
+}
+
+export default function TabDataList({ id }: TabDataList) {
+    console.log(id);
     return (
         <div className="bg-white rounded-md shadow-md shadow-neutral-300/10 flex justify-between items-center">
             <Tabs defaultValue='units' className='gap-4 w-full'>

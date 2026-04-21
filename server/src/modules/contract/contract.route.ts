@@ -4,7 +4,7 @@ import { prisma } from "../../lib/prisma";
 import { canAccess } from "../auth/permission";
 import request from "./type";
 import Decimal from "decimal.js";
-import { duration, formatDateToString } from "../../lib/utils";
+import { duration, durationInMonths, formatDateToString } from "../../lib/utils";
 import { contractSchema } from "../../lib/zod/contract";
 import { mkdir, readFile, unlink, writeFile } from "fs/promises";
 import { join } from "path";
@@ -40,8 +40,10 @@ export const contractRoutes = new Elysia({ prefix: "/contract" })
                     where: {
                         type: "CONTRACT",
                         isCanceled: false,
-                        start: { lte: now },
-                        end: { gte: now },
+                        rental: {
+                            start: { lte: now },
+                            end: { gte: now },
+                        }
                     },
                 }),
 
@@ -49,15 +51,19 @@ export const contractRoutes = new Elysia({ prefix: "/contract" })
                     where: {
                         type: "MANDATE",
                         isCanceled: false,
-                        start: { lte: now },
-                        end: { gte: now },
+                        rental: {
+                            start: { lte: now },
+                            end: { gte: now },
+                        }
                     },
                 }),
 
                 prisma.contract.count({
                     where: {
                         isCanceled: false,
-                        end: { lt: now },
+                        rental: {
+                            end: { lt: now },
+                        }
                     },
                 }),
 
@@ -92,9 +98,9 @@ export const contractRoutes = new Elysia({ prefix: "/contract" })
 
         const whereClause =
             query.type === "WAIT"
-                ? { start: { lte: now }, end: { gte: now } }
+                ? { rental: { start: { gte: now } } }
                 : query.type === "ARCHIVED"
-                    ? { end: { lt: now } }
+                    ? { rental: { end: { lt: now } } }
                     : {};
 
         const contracts = await prisma.contract.findMany({
@@ -118,7 +124,14 @@ export const contractRoutes = new Elysia({ prefix: "/contract" })
             let rent = contract.type === "CONTRACT" ?
                 contract.rental?.price || new Decimal(0) :
                 "-";
-            const status = contract.isCanceled ? "CANCELLED" : contract.end < now ? "EXPIRED" : "ACTIVE";
+
+            let status = "";
+            if (contract.type === "CONTRACT") {
+                status = contract.isCanceled ? "CANCELLED" : contract.rental!.end < now ? "EXPIRED" : "ACTIVE";
+            } else {
+                status = ""
+            }
+
             return {
                 id: contract.id,
                 reference,
@@ -126,96 +139,12 @@ export const contractRoutes = new Elysia({ prefix: "/contract" })
                 isCanceled: contract.isCanceled,
                 isDeleting: contract.isDeleting,
                 status,
-                issue: formatDateToString(contract.start),
-                duration: duration(contract.start, contract.end),
+                issue: contract.type === "CONTRACT" ? formatDateToString(contract.rental!.start) : "",
+                duration: contract.type === "CONTRACT" ? durationInMonths(contract.rental!.start, contract.rental!.end) : "",
                 rent: rent.toString()
             }
         });
     }, { auth: true, query: request.queryType })
-    .get("/disabled", async ({ query, permission, params, status }) => {
-        if (!canAccess(permission, "contracts", ["read"])) {
-            return status(403, { message: "Accès refusé" });
-        }
-
-        const { type, reference } = query;
-
-        if (!type || !reference) {
-            return status(400, { message: "Type et référence requis." });
-        }
-
-        const contracts = await prisma.contract.findMany({
-            where: {
-                type,
-                ...(type === "CONTRACT"
-                    ? {
-                        rental: {
-                            id: reference,
-                        },
-                    }
-                    : {
-                        building: {
-                            id: reference,
-                        },
-                    }),
-            },
-            select: {
-                start: true,
-                end: true,
-            },
-        });
-
-        return contracts.map((c) => [
-            c.start,
-            c.end,
-        ]);
-    }, {
-        auth: true,
-        query: request.queryAction,
-    })
-    .get("/disabled/:id", async ({ query, permission, params, status }) => {
-        if (!canAccess(permission, "contracts", ["read"])) {
-            return status(403, { message: "Accès refusé" });
-        }
-
-        const { type, reference } = query;
-        const { id } = params;
-
-        if (!type || !reference || !id) {
-            return status(400, { message: "Type, référence et id requis." });
-        }
-
-        const contracts = await prisma.contract.findMany({
-            where: {
-                type,
-                ...(type === "CONTRACT"
-                    ? {
-                        rental: {
-                            id: reference,
-                        },
-                    }
-                    : {
-                        building: {
-                            id: reference,
-                        },
-                    }),
-            },
-            select: {
-                id: true,
-                start: true,
-                end: true,
-            },
-        });
-
-        const disabled = contracts
-            .filter((c) => c.id !== id)
-            .map((c) => [c.start, c.end]);
-
-        return disabled;
-    }, {
-        auth: true,
-        params: request.paramsId,
-        query: request.queryAction,
-    })
     .get("/:id", async ({ params, permission, status }) => {
         if (!canAccess(permission, "contracts", ["read"])) {
             return status(403, { message: "Accès refusé" });
@@ -238,7 +167,7 @@ export const contractRoutes = new Elysia({ prefix: "/contract" })
                 ? contract.rental?.unit.reference
                 : contract.building?.name;
 
-        const contracts = await prisma.contract.findMany({
+        return await prisma.contract.findMany({
             where: {
                 type: contract.type,
                 ...(contract.type === "CONTRACT"
@@ -255,21 +184,7 @@ export const contractRoutes = new Elysia({ prefix: "/contract" })
                         },
                     }),
             },
-            select: {
-                id: true,
-                start: true,
-                end: true,
-            },
         });
-
-        const disabled = contracts
-            .filter((c) => c.id !== params.id)
-            .map((c) => [new Date(c.start), new Date(c.end)]);
-
-        return {
-            ...contract,
-            disabled,
-        };
     }, {
         auth: true,
         params: request.paramsId,
@@ -470,38 +385,11 @@ export const contractRoutes = new Elysia({ prefix: "/contract" })
         }
 
         try {
-            const overlappingContract = await prisma.contract.findFirst({
-                where: {
-                    ...(data.type === "CONTRACT"
-                        ? { rentalId: data.rental }
-                        : { buildingId: data.building }
-                    ),
-                    AND: [
-                        {
-                            start: {
-                                lte: data.period.to,
-                            },
-                        },
-                        {
-                            end: {
-                                gte: data.period.from
-                            },
-                        },
-                    ],
-                },
-            });
 
-            if (overlappingContract) {
-                return status(400, {
-                    message: "Les dates du contrat se chevauchent avec un contrat existant.",
-                });
-            }
 
             await prisma.contract.create({
                 data: {
                     type: data.type,
-                    start: data.period.from,
-                    end: data.period.to,
                     ...(data.type === "CONTRACT"
                         ? { rentalId: data.rental }
                         : { buildingId: data.building }),
@@ -597,10 +485,13 @@ export const contractRoutes = new Elysia({ prefix: "/contract" })
                     ? `${contract.rental.tenant.firstname} ${contract.rental.tenant.lastname}`
                     : reference ?? "Client";
 
-                const startDate = new Date(contract.start).toLocaleDateString("fr-FR", {
+                const start = contract.type === "CONTRACT" ? contract.rental!.start : new Date();
+                const end = contract.type === "CONTRACT" ? contract.rental!.end : new Date();
+
+                const startDate = new Date(start).toLocaleDateString("fr-FR", {
                     year: "numeric", month: "long", day: "numeric"
                 });
-                const endDate = new Date(contract.end).toLocaleDateString("fr-FR", {
+                const endDate = new Date(end).toLocaleDateString("fr-FR", {
                     year: "numeric", month: "long", day: "numeric"
                 });
 
@@ -770,52 +661,11 @@ export const contractRoutes = new Elysia({ prefix: "/contract" })
                 return status(404, { message: "Contrat introuvable." });
             }
 
-            if (
-                existing.start.getTime() === new Date(data.period.from).getTime() &&
-                existing.end.getTime() === new Date(data.period.to).getTime()
-            ) {
-                return status(400, {
-                    message: "Aucune modification détectée sur les dates.",
-                });
-            }
-
-            const overlappingContract = await prisma.contract.findFirst({
-                where: {
-                    id: { not: params.id },
-
-                    ...(data.type === "CONTRACT"
-                        ? { rentalId: data.rental }
-                        : { buildingId: data.building }
-                    ),
-
-                    AND: [
-                        {
-                            start: {
-                                lte: data.period.to,
-                            },
-                        },
-                        {
-                            end: {
-                                gte: data.period.from,
-                            },
-                        },
-                    ],
-                },
-            });
-
-            if (overlappingContract) {
-                return status(400, {
-                    message: "Les dates se chevauchent avec un autre contrat existant.",
-                });
-            }
-
             await prisma.$transaction([
                 prisma.contract.update({
                     where: { id: params.id },
                     data: {
                         type: data.type,
-                        start: data.period.from,
-                        end: data.period.to,
                         ...(data.type === "CONTRACT"
                             ? {
                                 rentalId: data.rental,

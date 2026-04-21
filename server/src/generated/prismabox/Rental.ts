@@ -7,10 +7,14 @@ import { __nullable__ } from "./__nullable__";
 export const RentalPlain = t.Object(
   {
     id: t.String(),
+    reference: t.Integer(),
     tenantId: t.String(),
     unitId: t.String(),
     isDeleting: t.Boolean(),
     price: t.Number(),
+    charges: t.Number(),
+    extrasCharges: t.Number(),
+    furnished: t.String(),
     start: t.Date(),
     end: t.Date(),
     createdAt: t.Date(),
@@ -24,6 +28,7 @@ export const RentalRelations = t.Object(
     tenant: t.Object(
       {
         id: t.String(),
+        reference: t.Integer(),
         isDiplomatic: t.Boolean(),
         isPersonal: t.Boolean(),
         firstname: t.String(),
@@ -50,7 +55,9 @@ export const RentalRelations = t.Object(
       {
         id: t.String(),
         reference: t.String(),
-        rentalStatus: t.String(),
+        rentalStatus: t.Union([t.Literal("FREE"), t.Literal("OCCUPED")], {
+          additionalProperties: false,
+        }),
         surface: t.Number(),
         livingroom: t.Integer(),
         dining: t.Integer(),
@@ -72,6 +79,7 @@ export const RentalRelations = t.Object(
         typeId: t.String(),
         createdAt: t.Date(),
         updatedAt: t.Date(),
+        propertyManagementId: __nullable__(t.String()),
       },
       { additionalProperties: false },
     ),
@@ -79,11 +87,10 @@ export const RentalRelations = t.Object(
       t.Object(
         {
           id: t.String(),
+          reference: t.Integer(),
           type: t.Union([t.Literal("CONTRACT"), t.Literal("MANDATE")], {
             additionalProperties: false,
           }),
-          start: t.Date(),
-          end: t.Date(),
           rentalId: __nullable__(t.String()),
           buildingId: __nullable__(t.String()),
           isCanceled: t.Boolean(),
@@ -135,8 +142,12 @@ export const RentalRelations = t.Object(
 
 export const RentalPlainInputCreate = t.Object(
   {
+    reference: t.Optional(t.Integer()),
     isDeleting: t.Optional(t.Boolean()),
     price: t.Optional(t.Number()),
+    charges: t.Optional(t.Number()),
+    extrasCharges: t.Optional(t.Number()),
+    furnished: t.String(),
     start: t.Date(),
     end: t.Date(),
   },
@@ -145,8 +156,12 @@ export const RentalPlainInputCreate = t.Object(
 
 export const RentalPlainInputUpdate = t.Object(
   {
+    reference: t.Optional(t.Integer()),
     isDeleting: t.Optional(t.Boolean()),
     price: t.Optional(t.Number()),
+    charges: t.Optional(t.Number()),
+    extrasCharges: t.Optional(t.Number()),
+    furnished: t.Optional(t.String()),
     start: t.Optional(t.Date()),
     end: t.Optional(t.Date()),
   },
@@ -302,10 +317,14 @@ export const RentalWhere = t.Partial(
           NOT: t.Union([Self, t.Array(Self, { additionalProperties: false })]),
           OR: t.Array(Self, { additionalProperties: false }),
           id: t.String(),
+          reference: t.Integer(),
           tenantId: t.String(),
           unitId: t.String(),
           isDeleting: t.Boolean(),
           price: t.Number(),
+          charges: t.Number(),
+          extrasCharges: t.Number(),
+          furnished: t.String(),
           start: t.Date(),
           end: t.Date(),
           createdAt: t.Date(),
@@ -346,10 +365,14 @@ export const RentalWhereUnique = t.Recursive(
           t.Object(
             {
               id: t.String(),
+              reference: t.Integer(),
               tenantId: t.String(),
               unitId: t.String(),
               isDeleting: t.Boolean(),
               price: t.Number(),
+              charges: t.Number(),
+              extrasCharges: t.Number(),
+              furnished: t.String(),
               start: t.Date(),
               end: t.Date(),
               createdAt: t.Date(),
@@ -368,12 +391,16 @@ export const RentalSelect = t.Partial(
   t.Object(
     {
       id: t.Boolean(),
+      reference: t.Boolean(),
       tenantId: t.Boolean(),
       tenant: t.Boolean(),
       unitId: t.Boolean(),
       unit: t.Boolean(),
       isDeleting: t.Boolean(),
       price: t.Boolean(),
+      charges: t.Boolean(),
+      extrasCharges: t.Boolean(),
+      furnished: t.Boolean(),
       start: t.Boolean(),
       end: t.Boolean(),
       contracts: t.Boolean(),
@@ -405,6 +432,9 @@ export const RentalOrderBy = t.Partial(
       id: t.Union([t.Literal("asc"), t.Literal("desc")], {
         additionalProperties: false,
       }),
+      reference: t.Union([t.Literal("asc"), t.Literal("desc")], {
+        additionalProperties: false,
+      }),
       tenantId: t.Union([t.Literal("asc"), t.Literal("desc")], {
         additionalProperties: false,
       }),
@@ -415,6 +445,15 @@ export const RentalOrderBy = t.Partial(
         additionalProperties: false,
       }),
       price: t.Union([t.Literal("asc"), t.Literal("desc")], {
+        additionalProperties: false,
+      }),
+      charges: t.Union([t.Literal("asc"), t.Literal("desc")], {
+        additionalProperties: false,
+      }),
+      extrasCharges: t.Union([t.Literal("asc"), t.Literal("desc")], {
+        additionalProperties: false,
+      }),
+      furnished: t.Union([t.Literal("asc"), t.Literal("desc")], {
         additionalProperties: false,
       }),
       start: t.Union([t.Literal("asc"), t.Literal("desc")], {

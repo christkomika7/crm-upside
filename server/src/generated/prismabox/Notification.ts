@@ -129,10 +129,14 @@ export const NotificationRelations = t.Object(
       t.Object(
         {
           id: t.String(),
+          reference: t.Integer(),
           tenantId: t.String(),
           unitId: t.String(),
           isDeleting: t.Boolean(),
           price: t.Number(),
+          charges: t.Number(),
+          extrasCharges: t.Number(),
+          furnished: t.String(),
           start: t.Date(),
           end: t.Date(),
           createdAt: t.Date(),
@@ -145,11 +149,10 @@ export const NotificationRelations = t.Object(
       t.Object(
         {
           id: t.String(),
+          reference: t.Integer(),
           type: t.Union([t.Literal("CONTRACT"), t.Literal("MANDATE")], {
             additionalProperties: false,
           }),
-          start: t.Date(),
-          end: t.Date(),
           rentalId: __nullable__(t.String()),
           buildingId: __nullable__(t.String()),
           isCanceled: t.Boolean(),

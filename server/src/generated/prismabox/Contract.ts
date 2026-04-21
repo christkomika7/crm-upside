@@ -7,11 +7,10 @@ import { __nullable__ } from "./__nullable__";
 export const ContractPlain = t.Object(
   {
     id: t.String(),
+    reference: t.Integer(),
     type: t.Union([t.Literal("CONTRACT"), t.Literal("MANDATE")], {
       additionalProperties: false,
     }),
-    start: t.Date(),
-    end: t.Date(),
     rentalId: __nullable__(t.String()),
     buildingId: __nullable__(t.String()),
     isCanceled: t.Boolean(),
@@ -28,10 +27,14 @@ export const ContractRelations = t.Object(
       t.Object(
         {
           id: t.String(),
+          reference: t.Integer(),
           tenantId: t.String(),
           unitId: t.String(),
           isDeleting: t.Boolean(),
           price: t.Number(),
+          charges: t.Number(),
+          extrasCharges: t.Number(),
+          furnished: t.String(),
           start: t.Date(),
           end: t.Date(),
           createdAt: t.Date(),
@@ -110,11 +113,10 @@ export const ContractRelations = t.Object(
 
 export const ContractPlainInputCreate = t.Object(
   {
+    reference: t.Optional(t.Integer()),
     type: t.Union([t.Literal("CONTRACT"), t.Literal("MANDATE")], {
       additionalProperties: false,
     }),
-    start: t.Date(),
-    end: t.Date(),
     isCanceled: t.Optional(t.Boolean()),
     isDeleting: t.Optional(t.Boolean()),
   },
@@ -123,13 +125,12 @@ export const ContractPlainInputCreate = t.Object(
 
 export const ContractPlainInputUpdate = t.Object(
   {
+    reference: t.Optional(t.Integer()),
     type: t.Optional(
       t.Union([t.Literal("CONTRACT"), t.Literal("MANDATE")], {
         additionalProperties: false,
       }),
     ),
-    start: t.Optional(t.Date()),
-    end: t.Optional(t.Date()),
     isCanceled: t.Optional(t.Boolean()),
     isDeleting: t.Optional(t.Boolean()),
   },
@@ -254,11 +255,10 @@ export const ContractWhere = t.Partial(
           NOT: t.Union([Self, t.Array(Self, { additionalProperties: false })]),
           OR: t.Array(Self, { additionalProperties: false }),
           id: t.String(),
+          reference: t.Integer(),
           type: t.Union([t.Literal("CONTRACT"), t.Literal("MANDATE")], {
             additionalProperties: false,
           }),
-          start: t.Date(),
-          end: t.Date(),
           rentalId: t.String(),
           buildingId: t.String(),
           isCanceled: t.Boolean(),
@@ -301,11 +301,10 @@ export const ContractWhereUnique = t.Recursive(
           t.Object(
             {
               id: t.String(),
+              reference: t.Integer(),
               type: t.Union([t.Literal("CONTRACT"), t.Literal("MANDATE")], {
                 additionalProperties: false,
               }),
-              start: t.Date(),
-              end: t.Date(),
               rentalId: t.String(),
               buildingId: t.String(),
               isCanceled: t.Boolean(),
@@ -326,9 +325,8 @@ export const ContractSelect = t.Partial(
   t.Object(
     {
       id: t.Boolean(),
+      reference: t.Boolean(),
       type: t.Boolean(),
-      start: t.Boolean(),
-      end: t.Boolean(),
       rentalId: t.Boolean(),
       rental: t.Boolean(),
       buildingId: t.Boolean(),
@@ -363,10 +361,7 @@ export const ContractOrderBy = t.Partial(
       id: t.Union([t.Literal("asc"), t.Literal("desc")], {
         additionalProperties: false,
       }),
-      start: t.Union([t.Literal("asc"), t.Literal("desc")], {
-        additionalProperties: false,
-      }),
-      end: t.Union([t.Literal("asc"), t.Literal("desc")], {
+      reference: t.Union([t.Literal("asc"), t.Literal("desc")], {
         additionalProperties: false,
       }),
       rentalId: t.Union([t.Literal("asc"), t.Literal("desc")], {

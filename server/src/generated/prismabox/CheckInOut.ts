@@ -25,6 +25,7 @@ export const CheckInOutRelations = t.Object(
     tenant: t.Object(
       {
         id: t.String(),
+        reference: t.Integer(),
         isDiplomatic: t.Boolean(),
         isPersonal: t.Boolean(),
         firstname: t.String(),
@@ -51,7 +52,9 @@ export const CheckInOutRelations = t.Object(
       {
         id: t.String(),
         reference: t.String(),
-        rentalStatus: t.String(),
+        rentalStatus: t.Union([t.Literal("FREE"), t.Literal("OCCUPED")], {
+          additionalProperties: false,
+        }),
         surface: t.Number(),
         livingroom: t.Integer(),
         dining: t.Integer(),
@@ -73,6 +76,7 @@ export const CheckInOutRelations = t.Object(
         typeId: t.String(),
         createdAt: t.Date(),
         updatedAt: t.Date(),
+        propertyManagementId: __nullable__(t.String()),
       },
       { additionalProperties: false },
     ),

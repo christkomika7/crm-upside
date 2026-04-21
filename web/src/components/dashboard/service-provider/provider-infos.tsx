@@ -1,5 +1,6 @@
 
-export default function ProviderInfos() {
+export default function ProviderInfos({ id }: { id: string }) {
+    console.log(id)
     return (
         <div className='flex gap-x-4 bg-white rounded-md p-4'>
             <div className='size-30 rounded-md bg-neutral-50'></div>

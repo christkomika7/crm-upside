@@ -48,7 +48,7 @@ export const breadcrumbs: Record<BreadcrumbKey, string> = {
     'view_unit': "Aperçu",
 
     // Rentals
-    'rentals': "Loyer",
+    'rentals': "Location",
     'new-rental': "Nouveau",
     'edit_rental': "Modification",
     'view_rental': "Aperçu",
@@ -91,7 +91,7 @@ export const breadcrumbs: Record<BreadcrumbKey, string> = {
 
 
     // Contracts
-    'contracts': "Contracts/Mandates",
+    'contracts': "Contracts | Mandates",
     'new-contract': "Nouveau",
     'edit_contract': "Modification",
     'view_contract': "Aperçu",

@@ -168,13 +168,13 @@ export default function CreateUnit() {
                                 <FormItem >
                                     <FormLabel className="text-neutral-600">Statut de location<RequiredLabel /></FormLabel>
                                     <FormControl>
-                                        <Select onValueChange={e => field.onChange(e === "yes" ? true : false)} value={field.value ? "yes" : "no"} >
+                                        <Select onValueChange={field.onChange} value={field.value} >
                                             <SelectTrigger className="w-full" aria-invalid={!!form.formState.errors.rentalStatus}>
                                                 <SelectValue placeholder="" />
                                             </SelectTrigger>
                                             <SelectContent position="popper" align="end">
-                                                <SelectItem value="yes">Libre</SelectItem>
-                                                <SelectItem value="no">Occupé</SelectItem>
+                                                <SelectItem value="FREE">Libre</SelectItem>
+                                                <SelectItem value="OCCUPED">Occupé</SelectItem>
                                             </SelectContent>
                                         </Select>
                                     </FormControl>

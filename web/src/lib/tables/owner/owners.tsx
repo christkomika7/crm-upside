@@ -1,7 +1,9 @@
 import { Button } from "@/components/ui/button";
+import EmptyColumn from "@/components/ui/empty-column";
 import { Spinner } from "@/components/ui/spinner";
 import { crudService } from "@/lib/api";
 import { queryClient } from "@/lib/query-client";
+import { formatNumber } from "@/lib/utils";
 import type { Owner } from "@/types/owner";
 import { useMutation } from "@tanstack/react-query";
 import { Link } from "@tanstack/react-router";
@@ -63,7 +65,7 @@ export const columns: ColumnDef<Owner>[] = [
             )
         },
         cell: ({ row }) => (
-            <div className="capitalize">{row.getValue("company")}</div>
+            <div className="capitalize">{row.getValue("company") || <EmptyColumn />}</div>
         ),
     },
     {
@@ -103,24 +105,6 @@ export const columns: ColumnDef<Owner>[] = [
         ),
     },
     {
-        accessorKey: "properties",
-        header: ({ column }) => {
-            return (
-                <Button
-                    variant="ghost"
-                    className="text-sm! font-medium cursor-pointer text-left pl-0!"
-                    onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-                >
-                    Propriétés
-                    <ArrowUpDownIcon className="size-3.5 text-neutral-500" />
-                </Button>
-            )
-        },
-        cell: ({ row }) => (
-            <div className="capitalize">{row.getValue("properties")}</div>
-        ),
-    },
-    {
         accessorKey: "units",
         header: ({ column }) => {
             return (
@@ -129,7 +113,7 @@ export const columns: ColumnDef<Owner>[] = [
                     className="text-sm! font-medium cursor-pointer text-left pl-0!"
                     onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
                 >
-                    Unités
+                    Propriétés
                     <ArrowUpDownIcon className="size-3.5 text-neutral-500" />
                 </Button>
             )
@@ -153,7 +137,7 @@ export const columns: ColumnDef<Owner>[] = [
             )
         },
         cell: ({ row }) => (
-            <div className="capitalize">{row.getValue("revenue")}</div>
+            <div className="capitalize">{formatNumber(row.getValue("revenue"))} FCFA</div>
         ),
     },
     {

@@ -13,7 +13,7 @@ export type PropertyManagementTab = {
 export type PropertyManagement = {
     id: string;
     buildingId: string;
-    unitId: string;
+    units: string[];
     administrativeManagement: boolean;
     technicalManagement: boolean;
     services: PersonalService[];

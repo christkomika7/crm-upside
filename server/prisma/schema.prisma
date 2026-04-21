@@ -102,6 +102,11 @@ enum DiscountType {
   MONEY
 }
 
+enum UnitStatus {
+  FREE
+  OCCUPED
+}
+
 model User {
   id            String        @id @default(cuid())
   email         String        @unique
@@ -221,29 +226,32 @@ model Building {
 }
 
 model Unit {
-  id             String   @id @default(cuid())
-  reference      String   @unique
-  rentalStatus   String
-  surface        Float    @default(0)
-  livingroom     Int      @default(0)
-  dining         Int      @default(0)
-  kitchen        Int      @default(0)
-  bedroom        Int      @default(0)
-  bathroom       Int      @default(0)
+  id             String     @id @default(cuid())
+  reference      String     @unique
+  rentalStatus   UnitStatus @default(FREE)
+  surface        Float      @default(0)
+  livingroom     Int        @default(0)
+  dining         Int        @default(0)
+  kitchen        Int        @default(0)
+  bedroom        Int        @default(0)
+  bathroom       Int        @default(0)
   furnished      String
   wifi           Boolean
   water          Boolean
   electricity    Boolean
   tv             Boolean
-  rent           Decimal  @default(0) @db.Decimal(15, 2)
-  charges        Decimal  @default(0) @db.Decimal(15, 2)
-  extraCharges   Decimal  @default(0) @db.Decimal(15, 2)
-  amountGenerate Decimal  @default(0) @db.Decimal(15, 2)
+  rent           Decimal    @default(0) @db.Decimal(15, 2)
+  charges        Decimal    @default(0) @db.Decimal(15, 2)
+  extraCharges   Decimal    @default(0) @db.Decimal(15, 2)
+  amountGenerate Decimal    @default(0) @db.Decimal(15, 2)
   documents      String[]
 
   isDeleting Boolean @default(false)
 
-  rentals Rental[]
+  rentals      Rental[]
+  reservations Reservation[]
+  checkInOuts  CheckInOut[]
+  accountings  accounting[]
 
   building   Building @relation(fields: [buildingId], references: [id])
   buildingId String
@@ -251,13 +259,10 @@ model Unit {
   typeId String
   type   Type   @relation(fields: [typeId], references: [id])
 
-  reservations        Reservation[]
-  propertyManagements PropertyManagement[]
-  checkInOuts         CheckInOut[]
-
-  createdAt   DateTime     @default(now())
-  updatedAt   DateTime     @updatedAt
-  accountings accounting[]
+  createdAt            DateTime            @default(now())
+  updatedAt            DateTime            @updatedAt
+  propertyManagement   PropertyManagement? @relation(fields: [propertyManagementId], references: [id])
+  propertyManagementId String?
 
   @@map("unit")
 }
@@ -299,34 +304,35 @@ model Type {
 }
 
 model Owner {
-  id         String @id @default(cuid())
-  reference  String @unique
+  id         String  @id @default(cuid())
+  reference  Int     @default(autoincrement())
   firstname  String
   lastname   String
-  company    String
+  company    String?
   phone      String
   email      String
   address    String
-  actionnary String
+  actionnary String?
 
   isDeleting Boolean @default(false)
 
-  buildings Building[]
+  buildings    Building[]
+  invoices     Invoice[]
+  quotes       Quote[]
+  appointments Appointment[]
 
   bankInfo  String
   documents String[]
 
-  createdAt    DateTime      @default(now())
-  updatedAt    DateTime      @updatedAt
-  invoices     Invoice[]
-  quotes       Quote[]
-  appointments Appointment[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
   @@map("owner")
 }
 
 model Tenant {
   id            String   @id @default(cuid())
+  reference     Int      @default(autoincrement())
   isDiplomatic  Boolean  @default(false)
   isPersonal    Boolean  @default(true)
   firstname     String
@@ -362,6 +368,8 @@ model Tenant {
 model Rental {
   id String @id @default(cuid())
 
+  reference Int @default(autoincrement())
+
   tenantId String
   tenant   Tenant @relation(fields: [tenantId], references: [id])
 
@@ -370,7 +378,12 @@ model Rental {
 
   isDeleting Boolean @default(false)
 
-  price Decimal  @default(0) @db.Decimal(15, 2)
+  price         Decimal @default(0) @db.Decimal(15, 2)
+  charges       Decimal @default(0) @db.Decimal(15, 2)
+  extrasCharges Decimal @default(0) @db.Decimal(15, 2)
+
+  furnished String
+
   start DateTime
   end   DateTime
 
@@ -407,12 +420,11 @@ model PropertyManagement {
   buildingId String
   building   Building @relation(fields: [buildingId], references: [id])
 
-  unitId String
-  unit   Unit   @relation(fields: [unitId], references: [id])
+  administrativeManagement Boolean @default(false)
+  technicalManagement      Boolean @default(false)
 
-  administrativeManagement Boolean           @default(false)
-  technicalManagement      Boolean           @default(false)
-  services                 PersonalService[]
+  units    Unit[]
+  services PersonalService[]
 
   start        DateTime
   end          DateTime
@@ -588,11 +600,9 @@ model ServiceProvider {
 }
 
 model Contract {
-  id   String       @id @default(cuid())
-  type ContractType
-
-  start DateTime
-  end   DateTime
+  id        String       @id @default(cuid())
+  reference Int          @default(autoincrement())
+  type      ContractType
 
   rentalId String?
   rental   Rental? @relation(fields: [rentalId], references: [id])

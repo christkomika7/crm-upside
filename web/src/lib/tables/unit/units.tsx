@@ -1,20 +1,20 @@
 import { Button } from "@/components/ui/button";
 import { Link } from "@tanstack/react-router";
-import type { ColumnDef } from "@tanstack/react-table";
 import { ArrowUpDownIcon, Edit3Icon, EyeIcon, Trash2Icon } from "lucide-react";
 import { Status, StatusIndicator, StatusLabel } from "@/components/ui/status";
 import { Activity } from "react";
-import type { Units } from "@/types/unit";
-import { cutText, formatNumber } from "@/lib/utils";
-import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
+import { formatNumber } from "@/lib/utils";
 import { useMutation } from "@tanstack/react-query";
 import { crudService } from "@/lib/api";
 import { toast } from "sonner";
 import { queryClient } from "@/lib/query-client";
 import { Spinner } from "@/components/ui/spinner";
 import { Route } from "@/routes/dashboard/units";
-import type { User } from "@/types/user";
 import { canAccess } from "@/lib/permission";
+
+import type { ColumnDef } from "@tanstack/react-table";
+import type { Units } from "@/types/unit";
+import type { User } from "@/types/user";
 
 export const columns: ColumnDef<Units>[] = [
     {
@@ -129,31 +129,6 @@ export const columns: ColumnDef<Units>[] = [
                     </Activity>
                     <StatusLabel>{row.getValue("status") === 'vacant' ? 'Libre' : 'Occupé'}</StatusLabel>
                 </Status>
-            </div>
-        ),
-    },
-    {
-        accessorKey: "service",
-        header: ({ column }) => {
-            return (
-                <Button
-                    variant="ghost"
-                    className="text-sm! font-medium cursor-pointer text-left pl-0!"
-                    onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-                >
-                    Service fourni
-                    <ArrowUpDownIcon className="size-3.5 text-neutral-500" />
-                </Button>
-            )
-        },
-        cell: ({ row }) => (
-            <div>
-                <Tooltip>
-                    <TooltipTrigger className="capitalize">{cutText(row.getValue("service"))}</TooltipTrigger>
-                    <TooltipContent className="capitalize">
-                        {row.getValue("service")}
-                    </TooltipContent>
-                </Tooltip>
             </div>
         ),
     },

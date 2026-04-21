@@ -10,19 +10,21 @@ import { useMutation, useQuery } from "@tanstack/react-query";
 import { apiFetch, crudService } from "@/lib/api";
 import { toast } from "sonner";
 import { queryClient } from "@/lib/query-client";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import type { Tenant } from "@/types/tenant";
 import type { Unit } from "@/types/unit";
 import RequiredLabel from "@/components/ui/required-label";
+import { DEFAULT_VALUES } from "./lib/utils";
+import { SelectField } from "@/components/ui/select-field";
+import type { LabelType } from "@/types/utils";
+import { furnishedOptions } from "@/lib/data";
 
 
 export default function CreateRental() {
     const { isPending: isGettingTenant, data: tenants } = useQuery({
         queryKey: ["tenants"],
-        queryFn: () => apiFetch<Tenant[]>("/tenant/"),
+        queryFn: () => apiFetch<LabelType[]>("/tenant/list"),
         select: (data) => data.map((tenant) => ({
-            value: tenant.id,
-            label: `${tenant.firstname} ${tenant.lastname}`,
+            value: tenant.value,
+            label: tenant.label,
         })),
     });
 
@@ -33,6 +35,10 @@ export default function CreateRental() {
             data.map((unit) => ({
                 value: unit.id,
                 label: unit.reference,
+                price: unit.rent,
+                charges: unit.charges,
+                extrasCharges: unit.extraCharges,
+                furnished: unit.furnished
             })),
     });
 
@@ -42,13 +48,7 @@ export default function CreateRental() {
         onSuccess() {
             toast.success("Locataire créé avec succès");
             queryClient.invalidateQueries({ queryKey: ["rentals"] });
-            form.reset({
-                price: "",
-                start: undefined,
-                end: undefined,
-                unit: "",
-                tenant: ""
-            });
+            form.reset(DEFAULT_VALUES);
             queryClient.invalidateQueries({ queryKey: ["valid-units"] });
         },
         onError: (error: Error) => {
@@ -59,13 +59,7 @@ export default function CreateRental() {
 
     const form = useForm<RentalSchemaType>({
         resolver: zodResolver(rentalSchema),
-        defaultValues: {
-            price: "",
-            start: undefined,
-            end: undefined,
-            unit: "",
-            tenant: ""
-        }
+        defaultValues: DEFAULT_VALUES
     });
 
     async function submit(formData: RentalSchemaType) {
@@ -87,69 +81,42 @@ export default function CreateRental() {
                         <FormField
                             control={form.control}
                             name="tenant"
-                            render={({ field }) => (
-                                <FormItem >
-                                    <FormLabel className="text-neutral-600">Nom du locataire<RequiredLabel /></FormLabel>
-                                    <FormControl>
-                                        <Select onValueChange={e => field.onChange(e)} value={field.value} >
-                                            <SelectTrigger className="w-full" aria-invalid={!!form.formState.errors.tenant}>
-                                                <SelectValue placeholder="" />
-                                            </SelectTrigger>
-                                            <SelectContent position="popper" align="end">
-                                                {isGettingTenant ? (
-                                                    <div className="flex justify-center items-center">
-                                                        <Spinner />
-                                                    </div>
-                                                ) : tenants && tenants.length > 0 ? (
-                                                    tenants.map((tenant) => (
-                                                        <SelectItem key={tenant.value} value={tenant.value}>
-                                                            {tenant.label}
-                                                        </SelectItem>
-                                                    ))
-                                                ) : (
-                                                    <SelectItem value="none" disabled>
-                                                        Aucun Locataire disponible
-                                                    </SelectItem>
-                                                )}
-                                            </SelectContent>
-                                        </Select>
-                                    </FormControl>
-                                    <FormMessage />
-                                </FormItem>
+                            render={({ field, formState }) => (
+                                <SelectField
+                                    label="Nom du locataire"
+                                    required
+                                    placeholder="Sélectionner un locataire"
+                                    value={field.value}
+                                    isLoading={isGettingTenant}
+                                    onChange={field.onChange}
+                                    options={tenants}
+                                    hasError={!!formState.errors.tenant}
+                                    emptyMessage="Aucun locataire disponible"
+                                />
                             )}
                         />
                         <FormField
                             control={form.control}
                             name="unit"
-                            render={({ field }) => (
-                                <FormItem >
-                                    <FormLabel className="text-neutral-600">Unité<RequiredLabel /></FormLabel>
-                                    <FormControl>
-                                        <Select onValueChange={e => field.onChange(e)} value={field.value}>
-                                            <SelectTrigger className="w-full" aria-invalid={!!form.formState.errors.unit}>
-                                                <SelectValue placeholder="" />
-                                            </SelectTrigger>
-                                            <SelectContent position="popper" align="end">
-                                                {isGettingUnits ? (
-                                                    <div className="flex justify-center items-center">
-                                                        <Spinner />
-                                                    </div>
-                                                ) : units && units.length > 0 ? (
-                                                    units.map((unit) => (
-                                                        <SelectItem key={unit.value} value={unit.value}>
-                                                            {unit.label}
-                                                        </SelectItem>
-                                                    ))
-                                                ) : (
-                                                    <SelectItem value="none" disabled>
-                                                        Aucune unité disponible
-                                                    </SelectItem>
-                                                )}
-                                            </SelectContent>
-                                        </Select>
-                                    </FormControl>
-                                    <FormMessage />
-                                </FormItem>
+                            render={({ field, formState }) => (
+                                <SelectField
+                                    label="Unité"
+                                    required
+                                    isLoading={isGettingUnits}
+                                    placeholder="Sélectionner une unité"
+                                    value={field.value}
+                                    onChange={(e) => {
+                                        field.onChange(e)
+                                        const unit = units.find(unit => unit.value === e)
+                                        form.setValue("price", `${unit?.price || 0}`);
+                                        form.setValue("charges", `${unit?.charges || 0}`);
+                                        form.setValue("extrasCharges", `${unit?.extrasCharges || 0}`);
+                                        form.setValue("furnished", unit?.furnished)
+                                    }}
+                                    options={units}
+                                    hasError={!!formState.errors.unit}
+                                    emptyMessage="Aucune unité disponible"
+                                />
                             )}
                         />
                         <FormField
@@ -157,10 +124,11 @@ export default function CreateRental() {
                             name="price"
                             render={({ field }) => (
                                 <FormItem >
-                                    <FormLabel className="text-neutral-600">Prix<RequiredLabel /></FormLabel>
+                                    <FormLabel className="text-neutral-600">Prix du loyer<RequiredLabel /></FormLabel>
                                     <FormControl>
                                         <Input
                                             type="number"
+                                            suffix="FCFA"
                                             placeholder="Entrer le prix"
                                             value={field.value}
                                             aria-invalid={!!form.formState.errors.price}
@@ -169,6 +137,63 @@ export default function CreateRental() {
                                     </FormControl>
                                     <FormMessage />
                                 </FormItem>
+                            )}
+                        />
+                        <FormField
+                            control={form.control}
+                            name="charges"
+                            render={({ field }) => (
+                                <FormItem >
+                                    <FormLabel className="text-neutral-600">Prix des charges<RequiredLabel /></FormLabel>
+                                    <FormControl>
+                                        <Input
+                                            type="number"
+                                            placeholder="Entrer le prix"
+                                            suffix="FCFA"
+                                            value={field.value}
+                                            aria-invalid={!!form.formState.errors.price}
+                                            onChange={field.onChange}
+                                        />
+                                    </FormControl>
+                                    <FormMessage />
+                                </FormItem>
+                            )}
+                        />
+                        <FormField
+                            control={form.control}
+                            name="extrasCharges"
+                            render={({ field }) => (
+                                <FormItem >
+                                    <FormLabel className="text-neutral-600">Prix des charges ponctuelles<RequiredLabel /></FormLabel>
+                                    <FormControl>
+                                        <Input
+                                            type="number"
+                                            placeholder="Entrer le prix"
+                                            suffix="FCFA"
+                                            value={field.value}
+                                            aria-invalid={!!form.formState.errors.price}
+                                            onChange={field.onChange}
+                                        />
+                                    </FormControl>
+                                    <FormMessage />
+                                </FormItem>
+                            )}
+                        />
+                        <FormField
+                            control={form.control}
+                            name="furnished"
+                            render={({ field, formState }) => (
+                                <SelectField
+                                    label="Meublé"
+                                    required
+                                    placeholder="Sélectionner l'état de l'unité"
+                                    value={field.value ?? ""}
+                                    onChange={field.onChange}
+                                    options={furnishedOptions}
+                                    hasError={!!formState.errors.furnished}
+                                    emptyMessage="Aucun état disponible"
+                                />
+
                             )}
                         />
                         <FormField
