@@ -80,6 +80,14 @@ export const ContractType = {
 export type ContractType = (typeof ContractType)[keyof typeof ContractType]
 
 
+export const ItemType = {
+  ITEM: 'ITEM',
+  UNIT: 'UNIT'
+} as const
+
+export type ItemType = (typeof ItemType)[keyof typeof ItemType]
+
+
 export const DeletionType = {
   ACCOUNTING: 'ACCOUNTING',
   OWNER: 'OWNER',

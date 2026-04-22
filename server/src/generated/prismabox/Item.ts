@@ -7,9 +7,17 @@ import { __nullable__ } from "./__nullable__";
 export const ItemPlain = t.Object(
   {
     id: t.String(),
+    type: t.Union([t.Literal("ITEM"), t.Literal("UNIT")], {
+      additionalProperties: false,
+    }),
     quantity: t.Integer(),
-    productServiceId: t.String(),
+    productServiceId: __nullable__(t.String()),
+    unitId: __nullable__(t.String()),
     price: t.Number(),
+    charges: __nullable__(t.Number()),
+    extraCharges: __nullable__(t.Number()),
+    start: __nullable__(t.Date()),
+    end: __nullable__(t.Date()),
     description: t.String(),
     reference: t.String(),
     hasTax: t.Boolean(),
@@ -18,27 +26,64 @@ export const ItemPlain = t.Object(
     }),
     invoiceId: __nullable__(t.String()),
     quoteId: __nullable__(t.String()),
+    purchaseOrderId: __nullable__(t.String()),
     createdAt: t.Date(),
     updatedAt: t.Date(),
-    purchaseOrderId: __nullable__(t.String()),
   },
   { additionalProperties: false },
 );
 
 export const ItemRelations = t.Object(
   {
-    productService: t.Object(
-      {
-        id: t.String(),
-        reference: t.String(),
-        description: t.String(),
-        hasTax: t.Boolean(),
-        price: t.Number(),
-        isDeleting: t.Boolean(),
-        createdAt: t.Date(),
-        updatedAt: t.Date(),
-      },
-      { additionalProperties: false },
+    productService: __nullable__(
+      t.Object(
+        {
+          id: t.String(),
+          reference: t.String(),
+          description: t.String(),
+          hasTax: t.Boolean(),
+          price: t.Number(),
+          isDeleting: t.Boolean(),
+          createdAt: t.Date(),
+          updatedAt: t.Date(),
+        },
+        { additionalProperties: false },
+      ),
+    ),
+    unit: __nullable__(
+      t.Object(
+        {
+          id: t.String(),
+          reference: t.String(),
+          rentalStatus: t.Union([t.Literal("FREE"), t.Literal("OCCUPED")], {
+            additionalProperties: false,
+          }),
+          surface: t.Number(),
+          livingroom: t.Integer(),
+          dining: t.Integer(),
+          kitchen: t.Integer(),
+          bedroom: t.Integer(),
+          bathroom: t.Integer(),
+          furnished: t.String(),
+          wifi: t.Boolean(),
+          water: t.Boolean(),
+          electricity: t.Boolean(),
+          tv: t.Boolean(),
+          description: t.String(),
+          rent: t.Number(),
+          charges: t.Number(),
+          extraCharges: t.Number(),
+          amountGenerate: t.Number(),
+          documents: t.Array(t.String(), { additionalProperties: false }),
+          isDeleting: t.Boolean(),
+          buildingId: t.String(),
+          typeId: t.String(),
+          createdAt: t.Date(),
+          updatedAt: t.Date(),
+          propertyManagementId: __nullable__(t.String()),
+        },
+        { additionalProperties: false },
+      ),
     ),
     invoice: __nullable__(
       t.Object(
@@ -61,9 +106,10 @@ export const ItemRelations = t.Object(
           }),
           ownerId: __nullable__(t.String()),
           tenantId: __nullable__(t.String()),
+          period: __nullable__(t.String()),
           note: __nullable__(t.String()),
           start: t.Date(),
-          end: t.Date(),
+          end: t.String(),
           isDeleting: t.Boolean(),
           createdAt: t.Date(),
           updatedAt: t.Date(),
@@ -131,8 +177,17 @@ export const ItemRelations = t.Object(
 
 export const ItemPlainInputCreate = t.Object(
   {
+    type: t.Optional(
+      t.Union([t.Literal("ITEM"), t.Literal("UNIT")], {
+        additionalProperties: false,
+      }),
+    ),
     quantity: t.Integer(),
     price: t.Optional(t.Number()),
+    charges: t.Optional(__nullable__(t.Number())),
+    extraCharges: t.Optional(__nullable__(t.Number())),
+    start: t.Optional(__nullable__(t.Date())),
+    end: t.Optional(__nullable__(t.Date())),
     description: t.String(),
     reference: t.String(),
     hasTax: t.Optional(t.Boolean()),
@@ -147,8 +202,17 @@ export const ItemPlainInputCreate = t.Object(
 
 export const ItemPlainInputUpdate = t.Object(
   {
+    type: t.Optional(
+      t.Union([t.Literal("ITEM"), t.Literal("UNIT")], {
+        additionalProperties: false,
+      }),
+    ),
     quantity: t.Optional(t.Integer()),
     price: t.Optional(t.Number()),
+    charges: t.Optional(__nullable__(t.Number())),
+    extraCharges: t.Optional(__nullable__(t.Number())),
+    start: t.Optional(__nullable__(t.Date())),
+    end: t.Optional(__nullable__(t.Date())),
     description: t.Optional(t.String()),
     reference: t.Optional(t.String()),
     hasTax: t.Optional(t.Boolean()),
@@ -163,16 +227,31 @@ export const ItemPlainInputUpdate = t.Object(
 
 export const ItemRelationsInputCreate = t.Object(
   {
-    productService: t.Object(
-      {
-        connect: t.Object(
-          {
-            id: t.String({ additionalProperties: false }),
-          },
-          { additionalProperties: false },
-        ),
-      },
-      { additionalProperties: false },
+    productService: t.Optional(
+      t.Object(
+        {
+          connect: t.Object(
+            {
+              id: t.String({ additionalProperties: false }),
+            },
+            { additionalProperties: false },
+          ),
+        },
+        { additionalProperties: false },
+      ),
+    ),
+    unit: t.Optional(
+      t.Object(
+        {
+          connect: t.Object(
+            {
+              id: t.String({ additionalProperties: false }),
+            },
+            { additionalProperties: false },
+          ),
+        },
+        { additionalProperties: false },
+      ),
     ),
     invoice: t.Optional(
       t.Object(
@@ -220,16 +299,33 @@ export const ItemRelationsInputCreate = t.Object(
 export const ItemRelationsInputUpdate = t.Partial(
   t.Object(
     {
-      productService: t.Object(
-        {
-          connect: t.Object(
-            {
-              id: t.String({ additionalProperties: false }),
-            },
-            { additionalProperties: false },
-          ),
-        },
-        { additionalProperties: false },
+      productService: t.Partial(
+        t.Object(
+          {
+            connect: t.Object(
+              {
+                id: t.String({ additionalProperties: false }),
+              },
+              { additionalProperties: false },
+            ),
+            disconnect: t.Boolean(),
+          },
+          { additionalProperties: false },
+        ),
+      ),
+      unit: t.Partial(
+        t.Object(
+          {
+            connect: t.Object(
+              {
+                id: t.String({ additionalProperties: false }),
+              },
+              { additionalProperties: false },
+            ),
+            disconnect: t.Boolean(),
+          },
+          { additionalProperties: false },
+        ),
       ),
       invoice: t.Partial(
         t.Object(
@@ -287,9 +383,17 @@ export const ItemWhere = t.Partial(
           NOT: t.Union([Self, t.Array(Self, { additionalProperties: false })]),
           OR: t.Array(Self, { additionalProperties: false }),
           id: t.String(),
+          type: t.Union([t.Literal("ITEM"), t.Literal("UNIT")], {
+            additionalProperties: false,
+          }),
           quantity: t.Integer(),
           productServiceId: t.String(),
+          unitId: t.String(),
           price: t.Number(),
+          charges: t.Number(),
+          extraCharges: t.Number(),
+          start: t.Date(),
+          end: t.Date(),
           description: t.String(),
           reference: t.String(),
           hasTax: t.Boolean(),
@@ -298,9 +402,9 @@ export const ItemWhere = t.Partial(
           }),
           invoiceId: t.String(),
           quoteId: t.String(),
+          purchaseOrderId: t.String(),
           createdAt: t.Date(),
           updatedAt: t.Date(),
-          purchaseOrderId: t.String(),
         },
         { additionalProperties: false },
       ),
@@ -337,9 +441,17 @@ export const ItemWhereUnique = t.Recursive(
           t.Object(
             {
               id: t.String(),
+              type: t.Union([t.Literal("ITEM"), t.Literal("UNIT")], {
+                additionalProperties: false,
+              }),
               quantity: t.Integer(),
               productServiceId: t.String(),
+              unitId: t.String(),
               price: t.Number(),
+              charges: t.Number(),
+              extraCharges: t.Number(),
+              start: t.Date(),
+              end: t.Date(),
               description: t.String(),
               reference: t.String(),
               hasTax: t.Boolean(),
@@ -348,9 +460,9 @@ export const ItemWhereUnique = t.Recursive(
               }),
               invoiceId: t.String(),
               quoteId: t.String(),
+              purchaseOrderId: t.String(),
               createdAt: t.Date(),
               updatedAt: t.Date(),
-              purchaseOrderId: t.String(),
             },
             { additionalProperties: false },
           ),
@@ -365,10 +477,17 @@ export const ItemSelect = t.Partial(
   t.Object(
     {
       id: t.Boolean(),
+      type: t.Boolean(),
       quantity: t.Boolean(),
       productServiceId: t.Boolean(),
       productService: t.Boolean(),
+      unitId: t.Boolean(),
+      unit: t.Boolean(),
       price: t.Boolean(),
+      charges: t.Boolean(),
+      extraCharges: t.Boolean(),
+      start: t.Boolean(),
+      end: t.Boolean(),
       description: t.Boolean(),
       reference: t.Boolean(),
       hasTax: t.Boolean(),
@@ -377,10 +496,10 @@ export const ItemSelect = t.Partial(
       invoice: t.Boolean(),
       quoteId: t.Boolean(),
       quote: t.Boolean(),
-      createdAt: t.Boolean(),
-      updatedAt: t.Boolean(),
       purchaseOrder: t.Boolean(),
       purchaseOrderId: t.Boolean(),
+      createdAt: t.Boolean(),
+      updatedAt: t.Boolean(),
       _count: t.Boolean(),
     },
     { additionalProperties: false },
@@ -390,7 +509,9 @@ export const ItemSelect = t.Partial(
 export const ItemInclude = t.Partial(
   t.Object(
     {
+      type: t.Boolean(),
       productService: t.Boolean(),
+      unit: t.Boolean(),
       status: t.Boolean(),
       invoice: t.Boolean(),
       quote: t.Boolean(),
@@ -413,7 +534,22 @@ export const ItemOrderBy = t.Partial(
       productServiceId: t.Union([t.Literal("asc"), t.Literal("desc")], {
         additionalProperties: false,
       }),
+      unitId: t.Union([t.Literal("asc"), t.Literal("desc")], {
+        additionalProperties: false,
+      }),
       price: t.Union([t.Literal("asc"), t.Literal("desc")], {
+        additionalProperties: false,
+      }),
+      charges: t.Union([t.Literal("asc"), t.Literal("desc")], {
+        additionalProperties: false,
+      }),
+      extraCharges: t.Union([t.Literal("asc"), t.Literal("desc")], {
+        additionalProperties: false,
+      }),
+      start: t.Union([t.Literal("asc"), t.Literal("desc")], {
+        additionalProperties: false,
+      }),
+      end: t.Union([t.Literal("asc"), t.Literal("desc")], {
         additionalProperties: false,
       }),
       description: t.Union([t.Literal("asc"), t.Literal("desc")], {
@@ -431,13 +567,13 @@ export const ItemOrderBy = t.Partial(
       quoteId: t.Union([t.Literal("asc"), t.Literal("desc")], {
         additionalProperties: false,
       }),
+      purchaseOrderId: t.Union([t.Literal("asc"), t.Literal("desc")], {
+        additionalProperties: false,
+      }),
       createdAt: t.Union([t.Literal("asc"), t.Literal("desc")], {
         additionalProperties: false,
       }),
       updatedAt: t.Union([t.Literal("asc"), t.Literal("desc")], {
-        additionalProperties: false,
-      }),
-      purchaseOrderId: t.Union([t.Literal("asc"), t.Literal("desc")], {
         additionalProperties: false,
       }),
     },

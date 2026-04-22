@@ -1,6 +1,22 @@
 import type { CardBalanceProps } from "@/components/card/card-balance";
 import type { DeletionKey } from "@/types/deletion";
 
+
+export const dueDates = [
+    { value: "30", label: "30 jours" },
+    { value: "60", label: "60 jours" },
+    { value: "90", label: "90 jours" },
+    { value: "120", label: "120 jours" },
+    { value: "150", label: "150 jours" },
+    { value: "180", label: "180 jours" },
+    { value: "210", label: "210 jours" },
+    { value: "240", label: "240 jours" },
+    { value: "270", label: "270 jours" },
+    { value: "300", label: "300 jours" },
+    { value: "330", label: "330 jours" },
+    { value: "360", label: "360 jours" },
+]
+
 export const balances: CardBalanceProps[] = [
     {
         id: 'bcdodnd',

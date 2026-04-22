@@ -17,9 +17,7 @@ export type InvoiceStats = {
 
 export type InvoiceTab = {
     id: string;
-    type: "OWNER" | "TENANT";
     reference: string;
-    issue: Date;
     isDeleting: boolean;
     client: string;
     amount: string;
@@ -37,10 +35,11 @@ export type Invoice = {
     discountType: "PERCENT" | "MONEY";
     status: "PAID" | "PENDING" | "OVERDUE";
     start: Date;
-    end: Date;
+    end: string;
     note: string;
     hasTax: boolean;
     type: "OWNER" | "TENANT";
+    period?: string;
     ownerId?: string;
     tenantId?: string;
     owner?: Owner;

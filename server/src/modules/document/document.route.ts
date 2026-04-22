@@ -2,7 +2,7 @@ import { Elysia } from "elysia";
 import { authPlugin } from "../auth/auth";
 import { prisma } from "../../lib/prisma";
 import { canAccess } from "../auth/permission";
-import { formatDateToString, generateRef } from "../../lib/utils";
+import { dueDate, formatDateToString, generateRef } from "../../lib/utils";
 import request from "./type";
 import { shareSchema } from "../../lib/zod/share";
 import { AttachementProps, sendMail } from "../../lib/email";
@@ -50,7 +50,7 @@ export const documentRoutes = new Elysia({ prefix: "/document" })
                     amountType: invoice.hasTax ? "TTC" : "HT",
                     type: invoice.type,
                     issue: formatDateToString(invoice.start),
-                    due: formatDateToString(invoice.end),
+                    due: formatDateToString(dueDate(invoice.start, Number(invoice.end))),
                     amount: invoice.price.toString(),
                     amountPaid: invoice.amountPaid.toString(),
                     status: invoice.status,
@@ -257,6 +257,7 @@ export const documentRoutes = new Elysia({ prefix: "/document" })
                         select: {
                             reference: true,
                             price: true,
+                            start: true,
                             end: true,
                             type: true,
                             owner: {
@@ -277,7 +278,7 @@ export const documentRoutes = new Elysia({ prefix: "/document" })
                     if (!invoice) return status(404, { message: "Facture non trouvée" });
                     reference = generateRef(prefix?.invoice, invoice.reference);
                     price = invoice.price.toNumber();
-                    due = invoice.end;
+                    due = dueDate(invoice.start, Number(invoice.end));
                     client = invoice.type === "OWNER" ?
                         `${invoice.owner?.firstname} ${invoice.owner?.lastname}` :
                         `${invoice.tenant?.firstname} ${invoice.tenant?.lastname}`;

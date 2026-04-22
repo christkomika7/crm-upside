@@ -66,6 +66,7 @@ export const CheckInOutRelations = t.Object(
         water: t.Boolean(),
         electricity: t.Boolean(),
         tv: t.Boolean(),
+        description: t.String(),
         rent: t.Number(),
         charges: t.Number(),
         extraCharges: t.Number(),

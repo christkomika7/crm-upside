@@ -9,7 +9,6 @@ type DocumentPreviewProps = {
     title: string;
     type: 'INVOICE' | 'QUOTE' | "PURCHASE_ORDER";
     data: Document
-
 };
 
 export default function RecordDocument({
@@ -17,7 +16,6 @@ export default function RecordDocument({
     type,
     data
 }: DocumentPreviewProps) {
-    console.log({ data })
     const id = data.id;
     const position = data.upside.design.position as "LEFT" | "MIDDLE" | "RIGHT";
     const size = data.upside.design.size as "SMALL" | "MEDIUM" | "LARGE";
@@ -54,7 +52,10 @@ export default function RecordDocument({
 
 
     const result = calculateTaxes({
-        items,
+        items: items.map((item) => ({
+            ...item,
+            price: item.type === "ITEM" ? item.price : new Decimal(item.price).plus(new Decimal(item.charges || 0)).plus(new Decimal(item.extraCharges || 0)).toNumber()
+        })),
         taxes: data.taxes ?? [],
         discount,
         amountType: data.amountType,
@@ -210,12 +211,12 @@ export default function RecordDocument({
 
                         {/* PRIX UNITAIRE */}
                         <div className="text-right">
-                            {formatNumber(item.price)} FCFA
+                            {item.type === "ITEM" ? formatNumber(item.price) : formatNumber(new Decimal(item.price).plus(new Decimal(item.charges || 0)).plus(new Decimal(item.extraCharges || 0)).toNumber())} FCFA
                         </div>
 
                         {/* PRIX TOTAL */}
                         <div className="pr-[27px] text-right">
-                            {formatNumber(item.price * item.quantity)} FCFA
+                            {formatNumber(item.type === "ITEM" ? item.price * item.quantity : new Decimal(item.price).plus(new Decimal(item.charges || 0)).plus(new Decimal(item.extraCharges || 0)).toNumber() * item.quantity)} FCFA
                         </div>
                     </div>
                 ))}

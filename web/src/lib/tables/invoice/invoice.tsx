@@ -7,7 +7,7 @@ import { Status, StatusIndicator, StatusLabel } from "@/components/ui/status";
 import { apiFetch, crudService } from "@/lib/api";
 import { renderComponentToPDF } from "@/lib/document";
 import { queryClient } from "@/lib/query-client";
-import { cn, formatNumber } from "@/lib/utils";
+import { formatNumber } from "@/lib/utils";
 import type { Document as DocumentType } from "@/types/document";
 import type { InvoiceTab } from "@/types/invoice";
 import { useMutation, useQuery } from "@tanstack/react-query";
@@ -35,27 +35,6 @@ export const columns: ColumnDef<InvoiceTab>[] = [
         },
         cell: ({ row }) => (
             <div className="capitalize">{row.getValue("reference")}</div>
-        ),
-    },
-    {
-        accessorKey: "type",
-        header: ({ column }) => {
-            return (
-                <Button
-                    variant="ghost"
-                    className="text-sm! font-medium cursor-pointer text-left pl-0!"
-                    onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-                >
-                    Type
-                    <ArrowUpDownIcon className="size-3.5 text-neutral-500" />
-                </Button>
-            )
-        },
-        cell: ({ row }) => (
-            <div className={cn("capitalize", {
-                "text-blue-500": row.getValue("type") === "TENANT",
-                "text-amber-400": row.getValue("type") === "OWNER"
-            })}>{row.getValue("type") === "TENANT" ? "Locataire" : "Propriétaire"}</div>
         ),
     },
     {
@@ -135,24 +114,6 @@ export const columns: ColumnDef<InvoiceTab>[] = [
                     <StatusLabel>{row.getValue("status") === 'PAID' ? 'Payé' : row.getValue("status") === 'PENDING' ? 'En attente' : 'En retard'}</StatusLabel>
                 </Status>
             </div>
-        ),
-    },
-    {
-        accessorKey: "issue",
-        header: ({ column }) => {
-            return (
-                <Button
-                    variant="ghost"
-                    className="text-sm! font-medium cursor-pointer text-left pl-0!"
-                    onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-                >
-                    Date d'emission
-                    <ArrowUpDownIcon className="size-3.5 text-neutral-500" />
-                </Button>
-            )
-        },
-        cell: ({ row }) => (
-            <div className="capitalize">{row.getValue("issue")}</div>
         ),
     },
     {

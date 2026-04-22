@@ -18,6 +18,7 @@ export default {
         }, { error: "Le type de client est requis." }),
         price: t.String({ error: "Le prix est requis." }),
         discount: t.Optional(t.String()),
+        period: t.Optional(t.String()),
         discountType: t.Optional(t.Enum({
             PERCENT: "PERCENT",
             MONEY: "MONEY",
@@ -26,18 +27,28 @@ export default {
         client: t.String({ error: "Le client est requis." }),
         items: t.Array(t.Object({
             id: t.String({ error: "L'identifiant est requis." }),
+            type: t.Enum({
+                ITEM: "ITEM",
+                UNIT: "UNIT",
+            }, { error: "Le type de l'article est requis." }),
             reference: t.String({ error: "La référence est requise." }),
             description: t.String({ error: "La description est requise." }),
             price: t.Number({ error: "Le prix est requis." }),
+            charges: t.Optional(t.Number()),
+            extraCharges: t.Optional(t.Number()),
+            start: t.Optional(t.Transform(t.String())
+                .Decode(value => new Date(value))
+                .Encode(value => value.toISOString())),
+            end: t.Optional(t.Transform(t.String())
+                .Decode(value => new Date(value))
+                .Encode(value => value.toISOString())),
             quantity: t.Number({ error: "La quantité est requise." }),
             hasTax: t.Boolean(),
         })),
         start: t.Transform(t.String({ error: "La date de début est requise." }))
             .Decode(value => new Date(value))
             .Encode(value => value.toISOString()),
-        end: t.Transform(t.String({ error: "La date de fin est requise." }))
-            .Decode(value => new Date(value))
-            .Encode(value => value.toISOString()),
+        end: t.String({ error: "L'échéance est requise." }),
         note: t.Optional(t.String()),
     })
 }

@@ -5,7 +5,7 @@ import { canAccess } from "../auth/permission";
 import request from "./type";
 import Decimal from "decimal.js";
 import { invoiceSchema } from "../../lib/zod/invoices";
-import { formatDateToString, generateRef } from "../../lib/utils";
+import { dueDate, formatDateToString, generateRef } from "../../lib/utils";
 import { $Enums } from "../../generated/prisma/client";
 
 export const invoiceRoutes = new Elysia({ prefix: "/invoice" })
@@ -78,8 +78,6 @@ export const invoiceRoutes = new Elysia({ prefix: "/invoice" })
         return invoices.map((invoice) => ({
             id: invoice.id,
             reference: generateRef(reference?.invoice, invoice.reference),
-            type: invoice.type,
-            issue: formatDateToString(invoice.start),
             isDeleting: invoice.isDeleting,
             client:
                 invoice.type === "OWNER"
@@ -88,7 +86,7 @@ export const invoiceRoutes = new Elysia({ prefix: "/invoice" })
             amount: invoice.price.toString(),
             amountPaid: invoice.amountPaid.toString(),
             status: invoice.status,
-            due: formatDateToString(invoice.end),
+            due: formatDateToString(dueDate(invoice.start, Number(invoice.end))),
         }));
     }, { auth: true, query: request.queryType })
     .get("/:id", async ({ params, permission, status }) => {
@@ -147,14 +145,18 @@ export const invoiceRoutes = new Elysia({ prefix: "/invoice" })
                     type: invoice.type,
                     start: invoice.start,
                     end: invoice.end,
+                    period: invoice.period,
                     note: invoice.note,
                     ...(invoice.type === "OWNER" ? { ownerId: invoice.ownerId } : { tenantId: invoice.tenantId }),
                     items: {
                         createMany: {
                             data: invoice.items.map((item) => ({
-                                productServiceId: item.productServiceId,
+                                ...(item.type === "UNIT" ? { unitId: item.id } : { productServiceId: item.id }),
+                                type: item.type,
                                 quantity: item.quantity,
                                 price: new Decimal(item.price),
+                                ...(item.type === "UNIT" ? { charges: new Decimal(item.charges || 0), extraCharges: new Decimal(item.extraCharges || 0), } : {}),
+                                ...(item.start && item.end ? { start: item.start, end: item.end } : {}),
                                 description: item.description,
                                 hasTax: item.hasTax,
                                 reference: item.reference
@@ -207,6 +209,8 @@ export const invoiceRoutes = new Elysia({ prefix: "/invoice" })
         if (!canAccess(permission, "invoicing", ['create'])) {
             return status(403, { message: "Accès refusé" });
         }
+
+
         try {
             const { success, data } = invoiceSchema.safeParse(body);
 
@@ -224,13 +228,17 @@ export const invoiceRoutes = new Elysia({ prefix: "/invoice" })
                     start: data.start,
                     end: data.end,
                     note: data.note,
+                    period: data.period,
                     ...(data.type === "OWNER" ? { ownerId: data.client } : { tenantId: data.client }),
                     items: {
                         createMany: {
                             data: data.items.map((item) => ({
-                                productServiceId: item.id,
+                                ...(item.type === "UNIT" ? { unitId: item.id } : { productServiceId: item.id }),
+                                type: item.type,
                                 quantity: item.quantity,
                                 price: new Decimal(item.price),
+                                ...(item.type === "UNIT" ? { charges: new Decimal(item.charges || 0), extraCharges: new Decimal(item.extraCharges || 0), } : {}),
+                                ...(item.start && item.end ? { start: item.start, end: item.end } : {}),
                                 description: item.description,
                                 hasTax: item.hasTax,
                                 reference: item.reference
@@ -316,8 +324,6 @@ export const invoiceRoutes = new Elysia({ prefix: "/invoice" })
                     data: { ownerId: null, tenantId: null }
                 })
 
-                console.log(invoice)
-                console.log(data)
 
                 await tx.invoice.update({
                     where: {
@@ -332,13 +338,17 @@ export const invoiceRoutes = new Elysia({ prefix: "/invoice" })
                         start: data.start,
                         end: data.end,
                         note: data.note,
+                        period: data.period,
                         ...(data.type === "OWNER" ? { ownerId: data.client } : { tenantId: data.client }),
                         items: {
                             createMany: {
                                 data: data.items.map((item) => ({
-                                    productServiceId: item.id,
+                                    ...(item.type === "UNIT" ? { unitId: item.id } : { productServiceId: item.id }),
+                                    type: item.type,
                                     quantity: item.quantity,
                                     price: new Decimal(item.price),
+                                    ...(item.type === "UNIT" ? { charges: new Decimal(item.charges || 0), extraCharges: new Decimal(item.extraCharges || 0), } : {}),
+                                    ...(item.start && item.end ? { start: item.start, end: item.end } : {}),
                                     description: item.description,
                                     hasTax: item.hasTax,
                                     reference: item.reference

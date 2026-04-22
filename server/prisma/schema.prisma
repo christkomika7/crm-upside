@@ -62,6 +62,11 @@ enum ContractType {
   MANDATE
 }
 
+enum ItemType {
+  ITEM
+  UNIT
+}
+
 enum DeletionType {
   ACCOUNTING
   OWNER
@@ -240,6 +245,7 @@ model Unit {
   water          Boolean
   electricity    Boolean
   tv             Boolean
+  description    String
   rent           Decimal    @default(0) @db.Decimal(15, 2)
   charges        Decimal    @default(0) @db.Decimal(15, 2)
   extraCharges   Decimal    @default(0) @db.Decimal(15, 2)
@@ -263,6 +269,7 @@ model Unit {
   updatedAt            DateTime            @updatedAt
   propertyManagement   PropertyManagement? @relation(fields: [propertyManagementId], references: [id])
   propertyManagementId String?
+  items                Item[]
 
   @@map("unit")
 }
@@ -453,25 +460,35 @@ model ProductService {
 }
 
 model Item {
-  id               String         @id @default(cuid())
-  quantity         Int
-  productServiceId String
-  productService   ProductService @relation(fields: [productServiceId], references: [id])
-  price            Decimal        @default(0) @db.Decimal(15, 2)
-  description      String
-  reference        String
-  hasTax           Boolean        @default(false)
-  status           ItemStatus     @default(USED)
+  id       String   @id @default(cuid())
+  type     ItemType @default(ITEM)
+  quantity Int
 
-  invoiceId String?
-  invoice   Invoice? @relation(fields: [invoiceId], references: [id])
-  quoteId   String?
-  quote     Quote?   @relation(fields: [quoteId], references: [id])
+  productServiceId String?
+  productService   ProductService? @relation(fields: [productServiceId], references: [id])
 
-  createdAt       DateTime       @default(now())
-  updatedAt       DateTime       @updatedAt
+  unitId String?
+  unit   Unit?   @relation(fields: [unitId], references: [id])
+
+  price        Decimal    @default(0) @db.Decimal(15, 2)
+  charges      Decimal?   @default(0) @db.Decimal(15, 2)
+  extraCharges Decimal?   @default(0) @db.Decimal(15, 2)
+  start        DateTime?
+  end          DateTime?
+  description  String
+  reference    String
+  hasTax       Boolean    @default(false)
+  status       ItemStatus @default(USED)
+
+  invoiceId       String?
+  invoice         Invoice?       @relation(fields: [invoiceId], references: [id])
+  quoteId         String?
+  quote           Quote?         @relation(fields: [quoteId], references: [id])
   purchaseOrder   purchaseOrder? @relation(fields: [purchaseOrderId], references: [id])
   purchaseOrderId String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
   @@map("item")
 }
@@ -493,10 +510,11 @@ model Invoice {
   tenant   Tenant? @relation(fields: [tenantId], references: [id])
   items    Item[]
 
-  note String?
+  period String?
+  note   String?
 
   start DateTime
-  end   DateTime
+  end   String
 
   isDeleting Boolean @default(false)
 

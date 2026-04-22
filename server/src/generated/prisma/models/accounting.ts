@@ -825,10 +825,6 @@ export type EnumAccountingTypeFieldUpdateOperationsInput = {
   set?: $Enums.AccountingType
 }
 
-export type NullableDateTimeFieldUpdateOperationsInput = {
-  set?: Date | string | null
-}
-
 export type accountingUpdatedocumentsInput = {
   set?: string[]
   push?: string | string[]

@@ -61,6 +61,8 @@ export default function Preview({
         setTimeout(() => {
             setIsDownloading(false);
         }, remaining);
+
+        console.log(invoice)
     }
 
     return (
@@ -68,7 +70,6 @@ export default function Preview({
             <div className="flex-1">
                 <div className="w-full h-full max-w-2xl  bg-white rounded-lg flex relative justify-center gap-3">
                     <RecordDocument id={id} title="Facture" type="INVOICE" data={invoice} />
-
                 </div>
             </div>
 

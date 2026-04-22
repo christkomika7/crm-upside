@@ -67,6 +67,7 @@ export type UnitMinAggregateOutputType = {
   water: boolean | null
   electricity: boolean | null
   tv: boolean | null
+  description: string | null
   rent: runtime.Decimal | null
   charges: runtime.Decimal | null
   extraCharges: runtime.Decimal | null
@@ -94,6 +95,7 @@ export type UnitMaxAggregateOutputType = {
   water: boolean | null
   electricity: boolean | null
   tv: boolean | null
+  description: string | null
   rent: runtime.Decimal | null
   charges: runtime.Decimal | null
   extraCharges: runtime.Decimal | null
@@ -121,6 +123,7 @@ export type UnitCountAggregateOutputType = {
   water: number
   electricity: number
   tv: number
+  description: number
   rent: number
   charges: number
   extraCharges: number
@@ -177,6 +180,7 @@ export type UnitMinAggregateInputType = {
   water?: true
   electricity?: true
   tv?: true
+  description?: true
   rent?: true
   charges?: true
   extraCharges?: true
@@ -204,6 +208,7 @@ export type UnitMaxAggregateInputType = {
   water?: true
   electricity?: true
   tv?: true
+  description?: true
   rent?: true
   charges?: true
   extraCharges?: true
@@ -231,6 +236,7 @@ export type UnitCountAggregateInputType = {
   water?: true
   electricity?: true
   tv?: true
+  description?: true
   rent?: true
   charges?: true
   extraCharges?: true
@@ -346,6 +352,7 @@ export type UnitGroupByOutputType = {
   water: boolean
   electricity: boolean
   tv: boolean
+  description: string
   rent: runtime.Decimal
   charges: runtime.Decimal
   extraCharges: runtime.Decimal
@@ -397,6 +404,7 @@ export type UnitWhereInput = {
   water?: Prisma.BoolFilter<"Unit"> | boolean
   electricity?: Prisma.BoolFilter<"Unit"> | boolean
   tv?: Prisma.BoolFilter<"Unit"> | boolean
+  description?: Prisma.StringFilter<"Unit"> | string
   rent?: Prisma.DecimalFilter<"Unit"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   charges?: Prisma.DecimalFilter<"Unit"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   extraCharges?: Prisma.DecimalFilter<"Unit"> | runtime.Decimal | runtime.DecimalJsLike | number | string
@@ -415,6 +423,7 @@ export type UnitWhereInput = {
   building?: Prisma.XOR<Prisma.BuildingScalarRelationFilter, Prisma.BuildingWhereInput>
   type?: Prisma.XOR<Prisma.TypeScalarRelationFilter, Prisma.TypeWhereInput>
   propertyManagement?: Prisma.XOR<Prisma.PropertyManagementNullableScalarRelationFilter, Prisma.PropertyManagementWhereInput> | null
+  items?: Prisma.ItemListRelationFilter
 }
 
 export type UnitOrderByWithRelationInput = {
@@ -432,6 +441,7 @@ export type UnitOrderByWithRelationInput = {
   water?: Prisma.SortOrder
   electricity?: Prisma.SortOrder
   tv?: Prisma.SortOrder
+  description?: Prisma.SortOrder
   rent?: Prisma.SortOrder
   charges?: Prisma.SortOrder
   extraCharges?: Prisma.SortOrder
@@ -450,6 +460,7 @@ export type UnitOrderByWithRelationInput = {
   building?: Prisma.BuildingOrderByWithRelationInput
   type?: Prisma.TypeOrderByWithRelationInput
   propertyManagement?: Prisma.PropertyManagementOrderByWithRelationInput
+  items?: Prisma.ItemOrderByRelationAggregateInput
 }
 
 export type UnitWhereUniqueInput = Prisma.AtLeast<{
@@ -470,6 +481,7 @@ export type UnitWhereUniqueInput = Prisma.AtLeast<{
   water?: Prisma.BoolFilter<"Unit"> | boolean
   electricity?: Prisma.BoolFilter<"Unit"> | boolean
   tv?: Prisma.BoolFilter<"Unit"> | boolean
+  description?: Prisma.StringFilter<"Unit"> | string
   rent?: Prisma.DecimalFilter<"Unit"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   charges?: Prisma.DecimalFilter<"Unit"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   extraCharges?: Prisma.DecimalFilter<"Unit"> | runtime.Decimal | runtime.DecimalJsLike | number | string
@@ -488,6 +500,7 @@ export type UnitWhereUniqueInput = Prisma.AtLeast<{
   building?: Prisma.XOR<Prisma.BuildingScalarRelationFilter, Prisma.BuildingWhereInput>
   type?: Prisma.XOR<Prisma.TypeScalarRelationFilter, Prisma.TypeWhereInput>
   propertyManagement?: Prisma.XOR<Prisma.PropertyManagementNullableScalarRelationFilter, Prisma.PropertyManagementWhereInput> | null
+  items?: Prisma.ItemListRelationFilter
 }, "id" | "reference">
 
 export type UnitOrderByWithAggregationInput = {
@@ -505,6 +518,7 @@ export type UnitOrderByWithAggregationInput = {
   water?: Prisma.SortOrder
   electricity?: Prisma.SortOrder
   tv?: Prisma.SortOrder
+  description?: Prisma.SortOrder
   rent?: Prisma.SortOrder
   charges?: Prisma.SortOrder
   extraCharges?: Prisma.SortOrder
@@ -541,6 +555,7 @@ export type UnitScalarWhereWithAggregatesInput = {
   water?: Prisma.BoolWithAggregatesFilter<"Unit"> | boolean
   electricity?: Prisma.BoolWithAggregatesFilter<"Unit"> | boolean
   tv?: Prisma.BoolWithAggregatesFilter<"Unit"> | boolean
+  description?: Prisma.StringWithAggregatesFilter<"Unit"> | string
   rent?: Prisma.DecimalWithAggregatesFilter<"Unit"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   charges?: Prisma.DecimalWithAggregatesFilter<"Unit"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   extraCharges?: Prisma.DecimalWithAggregatesFilter<"Unit"> | runtime.Decimal | runtime.DecimalJsLike | number | string
@@ -569,6 +584,7 @@ export type UnitCreateInput = {
   water: boolean
   electricity: boolean
   tv: boolean
+  description: string
   rent?: runtime.Decimal | runtime.DecimalJsLike | number | string
   charges?: runtime.Decimal | runtime.DecimalJsLike | number | string
   extraCharges?: runtime.Decimal | runtime.DecimalJsLike | number | string
@@ -584,6 +600,7 @@ export type UnitCreateInput = {
   building: Prisma.BuildingCreateNestedOneWithoutUnitsInput
   type: Prisma.TypeCreateNestedOneWithoutUnitInput
   propertyManagement?: Prisma.PropertyManagementCreateNestedOneWithoutUnitsInput
+  items?: Prisma.ItemCreateNestedManyWithoutUnitInput
 }
 
 export type UnitUncheckedCreateInput = {
@@ -601,6 +618,7 @@ export type UnitUncheckedCreateInput = {
   water: boolean
   electricity: boolean
   tv: boolean
+  description: string
   rent?: runtime.Decimal | runtime.DecimalJsLike | number | string
   charges?: runtime.Decimal | runtime.DecimalJsLike | number | string
   extraCharges?: runtime.Decimal | runtime.DecimalJsLike | number | string
@@ -616,6 +634,7 @@ export type UnitUncheckedCreateInput = {
   reservations?: Prisma.ReservationUncheckedCreateNestedManyWithoutUnitInput
   checkInOuts?: Prisma.CheckInOutUncheckedCreateNestedManyWithoutUnitInput
   accountings?: Prisma.accountingUncheckedCreateNestedManyWithoutUnitInput
+  items?: Prisma.ItemUncheckedCreateNestedManyWithoutUnitInput
 }
 
 export type UnitUpdateInput = {
@@ -633,6 +652,7 @@ export type UnitUpdateInput = {
   water?: Prisma.BoolFieldUpdateOperationsInput | boolean
   electricity?: Prisma.BoolFieldUpdateOperationsInput | boolean
   tv?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  description?: Prisma.StringFieldUpdateOperationsInput | string
   rent?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   charges?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   extraCharges?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
@@ -648,6 +668,7 @@ export type UnitUpdateInput = {
   building?: Prisma.BuildingUpdateOneRequiredWithoutUnitsNestedInput
   type?: Prisma.TypeUpdateOneRequiredWithoutUnitNestedInput
   propertyManagement?: Prisma.PropertyManagementUpdateOneWithoutUnitsNestedInput
+  items?: Prisma.ItemUpdateManyWithoutUnitNestedInput
 }
 
 export type UnitUncheckedUpdateInput = {
@@ -665,6 +686,7 @@ export type UnitUncheckedUpdateInput = {
   water?: Prisma.BoolFieldUpdateOperationsInput | boolean
   electricity?: Prisma.BoolFieldUpdateOperationsInput | boolean
   tv?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  description?: Prisma.StringFieldUpdateOperationsInput | string
   rent?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   charges?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   extraCharges?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
@@ -680,6 +702,7 @@ export type UnitUncheckedUpdateInput = {
   reservations?: Prisma.ReservationUncheckedUpdateManyWithoutUnitNestedInput
   checkInOuts?: Prisma.CheckInOutUncheckedUpdateManyWithoutUnitNestedInput
   accountings?: Prisma.accountingUncheckedUpdateManyWithoutUnitNestedInput
+  items?: Prisma.ItemUncheckedUpdateManyWithoutUnitNestedInput
 }
 
 export type UnitCreateManyInput = {
@@ -697,6 +720,7 @@ export type UnitCreateManyInput = {
   water: boolean
   electricity: boolean
   tv: boolean
+  description: string
   rent?: runtime.Decimal | runtime.DecimalJsLike | number | string
   charges?: runtime.Decimal | runtime.DecimalJsLike | number | string
   extraCharges?: runtime.Decimal | runtime.DecimalJsLike | number | string
@@ -725,6 +749,7 @@ export type UnitUpdateManyMutationInput = {
   water?: Prisma.BoolFieldUpdateOperationsInput | boolean
   electricity?: Prisma.BoolFieldUpdateOperationsInput | boolean
   tv?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  description?: Prisma.StringFieldUpdateOperationsInput | string
   rent?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   charges?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   extraCharges?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
@@ -750,6 +775,7 @@ export type UnitUncheckedUpdateManyInput = {
   water?: Prisma.BoolFieldUpdateOperationsInput | boolean
   electricity?: Prisma.BoolFieldUpdateOperationsInput | boolean
   tv?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  description?: Prisma.StringFieldUpdateOperationsInput | string
   rent?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   charges?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   extraCharges?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
@@ -788,6 +814,7 @@ export type UnitCountOrderByAggregateInput = {
   water?: Prisma.SortOrder
   electricity?: Prisma.SortOrder
   tv?: Prisma.SortOrder
+  description?: Prisma.SortOrder
   rent?: Prisma.SortOrder
   charges?: Prisma.SortOrder
   extraCharges?: Prisma.SortOrder
@@ -829,6 +856,7 @@ export type UnitMaxOrderByAggregateInput = {
   water?: Prisma.SortOrder
   electricity?: Prisma.SortOrder
   tv?: Prisma.SortOrder
+  description?: Prisma.SortOrder
   rent?: Prisma.SortOrder
   charges?: Prisma.SortOrder
   extraCharges?: Prisma.SortOrder
@@ -856,6 +884,7 @@ export type UnitMinOrderByAggregateInput = {
   water?: Prisma.SortOrder
   electricity?: Prisma.SortOrder
   tv?: Prisma.SortOrder
+  description?: Prisma.SortOrder
   rent?: Prisma.SortOrder
   charges?: Prisma.SortOrder
   extraCharges?: Prisma.SortOrder
@@ -1082,6 +1111,22 @@ export type UnitUncheckedUpdateManyWithoutPropertyManagementNestedInput = {
   deleteMany?: Prisma.UnitScalarWhereInput | Prisma.UnitScalarWhereInput[]
 }
 
+export type UnitCreateNestedOneWithoutItemsInput = {
+  create?: Prisma.XOR<Prisma.UnitCreateWithoutItemsInput, Prisma.UnitUncheckedCreateWithoutItemsInput>
+  connectOrCreate?: Prisma.UnitCreateOrConnectWithoutItemsInput
+  connect?: Prisma.UnitWhereUniqueInput
+}
+
+export type UnitUpdateOneWithoutItemsNestedInput = {
+  create?: Prisma.XOR<Prisma.UnitCreateWithoutItemsInput, Prisma.UnitUncheckedCreateWithoutItemsInput>
+  connectOrCreate?: Prisma.UnitCreateOrConnectWithoutItemsInput
+  upsert?: Prisma.UnitUpsertWithoutItemsInput
+  disconnect?: Prisma.UnitWhereInput | boolean
+  delete?: Prisma.UnitWhereInput | boolean
+  connect?: Prisma.UnitWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UnitUpdateToOneWithWhereWithoutItemsInput, Prisma.UnitUpdateWithoutItemsInput>, Prisma.UnitUncheckedUpdateWithoutItemsInput>
+}
+
 export type UnitCreateNestedOneWithoutCheckInOutsInput = {
   create?: Prisma.XOR<Prisma.UnitCreateWithoutCheckInOutsInput, Prisma.UnitUncheckedCreateWithoutCheckInOutsInput>
   connectOrCreate?: Prisma.UnitCreateOrConnectWithoutCheckInOutsInput
@@ -1127,6 +1172,7 @@ export type UnitCreateWithoutBuildingInput = {
   water: boolean
   electricity: boolean
   tv: boolean
+  description: string
   rent?: runtime.Decimal | runtime.DecimalJsLike | number | string
   charges?: runtime.Decimal | runtime.DecimalJsLike | number | string
   extraCharges?: runtime.Decimal | runtime.DecimalJsLike | number | string
@@ -1141,6 +1187,7 @@ export type UnitCreateWithoutBuildingInput = {
   accountings?: Prisma.accountingCreateNestedManyWithoutUnitInput
   type: Prisma.TypeCreateNestedOneWithoutUnitInput
   propertyManagement?: Prisma.PropertyManagementCreateNestedOneWithoutUnitsInput
+  items?: Prisma.ItemCreateNestedManyWithoutUnitInput
 }
 
 export type UnitUncheckedCreateWithoutBuildingInput = {
@@ -1158,6 +1205,7 @@ export type UnitUncheckedCreateWithoutBuildingInput = {
   water: boolean
   electricity: boolean
   tv: boolean
+  description: string
   rent?: runtime.Decimal | runtime.DecimalJsLike | number | string
   charges?: runtime.Decimal | runtime.DecimalJsLike | number | string
   extraCharges?: runtime.Decimal | runtime.DecimalJsLike | number | string
@@ -1172,6 +1220,7 @@ export type UnitUncheckedCreateWithoutBuildingInput = {
   reservations?: Prisma.ReservationUncheckedCreateNestedManyWithoutUnitInput
   checkInOuts?: Prisma.CheckInOutUncheckedCreateNestedManyWithoutUnitInput
   accountings?: Prisma.accountingUncheckedCreateNestedManyWithoutUnitInput
+  items?: Prisma.ItemUncheckedCreateNestedManyWithoutUnitInput
 }
 
 export type UnitCreateOrConnectWithoutBuildingInput = {
@@ -1218,6 +1267,7 @@ export type UnitScalarWhereInput = {
   water?: Prisma.BoolFilter<"Unit"> | boolean
   electricity?: Prisma.BoolFilter<"Unit"> | boolean
   tv?: Prisma.BoolFilter<"Unit"> | boolean
+  description?: Prisma.StringFilter<"Unit"> | string
   rent?: Prisma.DecimalFilter<"Unit"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   charges?: Prisma.DecimalFilter<"Unit"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   extraCharges?: Prisma.DecimalFilter<"Unit"> | runtime.Decimal | runtime.DecimalJsLike | number | string
@@ -1246,6 +1296,7 @@ export type UnitCreateWithoutTypeInput = {
   water: boolean
   electricity: boolean
   tv: boolean
+  description: string
   rent?: runtime.Decimal | runtime.DecimalJsLike | number | string
   charges?: runtime.Decimal | runtime.DecimalJsLike | number | string
   extraCharges?: runtime.Decimal | runtime.DecimalJsLike | number | string
@@ -1260,6 +1311,7 @@ export type UnitCreateWithoutTypeInput = {
   accountings?: Prisma.accountingCreateNestedManyWithoutUnitInput
   building: Prisma.BuildingCreateNestedOneWithoutUnitsInput
   propertyManagement?: Prisma.PropertyManagementCreateNestedOneWithoutUnitsInput
+  items?: Prisma.ItemCreateNestedManyWithoutUnitInput
 }
 
 export type UnitUncheckedCreateWithoutTypeInput = {
@@ -1277,6 +1329,7 @@ export type UnitUncheckedCreateWithoutTypeInput = {
   water: boolean
   electricity: boolean
   tv: boolean
+  description: string
   rent?: runtime.Decimal | runtime.DecimalJsLike | number | string
   charges?: runtime.Decimal | runtime.DecimalJsLike | number | string
   extraCharges?: runtime.Decimal | runtime.DecimalJsLike | number | string
@@ -1291,6 +1344,7 @@ export type UnitUncheckedCreateWithoutTypeInput = {
   reservations?: Prisma.ReservationUncheckedCreateNestedManyWithoutUnitInput
   checkInOuts?: Prisma.CheckInOutUncheckedCreateNestedManyWithoutUnitInput
   accountings?: Prisma.accountingUncheckedCreateNestedManyWithoutUnitInput
+  items?: Prisma.ItemUncheckedCreateNestedManyWithoutUnitInput
 }
 
 export type UnitCreateOrConnectWithoutTypeInput = {
@@ -1334,6 +1388,7 @@ export type UnitCreateWithoutRentalsInput = {
   water: boolean
   electricity: boolean
   tv: boolean
+  description: string
   rent?: runtime.Decimal | runtime.DecimalJsLike | number | string
   charges?: runtime.Decimal | runtime.DecimalJsLike | number | string
   extraCharges?: runtime.Decimal | runtime.DecimalJsLike | number | string
@@ -1348,6 +1403,7 @@ export type UnitCreateWithoutRentalsInput = {
   building: Prisma.BuildingCreateNestedOneWithoutUnitsInput
   type: Prisma.TypeCreateNestedOneWithoutUnitInput
   propertyManagement?: Prisma.PropertyManagementCreateNestedOneWithoutUnitsInput
+  items?: Prisma.ItemCreateNestedManyWithoutUnitInput
 }
 
 export type UnitUncheckedCreateWithoutRentalsInput = {
@@ -1365,6 +1421,7 @@ export type UnitUncheckedCreateWithoutRentalsInput = {
   water: boolean
   electricity: boolean
   tv: boolean
+  description: string
   rent?: runtime.Decimal | runtime.DecimalJsLike | number | string
   charges?: runtime.Decimal | runtime.DecimalJsLike | number | string
   extraCharges?: runtime.Decimal | runtime.DecimalJsLike | number | string
@@ -1379,6 +1436,7 @@ export type UnitUncheckedCreateWithoutRentalsInput = {
   reservations?: Prisma.ReservationUncheckedCreateNestedManyWithoutUnitInput
   checkInOuts?: Prisma.CheckInOutUncheckedCreateNestedManyWithoutUnitInput
   accountings?: Prisma.accountingUncheckedCreateNestedManyWithoutUnitInput
+  items?: Prisma.ItemUncheckedCreateNestedManyWithoutUnitInput
 }
 
 export type UnitCreateOrConnectWithoutRentalsInput = {
@@ -1412,6 +1470,7 @@ export type UnitUpdateWithoutRentalsInput = {
   water?: Prisma.BoolFieldUpdateOperationsInput | boolean
   electricity?: Prisma.BoolFieldUpdateOperationsInput | boolean
   tv?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  description?: Prisma.StringFieldUpdateOperationsInput | string
   rent?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   charges?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   extraCharges?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
@@ -1426,6 +1485,7 @@ export type UnitUpdateWithoutRentalsInput = {
   building?: Prisma.BuildingUpdateOneRequiredWithoutUnitsNestedInput
   type?: Prisma.TypeUpdateOneRequiredWithoutUnitNestedInput
   propertyManagement?: Prisma.PropertyManagementUpdateOneWithoutUnitsNestedInput
+  items?: Prisma.ItemUpdateManyWithoutUnitNestedInput
 }
 
 export type UnitUncheckedUpdateWithoutRentalsInput = {
@@ -1443,6 +1503,7 @@ export type UnitUncheckedUpdateWithoutRentalsInput = {
   water?: Prisma.BoolFieldUpdateOperationsInput | boolean
   electricity?: Prisma.BoolFieldUpdateOperationsInput | boolean
   tv?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  description?: Prisma.StringFieldUpdateOperationsInput | string
   rent?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   charges?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   extraCharges?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
@@ -1457,6 +1518,7 @@ export type UnitUncheckedUpdateWithoutRentalsInput = {
   reservations?: Prisma.ReservationUncheckedUpdateManyWithoutUnitNestedInput
   checkInOuts?: Prisma.CheckInOutUncheckedUpdateManyWithoutUnitNestedInput
   accountings?: Prisma.accountingUncheckedUpdateManyWithoutUnitNestedInput
+  items?: Prisma.ItemUncheckedUpdateManyWithoutUnitNestedInput
 }
 
 export type UnitCreateWithoutReservationsInput = {
@@ -1474,6 +1536,7 @@ export type UnitCreateWithoutReservationsInput = {
   water: boolean
   electricity: boolean
   tv: boolean
+  description: string
   rent?: runtime.Decimal | runtime.DecimalJsLike | number | string
   charges?: runtime.Decimal | runtime.DecimalJsLike | number | string
   extraCharges?: runtime.Decimal | runtime.DecimalJsLike | number | string
@@ -1488,6 +1551,7 @@ export type UnitCreateWithoutReservationsInput = {
   building: Prisma.BuildingCreateNestedOneWithoutUnitsInput
   type: Prisma.TypeCreateNestedOneWithoutUnitInput
   propertyManagement?: Prisma.PropertyManagementCreateNestedOneWithoutUnitsInput
+  items?: Prisma.ItemCreateNestedManyWithoutUnitInput
 }
 
 export type UnitUncheckedCreateWithoutReservationsInput = {
@@ -1505,6 +1569,7 @@ export type UnitUncheckedCreateWithoutReservationsInput = {
   water: boolean
   electricity: boolean
   tv: boolean
+  description: string
   rent?: runtime.Decimal | runtime.DecimalJsLike | number | string
   charges?: runtime.Decimal | runtime.DecimalJsLike | number | string
   extraCharges?: runtime.Decimal | runtime.DecimalJsLike | number | string
@@ -1519,6 +1584,7 @@ export type UnitUncheckedCreateWithoutReservationsInput = {
   rentals?: Prisma.RentalUncheckedCreateNestedManyWithoutUnitInput
   checkInOuts?: Prisma.CheckInOutUncheckedCreateNestedManyWithoutUnitInput
   accountings?: Prisma.accountingUncheckedCreateNestedManyWithoutUnitInput
+  items?: Prisma.ItemUncheckedCreateNestedManyWithoutUnitInput
 }
 
 export type UnitCreateOrConnectWithoutReservationsInput = {
@@ -1552,6 +1618,7 @@ export type UnitUpdateWithoutReservationsInput = {
   water?: Prisma.BoolFieldUpdateOperationsInput | boolean
   electricity?: Prisma.BoolFieldUpdateOperationsInput | boolean
   tv?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  description?: Prisma.StringFieldUpdateOperationsInput | string
   rent?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   charges?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   extraCharges?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
@@ -1566,6 +1633,7 @@ export type UnitUpdateWithoutReservationsInput = {
   building?: Prisma.BuildingUpdateOneRequiredWithoutUnitsNestedInput
   type?: Prisma.TypeUpdateOneRequiredWithoutUnitNestedInput
   propertyManagement?: Prisma.PropertyManagementUpdateOneWithoutUnitsNestedInput
+  items?: Prisma.ItemUpdateManyWithoutUnitNestedInput
 }
 
 export type UnitUncheckedUpdateWithoutReservationsInput = {
@@ -1583,6 +1651,7 @@ export type UnitUncheckedUpdateWithoutReservationsInput = {
   water?: Prisma.BoolFieldUpdateOperationsInput | boolean
   electricity?: Prisma.BoolFieldUpdateOperationsInput | boolean
   tv?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  description?: Prisma.StringFieldUpdateOperationsInput | string
   rent?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   charges?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   extraCharges?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
@@ -1597,6 +1666,7 @@ export type UnitUncheckedUpdateWithoutReservationsInput = {
   rentals?: Prisma.RentalUncheckedUpdateManyWithoutUnitNestedInput
   checkInOuts?: Prisma.CheckInOutUncheckedUpdateManyWithoutUnitNestedInput
   accountings?: Prisma.accountingUncheckedUpdateManyWithoutUnitNestedInput
+  items?: Prisma.ItemUncheckedUpdateManyWithoutUnitNestedInput
 }
 
 export type UnitCreateWithoutPropertyManagementInput = {
@@ -1614,6 +1684,7 @@ export type UnitCreateWithoutPropertyManagementInput = {
   water: boolean
   electricity: boolean
   tv: boolean
+  description: string
   rent?: runtime.Decimal | runtime.DecimalJsLike | number | string
   charges?: runtime.Decimal | runtime.DecimalJsLike | number | string
   extraCharges?: runtime.Decimal | runtime.DecimalJsLike | number | string
@@ -1628,6 +1699,7 @@ export type UnitCreateWithoutPropertyManagementInput = {
   accountings?: Prisma.accountingCreateNestedManyWithoutUnitInput
   building: Prisma.BuildingCreateNestedOneWithoutUnitsInput
   type: Prisma.TypeCreateNestedOneWithoutUnitInput
+  items?: Prisma.ItemCreateNestedManyWithoutUnitInput
 }
 
 export type UnitUncheckedCreateWithoutPropertyManagementInput = {
@@ -1645,6 +1717,7 @@ export type UnitUncheckedCreateWithoutPropertyManagementInput = {
   water: boolean
   electricity: boolean
   tv: boolean
+  description: string
   rent?: runtime.Decimal | runtime.DecimalJsLike | number | string
   charges?: runtime.Decimal | runtime.DecimalJsLike | number | string
   extraCharges?: runtime.Decimal | runtime.DecimalJsLike | number | string
@@ -1659,6 +1732,7 @@ export type UnitUncheckedCreateWithoutPropertyManagementInput = {
   reservations?: Prisma.ReservationUncheckedCreateNestedManyWithoutUnitInput
   checkInOuts?: Prisma.CheckInOutUncheckedCreateNestedManyWithoutUnitInput
   accountings?: Prisma.accountingUncheckedCreateNestedManyWithoutUnitInput
+  items?: Prisma.ItemUncheckedCreateNestedManyWithoutUnitInput
 }
 
 export type UnitCreateOrConnectWithoutPropertyManagementInput = {
@@ -1687,6 +1761,154 @@ export type UnitUpdateManyWithWhereWithoutPropertyManagementInput = {
   data: Prisma.XOR<Prisma.UnitUpdateManyMutationInput, Prisma.UnitUncheckedUpdateManyWithoutPropertyManagementInput>
 }
 
+export type UnitCreateWithoutItemsInput = {
+  id?: string
+  reference: string
+  rentalStatus?: $Enums.UnitStatus
+  surface?: number
+  livingroom?: number
+  dining?: number
+  kitchen?: number
+  bedroom?: number
+  bathroom?: number
+  furnished: string
+  wifi: boolean
+  water: boolean
+  electricity: boolean
+  tv: boolean
+  description: string
+  rent?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  charges?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  extraCharges?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  amountGenerate?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  documents?: Prisma.UnitCreatedocumentsInput | string[]
+  isDeleting?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  rentals?: Prisma.RentalCreateNestedManyWithoutUnitInput
+  reservations?: Prisma.ReservationCreateNestedManyWithoutUnitInput
+  checkInOuts?: Prisma.CheckInOutCreateNestedManyWithoutUnitInput
+  accountings?: Prisma.accountingCreateNestedManyWithoutUnitInput
+  building: Prisma.BuildingCreateNestedOneWithoutUnitsInput
+  type: Prisma.TypeCreateNestedOneWithoutUnitInput
+  propertyManagement?: Prisma.PropertyManagementCreateNestedOneWithoutUnitsInput
+}
+
+export type UnitUncheckedCreateWithoutItemsInput = {
+  id?: string
+  reference: string
+  rentalStatus?: $Enums.UnitStatus
+  surface?: number
+  livingroom?: number
+  dining?: number
+  kitchen?: number
+  bedroom?: number
+  bathroom?: number
+  furnished: string
+  wifi: boolean
+  water: boolean
+  electricity: boolean
+  tv: boolean
+  description: string
+  rent?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  charges?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  extraCharges?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  amountGenerate?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  documents?: Prisma.UnitCreatedocumentsInput | string[]
+  isDeleting?: boolean
+  buildingId: string
+  typeId: string
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  propertyManagementId?: string | null
+  rentals?: Prisma.RentalUncheckedCreateNestedManyWithoutUnitInput
+  reservations?: Prisma.ReservationUncheckedCreateNestedManyWithoutUnitInput
+  checkInOuts?: Prisma.CheckInOutUncheckedCreateNestedManyWithoutUnitInput
+  accountings?: Prisma.accountingUncheckedCreateNestedManyWithoutUnitInput
+}
+
+export type UnitCreateOrConnectWithoutItemsInput = {
+  where: Prisma.UnitWhereUniqueInput
+  create: Prisma.XOR<Prisma.UnitCreateWithoutItemsInput, Prisma.UnitUncheckedCreateWithoutItemsInput>
+}
+
+export type UnitUpsertWithoutItemsInput = {
+  update: Prisma.XOR<Prisma.UnitUpdateWithoutItemsInput, Prisma.UnitUncheckedUpdateWithoutItemsInput>
+  create: Prisma.XOR<Prisma.UnitCreateWithoutItemsInput, Prisma.UnitUncheckedCreateWithoutItemsInput>
+  where?: Prisma.UnitWhereInput
+}
+
+export type UnitUpdateToOneWithWhereWithoutItemsInput = {
+  where?: Prisma.UnitWhereInput
+  data: Prisma.XOR<Prisma.UnitUpdateWithoutItemsInput, Prisma.UnitUncheckedUpdateWithoutItemsInput>
+}
+
+export type UnitUpdateWithoutItemsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  reference?: Prisma.StringFieldUpdateOperationsInput | string
+  rentalStatus?: Prisma.EnumUnitStatusFieldUpdateOperationsInput | $Enums.UnitStatus
+  surface?: Prisma.FloatFieldUpdateOperationsInput | number
+  livingroom?: Prisma.IntFieldUpdateOperationsInput | number
+  dining?: Prisma.IntFieldUpdateOperationsInput | number
+  kitchen?: Prisma.IntFieldUpdateOperationsInput | number
+  bedroom?: Prisma.IntFieldUpdateOperationsInput | number
+  bathroom?: Prisma.IntFieldUpdateOperationsInput | number
+  furnished?: Prisma.StringFieldUpdateOperationsInput | string
+  wifi?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  water?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  electricity?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  tv?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  description?: Prisma.StringFieldUpdateOperationsInput | string
+  rent?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  charges?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  extraCharges?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  amountGenerate?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  documents?: Prisma.UnitUpdatedocumentsInput | string[]
+  isDeleting?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  rentals?: Prisma.RentalUpdateManyWithoutUnitNestedInput
+  reservations?: Prisma.ReservationUpdateManyWithoutUnitNestedInput
+  checkInOuts?: Prisma.CheckInOutUpdateManyWithoutUnitNestedInput
+  accountings?: Prisma.accountingUpdateManyWithoutUnitNestedInput
+  building?: Prisma.BuildingUpdateOneRequiredWithoutUnitsNestedInput
+  type?: Prisma.TypeUpdateOneRequiredWithoutUnitNestedInput
+  propertyManagement?: Prisma.PropertyManagementUpdateOneWithoutUnitsNestedInput
+}
+
+export type UnitUncheckedUpdateWithoutItemsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  reference?: Prisma.StringFieldUpdateOperationsInput | string
+  rentalStatus?: Prisma.EnumUnitStatusFieldUpdateOperationsInput | $Enums.UnitStatus
+  surface?: Prisma.FloatFieldUpdateOperationsInput | number
+  livingroom?: Prisma.IntFieldUpdateOperationsInput | number
+  dining?: Prisma.IntFieldUpdateOperationsInput | number
+  kitchen?: Prisma.IntFieldUpdateOperationsInput | number
+  bedroom?: Prisma.IntFieldUpdateOperationsInput | number
+  bathroom?: Prisma.IntFieldUpdateOperationsInput | number
+  furnished?: Prisma.StringFieldUpdateOperationsInput | string
+  wifi?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  water?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  electricity?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  tv?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  description?: Prisma.StringFieldUpdateOperationsInput | string
+  rent?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  charges?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  extraCharges?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  amountGenerate?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  documents?: Prisma.UnitUpdatedocumentsInput | string[]
+  isDeleting?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  buildingId?: Prisma.StringFieldUpdateOperationsInput | string
+  typeId?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  propertyManagementId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  rentals?: Prisma.RentalUncheckedUpdateManyWithoutUnitNestedInput
+  reservations?: Prisma.ReservationUncheckedUpdateManyWithoutUnitNestedInput
+  checkInOuts?: Prisma.CheckInOutUncheckedUpdateManyWithoutUnitNestedInput
+  accountings?: Prisma.accountingUncheckedUpdateManyWithoutUnitNestedInput
+}
+
 export type UnitCreateWithoutCheckInOutsInput = {
   id?: string
   reference: string
@@ -1702,6 +1924,7 @@ export type UnitCreateWithoutCheckInOutsInput = {
   water: boolean
   electricity: boolean
   tv: boolean
+  description: string
   rent?: runtime.Decimal | runtime.DecimalJsLike | number | string
   charges?: runtime.Decimal | runtime.DecimalJsLike | number | string
   extraCharges?: runtime.Decimal | runtime.DecimalJsLike | number | string
@@ -1716,6 +1939,7 @@ export type UnitCreateWithoutCheckInOutsInput = {
   building: Prisma.BuildingCreateNestedOneWithoutUnitsInput
   type: Prisma.TypeCreateNestedOneWithoutUnitInput
   propertyManagement?: Prisma.PropertyManagementCreateNestedOneWithoutUnitsInput
+  items?: Prisma.ItemCreateNestedManyWithoutUnitInput
 }
 
 export type UnitUncheckedCreateWithoutCheckInOutsInput = {
@@ -1733,6 +1957,7 @@ export type UnitUncheckedCreateWithoutCheckInOutsInput = {
   water: boolean
   electricity: boolean
   tv: boolean
+  description: string
   rent?: runtime.Decimal | runtime.DecimalJsLike | number | string
   charges?: runtime.Decimal | runtime.DecimalJsLike | number | string
   extraCharges?: runtime.Decimal | runtime.DecimalJsLike | number | string
@@ -1747,6 +1972,7 @@ export type UnitUncheckedCreateWithoutCheckInOutsInput = {
   rentals?: Prisma.RentalUncheckedCreateNestedManyWithoutUnitInput
   reservations?: Prisma.ReservationUncheckedCreateNestedManyWithoutUnitInput
   accountings?: Prisma.accountingUncheckedCreateNestedManyWithoutUnitInput
+  items?: Prisma.ItemUncheckedCreateNestedManyWithoutUnitInput
 }
 
 export type UnitCreateOrConnectWithoutCheckInOutsInput = {
@@ -1780,6 +2006,7 @@ export type UnitUpdateWithoutCheckInOutsInput = {
   water?: Prisma.BoolFieldUpdateOperationsInput | boolean
   electricity?: Prisma.BoolFieldUpdateOperationsInput | boolean
   tv?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  description?: Prisma.StringFieldUpdateOperationsInput | string
   rent?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   charges?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   extraCharges?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
@@ -1794,6 +2021,7 @@ export type UnitUpdateWithoutCheckInOutsInput = {
   building?: Prisma.BuildingUpdateOneRequiredWithoutUnitsNestedInput
   type?: Prisma.TypeUpdateOneRequiredWithoutUnitNestedInput
   propertyManagement?: Prisma.PropertyManagementUpdateOneWithoutUnitsNestedInput
+  items?: Prisma.ItemUpdateManyWithoutUnitNestedInput
 }
 
 export type UnitUncheckedUpdateWithoutCheckInOutsInput = {
@@ -1811,6 +2039,7 @@ export type UnitUncheckedUpdateWithoutCheckInOutsInput = {
   water?: Prisma.BoolFieldUpdateOperationsInput | boolean
   electricity?: Prisma.BoolFieldUpdateOperationsInput | boolean
   tv?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  description?: Prisma.StringFieldUpdateOperationsInput | string
   rent?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   charges?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   extraCharges?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
@@ -1825,6 +2054,7 @@ export type UnitUncheckedUpdateWithoutCheckInOutsInput = {
   rentals?: Prisma.RentalUncheckedUpdateManyWithoutUnitNestedInput
   reservations?: Prisma.ReservationUncheckedUpdateManyWithoutUnitNestedInput
   accountings?: Prisma.accountingUncheckedUpdateManyWithoutUnitNestedInput
+  items?: Prisma.ItemUncheckedUpdateManyWithoutUnitNestedInput
 }
 
 export type UnitCreateWithoutAccountingsInput = {
@@ -1842,6 +2072,7 @@ export type UnitCreateWithoutAccountingsInput = {
   water: boolean
   electricity: boolean
   tv: boolean
+  description: string
   rent?: runtime.Decimal | runtime.DecimalJsLike | number | string
   charges?: runtime.Decimal | runtime.DecimalJsLike | number | string
   extraCharges?: runtime.Decimal | runtime.DecimalJsLike | number | string
@@ -1856,6 +2087,7 @@ export type UnitCreateWithoutAccountingsInput = {
   building: Prisma.BuildingCreateNestedOneWithoutUnitsInput
   type: Prisma.TypeCreateNestedOneWithoutUnitInput
   propertyManagement?: Prisma.PropertyManagementCreateNestedOneWithoutUnitsInput
+  items?: Prisma.ItemCreateNestedManyWithoutUnitInput
 }
 
 export type UnitUncheckedCreateWithoutAccountingsInput = {
@@ -1873,6 +2105,7 @@ export type UnitUncheckedCreateWithoutAccountingsInput = {
   water: boolean
   electricity: boolean
   tv: boolean
+  description: string
   rent?: runtime.Decimal | runtime.DecimalJsLike | number | string
   charges?: runtime.Decimal | runtime.DecimalJsLike | number | string
   extraCharges?: runtime.Decimal | runtime.DecimalJsLike | number | string
@@ -1887,6 +2120,7 @@ export type UnitUncheckedCreateWithoutAccountingsInput = {
   rentals?: Prisma.RentalUncheckedCreateNestedManyWithoutUnitInput
   reservations?: Prisma.ReservationUncheckedCreateNestedManyWithoutUnitInput
   checkInOuts?: Prisma.CheckInOutUncheckedCreateNestedManyWithoutUnitInput
+  items?: Prisma.ItemUncheckedCreateNestedManyWithoutUnitInput
 }
 
 export type UnitCreateOrConnectWithoutAccountingsInput = {
@@ -1920,6 +2154,7 @@ export type UnitUpdateWithoutAccountingsInput = {
   water?: Prisma.BoolFieldUpdateOperationsInput | boolean
   electricity?: Prisma.BoolFieldUpdateOperationsInput | boolean
   tv?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  description?: Prisma.StringFieldUpdateOperationsInput | string
   rent?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   charges?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   extraCharges?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
@@ -1934,6 +2169,7 @@ export type UnitUpdateWithoutAccountingsInput = {
   building?: Prisma.BuildingUpdateOneRequiredWithoutUnitsNestedInput
   type?: Prisma.TypeUpdateOneRequiredWithoutUnitNestedInput
   propertyManagement?: Prisma.PropertyManagementUpdateOneWithoutUnitsNestedInput
+  items?: Prisma.ItemUpdateManyWithoutUnitNestedInput
 }
 
 export type UnitUncheckedUpdateWithoutAccountingsInput = {
@@ -1951,6 +2187,7 @@ export type UnitUncheckedUpdateWithoutAccountingsInput = {
   water?: Prisma.BoolFieldUpdateOperationsInput | boolean
   electricity?: Prisma.BoolFieldUpdateOperationsInput | boolean
   tv?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  description?: Prisma.StringFieldUpdateOperationsInput | string
   rent?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   charges?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   extraCharges?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
@@ -1965,6 +2202,7 @@ export type UnitUncheckedUpdateWithoutAccountingsInput = {
   rentals?: Prisma.RentalUncheckedUpdateManyWithoutUnitNestedInput
   reservations?: Prisma.ReservationUncheckedUpdateManyWithoutUnitNestedInput
   checkInOuts?: Prisma.CheckInOutUncheckedUpdateManyWithoutUnitNestedInput
+  items?: Prisma.ItemUncheckedUpdateManyWithoutUnitNestedInput
 }
 
 export type UnitCreateManyBuildingInput = {
@@ -1982,6 +2220,7 @@ export type UnitCreateManyBuildingInput = {
   water: boolean
   electricity: boolean
   tv: boolean
+  description: string
   rent?: runtime.Decimal | runtime.DecimalJsLike | number | string
   charges?: runtime.Decimal | runtime.DecimalJsLike | number | string
   extraCharges?: runtime.Decimal | runtime.DecimalJsLike | number | string
@@ -2009,6 +2248,7 @@ export type UnitUpdateWithoutBuildingInput = {
   water?: Prisma.BoolFieldUpdateOperationsInput | boolean
   electricity?: Prisma.BoolFieldUpdateOperationsInput | boolean
   tv?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  description?: Prisma.StringFieldUpdateOperationsInput | string
   rent?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   charges?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   extraCharges?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
@@ -2023,6 +2263,7 @@ export type UnitUpdateWithoutBuildingInput = {
   accountings?: Prisma.accountingUpdateManyWithoutUnitNestedInput
   type?: Prisma.TypeUpdateOneRequiredWithoutUnitNestedInput
   propertyManagement?: Prisma.PropertyManagementUpdateOneWithoutUnitsNestedInput
+  items?: Prisma.ItemUpdateManyWithoutUnitNestedInput
 }
 
 export type UnitUncheckedUpdateWithoutBuildingInput = {
@@ -2040,6 +2281,7 @@ export type UnitUncheckedUpdateWithoutBuildingInput = {
   water?: Prisma.BoolFieldUpdateOperationsInput | boolean
   electricity?: Prisma.BoolFieldUpdateOperationsInput | boolean
   tv?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  description?: Prisma.StringFieldUpdateOperationsInput | string
   rent?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   charges?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   extraCharges?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
@@ -2054,6 +2296,7 @@ export type UnitUncheckedUpdateWithoutBuildingInput = {
   reservations?: Prisma.ReservationUncheckedUpdateManyWithoutUnitNestedInput
   checkInOuts?: Prisma.CheckInOutUncheckedUpdateManyWithoutUnitNestedInput
   accountings?: Prisma.accountingUncheckedUpdateManyWithoutUnitNestedInput
+  items?: Prisma.ItemUncheckedUpdateManyWithoutUnitNestedInput
 }
 
 export type UnitUncheckedUpdateManyWithoutBuildingInput = {
@@ -2071,6 +2314,7 @@ export type UnitUncheckedUpdateManyWithoutBuildingInput = {
   water?: Prisma.BoolFieldUpdateOperationsInput | boolean
   electricity?: Prisma.BoolFieldUpdateOperationsInput | boolean
   tv?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  description?: Prisma.StringFieldUpdateOperationsInput | string
   rent?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   charges?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   extraCharges?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
@@ -2098,6 +2342,7 @@ export type UnitCreateManyTypeInput = {
   water: boolean
   electricity: boolean
   tv: boolean
+  description: string
   rent?: runtime.Decimal | runtime.DecimalJsLike | number | string
   charges?: runtime.Decimal | runtime.DecimalJsLike | number | string
   extraCharges?: runtime.Decimal | runtime.DecimalJsLike | number | string
@@ -2125,6 +2370,7 @@ export type UnitUpdateWithoutTypeInput = {
   water?: Prisma.BoolFieldUpdateOperationsInput | boolean
   electricity?: Prisma.BoolFieldUpdateOperationsInput | boolean
   tv?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  description?: Prisma.StringFieldUpdateOperationsInput | string
   rent?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   charges?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   extraCharges?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
@@ -2139,6 +2385,7 @@ export type UnitUpdateWithoutTypeInput = {
   accountings?: Prisma.accountingUpdateManyWithoutUnitNestedInput
   building?: Prisma.BuildingUpdateOneRequiredWithoutUnitsNestedInput
   propertyManagement?: Prisma.PropertyManagementUpdateOneWithoutUnitsNestedInput
+  items?: Prisma.ItemUpdateManyWithoutUnitNestedInput
 }
 
 export type UnitUncheckedUpdateWithoutTypeInput = {
@@ -2156,6 +2403,7 @@ export type UnitUncheckedUpdateWithoutTypeInput = {
   water?: Prisma.BoolFieldUpdateOperationsInput | boolean
   electricity?: Prisma.BoolFieldUpdateOperationsInput | boolean
   tv?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  description?: Prisma.StringFieldUpdateOperationsInput | string
   rent?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   charges?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   extraCharges?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
@@ -2170,6 +2418,7 @@ export type UnitUncheckedUpdateWithoutTypeInput = {
   reservations?: Prisma.ReservationUncheckedUpdateManyWithoutUnitNestedInput
   checkInOuts?: Prisma.CheckInOutUncheckedUpdateManyWithoutUnitNestedInput
   accountings?: Prisma.accountingUncheckedUpdateManyWithoutUnitNestedInput
+  items?: Prisma.ItemUncheckedUpdateManyWithoutUnitNestedInput
 }
 
 export type UnitUncheckedUpdateManyWithoutTypeInput = {
@@ -2187,6 +2436,7 @@ export type UnitUncheckedUpdateManyWithoutTypeInput = {
   water?: Prisma.BoolFieldUpdateOperationsInput | boolean
   electricity?: Prisma.BoolFieldUpdateOperationsInput | boolean
   tv?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  description?: Prisma.StringFieldUpdateOperationsInput | string
   rent?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   charges?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   extraCharges?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
@@ -2214,6 +2464,7 @@ export type UnitCreateManyPropertyManagementInput = {
   water: boolean
   electricity: boolean
   tv: boolean
+  description: string
   rent?: runtime.Decimal | runtime.DecimalJsLike | number | string
   charges?: runtime.Decimal | runtime.DecimalJsLike | number | string
   extraCharges?: runtime.Decimal | runtime.DecimalJsLike | number | string
@@ -2241,6 +2492,7 @@ export type UnitUpdateWithoutPropertyManagementInput = {
   water?: Prisma.BoolFieldUpdateOperationsInput | boolean
   electricity?: Prisma.BoolFieldUpdateOperationsInput | boolean
   tv?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  description?: Prisma.StringFieldUpdateOperationsInput | string
   rent?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   charges?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   extraCharges?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
@@ -2255,6 +2507,7 @@ export type UnitUpdateWithoutPropertyManagementInput = {
   accountings?: Prisma.accountingUpdateManyWithoutUnitNestedInput
   building?: Prisma.BuildingUpdateOneRequiredWithoutUnitsNestedInput
   type?: Prisma.TypeUpdateOneRequiredWithoutUnitNestedInput
+  items?: Prisma.ItemUpdateManyWithoutUnitNestedInput
 }
 
 export type UnitUncheckedUpdateWithoutPropertyManagementInput = {
@@ -2272,6 +2525,7 @@ export type UnitUncheckedUpdateWithoutPropertyManagementInput = {
   water?: Prisma.BoolFieldUpdateOperationsInput | boolean
   electricity?: Prisma.BoolFieldUpdateOperationsInput | boolean
   tv?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  description?: Prisma.StringFieldUpdateOperationsInput | string
   rent?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   charges?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   extraCharges?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
@@ -2286,6 +2540,7 @@ export type UnitUncheckedUpdateWithoutPropertyManagementInput = {
   reservations?: Prisma.ReservationUncheckedUpdateManyWithoutUnitNestedInput
   checkInOuts?: Prisma.CheckInOutUncheckedUpdateManyWithoutUnitNestedInput
   accountings?: Prisma.accountingUncheckedUpdateManyWithoutUnitNestedInput
+  items?: Prisma.ItemUncheckedUpdateManyWithoutUnitNestedInput
 }
 
 export type UnitUncheckedUpdateManyWithoutPropertyManagementInput = {
@@ -2303,6 +2558,7 @@ export type UnitUncheckedUpdateManyWithoutPropertyManagementInput = {
   water?: Prisma.BoolFieldUpdateOperationsInput | boolean
   electricity?: Prisma.BoolFieldUpdateOperationsInput | boolean
   tv?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  description?: Prisma.StringFieldUpdateOperationsInput | string
   rent?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   charges?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   extraCharges?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
@@ -2325,6 +2581,7 @@ export type UnitCountOutputType = {
   reservations: number
   checkInOuts: number
   accountings: number
+  items: number
 }
 
 export type UnitCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -2332,6 +2589,7 @@ export type UnitCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.I
   reservations?: boolean | UnitCountOutputTypeCountReservationsArgs
   checkInOuts?: boolean | UnitCountOutputTypeCountCheckInOutsArgs
   accountings?: boolean | UnitCountOutputTypeCountAccountingsArgs
+  items?: boolean | UnitCountOutputTypeCountItemsArgs
 }
 
 /**
@@ -2372,6 +2630,13 @@ export type UnitCountOutputTypeCountAccountingsArgs<ExtArgs extends runtime.Type
   where?: Prisma.accountingWhereInput
 }
 
+/**
+ * UnitCountOutputType without action
+ */
+export type UnitCountOutputTypeCountItemsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.ItemWhereInput
+}
+
 
 export type UnitSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
@@ -2388,6 +2653,7 @@ export type UnitSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   water?: boolean
   electricity?: boolean
   tv?: boolean
+  description?: boolean
   rent?: boolean
   charges?: boolean
   extraCharges?: boolean
@@ -2406,6 +2672,7 @@ export type UnitSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   building?: boolean | Prisma.BuildingDefaultArgs<ExtArgs>
   type?: boolean | Prisma.TypeDefaultArgs<ExtArgs>
   propertyManagement?: boolean | Prisma.Unit$propertyManagementArgs<ExtArgs>
+  items?: boolean | Prisma.Unit$itemsArgs<ExtArgs>
   _count?: boolean | Prisma.UnitCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["unit"]>
 
@@ -2424,6 +2691,7 @@ export type UnitSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensio
   water?: boolean
   electricity?: boolean
   tv?: boolean
+  description?: boolean
   rent?: boolean
   charges?: boolean
   extraCharges?: boolean
@@ -2455,6 +2723,7 @@ export type UnitSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensio
   water?: boolean
   electricity?: boolean
   tv?: boolean
+  description?: boolean
   rent?: boolean
   charges?: boolean
   extraCharges?: boolean
@@ -2486,6 +2755,7 @@ export type UnitSelectScalar = {
   water?: boolean
   electricity?: boolean
   tv?: boolean
+  description?: boolean
   rent?: boolean
   charges?: boolean
   extraCharges?: boolean
@@ -2499,7 +2769,7 @@ export type UnitSelectScalar = {
   propertyManagementId?: boolean
 }
 
-export type UnitOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "reference" | "rentalStatus" | "surface" | "livingroom" | "dining" | "kitchen" | "bedroom" | "bathroom" | "furnished" | "wifi" | "water" | "electricity" | "tv" | "rent" | "charges" | "extraCharges" | "amountGenerate" | "documents" | "isDeleting" | "buildingId" | "typeId" | "createdAt" | "updatedAt" | "propertyManagementId", ExtArgs["result"]["unit"]>
+export type UnitOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "reference" | "rentalStatus" | "surface" | "livingroom" | "dining" | "kitchen" | "bedroom" | "bathroom" | "furnished" | "wifi" | "water" | "electricity" | "tv" | "description" | "rent" | "charges" | "extraCharges" | "amountGenerate" | "documents" | "isDeleting" | "buildingId" | "typeId" | "createdAt" | "updatedAt" | "propertyManagementId", ExtArgs["result"]["unit"]>
 export type UnitInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   rentals?: boolean | Prisma.Unit$rentalsArgs<ExtArgs>
   reservations?: boolean | Prisma.Unit$reservationsArgs<ExtArgs>
@@ -2508,6 +2778,7 @@ export type UnitInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = 
   building?: boolean | Prisma.BuildingDefaultArgs<ExtArgs>
   type?: boolean | Prisma.TypeDefaultArgs<ExtArgs>
   propertyManagement?: boolean | Prisma.Unit$propertyManagementArgs<ExtArgs>
+  items?: boolean | Prisma.Unit$itemsArgs<ExtArgs>
   _count?: boolean | Prisma.UnitCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type UnitIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -2531,6 +2802,7 @@ export type $UnitPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
     building: Prisma.$BuildingPayload<ExtArgs>
     type: Prisma.$TypePayload<ExtArgs>
     propertyManagement: Prisma.$PropertyManagementPayload<ExtArgs> | null
+    items: Prisma.$ItemPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -2547,6 +2819,7 @@ export type $UnitPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
     water: boolean
     electricity: boolean
     tv: boolean
+    description: string
     rent: runtime.Decimal
     charges: runtime.Decimal
     extraCharges: runtime.Decimal
@@ -2959,6 +3232,7 @@ export interface Prisma__UnitClient<T, Null = never, ExtArgs extends runtime.Typ
   building<T extends Prisma.BuildingDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.BuildingDefaultArgs<ExtArgs>>): Prisma.Prisma__BuildingClient<runtime.Types.Result.GetResult<Prisma.$BuildingPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   type<T extends Prisma.TypeDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.TypeDefaultArgs<ExtArgs>>): Prisma.Prisma__TypeClient<runtime.Types.Result.GetResult<Prisma.$TypePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   propertyManagement<T extends Prisma.Unit$propertyManagementArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Unit$propertyManagementArgs<ExtArgs>>): Prisma.Prisma__PropertyManagementClient<runtime.Types.Result.GetResult<Prisma.$PropertyManagementPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+  items<T extends Prisma.Unit$itemsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Unit$itemsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ItemPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -3002,6 +3276,7 @@ export interface UnitFieldRefs {
   readonly water: Prisma.FieldRef<"Unit", 'Boolean'>
   readonly electricity: Prisma.FieldRef<"Unit", 'Boolean'>
   readonly tv: Prisma.FieldRef<"Unit", 'Boolean'>
+  readonly description: Prisma.FieldRef<"Unit", 'String'>
   readonly rent: Prisma.FieldRef<"Unit", 'Decimal'>
   readonly charges: Prisma.FieldRef<"Unit", 'Decimal'>
   readonly extraCharges: Prisma.FieldRef<"Unit", 'Decimal'>
@@ -3526,6 +3801,30 @@ export type Unit$propertyManagementArgs<ExtArgs extends runtime.Types.Extensions
    */
   include?: Prisma.PropertyManagementInclude<ExtArgs> | null
   where?: Prisma.PropertyManagementWhereInput
+}
+
+/**
+ * Unit.items
+ */
+export type Unit$itemsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Item
+   */
+  select?: Prisma.ItemSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Item
+   */
+  omit?: Prisma.ItemOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.ItemInclude<ExtArgs> | null
+  where?: Prisma.ItemWhereInput
+  orderBy?: Prisma.ItemOrderByWithRelationInput | Prisma.ItemOrderByWithRelationInput[]
+  cursor?: Prisma.ItemWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.ItemScalarFieldEnum | Prisma.ItemScalarFieldEnum[]
 }
 
 /**

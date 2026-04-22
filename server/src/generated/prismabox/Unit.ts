@@ -22,6 +22,7 @@ export const UnitPlain = t.Object(
     water: t.Boolean(),
     electricity: t.Boolean(),
     tv: t.Boolean(),
+    description: t.String(),
     rent: t.Number(),
     charges: t.Number(),
     extraCharges: t.Number(),
@@ -184,6 +185,37 @@ export const UnitRelations = t.Object(
         { additionalProperties: false },
       ),
     ),
+    items: t.Array(
+      t.Object(
+        {
+          id: t.String(),
+          type: t.Union([t.Literal("ITEM"), t.Literal("UNIT")], {
+            additionalProperties: false,
+          }),
+          quantity: t.Integer(),
+          productServiceId: __nullable__(t.String()),
+          unitId: __nullable__(t.String()),
+          price: t.Number(),
+          charges: __nullable__(t.Number()),
+          extraCharges: __nullable__(t.Number()),
+          start: __nullable__(t.Date()),
+          end: __nullable__(t.Date()),
+          description: t.String(),
+          reference: t.String(),
+          hasTax: t.Boolean(),
+          status: t.Union([t.Literal("USED"), t.Literal("IGNORE")], {
+            additionalProperties: false,
+          }),
+          invoiceId: __nullable__(t.String()),
+          quoteId: __nullable__(t.String()),
+          purchaseOrderId: __nullable__(t.String()),
+          createdAt: t.Date(),
+          updatedAt: t.Date(),
+        },
+        { additionalProperties: false },
+      ),
+      { additionalProperties: false },
+    ),
   },
   { additionalProperties: false },
 );
@@ -207,6 +239,7 @@ export const UnitPlainInputCreate = t.Object(
     water: t.Boolean(),
     electricity: t.Boolean(),
     tv: t.Boolean(),
+    description: t.String(),
     rent: t.Optional(t.Number()),
     charges: t.Optional(t.Number()),
     extraCharges: t.Optional(t.Number()),
@@ -236,6 +269,7 @@ export const UnitPlainInputUpdate = t.Object(
     water: t.Optional(t.Boolean()),
     electricity: t.Optional(t.Boolean()),
     tv: t.Optional(t.Boolean()),
+    description: t.Optional(t.String()),
     rent: t.Optional(t.Number()),
     charges: t.Optional(t.Number()),
     extraCharges: t.Optional(t.Number()),
@@ -341,6 +375,22 @@ export const UnitRelationsInputCreate = t.Object(
             {
               id: t.String({ additionalProperties: false }),
             },
+            { additionalProperties: false },
+          ),
+        },
+        { additionalProperties: false },
+      ),
+    ),
+    items: t.Optional(
+      t.Object(
+        {
+          connect: t.Array(
+            t.Object(
+              {
+                id: t.String({ additionalProperties: false }),
+              },
+              { additionalProperties: false },
+            ),
             { additionalProperties: false },
           ),
         },
@@ -490,6 +540,31 @@ export const UnitRelationsInputUpdate = t.Partial(
           { additionalProperties: false },
         ),
       ),
+      items: t.Partial(
+        t.Object(
+          {
+            connect: t.Array(
+              t.Object(
+                {
+                  id: t.String({ additionalProperties: false }),
+                },
+                { additionalProperties: false },
+              ),
+              { additionalProperties: false },
+            ),
+            disconnect: t.Array(
+              t.Object(
+                {
+                  id: t.String({ additionalProperties: false }),
+                },
+                { additionalProperties: false },
+              ),
+              { additionalProperties: false },
+            ),
+          },
+          { additionalProperties: false },
+        ),
+      ),
     },
     { additionalProperties: false },
   ),
@@ -519,6 +594,7 @@ export const UnitWhere = t.Partial(
           water: t.Boolean(),
           electricity: t.Boolean(),
           tv: t.Boolean(),
+          description: t.String(),
           rent: t.Number(),
           charges: t.Number(),
           extraCharges: t.Number(),
@@ -585,6 +661,7 @@ export const UnitWhereUnique = t.Recursive(
               water: t.Boolean(),
               electricity: t.Boolean(),
               tv: t.Boolean(),
+              description: t.String(),
               rent: t.Number(),
               charges: t.Number(),
               extraCharges: t.Number(),
@@ -623,6 +700,7 @@ export const UnitSelect = t.Partial(
       water: t.Boolean(),
       electricity: t.Boolean(),
       tv: t.Boolean(),
+      description: t.Boolean(),
       rent: t.Boolean(),
       charges: t.Boolean(),
       extraCharges: t.Boolean(),
@@ -641,6 +719,7 @@ export const UnitSelect = t.Partial(
       updatedAt: t.Boolean(),
       propertyManagement: t.Boolean(),
       propertyManagementId: t.Boolean(),
+      items: t.Boolean(),
       _count: t.Boolean(),
     },
     { additionalProperties: false },
@@ -658,6 +737,7 @@ export const UnitInclude = t.Partial(
       building: t.Boolean(),
       type: t.Boolean(),
       propertyManagement: t.Boolean(),
+      items: t.Boolean(),
       _count: t.Boolean(),
     },
     { additionalProperties: false },
@@ -704,6 +784,9 @@ export const UnitOrderBy = t.Partial(
         additionalProperties: false,
       }),
       tv: t.Union([t.Literal("asc"), t.Literal("desc")], {
+        additionalProperties: false,
+      }),
+      description: t.Union([t.Literal("asc"), t.Literal("desc")], {
         additionalProperties: false,
       }),
       rent: t.Union([t.Literal("asc"), t.Literal("desc")], {

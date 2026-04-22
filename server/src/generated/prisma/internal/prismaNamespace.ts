@@ -3634,6 +3634,7 @@ export const UnitScalarFieldEnum = {
   water: 'water',
   electricity: 'electricity',
   tv: 'tv',
+  description: 'description',
   rent: 'rent',
   charges: 'charges',
   extraCharges: 'extraCharges',
@@ -3794,18 +3795,24 @@ export type ProductServiceScalarFieldEnum = (typeof ProductServiceScalarFieldEnu
 
 export const ItemScalarFieldEnum = {
   id: 'id',
+  type: 'type',
   quantity: 'quantity',
   productServiceId: 'productServiceId',
+  unitId: 'unitId',
   price: 'price',
+  charges: 'charges',
+  extraCharges: 'extraCharges',
+  start: 'start',
+  end: 'end',
   description: 'description',
   reference: 'reference',
   hasTax: 'hasTax',
   status: 'status',
   invoiceId: 'invoiceId',
   quoteId: 'quoteId',
+  purchaseOrderId: 'purchaseOrderId',
   createdAt: 'createdAt',
-  updatedAt: 'updatedAt',
-  purchaseOrderId: 'purchaseOrderId'
+  updatedAt: 'updatedAt'
 } as const
 
 export type ItemScalarFieldEnum = (typeof ItemScalarFieldEnum)[keyof typeof ItemScalarFieldEnum]
@@ -3823,6 +3830,7 @@ export const InvoiceScalarFieldEnum = {
   type: 'type',
   ownerId: 'ownerId',
   tenantId: 'tenantId',
+  period: 'period',
   note: 'note',
   start: 'start',
   end: 'end',
@@ -4312,6 +4320,20 @@ export type DecimalFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel,
  * Reference to a field of type 'Decimal[]'
  */
 export type ListDecimalFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Decimal[]'>
+    
+
+
+/**
+ * Reference to a field of type 'ItemType'
+ */
+export type EnumItemTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ItemType'>
+    
+
+
+/**
+ * Reference to a field of type 'ItemType[]'
+ */
+export type ListEnumItemTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ItemType[]'>
     
 
 

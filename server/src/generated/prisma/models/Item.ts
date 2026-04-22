@@ -29,59 +29,81 @@ export type AggregateItem = {
 export type ItemAvgAggregateOutputType = {
   quantity: number | null
   price: runtime.Decimal | null
+  charges: runtime.Decimal | null
+  extraCharges: runtime.Decimal | null
 }
 
 export type ItemSumAggregateOutputType = {
   quantity: number | null
   price: runtime.Decimal | null
+  charges: runtime.Decimal | null
+  extraCharges: runtime.Decimal | null
 }
 
 export type ItemMinAggregateOutputType = {
   id: string | null
+  type: $Enums.ItemType | null
   quantity: number | null
   productServiceId: string | null
+  unitId: string | null
   price: runtime.Decimal | null
+  charges: runtime.Decimal | null
+  extraCharges: runtime.Decimal | null
+  start: Date | null
+  end: Date | null
   description: string | null
   reference: string | null
   hasTax: boolean | null
   status: $Enums.ItemStatus | null
   invoiceId: string | null
   quoteId: string | null
+  purchaseOrderId: string | null
   createdAt: Date | null
   updatedAt: Date | null
-  purchaseOrderId: string | null
 }
 
 export type ItemMaxAggregateOutputType = {
   id: string | null
+  type: $Enums.ItemType | null
   quantity: number | null
   productServiceId: string | null
+  unitId: string | null
   price: runtime.Decimal | null
+  charges: runtime.Decimal | null
+  extraCharges: runtime.Decimal | null
+  start: Date | null
+  end: Date | null
   description: string | null
   reference: string | null
   hasTax: boolean | null
   status: $Enums.ItemStatus | null
   invoiceId: string | null
   quoteId: string | null
+  purchaseOrderId: string | null
   createdAt: Date | null
   updatedAt: Date | null
-  purchaseOrderId: string | null
 }
 
 export type ItemCountAggregateOutputType = {
   id: number
+  type: number
   quantity: number
   productServiceId: number
+  unitId: number
   price: number
+  charges: number
+  extraCharges: number
+  start: number
+  end: number
   description: number
   reference: number
   hasTax: number
   status: number
   invoiceId: number
   quoteId: number
+  purchaseOrderId: number
   createdAt: number
   updatedAt: number
-  purchaseOrderId: number
   _all: number
 }
 
@@ -89,59 +111,81 @@ export type ItemCountAggregateOutputType = {
 export type ItemAvgAggregateInputType = {
   quantity?: true
   price?: true
+  charges?: true
+  extraCharges?: true
 }
 
 export type ItemSumAggregateInputType = {
   quantity?: true
   price?: true
+  charges?: true
+  extraCharges?: true
 }
 
 export type ItemMinAggregateInputType = {
   id?: true
+  type?: true
   quantity?: true
   productServiceId?: true
+  unitId?: true
   price?: true
+  charges?: true
+  extraCharges?: true
+  start?: true
+  end?: true
   description?: true
   reference?: true
   hasTax?: true
   status?: true
   invoiceId?: true
   quoteId?: true
+  purchaseOrderId?: true
   createdAt?: true
   updatedAt?: true
-  purchaseOrderId?: true
 }
 
 export type ItemMaxAggregateInputType = {
   id?: true
+  type?: true
   quantity?: true
   productServiceId?: true
+  unitId?: true
   price?: true
+  charges?: true
+  extraCharges?: true
+  start?: true
+  end?: true
   description?: true
   reference?: true
   hasTax?: true
   status?: true
   invoiceId?: true
   quoteId?: true
+  purchaseOrderId?: true
   createdAt?: true
   updatedAt?: true
-  purchaseOrderId?: true
 }
 
 export type ItemCountAggregateInputType = {
   id?: true
+  type?: true
   quantity?: true
   productServiceId?: true
+  unitId?: true
   price?: true
+  charges?: true
+  extraCharges?: true
+  start?: true
+  end?: true
   description?: true
   reference?: true
   hasTax?: true
   status?: true
   invoiceId?: true
   quoteId?: true
+  purchaseOrderId?: true
   createdAt?: true
   updatedAt?: true
-  purchaseOrderId?: true
   _all?: true
 }
 
@@ -233,18 +277,24 @@ export type ItemGroupByArgs<ExtArgs extends runtime.Types.Extensions.InternalArg
 
 export type ItemGroupByOutputType = {
   id: string
+  type: $Enums.ItemType
   quantity: number
-  productServiceId: string
+  productServiceId: string | null
+  unitId: string | null
   price: runtime.Decimal
+  charges: runtime.Decimal | null
+  extraCharges: runtime.Decimal | null
+  start: Date | null
+  end: Date | null
   description: string
   reference: string
   hasTax: boolean
   status: $Enums.ItemStatus
   invoiceId: string | null
   quoteId: string | null
+  purchaseOrderId: string | null
   createdAt: Date
   updatedAt: Date
-  purchaseOrderId: string | null
   _count: ItemCountAggregateOutputType | null
   _avg: ItemAvgAggregateOutputType | null
   _sum: ItemSumAggregateOutputType | null
@@ -272,19 +322,26 @@ export type ItemWhereInput = {
   OR?: Prisma.ItemWhereInput[]
   NOT?: Prisma.ItemWhereInput | Prisma.ItemWhereInput[]
   id?: Prisma.StringFilter<"Item"> | string
+  type?: Prisma.EnumItemTypeFilter<"Item"> | $Enums.ItemType
   quantity?: Prisma.IntFilter<"Item"> | number
-  productServiceId?: Prisma.StringFilter<"Item"> | string
+  productServiceId?: Prisma.StringNullableFilter<"Item"> | string | null
+  unitId?: Prisma.StringNullableFilter<"Item"> | string | null
   price?: Prisma.DecimalFilter<"Item"> | runtime.Decimal | runtime.DecimalJsLike | number | string
+  charges?: Prisma.DecimalNullableFilter<"Item"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  extraCharges?: Prisma.DecimalNullableFilter<"Item"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  start?: Prisma.DateTimeNullableFilter<"Item"> | Date | string | null
+  end?: Prisma.DateTimeNullableFilter<"Item"> | Date | string | null
   description?: Prisma.StringFilter<"Item"> | string
   reference?: Prisma.StringFilter<"Item"> | string
   hasTax?: Prisma.BoolFilter<"Item"> | boolean
   status?: Prisma.EnumItemStatusFilter<"Item"> | $Enums.ItemStatus
   invoiceId?: Prisma.StringNullableFilter<"Item"> | string | null
   quoteId?: Prisma.StringNullableFilter<"Item"> | string | null
+  purchaseOrderId?: Prisma.StringNullableFilter<"Item"> | string | null
   createdAt?: Prisma.DateTimeFilter<"Item"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Item"> | Date | string
-  purchaseOrderId?: Prisma.StringNullableFilter<"Item"> | string | null
-  productService?: Prisma.XOR<Prisma.ProductServiceScalarRelationFilter, Prisma.ProductServiceWhereInput>
+  productService?: Prisma.XOR<Prisma.ProductServiceNullableScalarRelationFilter, Prisma.ProductServiceWhereInput> | null
+  unit?: Prisma.XOR<Prisma.UnitNullableScalarRelationFilter, Prisma.UnitWhereInput> | null
   invoice?: Prisma.XOR<Prisma.InvoiceNullableScalarRelationFilter, Prisma.InvoiceWhereInput> | null
   quote?: Prisma.XOR<Prisma.QuoteNullableScalarRelationFilter, Prisma.QuoteWhereInput> | null
   purchaseOrder?: Prisma.XOR<Prisma.PurchaseOrderNullableScalarRelationFilter, Prisma.purchaseOrderWhereInput> | null
@@ -292,19 +349,26 @@ export type ItemWhereInput = {
 
 export type ItemOrderByWithRelationInput = {
   id?: Prisma.SortOrder
+  type?: Prisma.SortOrder
   quantity?: Prisma.SortOrder
-  productServiceId?: Prisma.SortOrder
+  productServiceId?: Prisma.SortOrderInput | Prisma.SortOrder
+  unitId?: Prisma.SortOrderInput | Prisma.SortOrder
   price?: Prisma.SortOrder
+  charges?: Prisma.SortOrderInput | Prisma.SortOrder
+  extraCharges?: Prisma.SortOrderInput | Prisma.SortOrder
+  start?: Prisma.SortOrderInput | Prisma.SortOrder
+  end?: Prisma.SortOrderInput | Prisma.SortOrder
   description?: Prisma.SortOrder
   reference?: Prisma.SortOrder
   hasTax?: Prisma.SortOrder
   status?: Prisma.SortOrder
   invoiceId?: Prisma.SortOrderInput | Prisma.SortOrder
   quoteId?: Prisma.SortOrderInput | Prisma.SortOrder
+  purchaseOrderId?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
-  purchaseOrderId?: Prisma.SortOrderInput | Prisma.SortOrder
   productService?: Prisma.ProductServiceOrderByWithRelationInput
+  unit?: Prisma.UnitOrderByWithRelationInput
   invoice?: Prisma.InvoiceOrderByWithRelationInput
   quote?: Prisma.QuoteOrderByWithRelationInput
   purchaseOrder?: Prisma.purchaseOrderOrderByWithRelationInput
@@ -315,19 +379,26 @@ export type ItemWhereUniqueInput = Prisma.AtLeast<{
   AND?: Prisma.ItemWhereInput | Prisma.ItemWhereInput[]
   OR?: Prisma.ItemWhereInput[]
   NOT?: Prisma.ItemWhereInput | Prisma.ItemWhereInput[]
+  type?: Prisma.EnumItemTypeFilter<"Item"> | $Enums.ItemType
   quantity?: Prisma.IntFilter<"Item"> | number
-  productServiceId?: Prisma.StringFilter<"Item"> | string
+  productServiceId?: Prisma.StringNullableFilter<"Item"> | string | null
+  unitId?: Prisma.StringNullableFilter<"Item"> | string | null
   price?: Prisma.DecimalFilter<"Item"> | runtime.Decimal | runtime.DecimalJsLike | number | string
+  charges?: Prisma.DecimalNullableFilter<"Item"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  extraCharges?: Prisma.DecimalNullableFilter<"Item"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  start?: Prisma.DateTimeNullableFilter<"Item"> | Date | string | null
+  end?: Prisma.DateTimeNullableFilter<"Item"> | Date | string | null
   description?: Prisma.StringFilter<"Item"> | string
   reference?: Prisma.StringFilter<"Item"> | string
   hasTax?: Prisma.BoolFilter<"Item"> | boolean
   status?: Prisma.EnumItemStatusFilter<"Item"> | $Enums.ItemStatus
   invoiceId?: Prisma.StringNullableFilter<"Item"> | string | null
   quoteId?: Prisma.StringNullableFilter<"Item"> | string | null
+  purchaseOrderId?: Prisma.StringNullableFilter<"Item"> | string | null
   createdAt?: Prisma.DateTimeFilter<"Item"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Item"> | Date | string
-  purchaseOrderId?: Prisma.StringNullableFilter<"Item"> | string | null
-  productService?: Prisma.XOR<Prisma.ProductServiceScalarRelationFilter, Prisma.ProductServiceWhereInput>
+  productService?: Prisma.XOR<Prisma.ProductServiceNullableScalarRelationFilter, Prisma.ProductServiceWhereInput> | null
+  unit?: Prisma.XOR<Prisma.UnitNullableScalarRelationFilter, Prisma.UnitWhereInput> | null
   invoice?: Prisma.XOR<Prisma.InvoiceNullableScalarRelationFilter, Prisma.InvoiceWhereInput> | null
   quote?: Prisma.XOR<Prisma.QuoteNullableScalarRelationFilter, Prisma.QuoteWhereInput> | null
   purchaseOrder?: Prisma.XOR<Prisma.PurchaseOrderNullableScalarRelationFilter, Prisma.purchaseOrderWhereInput> | null
@@ -335,18 +406,24 @@ export type ItemWhereUniqueInput = Prisma.AtLeast<{
 
 export type ItemOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
+  type?: Prisma.SortOrder
   quantity?: Prisma.SortOrder
-  productServiceId?: Prisma.SortOrder
+  productServiceId?: Prisma.SortOrderInput | Prisma.SortOrder
+  unitId?: Prisma.SortOrderInput | Prisma.SortOrder
   price?: Prisma.SortOrder
+  charges?: Prisma.SortOrderInput | Prisma.SortOrder
+  extraCharges?: Prisma.SortOrderInput | Prisma.SortOrder
+  start?: Prisma.SortOrderInput | Prisma.SortOrder
+  end?: Prisma.SortOrderInput | Prisma.SortOrder
   description?: Prisma.SortOrder
   reference?: Prisma.SortOrder
   hasTax?: Prisma.SortOrder
   status?: Prisma.SortOrder
   invoiceId?: Prisma.SortOrderInput | Prisma.SortOrder
   quoteId?: Prisma.SortOrderInput | Prisma.SortOrder
+  purchaseOrderId?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
-  purchaseOrderId?: Prisma.SortOrderInput | Prisma.SortOrder
   _count?: Prisma.ItemCountOrderByAggregateInput
   _avg?: Prisma.ItemAvgOrderByAggregateInput
   _max?: Prisma.ItemMaxOrderByAggregateInput
@@ -359,31 +436,43 @@ export type ItemScalarWhereWithAggregatesInput = {
   OR?: Prisma.ItemScalarWhereWithAggregatesInput[]
   NOT?: Prisma.ItemScalarWhereWithAggregatesInput | Prisma.ItemScalarWhereWithAggregatesInput[]
   id?: Prisma.StringWithAggregatesFilter<"Item"> | string
+  type?: Prisma.EnumItemTypeWithAggregatesFilter<"Item"> | $Enums.ItemType
   quantity?: Prisma.IntWithAggregatesFilter<"Item"> | number
-  productServiceId?: Prisma.StringWithAggregatesFilter<"Item"> | string
+  productServiceId?: Prisma.StringNullableWithAggregatesFilter<"Item"> | string | null
+  unitId?: Prisma.StringNullableWithAggregatesFilter<"Item"> | string | null
   price?: Prisma.DecimalWithAggregatesFilter<"Item"> | runtime.Decimal | runtime.DecimalJsLike | number | string
+  charges?: Prisma.DecimalNullableWithAggregatesFilter<"Item"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  extraCharges?: Prisma.DecimalNullableWithAggregatesFilter<"Item"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  start?: Prisma.DateTimeNullableWithAggregatesFilter<"Item"> | Date | string | null
+  end?: Prisma.DateTimeNullableWithAggregatesFilter<"Item"> | Date | string | null
   description?: Prisma.StringWithAggregatesFilter<"Item"> | string
   reference?: Prisma.StringWithAggregatesFilter<"Item"> | string
   hasTax?: Prisma.BoolWithAggregatesFilter<"Item"> | boolean
   status?: Prisma.EnumItemStatusWithAggregatesFilter<"Item"> | $Enums.ItemStatus
   invoiceId?: Prisma.StringNullableWithAggregatesFilter<"Item"> | string | null
   quoteId?: Prisma.StringNullableWithAggregatesFilter<"Item"> | string | null
+  purchaseOrderId?: Prisma.StringNullableWithAggregatesFilter<"Item"> | string | null
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"Item"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"Item"> | Date | string
-  purchaseOrderId?: Prisma.StringNullableWithAggregatesFilter<"Item"> | string | null
 }
 
 export type ItemCreateInput = {
   id?: string
+  type?: $Enums.ItemType
   quantity: number
   price?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  charges?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  extraCharges?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  start?: Date | string | null
+  end?: Date | string | null
   description: string
   reference: string
   hasTax?: boolean
   status?: $Enums.ItemStatus
   createdAt?: Date | string
   updatedAt?: Date | string
-  productService: Prisma.ProductServiceCreateNestedOneWithoutItemsInput
+  productService?: Prisma.ProductServiceCreateNestedOneWithoutItemsInput
+  unit?: Prisma.UnitCreateNestedOneWithoutItemsInput
   invoice?: Prisma.InvoiceCreateNestedOneWithoutItemsInput
   quote?: Prisma.QuoteCreateNestedOneWithoutItemsInput
   purchaseOrder?: Prisma.purchaseOrderCreateNestedOneWithoutItemsInput
@@ -391,31 +480,43 @@ export type ItemCreateInput = {
 
 export type ItemUncheckedCreateInput = {
   id?: string
+  type?: $Enums.ItemType
   quantity: number
-  productServiceId: string
+  productServiceId?: string | null
+  unitId?: string | null
   price?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  charges?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  extraCharges?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  start?: Date | string | null
+  end?: Date | string | null
   description: string
   reference: string
   hasTax?: boolean
   status?: $Enums.ItemStatus
   invoiceId?: string | null
   quoteId?: string | null
+  purchaseOrderId?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
-  purchaseOrderId?: string | null
 }
 
 export type ItemUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  type?: Prisma.EnumItemTypeFieldUpdateOperationsInput | $Enums.ItemType
   quantity?: Prisma.IntFieldUpdateOperationsInput | number
   price?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  charges?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  extraCharges?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  start?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  end?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   description?: Prisma.StringFieldUpdateOperationsInput | string
   reference?: Prisma.StringFieldUpdateOperationsInput | string
   hasTax?: Prisma.BoolFieldUpdateOperationsInput | boolean
   status?: Prisma.EnumItemStatusFieldUpdateOperationsInput | $Enums.ItemStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  productService?: Prisma.ProductServiceUpdateOneRequiredWithoutItemsNestedInput
+  productService?: Prisma.ProductServiceUpdateOneWithoutItemsNestedInput
+  unit?: Prisma.UnitUpdateOneWithoutItemsNestedInput
   invoice?: Prisma.InvoiceUpdateOneWithoutItemsNestedInput
   quote?: Prisma.QuoteUpdateOneWithoutItemsNestedInput
   purchaseOrder?: Prisma.purchaseOrderUpdateOneWithoutItemsNestedInput
@@ -423,40 +524,57 @@ export type ItemUpdateInput = {
 
 export type ItemUncheckedUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  type?: Prisma.EnumItemTypeFieldUpdateOperationsInput | $Enums.ItemType
   quantity?: Prisma.IntFieldUpdateOperationsInput | number
-  productServiceId?: Prisma.StringFieldUpdateOperationsInput | string
+  productServiceId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  unitId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   price?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  charges?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  extraCharges?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  start?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  end?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   description?: Prisma.StringFieldUpdateOperationsInput | string
   reference?: Prisma.StringFieldUpdateOperationsInput | string
   hasTax?: Prisma.BoolFieldUpdateOperationsInput | boolean
   status?: Prisma.EnumItemStatusFieldUpdateOperationsInput | $Enums.ItemStatus
   invoiceId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   quoteId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  purchaseOrderId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  purchaseOrderId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type ItemCreateManyInput = {
   id?: string
+  type?: $Enums.ItemType
   quantity: number
-  productServiceId: string
+  productServiceId?: string | null
+  unitId?: string | null
   price?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  charges?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  extraCharges?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  start?: Date | string | null
+  end?: Date | string | null
   description: string
   reference: string
   hasTax?: boolean
   status?: $Enums.ItemStatus
   invoiceId?: string | null
   quoteId?: string | null
+  purchaseOrderId?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
-  purchaseOrderId?: string | null
 }
 
 export type ItemUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  type?: Prisma.EnumItemTypeFieldUpdateOperationsInput | $Enums.ItemType
   quantity?: Prisma.IntFieldUpdateOperationsInput | number
   price?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  charges?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  extraCharges?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  start?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  end?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   description?: Prisma.StringFieldUpdateOperationsInput | string
   reference?: Prisma.StringFieldUpdateOperationsInput | string
   hasTax?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -467,18 +585,24 @@ export type ItemUpdateManyMutationInput = {
 
 export type ItemUncheckedUpdateManyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  type?: Prisma.EnumItemTypeFieldUpdateOperationsInput | $Enums.ItemType
   quantity?: Prisma.IntFieldUpdateOperationsInput | number
-  productServiceId?: Prisma.StringFieldUpdateOperationsInput | string
+  productServiceId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  unitId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   price?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  charges?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  extraCharges?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  start?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  end?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   description?: Prisma.StringFieldUpdateOperationsInput | string
   reference?: Prisma.StringFieldUpdateOperationsInput | string
   hasTax?: Prisma.BoolFieldUpdateOperationsInput | boolean
   status?: Prisma.EnumItemStatusFieldUpdateOperationsInput | $Enums.ItemStatus
   invoiceId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   quoteId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  purchaseOrderId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  purchaseOrderId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type ItemListRelationFilter = {
@@ -493,60 +617,124 @@ export type ItemOrderByRelationAggregateInput = {
 
 export type ItemCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
+  type?: Prisma.SortOrder
   quantity?: Prisma.SortOrder
   productServiceId?: Prisma.SortOrder
+  unitId?: Prisma.SortOrder
   price?: Prisma.SortOrder
+  charges?: Prisma.SortOrder
+  extraCharges?: Prisma.SortOrder
+  start?: Prisma.SortOrder
+  end?: Prisma.SortOrder
   description?: Prisma.SortOrder
   reference?: Prisma.SortOrder
   hasTax?: Prisma.SortOrder
   status?: Prisma.SortOrder
   invoiceId?: Prisma.SortOrder
   quoteId?: Prisma.SortOrder
+  purchaseOrderId?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
-  purchaseOrderId?: Prisma.SortOrder
 }
 
 export type ItemAvgOrderByAggregateInput = {
   quantity?: Prisma.SortOrder
   price?: Prisma.SortOrder
+  charges?: Prisma.SortOrder
+  extraCharges?: Prisma.SortOrder
 }
 
 export type ItemMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
+  type?: Prisma.SortOrder
   quantity?: Prisma.SortOrder
   productServiceId?: Prisma.SortOrder
+  unitId?: Prisma.SortOrder
   price?: Prisma.SortOrder
+  charges?: Prisma.SortOrder
+  extraCharges?: Prisma.SortOrder
+  start?: Prisma.SortOrder
+  end?: Prisma.SortOrder
   description?: Prisma.SortOrder
   reference?: Prisma.SortOrder
   hasTax?: Prisma.SortOrder
   status?: Prisma.SortOrder
   invoiceId?: Prisma.SortOrder
   quoteId?: Prisma.SortOrder
+  purchaseOrderId?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
-  purchaseOrderId?: Prisma.SortOrder
 }
 
 export type ItemMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
+  type?: Prisma.SortOrder
   quantity?: Prisma.SortOrder
   productServiceId?: Prisma.SortOrder
+  unitId?: Prisma.SortOrder
   price?: Prisma.SortOrder
+  charges?: Prisma.SortOrder
+  extraCharges?: Prisma.SortOrder
+  start?: Prisma.SortOrder
+  end?: Prisma.SortOrder
   description?: Prisma.SortOrder
   reference?: Prisma.SortOrder
   hasTax?: Prisma.SortOrder
   status?: Prisma.SortOrder
   invoiceId?: Prisma.SortOrder
   quoteId?: Prisma.SortOrder
+  purchaseOrderId?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
-  purchaseOrderId?: Prisma.SortOrder
 }
 
 export type ItemSumOrderByAggregateInput = {
   quantity?: Prisma.SortOrder
   price?: Prisma.SortOrder
+  charges?: Prisma.SortOrder
+  extraCharges?: Prisma.SortOrder
+}
+
+export type ItemCreateNestedManyWithoutUnitInput = {
+  create?: Prisma.XOR<Prisma.ItemCreateWithoutUnitInput, Prisma.ItemUncheckedCreateWithoutUnitInput> | Prisma.ItemCreateWithoutUnitInput[] | Prisma.ItemUncheckedCreateWithoutUnitInput[]
+  connectOrCreate?: Prisma.ItemCreateOrConnectWithoutUnitInput | Prisma.ItemCreateOrConnectWithoutUnitInput[]
+  createMany?: Prisma.ItemCreateManyUnitInputEnvelope
+  connect?: Prisma.ItemWhereUniqueInput | Prisma.ItemWhereUniqueInput[]
+}
+
+export type ItemUncheckedCreateNestedManyWithoutUnitInput = {
+  create?: Prisma.XOR<Prisma.ItemCreateWithoutUnitInput, Prisma.ItemUncheckedCreateWithoutUnitInput> | Prisma.ItemCreateWithoutUnitInput[] | Prisma.ItemUncheckedCreateWithoutUnitInput[]
+  connectOrCreate?: Prisma.ItemCreateOrConnectWithoutUnitInput | Prisma.ItemCreateOrConnectWithoutUnitInput[]
+  createMany?: Prisma.ItemCreateManyUnitInputEnvelope
+  connect?: Prisma.ItemWhereUniqueInput | Prisma.ItemWhereUniqueInput[]
+}
+
+export type ItemUpdateManyWithoutUnitNestedInput = {
+  create?: Prisma.XOR<Prisma.ItemCreateWithoutUnitInput, Prisma.ItemUncheckedCreateWithoutUnitInput> | Prisma.ItemCreateWithoutUnitInput[] | Prisma.ItemUncheckedCreateWithoutUnitInput[]
+  connectOrCreate?: Prisma.ItemCreateOrConnectWithoutUnitInput | Prisma.ItemCreateOrConnectWithoutUnitInput[]
+  upsert?: Prisma.ItemUpsertWithWhereUniqueWithoutUnitInput | Prisma.ItemUpsertWithWhereUniqueWithoutUnitInput[]
+  createMany?: Prisma.ItemCreateManyUnitInputEnvelope
+  set?: Prisma.ItemWhereUniqueInput | Prisma.ItemWhereUniqueInput[]
+  disconnect?: Prisma.ItemWhereUniqueInput | Prisma.ItemWhereUniqueInput[]
+  delete?: Prisma.ItemWhereUniqueInput | Prisma.ItemWhereUniqueInput[]
+  connect?: Prisma.ItemWhereUniqueInput | Prisma.ItemWhereUniqueInput[]
+  update?: Prisma.ItemUpdateWithWhereUniqueWithoutUnitInput | Prisma.ItemUpdateWithWhereUniqueWithoutUnitInput[]
+  updateMany?: Prisma.ItemUpdateManyWithWhereWithoutUnitInput | Prisma.ItemUpdateManyWithWhereWithoutUnitInput[]
+  deleteMany?: Prisma.ItemScalarWhereInput | Prisma.ItemScalarWhereInput[]
+}
+
+export type ItemUncheckedUpdateManyWithoutUnitNestedInput = {
+  create?: Prisma.XOR<Prisma.ItemCreateWithoutUnitInput, Prisma.ItemUncheckedCreateWithoutUnitInput> | Prisma.ItemCreateWithoutUnitInput[] | Prisma.ItemUncheckedCreateWithoutUnitInput[]
+  connectOrCreate?: Prisma.ItemCreateOrConnectWithoutUnitInput | Prisma.ItemCreateOrConnectWithoutUnitInput[]
+  upsert?: Prisma.ItemUpsertWithWhereUniqueWithoutUnitInput | Prisma.ItemUpsertWithWhereUniqueWithoutUnitInput[]
+  createMany?: Prisma.ItemCreateManyUnitInputEnvelope
+  set?: Prisma.ItemWhereUniqueInput | Prisma.ItemWhereUniqueInput[]
+  disconnect?: Prisma.ItemWhereUniqueInput | Prisma.ItemWhereUniqueInput[]
+  delete?: Prisma.ItemWhereUniqueInput | Prisma.ItemWhereUniqueInput[]
+  connect?: Prisma.ItemWhereUniqueInput | Prisma.ItemWhereUniqueInput[]
+  update?: Prisma.ItemUpdateWithWhereUniqueWithoutUnitInput | Prisma.ItemUpdateWithWhereUniqueWithoutUnitInput[]
+  updateMany?: Prisma.ItemUpdateManyWithWhereWithoutUnitInput | Prisma.ItemUpdateManyWithWhereWithoutUnitInput[]
+  deleteMany?: Prisma.ItemScalarWhereInput | Prisma.ItemScalarWhereInput[]
 }
 
 export type ItemCreateNestedManyWithoutProductServiceInput = {
@@ -589,6 +777,14 @@ export type ItemUncheckedUpdateManyWithoutProductServiceNestedInput = {
   update?: Prisma.ItemUpdateWithWhereUniqueWithoutProductServiceInput | Prisma.ItemUpdateWithWhereUniqueWithoutProductServiceInput[]
   updateMany?: Prisma.ItemUpdateManyWithWhereWithoutProductServiceInput | Prisma.ItemUpdateManyWithWhereWithoutProductServiceInput[]
   deleteMany?: Prisma.ItemScalarWhereInput | Prisma.ItemScalarWhereInput[]
+}
+
+export type EnumItemTypeFieldUpdateOperationsInput = {
+  set?: $Enums.ItemType
+}
+
+export type NullableDateTimeFieldUpdateOperationsInput = {
+  set?: Date | string | null
 }
 
 export type EnumItemStatusFieldUpdateOperationsInput = {
@@ -721,16 +917,115 @@ export type ItemUncheckedUpdateManyWithoutQuoteNestedInput = {
   deleteMany?: Prisma.ItemScalarWhereInput | Prisma.ItemScalarWhereInput[]
 }
 
-export type ItemCreateWithoutProductServiceInput = {
+export type ItemCreateWithoutUnitInput = {
   id?: string
+  type?: $Enums.ItemType
   quantity: number
   price?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  charges?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  extraCharges?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  start?: Date | string | null
+  end?: Date | string | null
   description: string
   reference: string
   hasTax?: boolean
   status?: $Enums.ItemStatus
   createdAt?: Date | string
   updatedAt?: Date | string
+  productService?: Prisma.ProductServiceCreateNestedOneWithoutItemsInput
+  invoice?: Prisma.InvoiceCreateNestedOneWithoutItemsInput
+  quote?: Prisma.QuoteCreateNestedOneWithoutItemsInput
+  purchaseOrder?: Prisma.purchaseOrderCreateNestedOneWithoutItemsInput
+}
+
+export type ItemUncheckedCreateWithoutUnitInput = {
+  id?: string
+  type?: $Enums.ItemType
+  quantity: number
+  productServiceId?: string | null
+  price?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  charges?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  extraCharges?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  start?: Date | string | null
+  end?: Date | string | null
+  description: string
+  reference: string
+  hasTax?: boolean
+  status?: $Enums.ItemStatus
+  invoiceId?: string | null
+  quoteId?: string | null
+  purchaseOrderId?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+}
+
+export type ItemCreateOrConnectWithoutUnitInput = {
+  where: Prisma.ItemWhereUniqueInput
+  create: Prisma.XOR<Prisma.ItemCreateWithoutUnitInput, Prisma.ItemUncheckedCreateWithoutUnitInput>
+}
+
+export type ItemCreateManyUnitInputEnvelope = {
+  data: Prisma.ItemCreateManyUnitInput | Prisma.ItemCreateManyUnitInput[]
+  skipDuplicates?: boolean
+}
+
+export type ItemUpsertWithWhereUniqueWithoutUnitInput = {
+  where: Prisma.ItemWhereUniqueInput
+  update: Prisma.XOR<Prisma.ItemUpdateWithoutUnitInput, Prisma.ItemUncheckedUpdateWithoutUnitInput>
+  create: Prisma.XOR<Prisma.ItemCreateWithoutUnitInput, Prisma.ItemUncheckedCreateWithoutUnitInput>
+}
+
+export type ItemUpdateWithWhereUniqueWithoutUnitInput = {
+  where: Prisma.ItemWhereUniqueInput
+  data: Prisma.XOR<Prisma.ItemUpdateWithoutUnitInput, Prisma.ItemUncheckedUpdateWithoutUnitInput>
+}
+
+export type ItemUpdateManyWithWhereWithoutUnitInput = {
+  where: Prisma.ItemScalarWhereInput
+  data: Prisma.XOR<Prisma.ItemUpdateManyMutationInput, Prisma.ItemUncheckedUpdateManyWithoutUnitInput>
+}
+
+export type ItemScalarWhereInput = {
+  AND?: Prisma.ItemScalarWhereInput | Prisma.ItemScalarWhereInput[]
+  OR?: Prisma.ItemScalarWhereInput[]
+  NOT?: Prisma.ItemScalarWhereInput | Prisma.ItemScalarWhereInput[]
+  id?: Prisma.StringFilter<"Item"> | string
+  type?: Prisma.EnumItemTypeFilter<"Item"> | $Enums.ItemType
+  quantity?: Prisma.IntFilter<"Item"> | number
+  productServiceId?: Prisma.StringNullableFilter<"Item"> | string | null
+  unitId?: Prisma.StringNullableFilter<"Item"> | string | null
+  price?: Prisma.DecimalFilter<"Item"> | runtime.Decimal | runtime.DecimalJsLike | number | string
+  charges?: Prisma.DecimalNullableFilter<"Item"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  extraCharges?: Prisma.DecimalNullableFilter<"Item"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  start?: Prisma.DateTimeNullableFilter<"Item"> | Date | string | null
+  end?: Prisma.DateTimeNullableFilter<"Item"> | Date | string | null
+  description?: Prisma.StringFilter<"Item"> | string
+  reference?: Prisma.StringFilter<"Item"> | string
+  hasTax?: Prisma.BoolFilter<"Item"> | boolean
+  status?: Prisma.EnumItemStatusFilter<"Item"> | $Enums.ItemStatus
+  invoiceId?: Prisma.StringNullableFilter<"Item"> | string | null
+  quoteId?: Prisma.StringNullableFilter<"Item"> | string | null
+  purchaseOrderId?: Prisma.StringNullableFilter<"Item"> | string | null
+  createdAt?: Prisma.DateTimeFilter<"Item"> | Date | string
+  updatedAt?: Prisma.DateTimeFilter<"Item"> | Date | string
+}
+
+export type ItemCreateWithoutProductServiceInput = {
+  id?: string
+  type?: $Enums.ItemType
+  quantity: number
+  price?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  charges?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  extraCharges?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  start?: Date | string | null
+  end?: Date | string | null
+  description: string
+  reference: string
+  hasTax?: boolean
+  status?: $Enums.ItemStatus
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  unit?: Prisma.UnitCreateNestedOneWithoutItemsInput
   invoice?: Prisma.InvoiceCreateNestedOneWithoutItemsInput
   quote?: Prisma.QuoteCreateNestedOneWithoutItemsInput
   purchaseOrder?: Prisma.purchaseOrderCreateNestedOneWithoutItemsInput
@@ -738,17 +1033,23 @@ export type ItemCreateWithoutProductServiceInput = {
 
 export type ItemUncheckedCreateWithoutProductServiceInput = {
   id?: string
+  type?: $Enums.ItemType
   quantity: number
+  unitId?: string | null
   price?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  charges?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  extraCharges?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  start?: Date | string | null
+  end?: Date | string | null
   description: string
   reference: string
   hasTax?: boolean
   status?: $Enums.ItemStatus
   invoiceId?: string | null
   quoteId?: string | null
+  purchaseOrderId?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
-  purchaseOrderId?: string | null
 }
 
 export type ItemCreateOrConnectWithoutProductServiceInput = {
@@ -777,53 +1078,46 @@ export type ItemUpdateManyWithWhereWithoutProductServiceInput = {
   data: Prisma.XOR<Prisma.ItemUpdateManyMutationInput, Prisma.ItemUncheckedUpdateManyWithoutProductServiceInput>
 }
 
-export type ItemScalarWhereInput = {
-  AND?: Prisma.ItemScalarWhereInput | Prisma.ItemScalarWhereInput[]
-  OR?: Prisma.ItemScalarWhereInput[]
-  NOT?: Prisma.ItemScalarWhereInput | Prisma.ItemScalarWhereInput[]
-  id?: Prisma.StringFilter<"Item"> | string
-  quantity?: Prisma.IntFilter<"Item"> | number
-  productServiceId?: Prisma.StringFilter<"Item"> | string
-  price?: Prisma.DecimalFilter<"Item"> | runtime.Decimal | runtime.DecimalJsLike | number | string
-  description?: Prisma.StringFilter<"Item"> | string
-  reference?: Prisma.StringFilter<"Item"> | string
-  hasTax?: Prisma.BoolFilter<"Item"> | boolean
-  status?: Prisma.EnumItemStatusFilter<"Item"> | $Enums.ItemStatus
-  invoiceId?: Prisma.StringNullableFilter<"Item"> | string | null
-  quoteId?: Prisma.StringNullableFilter<"Item"> | string | null
-  createdAt?: Prisma.DateTimeFilter<"Item"> | Date | string
-  updatedAt?: Prisma.DateTimeFilter<"Item"> | Date | string
-  purchaseOrderId?: Prisma.StringNullableFilter<"Item"> | string | null
-}
-
 export type ItemCreateWithoutInvoiceInput = {
   id?: string
+  type?: $Enums.ItemType
   quantity: number
   price?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  charges?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  extraCharges?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  start?: Date | string | null
+  end?: Date | string | null
   description: string
   reference: string
   hasTax?: boolean
   status?: $Enums.ItemStatus
   createdAt?: Date | string
   updatedAt?: Date | string
-  productService: Prisma.ProductServiceCreateNestedOneWithoutItemsInput
+  productService?: Prisma.ProductServiceCreateNestedOneWithoutItemsInput
+  unit?: Prisma.UnitCreateNestedOneWithoutItemsInput
   quote?: Prisma.QuoteCreateNestedOneWithoutItemsInput
   purchaseOrder?: Prisma.purchaseOrderCreateNestedOneWithoutItemsInput
 }
 
 export type ItemUncheckedCreateWithoutInvoiceInput = {
   id?: string
+  type?: $Enums.ItemType
   quantity: number
-  productServiceId: string
+  productServiceId?: string | null
+  unitId?: string | null
   price?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  charges?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  extraCharges?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  start?: Date | string | null
+  end?: Date | string | null
   description: string
   reference: string
   hasTax?: boolean
   status?: $Enums.ItemStatus
   quoteId?: string | null
+  purchaseOrderId?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
-  purchaseOrderId?: string | null
 }
 
 export type ItemCreateOrConnectWithoutInvoiceInput = {
@@ -854,24 +1148,36 @@ export type ItemUpdateManyWithWhereWithoutInvoiceInput = {
 
 export type ItemCreateWithoutPurchaseOrderInput = {
   id?: string
+  type?: $Enums.ItemType
   quantity: number
   price?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  charges?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  extraCharges?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  start?: Date | string | null
+  end?: Date | string | null
   description: string
   reference: string
   hasTax?: boolean
   status?: $Enums.ItemStatus
   createdAt?: Date | string
   updatedAt?: Date | string
-  productService: Prisma.ProductServiceCreateNestedOneWithoutItemsInput
+  productService?: Prisma.ProductServiceCreateNestedOneWithoutItemsInput
+  unit?: Prisma.UnitCreateNestedOneWithoutItemsInput
   invoice?: Prisma.InvoiceCreateNestedOneWithoutItemsInput
   quote?: Prisma.QuoteCreateNestedOneWithoutItemsInput
 }
 
 export type ItemUncheckedCreateWithoutPurchaseOrderInput = {
   id?: string
+  type?: $Enums.ItemType
   quantity: number
-  productServiceId: string
+  productServiceId?: string | null
+  unitId?: string | null
   price?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  charges?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  extraCharges?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  start?: Date | string | null
+  end?: Date | string | null
   description: string
   reference: string
   hasTax?: boolean
@@ -910,32 +1216,44 @@ export type ItemUpdateManyWithWhereWithoutPurchaseOrderInput = {
 
 export type ItemCreateWithoutQuoteInput = {
   id?: string
+  type?: $Enums.ItemType
   quantity: number
   price?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  charges?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  extraCharges?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  start?: Date | string | null
+  end?: Date | string | null
   description: string
   reference: string
   hasTax?: boolean
   status?: $Enums.ItemStatus
   createdAt?: Date | string
   updatedAt?: Date | string
-  productService: Prisma.ProductServiceCreateNestedOneWithoutItemsInput
+  productService?: Prisma.ProductServiceCreateNestedOneWithoutItemsInput
+  unit?: Prisma.UnitCreateNestedOneWithoutItemsInput
   invoice?: Prisma.InvoiceCreateNestedOneWithoutItemsInput
   purchaseOrder?: Prisma.purchaseOrderCreateNestedOneWithoutItemsInput
 }
 
 export type ItemUncheckedCreateWithoutQuoteInput = {
   id?: string
+  type?: $Enums.ItemType
   quantity: number
-  productServiceId: string
+  productServiceId?: string | null
+  unitId?: string | null
   price?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  charges?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  extraCharges?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  start?: Date | string | null
+  end?: Date | string | null
   description: string
   reference: string
   hasTax?: boolean
   status?: $Enums.ItemStatus
   invoiceId?: string | null
+  purchaseOrderId?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
-  purchaseOrderId?: string | null
 }
 
 export type ItemCreateOrConnectWithoutQuoteInput = {
@@ -964,31 +1282,127 @@ export type ItemUpdateManyWithWhereWithoutQuoteInput = {
   data: Prisma.XOR<Prisma.ItemUpdateManyMutationInput, Prisma.ItemUncheckedUpdateManyWithoutQuoteInput>
 }
 
-export type ItemCreateManyProductServiceInput = {
+export type ItemCreateManyUnitInput = {
   id?: string
+  type?: $Enums.ItemType
   quantity: number
+  productServiceId?: string | null
   price?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  charges?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  extraCharges?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  start?: Date | string | null
+  end?: Date | string | null
   description: string
   reference: string
   hasTax?: boolean
   status?: $Enums.ItemStatus
   invoiceId?: string | null
   quoteId?: string | null
+  purchaseOrderId?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
-  purchaseOrderId?: string | null
 }
 
-export type ItemUpdateWithoutProductServiceInput = {
+export type ItemUpdateWithoutUnitInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  type?: Prisma.EnumItemTypeFieldUpdateOperationsInput | $Enums.ItemType
   quantity?: Prisma.IntFieldUpdateOperationsInput | number
   price?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  charges?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  extraCharges?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  start?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  end?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   description?: Prisma.StringFieldUpdateOperationsInput | string
   reference?: Prisma.StringFieldUpdateOperationsInput | string
   hasTax?: Prisma.BoolFieldUpdateOperationsInput | boolean
   status?: Prisma.EnumItemStatusFieldUpdateOperationsInput | $Enums.ItemStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  productService?: Prisma.ProductServiceUpdateOneWithoutItemsNestedInput
+  invoice?: Prisma.InvoiceUpdateOneWithoutItemsNestedInput
+  quote?: Prisma.QuoteUpdateOneWithoutItemsNestedInput
+  purchaseOrder?: Prisma.purchaseOrderUpdateOneWithoutItemsNestedInput
+}
+
+export type ItemUncheckedUpdateWithoutUnitInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  type?: Prisma.EnumItemTypeFieldUpdateOperationsInput | $Enums.ItemType
+  quantity?: Prisma.IntFieldUpdateOperationsInput | number
+  productServiceId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  price?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  charges?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  extraCharges?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  start?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  end?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  description?: Prisma.StringFieldUpdateOperationsInput | string
+  reference?: Prisma.StringFieldUpdateOperationsInput | string
+  hasTax?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  status?: Prisma.EnumItemStatusFieldUpdateOperationsInput | $Enums.ItemStatus
+  invoiceId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  quoteId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  purchaseOrderId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+}
+
+export type ItemUncheckedUpdateManyWithoutUnitInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  type?: Prisma.EnumItemTypeFieldUpdateOperationsInput | $Enums.ItemType
+  quantity?: Prisma.IntFieldUpdateOperationsInput | number
+  productServiceId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  price?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  charges?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  extraCharges?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  start?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  end?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  description?: Prisma.StringFieldUpdateOperationsInput | string
+  reference?: Prisma.StringFieldUpdateOperationsInput | string
+  hasTax?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  status?: Prisma.EnumItemStatusFieldUpdateOperationsInput | $Enums.ItemStatus
+  invoiceId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  quoteId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  purchaseOrderId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+}
+
+export type ItemCreateManyProductServiceInput = {
+  id?: string
+  type?: $Enums.ItemType
+  quantity: number
+  unitId?: string | null
+  price?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  charges?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  extraCharges?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  start?: Date | string | null
+  end?: Date | string | null
+  description: string
+  reference: string
+  hasTax?: boolean
+  status?: $Enums.ItemStatus
+  invoiceId?: string | null
+  quoteId?: string | null
+  purchaseOrderId?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+}
+
+export type ItemUpdateWithoutProductServiceInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  type?: Prisma.EnumItemTypeFieldUpdateOperationsInput | $Enums.ItemType
+  quantity?: Prisma.IntFieldUpdateOperationsInput | number
+  price?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  charges?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  extraCharges?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  start?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  end?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  description?: Prisma.StringFieldUpdateOperationsInput | string
+  reference?: Prisma.StringFieldUpdateOperationsInput | string
+  hasTax?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  status?: Prisma.EnumItemStatusFieldUpdateOperationsInput | $Enums.ItemStatus
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  unit?: Prisma.UnitUpdateOneWithoutItemsNestedInput
   invoice?: Prisma.InvoiceUpdateOneWithoutItemsNestedInput
   quote?: Prisma.QuoteUpdateOneWithoutItemsNestedInput
   purchaseOrder?: Prisma.purchaseOrderUpdateOneWithoutItemsNestedInput
@@ -996,99 +1410,141 @@ export type ItemUpdateWithoutProductServiceInput = {
 
 export type ItemUncheckedUpdateWithoutProductServiceInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  type?: Prisma.EnumItemTypeFieldUpdateOperationsInput | $Enums.ItemType
   quantity?: Prisma.IntFieldUpdateOperationsInput | number
+  unitId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   price?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  charges?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  extraCharges?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  start?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  end?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   description?: Prisma.StringFieldUpdateOperationsInput | string
   reference?: Prisma.StringFieldUpdateOperationsInput | string
   hasTax?: Prisma.BoolFieldUpdateOperationsInput | boolean
   status?: Prisma.EnumItemStatusFieldUpdateOperationsInput | $Enums.ItemStatus
   invoiceId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   quoteId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  purchaseOrderId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  purchaseOrderId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type ItemUncheckedUpdateManyWithoutProductServiceInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  type?: Prisma.EnumItemTypeFieldUpdateOperationsInput | $Enums.ItemType
   quantity?: Prisma.IntFieldUpdateOperationsInput | number
+  unitId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   price?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  charges?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  extraCharges?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  start?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  end?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   description?: Prisma.StringFieldUpdateOperationsInput | string
   reference?: Prisma.StringFieldUpdateOperationsInput | string
   hasTax?: Prisma.BoolFieldUpdateOperationsInput | boolean
   status?: Prisma.EnumItemStatusFieldUpdateOperationsInput | $Enums.ItemStatus
   invoiceId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   quoteId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  purchaseOrderId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  purchaseOrderId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type ItemCreateManyInvoiceInput = {
   id?: string
+  type?: $Enums.ItemType
   quantity: number
-  productServiceId: string
+  productServiceId?: string | null
+  unitId?: string | null
   price?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  charges?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  extraCharges?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  start?: Date | string | null
+  end?: Date | string | null
   description: string
   reference: string
   hasTax?: boolean
   status?: $Enums.ItemStatus
   quoteId?: string | null
+  purchaseOrderId?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
-  purchaseOrderId?: string | null
 }
 
 export type ItemUpdateWithoutInvoiceInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  type?: Prisma.EnumItemTypeFieldUpdateOperationsInput | $Enums.ItemType
   quantity?: Prisma.IntFieldUpdateOperationsInput | number
   price?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  charges?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  extraCharges?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  start?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  end?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   description?: Prisma.StringFieldUpdateOperationsInput | string
   reference?: Prisma.StringFieldUpdateOperationsInput | string
   hasTax?: Prisma.BoolFieldUpdateOperationsInput | boolean
   status?: Prisma.EnumItemStatusFieldUpdateOperationsInput | $Enums.ItemStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  productService?: Prisma.ProductServiceUpdateOneRequiredWithoutItemsNestedInput
+  productService?: Prisma.ProductServiceUpdateOneWithoutItemsNestedInput
+  unit?: Prisma.UnitUpdateOneWithoutItemsNestedInput
   quote?: Prisma.QuoteUpdateOneWithoutItemsNestedInput
   purchaseOrder?: Prisma.purchaseOrderUpdateOneWithoutItemsNestedInput
 }
 
 export type ItemUncheckedUpdateWithoutInvoiceInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  type?: Prisma.EnumItemTypeFieldUpdateOperationsInput | $Enums.ItemType
   quantity?: Prisma.IntFieldUpdateOperationsInput | number
-  productServiceId?: Prisma.StringFieldUpdateOperationsInput | string
+  productServiceId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  unitId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   price?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  charges?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  extraCharges?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  start?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  end?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   description?: Prisma.StringFieldUpdateOperationsInput | string
   reference?: Prisma.StringFieldUpdateOperationsInput | string
   hasTax?: Prisma.BoolFieldUpdateOperationsInput | boolean
   status?: Prisma.EnumItemStatusFieldUpdateOperationsInput | $Enums.ItemStatus
   quoteId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  purchaseOrderId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  purchaseOrderId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type ItemUncheckedUpdateManyWithoutInvoiceInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  type?: Prisma.EnumItemTypeFieldUpdateOperationsInput | $Enums.ItemType
   quantity?: Prisma.IntFieldUpdateOperationsInput | number
-  productServiceId?: Prisma.StringFieldUpdateOperationsInput | string
+  productServiceId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  unitId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   price?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  charges?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  extraCharges?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  start?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  end?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   description?: Prisma.StringFieldUpdateOperationsInput | string
   reference?: Prisma.StringFieldUpdateOperationsInput | string
   hasTax?: Prisma.BoolFieldUpdateOperationsInput | boolean
   status?: Prisma.EnumItemStatusFieldUpdateOperationsInput | $Enums.ItemStatus
   quoteId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  purchaseOrderId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  purchaseOrderId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type ItemCreateManyPurchaseOrderInput = {
   id?: string
+  type?: $Enums.ItemType
   quantity: number
-  productServiceId: string
+  productServiceId?: string | null
+  unitId?: string | null
   price?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  charges?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  extraCharges?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  start?: Date | string | null
+  end?: Date | string | null
   description: string
   reference: string
   hasTax?: boolean
@@ -1101,24 +1557,36 @@ export type ItemCreateManyPurchaseOrderInput = {
 
 export type ItemUpdateWithoutPurchaseOrderInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  type?: Prisma.EnumItemTypeFieldUpdateOperationsInput | $Enums.ItemType
   quantity?: Prisma.IntFieldUpdateOperationsInput | number
   price?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  charges?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  extraCharges?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  start?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  end?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   description?: Prisma.StringFieldUpdateOperationsInput | string
   reference?: Prisma.StringFieldUpdateOperationsInput | string
   hasTax?: Prisma.BoolFieldUpdateOperationsInput | boolean
   status?: Prisma.EnumItemStatusFieldUpdateOperationsInput | $Enums.ItemStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  productService?: Prisma.ProductServiceUpdateOneRequiredWithoutItemsNestedInput
+  productService?: Prisma.ProductServiceUpdateOneWithoutItemsNestedInput
+  unit?: Prisma.UnitUpdateOneWithoutItemsNestedInput
   invoice?: Prisma.InvoiceUpdateOneWithoutItemsNestedInput
   quote?: Prisma.QuoteUpdateOneWithoutItemsNestedInput
 }
 
 export type ItemUncheckedUpdateWithoutPurchaseOrderInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  type?: Prisma.EnumItemTypeFieldUpdateOperationsInput | $Enums.ItemType
   quantity?: Prisma.IntFieldUpdateOperationsInput | number
-  productServiceId?: Prisma.StringFieldUpdateOperationsInput | string
+  productServiceId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  unitId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   price?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  charges?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  extraCharges?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  start?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  end?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   description?: Prisma.StringFieldUpdateOperationsInput | string
   reference?: Prisma.StringFieldUpdateOperationsInput | string
   hasTax?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -1131,9 +1599,15 @@ export type ItemUncheckedUpdateWithoutPurchaseOrderInput = {
 
 export type ItemUncheckedUpdateManyWithoutPurchaseOrderInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  type?: Prisma.EnumItemTypeFieldUpdateOperationsInput | $Enums.ItemType
   quantity?: Prisma.IntFieldUpdateOperationsInput | number
-  productServiceId?: Prisma.StringFieldUpdateOperationsInput | string
+  productServiceId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  unitId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   price?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  charges?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  extraCharges?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  start?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  end?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   description?: Prisma.StringFieldUpdateOperationsInput | string
   reference?: Prisma.StringFieldUpdateOperationsInput | string
   hasTax?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -1146,81 +1620,112 @@ export type ItemUncheckedUpdateManyWithoutPurchaseOrderInput = {
 
 export type ItemCreateManyQuoteInput = {
   id?: string
+  type?: $Enums.ItemType
   quantity: number
-  productServiceId: string
+  productServiceId?: string | null
+  unitId?: string | null
   price?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  charges?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  extraCharges?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  start?: Date | string | null
+  end?: Date | string | null
   description: string
   reference: string
   hasTax?: boolean
   status?: $Enums.ItemStatus
   invoiceId?: string | null
+  purchaseOrderId?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
-  purchaseOrderId?: string | null
 }
 
 export type ItemUpdateWithoutQuoteInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  type?: Prisma.EnumItemTypeFieldUpdateOperationsInput | $Enums.ItemType
   quantity?: Prisma.IntFieldUpdateOperationsInput | number
   price?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  charges?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  extraCharges?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  start?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  end?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   description?: Prisma.StringFieldUpdateOperationsInput | string
   reference?: Prisma.StringFieldUpdateOperationsInput | string
   hasTax?: Prisma.BoolFieldUpdateOperationsInput | boolean
   status?: Prisma.EnumItemStatusFieldUpdateOperationsInput | $Enums.ItemStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  productService?: Prisma.ProductServiceUpdateOneRequiredWithoutItemsNestedInput
+  productService?: Prisma.ProductServiceUpdateOneWithoutItemsNestedInput
+  unit?: Prisma.UnitUpdateOneWithoutItemsNestedInput
   invoice?: Prisma.InvoiceUpdateOneWithoutItemsNestedInput
   purchaseOrder?: Prisma.purchaseOrderUpdateOneWithoutItemsNestedInput
 }
 
 export type ItemUncheckedUpdateWithoutQuoteInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  type?: Prisma.EnumItemTypeFieldUpdateOperationsInput | $Enums.ItemType
   quantity?: Prisma.IntFieldUpdateOperationsInput | number
-  productServiceId?: Prisma.StringFieldUpdateOperationsInput | string
+  productServiceId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  unitId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   price?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  charges?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  extraCharges?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  start?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  end?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   description?: Prisma.StringFieldUpdateOperationsInput | string
   reference?: Prisma.StringFieldUpdateOperationsInput | string
   hasTax?: Prisma.BoolFieldUpdateOperationsInput | boolean
   status?: Prisma.EnumItemStatusFieldUpdateOperationsInput | $Enums.ItemStatus
   invoiceId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  purchaseOrderId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  purchaseOrderId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type ItemUncheckedUpdateManyWithoutQuoteInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  type?: Prisma.EnumItemTypeFieldUpdateOperationsInput | $Enums.ItemType
   quantity?: Prisma.IntFieldUpdateOperationsInput | number
-  productServiceId?: Prisma.StringFieldUpdateOperationsInput | string
+  productServiceId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  unitId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   price?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  charges?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  extraCharges?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  start?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  end?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   description?: Prisma.StringFieldUpdateOperationsInput | string
   reference?: Prisma.StringFieldUpdateOperationsInput | string
   hasTax?: Prisma.BoolFieldUpdateOperationsInput | boolean
   status?: Prisma.EnumItemStatusFieldUpdateOperationsInput | $Enums.ItemStatus
   invoiceId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  purchaseOrderId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  purchaseOrderId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 
 
 export type ItemSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
+  type?: boolean
   quantity?: boolean
   productServiceId?: boolean
+  unitId?: boolean
   price?: boolean
+  charges?: boolean
+  extraCharges?: boolean
+  start?: boolean
+  end?: boolean
   description?: boolean
   reference?: boolean
   hasTax?: boolean
   status?: boolean
   invoiceId?: boolean
   quoteId?: boolean
+  purchaseOrderId?: boolean
   createdAt?: boolean
   updatedAt?: boolean
-  purchaseOrderId?: boolean
-  productService?: boolean | Prisma.ProductServiceDefaultArgs<ExtArgs>
+  productService?: boolean | Prisma.Item$productServiceArgs<ExtArgs>
+  unit?: boolean | Prisma.Item$unitArgs<ExtArgs>
   invoice?: boolean | Prisma.Item$invoiceArgs<ExtArgs>
   quote?: boolean | Prisma.Item$quoteArgs<ExtArgs>
   purchaseOrder?: boolean | Prisma.Item$purchaseOrderArgs<ExtArgs>
@@ -1228,19 +1733,26 @@ export type ItemSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
 
 export type ItemSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
+  type?: boolean
   quantity?: boolean
   productServiceId?: boolean
+  unitId?: boolean
   price?: boolean
+  charges?: boolean
+  extraCharges?: boolean
+  start?: boolean
+  end?: boolean
   description?: boolean
   reference?: boolean
   hasTax?: boolean
   status?: boolean
   invoiceId?: boolean
   quoteId?: boolean
+  purchaseOrderId?: boolean
   createdAt?: boolean
   updatedAt?: boolean
-  purchaseOrderId?: boolean
-  productService?: boolean | Prisma.ProductServiceDefaultArgs<ExtArgs>
+  productService?: boolean | Prisma.Item$productServiceArgs<ExtArgs>
+  unit?: boolean | Prisma.Item$unitArgs<ExtArgs>
   invoice?: boolean | Prisma.Item$invoiceArgs<ExtArgs>
   quote?: boolean | Prisma.Item$quoteArgs<ExtArgs>
   purchaseOrder?: boolean | Prisma.Item$purchaseOrderArgs<ExtArgs>
@@ -1248,19 +1760,26 @@ export type ItemSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensio
 
 export type ItemSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
+  type?: boolean
   quantity?: boolean
   productServiceId?: boolean
+  unitId?: boolean
   price?: boolean
+  charges?: boolean
+  extraCharges?: boolean
+  start?: boolean
+  end?: boolean
   description?: boolean
   reference?: boolean
   hasTax?: boolean
   status?: boolean
   invoiceId?: boolean
   quoteId?: boolean
+  purchaseOrderId?: boolean
   createdAt?: boolean
   updatedAt?: boolean
-  purchaseOrderId?: boolean
-  productService?: boolean | Prisma.ProductServiceDefaultArgs<ExtArgs>
+  productService?: boolean | Prisma.Item$productServiceArgs<ExtArgs>
+  unit?: boolean | Prisma.Item$unitArgs<ExtArgs>
   invoice?: boolean | Prisma.Item$invoiceArgs<ExtArgs>
   quote?: boolean | Prisma.Item$quoteArgs<ExtArgs>
   purchaseOrder?: boolean | Prisma.Item$purchaseOrderArgs<ExtArgs>
@@ -1268,35 +1787,44 @@ export type ItemSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensio
 
 export type ItemSelectScalar = {
   id?: boolean
+  type?: boolean
   quantity?: boolean
   productServiceId?: boolean
+  unitId?: boolean
   price?: boolean
+  charges?: boolean
+  extraCharges?: boolean
+  start?: boolean
+  end?: boolean
   description?: boolean
   reference?: boolean
   hasTax?: boolean
   status?: boolean
   invoiceId?: boolean
   quoteId?: boolean
+  purchaseOrderId?: boolean
   createdAt?: boolean
   updatedAt?: boolean
-  purchaseOrderId?: boolean
 }
 
-export type ItemOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "quantity" | "productServiceId" | "price" | "description" | "reference" | "hasTax" | "status" | "invoiceId" | "quoteId" | "createdAt" | "updatedAt" | "purchaseOrderId", ExtArgs["result"]["item"]>
+export type ItemOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "type" | "quantity" | "productServiceId" | "unitId" | "price" | "charges" | "extraCharges" | "start" | "end" | "description" | "reference" | "hasTax" | "status" | "invoiceId" | "quoteId" | "purchaseOrderId" | "createdAt" | "updatedAt", ExtArgs["result"]["item"]>
 export type ItemInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  productService?: boolean | Prisma.ProductServiceDefaultArgs<ExtArgs>
+  productService?: boolean | Prisma.Item$productServiceArgs<ExtArgs>
+  unit?: boolean | Prisma.Item$unitArgs<ExtArgs>
   invoice?: boolean | Prisma.Item$invoiceArgs<ExtArgs>
   quote?: boolean | Prisma.Item$quoteArgs<ExtArgs>
   purchaseOrder?: boolean | Prisma.Item$purchaseOrderArgs<ExtArgs>
 }
 export type ItemIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  productService?: boolean | Prisma.ProductServiceDefaultArgs<ExtArgs>
+  productService?: boolean | Prisma.Item$productServiceArgs<ExtArgs>
+  unit?: boolean | Prisma.Item$unitArgs<ExtArgs>
   invoice?: boolean | Prisma.Item$invoiceArgs<ExtArgs>
   quote?: boolean | Prisma.Item$quoteArgs<ExtArgs>
   purchaseOrder?: boolean | Prisma.Item$purchaseOrderArgs<ExtArgs>
 }
 export type ItemIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  productService?: boolean | Prisma.ProductServiceDefaultArgs<ExtArgs>
+  productService?: boolean | Prisma.Item$productServiceArgs<ExtArgs>
+  unit?: boolean | Prisma.Item$unitArgs<ExtArgs>
   invoice?: boolean | Prisma.Item$invoiceArgs<ExtArgs>
   quote?: boolean | Prisma.Item$quoteArgs<ExtArgs>
   purchaseOrder?: boolean | Prisma.Item$purchaseOrderArgs<ExtArgs>
@@ -1305,25 +1833,32 @@ export type ItemIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensi
 export type $ItemPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "Item"
   objects: {
-    productService: Prisma.$ProductServicePayload<ExtArgs>
+    productService: Prisma.$ProductServicePayload<ExtArgs> | null
+    unit: Prisma.$UnitPayload<ExtArgs> | null
     invoice: Prisma.$InvoicePayload<ExtArgs> | null
     quote: Prisma.$QuotePayload<ExtArgs> | null
     purchaseOrder: Prisma.$purchaseOrderPayload<ExtArgs> | null
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
+    type: $Enums.ItemType
     quantity: number
-    productServiceId: string
+    productServiceId: string | null
+    unitId: string | null
     price: runtime.Decimal
+    charges: runtime.Decimal | null
+    extraCharges: runtime.Decimal | null
+    start: Date | null
+    end: Date | null
     description: string
     reference: string
     hasTax: boolean
     status: $Enums.ItemStatus
     invoiceId: string | null
     quoteId: string | null
+    purchaseOrderId: string | null
     createdAt: Date
     updatedAt: Date
-    purchaseOrderId: string | null
   }, ExtArgs["result"]["item"]>
   composites: {}
 }
@@ -1718,7 +2253,8 @@ readonly fields: ItemFieldRefs;
  */
 export interface Prisma__ItemClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
-  productService<T extends Prisma.ProductServiceDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.ProductServiceDefaultArgs<ExtArgs>>): Prisma.Prisma__ProductServiceClient<runtime.Types.Result.GetResult<Prisma.$ProductServicePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+  productService<T extends Prisma.Item$productServiceArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Item$productServiceArgs<ExtArgs>>): Prisma.Prisma__ProductServiceClient<runtime.Types.Result.GetResult<Prisma.$ProductServicePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+  unit<T extends Prisma.Item$unitArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Item$unitArgs<ExtArgs>>): Prisma.Prisma__UnitClient<runtime.Types.Result.GetResult<Prisma.$UnitPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   invoice<T extends Prisma.Item$invoiceArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Item$invoiceArgs<ExtArgs>>): Prisma.Prisma__InvoiceClient<runtime.Types.Result.GetResult<Prisma.$InvoicePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   quote<T extends Prisma.Item$quoteArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Item$quoteArgs<ExtArgs>>): Prisma.Prisma__QuoteClient<runtime.Types.Result.GetResult<Prisma.$QuotePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   purchaseOrder<T extends Prisma.Item$purchaseOrderArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Item$purchaseOrderArgs<ExtArgs>>): Prisma.Prisma__purchaseOrderClient<runtime.Types.Result.GetResult<Prisma.$purchaseOrderPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
@@ -1752,18 +2288,24 @@ export interface Prisma__ItemClient<T, Null = never, ExtArgs extends runtime.Typ
  */
 export interface ItemFieldRefs {
   readonly id: Prisma.FieldRef<"Item", 'String'>
+  readonly type: Prisma.FieldRef<"Item", 'ItemType'>
   readonly quantity: Prisma.FieldRef<"Item", 'Int'>
   readonly productServiceId: Prisma.FieldRef<"Item", 'String'>
+  readonly unitId: Prisma.FieldRef<"Item", 'String'>
   readonly price: Prisma.FieldRef<"Item", 'Decimal'>
+  readonly charges: Prisma.FieldRef<"Item", 'Decimal'>
+  readonly extraCharges: Prisma.FieldRef<"Item", 'Decimal'>
+  readonly start: Prisma.FieldRef<"Item", 'DateTime'>
+  readonly end: Prisma.FieldRef<"Item", 'DateTime'>
   readonly description: Prisma.FieldRef<"Item", 'String'>
   readonly reference: Prisma.FieldRef<"Item", 'String'>
   readonly hasTax: Prisma.FieldRef<"Item", 'Boolean'>
   readonly status: Prisma.FieldRef<"Item", 'ItemStatus'>
   readonly invoiceId: Prisma.FieldRef<"Item", 'String'>
   readonly quoteId: Prisma.FieldRef<"Item", 'String'>
+  readonly purchaseOrderId: Prisma.FieldRef<"Item", 'String'>
   readonly createdAt: Prisma.FieldRef<"Item", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"Item", 'DateTime'>
-  readonly purchaseOrderId: Prisma.FieldRef<"Item", 'String'>
 }
     
 
@@ -2162,6 +2704,44 @@ export type ItemDeleteManyArgs<ExtArgs extends runtime.Types.Extensions.Internal
    * Limit how many Items to delete.
    */
   limit?: number
+}
+
+/**
+ * Item.productService
+ */
+export type Item$productServiceArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the ProductService
+   */
+  select?: Prisma.ProductServiceSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the ProductService
+   */
+  omit?: Prisma.ProductServiceOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.ProductServiceInclude<ExtArgs> | null
+  where?: Prisma.ProductServiceWhereInput
+}
+
+/**
+ * Item.unit
+ */
+export type Item$unitArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Unit
+   */
+  select?: Prisma.UnitSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Unit
+   */
+  omit?: Prisma.UnitOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.UnitInclude<ExtArgs> | null
+  where?: Prisma.UnitWhereInput
 }
 
 /**

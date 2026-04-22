@@ -63,6 +63,13 @@ export function formatDateToString(date: Date) {
     })
 }
 
+
+export function dueDate(startDate: Date, days: number): Date {
+    const result = new Date(startDate);
+    result.setDate(result.getDate() + days);
+    return result;
+}
+
 export function duration(start: Date, end: Date): string {
     const diffTime = Math.max(0, end.getTime() - start.getTime());
     const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));

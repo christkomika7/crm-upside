@@ -17,13 +17,6 @@ import {
 } from "@/lib/zod/invoices";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import {
-    Select,
-    SelectContent,
-    SelectItem,
-    SelectTrigger,
-    SelectValue,
-} from "@/components/ui/select";
 import MultipleSelector from "@/components/ui/mullti-select";
 import { Textarea } from "@/components/ui/textarea";
 import { useMutation, useQuery } from "@tanstack/react-query";
@@ -33,17 +26,32 @@ import { cn } from "@/lib/utils";
 import { Switch } from "@/components/ui/switch";
 import { queryClient } from "@/lib/query-client";
 import { toast } from "sonner";
-import type { ProductService } from "@/types/product-service";
 import { DatePicker } from "@/components/ui/date-picker";
 import ArticleList from "./article-list";
 import { PackageIcon, Trash2Icon } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import type { Tax } from "@/types/tax";
 import RequiredLabel from "@/components/ui/required-label";
 import type { Client } from "@/types/client";
 import type { ItemSchemaType } from "@/lib/zod/item";
+import type { Article } from "@/types/item";
+import Decimal from "decimal.js";
+import { SelectField } from "@/components/ui/select-field";
+import { dueDates } from "@/lib/data";
+import { DEFAULT_VALUES } from "./lib/utils";
+import { ItemErrors } from "@/components/ui/item-erros";
+
 
 export default function Create() {
+    const form = useForm<InvoiceSchemaType>({
+        resolver: zodResolver(invoiceSchema),
+        defaultValues: DEFAULT_VALUES,
+    });
+
+    const items = form.watch("items") as ItemSchemaType[];
+    const hasTax = form.watch("hasTax");
+    const discountRaw = form.watch("discount");
+    const discountType = form.watch("discountType");
     const [type, setType] = useState<"OWNER" | "TENANT">("OWNER");
 
     const { isPending: isGettingClients, data: clients } = useQuery({
@@ -64,32 +72,37 @@ export default function Create() {
 
     const { isPending: isGettingItems, data: itemDatas } = useQuery({
         queryKey: ["product-services"],
-        queryFn: () => apiFetch<ProductService[]>(`/product-service/`),
+        queryFn: () => apiFetch<Article[]>(`/product-service/`),
         select: (data) =>
             data.map((item) => ({
                 id: item.id,
+                type: "ITEM",
                 value: item.reference,
                 label: item.reference,
                 description: item.description,
                 price: item.price,
+                charges: "",
+                extraCharges: "",
                 hasTax: item.hasTax,
             })),
     });
 
-    const form = useForm<InvoiceSchemaType>({
-        resolver: zodResolver(invoiceSchema),
-        defaultValues: {
-            hasTax: false,
-            type: "OWNER",
-            discountType: "PERCENT",
-            items: [],
-        },
+    const { isPending: isGettingUnits, data: units } = useQuery({
+        queryKey: ["units"],
+        queryFn: () => apiFetch<Article[]>(`/unit/list`),
+        select: (data) =>
+            data.map((unit) => ({
+                id: unit.id,
+                type: "UNIT",
+                value: unit.reference,
+                label: unit.reference,
+                price: unit.rent,
+                charges: unit.charges,
+                extraCharges: unit.extraCharges,
+                description: "A modern 2-bedroom apartment located in the Sunset Heights building. The unit spans 120 m² with a spacious living area, balcony view, and dedicated parking. Currently rented to David Lee, generating $1,200 monthly rent + $150 charges. Equipped with water, electricity, and Wi-Fi services.",
+                hasTax: false,
+            })),
     });
-
-    const items = form.watch("items") as ItemSchemaType[];
-    const hasTax = form.watch("hasTax");
-    const discountRaw = form.watch("discount");
-    const discountType = form.watch("discountType");
 
     const discount: [number, "PERCENT" | "MONEY"] | undefined =
         discountRaw && Number(discountRaw) > 0
@@ -102,16 +115,7 @@ export default function Create() {
         onSuccess() {
             toast.success("Facture créée avec succès");
             queryClient.invalidateQueries({ queryKey: ["invoices"] });
-            form.reset({
-                hasTax: false,
-                price: "",
-                type: "OWNER",
-                discountType: "PERCENT",
-                discount: "",
-                items: [],
-                client: "",
-                note: "",
-            });
+            form.reset(DEFAULT_VALUES);
         },
         onError: (error: Error) => {
             console.error("Erreur:", error.message);
@@ -119,19 +123,28 @@ export default function Create() {
         },
     });
 
-    function handleItemsSelect(ids: string[]) {
-        const selected = itemDatas?.filter((item) => ids.includes(item.value)) ?? [];
+    function handleItemsSelect(selectedValues: string[], itemType: "ITEM" | "UNIT") {
+        const sourceData = itemType === "ITEM" ? (itemDatas ?? []) : (units ?? []);
         const currentItems = form.getValues("items") as ItemSchemaType[];
 
-        const merged: ItemSchemaType[] = ids.map((id) => {
-            const existing = currentItems.find((i) => i.id === id);
+        const itemsOfOtherType = currentItems.filter((i) => i.type !== itemType);
+        const itemsOfSameType = currentItems.filter((i) => i.type === itemType);
+
+        const newItemsOfSameType: ItemSchemaType[] = selectedValues.map((val) => {
+            const existing = itemsOfSameType.find((i) => i.reference === val);
             if (existing) return existing;
-            const found = selected.find((s) => s.value === id)!;
+
+            const found = sourceData.find((s) => s.value === val)!;
             return {
                 id: found.id,
+                type: itemType,
                 reference: found.label,
-                description: found.description,
+                description: found.description ?? "",
                 price: Number(found.price),
+                charges: Number(found.charges || 0),
+                extraCharges: Number(found.extraCharges || 0),
+                start: undefined,
+                end: undefined,
                 quantity: 1,
                 hasTax: found.hasTax,
                 discount: 0,
@@ -139,8 +152,15 @@ export default function Create() {
             };
         });
 
-        form.setValue("items", merged, { shouldValidate: true });
+        form.setValue("items", [...itemsOfOtherType, ...newItemsOfSameType], {
+            shouldValidate: true,
+        });
     }
+
+
+    useEffect(() => {
+        form.watch(() => console.log({ errors: form.formState.errors }))
+    }, [form.watch])
 
     function handleArticleListChange(updatedItems: ItemSchemaType[]) {
         form.setValue("items", updatedItems, { shouldValidate: true });
@@ -154,15 +174,22 @@ export default function Create() {
         form.setValue("items", [], { shouldValidate: true });
     }
 
+
+    const selectedItemValues = items
+        .filter((i) => i.type === "ITEM")
+        .map((i) => ({ value: i.reference, label: i.reference }));
+
+    const selectedUnitValues = items
+        .filter((i) => i.type === "UNIT")
+        .map((i) => ({ value: i.reference, label: i.reference }));
+
     async function submit(formData: InvoiceSchemaType) {
         const { success, data } = invoiceSchema.safeParse(formData);
         if (success) {
-            console.log({ data })
             mutation.mutate(data);
         }
     }
 
-    const selectedItemReferences = items.map((i) => i.reference);
 
     return (
         <div className="bg-white rounded-md space-y-4 p-4">
@@ -192,18 +219,17 @@ export default function Create() {
                                 <FormField
                                     control={form.control}
                                     name="end"
-                                    render={({ field }) => (
-                                        <FormItem>
-                                            <FormLabel className="text-neutral-600">Date d'échéance<RequiredLabel /></FormLabel>
-                                            <FormControl>
-                                                <DatePicker
-                                                    date={field.value}
-                                                    setDate={field.onChange}
-                                                    error={!!form.formState.errors.end}
-                                                />
-                                            </FormControl>
-                                            <FormMessage />
-                                        </FormItem>
+                                    render={({ field, formState }) => (
+                                        <SelectField
+                                            label="Échéance"
+                                            required
+                                            placeholder="Sélectionner une échéance"
+                                            value={field.value ?? ""}
+                                            onChange={field.onChange}
+                                            options={dueDates}
+                                            hasError={!!formState.errors.end}
+                                            emptyMessage="Aucune échéance disponible"
+                                        />
                                     )}
                                 />
                             </div>
@@ -212,103 +238,117 @@ export default function Create() {
                                 <FormField
                                     control={form.control}
                                     name="type"
-                                    render={({ field }) => (
-                                        <FormItem>
-                                            <FormLabel className="text-neutral-600">Type de client<RequiredLabel /></FormLabel>
-                                            <FormControl>
-                                                <Select
-                                                    onValueChange={(e) => {
-                                                        field.onChange(e);
-                                                        setType(e as "OWNER" | "TENANT");
-                                                    }}
-                                                    value={field.value}
-                                                >
-                                                    <SelectTrigger
-                                                        className="w-full"
-                                                        aria-invalid={!!form.formState.errors.type}
-                                                    >
-                                                        <SelectValue placeholder="Selectionner un type de client" />
-                                                    </SelectTrigger>
-                                                    <SelectContent position="popper" align="end">
-                                                        <SelectItem value="OWNER">Propriétaire</SelectItem>
-                                                        <SelectItem value="TENANT">Locataire</SelectItem>
-                                                    </SelectContent>
-                                                </Select>
-                                            </FormControl>
-                                            <FormMessage />
-                                        </FormItem>
+                                    render={({ field, formState }) => (
+                                        <SelectField
+                                            label="Type de client"
+                                            required
+                                            placeholder="Sélectionner un type de client"
+                                            value={field.value ?? ""}
+                                            onChange={(e) => {
+                                                field.onChange(e);
+                                                setType(e as "OWNER" | "TENANT");
+                                                form.setValue("client", "");
+                                            }}
+                                            options={[
+                                                { value: "OWNER", label: "Propriétaire" },
+                                                { value: "TENANT", label: "Locataire" },
+                                            ]}
+                                            hasError={!!formState.errors.type}
+                                            emptyMessage="Aucun type de client disponible"
+                                        />
                                     )}
                                 />
                                 <FormField
                                     control={form.control}
                                     name="client"
                                     render={({ field }) => (
-                                        <FormItem>
-                                            <FormLabel className="text-neutral-600">Client<RequiredLabel /></FormLabel>
-                                            <FormControl>
-                                                <Select onValueChange={field.onChange} value={field.value}>
-                                                    <SelectTrigger
-                                                        className="w-full"
-                                                        aria-invalid={!!form.formState.errors.client}
-                                                    >
-                                                        <SelectValue placeholder="Selectionner un client" />
-                                                    </SelectTrigger>
-                                                    <SelectContent position="popper" align="end">
-                                                        {isGettingClients ? (
-                                                            <div className="flex justify-center items-center">
-                                                                <Spinner />
-                                                            </div>
-                                                        ) : clients && clients.length > 0 ? (
-                                                            clients.map((client) => (
-                                                                <SelectItem key={client.value} value={client.value}>
-                                                                    {client.label}
-                                                                </SelectItem>
-                                                            ))
-                                                        ) : (
-                                                            <SelectItem value="none" disabled>
-                                                                Aucun client disponible
-                                                            </SelectItem>
-                                                        )}
-                                                    </SelectContent>
-                                                </Select>
-                                            </FormControl>
-                                            <FormMessage />
-                                        </FormItem>
+                                        <SelectField
+                                            label="Client"
+                                            required
+                                            placeholder="Sélectionner un client"
+                                            value={field.value ?? ""}
+                                            onChange={field.onChange}
+                                            options={clients}
+                                            isLoading={isGettingClients}
+                                            hasError={!!form.formState.errors.client}
+                                            emptyMessage="Aucun client disponible"
+                                        />
                                     )}
                                 />
                             </div>
+                            <div className="space-y-1">
+                                <div className="grid grid-cols-2 gap-4">
+                                    <FormField
+                                        control={form.control}
+                                        name="items"
+                                        render={() => (
+                                            <FormItem>
+                                                <FormLabel className="text-neutral-600">Articles<RequiredLabel /></FormLabel>
+                                                <FormControl>
+                                                    <MultipleSelector
+                                                        commandProps={{ label: "Selection des articles" }}
+                                                        value={selectedItemValues}
+                                                        onChange={(options) =>
+                                                            handleItemsSelect(options.map((opt) => opt.value), "ITEM")
+                                                        }
+                                                        isGettingData={isGettingItems}
+                                                        defaultOptions={itemDatas}
+                                                        placeholder="Selectionnez des articles"
+                                                        hideClearAllButton
+                                                        hidePlaceholderWhenSelected
+                                                        emptyIndicator={
+                                                            <p className="text-center text-sm">Aucun article sélectionné</p>
+                                                        }
+                                                        className="w-full"
+                                                    />
+                                                </FormControl>
+                                                <FormMessage />
+                                            </FormItem>
+                                        )}
+                                    />
 
-                            <FormField
-                                control={form.control}
-                                name="items"
-                                render={() => (
-                                    <FormItem>
-                                        <FormLabel className="text-neutral-600">Articles<RequiredLabel /></FormLabel>
-                                        <FormControl>
-                                            <MultipleSelector
-                                                commandProps={{ label: "Selection des articles" }}
-                                                value={selectedItemReferences.map((reference) => ({
-                                                    value: reference,
-                                                    label: itemDatas?.find((d) => d.value === reference)?.label ?? reference,
-                                                }))}
-                                                onChange={(options) =>
-                                                    handleItemsSelect(options.map((opt) => opt.value))
-                                                }
-                                                isGettingData={isGettingItems}
-                                                defaultOptions={itemDatas}
-                                                placeholder="Selectionnez des articles"
-                                                hideClearAllButton
-                                                hidePlaceholderWhenSelected
-                                                emptyIndicator={
-                                                    <p className="text-center text-sm">Aucun article sélectionné</p>
-                                                }
-                                                className="w-full"
-                                            />
-                                        </FormControl>
-                                        <FormMessage />
-                                    </FormItem>
-                                )}
-                            />
+                                    <FormField
+                                        control={form.control}
+                                        name="items"
+                                        render={() => (
+                                            <FormItem>
+                                                <FormLabel className="text-neutral-600">Unités<RequiredLabel /></FormLabel>
+                                                <FormControl>
+                                                    <MultipleSelector
+                                                        commandProps={{ label: "Selection des unités" }}
+                                                        value={selectedUnitValues}
+                                                        onChange={(options) =>
+                                                            handleItemsSelect(options.map((opt) => opt.value), "UNIT")
+                                                        }
+                                                        isGettingData={isGettingUnits}
+                                                        defaultOptions={units?.map((u) => ({
+                                                            value: u.value,
+                                                            label: u.label,
+                                                            description: u.description,
+                                                            price: new Decimal(u.price || 0).plus(new Decimal(u.charges || 0)).plus(new Decimal(u.extraCharges || 0)).toString(),
+                                                            hasTax: u.hasTax,
+                                                        }))}
+                                                        placeholder="Selectionnez des unités"
+                                                        hideClearAllButton
+                                                        hidePlaceholderWhenSelected
+                                                        emptyIndicator={
+                                                            <p className="text-center text-sm">Aucune unité disponible</p>
+                                                        }
+                                                        className="w-full"
+                                                    />
+                                                </FormControl>
+                                                <FormMessage />
+                                            </FormItem>
+                                        )}
+                                    />
+                                </div>
+                                <div className="w-full">
+                                    {form.formState.errors.items &&
+                                        (form.formState.errors.items as unknown as ItemSchemaType[]).map((item, index) => (
+                                            <ItemErrors key={index} errors={item} />
+                                        ))}
+                                </div>
+                            </div>
 
                             <div className="grid grid-cols-2 gap-4">
                                 <div className="flex flex-col">
@@ -401,6 +441,24 @@ export default function Create() {
                                     />
                                 </div>
                             </div>
+                            <FormField
+                                control={form.control}
+                                name="period"
+                                render={({ field }) => (
+                                    <FormItem>
+                                        <FormLabel className="text-neutral-600">Période</FormLabel>
+                                        <FormControl>
+                                            <Input
+                                                placeholder="Période"
+                                                value={field.value}
+                                                aria-invalid={!!form.formState.errors.period}
+                                                onChange={field.onChange}
+                                            />
+                                        </FormControl>
+                                        <FormMessage />
+                                    </FormItem>
+                                )}
+                            />
 
                             <FormField
                                 control={form.control}

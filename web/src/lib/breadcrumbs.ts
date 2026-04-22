@@ -72,13 +72,13 @@ export const breadcrumbs: Record<BreadcrumbKey, string> = {
     'view_product-service': "Aperçu",
 
     // Invoices
-    'invoices': "Gestion des factures",
+    'invoices': "Factures",
     'new-invoice': "Nouvelle",
     'edit_invoice': "Modification",
     'view_invoice': "Aperçu",
 
     // Quotes
-    'quotes': "Gestion des devis",
+    'quotes': "Devis",
     'new-quote': "Nouveau",
     'edit_quote': "Modification",
     'view_quote': "Aperçu",

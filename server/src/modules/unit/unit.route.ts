@@ -114,10 +114,6 @@ export const unitRoutes = new Elysia({ prefix: "/unit" })
             where: {
                 isDeleting: false
             },
-            select: {
-                id: true,
-                reference: true,
-            }
         });
 
     }, {

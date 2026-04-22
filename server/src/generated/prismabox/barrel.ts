@@ -6,6 +6,7 @@ export * from "./PaymentType";
 export * from "./RecordStatus";
 export * from "./RecordType";
 export * from "./ContractType";
+export * from "./ItemType";
 export * from "./DeletionType";
 export * from "./ItemStatus";
 export * from "./ClientType";
