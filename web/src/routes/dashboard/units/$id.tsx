@@ -41,12 +41,11 @@ function RouteComponent() {
       files={unit?.documents}
       urlToFile={urlToFile}
       title={unit?.reference}
-      about={"Belle villa moderne avec vue dégagée, entourée d'un jardin tropical. Idéale pour famille ou investissement locatif."}
+      about={unit?.description || "Aucune description"}
       data={[
         { property: "Nom", value: unit?.building.name || "" },
         { property: "Référence", value: unit?.reference || "" },
         { property: "Type", value: unit?.type.name || "" },
-        { property: "Étage", value: unit?.building.name || "" },
         {
           property: "Status", value: <Status variant={unit?.status === 'vacant' ? "success" : "warning"}>
             <Activity mode={unit?.status === 'vacant' ? 'visible' : 'hidden'}>
@@ -89,6 +88,7 @@ function RouteComponent() {
           data={[
             { property: "Loyer mensuel", value: `${formatNumber(unit?.rent)} FCFA` || "" },
             { property: "Charges", value: `${formatNumber(unit?.charges)} FCFA` || "" },
+            { property: "Charges exceptionnelles", value: `${formatNumber(unit?.extraCharges)} FCFA` || "" },
           ]}
         />
       </div>

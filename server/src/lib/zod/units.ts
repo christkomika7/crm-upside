@@ -19,6 +19,7 @@ export const unitSchema = z.object({
     water: z.boolean(),
     electricity: z.boolean(),
     tv: z.boolean(),
+    description: z.string().min(1, { error: "La description est requise." }),
     charges: z.string().min(1, { error: "Le prix des charges est requis." }),
     extraCharges: z.string().min(1, { error: "Le prix des extras charges est requis." }),
     documents: z.array(

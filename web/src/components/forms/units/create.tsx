@@ -27,6 +27,7 @@ import RequiredLabel from "@/components/ui/required-label";
 import { DEFAULT_VALUES } from "./lib/utils";
 import type { LabelType } from "@/types/utils";
 import { SelectField } from "@/components/ui/select-field";
+import { Textarea } from "@/components/ui/textarea";
 
 export default function CreateUnit() {
     const [open, setOpen] = useState(false);
@@ -88,6 +89,7 @@ export default function CreateUnit() {
             form.append("water", data.water.toString());
             form.append("electricity", data.electricity.toString());
             form.append("tv", data.tv.toString());
+            form.append("description", data.description)
             form.append("charges", data.charges);
             form.append("extraCharges", data.extraCharges)
 
@@ -459,6 +461,24 @@ export default function CreateUnit() {
                             )}
                         />
                     </div>
+                    <FormField
+                        control={form.control}
+                        name="description"
+                        render={({ field }) => (
+                            <FormItem >
+                                <FormLabel className="text-neutral-600">Description<RequiredLabel /></FormLabel>
+                                <FormControl>
+                                    <Textarea
+                                        placeholder="Entrez la description"
+                                        value={field.value}
+                                        aria-invalid={!!form.formState.errors.description}
+                                        onChange={field.onChange}
+                                    />
+                                </FormControl>
+                                <FormMessage />
+                            </FormItem>
+                        )}
+                    />
                     <FormField
                         control={form.control}
                         name="documents"

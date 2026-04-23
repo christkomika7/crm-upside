@@ -31,6 +31,7 @@ import { DEFAULT_VALUES } from "./lib/utils";
 import type { LabelType } from "@/types/utils";
 import Visibility from "@/components/ui/visibility";
 import FormSkeleton from "@/components/skeleton/form-skeleton";
+import { Textarea } from "@/components/ui/textarea";
 
 
 type EditUnitProps = {
@@ -110,6 +111,7 @@ export default function EditUnit({ id }: EditUnitProps) {
                 water: unit.water,
                 electricity: unit.electricity,
                 tv: unit.tv,
+                description: unit.description,
                 charges: unit.charges,
                 extraCharges: unit.extraCharges,
                 documents: unit.documents,
@@ -140,6 +142,7 @@ export default function EditUnit({ id }: EditUnitProps) {
             form.append("wifi", data.wifi.toString());
             form.append("water", data.water.toString());
             form.append("electricity", data.electricity.toString());
+            form.append("description", data.description);
             form.append("tv", data.tv.toString());
             form.append("charges", data.charges);
             form.append("extraCharges", data.extraCharges);
@@ -513,6 +516,24 @@ export default function EditUnit({ id }: EditUnitProps) {
                                 )}
                             />
                         </div>
+                        <FormField
+                            control={form.control}
+                            name="description"
+                            render={({ field }) => (
+                                <FormItem >
+                                    <FormLabel className="text-neutral-600">Description<RequiredLabel /></FormLabel>
+                                    <FormControl>
+                                        <Textarea
+                                            placeholder="Entrez la description"
+                                            value={field.value}
+                                            aria-invalid={!!form.formState.errors.description}
+                                            onChange={field.onChange}
+                                        />
+                                    </FormControl>
+                                    <FormMessage />
+                                </FormItem>
+                            )}
+                        />
                         <FormField
                             control={form.control}
                             name="documents"

@@ -17,6 +17,7 @@ export const DEFAULT_VALUES: UnitSchemaType = {
     water: false,
     electricity: false,
     tv: false,
+    description: "",
     charges: "",
     extraCharges: "",
     documents: [],

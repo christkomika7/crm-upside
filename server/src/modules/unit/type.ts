@@ -44,6 +44,7 @@ export default {
         tv: t.Transform(t.String({ error: "Veuillez saisir le statut de la télévision" }))
             .Decode((value) => JSON.parse(value))
             .Encode((value) => value.toString()),
+        description: t.String({ error: "Veuillez saisir la description" }),
         charges: t.String({ error: "Veuillez saisir les charges" }),
         extraCharges: t.String({ error: "Veuillez saisir les extras charges" }),
         documents: t.Optional(t.Union([t.Files(), t.Array(t.Files())])),

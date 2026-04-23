@@ -40,6 +40,7 @@ export type Unit = {
     status: "rented" | "vacant";
     typeId: string;
     type: Type;
+    description: string;
     tenantName: string;
     tenantEmail: string;
     tenantContact: string;
